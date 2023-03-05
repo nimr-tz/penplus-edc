@@ -305,6 +305,53 @@ if ($user->isLoggedIn()) {
                 $pageError = $validate->errors();
             }
         }
+        elseif (Input::get('add_diagnosis')) {
+            $validate = $validate->check($_POST, array(
+                'cardiac' => array(
+                    'required' => true,
+                ),
+                'diabetes' => array(
+                    'required' => true,
+                ),
+                'sickle_cell' => array(
+                    'required' => true,
+                ),
+
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('diagnosis', array(
+                        'cardiac' => Input::get('cardiac'),
+                        'diabetes' => Input::get('diabetes'),
+                        'sickle_cell' => Input::get('sickle_cell'),
+                        'diagnosis' => Input::get('diagnosis'),
+                        'outcome' => Input::get('outcome'),
+                        'transfer_out' => Input::get('transfer_out'),
+                        'cause_death' => Input::get('cause_death'),
+                        'next_appointment' => Input::get('next_appointment'),
+                        'comments' => Input::get('comments'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+                    $user->updateRecord('clients', array(
+                        'cardiac' => Input::get('cardiac'),
+                        'diabetes' => Input::get('diabetes'),
+                        'sickle_cell' => Input::get('sickle_cell'),
+                    ), $_GET['cid']);
+
+
+                    $successMessage = 'Diagnosis added Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }
     }
 } else {
     Redirect::to('index.php');
@@ -1007,7 +1054,12 @@ if ($user->isLoggedIn()) {
 
                                 <div class="row-form clearfix">
                                     <div class="col-md-3">Next Appointment:</div>
-                                    <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="next_appointment" id="next_appointment" required /> <span>Example: 0700 000 111</span></div>
+                                    <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="next_appointment" id="next_appointment" required /> <span>Example: 2023-01-01</span></div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Comments:</div>
+                                    <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
                                 </div>
 
                                 <div class="footer tar">
@@ -1019,8 +1071,143 @@ if ($user->isLoggedIn()) {
 
                     </div>
                 <?php } elseif ($_GET['id'] == 11) { ?>
+                    <div class="col-md-offset-1 col-md-8">
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Cardiac</h1>
+                        </div>
+                        <div class="block-fluid">
+                            <form id="validation" method="post">
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Main diagnosis:</div>
+                                    <div class="col-md-9">
+                                        <select name="main_diagnosis" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Cardiomyopathy</option>
+                                            <option value="2">Rheumatic Heart Disease</option>
+                                            <option value="3">Severe / Uncontrolled Hypertension</option>
+                                            <option value="4">Hypertensive Heart Disease</option>
+                                            <option value="5">Congenital heart Disease</option>
+                                            <option value="6">Right Heart Failure</option>
+                                            <option value="7">Pericardial disease</option>
+                                            <option value="8">Coronary Artery Disease</option>
+                                            <option value="9">Arrhythmia</option>
+                                            <option value="10">Thromboembolic</option>
+                                            <option value="11">Stroke</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                <?php } elseif ($_GET['id'] == 12 && $user->data()->position == 1) { ?>
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Patient  for Diabetes</div>
+                                    <div class="col-md-9">
+                                        <select name="diabetes" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Patient  for Sickle cell</div>
+                                    <div class="col-md-9">
+                                        <select name="sickle_cell" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Type of diagnosis:</div>
+                                    <div class="col-md-9">
+                                        <select name="diagnosis" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="Type 1 Diabetes">Type 1 Diabetes</option>
+                                            <option value="Type 2 Diabetes ">Type 2 Diabetes </option>
+                                            <option value="Cardiac">Cardiac</option>
+                                            <option value="Sickle Cell Disease">Sickle Cell Disease </option>
+                                            <option value="Respiratory">Respiratory</option>
+                                            <option value="Liver">Liver</option>
+                                            <option value="Kidney">Kidney</option>
+                                            <option value="Postgraduate degree">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Outcome</div>
+                                    <div class="col-md-9">
+                                        <select name="outcome" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">On treatment</option>
+                                            <option value="2">Default</option>
+                                            <option value="3">Stop Treatment</option>
+                                            <option value="4">Transfer Out</option>
+                                            <option value="5">Death</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Transfer Out To</div>
+                                    <div class="col-md-9">
+                                        <select name="transfer_out" style="width: 100%;" >
+                                            <option value="">Select</option>
+                                            <option value="1">Other NCD clinic</option>
+                                            <option value="2">Referral hospital</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Cause of Death</div>
+                                    <div class="col-md-9">
+                                        <select name="cause_death" style="width: 100%;" >
+                                            <option value="">Select</option>
+                                            <option value="1">NCD</option>
+                                            <option value="2">Unknown</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Next Appointment:</div>
+                                    <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="next_appointment" id="next_appointment" required /> <span>Example: 2023-01-01</span></div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Comments:</div>
+                                    <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                </div>
+
+                                <div class="footer tar">
+                                    <input type="submit" name="add_diagnosis" value="Submit" class="btn btn-default">
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                <?php } elseif ($_GET['id'] == 12 ) { ?>
+
+                <?php } elseif ($_GET['id'] == 13 ) { ?>
+
+                <?php } elseif ($_GET['id'] == 14 ) { ?>
+
+                <?php } elseif ($_GET['id'] == 15 ) { ?>
+
+                <?php } elseif ($_GET['id'] == 16 ) { ?>
+
+                <?php } elseif ($_GET['id'] == 17 ) { ?>
+
+                <?php } elseif ($_GET['id'] == 18 ) { ?>
+
+                <?php } elseif ($_GET['id'] == 19 ) { ?>
 
                 <?php } ?>
                 <div class="dr"><span></span></div>

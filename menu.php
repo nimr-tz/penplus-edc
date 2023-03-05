@@ -48,21 +48,21 @@ if ($user->data()->accessLevel == 1) {
                     </li>
                 </ul>
             </li>
-            <li class="openable">
-                <a href="#"><span class="isw-user"></span><span class="text">Pre Screening</span></a>
-                <ul>
-                    <li>
-                        <a href="add.php?id=8">
-                            <span class="glyphicon glyphicon-user"></span><span class="text">Add pre-screening</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="info.php?id=6">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Pre-screening List</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+<!--            <li class="openable">-->
+<!--                <a href="#"><span class="isw-user"></span><span class="text">Pre Screening</span></a>-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <a href="add.php?id=8">-->
+<!--                            <span class="glyphicon glyphicon-user"></span><span class="text">Add pre-screening</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="info.php?id=6">-->
+<!--                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Pre-screening List</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </li>-->
             <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
                 <ul>
@@ -90,24 +90,10 @@ if ($user->data()->accessLevel == 1) {
                 </ul>
             </li>
             <li class="">
-                <a href="info.php?id=7">
+                <a href="#">
                     <span class="isw-download"></span><span class="text">Download</span>
                 </a>
             </li>
-
-            <li class="active">
-                <a href="zebra.php" target="_blank">
-                    <span class="isw-print"></span><span class="text">Zebra Print</span>
-                </a>
-            </li>
-
-            <?php if($user->data()->power == 1){?>
-                <li class="active">
-                    <a href="zebra.php">
-                        <span class="isw-print"></span><span class="text">Zebra Print</span>
-                    </a>
-                </li>
-            <?php }?>
 
             <li class="openable">
                 <a href="#"><span class="isw-tag"></span><span class="text">Extra</span></a>

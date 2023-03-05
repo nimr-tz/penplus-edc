@@ -430,26 +430,19 @@ if ($user->isLoggedIn()) {
         }
         elseif (Input::get('add_scd')) {
             $validate = $validate->check($_POST, array(
-                'main_diagnosis' => array(
+                'history_scd' => array(
                     'required' => true,
                 ),
-
-
             ));
             if ($validate->passed()) {
                 try {
-                    $user->createRecord('cardiac', array(
-                        'main_diagnosis' => Input::get('main_diagnosis'),
-                        'diagnosis_date' => Input::get('diagnosis_date'),
-                        'cardiomyopathy' => Input::get('cardiomyopathy'),
-                        'heumatic' => Input::get('heumatic'),
-                        'congenital' => Input::get('congenital'),
-                        'heart_failure' => Input::get('heart_failure'),
-                        'pericardial' => Input::get('pericardial'),
-                        'arrhythmia' => Input::get('arrhythmia'),
-                        'stroke' => Input::get('stroke'),
-                        'thromboembolic' => Input::get('thromboembolic'),
-                        'referred' => Input::get('referred'),
+                    $user->createRecord('sickle_cell', array(
+                        'history_scd' => Input::get('history_scd'),
+                        'scd_test' => Input::get('scd_test'),
+                        'confirmatory_test' => Input::get('confirmatory_test'),
+                        'confirmatory_test_type' => Input::get('confirmatory_test_type'),
+                        'vaccine_history' => Input::get('vaccine_history'),
+                        'blood_group' => Input::get('blood_group'),
                         'comments' => Input::get('comments'),
                         'patient_id' => $_GET['cid'],
                         'staff_id' => $user->data()->id,
@@ -459,7 +452,7 @@ if ($user->isLoggedIn()) {
                     ));
 
 
-                    $successMessage = 'Cardiac added Successful';
+                    $successMessage = 'Sickle Cell added Successful';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }

@@ -2327,12 +2327,12 @@ if ($user->isLoggedIn()) {
                                 <tr>
                                     <td>4</td>
                                     <td>Diabetes</td>
-                                    <td><a href="#" class="btn btn-info">Add </a> </td>
+                                    <td><a href="add.php?id=12&cid=<?=$_GET['cid']?>" class="btn btn-info">Add </a> </td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
                                     <td>Sickle cell</td>
-                                    <td><a href="#" class="btn btn-info">Add </a> </td>
+                                    <td><a href="add.php?id=13&cid=<?=$_GET['cid']?>" class="btn btn-info">Add </a> </td>
                                 </tr>
 
                                 </tbody>

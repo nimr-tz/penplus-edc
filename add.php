@@ -391,6 +391,82 @@ if ($user->isLoggedIn()) {
                 $pageError = $validate->errors();
             }
         }
+        elseif (Input::get('add_diabetic')) {
+            $validate = $validate->check($_POST, array(
+                'hypertension' => array(
+                    'required' => true,
+                ),
+
+
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('diabetic', array(
+                        'hypertension' => Input::get('hypertension'),
+                        'symptoms' => Input::get('symptoms'),
+                        'cardiovascular' => Input::get('cardiovascular'),
+                        'retinopathy' => Input::get('retinopathy'),
+                        'renal_disease' => Input::get('renal_disease'),
+                        'stroke' => Input::get('stroke'),
+                        'pvd' => Input::get('pvd'),
+                        'neuropathy' => Input::get('neuropathy'),
+                        'sexual_dysfunction' => Input::get('sexual_dysfunction'),
+                        'comments' => Input::get('comments'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+
+                    $successMessage = 'Diabetic added Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }
+        elseif (Input::get('add_scd')) {
+            $validate = $validate->check($_POST, array(
+                'main_diagnosis' => array(
+                    'required' => true,
+                ),
+
+
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('cardiac', array(
+                        'main_diagnosis' => Input::get('main_diagnosis'),
+                        'diagnosis_date' => Input::get('diagnosis_date'),
+                        'cardiomyopathy' => Input::get('cardiomyopathy'),
+                        'heumatic' => Input::get('heumatic'),
+                        'congenital' => Input::get('congenital'),
+                        'heart_failure' => Input::get('heart_failure'),
+                        'pericardial' => Input::get('pericardial'),
+                        'arrhythmia' => Input::get('arrhythmia'),
+                        'stroke' => Input::get('stroke'),
+                        'thromboembolic' => Input::get('thromboembolic'),
+                        'referred' => Input::get('referred'),
+                        'comments' => Input::get('comments'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+
+                    $successMessage = 'Cardiac added Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }
     }
 } else {
     Redirect::to('index.php');
@@ -1278,9 +1354,233 @@ if ($user->isLoggedIn()) {
 
                     </div>
                 <?php } elseif ($_GET['id'] == 12 ) { ?>
+                    <div class="col-md-offset-1 col-md-8">
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Diabetic</h1>
+                        </div>
+                        <div class="block-fluid">
+                            <form id="validation" method="post">
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Hypertension:</div>
+                                    <div class="col-md-9">
+                                        <select name="hypertension" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                            <option value="3">Unknown</option>
+                                        </select>
+                                    </div>
+                                </div>
 
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Presentation with any of the following?</div>
+                                    <div class="col-md-9">
+                                        <select name="symptoms" style="width: 100%;" >
+                                            <option value="">Select</option>
+                                            <option value="1">DKA with coma </option>
+                                            <option value="2">Ketosis</option>
+                                            <option value="3">Hyperglycemia </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Cardiovascular Disease </div>
+                                    <div class="col-md-9">
+                                        <select name="cardiovascular" style="width: 100%;" >
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Retinopathy</div>
+                                    <div class="col-md-9">
+                                        <select name="retinopathy" style="width: 100%;" >
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Renal disease (e.g. elevated creatinine)</div>
+                                    <div class="col-md-9">
+                                        <select name="renal_disease" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Stroke/TIA</div>
+                                    <div class="col-md-9">
+                                        <select name="stroke" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">PVD (e.g. ulcers, gangrene)</div>
+                                    <div class="col-md-9">
+                                        <select name="pvd" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Neuropathy</div>
+                                    <div class="col-md-9">
+                                        <select name="neuropathy" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Sexual dysfunction</div>
+                                    <div class="col-md-9">
+                                        <select name="sexual_dysfunction" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Comments:</div>
+                                    <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                </div>
+
+                                <div class="footer tar">
+                                    <input type="submit" name="add_diabetic" value="Submit" class="btn btn-default">
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
                 <?php } elseif ($_GET['id'] == 13 ) { ?>
+                    <div class="col-md-offset-1 col-md-8">
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>SICKLE CELL</h1>
+                        </div>
+                        <div class="block-fluid">
+                            <form id="validation" method="post">
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Family History of SCD?:</div>
+                                    <div class="col-md-9">
+                                        <select name="history_scd" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                            <option value="3">Unknown</option>
+                                        </select>
+                                    </div>
+                                </div>
 
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">SCD Test Result?</div>
+                                    <div class="col-md-9">
+                                        <select name="scd_test" style="width: 100%;" >
+                                            <option value="">Select</option>
+                                            <option value="1">Presumptive Diagnosis</option>
+                                            <option value="2">Sickling Test</option>
+                                            <option value="3">SS </option>
+                                            <option value="4">SA </option>
+                                            <option value="5">SBThal </option>
+                                            <option value="6">SC </option>
+                                            <option value="7">Other </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Confirmatory Test </div>
+                                    <div class="col-md-9">
+                                        <select name="confirmatory_test" style="width: 100%;" >
+                                            <option value="">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Type of Confirmatory Test</div>
+                                    <div class="col-md-9">
+                                        <select name="confirmatory_test_type" style="width: 100%;" >
+                                            <option value="">Select</option>
+                                            <option value="1">HPLC</option>
+                                            <option value="2">HBE</option>
+                                            <option value="3">IEF</option>
+                                            <option value="4">Basique</option>
+                                            <option value="5">Acide</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Vaccine History</div>
+                                    <div class="col-md-9">
+                                        <select name="vaccine_history" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">Pneumococcal </option>
+                                            <option value="2">Meningococcal</option>
+                                            <option value="3">Haemophilus Influenza type B (Hib)</option>
+                                            <option value="4">Unknown</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">ABO Blood Group</div>
+                                    <div class="col-md-9">
+                                        <select name="blood_group" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">A+</option>
+                                            <option value="2">A-</option>
+                                            <option value="3">B+</option>
+                                            <option value="4">B-</option>
+                                            <option value="5">O+</option>
+                                            <option value="6">O-</option>
+                                            <option value="7">AB+</option>
+                                            <option value="8">AB</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Comments:</div>
+                                    <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                </div>
+
+                                <div class="footer tar">
+                                    <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
                 <?php } elseif ($_GET['id'] == 14 ) { ?>
 
                 <?php } elseif ($_GET['id'] == 15 ) { ?>

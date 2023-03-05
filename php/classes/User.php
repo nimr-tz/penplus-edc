@@ -49,6 +49,11 @@ class User {
         return number_format($date/86400);
     }
 
+    function dateDiffYears($startDate,$endDate){
+        $date = abs(strtotime($endDate) - strtotime($startDate));
+        return number_format($date/(365*60*60*24));
+    }
+
     public function getOS() {
 
         global $user_agent;

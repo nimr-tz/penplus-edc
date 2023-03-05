@@ -1,3 +1,4 @@
+
 <?php
 require_once 'php/core/init.php';
 $user = new User();
@@ -133,6 +134,19 @@ if ($user->isLoggedIn()) {
                     'required' => true,
                 ),
 
+                'next_visit' => array(
+                    'required' => true,
+                ),
+                'physical_address' => array(
+                    'required' => true,
+                ),
+                'phone_number' => array(
+                    'required' => true,
+                    'unique' => 'clients',
+                ),
+                'age' => array(
+                    'required' => true,
+                ),
             ));
             if ($validate->passed()) {
                 $errorM = false;
@@ -159,46 +173,65 @@ if ($user->isLoggedIn()) {
                         $attachment_file = '';
                     }
                     if($errorM == false){
-                        $chk=true;
-                        $screening_id = $random->get_rand_alphanumeric(8);
-                        $check_screening=$override->get('clients','participant_id', $screening_id)[0];
-                        while($chk){
-                            $screening_id = strtoupper($random->get_rand_alphanumeric(8));
-                            if(!$check_screening=$override->get('clients','participant_id', $screening_id)){
-                                $chk=false;
-                            }
+                        $screening_id = '';
 
-                        }
-                        $age = $user->dateDiffYears(date('Y-m-d'),Input::get('dob'));
+                        $check_screening=$override->getNews('study_id','status', 0, 'site_id', $user->data()->site_id)[0];
+                        $s_id = $check_screening['study_id'];
 
                         $user->createRecord('clients', array(
-                            'participant_id' => $screening_id,
-                            'study_id' => '',
+                            'participant_id' => $s_id,
+                            'study_id' => $s_id,
                             'clinic_date' => Input::get('clinic_date'),
                             'firstname' => Input::get('firstname'),
-                            'middlename' => Input::get('middlename'),
                             'lastname' => Input::get('lastname'),
                             'dob' => Input::get('dob'),
-                            'age' =>Input::get('age'),
+                            'age' => Input::get('age'),
                             'id_number' => Input::get('id_number'),
+                            'id_type' => Input::get('id_type'),
                             'gender' => Input::get('gender'),
+                            'population_group' => Input::get('population_group'),
+                            'marital_status' => Input::get('marital_status'),
+                            'education_level' => Input::get('education_level'),
+                            'workplace' => Input::get('workplace'),
+                            'occupation' => Input::get('occupation'),
+                            'phone_number' => Input::get('phone_number'),
+                            'other_phone' => Input::get('other_phone'),
+                            'street' => Input::get('street'),
+                            'ward' => Input::get('ward'),
+                            'block_no' => Input::get('block_no'),
+                            'household_size' => Input::get('household_size'),
+                            'next_visit' => Input::get('next_visit'),
+                            'physical_address' => Input::get('physical_address'),
+                            'relation_patient' => Input::get('relation_patient'),
+                            'employment_status' => Input::get('employment_status'),
+                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                             'staff_id' => $user->data()->id,
                             'client_image' => $attachment_file,
                             'comments' => Input::get('comments'),
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                         ));
 
                         $client = $override->lastRow('clients', 'id')[0];
 
+                        $user->updateRecord('study_id', array('status'=>1), $check_screening['id']);
+
                         $user->createRecord('visit', array(
-                            'visit_name' => 'Day 0',
-                            'visit_code' => 'D0',
+                            'visit_name' => 'Visit 1',
+                            'visit_code' => 'V1',
                             'visit_date' => date('Y-m-d'),
-                            'visit_window' => 2,
+                            'visit_window' => 14,
                             'status' => 1,
-                            'seq_no' => 0,
+                            'seq_no' => 1,
+                            'client_id' => $client['id'],
+                        ));
+
+                        $user->createRecord('visit', array(
+                            'visit_name' => 'Visit 2',
+                            'visit_code' => 'V2',
+                            'visit_window' => 14,
+                            'status' => 0,
+                            'seq_no' => 2,
                             'client_id' => $client['id'],
                         ));
 
@@ -211,93 +244,48 @@ if ($user->isLoggedIn()) {
                 $pageError = $validate->errors();
             }
         }
-        elseif (Input::get('add_screening')) {
+        elseif (Input::get('add_pre_screening')) {
+            $validate = new validate();
             $validate = $validate->check($_POST, array(
-                'age_6_above' => array(
+                'firstname' => array(
                     'required' => true,
                 ),
-                'consent' => array(
+                'lastname' => array(
                     'required' => true,
                 ),
-                'scd' => array(
+                'contact' => array(
                     'required' => true,
                 ),
-                'rhd' => array(
+                'test_date' => array(
                     'required' => true,
                 ),
-                'residence' => array(
+                'rapid_test_result' => array(
+                    'required' => true,
+                ),
+                'tested_by' => array(
+                    'required' => true,
+                ),
+                'appointment_date' => array(
                     'required' => true,
                 ),
             ));
             if ($validate->passed()) {
+                $errorM = false;
                 try {
-                    if(Input::get('age_6_above') == 1 && Input::get('consent')==1 && Input::get('scd')==1 && Input::get('rhd')==1 && Input::get('residence')==1){$eligibility=1;}else{$eligibility=0;}
-                    $user->createRecord('screening', array(
-                        'age_6_above' => Input::get('age_6_above'),
-                        'consent' => Input::get('consent'),
-                        'scd' => Input::get('scd'),
-                        'rhd' => Input::get('rhd'),
-                        'residence' => Input::get('residence'),
-                        'created_on' => date('Y-m-d'),
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'eligibility' => $eligibility,
-                    ));
-
-                    $user->updateRecord('clients', array(
-                            'screened' => 1, 'eligibility' => $eligibility,
-
-                    ), $_GET['cid']);
-                    $successMessage = 'Patient Successful Screened';
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        }
-        elseif (Input::get('add_demographic')) {
-            $validate = $validate->check($_POST, array(
-                'phone_number' => array(
-                    'required' => true,
-                ),
-                'next_visit' => array(
-                    'required' => true,
-                ),
-                'physical_address' => array(
-                    'required' => true,
-                ),
-                'chw' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $user->createRecord('demographic', array(
-                        'employment_status' => Input::get('employment_status'),
-                        'education_level' => Input::get('education_level'),
-                        'phone_number' => Input::get('phone_number'),
-                        'guardian_phone' => Input::get('guardian_phone'),
-                        'relation_patient' => Input::get('relation_patient'),
-                        'physical_address' => Input::get('physical_address'),
-                        'household_size' => Input::get('household_size'),
-                        'occupation' => Input::get('occupation'),
-                        'exposure' => Input::get('exposure'),
-                        'grade_age' => Input::get('grade_age'),
-                        'school_attendance' => Input::get('school_attendance'),
-                        'missed_school' => Input::get('missed_school'),
-                        'next_visit' => Input::get('next_visit'),
-                        'chw' => Input::get('chw'),
-                        'comments' => Input::get('comments'),
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'status' => 1,
+                    $user->createRecord('pre_screening', array(
+                        'firstname' => Input::get('firstname'),
+                        'lastname' => Input::get('lastname'),
+                        'contact' => Input::get('contact'),
+                        'test_date' => Input::get('test_date'),
+                        'rapid_test_result' => Input::get('rapid_test_result'),
+                        'tested_by' => Input::get('tested_by'),
+                        'appointment_date' => Input::get('appointment_date'),
                         'created_on' => date('Y-m-d'),
                         'site_id' => $user->data()->site_id,
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
                     ));
-
-
-                    $successMessage = 'Demographic added Successful';
+                    $successMessage = 'Pre Screening Client Added Successful';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -314,7 +302,7 @@ if ($user->isLoggedIn()) {
 <html lang="en">
 
 <head>
-    <title> Add - PenPLus </title>
+    <title> Add - PenPlus </title>
     <?php include "head.php"; ?>
 </head>
 
@@ -423,7 +411,8 @@ if ($user->isLoggedIn()) {
                         </div>
 
                     </div>
-                <?php } elseif ($_GET['id'] == 2 && $user->data()->position == 1) { ?>
+                <?php }
+                elseif ($_GET['id'] == 2 && $user->data()->position == 1) { ?>
                     <div class="col-md-offset-1 col-md-8">
                         <div class="head clearfix">
                             <div class="isw-ok"></div>
@@ -446,7 +435,8 @@ if ($user->isLoggedIn()) {
                         </div>
 
                     </div>
-                <?php } elseif ($_GET['id'] == 3 && $user->data()->position == 1) { ?>
+                <?php }
+                elseif ($_GET['id'] == 3 && $user->data()->position == 1) { ?>
                     <div class="col-md-offset-1 col-md-8">
                         <div class="head clearfix">
                             <div class="isw-ok"></div>
@@ -519,7 +509,8 @@ if ($user->isLoggedIn()) {
                         </div>
 
                     </div>
-                <?php } elseif ($_GET['id'] == 4) { ?>
+                <?php }
+                elseif ($_GET['id'] == 4) { ?>
                     <div class="col-md-offset-1 col-md-8">
                         <div class="head clearfix">
                             <div class="isw-ok"></div>
@@ -551,15 +542,16 @@ if ($user->isLoggedIn()) {
                                     </div>
                                 </div>
                                 <div class="row-form clearfix">
-                                    <div class="col-md-3">Middle Name:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required]" type="text" name="middlename" id="middlename" />
-                                    </div>
-                                </div>
-                                <div class="row-form clearfix">
                                     <div class="col-md-3">Last Name:</div>
                                     <div class="col-md-9">
                                         <input value="" class="validate[required]" type="text" name="lastname" id="lastname" />
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Date of Birth:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required,custom[date]]" type="text" name="dob" id="dob"/> <span>Example: 2010-12-01</span>
                                     </div>
                                 </div>
 
@@ -571,9 +563,9 @@ if ($user->isLoggedIn()) {
                                 </div>
 
                                 <div class="row-form clearfix">
-                                    <div class="col-md-3">Date of Birth:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required,custom[date]]" type="text" name="dob" id="date"/> <span>Example: 2010-12-01</span>
+                                    <div class="col-md-5">Client Image:</div>
+                                    <div class="col-md-7">
+                                        <input type="file" id="image" name="image"/>
                                     </div>
                                 </div>
 
@@ -595,194 +587,6 @@ if ($user->isLoggedIn()) {
                                     </div>
                                 </div>
 
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Comments:</div>
-                                    <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
-                                </div>
-
-                                <div class="footer tar">
-                                    <input type="submit" name="add_client" value="Submit" class="btn btn-default">
-                                </div>
-
-                            </form>
-                        </div>
-
-                    </div>
-                <?php } elseif ($_GET['id'] == 5 && $user->data()->position == 1) { ?>
-                    <div class="col-md-offset-1 col-md-8">
-                        <div class="head clearfix">
-                            <div class="isw-ok"></div>
-                            <h1>Add Study</h1>
-                        </div>
-                        <div class="block-fluid">
-                            <form id="validation" method="post">
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Name:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required]" type="text" name="name" id="name" />
-                                    </div>
-                                </div>
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Code:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required]" type="text" name="code" id="code" />
-                                    </div>
-                                </div>
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Sample Size:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required]" type="number" name="sample_size" id="sample_size" />
-                                    </div>
-                                </div>
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Start Date:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required,custom[date]]" type="text" name="start_date" id="start_date"/> <span>Example: 2010-12-01</span>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">End Date:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required,custom[date]]" type="text" name="end_date" id="end_date"/> <span>Example: 2010-12-01</span>
-                                    </div>
-                                </div>
-
-                                <div class="footer tar">
-                                    <input type="submit" name="add_study" value="Submit" class="btn btn-default">
-                                </div>
-
-                            </form>
-                        </div>
-
-                    </div>
-                <?php } elseif ($_GET['id'] == 6 && $user->data()->position == 1) { ?>
-                    <div class="col-md-offset-1 col-md-8">
-                        <div class="head clearfix">
-                            <div class="isw-ok"></div>
-                            <h1>Add Site</h1>
-                        </div>
-                        <div class="block-fluid">
-                            <form id="validation" method="post">
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Name:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required]" type="text" name="name" id="name" />
-                                    </div>
-                                </div>
-
-                                <div class="footer tar">
-                                    <input type="submit" name="add_site" value="Submit" class="btn btn-default">
-                                </div>
-
-                            </form>
-                        </div>
-
-                    </div>
-                <?php } elseif ($_GET['id'] == 7) { ?>
-                    <div class="col-md-offset-1 col-md-8">
-                        <div class="head clearfix">
-                            <div class="isw-ok"></div>
-                            <h1>Add Visit</h1>
-                        </div>
-                        <div class="block-fluid">
-                            <form id="validation" method="post">
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Visit Name:</div>
-                                    <div class="col-md-9">
-                                        <input value="" class="validate[required]" type="text" name="name" id="name" />
-                                    </div>
-                                </div>
-
-                                <div class="footer tar">
-                                    <input type="submit" name="add_site" value="Submit" class="btn btn-default">
-                                </div>
-
-                            </form>
-                        </div>
-
-                    </div>
-                <?php } elseif ($_GET['id'] == 8) { ?>
-                    <div class="col-md-offset-1 col-md-8">
-
-                        <div class="head clearfix">
-                            <div class="isw-ok"></div>
-                            <h1>Add Screening</h1>
-                        </div>
-                        <div class="block-fluid">
-                            <form id="validation" method="post">
-                                <div class="row-form clearfix">
-                                    <div class="col-md-8">Aged 6 years and above </div>
-                                    <div class="col-md-4">
-                                        <select name="age_6_above" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-8">Consenting individuals</div>
-                                    <div class="col-md-4">
-                                        <select name="consent" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-8">Known SCD</div>
-                                    <div class="col-md-4">
-                                        <select name="scd" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-8">Diabetes, RHD patients,</div>
-                                    <div class="col-md-4">
-                                        <select name="rhd" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-8">Non permanent resident</div>
-                                    <div class="col-md-4">
-                                        <select name="residence" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="footer tar">
-                                    <input type="submit" name="add_screening" value="Submit" class="btn btn-default">
-                                </div>
-
-                            </form>
-                        </div>
-
-                    </div>
-                <?php } elseif ($_GET['id'] == 9) { ?>
-                    <div class="col-md-offset-1 col-md-8">
-                        <div class="head clearfix">
-                            <div class="isw-ok"></div>
-                            <h1>Demographic</h1>
-                        </div>
-                        <div class="block-fluid">
-                            <form id="validation" method="post">
                                 <div class="row-form clearfix">
                                     <div class="col-md-3">Employment status</div>
                                     <div class="col-md-9">
@@ -818,7 +622,7 @@ if ($user->isLoggedIn()) {
                                 </div>
                                 <div class="row-form clearfix">
                                     <div class="col-md-3">Guardian Phone Number:</div>
-                                    <div class="col-md-9"><input value="" class="" type="text" name="guardian_phone" id="guardian_phone"  /> <span>Example: 0700 000 111</span></div>
+                                    <div class="col-md-9"><input value="" class="" type="text" name="other_phone" id="phone"  /> <span>Example: 0700 000 111</span></div>
                                 </div>
                                 <div class="row-form clearfix">
                                     <div class="col-md-3">Relation to patient:</div>
@@ -892,132 +696,187 @@ if ($user->isLoggedIn()) {
                                 </div>
 
                                 <div class="row-form clearfix">
-                                    <div class="col-md-3">CHW name:</div>
-                                    <div class="col-md-9"><input value="" class="" type="text"  name="chw" id="chw"  /></div>
-                                </div>
-
-                                <div class="row-form clearfix">
                                     <div class="col-md-3">Comments:</div>
                                     <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
                                 </div>
 
                                 <div class="footer tar">
-                                    <input type="submit" name="add_demographic" value="Submit" class="btn btn-default">
+                                    <input type="submit" name="add_client" value="Submit" class="btn btn-default">
                                 </div>
 
                             </form>
                         </div>
 
                     </div>
-                <?php } elseif ($_GET['id'] == 10) { ?>
+                <?php }
+                elseif ($_GET['id'] == 5 && $user->data()->position == 1) { ?>
                     <div class="col-md-offset-1 col-md-8">
                         <div class="head clearfix">
                             <div class="isw-ok"></div>
-                            <h1>Diagnosis</h1>
+                            <h1>Add Study</h1>
                         </div>
                         <div class="block-fluid">
                             <form id="validation" method="post">
                                 <div class="row-form clearfix">
-                                    <div class="col-md-3">Patient  for Cardiac</div>
+                                    <div class="col-md-3">Name:</div>
                                     <div class="col-md-9">
-                                        <select name="cardiac" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                        </select>
+                                        <input value="" class="validate[required]" type="text" name="name" id="name" />
+                                    </div>
+                                </div>
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Code:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required]" type="text" name="code" id="code" />
+                                    </div>
+                                </div>
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Sample Size:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required]" type="number" name="sample_size" id="sample_size" />
+                                    </div>
+                                </div>
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Start Date:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required,custom[date]]" type="text" name="start_date" id="start_date"/> <span>Example: 2010-12-01</span>
                                     </div>
                                 </div>
 
                                 <div class="row-form clearfix">
-                                    <div class="col-md-3">Patient  for Diabetes</div>
+                                    <div class="col-md-3">End Date:</div>
                                     <div class="col-md-9">
-                                        <select name="diabetes" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                        </select>
+                                        <input value="" class="validate[required,custom[date]]" type="text" name="end_date" id="end_date"/> <span>Example: 2010-12-01</span>
                                     </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Patient  for Sickle cell</div>
-                                    <div class="col-md-9">
-                                        <select name="sickle_cell" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Type of diagnosis:</div>
-                                    <div class="col-md-9">
-                                        <select name="diagnosis" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="Type 1 Diabetes">Type 1 Diabetes</option>
-                                            <option value="Type 2 Diabetes ">Type 2 Diabetes </option>
-                                            <option value="Cardiac">Cardiac</option>
-                                            <option value="Sickle Cell Disease">Sickle Cell Disease </option>
-                                            <option value="Respiratory">Respiratory</option>
-                                            <option value="Liver">Liver</option>
-                                            <option value="Kidney">Kidney</option>
-                                            <option value="Postgraduate degree">Other</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Outcome</div>
-                                    <div class="col-md-9">
-                                        <select name="outcome" style="width: 100%;" required>
-                                            <option value="">Select</option>
-                                            <option value="1">On treatment</option>
-                                            <option value="2">Default</option>
-                                            <option value="3">Stop Treatment</option>
-                                            <option value="4">Transfer Out</option>
-                                            <option value="5">Death</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Transfer Out To</div>
-                                    <div class="col-md-9">
-                                        <select name="transfer_out" style="width: 100%;" >
-                                            <option value="">Select</option>
-                                            <option value="1">Other NCD clinic</option>
-                                            <option value="2">Referral hospital</option>
-                                            <option value="3">Other</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Cause of Death</div>
-                                    <div class="col-md-9">
-                                        <select name="cause_death" style="width: 100%;" >
-                                            <option value="">Select</option>
-                                            <option value="1">NCD</option>
-                                            <option value="2">Unknown</option>
-                                            <option value="3">Other</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row-form clearfix">
-                                    <div class="col-md-3">Next Appointment:</div>
-                                    <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="next_appointment" id="next_appointment" required /> <span>Example: 0700 000 111</span></div>
                                 </div>
 
                                 <div class="footer tar">
-                                    <input type="submit" name="add_diagnosis" value="Submit" class="btn btn-default">
+                                    <input type="submit" name="add_study" value="Submit" class="btn btn-default">
                                 </div>
 
                             </form>
                         </div>
 
                     </div>
+                <?php }
+                elseif ($_GET['id'] == 6 && $user->data()->position == 1) { ?>
+                    <div class="col-md-offset-1 col-md-8">
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Add Site</h1>
+                        </div>
+                        <div class="block-fluid">
+                            <form id="validation" method="post">
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Name:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required]" type="text" name="name" id="name" />
+                                    </div>
+                                </div>
+
+                                <div class="footer tar">
+                                    <input type="submit" name="add_site" value="Submit" class="btn btn-default">
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                <?php }
+                elseif ($_GET['id'] == 7) { ?>
+                    <div class="col-md-offset-1 col-md-8">
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Add Visit</h1>
+                        </div>
+                        <div class="block-fluid">
+                            <form id="validation" method="post">
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Visit Name:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required]" type="text" name="name" id="name" />
+                                    </div>
+                                </div>
+
+                                <div class="footer tar">
+                                    <input type="submit" name="add_site" value="Submit" class="btn btn-default">
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                <?php }
+                elseif ($_GET['id'] == 8) { ?>
+                    <div class="col-md-offset-1 col-md-8">
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Add Pre Screening Client</h1>
+                        </div>
+                        <div class="block-fluid">
+                            <form id="validation" enctype="multipart/form-data" method="post">
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">First Name:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required]" type="text" name="firstname" id="firstname" />
+                                    </div>
+                                </div>
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Last Name:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required]" type="text" name="lastname" id="lastname" />
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Contact Number:</div>
+                                    <div class="col-md-9"><input value="" class="" type="text" name="contact" id="contact" required /> <span>Example: 0700 000 111</span></div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Test Date:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required,custom[date]]" type="text" name="test_date" id="test_date"/> <span>Example: 2010-12-01</span>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Rapid Ab test results</div>
+                                    <div class="col-md-9">
+                                        <select name="rapid_test_result" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                            <option value="1">None Reactive</option>
+                                            <option value="2">Reactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Tested by(name):</div>
+                                    <div class="col-md-9">
+                                        <input value="" type="text" name="tested_by" id="tested_by" />
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Appointment date:</div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required,custom[date]]" type="text" name="appointment_date" id="appointment_date"/> <span>Example: 2010-12-01</span>
+                                    </div>
+                                </div>
+
+                                <div class="footer tar">
+                                    <input type="submit" name="add_pre_screening" value="Submit" class="btn btn-default">
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                <?php }
+                elseif ($_GET['id'] == 9) { ?>
+
+                <?php } elseif ($_GET['id'] == 10) { ?>
+
                 <?php } elseif ($_GET['id'] == 11) { ?>
 
                 <?php } elseif ($_GET['id'] == 12 && $user->data()->position == 1) { ?>

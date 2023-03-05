@@ -32,7 +32,7 @@ if ($user->isLoggedIn()) {
     <?php include "head.php"; ?>
 </head>
 
-<body>TanCov
+<body>
     <div class="wrapper">
 
         <?php include 'topbar.php' ?>

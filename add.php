@@ -246,7 +246,6 @@ if ($user->isLoggedIn()) {
 
                     $user->updateRecord('clients', array(
                             'screened' => 1, 'eligibility' => $eligibility,
-
                     ), $_GET['cid']);
                     $successMessage = 'Patient Successful Screened';
                 } catch (Exception $e) {
@@ -296,6 +295,9 @@ if ($user->isLoggedIn()) {
                         'site_id' => $user->data()->site_id,
                     ));
 
+                    $user->updateRecord('clients', array(
+                        'enrolled' => 1,
+                    ), $_GET['cid']);
 
                     $successMessage = 'Demographic added Successful';
                 } catch (Exception $e) {

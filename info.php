@@ -2217,8 +2217,9 @@ if ($user->isLoggedIn()) {
                                     <?php }else{?>
                                         <td><a href="add.php?id=10&cid=<?=$_GET['cid']?>" class="btn btn-warning"> Add </a> </td>
                                     <?php }?>
-
                                 </tr>
+                                <?php if($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)){?>
+
                                 <tr>
                                     <td>3</td>
                                     <td>Cardiac</td>
@@ -2228,6 +2229,9 @@ if ($user->isLoggedIn()) {
                                         <td><a href="add.php?id=11&cid=<?=$_GET['cid']?>" class="btn btn-warning"> Add </a> </td>
                                     <?php }?>
                                 </tr>
+                                <?php }?>
+                                <?php if($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)){?>
+
                                 <tr>
                                     <td>4</td>
                                     <td>Diabetes</td>
@@ -2237,6 +2241,9 @@ if ($user->isLoggedIn()) {
                                         <td><a href="add.php?id=12&cid=<?=$_GET['cid']?>" class="btn btn-warning"> Add </a> </td>
                                     <?php }?>
                                 </tr>
+                                <?php }?>
+                                <?php if($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)){?>
+
                                 <tr>
                                     <td>5</td>
                                     <td>Sickle cell</td>
@@ -2247,6 +2254,8 @@ if ($user->isLoggedIn()) {
                                     <?php }?>
 
                                 </tr>
+                                <?php }?>
+
 
                                 <tr>
                                     <td>6</td>

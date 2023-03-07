@@ -1120,7 +1120,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Outcome</div>
                                         <div class="col-md-9">
-                                            <select name="outcome" style="width: 100%;" required>
+                                            <select name="outcome" id="outcome" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">On treatment</option>
                                                 <option value="2">Default</option>
@@ -1131,15 +1131,18 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Transfer Out To</div>
-                                        <div class="col-md-9">
-                                            <select name="transfer_out" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">Other NCD clinic</option>
-                                                <option value="2">Referral hospital</option>
-                                                <option value="3">Other</option>
-                                            </select>
+                                    <!-- <div id="hidden_div" style="display:none;"> -->
+                                    <div id="hidden_div">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">Transfer Out To</div>
+                                            <div class="col-md-9">
+                                                <select name="transfer_out" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Other NCD clinic</option>
+                                                    <option value="2">Referral hospital</option>
+                                                    <option value="3">Other</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -1494,21 +1497,21 @@ if ($user->isLoggedIn()) {
                                 <form id="validation" method="post">
                                     <div class="row-form clearfix">
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Main diagnosis:</div>
-                                        <div class="col-md-9">
-                                            <select name="main_diagnosis" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Sickle Cell Disease</option>                                              
-                                                <option value="5">Other Hemoglobinopathy</option>
-                                            </select>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">Main diagnosis:</div>
+                                            <div class="col-md-9">
+                                                <select name="main_diagnosis" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Sickle Cell Disease</option>
+                                                    <option value="5">Other Hemoglobinopathy</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Diagnosis Date:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
-                                    </div>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">Diagnosis Date:</div>
+                                            <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        </div>
 
                                         <div class="col-md-3">Family History of SCD?:</div>
                                         <div class="col-md-9">
@@ -1734,6 +1737,25 @@ if ($user->isLoggedIn()) {
                 });
 
             });
+
+        });
+
+
+        $('#outcome').change(function() {
+            $('#hidden_div').hide();
+            
+            var getUid = $(this).val();
+            // $('#wait').show();
+            // alert(getUid);
+            function showDiv(select) {
+                // if (select.value === 4) {
+                if (getUid === 4) {
+                    $('#hidden_div').show();
+                    // document.getElementById("hidden_div").style.display = "block";
+                } else {
+                    document.getElementById("hidden_div").style.display = "none";
+                }
+            }
 
         });
     </script>

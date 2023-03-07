@@ -1008,7 +1008,7 @@ if ($user->isLoggedIn()) {
                                             <?php if($client['client_image'] !='' || is_null($client['client_image'])){$img=$client['client_image'];}else{$img='img/users/blank.png';}?>
                                             <a href="#img<?= $client['id'] ?>" data-toggle="modal"><img src="<?=$img?>" width="90" height="90" class=""/></a>
                                         </td>
-                                        <td><?=$client['participant_id'] ?></td>
+                                        <td><?=$client['id_number'] ?></td>
                                         <td> <?=$client['firstname'] . ' ' . $client['lastname'] ?></td>
                                         <td><?=$client['gender'] ?></td>
                                         <td><?=$client['age'] ?></td>

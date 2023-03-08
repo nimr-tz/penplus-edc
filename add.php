@@ -1783,7 +1783,8 @@ if ($user->isLoggedIn()) {
             } else if (event.target.value === '5') {
                 death.style.display = 'block';
             } else {
-                box.style.display = 'none';
+                transfer_to.style.display = 'none';
+                death.style.display = 'none';
             }
         });
     </script>

@@ -466,6 +466,16 @@ if ($user->isLoggedIn()) {
 <head>
     <title> Add - PenPLus </title>
     <?php include "head.php"; ?>
+
+    <style>
+        /* #box {
+            display: none;
+            background-color: salmon;
+            color: white;
+            width: 100px;
+            height: 100px;
+        } */
+    </style>
 </head>
 
 <body>
@@ -1132,7 +1142,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <!-- <div id="hidden_div" style="display:none;"> -->
-                                    <div id="hidden_div">
+                                    <div id="transfer_to">
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">Transfer Out To</div>
                                             <div class="col-md-9">
@@ -1146,15 +1156,17 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Cause of Death</div>
-                                        <div class="col-md-9">
-                                            <select name="cause_death" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">NCD</option>
-                                                <option value="2">Unknown</option>
-                                                <option value="3">Other</option>
-                                            </select>
+                                    <div id="death">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">Cause of Death</div>
+                                            <div class="col-md-9">
+                                                <select name="cause_death" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">NCD</option>
+                                                    <option value="2">Unknown</option>
+                                                    <option value="3">Other</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -1741,22 +1753,38 @@ if ($user->isLoggedIn()) {
         });
 
 
-        $('#outcome').change(function() {
-            $('#hidden_div').hide();
-            
-            var getUid = $(this).val();
-            // $('#wait').show();
-            // alert(getUid);
-            function showDiv(select) {
-                // if (select.value === 4) {
-                if (getUid === 4) {
-                    $('#hidden_div').show();
-                    // document.getElementById("hidden_div").style.display = "block";
-                } else {
-                    document.getElementById("hidden_div").style.display = "none";
-                }
-            }
+        // $('#outcome').change(function() {
+        //     $('#hidden_div').hide();
 
+        //     var getUid = $(this).val();
+        //     // $('#wait').show();
+        //     // alert(getUid);
+        //     function showDiv(select) {
+        //         // if (select.value === 4) {
+        //         if (getUid === 4) {
+        //             $('#hidden_div').show();
+        //             // document.getElementById("hidden_div").style.display = "block";
+        //         } else {
+        //             document.getElementById("hidden_div").style.display = "none";
+        //         }
+        //     }
+
+        // });
+
+        const el = document.getElementById('outcome');
+
+        const transfer_to = document.getElementById('transfer_to');
+        const death = document.getElementById('death');
+
+
+        el.addEventListener('change', function handleChange(event) {
+            if (event.target.value === '4') {
+                transfer_to.style.display = 'block';
+            } else if (event.target.value === '5') {
+                death.style.display = 'block';
+            } else {
+                box.style.display = 'none';
+            }
         });
     </script>
 </body>

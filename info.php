@@ -1064,7 +1064,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="row-form clearfix">
                                                                     <div class="col-md-3">ParticipantID:</div>
                                                                     <div class="col-md-9">
-                                                                        <input value="<?=$client['participant_id']?>" class="validate[required]" type="text" name="participant_id" id="participant_id" disabled/>
+                                                                        <input value="<?=$client['id_number']?>" class="validate[required]" type="text" name="participant_id" id="participant_id" disabled/>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row-form clearfix">
@@ -1164,7 +1164,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="row-form clearfix">
                                                                     <div class="col-md-3">ParticipantID:</div>
                                                                     <div class="col-md-9">
-                                                                        <input value="<?=$client['participant_id']?>" class="validate[required]" type="text" name="participant_id" id="participant_id" />
+                                                                        <input value="<?=$client['id_number']?>" class="validate[required]" type="text" name="participant_id" id="participant_id" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="row-form clearfix">

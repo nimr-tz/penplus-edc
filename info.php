@@ -2203,7 +2203,7 @@ if ($user->isLoggedIn()) {
                                     <td>1</td>
                                     <td>Demographic</td>
                                     <?php if($override->get('demographic', 'patient_id', $_GET['cid'])){?>
-                                        <td><a href="#" class="btn btn-success" disabled> Change </a> </td>
+                                        <td><a href="add.php?id=9&cid=<?=$_GET['cid']?>" class="btn btn-success" disabled> Change </a> </td>
                                     <?php }else{?>
                                         <td><a href="add.php?id=9&cid=<?=$_GET['cid']?>" class="btn btn-warning">Add </a> </td>
                                     <?php }?>

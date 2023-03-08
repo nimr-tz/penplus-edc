@@ -943,18 +943,6 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Employment status</div>
-                                        <div class="col-md-9">
-                                            <select name="employment_status" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="Employed">Employed</option>
-                                                <option value="Self-employed">Self-employed</option>
-                                                <option value="Employed but on leave of absence">Employed but on leave of absence</option>
-                                                <option value="Unemployed">Unemployed</option>
-                                            </select>
-                                        </div>
-                                    </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Education Level</div>
@@ -971,6 +959,79 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+
+                                    <?php if ($override->get4('clients', 'id', $_GET['cid'], 'age')) { ?>
+
+                                        <div id="adult">
+                                            <div class="row-form clearfix">
+                                                <div class="col-md-3">Employment status</div>
+                                                <div class="col-md-9">
+                                                    <select name="employment_status" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="Employed">Employed</option>
+                                                        <option value="Self-employed">Self-employed</option>
+                                                        <option value="Employed but on leave of absence">Employed but on leave of absence</option>
+                                                        <option value="Unemployed">Unemployed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-form clearfix">
+                                                <div class="col-md-3">Occupational Exposures:</div>
+                                                <div class="col-md-9">
+                                                    <select name="occupation" id="occupation" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unknown</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div id="list_exposure">
+                                                <div class="row-form clearfix">
+                                                    <div class="col-md-3">If yes, list exposure: :</div>
+                                                    <div class="col-md-9"><textarea name="exposure" rows="4"></textarea> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
+                                    <?php if (!$override->get4('clients', 'id', $_GET['cid'], 'age')) { ?>
+
+                                        <div id="child">
+                                            <div class="row-form clearfix">
+                                                <div class="col-md-3">Appropriate grade for age:</div>
+                                                <div class="col-md-9">
+                                                    <select name="grade_age" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">N/A</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-form clearfix">
+                                                <div class="col-md-3">NCD limiting school attendance:</div>
+                                                <div class="col-md-9">
+                                                    <select name="school_attendance" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">N/A</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-form clearfix">
+                                                <div class="col-md-3">Days of missed school in past month:</div>
+                                                <div class="col-md-9"><input value="" class="" type="number" min="1" name="missed_school" id="missed_school" /></div>
+                                            </div>
+                                        </div>
+
+                                    <?php } ?>
+
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Phone Number:</div>
@@ -992,52 +1053,6 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Household Size:</div>
                                         <div class="col-md-9"><input value="" class="" type="number" min="1" name="household_size" id="household_size" /></div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Occupational Exposures:</div>
-                                        <div class="col-md-9">
-                                            <select name="occupation" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unknown</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If yes, list exposure: :</div>
-                                        <div class="col-md-9"><textarea name="exposure" rows="4"></textarea> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Appropriate grade for age:</div>
-                                        <div class="col-md-9">
-                                            <select name="grade_age" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">N/A</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">NCD limiting school attendance:</div>
-                                        <div class="col-md-9">
-                                            <select name="school_attendance" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">N/A</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Days of missed school in past month:</div>
-                                        <div class="col-md-9"><input value="" class="" type="number" min="1" name="missed_school" id="missed_school" /></div>
                                     </div>
 
                                     <div class="row-form clearfix">
@@ -1199,7 +1214,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Main diagnosis:</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" style="width: 100%;" required>
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Cardiomyopathy</option>
                                                 <option value="2">Rheumatic Heart Disease</option>
@@ -1221,23 +1236,26 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If Cardiomyopathy</div>
-                                        <div class="col-md-9">
-                                            <select name="cardiomyopathy" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">Ischemic</option>
-                                                <option value="2">Alcohol-related</option>
-                                                <option value="3">Peripartum</option>
-                                                <option value="4">Arrhythmia-related </option>
-                                                <option value="5">HIV-related</option>
-                                                <option value="6">Chemotherapy-related </option>
-                                                <option value="7">Viral/idiopathic </option>
-                                                <option value="8">Other </option>
-                                            </select>
+                                    <div id="Cardiomyopathy">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Cardiomyopathy</div>
+                                            <div class="col-md-9">
+                                                <select name="cardiomyopathy" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Ischemic</option>
+                                                    <option value="2">Alcohol-related</option>
+                                                    <option value="3">Peripartum</option>
+                                                    <option value="4">Arrhythmia-related </option>
+                                                    <option value="5">HIV-related</option>
+                                                    <option value="6">Chemotherapy-related </option>
+                                                    <option value="7">Viral/idiopathic </option>
+                                                    <option value="8">Other </option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
+                                    <div id="heumatic">
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">If heumatic Heart Disease</div>
                                         <div class="col-md-9">
@@ -1252,7 +1270,9 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+                                    </div>
 
+                                    <div id="Congenital">
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">If Congenital heart Disease</div>
                                         <div class="col-md-9">
@@ -1267,7 +1287,10 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+                                    </div>
 
+
+                                    <div id="Failure">
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">If Right Heart Failure</div>
                                         <div class="col-md-9">
@@ -1278,7 +1301,10 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+                                    </div>
 
+
+                                    <div id="Pericardial">
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">If Pericardial disease</div>
                                         <div class="col-md-9">
@@ -1291,7 +1317,10 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+                                    </div>
 
+
+                                    <div id="Arrhythmia">
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">If Arrhythmia</div>
                                         <div class="col-md-9">
@@ -1302,7 +1331,10 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+                                    </div>
 
+
+                                    <div id="Thromboembolic">
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">If Thromboembolic</div>
                                         <div class="col-md-9">
@@ -1314,7 +1346,10 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+                                    </div>
 
+
+                                    <div id="Stroke">
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">If Stroke</div>
                                         <div class="col-md-9">
@@ -1326,6 +1361,8 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+                                    </div>
+
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Patient referred from: </div>
@@ -1342,6 +1379,7 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Comments:</div>
@@ -1775,6 +1813,51 @@ if ($user->isLoggedIn()) {
 
         const transfer_to = document.getElementById('transfer_to');
         const death = document.getElementById('death');
+
+
+        el.addEventListener('change', function handleChange(event) {
+            if (event.target.value === '4') {
+                transfer_to.style.display = 'block';
+            } else if (event.target.value === '5') {
+                death.style.display = 'block';
+            } else {
+                transfer_to.style.display = 'none';
+                death.style.display = 'none';
+            }
+        });
+
+
+        const oc = document.getElementById('occupation');
+
+
+        const list_exposure = document.getElementById('list_exposure');
+
+        oc.addEventListener('change', function handleChange(event) {
+            if (event.target.value === '1') {
+                list_exposure.style.display = 'block';
+            } else {
+                list_exposure.style.display = 'none';
+            }
+        });
+
+
+
+
+        const diagnosis = document.getElementById('main_diagnosis');
+
+        const Cardiomyopathy = document.getElementById('Cardiomyopathy');
+        const heumatic = document.getElementById('heumatic');
+        const Congenital = document.getElementById('death');
+        const death = document.getElementById('Congenital');
+        const death = document.getElementById('death');
+        const death = document.getElementById('death');
+        const death = document.getElementById('death');
+        const death = document.getElementById('death');
+        const death = document.getElementById('death');
+        const death = document.getElementById('death');
+        const death = document.getElementById('death');
+        const death = document.getElementById('death');
+
 
 
         el.addEventListener('change', function handleChange(event) {

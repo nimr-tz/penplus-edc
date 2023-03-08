@@ -1034,6 +1034,28 @@ if ($user->isLoggedIn()) {
 
 
                                     <div class="row-form clearfix">
+                                        <div class="col-md-3">Patient referred from:</div>
+                                        <div class="col-md-9">
+                                            <select name="next_visit" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Inpatient / hospital stay</option>
+                                                <option value="2">Primary care clinic</option>
+                                                <option value="3">Other outpatient clinic</option>
+                                                <option value="4">Maternal health</option>
+                                                <option value="5">Community</option>
+                                                <option value="6">Self</option>
+                                                <option value="7">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Other Specify:</div>
+                                        <div class="col-md-9"><input value="" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span></div>
+                                    </div>
+
+
+                                    <div class="row-form clearfix">
                                         <div class="col-md-3">Phone Number:</div>
                                         <div class="col-md-9"><input value="" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span></div>
                                     </div>
@@ -1788,6 +1810,51 @@ if ($user->isLoggedIn()) {
                                                 <option value="3">Unknown</option>
                                             </select>
                                         </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Alcohol consumption</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes, currently</option>
+                                                <option value="2">Yes, in the past</option>
+                                                <option value="3">never</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Quantity (number bottle):</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Family History of cardiac disease?</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unknown</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">History of cardiac surgery?</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                            <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Specify surgery:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
                                     </div>
 
                                     <div class="footer tar">

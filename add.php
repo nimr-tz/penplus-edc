@@ -1256,111 +1256,111 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div id="heumatic">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If heumatic Heart Disease</div>
-                                        <div class="col-md-9">
-                                            <select name="heumatic" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">Pure mitral stenosis</option>
-                                                <option value="2">Pure mitral regurgitation</option>
-                                                <option value="3">Mixed mitral valve disease (MS + MR) </option>
-                                                <option value="4">Isolated aortic valve disease (AVD)</option>
-                                                <option value="5">Mixed mitral and aortic valve disease (MMAVD) </option>
-                                                <option value="6">Other</option>
-                                            </select>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If heumatic Heart Disease</div>
+                                            <div class="col-md-9">
+                                                <select name="heumatic" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Pure mitral stenosis</option>
+                                                    <option value="2">Pure mitral regurgitation</option>
+                                                    <option value="3">Mixed mitral valve disease (MS + MR) </option>
+                                                    <option value="4">Isolated aortic valve disease (AVD)</option>
+                                                    <option value="5">Mixed mitral and aortic valve disease (MMAVD) </option>
+                                                    <option value="6">Other</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
                                     <div id="Congenital">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If Congenital heart Disease</div>
-                                        <div class="col-md-9">
-                                            <select name="congenital" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">ASD</option>
-                                                <option value="2">VSD</option>
-                                                <option value="3">PDA</option>
-                                                <option value="4">Coarctation of aorta </option>
-                                                <option value="5">Tetralogy of Fallot</option>
-                                                <option value="6">Other</option>
-                                            </select>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Congenital heart Disease</div>
+                                            <div class="col-md-9">
+                                                <select name="congenital" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">ASD</option>
+                                                    <option value="2">VSD</option>
+                                                    <option value="3">PDA</option>
+                                                    <option value="4">Coarctation of aorta </option>
+                                                    <option value="5">Tetralogy of Fallot</option>
+                                                    <option value="6">Other</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
 
                                     <div id="Failure">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If Right Heart Failure</div>
-                                        <div class="col-md-9">
-                                            <select name="heart_failure" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Right Heart Failure</div>
+                                            <div class="col-md-9">
+                                                <select name="heart_failure" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="2">No</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
 
                                     <div id="Pericardial">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If Pericardial disease</div>
-                                        <div class="col-md-9">
-                                            <select name="pericardial" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Tuberculosis</option>
-                                                <option value="2">HIV</option>
-                                                <option value="3">malignancy</option>
-                                                <option value="4">Other</option>
-                                            </select>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Pericardial disease</div>
+                                            <div class="col-md-9">
+                                                <select name="pericardial" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Tuberculosis</option>
+                                                    <option value="2">HIV</option>
+                                                    <option value="3">malignancy</option>
+                                                    <option value="4">Other</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
 
                                     <div id="Arrhythmia">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If Arrhythmia</div>
-                                        <div class="col-md-9">
-                                            <select name="arrhythmia" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Atrial fibrillation </option>
-                                                <option value="2">Other</option>
-                                            </select>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Arrhythmia</div>
+                                            <div class="col-md-9">
+                                                <select name="arrhythmia" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Atrial fibrillation </option>
+                                                    <option value="2">Other</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
 
                                     <div id="Thromboembolic">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If Thromboembolic</div>
-                                        <div class="col-md-9">
-                                            <select name="thromboembolic" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">pulmonary embolism </option>
-                                                <option value="2">DVT</option>
-                                                <option value="3">other</option>
-                                            </select>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Thromboembolic</div>
+                                            <div class="col-md-9">
+                                                <select name="thromboembolic" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">pulmonary embolism </option>
+                                                    <option value="2">DVT</option>
+                                                    <option value="3">other</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
 
                                     <div id="Stroke">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">If Stroke</div>
-                                        <div class="col-md-9">
-                                            <select name="stroke" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">Ischemic</option>
-                                                <option value="2">hemorrhagic</option>
-                                                <option value="3">unknown</option>
-                                            </select>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Stroke</div>
+                                            <div class="col-md-9">
+                                                <select name="stroke" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Ischemic</option>
+                                                    <option value="2">hemorrhagic</option>
+                                                    <option value="3">unknown</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
 
@@ -1847,27 +1847,40 @@ if ($user->isLoggedIn()) {
 
         const Cardiomyopathy = document.getElementById('Cardiomyopathy');
         const heumatic = document.getElementById('heumatic');
-        const Congenital = document.getElementById('death');
-        const death = document.getElementById('Congenital');
-        const death = document.getElementById('death');
-        const death = document.getElementById('death');
-        const death = document.getElementById('death');
-        const death = document.getElementById('death');
-        const death = document.getElementById('death');
-        const death = document.getElementById('death');
-        const death = document.getElementById('death');
-        const death = document.getElementById('death');
+        const Congenital = document.getElementById('Congenital');
+        const Failure = document.getElementById('Failure');
+        const Pericardial = document.getElementById('Pericardial');
+        const Arrhythmia = document.getElementById('Arrhythmia');
+        const Thromboembolic = document.getElementById('Thromboembolic');
+        const Stroke = document.getElementById('Stroke');
 
 
-
-        el.addEventListener('change', function handleChange(event) {
-            if (event.target.value === '4') {
-                transfer_to.style.display = 'block';
+        diagnosis.addEventListener('change', function handleChange(event) {
+            if (event.target.value === '1') {
+                Cardiomyopathy.style.display = 'block';
+            } else if (event.target.value === '2') {
+                heumatic.style.display = 'block';
             } else if (event.target.value === '5') {
-                death.style.display = 'block';
+                Congenital.style.display = 'block';
+            } else if (event.target.value === '6') {
+                Failure.style.display = 'block';
+            } else if (event.target.value === '7') {
+                Pericardial.style.display = 'block';
+            } else if (event.target.value === '8') {
+                Arrhythmia.style.display = 'block';
+            } else if (event.target.value === '9') {
+                Thromboembolic.style.display = 'block';
+            } else if (event.target.value === '10') {
+                Stroke.style.display = 'block';
             } else {
-                transfer_to.style.display = 'none';
-                death.style.display = 'none';
+                Cardiomyopathy.style.display = 'none';
+                heumatic.style.display = 'none';
+                Congenital.style.display = 'none';
+                Failure.style.display = 'none';
+                Pericardial.style.display = 'none';
+                Arrhythmia.style.display = 'none';
+                Thromboembolic.style.display = 'none';
+                Stroke.style.display = 'none';
             }
         });
     </script>

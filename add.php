@@ -1660,8 +1660,144 @@ if ($user->isLoggedIn()) {
 
                         </div>
                     <?php } elseif ($_GET['id'] == 14) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>VITAL SIGNS</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Ht (cm):</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Wt (kg):</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">MUAC (cm):</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">BP:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">PR:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 15) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Patient Hitory & Complication</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Diseases History</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Hypertension</option>
+                                                <option value="2">Diabetes</option>
+                                                <option value="3">CKD</option>
+                                                <option value="4">Depression</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">HIV</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">R</option>
+                                                <option value="2">NR</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">ART Start Date:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">TB</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Smear pos</option>
+                                                <option value="2">Smear neg</option>
+                                                <option value="3">EPTB</option>
+                                                <option value="4">never had TB</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Year TB tested:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">History of smoking</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unknown</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Number of pack years:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Active smoker</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unknown</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 16) { ?>
 

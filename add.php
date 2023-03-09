@@ -1833,7 +1833,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">Family History of cardiac disease?</div>
                                         <div class="col-md-9">
                                             <select name="blood_group" style="width: 100%;" required>
-                                            <option value="">Select</option>
+                                                <option value="">Select</option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                                 <option value="3">Unknown</option>
@@ -1845,7 +1845,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">History of cardiac surgery?</div>
                                         <div class="col-md-9">
                                             <select name="blood_group" style="width: 100%;" required>
-                                            <option value="">Select</option>
+                                                <option value="">Select</option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                             </select>
@@ -1867,10 +1867,465 @@ if ($user->isLoggedIn()) {
                         </div>
 
                     <?php } elseif ($_GET['id'] == 16) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Symptoms & Exam</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Dyspnea on exertion: NYHA Classification</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">I</option>
+                                                <option value="2">II</option>
+                                                <option value="3">III</option>
+                                                <option value="4">IV</option>
+                                                <option value="5">cannot determine</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Orthopnea</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Y</option>
+                                                <option value="2">N</option>
+                                                <option value="3">Unsure</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Paroxysmal nocturnal dyspnea</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Y</option>
+                                                <option value="2">N</option>
+                                                <option value="3">Unsure</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Chest Pain</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Y</option>
+                                                <option value="2">N</option>
+                                                <option value="3">Unsure</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Cough</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Y</option>
+                                                <option value="2">N</option>
+                                                <option value="3">Unsure</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Edema</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">None</option>
+                                                <option value="2">Trace</option>
+                                                <option value="3">1+</option>
+                                                <option value="4">2+</option>
+                                                <option value="5">3+</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Lungs</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Clear</option>
+                                                <option value="2">Bibasilar</option>
+                                                <option value="3">Crackles</option>
+                                                <option value="4">Wheeze</option>
+                                                <option value="5">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Other specify:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">JVP</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Elevated</option>
+                                                <option value="2">Normal</option>
+                                                <option value="3">Unable to determine</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Volume status</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Hyper</option>
+                                                <option value="2">Hypo</option>
+                                                <option value="3">Euvolemic</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Loud Murmur?</div>
+                                        <div class="col-md-9">
+                                            <select name="blood_group" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Present</option>
+                                                <option value="2">Absent</option>
+                                                <option value="3">Unknown</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 17) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Cardiac</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Main diagnosis:</div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Cardiomyopathy</option>
+                                                <option value="2">Rheumatic Heart Disease</option>
+                                                <option value="3">Severe / Uncontrolled Hypertension</option>
+                                                <option value="4">Hypertensive Heart Disease</option>
+                                                <option value="5">Congenital heart Disease</option>
+                                                <option value="6">Right Heart Failure</option>
+                                                <option value="7">Pericardial disease</option>
+                                                <option value="8">Coronary Artery Disease</option>
+                                                <option value="9">Arrhythmia</option>
+                                                <option value="10">Thromboembolic</option>
+                                                <option value="11">Stroke</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Diagnosis Date:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div id="Cardiomyopathy">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Cardiomyopathy</div>
+                                            <div class="col-md-9">
+                                                <select name="cardiomyopathy" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Ischemic</option>
+                                                    <option value="2">Alcohol-related</option>
+                                                    <option value="3">Peripartum</option>
+                                                    <option value="4">Arrhythmia-related </option>
+                                                    <option value="5">HIV-related</option>
+                                                    <option value="6">Chemotherapy-related </option>
+                                                    <option value="7">Viral/idiopathic </option>
+                                                    <option value="8">Other </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="heumatic">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If heumatic Heart Disease</div>
+                                            <div class="col-md-9">
+                                                <select name="heumatic" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Pure mitral stenosis</option>
+                                                    <option value="2">Pure mitral regurgitation</option>
+                                                    <option value="3">Mixed mitral valve disease (MS + MR) </option>
+                                                    <option value="4">Isolated aortic valve disease (AVD)</option>
+                                                    <option value="5">Mixed mitral and aortic valve disease (MMAVD) </option>
+                                                    <option value="6">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="Congenital">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Congenital heart Disease</div>
+                                            <div class="col-md-9">
+                                                <select name="congenital" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">ASD</option>
+                                                    <option value="2">VSD</option>
+                                                    <option value="3">PDA</option>
+                                                    <option value="4">Coarctation of aorta </option>
+                                                    <option value="5">Tetralogy of Fallot</option>
+                                                    <option value="6">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="Failure">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Right Heart Failure</div>
+                                            <div class="col-md-9">
+                                                <select name="heart_failure" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="2">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="Pericardial">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Pericardial disease</div>
+                                            <div class="col-md-9">
+                                                <select name="pericardial" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Tuberculosis</option>
+                                                    <option value="2">HIV</option>
+                                                    <option value="3">malignancy</option>
+                                                    <option value="4">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="Arrhythmia">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Arrhythmia</div>
+                                            <div class="col-md-9">
+                                                <select name="arrhythmia" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">Atrial fibrillation </option>
+                                                    <option value="2">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="Thromboembolic">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Thromboembolic</div>
+                                            <div class="col-md-9">
+                                                <select name="thromboembolic" style="width: 100%;" required>
+                                                    <option value="">Select</option>
+                                                    <option value="1">pulmonary embolism </option>
+                                                    <option value="2">DVT</option>
+                                                    <option value="3">other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="Stroke">
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">If Stroke</div>
+                                            <div class="col-md-9">
+                                                <select name="stroke" style="width: 100%;">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Ischemic</option>
+                                                    <option value="2">hemorrhagic</option>
+                                                    <option value="3">unknown</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Other specify:</div>
+                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Comments:</div>
+                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_cardiac" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 18) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Results at enrollment</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                <div class="row-form clearfix">
+                                        <div class="col-md-3">ECG Date:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">ECG:</div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Single lead or</option>
+                                                <option value="2">12 lead</option>
+                                                <option value="3">Normal sinus rhythm</option>
+                                                <option value="4">Atrial fibrillation</option>
+                                                <option value="5">Other</option>                                                
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Other specify:</div>
+                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Echo Date:</div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Echo:(Normal)</div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>                                                                                             
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">LV severely depressed</div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>     
+                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Mitral stenosis</div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>     
+                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">RV severely dilated</div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>     
+                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Pericardial effusion</div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>     
+                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">IVC dilated,collapse less than 50% </div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>     
+                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Other specify:</div>
+                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Other specify</div>
+                                        <div class="col-md-9">
+                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>     
+                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_cardiac" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 19) { ?>
 

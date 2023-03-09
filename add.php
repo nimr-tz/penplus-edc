@@ -285,6 +285,8 @@ if ($user->isLoggedIn()) {
                         'next_visit' => Input::get('next_visit'),
                         'chw' => Input::get('chw'),
                         'comments' => Input::get('comments'),
+                        'referred' => Input::get('referred'),
+                        'referred_other' => Input::get('referred_other'),
                         'patient_id' => $_GET['cid'],
                         'staff_id' => $user->data()->id,
                         'status' => 1,
@@ -303,7 +305,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('add_diagnosis')) {
+        } elseif (Input::get('add_diagnosis22')) {
             $validate = $validate->check($_POST, array(
                 'cardiac' => array(
                     'required' => true,
@@ -448,6 +450,183 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Sickle Cell added Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_vital')) {
+            $validate = $validate->check($_POST, array(
+                'height' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('vital', array(
+                        'height' => Input::get('height'),
+                        'weight' => Input::get('weight'),
+                        'bmi' => Input::get('bmi'),
+                        'muac' => Input::get('muac'),
+                        'bp' => Input::get('bp'),
+                        'pr' => Input::get('pr'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+
+                    $successMessage = 'Vital sign added Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_history')) {
+            $validate = $validate->check($_POST, array(
+                'disease' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('history', array(
+                        'disease' => Input::get('disease'),
+                        'hiv' => Input::get('hiv'),
+                        'art_date' => Input::get('art_date'),
+                        'tb' => Input::get('tb'),
+                        'tb_year' => Input::get('tb_year'),
+                        'smoking' => Input::get('smoking'),
+                        'packs' => Input::get('packs'),
+                        'active_smoker' => Input::get('active_smoker'),
+                        'alcohol' => Input::get('alcohol'),
+                        'quantity' => Input::get('quantity'),
+                        'cardiac_disease' => Input::get('cardiac_disease'),
+                        'cardiac_surgery' => Input::get('cardiac_surgery'),
+                        'surgery_other' => Input::get('surgery_other'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+
+                    $successMessage = 'Patient History added Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_symptoms')) {
+            $validate = $validate->check($_POST, array(
+                'dyspnea' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('symptoms', array(
+                        'dyspnea' => Input::get('dyspnea'),
+                        'orthopnea' => Input::get('orthopnea'),
+                        'paroxysmal' => Input::get('paroxysmal'),
+                        'chest_pain' => Input::get('chest_pain'),
+                        'cough' => Input::get('cough'),
+                        'edema' => Input::get('edema'),
+                        'lungs' => Input::get('lungs'),
+                        'Other' => Input::get('Other'),
+                        'jvp' => Input::get('jvp'),
+                        'volume' => Input::get('volume'),
+                        'murmur' => Input::get('murmur'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+
+                    $successMessage = 'Symptoms added Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_diagnosis')) {
+            $validate = $validate->check($_POST, array(
+                'cardiac' => array(
+                    'required' => true,
+                ),
+
+
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('diagnosis', array(
+                        'cardiac' => Input::get('cardiac'),
+                        'diagnosis_date' => Input::get('diagnosis_date'),
+                        'cardiomyopathy' => Input::get('cardiomyopathy'),
+                        'heumatic' => Input::get('heumatic'),
+                        'congenital' => Input::get('congenital'),
+                        'heart_failure' => Input::get('heart_failure'),
+                        'pericardial' => Input::get('pericardial'),
+                        'arrhythmia' => Input::get('arrhythmia'),
+                        'stroke' => Input::get('stroke'),
+                        'thromboembolic' => Input::get('thromboembolic'),
+                        'comments' => Input::get('comments'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+
+                    $successMessage = 'Cardiac Diagnosis added Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_results')) {
+            $validate = $validate->check($_POST, array(
+                'ecg_date' => array(
+                    'required' => true,
+                ),
+
+            ));
+            if ($validate->passed()) {
+                print_r($_POST);
+                try {
+                    $user->createRecord('results', array(
+                        'ecg_date' => Input::get('ecg_date'),
+                        'ecg' => Input::get('ecg'),
+                        'ecg_other' => Input::get('ecg_other'),
+                        'echo_date' => Input::get('echo_date'),
+                        'echo' => Input::get('echo'),
+                        'lv' => Input::get('lv'),
+                        'mitral' => Input::get('mitral'),
+                        'rv' => Input::get('rv'),
+                        'pericardial' => Input::get('pericardial'),
+                        'ivc' => Input::get('ivc'),
+                        'echo_other' => Input::get('echo_other'),
+                        'echo_other2' => Input::get('echo_other2'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+
+                    $successMessage = 'Results added Successful';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -997,7 +1176,7 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     <?php } ?>
 
-                                    <?php if (!$override->get4('clients', 'id', $_GET['cid'], 'age')) { ?>
+                                    <?php if ($override->get4('clients', 'id', $_GET['cid'], 'age')) { ?>
 
                                         <div id="child">
                                             <div class="row-form clearfix">
@@ -1036,7 +1215,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Patient referred from:</div>
                                         <div class="col-md-9">
-                                            <select name="next_visit" style="width: 100%;" required>
+                                            <select name="referred" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Inpatient / hospital stay</option>
                                                 <option value="2">Primary care clinic</option>
@@ -1051,7 +1230,7 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Other Specify:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span></div>
+                                        <div class="col-md-9"><input value="" class="" type="text" name="referred_other" id="referred_other" required /></div>
                                     </div>
 
 
@@ -1692,32 +1871,37 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Ht (cm):</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="height" id="height" required /></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Wt (kg):</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="weight" id="weight" required /></div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">BMI:</div>
+                                        <div class="col-md-9"><input value="" type="text" name="bmi" id="bmi" required /></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">MUAC (cm):</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="muac" id="muac" required /></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">BP:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="bp" id="bp" required /></div>
                                     </div>
 
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">PR:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="pr" id="pr" required /> </div>
                                     </div>
 
                                     <div class="footer tar">
-                                        <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
+                                        <input type="submit" name="add_vital" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>
@@ -1737,7 +1921,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Diseases History</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="disease" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Hypertension</option>
                                                 <option value="2">Diabetes</option>
@@ -1750,7 +1934,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">HIV</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="hiv" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">R</option>
                                                 <option value="2">NR</option>
@@ -1760,13 +1944,13 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">ART Start Date:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="art_date" id="art_date" required /> <span>Example: 2023-01-01</span></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">TB</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="tb" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Smear pos</option>
                                                 <option value="2">Smear neg</option>
@@ -1778,14 +1962,14 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Year TB tested:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="tb_year" id="tb_year" required /> </div>
                                     </div>
 
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">History of smoking</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="smoking" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
@@ -1796,14 +1980,14 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Number of pack years:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="packs" id="packs" required /></div>
                                     </div>
 
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Active smoker</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="active_smoker" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
@@ -1815,7 +1999,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Alcohol consumption</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="alcohol" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes, currently</option>
                                                 <option value="2">Yes, in the past</option>
@@ -1826,13 +2010,13 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Quantity (number of bottle):</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="quantity" id="quantity" required /></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Family History of cardiac disease?</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="cardiac_disease" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
@@ -1844,7 +2028,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">History of cardiac surgery?</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="cardiac_surgery" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
@@ -1854,11 +2038,11 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Specify surgery:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="surgery_other" id="surgery_other" required /></div>
                                     </div>
 
                                     <div class="footer tar">
-                                        <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
+                                        <input type="submit" name="add_history" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>
@@ -1878,7 +2062,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Dyspnea on exertion: NYHA Classification</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="dyspnea" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">I</option>
                                                 <option value="2">II</option>
@@ -1892,7 +2076,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Orthopnea</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="orthopnea" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Y</option>
                                                 <option value="2">N</option>
@@ -1904,7 +2088,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Paroxysmal nocturnal dyspnea</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="paroxysmal" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Y</option>
                                                 <option value="2">N</option>
@@ -1916,7 +2100,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Chest Pain</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="chest_pain" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Y</option>
                                                 <option value="2">N</option>
@@ -1928,7 +2112,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Cough</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="cough" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Y</option>
                                                 <option value="2">N</option>
@@ -1940,7 +2124,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Edema</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="edema" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">None</option>
                                                 <option value="2">Trace</option>
@@ -1954,7 +2138,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Lungs</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="lungs" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Clear</option>
                                                 <option value="2">Bibasilar</option>
@@ -1967,13 +2151,13 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Other specify:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" type="text" name="Other" id="Other" required /> </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">JVP</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="jvp" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Elevated</option>
                                                 <option value="2">Normal</option>
@@ -1985,7 +2169,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Volume status</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="volume" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Hyper</option>
                                                 <option value="2">Hypo</option>
@@ -1997,7 +2181,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Loud Murmur?</div>
                                         <div class="col-md-9">
-                                            <select name="blood_group" style="width: 100%;" required>
+                                            <select name="murmur" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Present</option>
                                                 <option value="2">Absent</option>
@@ -2007,7 +2191,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="footer tar">
-                                        <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
+                                        <input type="submit" name="add_symptoms" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>
@@ -2019,14 +2203,14 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Cardiac</h1>
+                                <h1>Main diagnosis</h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
                                     <div class="row-form clearfix">
-                                        <div class="col-md-3">Main diagnosis:</div>
+                                        <div class="col-md-3">Cardiac diagnosis:</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="cardiac" id="cardiac" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Cardiomyopathy</option>
                                                 <option value="2">Rheumatic Heart Disease</option>
@@ -2185,7 +2369,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="footer tar">
-                                        <input type="submit" name="add_cardiac" value="Submit" class="btn btn-default">
+                                        <input type="submit" name="add_diagnosis" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>
@@ -2201,42 +2385,42 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
-                                <div class="row-form clearfix">
+                                    <div class="row-form clearfix">
                                         <div class="col-md-3">ECG Date:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="ecg_date" id="ecg_date" required /> <span>Example: 2023-01-01</span></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">ECG:</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="ecg" id="ecg" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Single lead or</option>
                                                 <option value="2">12 lead</option>
                                                 <option value="3">Normal sinus rhythm</option>
                                                 <option value="4">Atrial fibrillation</option>
-                                                <option value="5">Other</option>                                                
+                                                <option value="5">Other</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Other specify:</div>
-                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                        <div class="col-md-9"><textarea name="ecg_other" rows="4"></textarea> </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Echo Date:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="echo_date" id="echo_date" required /> <span>Example: 2023-01-01</span></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Echo:(Normal)</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="echo" id="echo" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>                                                                                             
+                                                <option value="2">No</option>
                                             </select>
                                         </div>
                                     </div>
@@ -2244,11 +2428,11 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">LV severely depressed</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="lv" id="lv" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>     
-                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
                                             </select>
                                         </div>
                                     </div>
@@ -2256,11 +2440,11 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Mitral stenosis</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="mitral" id="mitral" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>     
-                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
                                             </select>
                                         </div>
                                     </div>
@@ -2268,11 +2452,11 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">RV severely dilated</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="rv" id="rv" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>     
-                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
                                             </select>
                                         </div>
                                     </div>
@@ -2280,11 +2464,11 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Pericardial effusion</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="pericardial" id="pericardial" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>     
-                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
                                             </select>
                                         </div>
                                     </div>
@@ -2292,34 +2476,34 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">IVC dilated,collapse less than 50% </div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="ivc" id="ivc" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>     
-                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Other specify:</div>
-                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                        <div class="col-md-9"><textarea name="echo_other" rows="4"></textarea> </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Other specify</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" id="main_diagnosis" style="width: 100%;" required>
+                                            <select name="echo_other2" id="echo_other2" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>     
-                                                <option value="3">Unseen</option>                                                                                                                                                                                     
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="footer tar">
-                                        <input type="submit" name="add_cardiac" value="Submit" class="btn btn-default">
+                                        <input type="submit" name="add_results" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>
@@ -2501,7 +2685,7 @@ if ($user->isLoggedIn()) {
 
 
 
-        const diagnosis = document.getElementById('main_diagnosis');
+        const diagnosis = document.getElementById('cardiac');
 
         const Cardiomyopathy = document.getElementById('Cardiomyopathy');
         const heumatic = document.getElementById('heumatic');

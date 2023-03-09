@@ -1825,7 +1825,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row-form clearfix">
-                                        <div class="col-md-3">Quantity (number bottle):</div>
+                                        <div class="col-md-3">Quantity (number of bottle):</div>
                                         <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
                                     </div>
 

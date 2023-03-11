@@ -113,6 +113,7 @@ class User {
         return true;
     }
 
+<<<<<<< HEAD
     function visit2($client_id, $seq, $study_id)
     {
         if ($this->_override->getCount('visit', 'client_id', $client_id) == 1) {
@@ -144,6 +145,8 @@ class User {
         return $this->_override->getData('schedule');
     }
 
+=======
+>>>>>>> fix navigation
     function getBrowser() {
 
         global $user_agent;

@@ -8,7 +8,10 @@ class OverideData{
             $e->getMessage();
         }
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> fix navigation
    public function unique($table,$field,$value){
         if($this->get($table,$field,$value)){
             return true;
@@ -32,6 +35,7 @@ class OverideData{
         $num = $query->rowCount();
         return $num;
     }
+<<<<<<< HEAD
 
     public function countData1($table,$field,$value,$field1,$value1,$field2,$value2){
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1' AND $field2 = '$value2'");
@@ -39,6 +43,8 @@ class OverideData{
         return $num;
     }
 
+=======
+>>>>>>> fix navigation
     public function getData($table){
         $query = $this->_pdo->query("SELECT * FROM $table");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -151,6 +157,7 @@ class OverideData{
         return $result;
     }
 
+<<<<<<< HEAD
     public function firstRow($table,$param,$id,$where,$client_id){
         $query = $this->_pdo->query("SELECT DISTINCT $param FROM $table WHERE $where = '$client_id' ORDER BY '$id' ASC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -162,4 +169,6 @@ class OverideData{
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+=======
+>>>>>>> fix navigation
 }

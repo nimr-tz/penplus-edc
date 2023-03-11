@@ -298,7 +298,6 @@ if ($user->isLoggedIn()) {
 
                         $successMessage = 'Client Added Successful';
                         Redirect::to('info.php?id=3');
-
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -459,8 +458,12 @@ if ($user->isLoggedIn()) {
                     ), $_GET['cid']);
 
                     $successMessage = 'Demographic added Successful';
+<<<<<<< HEAD
                     Redirect::to('info.php?id=8&cid='. $_GET['cid']);
 >>>>>>> fix navigation
+=======
+                    Redirect::to('info.php?id=8&cid=' . $_GET['cid']);
+>>>>>>> fix navigation2
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -695,9 +698,13 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Vital sign added Successful';
+<<<<<<< HEAD
                     Redirect::to('info.php?id=8&cid='. $_GET['cid']);
 
 >>>>>>> fix navigation
+=======
+                    Redirect::to('info.php?id=8&cid=' . $_GET['cid']);
+>>>>>>> fix navigation2
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -796,9 +803,13 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Patient History added Successful';
+<<<<<<< HEAD
                     Redirect::to('info.php?id=8&cid='. $_GET['cid']);
 
 >>>>>>> fix navigation
+=======
+                    Redirect::to('info.php?id=8&cid=' . $_GET['cid']);
+>>>>>>> fix navigation2
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -891,9 +902,13 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Symptoms added Successful';
+<<<<<<< HEAD
                     Redirect::to('info.php?id=8&cid='. $_GET['cid']);
 
 >>>>>>> fix navigation
+=======
+                    Redirect::to('info.php?id=8&cid=' . $_GET['cid']);
+>>>>>>> fix navigation2
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -992,8 +1007,12 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Cardiac Diagnosis added Successful';
+<<<<<<< HEAD
                     Redirect::to('info.php?id=8&cid='. $_GET['cid']);
 >>>>>>> fix navigation
+=======
+                    Redirect::to('info.php?id=8&cid=' . $_GET['cid']);
+>>>>>>> fix navigation2
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -1089,9 +1108,13 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Results added Successful';
+<<<<<<< HEAD
                     Redirect::to('info.php?id=8&cid='. $_GET['cid']);
 
 >>>>>>> fix navigation
+=======
+                    Redirect::to('info.php?id=8&cid=' . $_GET['cid']);
+>>>>>>> fix navigation2
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -3362,10 +3385,10 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div id="referred_other">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Other Specify:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="referred_other" /></div>
-                                    </div>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">Other Specify:</div>
+                                            <div class="col-md-9"><input value="" class="" type="text" name="referred_other" /></div>
+                                        </div>
                                     </div>
 
 
@@ -5457,7 +5480,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix" id="active_smoker">
                                         <div class="col-md-3">Active smoker</div>
                                         <div class="col-md-9">
-                                            <select name="active_smoker" style="width: 100%;" >
+                                            <select name="active_smoker" style="width: 100%;">
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
@@ -6669,11 +6692,11 @@ if ($user->isLoggedIn()) {
                                                 <option value="2">No</option>
                                             </select>
                                         </div>
-                                        </div>
+                                    </div>
 
                                     <div class="row-form clearfix" id="echo_other">
                                         <div class="col-md-3">Other specify:</div>
-                                        <div class="col-md-9"><textarea name="echo_other"  rows="4"></textarea> </div>
+                                        <div class="col-md-9"><textarea name="echo_other" rows="4"></textarea> </div>
                                     </div>
 
                                     <div class="row-form clearfix" id="echo_other2">
@@ -6707,7 +6730,165 @@ if ($user->isLoggedIn()) {
 
 =======
                     <?php } elseif ($_GET['id'] == 19) { ?>
+<<<<<<< HEAD
 >>>>>>> fix navigation
+=======
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Hospitalizations , School and Management at Home</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">                                   
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Any recent hospitalizations not yet recorded?</div>
+                                        <div class="col-md-9">
+                                            <select name="ecg" id="hospitalizations" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>                                                
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">If yes, for NCD?</div>
+                                        <div class="col-md-9">
+                                            <select name="ncd" id="ncd" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>                                                
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix" id="hospitalization_number">
+                                        <div class="col-md-3">Number of hospitalization from NCD in last 12 months:</div>
+                                        <div class="col-md-9"><textarea name="hospitalization_number" rows="4"></textarea><span>Record on hospitalization record </span> </div>
+                                    </div>
+
+                                    <div class="col-md-3">Number of missed days of school in the last month?:</div>
+                                        <div class="col-md-9"><textarea name="hospitalization_number" rows="4"></textarea><span>N / A</span> </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">How many days of school in the last month?:</div>
+                                        <div class="col-md-9"><input value="" type="text" name="missed_days" id="missed_days" required /> </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Fluid restricted ?</div>
+                                        <div class="col-md-9">
+                                            <select name="echo" id="fluid" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">LV severely depressed</div>
+                                        <div class="col-md-9">
+                                            <select name="lv" id="lv" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Mitral stenosis</div>
+                                        <div class="col-md-9">
+                                            <select name="mitral" id="mitral" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">RV severely dilated</div>
+                                        <div class="col-md-9">
+                                            <select name="rv" id="rv" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Pericardial effusion</div>
+                                        <div class="col-md-9">
+                                            <select name="pericardial" id="pericardial" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">IVC dilated,collapse less than 50% </div>
+                                        <div class="col-md-9">
+                                            <select name="ivc" id="ivc" style="width: 100%;" required>
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Other Echo</div>
+                                        <div class="col-md-9">
+                                            <select name="echo_other1" id="echo_other1" style="width: 100%;">
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix" id="echo_other">
+                                        <div class="col-md-3">Other specify:</div>
+                                        <div class="col-md-9"><textarea name="echo_other" rows="4"></textarea> </div>
+                                    </div>
+
+                                    <div class="row-form clearfix" id="echo_other2">
+                                        <div class="col-md-3">Other</div>
+                                        <div class="col-md-9">
+                                            <select name="echo_other2" style="width: 100%;">
+                                                <option value="">Select</option>
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                                <option value="3">Unseen</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_results" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    <?php } elseif ($_GET['id'] == 20) { ?>
+                    <?php } elseif ($_GET['id'] == 21) { ?>
+                    <?php } elseif ($_GET['id'] == 22) { ?>
+                    <?php } elseif ($_GET['id'] == 23) { ?>
+>>>>>>> fix navigation2
 
                     <?php } ?>
                     <div class="dr"><span></span></div>
@@ -7239,213 +7420,213 @@ if ($user->isLoggedIn()) {
 =======
         $('#list_exposure').hide();
         $('#occupation').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "1") {
-                     $('#list_exposure').show();
-                 } else {
-                    $('#list_exposure').hide();
-                 }
-         });
+            var getUid = $(this).val();
+            if (getUid === "1") {
+                $('#list_exposure').show();
+            } else {
+                $('#list_exposure').hide();
+            }
+        });
 
 
-         $('#referred_other').hide();
-         $('#referred').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "7") {
-                     $('#referred_other').show();
-                 } else {
-                    $('#referred_other').hide();
-                 }
-         });
+        $('#referred_other').hide();
+        $('#referred').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "7") {
+                $('#referred_other').show();
+            } else {
+                $('#referred_other').hide();
+            }
+        });
 
-         $('#art_date').hide();
-         $('#hiv').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "1") {
-                     $('#art_date').show();
-                 } else {
-                    $('#art_date').val("NULL");
-                    $('#art_date').hide();
-                 }
-         });
+        $('#art_date').hide();
+        $('#hiv').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "1") {
+                $('#art_date').show();
+            } else {
+                $('#art_date').val("NULL");
+                $('#art_date').hide();
+            }
+        });
 
-         $('#tb_year').hide();
-         $('#tb').change(function() {
-             var getUid = $(this).val();
-                 if (getUid != "4") {
-                     $('#tb_year').show();
-                 } else {
-                    $('#tb_year').val("NULL");
-                    $('#tb_year').hide();
-                 }
-         });
+        $('#tb_year').hide();
+        $('#tb').change(function() {
+            var getUid = $(this).val();
+            if (getUid != "4") {
+                $('#tb_year').show();
+            } else {
+                $('#tb_year').val("NULL");
+                $('#tb_year').hide();
+            }
+        });
 
-         $('#active_smoker').hide();
-         $('#packs').hide();
-         $('#smoking').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "1") {
-                     $('#active_smoker').show();
-                     $('#packs').show();
-                 } else {
-                    $('#active_smoker').val("NULL");
-                    $('#packs').val("NULL");
-                    $('#active_smoker').hide();
-                    $('#packs').hide();
-                 }
-         });
+        $('#active_smoker').hide();
+        $('#packs').hide();
+        $('#smoking').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "1") {
+                $('#active_smoker').show();
+                $('#packs').show();
+            } else {
+                $('#active_smoker').val("NULL");
+                $('#packs').val("NULL");
+                $('#active_smoker').hide();
+                $('#packs').hide();
+            }
+        });
 
-         $('#quantity').hide();
-         $('#alcohol').change(function() {
-             var getUid = $(this).val();
-                 if (getUid != "3") {
-                     $('#quantity').show();
-                 } else {
-                    $('#quantity').val("NULL");
-                    $('#quantity').hide();
-                 }
-         });
+        $('#quantity').hide();
+        $('#alcohol').change(function() {
+            var getUid = $(this).val();
+            if (getUid != "3") {
+                $('#quantity').show();
+            } else {
+                $('#quantity').val("NULL");
+                $('#quantity').hide();
+            }
+        });
 
-         $('#surgery_other').hide();
-         $('#cardiac_surgery').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "1") {
-                     $('#surgery_other').show();
-                 } else {
-                    $('#surgery_other').val("NULL");
-                    $('#surgery_other').hide();
-                 }
-         });
+        $('#surgery_other').hide();
+        $('#cardiac_surgery').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "1") {
+                $('#surgery_other').show();
+            } else {
+                $('#surgery_other').val("NULL");
+                $('#surgery_other').hide();
+            }
+        });
 
-         $('#Other').hide();
-         $('#lungs').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "5") {
-                     $('#Other').show();
-                 } else {
-                    $('#Other').hide();
-                 }
-         });
+        $('#Other').hide();
+        $('#lungs').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "5") {
+                $('#Other').show();
+            } else {
+                $('#Other').hide();
+            }
+        });
 
 
-         $('#cardiac').change(function() {
+        $('#cardiac').change(function() {
             $('#Cardiomyopathy').hide();
-                    $('#heumatic').hide();
-                    $('#Congenital').hide();
-                    $('#Failure').hide();
-                    $('#Pericardial').hide();
-                    $('#Arrhythmia').hide();
-                    $('#Thromboembolic').hide();
-                    $('#Stroke').hide();
-             var getUid = $(this).val();
-                 if (getUid === "1") {
-                     $('#Cardiomyopathy').show();
-                 } else if (getUid === "2"){
-                    $('#heumatic').show();
-                 }else if (getUid === "5"){
-                    $('#Congenital').show();
-                 }else if (getUid === "6"){
-                    $('#Failure').show();
-                 }else if (getUid === "7"){
-                    $('#Pericardial').show();
-                 }else if (getUid === "9"){
-                    $('#Arrhythmia').show();
-                 }else if (getUid === "10"){
-                    $('#Thromboembolic').show();
-                 }else if (getUid === "11"){
-                    $('#Stroke').show();                 
-                 }else{
-                    $('#Cardiomyopathy').hide();
-                    $('#heumatic').hide();
-                    $('#Congenital').hide();
-                    $('#Failure').hide();
-                    $('#Pericardial').hide();
-                    $('#Arrhythmia').hide();
-                    $('#Thromboembolic').hide();
-                    $('#Stroke').hide();
-                 }
-         });
+            $('#heumatic').hide();
+            $('#Congenital').hide();
+            $('#Failure').hide();
+            $('#Pericardial').hide();
+            $('#Arrhythmia').hide();
+            $('#Thromboembolic').hide();
+            $('#Stroke').hide();
+            var getUid = $(this).val();
+            if (getUid === "1") {
+                $('#Cardiomyopathy').show();
+            } else if (getUid === "2") {
+                $('#heumatic').show();
+            } else if (getUid === "5") {
+                $('#Congenital').show();
+            } else if (getUid === "6") {
+                $('#Failure').show();
+            } else if (getUid === "7") {
+                $('#Pericardial').show();
+            } else if (getUid === "9") {
+                $('#Arrhythmia').show();
+            } else if (getUid === "10") {
+                $('#Thromboembolic').show();
+            } else if (getUid === "11") {
+                $('#Stroke').show();
+            } else {
+                $('#Cardiomyopathy').hide();
+                $('#heumatic').hide();
+                $('#Congenital').hide();
+                $('#Failure').hide();
+                $('#Pericardial').hide();
+                $('#Arrhythmia').hide();
+                $('#Thromboembolic').hide();
+                $('#Stroke').hide();
+            }
+        });
 
 
-         $('#diagnosis_other').hide();
+        $('#diagnosis_other').hide();
 
-         $('#Cardiomyopathy1').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "8") {
-                     $('#diagnosis_other').show();                                
-                 }else{
-                    $('#diagnosis_other').hide();
-                 }
-         });
+        $('#Cardiomyopathy1').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "8") {
+                $('#diagnosis_other').show();
+            } else {
+                $('#diagnosis_other').hide();
+            }
+        });
 
-         $('#heumatic1').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "6") {
-                     $('#diagnosis_other').show();                                
-                 }else{
-                    $('#diagnosis_other').hide();
-                 }
-         });
+        $('#heumatic1').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "6") {
+                $('#diagnosis_other').show();
+            } else {
+                $('#diagnosis_other').hide();
+            }
+        });
 
-         $('#Congenital1').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "6") {
-                     $('#diagnosis_other').show();                                
-                 }else{
-                    $('#diagnosis_other').hide();
-                 }
-         });
+        $('#Congenital1').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "6") {
+                $('#diagnosis_other').show();
+            } else {
+                $('#diagnosis_other').hide();
+            }
+        });
 
-         $('#Pericardial1').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "4") {
-                     $('#diagnosis_other').show();                                
-                 }else{
-                    $('#diagnosis_other').hide();
-                 }
-         });
+        $('#Pericardial1').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "4") {
+                $('#diagnosis_other').show();
+            } else {
+                $('#diagnosis_other').hide();
+            }
+        });
 
-         $('#Arrhythmia1').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "2") {
-                     $('#diagnosis_other').show();                                
-                 }else{
-                    $('#diagnosis_other').hide();
-                 }
-         });
+        $('#Arrhythmia1').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "2") {
+                $('#diagnosis_other').show();
+            } else {
+                $('#diagnosis_other').hide();
+            }
+        });
 
-         $('#Thromboembolic1').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "3") {
-                     $('#diagnosis_other').show();                                
-                 }else{
-                    $('#diagnosis_other').hide();
-                 }
-         });
+        $('#Thromboembolic1').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "3") {
+                $('#diagnosis_other').show();
+            } else {
+                $('#diagnosis_other').hide();
+            }
+        });
 
 
-         $('#ecg_other').hide();
-         $('#ecg').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "5") {
-                     $('#ecg_other').show();                                
-                 }else{
-                    $('#ecg_other').hide();
-                 }
-         });
+        $('#ecg_other').hide();
+        $('#ecg').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "5") {
+                $('#ecg_other').show();
+            } else {
+                $('#ecg_other').hide();
+            }
+        });
 
-         $('#echo_other').hide();
-         $('#echo_other2').hide(); 
-         $('#echo_other1').change(function() {
-             var getUid = $(this).val();
-                 if (getUid === "1") {
-                     $('#echo_other').show(); 
-                     $('#echo_other2').show();                                                               
-                 }else{
-                    $('#echo_other').hide();
-                    $('#echo_other2').hide();                                
-                 }
-         });
+        $('#echo_other').hide();
+        $('#echo_other2').hide();
+        $('#echo_other1').change(function() {
+            var getUid = $(this).val();
+            if (getUid === "1") {
+                $('#echo_other').show();
+                $('#echo_other2').show();
+            } else {
+                $('#echo_other').hide();
+                $('#echo_other2').hide();
+            }
+        });
 
         const el = document.getElementById('outcome');
 

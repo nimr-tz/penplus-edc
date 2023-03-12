@@ -6739,7 +6739,7 @@ if ($user->isLoggedIn()) {
                                 <h1>Hospitalizations , School and Management at Home</h1>
                             </div>
                             <div class="block-fluid">
-                                <form id="validation" method="post">                                   
+                                <form id="validation" method="post">
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Any recent hospitalizations not yet recorded?</div>
@@ -6747,7 +6747,7 @@ if ($user->isLoggedIn()) {
                                             <select name="ecg" id="hospitalizations" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>                                                
+                                                <option value="2">No</option>
                                             </select>
                                         </div>
                                     </div>
@@ -6758,7 +6758,7 @@ if ($user->isLoggedIn()) {
                                             <select name="ncd" id="ncd" style="width: 100%;" required>
                                                 <option value="">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="2">No</option>                                                
+                                                <option value="2">No</option>
                                             </select>
                                         </div>
                                     </div>
@@ -6769,133 +6769,140 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="col-md-3">Number of missed days of school in the last month?:</div>
-                                        <div class="col-md-9"><textarea name="hospitalization_number" rows="4"></textarea><span>N / A</span> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">How many days of school in the last month?:</div>
-                                        <div class="col-md-9"><input value="" type="text" name="missed_days" id="missed_days" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Fluid restricted ?</div>
-                                        <div class="col-md-9">
-                                            <select name="echo" id="fluid" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">LV severely depressed</div>
-                                        <div class="col-md-9">
-                                            <select name="lv" id="lv" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Mitral stenosis</div>
-                                        <div class="col-md-9">
-                                            <select name="mitral" id="mitral" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">RV severely dilated</div>
-                                        <div class="col-md-9">
-                                            <select name="rv" id="rv" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Pericardial effusion</div>
-                                        <div class="col-md-9">
-                                            <select name="pericardial" id="pericardial" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">IVC dilated,collapse less than 50% </div>
-                                        <div class="col-md-9">
-                                            <select name="ivc" id="ivc" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Other Echo</div>
-                                        <div class="col-md-9">
-                                            <select name="echo_other1" id="echo_other1" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="echo_other">
-                                        <div class="col-md-3">Other specify:</div>
-                                        <div class="col-md-9"><textarea name="echo_other" rows="4"></textarea> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="echo_other2">
-                                        <div class="col-md-3">Other</div>
-                                        <div class="col-md-9">
-                                            <select name="echo_other2" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="footer tar">
-                                        <input type="submit" name="add_results" value="Submit" class="btn btn-default">
-                                    </div>
-
-                                </form>
+                                    <div class="col-md-9"><textarea name="hospitalization_number" rows="4"></textarea><span>N / A</span> </div>
                             </div>
 
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">How many days of school in the last month?:</div>
+                                <div class="col-md-9"><input value="" type="text" name="missed_days" id="missed_days" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Fluid restricted ?</div>
+                                <div class="col-md-9">
+                                    <select name="echo" id="fluid" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">LV severely depressed</div>
+                                <div class="col-md-9">
+                                    <select name="lv" id="lv" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="3">Unseen</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Mitral stenosis</div>
+                                <div class="col-md-9">
+                                    <select name="mitral" id="mitral" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="3">Unseen</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">RV severely dilated</div>
+                                <div class="col-md-9">
+                                    <select name="rv" id="rv" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="3">Unseen</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Pericardial effusion</div>
+                                <div class="col-md-9">
+                                    <select name="pericardial" id="pericardial" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="3">Unseen</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">IVC dilated,collapse less than 50% </div>
+                                <div class="col-md-9">
+                                    <select name="ivc" id="ivc" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="3">Unseen</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Other Echo</div>
+                                <div class="col-md-9">
+                                    <select name="echo_other1" id="echo_other1" style="width: 100%;">
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="echo_other">
+                                <div class="col-md-3">Other specify:</div>
+                                <div class="col-md-9"><textarea name="echo_other" rows="4"></textarea> </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="echo_other2">
+                                <div class="col-md-3">Other</div>
+                                <div class="col-md-9">
+                                    <select name="echo_other2" style="width: 100%;">
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="3">Unseen</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="footer tar">
+                                <input type="submit" name="add_results" value="Submit" class="btn btn-default">
+                            </div>
+
+                            </form>
                         </div>
+<<<<<<< HEAD
                     <?php } elseif ($_GET['id'] == 20) { ?>
                     <?php } elseif ($_GET['id'] == 21) { ?>
                     <?php } elseif ($_GET['id'] == 22) { ?>
                     <?php } elseif ($_GET['id'] == 23) { ?>
 >>>>>>> fix navigation2
+=======
+>>>>>>> fix navigation3
 
-                    <?php } ?>
-                    <div class="dr"><span></span></div>
                 </div>
+            <?php } elseif ($_GET['id'] == 20) { ?>
+            <?php } elseif ($_GET['id'] == 21) { ?>
+            <?php } elseif ($_GET['id'] == 22) { ?>
+            <?php } elseif ($_GET['id'] == 23) { ?>
 
+            <?php } ?>
+            <div class="dr"><span></span></div>
             </div>
+
         </div>
+    </div>
     </div>
 
 

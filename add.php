@@ -798,7 +798,7 @@ if ($user->isLoggedIn()) {
                         'diagns_changed' => Input::get('diagns_changed'),
                         'ncd_diagns' => Input::get('ncd_diagns'),
                         'ncd_diagns_specify' => Input::get('ncd_diagns_specify'),
-                        'diagns_complication' => Input::get('diagns_complication'),                        
+                        'diagns_complication' => Input::get('diagns_complication'),
                         'patient_id' => $_GET['cid'],
                         'staff_id' => $user->data()->id,
                         'status' => 1,
@@ -815,7 +815,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        }elseif (Input::get('add_summary')) {
+        } elseif (Input::get('add_summary')) {
             $validate = $validate->check($_POST, array(
                 'summary_date' => array(
                     'required' => true,
@@ -834,7 +834,7 @@ if ($user->isLoggedIn()) {
                         'transfer_out' => Input::get('transfer_out'),
                         'cause_death' => Input::get('cause_death'),
                         'next_appointment_notes' => Input::get('next_appointment_notes'),
-                        'next_appointment' => Input::get('next_appointment'),                        
+                        'next_appointment' => Input::get('next_appointment'),
                         'patient_id' => $_GET['cid'],
                         'staff_id' => $user->data()->id,
                         'status' => 1,
@@ -2819,6 +2819,16 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
+                                                    <label>DOSE:</label>
+                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
                                                     <label>ASA:</label>
                                                     <select name="medication_asa" id="medication_asa" style="width: 100%;" required>
                                                         <option value="">Select</option>
@@ -2975,7 +2985,7 @@ if ($user->isLoggedIn()) {
                             <div class="block-fluid">
                                 <form id="validation" method="post">
 
-                                <div class="row-form clearfix">
+                                    <div class="row-form clearfix">
                                         <div class="col-md-3">date</div>
                                         <div class="col-md-9"><input value="" type="text" name="diagns_date" id="diagns_date" required /> </div>
                                     </div>
@@ -2994,7 +3004,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix" id="ncd_diagns">
                                         <div class="col-md-3">If yes, what is the NCD diagnosis?</div>
                                         <div class="col-md-9">
-                                            <select name="ncd_diagns" style="width: 100%;" >
+                                            <select name="ncd_diagns" style="width: 100%;">
                                                 <option value="">Select</option>
                                                 <option value="1">Cardiomyopathy</option>
                                                 <option value="2">Rheumatic heart disease</option>
@@ -3326,12 +3336,12 @@ if ($user->isLoggedIn()) {
                             <div class="block-fluid">
                                 <form id="validation" method="post">
 
-                                <div class="row-form clearfix">
+                                    <div class="row-form clearfix">
                                         <div class="col-md-3">Summary Date:</div>
                                         <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="summary_date" id="summary_date" required /> <span>Example: 2023-01-01</span></div>
                                     </div>
 
-                                    
+
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Type of diagnosis:</div>
                                         <div class="col-md-9">

@@ -2881,7 +2881,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>ASA:</label>
-                                                    <input value="" type="text" name="asa" id="asa" />
+                                                    <input value="ASA" type="text" name="asa" id="asa" readonly />
                                                 </div>
                                             </div>
                                         </div>
@@ -2919,7 +2919,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Furosemide:</label>
-                                                    <input value="" type="text" name="furosemide" id="furosemide" />
+                                                    <input value="Furosemide" type="text" name="furosemide" id="furosemide" readonly />
                                                 </div>
                                             </div>
                                         </div>
@@ -3071,7 +3071,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Benzathine PCN:</label>
-                                                    <input value="" type="text" name="benzathine" id="benzathine" />
+                                                    <input value="Benzathine PCN:" type="text" name="benzathine" id="benzathine" readonly />
                                                 </div>
                                             </div>
                                         </div>

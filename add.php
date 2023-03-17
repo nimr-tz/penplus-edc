@@ -823,7 +823,6 @@ if ($user->isLoggedIn()) {
 
             ));
             if ($validate->passed()) {
-                print_r($_POST);
                 try {
                     $user->createRecord('summary', array(
                         'summary_date' => Input::get('summary_date'),
@@ -844,6 +843,68 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Visit Summary  details added Successful';
+                    Redirect::to('info.php?id=8&cid=' . $_GET['cid']);
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_treatment_plan')) {
+            $validate = $validate->check($_POST, array(
+                'asa' => array(
+                    'required' => true,
+                ),
+
+            ));
+            if ($validate->passed()) {
+                print_r($_POST);
+                try {
+                    $user->createRecord('treatment_plan', array(
+                        'asa' => Input::get('asa'),
+                        'action_asa' => Input::get('action_asa'),
+                        'dose_asa' => Input::get('dose_asa'),
+                        'furosemide' => Input::get('furosemide'),
+                        'action_furosemide' => Input::get('action_furosemide'),
+                        'dose_furosemide' => Input::get('dose_furosemide'),
+                        'ace_i' => Input::get('ace_i'),
+                        'action_ace_i' => Input::get('action_ace_i'),
+                        'dose_ace_i' => Input::get('dose_ace_i'),
+                        'beta_blocker' => Input::get('beta_blocker'),
+                        'action_beta_blocker' => Input::get('action_beta_blocker'),
+                        'dose_beta_blocker' => Input::get('dose_beta_blocker'),
+                        'anti_hypertensive' => Input::get('anti_hypertensive'),
+                        'action_anti_hypertensive' => Input::get('action_anti_hypertensive'),
+                        'dose_anti_hypertensive' => Input::get('dose_anti_hypertensive'),
+                        'benzathine' => Input::get('benzathine'),
+                        'action_benzathine' => Input::get('action_benzathine'),
+                        'dose_benzathine' => Input::get('dose_benzathine'),
+                        'anticoagulation' => Input::get('anticoagulation'),
+                        'action_anticoagulation' => Input::get('action_anticoagulation'),
+                        'dose_anticoagulation' => Input::get('dose_anticoagulation'),
+                        'medication_other' => Input::get('medication_other'),
+                        'action_medication_other' => Input::get('action_medication_other'),
+                        'dose_medication_other' => Input::get('dose_medication_other'),
+                        'salt' => Input::get('salt'),
+                        'fluid' => Input::get('fluid'),
+                        'restriction_other' => Input::get('restriction_other'),
+                        'social_support' => Input::get('social_support'),
+                        'social_support_type' => Input::get('social_support_type'),
+                        'cardiology' => Input::get('cardiology'),
+                        'cardiology_date' => Input::get('cardiology_date'),
+                        'awaiting_surgery' => Input::get('awaiting_surgery'),
+                        'new_referrals' => Input::get('new_referrals'),
+                        'new_referrals_type' => Input::get('new_referrals_type'),
+                        'medication_notes' => Input::get('medication_notes'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+
+                    $successMessage = 'Treatment plan added Successful';
                     Redirect::to('info.php?id=8&cid=' . $_GET['cid']);
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2815,22 +2876,22 @@ if ($user->isLoggedIn()) {
                             <div class="block-fluid">
                                 <form id="validation" method="post">
                                     <div class="row">
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>DOSE:</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>ASA:</label>
-                                                    <select name="medication_asa" id="medication_asa" style="width: 100%;" required>
+                                                    <input value="" type="text" name="asa" id="asa" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Action:</label>
+                                                    <select name="action_asa" id="action_asa" style="width: 100%;" required>
                                                         <option value="">Select</option>
                                                         <option value="1">Continue</option>
                                                         <option value="2">Start</option>
@@ -2841,12 +2902,278 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>DOSE:</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
+                                                    <input value="" class="validate[required]" type="number" name="dose_asa" id="dose_asa" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Furosemide:</label>
+                                                    <input value="" type="text" name="furosemide" id="furosemide" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Action:</label>
+                                                    <select name="action_furosemide" id="action_furosemide" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Continue</option>
+                                                        <option value="2">Start</option>
+                                                        <option value="3">Stop</option>
+                                                        <option value="4">Not eligible</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>DOSE:</label>
+                                                    <input value="" class="validate[required]" type="number" name="dose_furosemide" id="dose_furosemide" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>ACE-I:</label>
+                                                    <input value="" type="text" name="ace_i" id="ace_i" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Action:</label>
+                                                    <select name="action_ace_i" id="action_ace_i" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Continue</option>
+                                                        <option value="2">Start</option>
+                                                        <option value="3">Stop</option>
+                                                        <option value="4">Not eligible</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>DOSE:</label>
+                                                    <input value="" class="validate[required]" type="number" name="dose_ace_i" id="dose_ace_i" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Beta blocker:</label>
+                                                    <input value="" type="text" name="beta_blocker" id="beta_blocker" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Action:</label>
+                                                    <select name="action_beta_blocker" id="action_beta_blocker" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Continue</option>
+                                                        <option value="2">Start</option>
+                                                        <option value="3">Stop</option>
+                                                        <option value="4">Not eligible</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>DOSE:</label>
+                                                    <input value="" type="number" name="dose_beta_blocker" id="dose_beta_blocker" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Other anti-hypertensive:</label>
+                                                    <input value="" type="text" name="anti_hypertensive" id="anti_hypertensive" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Action:</label>
+                                                    <select name="action_anti_hypertensive" id="action_anti_hypertensive" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Continue</option>
+                                                        <option value="2">Start</option>
+                                                        <option value="3">Stop</option>
+                                                        <option value="4">Not eligible</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>DOSE:</label>
+                                                    <input value="" class="validate[required]" type="number" name="dose_anti_hypertensive" id="dose_anti_hypertensive" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Benzathine PCN:</label>
+                                                    <input value="" type="text" name="benzathine" id="benzathine" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Action:</label>
+                                                    <select name="action_benzathine" id="action_benzathine" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Continue</option>
+                                                        <option value="2">Start</option>
+                                                        <option value="3">Stop</option>
+                                                        <option value="4">Not eligible</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>DOSE:</label>
+                                                    <input value="" class="validate[required]" type="number" name="dose_benzathine" id="dose_benzathine" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Anticoagulation:</label>
+                                                    <input value="" type="text" name="anticoagulation" id="anticoagulation" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Action:</label>
+                                                    <select name="action_anticoagulation" id="action_anticoagulation" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Continue</option>
+                                                        <option value="2">Start</option>
+                                                        <option value="3">Stop</option>
+                                                        <option value="4">Not eligible</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>DOSE:</label>
+                                                    <input value="" class="validate[required]" type="number" name="dose_anticoagulation" id="dose_anticoagulation" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Other:</label>
+                                                    <input value="" type="text" name="medication_other" id="medication_other" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Action:</label>
+                                                    <select name="action_medication_other" id="action_medication_other" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Continue</option>
+                                                        <option value="2">Start</option>
+                                                        <option value="3">Stop</option>
+                                                        <option value="4">Not eligible</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>DOSE:</label>
+                                                    <input value="" class="validate[required]" type="number" name="dose_medication_other" id="dose_medication_other" />
                                                 </div>
                                             </div>
                                         </div>
@@ -2858,7 +3185,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Diet and Fluid restriction(Salt):</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
+                                                    <input value="" type="text" name="salt" id="salt" />
                                                 </div>
                                             </div>
                                         </div>
@@ -2868,7 +3195,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Diet and Fluid restriction(Fluid):</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
+                                                    <input value="" type="text" name="fluid" id="fluid" />
                                                 </div>
                                             </div>
                                         </div>
@@ -2877,79 +3204,20 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Diet and Fluid restriction(Fluid):</label>
-                                                    <select name="echo" id="fluid" style="width: 100%;" required>
-                                                        <option value="">Select</option>
-                                                        <option value="1">Yes</option>
-                                                        <option value="2">No</option>
-                                                    </select>
+                                                    <label>Diet and Fluid restriction(Other):</label>
+                                                    <input value="" type="text" name="restriction_other" id="restriction_other" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-12">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Social support provided?:</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Type:</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Cardiology referral:</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Date Completed:</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Awaiting surgery:</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col-sm-6">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Any new referrals provided?:</label>
-                                                    <select name="echo" id="fluid" style="width: 100%;" required>
+                                                    <select name="social_support" id="social_support" style="width: 100%;" required>
                                                         <option value="">Select</option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
@@ -2957,497 +3225,584 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-12">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Type:</label>
-                                                    <input value="" class="validate[required]" type="number" name="notify_quantity" id="notify_quantity" />
+                                                    <input value="" style="width: 100%;" type="text" name="social_support_type" id="social_support_type" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-
-                                    <div class="footer tar">
-                                        <input type="submit" name="add_hospitalizaion" value="Submit" class="btn btn-default">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    <?php } elseif ($_GET['id'] == 21) { ?>
-                        <div class="col-md-offset-1 col-md-8">
-                            <div class="head clearfix">
-                                <div class="isw-ok"></div>
-                                <h1>Diagnosis, Complications, & Comorbidities</h1>
-                            </div>
-                            <div class="block-fluid">
-                                <form id="validation" method="post">
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">date</div>
-                                        <div class="col-md-9"><input value="" type="text" name="diagns_date" id="diagns_date" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Has diagnosis been changed or specified?</div>
-                                        <div class="col-md-9">
-                                            <select name="diagns_changed" id="diagns_changed" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="ncd_diagns">
-                                        <div class="col-md-3">If yes, what is the NCD diagnosis?</div>
-                                        <div class="col-md-9">
-                                            <select name="ncd_diagns" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">Cardiomyopathy</option>
-                                                <option value="2">Rheumatic heart disease</option>
-                                                <option value="2">Severe / Uncontrolled HTN</option>
-                                                <option value="2">Hypertensive / Heart Disease</option>
-                                                <option value="2">Congenital Heart Disease</option>
-                                                <option value="2">Right Heart Failure</option>
-                                                <option value="2">Pericardial</option>
-                                                <option value="2">Coronary Artery Disease</option>
-                                                <option value="2">Arrhythmia</option>
-                                                <option value="2">Thromboembolism</option>
-                                                <option value="2">Stroke</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Specify diagnosis</div>
-                                        <div class="col-md-9"><input value="" type="text" name="ncd_diagns_specify" id="ncd_diagns_specify" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="diagns_complication">
-                                        <div class="col-md-3">New complications</div>
-                                        <div class="col-md-9">
-                                            <select name="diagns_complication" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Hypertension</option>
-                                                <option value="2">Diabetes</option>
-                                                <option value="2">CKD</option>
-                                                <option value="2">Depression</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="footer tar">
-                                        <input type="submit" name="add_dgns_complctns_comorbdts" value="Submit" class="btn btn-default">
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    <?php } elseif ($_GET['id'] == 22) { ?>
-                        <div class="col-md-offset-1 col-md-8">
-                            <div class="head clearfix">
-                                <div class="isw-ok"></div>
-                                <h1>RISK</h1>
-                            </div>
-                            <div class="block-fluid">
-                                <form id="validation" method="post">
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">date</div>
-                                        <div class="col-md-9"><input value="" type="text" name="risk_date" id="risk_date" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Tobacco</div>
-                                        <div class="col-md-9">
-                                            <select name="risk_tobacco" id="risk_tobacco" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes, currently</option>
-                                                <option value="2">Yes, in the past</option>
-                                                <option value="3">never</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Alcohol</div>
-                                        <div class="col-md-9">
-                                            <select name="risk_alcohol" id="risk_alcohol" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes, currently</option>
-                                                <option value="2">Yes, in the past</option>
-                                                <option value="3">never</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Employment status</div>
-                                        <div class="col-md-9">
-                                            <select name="risk_employment" id="risk_employment" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Employed</option>
-                                                <option value="2">Self-employed</option>
-                                                <option value="3">Unemployed</option>
-                                                <option value="3">Leave of absence</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">NCD limiting school?</div>
-                                        <div class="col-md-9">
-                                            <select name="ncd_limiting" id="ncd_limiting" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">N/A</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Socioeconomic question</div>
-                                        <div class="col-md-9"><input value="" type="text" name="social_economic" id="social_economic" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">date</div>
-                                        <div class="col-md-9"><input value="" type="text" name="risk_hiv_date" id="risk_hiv_date" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Last HIV test?</div>
-                                        <div class="col-md-9">
-                                            <select name="risk_hiv" id="risk_hiv" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">R</option>
-                                                <option value="2">RN</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="risk_art_date">
-                                        <div class="col-md-3">ART start date</div>
-                                        <div class="col-md-9"><input value="" type="text" name="risk_art_date" /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">date</div>
-                                        <div class="col-md-9"><input value="" type="text" name="risk_tb_date" id="risk_tb_date" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="risk_tb">
-                                        <div class="col-md-3">Last TB screening</div>
-                                        <div class="col-md-9">
-                                            <select name="risk_tb" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">Positive : Smear / Xpert / Other</option>
-                                                <option value="2">Negative : Smear / Xpert / Other</option>
-                                                <option value="3">EPTB</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="footer tar">
-                                        <input type="submit" name="add_risks" value="Submit" class="btn btn-default">
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    <?php } elseif ($_GET['id'] == 23) { ?>
-                        <div class="col-md-offset-1 col-md-8">
-                            <div class="head clearfix">
-                                <div class="isw-ok"></div>
-                                <h1>Hospitalizazions Details</h1>
-                            </div>
-                            <div class="block-fluid">
-                                <form id="validation" method="post">
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">date</div>
-                                        <div class="col-md-9"><input value="" type="text" name="hospitalization_date" id="hospitalization_date" required /> </div>
-                                    </div>
-
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Hospitalized in the last year for this NCD?</div>
-                                        <div class="col-md-9">
-                                            <select name="hospitalization_ncd" id="hospitalization_ncd" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unknown</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="hospitalization_year">
-                                        <div class="col-md-3">If yes , Number of hospitalizations in past year</div>
-                                        <div class="col-md-9"><input value="" type="text" name="hospitalization_year" /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="hospitalization_day">
-                                        <div class="col-md-3">If yes , Number of hospital days in past year</div>
-                                        <div class="col-md-9"><input value="" type="text" name="hospitalization_day" /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Reason for admission</div>
-                                        <div class="col-md-9"><input value="" type="text" name="admission_reason" id="admission_reason" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Discharge Diagnosis</div>
-                                        <div class="col-md-9"><input value="" type="text" name="discharge_diagnosis" id="discharge_diagnosis" required /> </div>
-                                    </div>
-
-                                    <div class="footer tar">
-                                        <input type="submit" name="add_hospitalization_details" value="Submit" class="btn btn-default">
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    <?php } elseif ($_GET['id'] == 24) { ?>
-                        <div class="col-md-offset-1 col-md-8">
-                            <div class="head clearfix">
-                                <div class="isw-ok"></div>
-                                <h1>Lab Details</h1>
-                            </div>
-                            <div class="block-fluid">
-                                <form id="validation" method="post">
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Date</div>
-                                        <div class="col-md-9"><input value="" type="text" name="lab_date" id="lab_date" required /> </div>
-                                    </div>
-
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">NCD coping</div>
-                                        <div class="col-md-9">
-                                            <select name="ncd_coping" id="ncd_coping" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Well</option>
-                                                <option value="2">Some problems</option>
-                                                <option value="3">Poor</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Family planning</div>
-                                        <div class="col-md-9">
-                                            <select name="family_planning" id="family_planning" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Not eligible</option>
-                                                <option value="2">Not interested</option>
-                                                <option value="3">Currently using</option>
-                                                <option value="3">referred</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Na</div>
-                                        <div class="col-md-9"><input value="" type="text" name="na" id="na" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">K</div>
-                                        <div class="col-md-9"><input value="" type="text" name="k" id="k" required /> </div>
-                                    </div>
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">BUN</div>
-                                        <div class="col-md-9"><input value="" type="text" name="bun" id="bun" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Cre</div>
-                                        <div class="col-md-9"><input value="" type="text" name="cre" id="cre" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">BNP</div>
-                                        <div class="col-md-9"><input value="" type="text" name="bnp" id="bnp" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">INR</div>
-                                        <div class="col-md-9"><input value="" type="text" name="inr" id="inr" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">lab_Other:</div>
-                                        <div class="col-md-9"><input value="" type="text" name="lab_Other" id="lab_Other" required /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">ECG</div>
-                                        <div class="col-md-9">
-                                            <select name="lab_ecg" id="lab_ecg" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">NSR</option>
-                                                <option value="2">Other</option>
-                                                <option value="3">Afib</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="lab_ecg_other">
-                                        <div class="col-md-3">Specify:</div>
-                                        <div class="col-md-9"><input value="" type="text" name="lab_ecg_other" /> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Cardiac surgery / intervention?</div>
-                                        <div class="col-md-9">
-                                            <select name="cardiac_surgery" id="cardiac_surgery" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="cardiac_surgery_type">
-                                        <div class="col-md-3">Type:</div>
-                                        <div class="col-md-9"><input value="" type="text" name="cardiac_surgery_type" /> </div>
-                                    </div>
-
-                                    <div class="footer tar">
-                                        <input type="submit" name="add_lab_details" value="Submit" class="btn btn-default">
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    <?php } elseif ($_GET['id'] == 25) { ?>
-                        <div class="col-md-offset-1 col-md-8">
-                            <div class="head clearfix">
-                                <div class="isw-ok"></div>
-                                <h1>Diagnosis</h1>
-                            </div>
-                            <div class="block-fluid">
-                                <form id="validation" method="post">
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Summary Date:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="summary_date" id="summary_date" required /> <span>Example: 2023-01-01</span></div>
-                                    </div>
-
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Type of diagnosis:</div>
-                                        <div class="col-md-9">
-                                            <select name="diagnosis" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">Type 1 Diabetes</option>
-                                                <option value="2">Type 2 Diabetes </option>
-                                                <option value="3">Cardiac</option>
-                                                <option value="4">Sickle Cell Disease </option>
-                                                <option value="5">Respiratory</option>
-                                                <option value="6">Liver</option>
-                                                <option value="7">Kidney</option>
-                                                <option value="8">Other</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="diagnosis_other">
-                                        <div class="col-md-3">If other, Specify:</div>
-                                        <div class="col-md-9"><input value="" type="text" name="diagnosis_other" /></div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Comments:</div>
-                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Outcome</div>
-                                        <div class="col-md-9">
-                                            <select name="outcome" id="outcome" style="width: 100%;" required>
-                                                <option value="">Select</option>
-                                                <option value="1">On treatment</option>
-                                                <option value="2">Default</option>
-                                                <option value="3">Stop Treatment</option>
-                                                <option value="4">Transfer Out</option>
-                                                <option value="5">Death</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!-- <div id="hidden_div" style="display:none;"> -->
-                                    <div id="transfer_to">
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Transfer Out To</div>
-                                            <div class="col-md-9">
-                                                <select name="transfer_out" style="width: 100%;">
-                                                    <option value="">Select</option>
-                                                    <option value="1">Other NCD clinic</option>
-                                                    <option value="2">Referral hospital</option>
-                                                    <option value="3">Other</option>
-                                                </select>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Cardiology referral:</label>
+                                                    <select name="cardiology" id="cardiology" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix" id="transfer_other">
-                                        <div class="col-md-3">If other, Specify:</div>
-                                        <div class="col-md-9"><input value="" type="text" name="transfer_other" /></div>
-                                    </div>
-
-                                    <div id="death">
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Cause of Death</div>
-                                            <div class="col-md-9">
-                                                <select name="cause_death" style="width: 100%;">
-                                                    <option value="">Select</option>
-                                                    <option value="1">NCD</option>
-                                                    <option value="2">Unknown</option>
-                                                    <option value="3">Other</option>
-                                                </select>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Date Completed:</label>
+                                                    <input value="" style="width: 100%;" type="text" name="cardiology_date" id="cardiology_date" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix" id="death_other">
-                                        <div class="col-md-3">If other, Specify:</div>
-                                        <div class="col-md-9"><input value="" type="text" name="death_other" /></div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Awaiting surgery:</label>
+                                                    <select name="awaiting_surgery" id="awaiting_surgery" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Notes for Next Appointment:</div>
-                                        <div class="col-md-9"><input value="" type="text" name="next_appointment_notes" id="next_appointment_notes" required /> <span>Example: 2023-01-01</span></div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Any new referrals provided?:</label>
+                                                    <select name="new_referrals" id="new_referrals" style="width: 100%;" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Next Appointment Date:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="next_appointment" id="next_appointment" required /> <span>Example: 2023-01-01</span></div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Type:</label>
+                                                    <input value="" style="width: 100%;" type="text" name="new_referrals_type" id="new_referrals_type" />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="footer tar">
-                                        <input type="submit" name="add_summary" value="Submit" class="btn btn-default">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Notes:</label>
+                                                    <input value="" style="width: 100%;" type="text" name="medication_notes" id="medication_notes" />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                </form>
                             </div>
 
-                        </div>
-                    <?php } elseif ($_GET['id'] == 26) { ?>
 
-                    <?php } ?>
-                    <div class="dr"><span></span></div>
+                            <div class="footer tar">
+                                <input type="submit" name="add_treatment_plan" value="Submit" class="btn btn-default">
+                            </div>
+                            </form>
+                        </div>
                 </div>
+            <?php } elseif ($_GET['id'] == 21) { ?>
+                <div class="col-md-offset-1 col-md-8">
+                    <div class="head clearfix">
+                        <div class="isw-ok"></div>
+                        <h1>Diagnosis, Complications, & Comorbidities</h1>
+                    </div>
+                    <div class="block-fluid">
+                        <form id="validation" method="post">
 
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">date</div>
+                                <div class="col-md-9"><input value="" type="text" name="diagns_date" id="diagns_date" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Has diagnosis been changed or specified?</div>
+                                <div class="col-md-9">
+                                    <select name="diagns_changed" id="diagns_changed" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="ncd_diagns">
+                                <div class="col-md-3">If yes, what is the NCD diagnosis?</div>
+                                <div class="col-md-9">
+                                    <select name="ncd_diagns" style="width: 100%;">
+                                        <option value="">Select</option>
+                                        <option value="1">Cardiomyopathy</option>
+                                        <option value="2">Rheumatic heart disease</option>
+                                        <option value="2">Severe / Uncontrolled HTN</option>
+                                        <option value="2">Hypertensive / Heart Disease</option>
+                                        <option value="2">Congenital Heart Disease</option>
+                                        <option value="2">Right Heart Failure</option>
+                                        <option value="2">Pericardial</option>
+                                        <option value="2">Coronary Artery Disease</option>
+                                        <option value="2">Arrhythmia</option>
+                                        <option value="2">Thromboembolism</option>
+                                        <option value="2">Stroke</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Specify diagnosis</div>
+                                <div class="col-md-9"><input value="" type="text" name="ncd_diagns_specify" id="ncd_diagns_specify" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="diagns_complication">
+                                <div class="col-md-3">New complications</div>
+                                <div class="col-md-9">
+                                    <select name="diagns_complication" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Hypertension</option>
+                                        <option value="2">Diabetes</option>
+                                        <option value="2">CKD</option>
+                                        <option value="2">Depression</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="footer tar">
+                                <input type="submit" name="add_dgns_complctns_comorbdts" value="Submit" class="btn btn-default">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            <?php } elseif ($_GET['id'] == 22) { ?>
+                <div class="col-md-offset-1 col-md-8">
+                    <div class="head clearfix">
+                        <div class="isw-ok"></div>
+                        <h1>RISK</h1>
+                    </div>
+                    <div class="block-fluid">
+                        <form id="validation" method="post">
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">date</div>
+                                <div class="col-md-9"><input value="" type="text" name="risk_date" id="risk_date" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Tobacco</div>
+                                <div class="col-md-9">
+                                    <select name="risk_tobacco" id="risk_tobacco" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes, currently</option>
+                                        <option value="2">Yes, in the past</option>
+                                        <option value="3">never</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Alcohol</div>
+                                <div class="col-md-9">
+                                    <select name="risk_alcohol" id="risk_alcohol" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes, currently</option>
+                                        <option value="2">Yes, in the past</option>
+                                        <option value="3">never</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Employment status</div>
+                                <div class="col-md-9">
+                                    <select name="risk_employment" id="risk_employment" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Employed</option>
+                                        <option value="2">Self-employed</option>
+                                        <option value="3">Unemployed</option>
+                                        <option value="3">Leave of absence</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">NCD limiting school?</div>
+                                <div class="col-md-9">
+                                    <select name="ncd_limiting" id="ncd_limiting" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="3">N/A</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Socioeconomic question</div>
+                                <div class="col-md-9"><input value="" type="text" name="social_economic" id="social_economic" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">date</div>
+                                <div class="col-md-9"><input value="" type="text" name="risk_hiv_date" id="risk_hiv_date" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Last HIV test?</div>
+                                <div class="col-md-9">
+                                    <select name="risk_hiv" id="risk_hiv" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">R</option>
+                                        <option value="2">RN</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="risk_art_date">
+                                <div class="col-md-3">ART start date</div>
+                                <div class="col-md-9"><input value="" type="text" name="risk_art_date" /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">date</div>
+                                <div class="col-md-9"><input value="" type="text" name="risk_tb_date" id="risk_tb_date" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="risk_tb">
+                                <div class="col-md-3">Last TB screening</div>
+                                <div class="col-md-9">
+                                    <select name="risk_tb" style="width: 100%;">
+                                        <option value="">Select</option>
+                                        <option value="1">Positive : Smear / Xpert / Other</option>
+                                        <option value="2">Negative : Smear / Xpert / Other</option>
+                                        <option value="3">EPTB</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="footer tar">
+                                <input type="submit" name="add_risks" value="Submit" class="btn btn-default">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            <?php } elseif ($_GET['id'] == 23) { ?>
+                <div class="col-md-offset-1 col-md-8">
+                    <div class="head clearfix">
+                        <div class="isw-ok"></div>
+                        <h1>Hospitalizazions Details</h1>
+                    </div>
+                    <div class="block-fluid">
+                        <form id="validation" method="post">
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">date</div>
+                                <div class="col-md-9"><input value="" type="text" name="hospitalization_date" id="hospitalization_date" required /> </div>
+                            </div>
+
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Hospitalized in the last year for this NCD?</div>
+                                <div class="col-md-9">
+                                    <select name="hospitalization_ncd" id="hospitalization_ncd" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="3">Unknown</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="hospitalization_year">
+                                <div class="col-md-3">If yes , Number of hospitalizations in past year</div>
+                                <div class="col-md-9"><input value="" type="text" name="hospitalization_year" /> </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="hospitalization_day">
+                                <div class="col-md-3">If yes , Number of hospital days in past year</div>
+                                <div class="col-md-9"><input value="" type="text" name="hospitalization_day" /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Reason for admission</div>
+                                <div class="col-md-9"><input value="" type="text" name="admission_reason" id="admission_reason" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Discharge Diagnosis</div>
+                                <div class="col-md-9"><input value="" type="text" name="discharge_diagnosis" id="discharge_diagnosis" required /> </div>
+                            </div>
+
+                            <div class="footer tar">
+                                <input type="submit" name="add_hospitalization_details" value="Submit" class="btn btn-default">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            <?php } elseif ($_GET['id'] == 24) { ?>
+                <div class="col-md-offset-1 col-md-8">
+                    <div class="head clearfix">
+                        <div class="isw-ok"></div>
+                        <h1>Lab Details</h1>
+                    </div>
+                    <div class="block-fluid">
+                        <form id="validation" method="post">
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Date</div>
+                                <div class="col-md-9"><input value="" type="text" name="lab_date" id="lab_date" required /> </div>
+                            </div>
+
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">NCD coping</div>
+                                <div class="col-md-9">
+                                    <select name="ncd_coping" id="ncd_coping" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Well</option>
+                                        <option value="2">Some problems</option>
+                                        <option value="3">Poor</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Family planning</div>
+                                <div class="col-md-9">
+                                    <select name="family_planning" id="family_planning" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Not eligible</option>
+                                        <option value="2">Not interested</option>
+                                        <option value="3">Currently using</option>
+                                        <option value="3">referred</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Na</div>
+                                <div class="col-md-9"><input value="" type="text" name="na" id="na" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">K</div>
+                                <div class="col-md-9"><input value="" type="text" name="k" id="k" required /> </div>
+                            </div>
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">BUN</div>
+                                <div class="col-md-9"><input value="" type="text" name="bun" id="bun" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Cre</div>
+                                <div class="col-md-9"><input value="" type="text" name="cre" id="cre" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">BNP</div>
+                                <div class="col-md-9"><input value="" type="text" name="bnp" id="bnp" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">INR</div>
+                                <div class="col-md-9"><input value="" type="text" name="inr" id="inr" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">lab_Other:</div>
+                                <div class="col-md-9"><input value="" type="text" name="lab_Other" id="lab_Other" required /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">ECG</div>
+                                <div class="col-md-9">
+                                    <select name="lab_ecg" id="lab_ecg" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">NSR</option>
+                                        <option value="2">Other</option>
+                                        <option value="3">Afib</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="lab_ecg_other">
+                                <div class="col-md-3">Specify:</div>
+                                <div class="col-md-9"><input value="" type="text" name="lab_ecg_other" /> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Cardiac surgery / intervention?</div>
+                                <div class="col-md-9">
+                                    <select name="cardiac_surgery" id="cardiac_surgery" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="cardiac_surgery_type">
+                                <div class="col-md-3">Type:</div>
+                                <div class="col-md-9"><input value="" type="text" name="cardiac_surgery_type" /> </div>
+                            </div>
+
+                            <div class="footer tar">
+                                <input type="submit" name="add_lab_details" value="Submit" class="btn btn-default">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            <?php } elseif ($_GET['id'] == 25) { ?>
+                <div class="col-md-offset-1 col-md-8">
+                    <div class="head clearfix">
+                        <div class="isw-ok"></div>
+                        <h1>Diagnosis</h1>
+                    </div>
+                    <div class="block-fluid">
+                        <form id="validation" method="post">
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Summary Date:</div>
+                                <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="summary_date" id="summary_date" required /> <span>Example: 2023-01-01</span></div>
+                            </div>
+
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Type of diagnosis:</div>
+                                <div class="col-md-9">
+                                    <select name="diagnosis" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">Type 1 Diabetes</option>
+                                        <option value="2">Type 2 Diabetes </option>
+                                        <option value="3">Cardiac</option>
+                                        <option value="4">Sickle Cell Disease </option>
+                                        <option value="5">Respiratory</option>
+                                        <option value="6">Liver</option>
+                                        <option value="7">Kidney</option>
+                                        <option value="8">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="diagnosis_other">
+                                <div class="col-md-3">If other, Specify:</div>
+                                <div class="col-md-9"><input value="" type="text" name="diagnosis_other" /></div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Comments:</div>
+                                <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Outcome</div>
+                                <div class="col-md-9">
+                                    <select name="outcome" id="outcome" style="width: 100%;" required>
+                                        <option value="">Select</option>
+                                        <option value="1">On treatment</option>
+                                        <option value="2">Default</option>
+                                        <option value="3">Stop Treatment</option>
+                                        <option value="4">Transfer Out</option>
+                                        <option value="5">Death</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- <div id="hidden_div" style="display:none;"> -->
+                            <div id="transfer_to">
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Transfer Out To</div>
+                                    <div class="col-md-9">
+                                        <select name="transfer_out" style="width: 100%;">
+                                            <option value="">Select</option>
+                                            <option value="1">Other NCD clinic</option>
+                                            <option value="2">Referral hospital</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="transfer_other">
+                                <div class="col-md-3">If other, Specify:</div>
+                                <div class="col-md-9"><input value="" type="text" name="transfer_other" /></div>
+                            </div>
+
+                            <div id="death">
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Cause of Death</div>
+                                    <div class="col-md-9">
+                                        <select name="cause_death" style="width: 100%;">
+                                            <option value="">Select</option>
+                                            <option value="1">NCD</option>
+                                            <option value="2">Unknown</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row-form clearfix" id="death_other">
+                                <div class="col-md-3">If other, Specify:</div>
+                                <div class="col-md-9"><input value="" type="text" name="death_other" /></div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Notes for Next Appointment:</div>
+                                <div class="col-md-9"><input value="" type="text" name="next_appointment_notes" id="next_appointment_notes" required /> <span>Example: 2023-01-01</span></div>
+                            </div>
+
+                            <div class="row-form clearfix">
+                                <div class="col-md-3">Next Appointment Date:</div>
+                                <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="next_appointment" id="next_appointment" required /> <span>Example: 2023-01-01</span></div>
+                            </div>
+
+                            <div class="footer tar">
+                                <input type="submit" name="add_summary" value="Submit" class="btn btn-default">
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            <?php } elseif ($_GET['id'] == 26) { ?>
+
+            <?php } ?>
+            <div class="dr"><span></span></div>
             </div>
+
         </div>
+    </div>
     </div>
 
 

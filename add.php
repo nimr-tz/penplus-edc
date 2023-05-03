@@ -1907,7 +1907,9 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                    <?php if (!$override->get4('clients', 'id', $_GET['cid'], 'age')) { ?>
+                                    <?php
+                                    if (!$override->get4('clients', 'id', $_GET['cid'], 'age')) {
+                                    ?>
 
                                         <div id="child">
                                             <div class="row-form clearfix">
@@ -1963,13 +1965,15 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                        <?php } ?>
+                                        <?php
+                                    }
+                                        ?>
 
 
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">Patient referred from:</div>
                                             <div class="col-md-9">
-                                                <select name="referred" style="width: 100%;" required>
+                                                <select id="referred" name="referred" style="width: 100%;" required>
                                                     <option value="<?= $demographic['referred'] ?>"><?php if ($demographic) {
                                                                                                         if ($demographic['referred'] == 1) {
                                                                                                             echo 'Inpatient / hospital stay';
@@ -2112,12 +2116,9 @@ if ($user->isLoggedIn()) {
 
                                     <div class="col-sm-12">
                                         <div class="row-form clearfix">
-                                            <!-- select -->
                                             <div class="form-group">
-                                                <label>BMI:</label>
-                                                <input type="text" name="bmi" id="bmi" value="<?php if ($vital['bmi']) {
-                                                                                                    print_r($vital['bmi']);
-                                                                                                }  ?>" />
+                                                <label>BMI</label>
+                                                <span id="bmi"></span>&nbsp;&nbsp;kg/m2
                                             </div>
                                         </div>
                                     </div>
@@ -2162,6 +2163,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="footer tar">
+                                        <input type="hidden" name="bmi" value="<?= $vital['bmi'] ?>">
                                         <input type="submit" name="add_vital" value="Submit" class="btn btn-default">
                                     </div>
                                 </form>
@@ -2185,7 +2187,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Vital Signs Date</label>
+                                                    <label>Date</label>
                                                     <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($history['visit_date']) {
                                                                                                                                                             print_r($history['visit_date']);
                                                                                                                                                         }  ?>" />
@@ -2201,13 +2203,13 @@ if ($user->isLoggedIn()) {
                                                     <select name="disease" style="width: 100%;" required>
                                                         <option value="<?= $history['disease'] ?>"><?php if ($history) {
                                                                                                         if ($history['disease'] == 1) {
-                                                                                                            echo 'Male';
+                                                                                                            echo 'Hypertension';
                                                                                                         } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Female';
+                                                                                                            echo 'Diabetes';
                                                                                                         } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'Female';
+                                                                                                            echo 'CKD';
                                                                                                         } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Female';
+                                                                                                            echo 'Depression';
                                                                                                         }
                                                                                                     } else {
                                                                                                         echo 'Select';
@@ -2263,7 +2265,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="form-group">
                                                     <label>TB</label>
                                                     <select name="tb" id="tb" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
+                                                        <option value="<?= $history['tb'] ?>"><?php if ($history) {
                                                                                                         if ($history['tb'] == 1) {
                                                                                                             echo 'Smear pos';
                                                                                                         } elseif ($history['tb'] == 2) {
@@ -2337,7 +2339,7 @@ if ($user->isLoggedIn()) {
 
 
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4" id="active_smoker">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Active smoker</label>
@@ -2393,7 +2395,6 @@ if ($user->isLoggedIn()) {
                                                     <input type="text" name="quantity" value="<?php if ($history['quantity']) {
                                                                                                     print_r($history['quantity']);
                                                                                                 }  ?>" />
-                                                    <span>Example: 2010-12-01</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -4785,26 +4786,26 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-9">
                                             <select name="diagnosis" id="diagnosis" style="width: 100%;" required>
                                                 <option value="<?= $summary['diagnosis'] ?>"><?php if ($summary) {
-                                                                                                        if ($summary['diagnosis'] == 1) {
-                                                                                                            echo 'Type 1 Diabetes';
-                                                                                                        } elseif ($summary['diagnosis'] == 2) {
-                                                                                                            echo 'Type 2 Diabetes';
-                                                                                                        } elseif ($summary['diagnosis'] == 3) {
-                                                                                                            echo 'Cardiac';
-                                                                                                        } elseif ($summary['diagnosis'] == 4) {
-                                                                                                            echo 'Sickle Cell Disease ';
-                                                                                                        } elseif ($summary['diagnosis'] == 5) {
-                                                                                                            echo 'Respiratory';
-                                                                                                        } elseif ($summary['diagnosis'] == 6) {
-                                                                                                            echo 'Liver';
-                                                                                                        } elseif ($summary['diagnosis'] == 7) {
-                                                                                                            echo 'Kidney';
-                                                                                                        } elseif ($summary['diagnosis'] == 8) {
-                                                                                                            echo 'Other';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?>
+                                                                                                    if ($summary['diagnosis'] == 1) {
+                                                                                                        echo 'Type 1 Diabetes';
+                                                                                                    } elseif ($summary['diagnosis'] == 2) {
+                                                                                                        echo 'Type 2 Diabetes';
+                                                                                                    } elseif ($summary['diagnosis'] == 3) {
+                                                                                                        echo 'Cardiac';
+                                                                                                    } elseif ($summary['diagnosis'] == 4) {
+                                                                                                        echo 'Sickle Cell Disease ';
+                                                                                                    } elseif ($summary['diagnosis'] == 5) {
+                                                                                                        echo 'Respiratory';
+                                                                                                    } elseif ($summary['diagnosis'] == 6) {
+                                                                                                        echo 'Liver';
+                                                                                                    } elseif ($summary['diagnosis'] == 7) {
+                                                                                                        echo 'Kidney';
+                                                                                                    } elseif ($summary['diagnosis'] == 8) {
+                                                                                                        echo 'Other';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?>
                                                 </option>
                                                 <option value="1">Type 1 Diabetes</option>
                                                 <option value="2">Type 2 Diabetes </option>
@@ -4843,20 +4844,20 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-9">
                                             <select name="outcome" id="outcome" style="width: 100%;" required>
                                                 <option value="<?= $summary['outcome'] ?>"><?php if ($summary) {
-                                                                                                    if ($summary['outcome'] == 1) {
-                                                                                                        echo 'On treatment';
-                                                                                                    } elseif ($summary['outcome'] == 2) {
-                                                                                                        echo 'Default';
-                                                                                                    } elseif ($summary['outcome'] == 3) {
-                                                                                                        echo 'Stop Treatment';
-                                                                                                    } elseif ($summary['outcome'] == 4) {
-                                                                                                        echo 'Transfer Out';
-                                                                                                    } elseif ($summary['outcome'] == 5) {
-                                                                                                        echo 'Death';
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    echo 'Select';
-                                                                                                } ?>
+                                                                                                if ($summary['outcome'] == 1) {
+                                                                                                    echo 'On treatment';
+                                                                                                } elseif ($summary['outcome'] == 2) {
+                                                                                                    echo 'Default';
+                                                                                                } elseif ($summary['outcome'] == 3) {
+                                                                                                    echo 'Stop Treatment';
+                                                                                                } elseif ($summary['outcome'] == 4) {
+                                                                                                    echo 'Transfer Out';
+                                                                                                } elseif ($summary['outcome'] == 5) {
+                                                                                                    echo 'Death';
+                                                                                                }
+                                                                                            } else {
+                                                                                                echo 'Select';
+                                                                                            } ?>
                                                 </option>
                                                 <<option value="1">On treatment</option>
                                                     <option value="2">Default</option>
@@ -4874,16 +4875,16 @@ if ($user->isLoggedIn()) {
                                             <div class="col-md-9">
                                                 <select name="transfer_out" id="transfer_out" style="width: 100%;">
                                                     <option value="<?= $summary['transfer_out'] ?>"><?php if ($summary) {
-                                                                                                            if ($summary['transfer_out'] == 1) {
-                                                                                                                echo 'Other NCD clinic';
-                                                                                                            } elseif ($summary['transfer_out'] == 2) {
-                                                                                                                echo 'Referral hospital';
-                                                                                                            } elseif ($summary['transfer_out'] == 3) {
-                                                                                                                echo 'Other';
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            echo 'Select';
-                                                                                                        } ?>
+                                                                                                        if ($summary['transfer_out'] == 1) {
+                                                                                                            echo 'Other NCD clinic';
+                                                                                                        } elseif ($summary['transfer_out'] == 2) {
+                                                                                                            echo 'Referral hospital';
+                                                                                                        } elseif ($summary['transfer_out'] == 3) {
+                                                                                                            echo 'Other';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
                                                     </option>
                                                     <option value="1">Other NCD clinic</option>
                                                     <option value="2">Referral hospital</option>
@@ -4908,16 +4909,16 @@ if ($user->isLoggedIn()) {
                                             <div class="col-md-9">
                                                 <select name="cause_death" id="cause_death" style="width: 100%;">
                                                     <option value="<?= $summary['cause_death'] ?>"><?php if ($summary) {
-                                                                                                            if ($summary['cause_death'] == 1) {
-                                                                                                                echo 'NCD';
-                                                                                                            } elseif ($summary['cause_death'] == 2) {
-                                                                                                                echo 'Unknown';
-                                                                                                            } elseif ($summary['cause_death'] == 3) {
-                                                                                                                echo 'Other';
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            echo 'Select';
-                                                                                                        } ?>
+                                                                                                        if ($summary['cause_death'] == 1) {
+                                                                                                            echo 'NCD';
+                                                                                                        } elseif ($summary['cause_death'] == 2) {
+                                                                                                            echo 'Unknown';
+                                                                                                        } elseif ($summary['cause_death'] == 3) {
+                                                                                                            echo 'Other';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
                                                     </option>
                                                     <option value="1">NCD</option>
                                                     <option value="2">Unknown</option>
@@ -4989,6 +4990,15 @@ if ($user->isLoggedIn()) {
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+
+        $('#weight, #height').on('input', function() {
+            setTimeout(function() {
+                var weight = $('#weight').val();
+                var height = $('#height').val() / 100; // Convert cm to m
+                var bmi = weight / (height * height);
+                $('#bmi').text(bmi.toFixed(2));
+            }, 1);
+        });
 
         $(document).ready(function() {
             $('#fl_wait').hide();
@@ -5109,75 +5119,131 @@ if ($user->isLoggedIn()) {
             }
         });
 
+        if ($('#referred').val() === "7") {
+            $('#referred_other').show();
+            $('#referred').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "7") {
+                    $('#referred_other').show();
+                } else {
+                    $('#referred_other').hide();
+                }
+            });
+        } else {
+            $('#referred_other').hide();
+            $('#referred').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "7") {
+                    $('#referred_other').show();
+                }
+            });
+        }
 
-        $('#referred_other').hide();
-        $('#referred').change(function() {
-            var getUid = $(this).val();
-            if (getUid === "7") {
-                $('#referred_other').show();
-            } else {
-                $('#referred_other').hide();
-            }
-        });
 
-        $('#art_date').hide();
-        $('#hiv').change(function() {
-            var getUid = $(this).val();
-            if (getUid === "1") {
-                $('#art_date').show();
-            } else {
-                $('#art_date').val("NULL");
-                $('#art_date').hide();
-            }
-        });
+        if ($('#hiv').val() === "1") {
+            $('#art_date').show();
+            $('#hiv').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "1") {
+                    $('#art_date').show();
+                } else {
+                    $('#art_date').hide();
+                }
+            });
+        } else {
+            $('#art_date').hide();
+            $('#hiv').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "1") {
+                    $('#art_date').show();
+                }
+            });
+        }
 
-        $('#tb_year').hide();
-        $('#tb').change(function() {
-            var getUid = $(this).val();
-            if (getUid != "4") {
-                $('#tb_year').show();
-            } else {
-                $('#tb_year').val("NULL");
-                $('#tb_year').hide();
-            }
-        });
+        if ($('#tb').val() != "4") {
+            $('#tb_year').show();
+            $('#tb').change(function() {
+                var getUid = $(this).val();
+                if (getUid != "4") {
+                    $('#tb_year').show();
+                } else {
+                    $('#tb_year').hide();
+                }
+            });
+        } else {
+            $('#tb_year').hide();
+            $('#tb').change(function() {
+                var getUid = $(this).val();
+                if (getUid != "4") {
+                    $('#tb_year').show();
+                }
+            });
+        }
 
-        $('#active_smoker').hide();
-        $('#packs').hide();
-        $('#smoking').change(function() {
-            var getUid = $(this).val();
-            if (getUid === "1") {
-                $('#active_smoker').show();
-                $('#packs').show();
-            } else {
-                $('#active_smoker').val("NULL");
-                $('#packs').val("NULL");
-                $('#active_smoker').hide();
-                $('#packs').hide();
-            }
-        });
+        if ($('#smoking').val() === "1") {
+            $('#active_smoker').show();
+            $('#packs').show();
+            $('#smoking').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "1") {
+                    $('#active_smoker').show();
+                    $('#packs').show();
+                } else {
+                    $('#active_smoker').hide();
+                    $('#packs').hide();
+                }
+            });
+        } else {
+            $('#active_smoker').hide();
+            $('#packs').hide();
+            $('#smoking').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "1") {
+                    $('#active_smoker').show();
+                    $('#packs').show();
+                }
+            });
+        }
 
-        $('#quantity').hide();
-        $('#alcohol').change(function() {
-            var getUid = $(this).val();
-            if (getUid != "3") {
-                $('#quantity').show();
-            } else {
-                $('#quantity').val("NULL");
-                $('#quantity').hide();
-            }
-        });
+        if ($('#alcohol').val() != "3") {
+            $('#quantity').show();
+            $('#alcohol').change(function() {
+                var getUid = $(this).val();
+                if (getUid != "3") {
+                    $('#quantity').show();
+                } else {
+                    $('#quantity').hide();
+                }
+            });
+        } else {
+            $('#quantity').hide();
+            $('#alcohol').change(function() {
+                var getUid = $(this).val();
+                if (getUid != "3") {
+                    $('#quantity').show();
+                } 
+            });
+        }
 
-        $('#surgery_other').hide();
-        $('#cardiac_surgery').change(function() {
-            var getUid = $(this).val();
-            if (getUid === "1") {
-                $('#surgery_other').show();
-            } else {
-                $('#surgery_other').val("NULL");
-                $('#surgery_other').hide();
-            }
-        });
+        if ($('#cardiac_surgery').val() === "1") {
+            $('#surgery_other').show();
+            $('#cardiac_surgery').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "1") {
+                    $('#surgery_other').show();
+                } else {
+                    $('#surgery_other').hide();
+                }
+            });
+        } else {
+            $('#surgery_other').hide();
+            $('#cardiac_surgery').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "1") {
+                    $('#surgery_other').show();
+                } 
+            });
+        }
 
         $('#Other').hide();
         $('#lungs').change(function() {

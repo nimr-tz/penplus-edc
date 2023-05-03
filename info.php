@@ -1222,7 +1222,6 @@ if ($user->isLoggedIn()) {
 
                                                 <td>
                                                     <?php if ($_GET['status'] == 1) { ?>
-
                                                         <a href="#clientView<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
                                                         <?php if ($user->data()->accessLevel == 1) { ?>
                                                             <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
@@ -1907,15 +1906,19 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Demographic</td>
-                                            <?php if ($override->get('demographic', 'patient_id', $_GET['cid'])) { ?>
-                                                <td><a href="add.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success" disabled> Change </a> </td>
-                                            <?php } else { ?>
-                                                <td><a href="add.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning" disabled> Add </a> </td>
-                                            <?php } ?>
-                                        </tr>
+                                        <?php if ($_GET['seq'] == 1) { ?>
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Demographic</td>
+                                                <?php if ($override->get('demographic', 'patient_id', $_GET['cid'])) { ?>
+                                                    <td><a href="add.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success" disabled> Change </a> </td>
+                                                <?php } else { ?>
+                                                    <td><a href="add.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning" disabled> Add </a> </td>
+                                                <?php } ?>
+                                            </tr>
+
+                                        <?php }  ?>
 
                                         <tr>
                                             <td>2</td>

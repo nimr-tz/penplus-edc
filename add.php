@@ -198,6 +198,7 @@ if ($user->isLoggedIn()) {
                         ));
 
                         $successMessage = 'Client Added Successful';
+                        Redirect::to('info.php?id=3');
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());

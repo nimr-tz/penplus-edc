@@ -4,9 +4,9 @@ session_start();
 $GLOBALS['config'] = array(
   'mysql' => array(
       'host' => 'localhost',
-      'username' => '',
-      'password' => '',
-      'db' => ''
+      'username' => 'root',
+      'password' => 'Data@2020',
+      'db' => 'penplus'
   	),
   'remember' =>array(
       'cookie_name' => 'hash',

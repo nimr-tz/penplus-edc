@@ -48,21 +48,6 @@ if ($user->data()->accessLevel == 1) {
                     </li>
                 </ul>
             </li>
-<!--            <li class="openable">-->
-<!--                <a href="#"><span class="isw-user"></span><span class="text">Pre Screening</span></a>-->
-<!--                <ul>-->
-<!--                    <li>-->
-<!--                        <a href="add.php?id=8">-->
-<!--                            <span class="glyphicon glyphicon-user"></span><span class="text">Add pre-screening</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="info.php?id=6">-->
-<!--                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Pre-screening List</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </li>-->
             <li class="openable">
                 <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
                 <ul>
@@ -72,7 +57,7 @@ if ($user->data()->accessLevel == 1) {
                         </a>
                     </li>
                     <li>
-                        <a href="info.php?id=3">
+                        <a href="info.php?id=3&status=1">
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
                         </a>
                     </li>
@@ -119,6 +104,16 @@ if ($user->data()->accessLevel == 1) {
                         </a>
                     </li>
                     <li>
+                        <a href="add.php?id=26">
+                            <span class="glyphicon glyphicon-list"></span><span class="text">Add Schedule</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=8">
+                            <span class="glyphicon glyphicon-list"></span><span class="text">Clear Data on Table</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="info.php?id=2">
                             <span class="glyphicon glyphicon-share"></span><span class="text">Manage</span>
                         </a>
@@ -150,7 +145,7 @@ if ($user->data()->accessLevel == 1) {
                         </a>
                     </li>
                     <li>
-                        <a href="info.php?id=3">
+                        <a href="info.php?id=3&status=1">
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
                         </a>
                     </li>
@@ -246,5 +241,4 @@ if ($user->data()->accessLevel == 1) {
             </div>
         </div>
     </div>
-
 </div>

@@ -302,7 +302,8 @@ if ($user->isLoggedIn()) {
                     }
 
                     $user->updateRecord('clients', array(
-                        'eligible' => $eligibility
+                        'eligible' => $eligibility,
+                        'screened' => 1,
                     ), Input::get('id'));
 
                     $successMessage = 'Patient Successful Screened';
@@ -1140,8 +1141,16 @@ if ($user->isLoggedIn()) {
                                             $screening = $override->get('screening', 'patient_id', $client['id'])[0];
                                             $visit = $override->getCount('visit', 'client_id', $client['id']);
                                             $visits = $override->get('visit', 'client_id', $client['id'])[0];
+                                            $screened = 0;
                                             $eligibility = 0;
                                             $enrollment = 0;
+
+                                            if ($client) {
+                                                if ($client['screened']) {
+                                                    $screened = 1;
+                                                }
+                                            }
+
                                             if ($client) {
                                                 if ($client['eligible']) {
                                                     $eligibility = 1;
@@ -1153,6 +1162,8 @@ if ($user->isLoggedIn()) {
                                                     $enrollment = 1;
                                                 }
                                             }
+
+
                                         ?>
                                             <tr>
                                                 <td>
@@ -1190,7 +1201,7 @@ if ($user->isLoggedIn()) {
                                                         </td>
                                                     <?php } else { ?>
                                                         <td>
-                                                            <a href="#" role="button" class="btn btn-warning" data-toggle="modal">NOT ELIGIBLE</a>
+                                                            <a href="#" role="button" class="btn btn-danger" data-toggle="modal">NOT ELIGIBLE</a>
                                                         </td>
                                                     <?php }
                                                 } else {
@@ -1201,7 +1212,7 @@ if ($user->isLoggedIn()) {
                                                         </td>
                                                     <?php } else { ?>
                                                         <td>
-                                                            <a href="#" role="button" class="btn btn-warning" data-toggle="modal">NOT Enrolled</a>
+                                                            <a href="#" role="button" class="btn btn-danger" data-toggle="modal">NOT Enrolled</a>
                                                         </td>
                                                 <?php
 
@@ -1218,17 +1229,12 @@ if ($user->isLoggedIn()) {
                                                             <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                         <?php } ?>
 
-                                                        <a href="add.php?id=4&cid=<?= $client['id'] ?>" class="btn btn-warning">Edit Client</a>
-                                                        <?php if ($screening) { ?>
-                                                            <?php if ($eligibility == 1) { ?>
-                                                                <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Screening</a>
-                                                            <?php } else {  ?>
-                                                                <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Screening</a>
-                                                            <?php }
-                                                        } else { ?>
+                                                        <a href="add.php?id=4&cid=<?= $client['id'] ?>" class="btn btn-info">Edit Client</a>
+                                                        <?php if ($screened) { ?>
+                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Screening</a>
+                                                        <?php } else {  ?>
                                                             <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Screening</a>
-                                                    <?php
-                                                        }
+                                                    <?php }
                                                     } ?>
 
                                                     <?php if ($_GET['status'] == 2) { ?>

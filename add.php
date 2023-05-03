@@ -2658,7 +2658,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="form-group">
                                                     <label>Lungs</label>
                                                     <select name="lungs" id="lungs" style="width: 100%;" required>
-                                                        <option value="<?= $symptoms['edema'] ?>"><?php if ($symptoms) {
+                                                        <option value="<?= $symptoms['lungs'] ?>"><?php if ($symptoms) {
                                                                                                         if ($symptoms['lungs'] == 1) {
                                                                                                             echo 'Clear';
                                                                                                         } elseif ($symptoms['lungs'] == 2) {
@@ -2687,12 +2687,12 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row">
 
-                                        <div class="col-sm-3" id="Other">
+                                        <div class="col-sm-3" id="lungs_Other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other specify:</label>
-                                                    <input type="text" name="Other" id="Other" value="<?php if ($symptoms['Other']) {
+                                                    <input type="text" name="Other" value="<?php if ($symptoms['Other']) {
                                                                                                             print_r($symptoms['Other']);
                                                                                                         }  ?>" />
                                                 </div>
@@ -2704,7 +2704,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="form-group">
                                                     <label>JVP</label>
                                                     <select name="jvp" id="jvp" style="width: 100%;" required>
-                                                        <option value="<?= $symptoms['cough'] ?>"><?php if ($symptoms) {
+                                                        <option value="<?= $symptoms['jvp'] ?>"><?php if ($symptoms) {
                                                                                                         if ($symptoms['jvp'] == 1) {
                                                                                                             echo 'Elevated';
                                                                                                         } elseif ($symptoms['jvp'] == 2) {
@@ -5245,15 +5245,25 @@ if ($user->isLoggedIn()) {
             });
         }
 
-        $('#Other').hide();
-        $('#lungs').change(function() {
-            var getUid = $(this).val();
-            if (getUid === "5") {
-                $('#Other').show();
-            } else {
-                $('#Other').hide();
-            }
-        });
+        if ($('#lungs').val() === "5") {
+            $('#lungs_Other').show();
+            $('#lungs').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "5") {
+                    $('#lungs_Other').show();
+                } else {
+                    $('#lungs_Other').hide();
+                }
+            });
+        } else {
+            $('#lungs_Other').hide();
+            $('#lungs').change(function() {
+                var getUid = $(this).val();
+                if (getUid === "5") {
+                    $('#lungs_Other').show();
+                } 
+            });
+        }
 
 
         $('#cardiac').change(function() {

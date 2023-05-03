@@ -494,12 +494,16 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    if(Input::get('name') == 'user' || Input::get('name') == 'schedule' || Input::get('name') == 'study_id'){
-                        $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Cleared';
+                    if (Input::get('name')) {
+                        if (Input::get('name') == 'user' || Input::get('name') == 'schedule' || Input::get('name') == 'study_id') {
+                            $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Cleared';
+                        } else {
+                            $clearData = $override->clearDataTable(Input::get('name'));
+                        }
+                        $successMessage = 'Table ' . '"' . Input::get('name') . '"' . ' Cleared Successfull';
                     }else{
-                        $clearData = $override->clearDataTable(Input::get('name'));
+                        $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Found!';
                     }
-                    $successMessage = 'Table ' . '"' . Input::get('name') . '"' . ' Cleared Successfull';
                     // die;
                 } catch (Exception $e) {
                     die($e->getMessage());

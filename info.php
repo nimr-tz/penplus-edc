@@ -494,9 +494,13 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $clearData = $override->clearDataTable(Input::get('name'));
-
+                    if(Input::get('name') == 'user' || Input::get('name') == 'schedule' || Input::get('name') == 'study_id'){
+                        $errorMessage = 'Table  can not be Cleared';
+                    }else{
+                        $clearData = $override->clearDataTable(Input::get('name'));
+                    }
                     $successMessage = 'Table  Cleared Successful';
+                    // die;
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }

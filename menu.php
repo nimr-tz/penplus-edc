@@ -241,5 +241,4 @@ if ($user->data()->accessLevel == 1) {
             </div>
         </div>
     </div>
-
 </div>

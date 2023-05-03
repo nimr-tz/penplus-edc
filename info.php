@@ -1169,7 +1169,11 @@ if ($user->isLoggedIn()) {
                                                 </td>
                                                 <td><?= $client['study_id'] ?></td>
                                                 <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
-                                                <td><?= $client['gender'] ?></td>
+                                                <?php if ($client['gender'] == 1) { ?>
+                                                    <td>MALE </td>
+                                                <?php } else { ?>
+                                                    <td>FEMALE </td>
+                                                <?php } ?>
                                                 <td><?= $client['age'] ?></td>
                                                 <?php if ($client['site_id'] == 1) { ?>
                                                     <td>KONDOA </td>

@@ -132,7 +132,11 @@ if ($user->isLoggedIn()) {
                                                 <td><?= $client['participant_id'] ?></td>
                                                 <td><?= $client['study_id'] ?></td>
                                                 <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
-                                                <td><?= $client['gender'] ?></td>
+                                                <?php if ($client['gender'] == 1) { ?>
+                                                    <td>MALE </td>
+                                                <?php } else { ?>
+                                                    <td>FEMALE </td>
+                                                <?php } ?>
                                                 <td><?= $client['age'] ?></td>
                                                 <td>
                                                     <a href="info.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-warning">Schedule</a>

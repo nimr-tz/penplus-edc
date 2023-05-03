@@ -495,11 +495,11 @@ if ($user->isLoggedIn()) {
             if ($validate->passed()) {
                 try {
                     if(Input::get('name') == 'user' || Input::get('name') == 'schedule' || Input::get('name') == 'study_id'){
-                        $errorMessage = 'Table  can not be Cleared';
+                        $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Cleared';
                     }else{
                         $clearData = $override->clearDataTable(Input::get('name'));
                     }
-                    $successMessage = 'Table  Cleared Successful';
+                    $successMessage = 'Table ' . '"' . Input::get('name') . '"' . ' Cleared Successfull';
                     // die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2146,7 +2146,32 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Table Name:</div>
                                         <div class="col-md-9">
-                                            <input value="" class="validate[required]" type="text" name="name" id="name" />
+                                            <select name="name" id="name" style="width: 100%;" required>
+                                                <option value="">Select Table Name</option>
+                                                <option value="clients">clients</option>
+                                                <option value="demographic">Demographic</option>
+                                                <option value="vital">Vitals</option>
+                                                <option value="history">Patient Hitory & Complication</option>
+                                                <option value="symptoms">Family History(Symtom & Exam)</option>
+                                                <option value="diagnosis">Main diagnosis</option>
+                                                <option value="results">Results at enrollment</option>
+                                                <option value="hospitalization">Hospitalization</option>
+                                                <option value="treatment_plan">Treatment Plan</option>
+                                                <option value="dgns_complctns_comorbdts">Diagnosis, Complications, & Comorbidities</option>
+                                                <option value="risks">RISK</option>
+                                                <option value="hospitalization_details">Hospitalization Details</option>
+                                                <option value="lab_details">Lab Details</option>
+                                                <option value="summary">Summary</option>
+                                                <option value="social_economic">Social Economic</option>
+                                                <option value="visit">visit</option>
+                                                <option value="user">user</option>
+                                                <option value="unscheduled">unscheduled</option>
+                                                <option value="study_id">study_id</option>
+                                                <option value="sickle_cell">sickle_cell</option>
+                                                <option value="screening">screening</option>
+                                                <option value="diabetic">diabetic</option>
+                                                <option value="schedule">schedule</option>
+                                            </select>
                                         </div>
                                     </div>
 

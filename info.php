@@ -268,6 +268,7 @@ if ($user->isLoggedIn()) {
                             'expected_date' => Input::get('visit_date'),
                             'visit_date' => Input::get('visit_date'),
                         ), $visit['id']);
+
                     } else {
                         $user->createRecord('screening', array(
                             'screening_date' => Input::get('visit_date'),
@@ -303,6 +304,7 @@ if ($user->isLoggedIn()) {
 
                     $user->updateRecord('clients', array(
                         'eligible' => $eligibility,
+                        // 'enrolled' => $eligibility,
                         'screened' => 1,
                     ), Input::get('id'));
 

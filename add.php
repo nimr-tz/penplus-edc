@@ -3442,17 +3442,17 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Number of missed days of school in the last month?:</div>
-                                        <div class="col-md-9"><input type="text" name="missed_days" id="missed_days" value="<?php if ($hospitalization['missed_days']) {
-                                                                                                                                print_r($hospitalization['missed_days']);
+                                        <div class="col-md-9"><input type="text" name="school_days" id="school_days" value="<?php if ($hospitalization['school_days']) {
+                                                                                                                                print_r($hospitalization['school_days']);
                                                                                                                             }  ?>" required />
                                         </div>
                                     </div>
 
                                     <div class="row-form clearfix">
-                                        <div class="col-md-3">How many days of school in the last month?:</div>
+                                        <div class="col-md-3">How many days of missed medications in past 7 days?</div>
                                         <div class="col-md-9">
-                                            <input type="text" name="school_days" id="school_days" value="<?php if ($hospitalization['school_days']) {
-                                                                                                                print_r($hospitalization['school_days']);
+                                            <input type="text" name="missed_days" id="missed_days" value="<?php if ($hospitalization['missed_days']) {
+                                                                                                                print_r($hospitalization['missed_days']);
                                                                                                             }  ?>" required />
                                         </div>
                                     </div>

@@ -1990,8 +1990,8 @@ if ($user->isLoggedIn()) {
                                                                         <div class="form-group">
                                                                             <label>Notes for Next Appointment</label>
                                                                             <input type="text" name="next_notes" id="next_notes" value="<?php if ($summary['next_notes']) {
-                                                                                                                                                                    print_r($summary['next_notes']);
-                                                                                                                                                                }  ?>" required />
+                                                                                                                                            print_r($summary['next_notes']);
+                                                                                                                                        }  ?>" required />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2002,8 +2002,8 @@ if ($user->isLoggedIn()) {
                                                                         <div class="form-group">
                                                                             <label>Next Appointment Date</label>
                                                                             <input class="validate[required,custom[date]]" type="text" name="expected_date" id="expected_date" value="<?php if ($summary['expected_date']) {
-                                                                                                                                                                                                print_r($summary['expected_date']);
-                                                                                                                                                                                            }  ?>" required />
+                                                                                                                                                                                            print_r($summary['expected_date']);
+                                                                                                                                                                                        }  ?>" required />
                                                                             <span>Example: 2023-01-01</span>
                                                                         </div>
                                                                     </div>
@@ -2159,15 +2159,35 @@ if ($user->isLoggedIn()) {
                                                                         <h4>Add Visit</h4>
                                                                     </div>
                                                                     <div class="modal-body modal-body-np">
-                                                                        <div class="row">                                                                         
+                                                                        <div class="row">
 
-                                                                           
-                                                                            <div class="row-form clearfix">
-                                                                                <div class="col-md-3">Visit Date:</div>
-                                                                                <div class="col-md-9">
-                                                                                    <input value="<?php if ($visit['status'] != 0) {
-                                                                                                        echo $visit['visit_date'];
-                                                                                                    } ?>" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" /> <span>Example: 2010-12-01</span>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-6">
+                                                                                    <div class="row-form clearfix">
+                                                                                        <!-- select -->
+                                                                                        <div class="form-group">
+                                                                                            <label>Visit Name</label>
+                                                                                            <select name="visit_name" style="width: 100%;" required>
+                                                                                                <option value="">Select</option>
+                                                                                                <?php foreach ($override->getData2('schedule', 'status', 4) as $study) { ?>
+                                                                                                    <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
+                                                                                                <?php } ?>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-sm-6">
+                                                                                    <div class="row-form clearfix">
+                                                                                        <!-- select -->
+                                                                                        <div class="form-group">
+                                                                                            <label>Visit Date</label>
+                                                                                            <input value="<?php if ($visit['status'] != 0) {
+                                                                                                                echo $visit['visit_date'];
+                                                                                                            } ?>" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" />
+                                                                                            <span>Example: 2010-12-01</span>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
 
@@ -2178,7 +2198,8 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo $visit['reasons'];
                                                                                                                         } ?></textarea>
                                                                                 </div>
-                                                                            </div>
+                                                                            </div>                                                                            
+
                                                                             <div class="dr"><span></span></div>
                                                                         </div>
                                                                     </div>

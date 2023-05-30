@@ -609,9 +609,9 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('visits')) {
                 $data = $override->getData('visit');
                 $filename = 'Visits';
-            } elseif (Input::get('lab')) {
+            } elseif (Input::get('main_diagnosis')) {
                 $data = $override->getData('lab');
-                $filename = 'Exclusion Criteria';
+                $filename = 'Mian diagnosis (Patient Category)';
             } elseif (Input::get('study_id')) {
                 $data = $override->getData('study_id');
                 $filename = 'Study IDs';
@@ -2351,16 +2351,16 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                         <tr>
                                             <td>6</td>
-                                            <td>Inclusion</td>
+                                            <td>Screening</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="screening" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
-                                            <td>Exclusion</td>
+                                            <td>Main Diagnosis( Patient Category )</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="lab" value="Download"></form>
+                                                <form method="post"><input type="submit" name="main_diagnosis" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
@@ -2371,7 +2371,7 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
 
-                                        <tr>
+                                        <!-- <tr>
                                             <td>1</td>
                                             <td>CRF1</td>
                                             <td>
@@ -2476,7 +2476,7 @@ if ($user->isLoggedIn()) {
                                             <td>
                                                 <form method="post"><input type="submit" name="sites" value="Download"></form>
                                             </td>
-                                        </tr>
+                                        </tr> -->
 
                                     </tbody>
                                 </table>

@@ -463,26 +463,58 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $user->createRecord('diabetic', array(
-                        'hypertension' => Input::get('hypertension'),
-                        'symptoms' => Input::get('symptoms'),
-                        'cardiovascular' => Input::get('cardiovascular'),
-                        'retinopathy' => Input::get('retinopathy'),
-                        'renal_disease' => Input::get('renal_disease'),
-                        'stroke' => Input::get('stroke'),
-                        'pvd' => Input::get('pvd'),
-                        'neuropathy' => Input::get('neuropathy'),
-                        'sexual_dysfunction' => Input::get('sexual_dysfunction'),
-                        'comments' => Input::get('comments'),
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'status' => 1,
-                        'created_on' => date('Y-m-d'),
-                        'site_id' => $user->data()->site_id,
-                    ));
 
+                    $diabetic = $override->get3('diabetic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
+                    if ($diabetic) {
+                        $user->updateRecord('diabetic', array(
+                            'visit_date' => Input::get('diagnosis_date'),
+                            'diagnosis' => Input::get('diagnosis'),
+                            'hypertension' => Input::get('hypertension'),
+                            'symptoms' => Input::get('symptoms'),
+                            'cardiovascular' => Input::get('cardiovascular'),
+                            'retinopathy' => Input::get('retinopathy'),
+                            'renal_disease' => Input::get('renal_disease'),
+                            'stroke' => Input::get('stroke'),
+                            'pvd' => Input::get('pvd'),
+                            'neuropathy' => Input::get('neuropathy'),
+                            'sexual_dysfunction' => Input::get('sexual_dysfunction'),
+                            'comments' => Input::get('comments'),
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ), $diabetic['id']);
+                    } else {
+                        $user->createRecord('diabetic', array(
+                            'visit_date' => Input::get('diagnosis_date'),
+                            'diagnosis' => Input::get('diagnosis'),
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'hypertension' => Input::get('hypertension'),
+                            'symptoms' => Input::get('symptoms'),
+                            'cardiovascular' => Input::get('cardiovascular'),
+                            'retinopathy' => Input::get('retinopathy'),
+                            'renal_disease' => Input::get('renal_disease'),
+                            'stroke' => Input::get('stroke'),
+                            'pvd' => Input::get('pvd'),
+                            'neuropathy' => Input::get('neuropathy'),
+                            'sexual_dysfunction' => Input::get('sexual_dysfunction'),
+                            'comments' => Input::get('comments'),
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ));
+                    }
                     $successMessage = 'Diabetic added Successful';
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    die;
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -540,10 +572,9 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ));
                     }
-                    $successMessage = 'Vital added Successful';
+                    $successMessage = 'Sickle Cell added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                     die;
-                    $successMessage = 'Sickle Cell added Successful';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -2851,7 +2882,7 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Main diagnosis</h1>
+                                <h1>Main diagnosis (Cardiac)</h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -4925,7 +4956,7 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Diagnosis</h1>
+                                <h1>Socila Economic</h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -4973,7 +5004,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="footer tar">
-                                        <input type="submit" name="add_diagnosis" value="Submit" class="btn btn-default">
+                                        <input type="submit" name="add_social" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>
@@ -4983,6 +5014,9 @@ if ($user->isLoggedIn()) {
 
 
                     <?php } elseif ($_GET['id'] == 21) { ?>
+                        <?php
+                        $diabetic = $override->get3('diabetic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                        ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
@@ -4994,8 +5028,23 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Main diagnosis:</div>
                                         <div class="col-md-9">
-                                            <select name="main_diagnosis" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                            <select name="diagnosis" style="width: 100%;" required>
+                                                <option value="<?= $diabetic['diagnosis'] ?>"><?php if ($diabetic) {
+                                                                                                    if ($diabetic['diagnosis'] == 1) {
+                                                                                                        echo 'Type 1 DM';
+                                                                                                    } elseif ($diabetic['diagnosis'] == 2) {
+                                                                                                        echo 'Type 2 DM';
+                                                                                                    } elseif ($diabetic['diagnosis'] == 2) {
+                                                                                                        echo 'Gestational DM';
+                                                                                                    } elseif ($diabetic['diagnosis'] == 2) {
+                                                                                                        echo 'DM not yet specified';
+                                                                                                    } elseif ($diabetic['diagnosis'] == 2) {
+                                                                                                        echo 'Other';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?>
+                                                </option>
                                                 <option value="1">Type 1 DM</option>
                                                 <option value="2">Type 2 DM</option>
                                                 <option value="3">Gestational DM</option>
@@ -5007,14 +5056,30 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Diagnosis Date:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                        <div class="col-md-9">
+                                            <input class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" value="<?php if ($diabetic['visit_date']) {
+                                                                                                                                                                        print_r($diabetic['visit_date']);
+                                                                                                                                                                    }  ?>" required />
+                                            <span>Example: 2023-01-01</span>
+                                        </div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Hypertension:</div>
                                         <div class="col-md-9">
                                             <select name="hypertension" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $diabetic['hypertension'] ?>"><?php if ($diabetic) {
+                                                                                                        if ($diabetic['hypertension'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($diabetic['hypertension'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        } elseif ($diabetic['hypertension'] == 2) {
+                                                                                                            echo 'Unknown';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                                 <option value="3">Unknown</option>
@@ -5025,11 +5090,22 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Presentation with any of the following?</div>
                                         <div class="col-md-9">
-                                            <select name="symptoms" style="width: 100%;">
-                                                <option value="">Select</option>
-                                                <option value="1">DKA with coma </option>
+                                            <select name="symptoms" style="width: 100%;" required>
+                                                <option value="<?= $diabetic['symptoms'] ?>"><?php if ($diabetic) {
+                                                                                                    if ($diabetic['symptoms'] == 1) {
+                                                                                                        echo 'DKA with coma';
+                                                                                                    } elseif ($diabetic['symptoms'] == 2) {
+                                                                                                        echo 'Ketosis';
+                                                                                                    } elseif ($diabetic['symptoms'] == 2) {
+                                                                                                        echo 'Hyperglycemia';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?>
+                                                </option>
+                                                <option value="1">DKA with coma</option>
                                                 <option value="2">Ketosis</option>
-                                                <option value="3">Hyperglycemia </option>
+                                                <option value="3">Hyperglycemia</option>
                                             </select>
                                         </div>
                                     </div>
@@ -5037,11 +5113,19 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Cardiovascular Disease </div>
                                         <div class="col-md-9">
-                                            <select name="cardiovascular" style="width: 100%;">
-                                                <option value="">Select</option>
+                                            <select name="cardiovascular" style="width: 100%;" required>
+                                                <option value="<?= $diabetic['cardiovascular'] ?>"><?php if ($diabetic) {
+                                                                                                        if ($diabetic['cardiovascular'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($diabetic['cardiovascular'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
-
                                             </select>
                                         </div>
                                     </div>
@@ -5049,8 +5133,17 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Retinopathy</div>
                                         <div class="col-md-9">
-                                            <select name="retinopathy" style="width: 100%;">
-                                                <option value="">Select</option>
+                                            <select name="retinopathy" style="width: 100%;" required>
+                                                <option value="<?= $diabetic['retinopathy'] ?>"><?php if ($diabetic) {
+                                                                                                    if ($diabetic['retinopathy'] == 1) {
+                                                                                                        echo 'Yes';
+                                                                                                    } elseif ($diabetic['retinopathy'] == 2) {
+                                                                                                        echo 'No';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                             </select>
@@ -5061,7 +5154,16 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">Renal disease (e.g. elevated creatinine)</div>
                                         <div class="col-md-9">
                                             <select name="renal_disease" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $diabetic['renal_disease'] ?>"><?php if ($diabetic) {
+                                                                                                        if ($diabetic['renal_disease'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($diabetic['renal_disease'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                             </select>
@@ -5072,7 +5174,16 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">Stroke/TIA</div>
                                         <div class="col-md-9">
                                             <select name="stroke" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $diabetic['stroke'] ?>"><?php if ($diabetic) {
+                                                                                                if ($diabetic['stroke'] == 1) {
+                                                                                                    echo 'Yes';
+                                                                                                } elseif ($diabetic['stroke'] == 2) {
+                                                                                                    echo 'No';
+                                                                                                }
+                                                                                            } else {
+                                                                                                echo 'Select';
+                                                                                            } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                             </select>
@@ -5083,10 +5194,20 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">PVD (e.g. ulcers, gangrene)</div>
                                         <div class="col-md-9">
                                             <select name="pvd" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $diabetic['pvd'] ?>"><?php if ($diabetic) {
+                                                                                            if ($diabetic['pvd'] == 1) {
+                                                                                                echo 'Yes';
+                                                                                            } elseif ($diabetic['pvd'] == 2) {
+                                                                                                echo 'No';
+                                                                                            }
+                                                                                        } else {
+                                                                                            echo 'Select';
+                                                                                        } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                             </select>
+
                                         </div>
                                     </div>
 
@@ -5094,7 +5215,16 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">Neuropathy</div>
                                         <div class="col-md-9">
                                             <select name="neuropathy" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $diabetic['neuropathy'] ?>"><?php if ($diabetic) {
+                                                                                                    if ($diabetic['neuropathy'] == 1) {
+                                                                                                        echo 'Yes';
+                                                                                                    } elseif ($diabetic['neuropathy'] == 2) {
+                                                                                                        echo 'No';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                             </select>
@@ -5105,7 +5235,16 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">Sexual dysfunction</div>
                                         <div class="col-md-9">
                                             <select name="sexual_dysfunction" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $diabetic['sexual_dysfunction'] ?>"><?php if ($diabetic) {
+                                                                                                            if ($diabetic['sexual_dysfunction'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($diabetic['sexual_dysfunction'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                             </select>
@@ -5114,7 +5253,13 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Comments:</div>
-                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                        <div class="col-md-9">
+                                            <textarea name="comments" rows="4">
+                                            <?php if ($diabetic['comments']) {
+                                                print_r($diabetic['comments']);
+                                            }  ?>
+                                            </textarea>
+                                        </div>
                                     </div>
 
                                     <div class="footer tar">
@@ -5144,14 +5289,14 @@ if ($user->isLoggedIn()) {
                                             <div class="col-md-9">
                                                 <select name="diagnosis" style="width: 100%;" required>
                                                     <option value="<?= $sickle_cell['diagnosis'] ?>"><?php if ($sickle_cell) {
-                                                                                                                if ($sickle_cell['diagnosis'] == 1) {
-                                                                                                                    echo 'Sickle Cell Disease';
-                                                                                                                } elseif ($sickle_cell['diagnosis'] == 2) {
-                                                                                                                    echo 'Other Hemoglobinopathy';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?>
+                                                                                                            if ($sickle_cell['diagnosis'] == 1) {
+                                                                                                                echo 'Sickle Cell Disease';
+                                                                                                            } elseif ($sickle_cell['diagnosis'] == 2) {
+                                                                                                                echo 'Other Hemoglobinopathy';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?>
                                                     </option>
                                                     <option value="1">Sickle Cell Disease</option>
                                                     <option value="2">Other Hemoglobinopathy</option>

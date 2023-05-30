@@ -610,7 +610,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('visit');
                 $filename = 'Visits';
             } elseif (Input::get('main_diagnosis')) {
-                $data = $override->getData('lab');
+                $data = $override->getData('main_diagnosis');
                 $filename = 'Mian diagnosis (Patient Category)';
             } elseif (Input::get('study_id')) {
                 $data = $override->getData('study_id');

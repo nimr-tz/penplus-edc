@@ -131,7 +131,7 @@ if ($user->isLoggedIn()) {
                 </a>
             </li>
             <li class="active">
-                <a href="info.php?id=20" target="_blank">
+                <a href="info.php?id=6" target="_blank">
                     <span class="isw-download"></span><span class="text">Download Data</span>
                 </a>
             </li>

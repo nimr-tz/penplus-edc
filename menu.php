@@ -1,6 +1,24 @@
 <?php
-if ($user->data()->accessLevel == 1) {
+require_once 'php/core/init.php';
+$user = new User();
+$override = new OverideData();
+$email = new Email();
+$random = new Random();
+$users = $override->getData('user');
+if ($user->isLoggedIn()) {
+    if ($user->data()->power == 1) {
+        $registered = $override->getCount('clients', 'status', 1);
+        $not_screened = $override->countData('clients', 'status', 1, 'screened', 0);
+        $all = $override->getNo('clients');
+        $deleted = $override->getCount('clients', 'status', 0);
+    } else {
+        $registered = $override->countData('clients', 'status', 1, 'site_id', $user->data()->site_id);
+        $not_screened = $override->countData2('clients', 'status', 1, 'screened', 0, 'site_id', $user->data()->site_id);
+        $all = $override->getCount('clients', 'site_id', $user->data()->site_id);
+        $deleted = $override->countData('clients', 'status', 0, 'site_id', $user->data()->site_id);
+    }
 } else {
+    Redirect::to('index.php');
 }
 ?>
 <div class="menu">
@@ -49,18 +67,51 @@ if ($user->data()->accessLevel == 1) {
                 </ul>
             </li>
             <li class="openable">
-                <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
+                <a href="#"><span class="isw-users"></span><span class="text">Clients Registration</span></a>
                 <ul>
                     <li>
                         <a href="add.php?id=4">
-                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Client</span>
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Register New Client</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="info.php?id=3&status=1">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
+                        <a href="info.php?id=3&status=5">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Registred Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $registered ?></span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="info.php?id=3&status=6">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients Not Screened</span>
+                            <span class="badge badge-secondary badge-pill"><?= $not_screened ?></span>
+                        </a>
+                    </li>
+
+                    <?php if ($user->data()->accessLevel == 1) { ?>
+
+                        <li>
+                            <a href="info.php?id=3&status=7">
+                                <span class="glyphicon glyphicon-registration-mark"></span><span class="text">All Clients</span>
+                                <span class="badge badge-secondary badge-pill"><?= $all ?></span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="info.php?id=3&status=8">
+                                <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Deleted Clients</span>
+                                <span class="badge badge-secondary badge-pill"><?= $deleted ?></span>
+                            </a>
+                        </li>
+
+                    <?php } ?>
+
+                    <!-- <li class="active">
+                    <a href="info.php?id=3&status=7" target="_blank">
+                        <span class="isw-download"></span><span class="text">Pending Clients Visits</span>
+                    </a>
+                </li> -->
                 </ul>
             </li>
 
@@ -77,6 +128,11 @@ if ($user->data()->accessLevel == 1) {
             <li class="">
                 <a href="#">
                     <span class="isw-download"></span><span class="text">Download</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="info.php?id=6" target="_blank">
+                    <span class="isw-download"></span><span class="text">Download Data</span>
                 </a>
             </li>
 

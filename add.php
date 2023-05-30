@@ -356,9 +356,10 @@ if ($user->isLoggedIn()) {
                     $main_diagnosis = $override->get3('main_diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                     if ((Input::get('cardiac') == 1 && Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
-                     || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
-                     || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
-                     || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)) {
+                        || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
+                        || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
+                        || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
+                    ) {
                         $errorMessage = 'Patient Diagnosed with more than one Disease';
                     } else {
 
@@ -496,22 +497,52 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $user->createRecord('sickle_cell', array(
-                        'history_scd' => Input::get('history_scd'),
-                        'scd_test' => Input::get('scd_test'),
-                        'confirmatory_test' => Input::get('confirmatory_test'),
-                        'confirmatory_test_type' => Input::get('confirmatory_test_type'),
-                        'vaccine_history' => Input::get('vaccine_history'),
-                        'blood_group' => Input::get('blood_group'),
-                        'comments' => Input::get('comments'),
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'status' => 1,
-                        'created_on' => date('Y-m-d'),
-                        'site_id' => $user->data()->site_id,
-                    ));
 
+                    $sickle_cell = $override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
+                    if ($sickle_cell) {
+                        $user->updateRecord('sickle_cell', array(
+                            'diagnosis' => Input::get('diagnosis'),
+                            'visit_date' => Input::get('diagnosis_date'),
+                            'history_scd' => Input::get('history_scd'),
+                            'scd_test' => Input::get('scd_test'),
+                            'confirmatory_test' => Input::get('confirmatory_test'),
+                            'confirmatory_test_type' => Input::get('confirmatory_test_type'),
+                            'vaccine_history' => Input::get('vaccine_history'),
+                            'blood_group' => Input::get('blood_group'),
+                            'comments' => Input::get('comments'),
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ), $sickle_cell['id']);
+                    } else {
+                        $user->createRecord('sickle_cell', array(
+                            'diagnosis' => Input::get('diagnosis'),
+                            'visit_date' => Input::get('visit_date'),
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'history_scd' => Input::get('history_scd'),
+                            'scd_test' => Input::get('scd_test'),
+                            'confirmatory_test' => Input::get('confirmatory_test'),
+                            'confirmatory_test_type' => Input::get('confirmatory_test_type'),
+                            'vaccine_history' => Input::get('vaccine_history'),
+                            'blood_group' => Input::get('blood_group'),
+                            'comments' => Input::get('comments'),
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ));
+                    }
+                    $successMessage = 'Vital added Successful';
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    die;
                     $successMessage = 'Sickle Cell added Successful';
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -548,7 +579,7 @@ if ($user->isLoggedIn()) {
                     } else {
                         $user->createRecord('vital', array(
                             'visit_date' => Input::get('visit_date'),
-                            'study_id' => Input::get('sid'),
+                            'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
@@ -5096,6 +5127,9 @@ if ($user->isLoggedIn()) {
                         </div>
 
                     <?php } elseif ($_GET['id'] == 22) { ?>
+                        <?php
+                        $sickle_cell = $override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                        ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
@@ -5108,23 +5142,47 @@ if ($user->isLoggedIn()) {
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">Main diagnosis:</div>
                                             <div class="col-md-9">
-                                                <select name="main_diagnosis" style="width: 100%;" required>
-                                                    <option value="">Select</option>
+                                                <select name="diagnosis" style="width: 100%;" required>
+                                                    <option value="<?= $sickle_cell['diagnosis'] ?>"><?php if ($sickle_cell) {
+                                                                                                                if ($sickle_cell['diagnosis'] == 1) {
+                                                                                                                    echo 'Sickle Cell Disease';
+                                                                                                                } elseif ($sickle_cell['diagnosis'] == 2) {
+                                                                                                                    echo 'Other Hemoglobinopathy';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?>
+                                                    </option>
                                                     <option value="1">Sickle Cell Disease</option>
-                                                    <option value="5">Other Hemoglobinopathy</option>
+                                                    <option value="2">Other Hemoglobinopathy</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">Diagnosis Date:</div>
-                                            <div class="col-md-9"><input value="" class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" required /> <span>Example: 2023-01-01</span></div>
+                                            <div class="col-md-9"><input class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" value="<?php if ($sickle_cell['visit_date']) {
+                                                                                                                                                                                    print_r($sickle_cell['visit_date']);
+                                                                                                                                                                                }  ?>" required />
+                                                <span>Example: 2023-01-01</span>
+                                            </div>
                                         </div>
 
                                         <div class="col-md-3">Family History of SCD?:</div>
                                         <div class="col-md-9">
                                             <select name="history_scd" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $sickle_cell['history_scd'] ?>"><?php if ($sickle_cell) {
+                                                                                                        if ($sickle_cell['history_scd'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($sickle_cell['history_scd'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        } elseif ($sickle_cell['history_scd'] == 3) {
+                                                                                                            echo 'Unknown';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
                                                 <option value="3">Unknown</option>
@@ -5135,8 +5193,28 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">SCD Test Result?</div>
                                         <div class="col-md-9">
-                                            <select name="scd_test" style="width: 100%;">
-                                                <option value="">Select</option>
+
+                                            <select name="scd_test" style="width: 100%;" required>
+                                                <option value="<?= $sickle_cell['scd_test'] ?>"><?php if ($sickle_cell) {
+                                                                                                    if ($sickle_cell['scd_test'] == 1) {
+                                                                                                        echo 'Presumptive Diagnosis';
+                                                                                                    } elseif ($sickle_cell['scd_test'] == 2) {
+                                                                                                        echo 'Sickling Test';
+                                                                                                    } elseif ($sickle_cell['scd_test'] == 3) {
+                                                                                                        echo 'SS';
+                                                                                                    } elseif ($sickle_cell['scd_test'] == 4) {
+                                                                                                        echo 'SA';
+                                                                                                    } elseif ($sickle_cell['scd_test'] == 5) {
+                                                                                                        echo 'SBThal';
+                                                                                                    } elseif ($sickle_cell['scd_test'] == 6) {
+                                                                                                        echo 'SC';
+                                                                                                    } elseif ($sickle_cell['scd_test'] == 7) {
+                                                                                                        echo 'Other';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?>
+                                                </option>
                                                 <option value="1">Presumptive Diagnosis</option>
                                                 <option value="2">Sickling Test</option>
                                                 <option value="3">SS </option>
@@ -5151,11 +5229,19 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Confirmatory Test </div>
                                         <div class="col-md-9">
-                                            <select name="confirmatory_test" style="width: 100%;">
-                                                <option value="">Select</option>
+                                            <select name="confirmatory_test" style="width: 100%;" required>
+                                                <option value="<?= $sickle_cell['confirmatory_test'] ?>"><?php if ($sickle_cell) {
+                                                                                                                if ($sickle_cell['confirmatory_test'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($sickle_cell['confirmatory_test'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?>
+                                                </option>
                                                 <option value="1">Yes</option>
                                                 <option value="2">No</option>
-
                                             </select>
                                         </div>
                                     </div>
@@ -5163,8 +5249,23 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Type of Confirmatory Test</div>
                                         <div class="col-md-9">
-                                            <select name="confirmatory_test_type" style="width: 100%;">
-                                                <option value="">Select</option>
+                                            <select name="confirmatory_test_type" style="width: 100%;" required>
+                                                <option value="<?= $sickle_cell['confirmatory_test_type'] ?>"><?php if ($sickle_cell) {
+                                                                                                                    if ($sickle_cell['confirmatory_test_type'] == 1) {
+                                                                                                                        echo 'HPLC';
+                                                                                                                    } elseif ($sickle_cell['confirmatory_test_type'] == 2) {
+                                                                                                                        echo 'HBE';
+                                                                                                                    } elseif ($sickle_cell['confirmatory_test_type'] == 3) {
+                                                                                                                        echo 'IEF';
+                                                                                                                    } elseif ($sickle_cell['confirmatory_test_type'] == 4) {
+                                                                                                                        echo 'Basique';
+                                                                                                                    } elseif ($sickle_cell['confirmatory_test_type'] == 5) {
+                                                                                                                        echo 'Acide';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
+                                                </option>
                                                 <option value="1">HPLC</option>
                                                 <option value="2">HBE</option>
                                                 <option value="3">IEF</option>
@@ -5178,7 +5279,20 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">Vaccine History</div>
                                         <div class="col-md-9">
                                             <select name="vaccine_history" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $sickle_cell['vaccine_history'] ?>"><?php if ($sickle_cell) {
+                                                                                                            if ($sickle_cell['vaccine_history'] == 1) {
+                                                                                                                echo 'Pneumococcal';
+                                                                                                            } elseif ($sickle_cell['vaccine_history'] == 2) {
+                                                                                                                echo 'Meningococcal';
+                                                                                                            } elseif ($sickle_cell['vaccine_history'] == 3) {
+                                                                                                                echo 'Haemophilus Influenza type B (Hib)';
+                                                                                                            } elseif ($sickle_cell['vaccine_history'] == 4) {
+                                                                                                                echo 'Unknown';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?>
+                                                </option>
                                                 <option value="1">Pneumococcal </option>
                                                 <option value="2">Meningococcal</option>
                                                 <option value="3">Haemophilus Influenza type B (Hib)</option>
@@ -5191,7 +5305,28 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-3">ABO Blood Group</div>
                                         <div class="col-md-9">
                                             <select name="blood_group" style="width: 100%;" required>
-                                                <option value="">Select</option>
+                                                <option value="<?= $sickle_cell['blood_group'] ?>"><?php if ($sickle_cell) {
+                                                                                                        if ($sickle_cell['blood_group'] == 1) {
+                                                                                                            echo 'A+';
+                                                                                                        } elseif ($sickle_cell['blood_group'] == 2) {
+                                                                                                            echo 'A-';
+                                                                                                        } elseif ($sickle_cell['blood_group'] == 3) {
+                                                                                                            echo 'B+';
+                                                                                                        } elseif ($sickle_cell['blood_group'] == 4) {
+                                                                                                            echo 'B-';
+                                                                                                        } elseif ($sickle_cell['blood_group'] == 5) {
+                                                                                                            echo 'O+';
+                                                                                                        } elseif ($sickle_cell['blood_group'] == 6) {
+                                                                                                            echo 'O-';
+                                                                                                        } elseif ($sickle_cell['blood_group'] == 7) {
+                                                                                                            echo 'AB+';
+                                                                                                        } elseif ($sickle_cell['blood_group'] == 8) {
+                                                                                                            echo 'AB';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
+                                                </option>
                                                 <option value="1">A+</option>
                                                 <option value="2">A-</option>
                                                 <option value="3">B+</option>
@@ -5206,7 +5341,11 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Comments:</div>
-                                        <div class="col-md-9"><textarea name="comments" rows="4"></textarea> </div>
+                                        <div class="col-md-9"><textarea name="comments" rows="4">
+                                        <?php if ($sickle_cell['comments']) {
+                                            print_r($sickle_cell['comments']);
+                                        }  ?>
+                                        </textarea> </div>
                                     </div>
 
                                     <div class="footer tar">

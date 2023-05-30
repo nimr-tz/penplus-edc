@@ -355,49 +355,59 @@ if ($user->isLoggedIn()) {
 
                     $main_diagnosis = $override->get3('main_diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
-                    if ($main_diagnosis) {
-                        $user->updateRecord('main_diagnosis', array(
-                            'visit_date' => Input::get('diagnosis_date'),
-                            'cardiac' => Input::get('cardiac'),
-                            'diabetes' => Input::get('diabetes'),
-                            'sickle_cell' => Input::get('sickle_cell'),
-                            'comments' => Input::get('comments'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ), $main_diagnosis['id']);
+                    if ((Input::get('cardiac') == 1 && Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
+                     || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
+                     || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
+                     || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)) {
+                        $errorMessage = 'Patient Diagnosed with more than one Disease';
                     } else {
-                        $user->createRecord('main_diagnosis', array(
-                            'visit_date' => Input::get('diagnosis_date'),
-                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
+
+                        if ($main_diagnosis) {
+
+                            $user->updateRecord('main_diagnosis', array(
+                                'visit_date' => Input::get('diagnosis_date'),
+                                'cardiac' => Input::get('cardiac'),
+                                'diabetes' => Input::get('diabetes'),
+                                'sickle_cell' => Input::get('sickle_cell'),
+                                'comments' => Input::get('comments'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $main_diagnosis['id']);
+                        } else {
+                            $user->createRecord('main_diagnosis', array(
+                                'visit_date' => Input::get('diagnosis_date'),
+                                'study_id' => $_GET['sid'],
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
+                                'cardiac' => Input::get('cardiac'),
+                                'diabetes' => Input::get('diabetes'),
+                                'sickle_cell' => Input::get('sickle_cell'),
+                                'comments' => Input::get('comments'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ));
+                        }
+
+
+                        $user->updateRecord('clients', array(
                             'cardiac' => Input::get('cardiac'),
                             'diabetes' => Input::get('diabetes'),
                             'sickle_cell' => Input::get('sickle_cell'),
-                            'comments' => Input::get('comments'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ));
+                        ), $_GET['cid']);
+
+
+                        $successMessage = 'Diagnosis added Successful';
+                        Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                        die;
                     }
-
-
-                    $user->updateRecord('clients', array(
-                        'cardiac' => Input::get('cardiac'),
-                        'diabetes' => Input::get('diabetes'),
-                        'sickle_cell' => Input::get('sickle_cell'),
-                    ), $_GET['cid']);
-
-                    $successMessage = 'Diagnosis added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
-                    die;
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }

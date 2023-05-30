@@ -2584,6 +2584,10 @@ if ($user->isLoggedIn()) {
                                             <?php } ?>
                                         </tr>
 
+
+                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
+
+
                                         <tr>
                                             <td>5</td>
                                             <td>Main diagnosis 1 ( Cardiac )</td>
@@ -2594,6 +2598,9 @@ if ($user->isLoggedIn()) {
                                                 <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
                                             <?php } ?>
                                         </tr>
+                                        <?php } ?>
+
+                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
 
                                         <tr>
                                             <td>5</td>
@@ -2605,6 +2612,10 @@ if ($user->isLoggedIn()) {
                                                 <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
                                             <?php } ?>
                                         </tr>
+                                        <?php } ?>
+
+
+                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
 
                                         <tr>
@@ -2617,6 +2628,8 @@ if ($user->isLoggedIn()) {
                                                 <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
                                             <?php } ?>
                                         </tr>
+
+                                        <?php } ?>
 
                                         <tr>
                                             <td>6</td>
@@ -2726,7 +2739,7 @@ if ($user->isLoggedIn()) {
                                                 <?php } ?>
                                             </tr>
                                         <?php } ?>
-                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
+                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 11)) { ?>
 
                                             <tr>
                                                 <td>10</td>
@@ -2739,7 +2752,7 @@ if ($user->isLoggedIn()) {
                                             </tr>
                                         <?php } ?>
 
-                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 11)) { ?>
 
                                             <tr>
                                                 <td>11</td>
@@ -2776,6 +2789,7 @@ if ($user->isLoggedIn()) {
                                                 <option value="vital">Vitals</option>
                                                 <option value="history">Patient Hitory & Complication</option>
                                                 <option value="symptoms">Family History(Symtom & Exam)</option>
+                                                <option value="main_diagnosis">Pateint Category</option>
                                                 <option value="diagnosis">Main diagnosis</option>
                                                 <option value="results">Results at enrollment</option>
                                                 <option value="hospitalization">Hospitalization</option>

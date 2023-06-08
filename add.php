@@ -669,6 +669,7 @@ if ($user->isLoggedIn()) {
                             'diabetic_disease' => Input::get('diabetic_disease'),
                             'hypertension' => Input::get('hypertension'),
                             'diabetic_other' => Input::get('diabetic_other'),
+                            'scd_disease' => Input::get('scd_disease'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -700,6 +701,7 @@ if ($user->isLoggedIn()) {
                             'diabetic_disease' => Input::get('diabetic_disease'),
                             'hypertension' => Input::get('hypertension'),
                             'diabetic_other' => Input::get('diabetic_other'),
+                            'scd_disease' => Input::get('scd_disease'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -2644,6 +2646,36 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                    <?php } ?>
+
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Family History of SCD?</label>
+                                                        <select name="scd_disease" style="width: 100%;" required>
+                                                            <option value="<?= $history['scd_disease'] ?>"><?php if ($history) {
+                                                                                                                    if ($history['scd_disease'] == 1) {
+                                                                                                                        echo 'Yes';
+                                                                                                                    } elseif ($history['scd_disease'] == 2) {
+                                                                                                                        echo 'No';
+                                                                                                                    } elseif ($history['scd_disease'] == 3) {
+                                                                                                                        echo 'Unknown';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                            <option value="3">Unknown</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
                                         </div>
 
                                     <?php } ?>

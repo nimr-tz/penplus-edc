@@ -223,26 +223,26 @@ if ($user->isLoggedIn()) {
                 'visit_date' => array(
                     'required' => true,
                 ),
-                'age_6_above' => array(
-                    'required' => true,
-                ),
+                // 'age_6_above' => array(
+                //     'required' => true,
+                // ),
                 'consent' => array(
                     'required' => true,
                 ),
-                'scd' => array(
-                    'required' => true,
-                ),
-                'rhd' => array(
-                    'required' => true,
-                ),
-                'residence' => array(
-                    'required' => true,
-                ),
+                // 'scd' => array(
+                //     'required' => true,
+                // ),
+                // 'rhd' => array(
+                //     'required' => true,
+                // ),
+                // 'residence' => array(
+                //     'required' => true,
+                // ),
             ));
             if ($validate->passed()) {
                 try {
                     $eligibility = 0;
-                    if (Input::get('age_6_above') == 1 && Input::get('consent') == 1 && Input::get('scd') == 2 && Input::get('rhd') == 2 && Input::get('residence') == 2) {
+                    if (Input::get('consent') == 1) {
                         $eligibility = 1;
                     }
 
@@ -1576,7 +1576,7 @@ if ($user->isLoggedIn()) {
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="row-form clearfix">
+                                                                    <!-- <div class="row-form clearfix">
                                                                         <div class="col-md-8">Aged 6 years and above</div>
                                                                         <div class="col-md-4">
                                                                             <select name="age_6_above" style="width: 100%;" required>
@@ -1593,9 +1593,9 @@ if ($user->isLoggedIn()) {
                                                                                 <option value="2">No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div>
+                                                                    </div> -->
 
-                                                                    <div class="row-form clearfix">
+                                                                    <!-- <div class="row-form clearfix">
                                                                         <div class="col-md-8">Known SCD?</div>
                                                                         <div class="col-md-4">
                                                                             <select name="scd" style="width: 100%;" required>
@@ -1650,7 +1650,7 @@ if ($user->isLoggedIn()) {
                                                                                 <option value="2">No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div>
+                                                                    </div> -->
 
                                                                     <div class="row-form clearfix">
                                                                         <div class="col-md-8">Consenting individuals?</div>

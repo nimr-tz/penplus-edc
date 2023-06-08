@@ -540,6 +540,7 @@ if ($user->isLoggedIn()) {
                             'visit_date' => Input::get('diagnosis_date'),
                             'history_scd' => Input::get('history_scd'),
                             'scd_test' => Input::get('scd_test'),
+                            'scd_test_other' => Input::get('scd_test_other'),
                             'confirmatory_test' => Input::get('confirmatory_test'),
                             'confirmatory_test_type' => Input::get('confirmatory_test_type'),
                             'vaccine_history' => Input::get('vaccine_history'),
@@ -562,6 +563,7 @@ if ($user->isLoggedIn()) {
                             'vid' => $_GET['vid'],
                             'history_scd' => Input::get('history_scd'),
                             'scd_test' => Input::get('scd_test'),
+                            'scd_test_other' => Input::get('scd_test_other'),
                             'confirmatory_test' => Input::get('confirmatory_test'),
                             'confirmatory_test_type' => Input::get('confirmatory_test_type'),
                             'vaccine_history' => Input::get('vaccine_history'),
@@ -2659,23 +2661,23 @@ if ($user->isLoggedIn()) {
                                                         <label>Family History of SCD?</label>
                                                         <select name="scd_disease" style="width: 100%;" required>
                                                             <option value="<?= $history['scd_disease'] ?>"><?php if ($history) {
-                                                                                                                    if ($history['scd_disease'] == 1) {
-                                                                                                                        echo 'Yes';
-                                                                                                                    } elseif ($history['scd_disease'] == 2) {
-                                                                                                                        echo 'No';
-                                                                                                                    } elseif ($history['scd_disease'] == 3) {
-                                                                                                                        echo 'Unknown';
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    echo 'Select';
-                                                                                                                } ?></option>
+                                                                                                                if ($history['scd_disease'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($history['scd_disease'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                } elseif ($history['scd_disease'] == 3) {
+                                                                                                                    echo 'Unknown';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                             <option value="3">Unknown</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>                                            
+                                            </div>
                                         </div>
 
                                     <?php } ?>
@@ -5228,24 +5230,31 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Presentation with any of the following?</div>
-                                        <div class="col-md-9">
+                                        <div class="col-md-9"> 
                                             <select name="symptoms" style="width: 100%;" required>
                                                 <option value="<?= $diabetic['symptoms'] ?>"><?php if ($diabetic) {
                                                                                                     if ($diabetic['symptoms'] == 1) {
                                                                                                         echo 'DKA with coma';
                                                                                                     } elseif ($diabetic['symptoms'] == 2) {
+                                                                                                        echo 'DKA without coma';
+                                                                                                    } elseif ($diabetic['symptoms'] == 3) {
                                                                                                         echo 'Ketosis';
-                                                                                                    } elseif ($diabetic['symptoms'] == 2) {
+                                                                                                    } elseif ($diabetic['symptoms'] == 4) {
                                                                                                         echo 'Hyperglycemia';
+                                                                                                    } elseif ($diabetic['symptoms'] == 5) {
+                                                                                                        echo 'By Screening';
                                                                                                     }
                                                                                                 } else {
                                                                                                     echo 'Select';
                                                                                                 } ?>
                                                 </option>
                                                 <option value="1">DKA with coma</option>
-                                                <option value="2">Ketosis</option>
-                                                <option value="3">Hyperglycemia</option>
-                                            </select>
+                                                <option value="2">DKA without coma</option>
+                                                <option value="3">Ketosis</option>
+                                                <option value="4">Hyperglycemia</option>
+                                                <option value="5">By Screening</option>
+
+                                                </select>
                                         </div>
                                     </div>
 
@@ -5511,6 +5520,15 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row-form clearfix">
+                                        <div class="col-md-3">SCD Other Specify:</div>
+                                        <div class="col-md-9"><textarea name="scd_test_other" rows="4">
+                                        <?php if ($sickle_cell['scd_test_other']) {
+                                            print_r($sickle_cell['scd_test_other']);
+                                        }  ?>
+                                        </textarea> </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
                                         <div class="col-md-3">Confirmatory Test </div>
                                         <div class="col-md-9">
                                             <select name="confirmatory_test" style="width: 100%;" required>
@@ -5605,7 +5623,7 @@ if ($user->isLoggedIn()) {
                                                                                                         } elseif ($sickle_cell['blood_group'] == 7) {
                                                                                                             echo 'AB+';
                                                                                                         } elseif ($sickle_cell['blood_group'] == 8) {
-                                                                                                            echo 'AB';
+                                                                                                            echo 'AB-';
                                                                                                         }
                                                                                                     } else {
                                                                                                         echo 'Select';

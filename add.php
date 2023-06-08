@@ -204,7 +204,8 @@ if ($user->isLoggedIn()) {
                                 'occupation' => Input::get('occupation'),
                                 'exposure' => Input::get('exposure'),
                                 'phone_number' => Input::get('phone_number'),
-                                'guardian_phone' => Input::get('guardian_phone'),
+                                'guardian_phone' => Input::get('guardian_phone'), 
+                                'guardian_name' => Input::get('guardian_name'), 
                                 'relation_patient' => Input::get('relation_patient'),
                                 'physical_address' => Input::get('physical_address'),
                                 'client_image' => $attachment_file,
@@ -228,6 +229,7 @@ if ($user->isLoggedIn()) {
                                 'exposure' => Input::get('exposure'),
                                 'phone_number' => Input::get('phone_number'),
                                 'guardian_phone' => Input::get('guardian_phone'),
+                                'guardian_name' => Input::get('guardian_name'), 
                                 'relation_patient' => Input::get('relation_patient'),
                                 'physical_address' => Input::get('physical_address'),
                                 'site_id' => $user->data()->site_id,
@@ -654,32 +656,32 @@ if ($user->isLoggedIn()) {
                     if ($history) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
 
-                        $user->updateRecord('history', array(
-                            'visit_date' => date('Y-m-d'),
-                            'hypertension' => Input::get('hypertension'),
-                            'diabetes' => Input::get('diabetes'),
-                            'ckd' => Input::get('ckd'),
-                            'depression' => Input::get('depression'),
-                            'hiv' => Input::get('hiv'),
-                            'hiv_test' => Input::get('hiv_test'),
-                            'art_date' => Input::get('art_date'),
-                            'tb' => Input::get('tb'),
-                            'tb_year' => Input::get('tb_year'),
-                            'smoking' => Input::get('smoking'),
-                            'packs' => Input::get('packs'),
-                            'active_smoker' => Input::get('active_smoker'),
-                            'alcohol' => Input::get('alcohol'),
-                            'quantity' => Input::get('quantity'),                           
-                            'cardiac_disease' => Input::get('cardiac_disease'),
-                            'cardiac_surgery' => Input::get('cardiac_surgery'),
-                            'surgery_other' => Input::get('surgery_other'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ), $history['id']);
-                    }
+                            $user->updateRecord('history', array(
+                                'visit_date' => date('Y-m-d'),
+                                'hypertension' => Input::get('hypertension'),
+                                'diabetes' => Input::get('diabetes'),
+                                'ckd' => Input::get('ckd'),
+                                'depression' => Input::get('depression'),
+                                'hiv' => Input::get('hiv'),
+                                'hiv_test' => Input::get('hiv_test'),
+                                'art_date' => Input::get('art_date'),
+                                'tb' => Input::get('tb'),
+                                'tb_year' => Input::get('tb_year'),
+                                'smoking' => Input::get('smoking'),
+                                'packs' => Input::get('packs'),
+                                'active_smoker' => Input::get('active_smoker'),
+                                'alcohol' => Input::get('alcohol'),
+                                'quantity' => Input::get('quantity'),
+                                'cardiac_disease' => Input::get('cardiac_disease'),
+                                'cardiac_surgery' => Input::get('cardiac_surgery'),
+                                'surgery_other' => Input::get('surgery_other'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $history['id']);
+                        }
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
 
                             $user->updateRecord('history', array(
@@ -707,7 +709,7 @@ if ($user->isLoggedIn()) {
                                 'neuropathy' => Input::get('neuropathy'),
                                 'neuropathy_date' => Input::get('neuropathy_date'),
                                 'sexual_dysfunction' => Input::get('sexual_dysfunction'),
-                                'sexual_dysfunction_date' => Input::get('sexual_dysfunction_date'),                               
+                                'sexual_dysfunction_date' => Input::get('sexual_dysfunction_date'),
                                 'diabetic_disease' => Input::get('diabetic_disease'),
                                 'hypertension_disease' => Input::get('hypertension_disease'),
                                 'history_other' => Input::get('history_other'),
@@ -2039,7 +2041,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Hospital ID Number</label>
+                                                    <label>Hospital ID (Patient Hospital ID Number )</label>
                                                     <input type="text" name="hospital_id" id="hospital_id" value="<?php if ($client['hospital_id']) {
                                                                                                                         print_r($client['hospital_id']);
                                                                                                                     }  ?>" />
@@ -2129,7 +2131,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Phone Number</label>
+                                                    <label>Patient Phone Number</label>
                                                     <input class="" type="text" name="phone_number" id="phone_number" value="<?php if ($client['phone_number']) {
                                                                                                                                     print_r($client['phone_number']);
                                                                                                                                 }  ?>" /> <span>Example: 0700 000 111</span>
@@ -2152,6 +2154,20 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
+                                                    <label>Guardian Name</label>
+                                                    <input class="" type="text" name="guardian_name" id="guardian_name" value="<?php if ($client['guardian_name']) {
+                                                                                                                                    print_r($client['guardian_name']);
+                                                                                                                                }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
                                                     <label>Relation to patient</label>
                                                     <input class="" type="text" name="relation_patient" id="relation_patient" value="<?php if ($client['relation_patient']) {
                                                                                                                                             print_r($client['relation_patient']);
@@ -2159,10 +2175,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -2173,11 +2186,11 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Comments:</label>
+                                                    <label>Comments / Remarks:</label>
                                                     <textarea name="comments" rows="4"><?php if ($client['comments']) {
                                                                                             print_r($client['comments']);
                                                                                         }  ?></textarea>

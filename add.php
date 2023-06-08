@@ -786,6 +786,12 @@ if ($user->isLoggedIn()) {
                             'paroxysmal' => Input::get('paroxysmal'),
                             'chest_pain' => Input::get('chest_pain'),
                             'cough' => Input::get('cough'),
+                            'thirst' => Input::get('thirst'),
+                            'urination' => Input::get('urination'),
+                            'vision' => Input::get('vision'),
+                            'abnorminal_pain' => Input::get('abnorminal_pain'),
+                            'vomiting' => Input::get('vomiting'),
+                            'weight_loss' => Input::get('weight_loss'),
                             'edema' => Input::get('edema'),
                             'lungs' => Input::get('lungs'),
                             'Other' => Input::get('Other'),
@@ -811,6 +817,12 @@ if ($user->isLoggedIn()) {
                             'paroxysmal' => Input::get('paroxysmal'),
                             'chest_pain' => Input::get('chest_pain'),
                             'cough' => Input::get('cough'),
+                            'thirst' => Input::get('thirst'),
+                            'urination' => Input::get('urination'),
+                            'vision' => Input::get('vision'),
+                            'abnorminal_pain' => Input::get('abnorminal_pain'),
+                            'vomiting' => Input::get('vomiting'),
+                            'weight_loss' => Input::get('weight_loss'),
                             'edema' => Input::get('edema'),
                             'lungs' => Input::get('lungs'),
                             'Other' => Input::get('Other'),
@@ -3231,10 +3243,15 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Symptoms & Exam</h1>
+                                <h1>History, Symptoms, & Exam</h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
+
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Symptoms ( Cardiac )</h1>
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -3329,10 +3346,8 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-
-
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Chest Pain</label>
@@ -3356,7 +3371,7 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Cough</label>
@@ -3379,6 +3394,168 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+
+                                    </div>
+
+
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Symptoms ( Diabetic )</h1>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-sm-2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Increased thirst</label>
+                                                    <select name="thirst" id="thirst" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['thirst'] ?>"><?php if ($symptoms) {
+                                                                                                        if ($symptoms['thirst'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($symptoms['thirst'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        } elseif ($symptoms['thirst'] == 3) {
+                                                                                                            echo 'Unk';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Increased Urination</label>
+                                                    <select name="urination" id="urination" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['urination'] ?>"><?php if ($symptoms) {
+                                                                                                            if ($symptoms['urination'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($symptoms['urination'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($symptoms['urination'] == 3) {
+                                                                                                                echo 'Unk';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Vision Changes</label>
+                                                    <select name="vision" id="vision" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['vision'] ?>"><?php if ($symptoms) {
+                                                                                                        if ($symptoms['vision'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($symptoms['vision'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        } elseif ($symptoms['vision'] == 3) {
+                                                                                                            echo 'Unk';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Abnorminal Pain</label>
+                                                    <select name="abnorminal_pain" id="abnorminal_pain" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['abnorminal_pain'] ?>"><?php if ($symptoms) {
+                                                                                                                if ($symptoms['abnorminal_pain'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($symptoms['abnorminal_pain'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                } elseif ($symptoms['abnorminal_pain'] == 3) {
+                                                                                                                    echo 'Unk';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Vomiting</label>
+                                                    <select name="vomiting" id="vomiting" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['vomiting'] ?>"><?php if ($symptoms) {
+                                                                                                            if ($symptoms['vomiting'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($symptoms['vomiting'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($symptoms['vomiting'] == 3) {
+                                                                                                                echo 'Unk';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Weight Loss</label>
+                                                    <select name="weight_loss" id="weight_loss" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['weight_loss'] ?>"><?php if ($symptoms) {
+                                                                                                            if ($symptoms['weight_loss'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($symptoms['weight_loss'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($symptoms['weight_loss'] == 3) {
+                                                                                                                echo 'Unk';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Exam ( Cardiac )</h1>
+                                    </div>
+
+                                    <div class="row">
+
 
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
@@ -3870,254 +4047,292 @@ if ($user->isLoggedIn()) {
                         <?php $results = $override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                         ?>
                         <div class="col-md-offset-1 col-md-8">
-                            <div class="head clearfix">
-                                <div class="isw-ok"></div>
-                                <h1>Results at enrollment</h1>
-                            </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Results at enrollment</h1>
+                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Date:</div>
-                                        <div class="col-md-9">
-                                            <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($results['visit_date']) {
-                                                                                                                                                    print_r($results['visit_date']);
-                                                                                                                                                }  ?>" required />
-                                            <span>Example: 2023-01-01</span>
+                                    <div class="row">
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>ECG Date:</label>
+                                                    <input class="validate[required,custom[date]]" type="text" name="ecg_date" id="ecg_date" value="<?php if ($results['ecg_date']) {
+                                                                                                                                                        print_r($results['ecg_date']);
+                                                                                                                                                    }  ?>" required />
+                                                    <span>Example: 2023-01-01</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>ECG</label>
+                                                    <select name="ecg" id="ecg" style="width: 100%;" required>
+                                                        <option value="<?= $results['ecg'] ?>"><?php if ($results) {
+                                                                                                    if ($results['ecg'] == 1) {
+                                                                                                        echo 'Single lead or';
+                                                                                                    } elseif ($results['ecg'] == 2) {
+                                                                                                        echo '12 lead';
+                                                                                                    } elseif ($results['ecg'] == 3) {
+                                                                                                        echo 'Normal sinus rhythm';
+                                                                                                    } elseif ($results['ecg'] == 4) {
+                                                                                                        echo 'Atrial fibrillation';
+                                                                                                    } elseif ($results['ecg'] == 5) {
+                                                                                                        echo 'Other';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?></option>
+                                                        <option value="1">Single lead or</option>
+                                                        <option value="2">12 lead</option>
+                                                        <option value="3">Normal sinus rhythm</option>
+                                                        <option value="4">Atrial fibrillation</option>
+                                                        <option value="5">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-6" id="ecg_other">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Other specify::</label>
+                                                    <textarea name="ecg_other" rows="4">
+                                                        <?php if ($results['ecg_other']) {
+                                                            print_r($results['ecg_other']);
+                                                        }  ?>
+                                                    </textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">ECG:</div>
-                                        <div class="col-md-9">
-                                            <select name="ecg" id="ecg" style="width: 100%;" required>
-                                                <option value="<?= $results['ecg'] ?>"><?php if ($results) {
-                                                                                            if ($results['ecg'] == 1) {
-                                                                                                echo 'Single lead or';
-                                                                                            } elseif ($results['ecg'] == 2) {
-                                                                                                echo '12 lead';
-                                                                                            } elseif ($results['ecg'] == 3) {
-                                                                                                echo 'Normal sinus rhythm';
-                                                                                            } elseif ($results['ecg'] == 4) {
-                                                                                                echo 'Atrial fibrillation';
-                                                                                            } elseif ($results['ecg'] == 5) {
-                                                                                                echo 'Other';
-                                                                                            }
-                                                                                        } else {
-                                                                                            echo 'Select';
-                                                                                        } ?></option>
-                                                <option value="1">Single lead or</option>
-                                                <option value="2">12 lead</option>
-                                                <option value="3">Normal sinus rhythm</option>
-                                                <option value="4">Atrial fibrillation</option>
-                                                <option value="5">Other</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <div class="row">
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">ECG Date:</div>
-                                        <div class="col-md-9"><input class="validate[required,custom[date]]" type="text" name="ecg_date" id="ecg_date" value="<?php if ($results['ecg_date']) {
-                                                                                                                                                                    print_r($results['ecg_date']);
-                                                                                                                                                                }  ?>" required />
-                                            <span>Example: 2023-01-01</span>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Echo Date:</label>
+                                                    <input class="validate[required,custom[date]]" type="text" name="echo_date" id="echo_date" value="<?php if ($results['echo_date']) {
+                                                                                                                                                            print_r($results['echo_date']);
+                                                                                                                                                        }  ?>" required />
+                                                    <span>Example: 2023-01-01</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix" id="ecg_other">
-                                        <div class="col-md-3">Other specify:</div>
-                                        <div class="col-md-9"><textarea name="ecg_other" rows="4">
-                                        <?php if ($results['ecg_other']) {
-                                            print_r($results['ecg_other']);
-                                        }  ?>
-                                        </textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Echo Date:</div>
-                                        <div class="col-md-9">
-                                            <input class="validate[required,custom[date]]" type="text" name="echo_date" id="echo_date" value="<?php if ($results['echo_date']) {
-                                                                                                                                                    print_r($results['echo_date']);
-                                                                                                                                                }  ?>" required />
-                                            <span>Example: 2023-01-01</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Echo:(Normal)</div>
-                                        <div class="col-md-9">
-                                            <select name="echo" id="echo" style="width: 100%;" required>
-                                                <option value="<?= $results['echo'] ?>"><?php if ($results) {
-                                                                                            if ($results['echo'] == 1) {
-                                                                                                echo 'Yes';
-                                                                                            } elseif ($results['echo'] == 2) {
-                                                                                                echo 'No';
-                                                                                            }
-                                                                                        } else {
-                                                                                            echo 'Select';
-                                                                                        } ?></option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">LV severely depressed</div>
-                                        <div class="col-md-9">
-                                            <select name="lv" id="lv" style="width: 100%;" required>
-                                                <option value="<?= $results['echo'] ?>"><?php if ($results) {
-                                                                                            if ($results['lv'] == 1) {
-                                                                                                echo 'Yes';
-                                                                                            } elseif ($results['lv'] == 2) {
-                                                                                                echo 'No';
-                                                                                            }
-                                                                                        } else {
-                                                                                            echo 'Select';
-                                                                                        } ?></option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Mitral stenosis</div>
-                                        <div class="col-md-9">
-                                            <select name="mitral" id="mitral" style="width: 100%;" required>
-                                                <option value="<?= $results['mitral'] ?>"><?php if ($results) {
-                                                                                                if ($results['lv'] == 1) {
-                                                                                                    echo 'Yes';
-                                                                                                } elseif ($results['lv'] == 2) {
-                                                                                                    echo 'No';
-                                                                                                }
-                                                                                            } else {
-                                                                                                echo 'Select';
-                                                                                            } ?></option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">RV severely dilated</div>
-                                        <div class="col-md-9">
-                                            <select name="rv" id="rv" style="width: 100%;" required>
-                                                <option value="<?= $results['rv'] ?>"><?php if ($results) {
-                                                                                            if ($results['rv'] == 1) {
-                                                                                                echo 'Yes';
-                                                                                            } elseif ($results['rv'] == 2) {
-                                                                                                echo 'No';
-                                                                                            } elseif ($results['rv'] == 3) {
-                                                                                                echo 'Unseen';
-                                                                                            }
-                                                                                        } else {
-                                                                                            echo 'Select';
-                                                                                        } ?></option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Pericardial effusion</div>
-                                        <div class="col-md-9">
-                                            <select name="pericardial" id="pericardial" style="width: 100%;" required>
-                                                <option value="<?= $results['pericardial'] ?>"><?php if ($results) {
-                                                                                                    if ($results['pericardial'] == 1) {
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Echo:(Normal)</label>
+                                                    <select name="echo" id="echo" style="width: 100%;" required>
+                                                        <option value="<?= $results['echo'] ?>"><?php if ($results) {
+                                                                                                    if ($results['echo'] == 1) {
                                                                                                         echo 'Yes';
-                                                                                                    } elseif ($results['pericardial'] == 2) {
+                                                                                                    } elseif ($results['echo'] == 2) {
                                                                                                         echo 'No';
-                                                                                                    } elseif ($results['pericardial'] == 3) {
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>LV severely depressed</label>
+                                                    <select name="lv" id="lv" style="width: 100%;" required>
+                                                        <option value="<?= $results['echo'] ?>"><?php if ($results) {
+                                                                                                    if ($results['lv'] == 1) {
+                                                                                                        echo 'Yes';
+                                                                                                    } elseif ($results['lv'] == 2) {
+                                                                                                        echo 'No';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'Select';
+                                                                                                } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Mitral stenosis</label>
+                                                    <select name="mitral" id="mitral" style="width: 100%;" required>
+                                                        <option value="<?= $results['mitral'] ?>"><?php if ($results) {
+                                                                                                        if ($results['lv'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($results['lv'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>RV severely dilated</label>
+                                                    <select name="rv" id="rv" style="width: 100%;" required>
+                                                        <option value="<?= $results['rv'] ?>"><?php if ($results) {
+                                                                                                    if ($results['rv'] == 1) {
+                                                                                                        echo 'Yes';
+                                                                                                    } elseif ($results['rv'] == 2) {
+                                                                                                        echo 'No';
+                                                                                                    } elseif ($results['rv'] == 3) {
                                                                                                         echo 'Unseen';
                                                                                                     }
                                                                                                 } else {
                                                                                                     echo 'Select';
                                                                                                 } ?></option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unseen</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">IVC dilated,collapse less than 50% </div>
-                                        <div class="col-md-9">
-                                            <select name="ivc" id="ivc" style="width: 100%;" required>
-                                                <option value="<?= $results['ivc'] ?>"><?php if ($results) {
-                                                                                            if ($results['ivc'] == 1) {
-                                                                                                echo 'Yes';
-                                                                                            } elseif ($results['ivc'] == 2) {
-                                                                                                echo 'No';
-                                                                                            } elseif ($results['ivc'] == 3) {
-                                                                                                echo 'Unseen';
-                                                                                            }
-                                                                                        } else {
-                                                                                            echo 'Select';
-                                                                                        } ?></option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Pericardial effusion</label>
+                                                    <select name="pericardial" id="pericardial" style="width: 100%;" required>
+                                                        <option value="<?= $results['pericardial'] ?>"><?php if ($results) {
+                                                                                                            if ($results['pericardial'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($results['pericardial'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($results['pericardial'] == 3) {
+                                                                                                                echo 'Unseen';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unseen</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Other Echo</div>
-                                        <div class="col-md-9">
-                                            <select name="echo_other" id="echo_other1" style="width: 100%;" required>
-                                                <option value="<?= $results['echo_other'] ?>"><?php if ($results) {
-                                                                                                    if ($results['echo_other'] == 1) {
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>IVC dilated,collapse less than 50%</label>
+                                                    <select name="ivc" id="ivc" style="width: 100%;" required>
+                                                        <option value="<?= $results['ivc'] ?>"><?php if ($results) {
+                                                                                                    if ($results['ivc'] == 1) {
                                                                                                         echo 'Yes';
-                                                                                                    } elseif ($results['echo_other'] == 2) {
+                                                                                                    } elseif ($results['ivc'] == 2) {
                                                                                                         echo 'No';
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    echo 'Select';
-                                                                                                } ?></option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="echo_other">
-                                        <div class="col-md-3">Other specify:</div>
-                                        <div class="col-md-9">
-                                            <textarea name="echo_specify" rows="4">
-                                            <?php if ($results['echo_specify']) {
-                                                print_r($results['echo_specify']);
-                                            }  ?>
-                                        </textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row-form clearfix" id="echo_other2">
-                                        <div class="col-md-3">Other</div>
-                                        <div class="col-md-9">
-                                            <select name="echo_other2" id="echo_other2" style="width: 100%;" required>
-                                                <option value="<?= $results['echo_other2'] ?>"><?php if ($results) {
-                                                                                                    if ($results['echo_other2'] == 1) {
-                                                                                                        echo 'Yes';
-                                                                                                    } elseif ($results['echo_other2'] == 2) {
-                                                                                                        echo 'No';
-                                                                                                    } elseif ($results['echo_other2'] == 3) {
+                                                                                                    } elseif ($results['ivc'] == 3) {
                                                                                                         echo 'Unseen';
                                                                                                     }
                                                                                                 } else {
                                                                                                     echo 'Select';
                                                                                                 } ?></option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                                <option value="3">Unseen</option>
-                                            </select>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unseen</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Other Echo</label>
+                                                    <select name="echo_other" id="echo_other1" style="width: 100%;" required>
+                                                        <option value="<?= $results['echo_other'] ?>"><?php if ($results) {
+                                                                                                            if ($results['echo_other'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($results['echo_other'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        <div class="col-sm-8">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Other specify</label>
+                                                    <textarea name="echo_specify" rows="4">
+                                                        <?php if ($results['echo_specify']) {
+                                                            print_r($results['echo_specify']);
+                                                        }  ?>
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4" id="echo_other2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Other</label>
+                                                    <select name="echo_other2" style="width: 100%;" required>
+                                                        <option value="<?= $results['echo_other2'] ?>"><?php if ($results) {
+                                                                                                            if ($results['echo_other2'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($results['echo_other2'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($results['echo_other2'] == 3) {
+                                                                                                                echo 'Unseen';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unseen</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
 
                                     <div class="footer tar">
                                         <input type="submit" name="add_results" value="Submit" class="btn btn-default">

@@ -779,31 +779,71 @@ if ($user->isLoggedIn()) {
                     $symptoms = $override->get3('symptoms', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                     if ($symptoms) {
-                        $user->updateRecord('symptoms', array(
-                            'visit_date' => Input::get('visit_date'),
-                            'dyspnea' => Input::get('dyspnea'),
-                            'orthopnea' => Input::get('orthopnea'),
-                            'paroxysmal' => Input::get('paroxysmal'),
-                            'chest_pain' => Input::get('chest_pain'),
-                            'cough' => Input::get('cough'),
-                            'thirst' => Input::get('thirst'),
-                            'urination' => Input::get('urination'),
-                            'vision' => Input::get('vision'),
-                            'abnorminal_pain' => Input::get('abnorminal_pain'),
-                            'vomiting' => Input::get('vomiting'),
-                            'weight_loss' => Input::get('weight_loss'),
-                            'edema' => Input::get('edema'),
-                            'lungs' => Input::get('lungs'),
-                            'Other' => Input::get('Other'),
-                            'jvp' => Input::get('jvp'),
-                            'volume' => Input::get('volume'),
-                            'murmur' => Input::get('murmur'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ), $symptoms['id']);
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
+                            $user->updateRecord('symptoms', array(
+                                'visit_date' => Input::get('visit_date'),
+                                'dyspnea' => Input::get('dyspnea'),
+                                'orthopnea' => Input::get('orthopnea'),
+                                'paroxysmal' => Input::get('paroxysmal'),
+                                'chest_pain' => Input::get('chest_pain'),
+                                'cough' => Input::get('cough'),
+                                'edema' => Input::get('edema'),
+                                'lungs' => Input::get('lungs'),
+                                'Other' => Input::get('Other'),
+                                'jvp' => Input::get('jvp'),
+                                'volume' => Input::get('volume'),
+                                'murmur' => Input::get('murmur'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $symptoms['id']);
+                        }
+
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
+                            $user->updateRecord('symptoms', array(
+                                'visit_date' => Input::get('visit_date'),
+                                'thirst' => Input::get('thirst'),
+                                'urination' => Input::get('urination'),
+                                'vision' => Input::get('vision'),
+                                'abnorminal_pain' => Input::get('abnorminal_pain'),
+                                'vomiting' => Input::get('vomiting'),
+                                'weight_loss' => Input::get('weight_loss'),
+                                'edema' => Input::get('edema'),
+                                'lungs' => Input::get('lungs'),
+                                'Other' => Input::get('Other'),
+                                'jvp' => Input::get('jvp'),
+                                'volume' => Input::get('volume'),
+                                'murmur' => Input::get('murmur'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $symptoms['id']);
+                        }
+
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
+                            $user->updateRecord('symptoms', array(
+                                'visit_date' => Input::get('visit_date'),
+                                'breathing' => Input::get('breathing'),
+                                'chest_pain2' => Input::get('chest_pain2'),
+                                'pain_score' => Input::get('pain_score'),
+                                'other_sickle' => Input::get('other_sickle'),                                
+                                'edema' => Input::get('edema'),
+                                'lungs' => Input::get('lungs'),
+                                'Other' => Input::get('Other'),
+                                'jvp' => Input::get('jvp'),
+                                'volume' => Input::get('volume'),
+                                'murmur' => Input::get('murmur'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $symptoms['id']);
+                        }
                     } else {
                         $user->createRecord('symptoms', array(
                             'visit_date' => Input::get('visit_date'),
@@ -3543,6 +3583,85 @@ if ($user->isLoggedIn()) {
                                                         <option value="2">No</option>
                                                         <option value="3">Unk</option>
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Symptoms ( Sickle Cell )</h1>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-sm-2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Difficulty Breathing</label>
+                                                    <select name="breathing" id="breathing" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['breathing'] ?>"><?php if ($symptoms) {
+                                                                                                            if ($symptoms['breathing'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($symptoms['breathing'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($symptoms['breathing'] == 3) {
+                                                                                                                echo 'Unk';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Chest Pain</label>
+                                                    <select name="chest_pain2" id="chest_pain2" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['chest_pain2'] ?>"><?php if ($symptoms) {
+                                                                                                            if ($symptoms['chest_pain2'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($symptoms['chest_pain2'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($symptoms['chest_pain2'] == 3) {
+                                                                                                                echo 'Unk';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Pain Score Today:</label>
+                                                    <input type="text" name="pain_score" value="<?php if ($symptoms['pain_score']) {
+                                                                                                    print_r($symptoms['pain_score']);
+                                                                                                }  ?>" />
+                                                </div>
+                                                <span> ( 1 - 10 )</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-5">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Other:</label>
+                                                    <input type="text" name="other_sickle" value="<?php if ($symptoms['other_sickle']) {
+                                                                                                        print_r($symptoms['other_sickle']);
+                                                                                                    }  ?>" />
                                                 </div>
                                             </div>
                                         </div>

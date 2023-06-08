@@ -812,6 +812,12 @@ if ($user->isLoggedIn()) {
                                 'weight_loss' => Input::get('weight_loss'),
                                 'foot_exam' => Input::get('foot_exam'),
                                 'foot_exam_finding' => Input::get('foot_exam_finding'),
+                                'fasting' => Input::get('fasting'),
+                                'random_fs' => Input::get('random_fs'),
+                                'hba1c' => Input::get('hba1c'),
+                                'hypoglycemia_symptoms' => Input::get('hypoglycemia_symptoms'),
+                                'hypoglycemia_severe' => Input::get('hypoglycemia_severe'),
+                                'hypoglycemia__number' => Input::get('hypoglycemia__number'),
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
@@ -832,6 +838,10 @@ if ($user->isLoggedIn()) {
                                 'jaundice' => Input::get('jaundice'),
                                 'splenomegaly' => Input::get('splenomegaly'),
                                 'anemia' => Input::get('anemia'),
+                                'hb' => Input::get('hb'),
+                                'wbc' => Input::get('wbc'),
+                                'plt' => Input::get('plt'),
+                                'labs_other' => Input::get('labs_other'),
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
@@ -858,12 +868,33 @@ if ($user->isLoggedIn()) {
                             'abnorminal_pain' => Input::get('abnorminal_pain'),
                             'vomiting' => Input::get('vomiting'),
                             'weight_loss' => Input::get('weight_loss'),
+                            'breathing' => Input::get('breathing'),
+                            'chest_pain2' => Input::get('chest_pain2'),
+                            'pain_score' => Input::get('pain_score'),
+                            'other_sickle' => Input::get('other_sickle'),
                             'edema' => Input::get('edema'),
                             'lungs' => Input::get('lungs'),
                             'Other' => Input::get('Other'),
                             'jvp' => Input::get('jvp'),
                             'volume' => Input::get('volume'),
                             'murmur' => Input::get('murmur'),
+                            'foot_exam' => Input::get('foot_exam'),
+                            'foot_exam_finding' => Input::get('foot_exam_finding'),
+                            'malnutrition' => Input::get('malnutrition'),
+                            'pallor' => Input::get('pallor'),
+                            'jaundice' => Input::get('jaundice'),
+                            'splenomegaly' => Input::get('splenomegaly'),
+                            'anemia' => Input::get('anemia'),
+                            'fasting' => Input::get('fasting'),
+                            'random_fs' => Input::get('random_fs'),
+                            'hba1c' => Input::get('hba1c'),
+                            'hypoglycemia_symptoms' => Input::get('hypoglycemia_symptoms'),
+                            'hypoglycemia_severe' => Input::get('hypoglycemia_severe'),
+                            'hypoglycemia__number' => Input::get('hypoglycemia__number'),
+                            'hb' => Input::get('hb'),
+                            'wbc' => Input::get('wbc'),
+                            'plt' => Input::get('plt'),
+                            'labs_other' => Input::get('labs_other'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -3439,6 +3470,117 @@ if ($user->isLoggedIn()) {
 
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
 
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Glucose Monitoring ( Diabetic )</h1>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Fasting FS:</label>
+                                                        <input type="text" name="fasting" value="<?php if ($symptoms['fasting']) {
+                                                                                                        print_r($symptoms['fasting']);
+                                                                                                    }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Random FS:</label>
+                                                        <input type="text" name="random_fs" value="<?php if ($symptoms['random_fs']) {
+                                                                                                        print_r($symptoms['random_fs']);
+                                                                                                    }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>HbA1C:</label>
+                                                        <input type="text" name="hba1c" value="<?php if ($symptoms['hba1c']) {
+                                                                                                    print_r($symptoms['hba1c']);
+                                                                                                }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Hypoglycemia ( Diabetic )</h1>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Symptoms of hypoglycemia?:</label>
+                                                        <select name="hypoglycemia_symptoms" id="hypoglycemia_symptoms" style="width: 100%;" required>
+                                                            <option value="<?= $symptoms['hypoglycemia_symptoms'] ?>"><?php if ($symptoms) {
+                                                                                                                            if ($symptoms['hypoglycemia_symptoms'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($symptoms['hypoglycemia_symptoms'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            } elseif ($symptoms['hypoglycemia_symptoms'] == 3) {
+                                                                                                                                echo 'Unsure';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                            <option value="3">Unsure</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Symptoms of hypoglycemia?:</label>
+                                                        <select name="hypoglycemia_severe" id="hypoglycemia_severe" style="width: 100%;" required>
+                                                            <option value="<?= $symptoms['hypoglycemia_severe'] ?>"><?php if ($symptoms) {
+                                                                                                                        if ($symptoms['hypoglycemia_severe'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($symptoms['hypoglycemia_severe'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        } elseif ($symptoms['hypoglycemia_severe'] == 3) {
+                                                                                                                            echo 'Unsure';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                            <option value="3">Unsure</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>If , Yes #:....</label>
+                                                        <input type="text" name="hypoglycemia__number" value="<?php if ($symptoms['hypoglycemia__number']) {
+                                                                                                                    print_r($symptoms['hypoglycemia__number']);
+                                                                                                                }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
 
 
                                         <div class="head clearfix">
@@ -4014,6 +4156,59 @@ if ($user->isLoggedIn()) {
                                                             <option value="2">Unk</option>
                                                         </select>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Labs ( Sickle Cell )</h1>
+                                        </div>
+
+                                        <div class="col-sm-3" id="hb">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Hb:</label>
+                                                    <input type="text" name="hb" value="<?php if ($symptoms['hb']) {
+                                                                                            print_r($symptoms['hb']);
+                                                                                        }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3" id="wbc">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>WBC:</label>
+                                                    <input type="text" name="wbc" value="<?php if ($symptoms['wbc']) {
+                                                                                                print_r($symptoms['wbc']);
+                                                                                            }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3" id="plt">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Plt:</label>
+                                                    <input type="text" name="plt" value="<?php if ($symptoms['plt']) {
+                                                                                                print_r($symptoms['plt']);
+                                                                                            }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3" id="labs_other">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Other:</label>
+                                                    <input type="text" name="labs_other" value="<?php if ($symptoms['labs_other']) {
+                                                                                                    print_r($symptoms['labs_other']);
+                                                                                                }  ?>" />
                                                 </div>
                                             </div>
                                         </div>

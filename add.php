@@ -643,9 +643,9 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_history')) {
             $validate = $validate->check($_POST, array(
-                'visit_date' => array(
-                    'required' => true,
-                ),
+                // 'visit_date' => array(
+                //     'required' => true,
+                // ),
             ));
             if ($validate->passed()) {
                 try {
@@ -653,7 +653,7 @@ if ($user->isLoggedIn()) {
 
                     if ($history) {
                         $user->updateRecord('history', array(
-                            'visit_date' => Input::get('visit_date'),
+                            'visit_date' => date('Y-m-d'),
                             'hypertension' => Input::get('hypertension'),
                             'diabetes' => Input::get('diabetes'),
                             'ckd' => Input::get('ckd'),
@@ -682,6 +682,13 @@ if ($user->isLoggedIn()) {
                             'neuropathy_date' => Input::get('neuropathy_date'),
                             'sexual_dysfunction' => Input::get('sexual_dysfunction'),
                             'sexual_dysfunction_date' => Input::get('sexual_dysfunction_date'),
+                            'pain_event' => Input::get('pain_event'),
+                            'stroke' => Input::get('stroke'),
+                            'pneumonia' => Input::get('pneumonia'),
+                            'blood_transfusion' => Input::get('blood_transfusion'),
+                            'acute_chest' => Input::get('acute_chest'),
+                            'other_complication' => Input::get('other_complication'),
+                            'specify_complication' => Input::get('specify_complication'),
                             'cardiac_disease' => Input::get('cardiac_disease'),
                             'cardiac_surgery' => Input::get('cardiac_surgery'),
                             'surgery_other' => Input::get('surgery_other'),
@@ -697,7 +704,7 @@ if ($user->isLoggedIn()) {
                         ), $history['id']);
                     } else {
                         $user->createRecord('history', array(
-                            'visit_date' => Input::get('visit_date'),
+                            'visit_date' => date('Y-m-d'),
                             'study_id' => Input::get('sid'),
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
@@ -731,6 +738,13 @@ if ($user->isLoggedIn()) {
                             'neuropathy_date' => Input::get('neuropathy_date'),
                             'sexual_dysfunction' => Input::get('sexual_dysfunction'),
                             'sexual_dysfunction_date' => Input::get('sexual_dysfunction_date'),
+                            'pain_event' => Input::get('pain_event'),
+                            'stroke' => Input::get('stroke'),
+                            'pneumonia' => Input::get('pneumonia'),
+                            'blood_transfusion' => Input::get('blood_transfusion'),
+                            'acute_chest' => Input::get('acute_chest'),
+                            'other_complication' => Input::get('other_complication'),
+                            'specify_complication' => Input::get('specify_complication'),
                             'cardiac_disease' => Input::get('cardiac_disease'),
                             'cardiac_surgery' => Input::get('cardiac_surgery'),
                             'surgery_other' => Input::get('surgery_other'),
@@ -2691,346 +2705,169 @@ if ($user->isLoggedIn()) {
 
                                     <?php } ?>
 
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Sickle Cell</h1>
+                                        </div>
+
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Previous complications at intake</h1>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Pain Event</label>
+                                                        <select name="pain_event" style="width: 100%;" required>
+                                                            <option value="<?= $history['pain_event'] ?>"><?php if ($history) {
+                                                                                                                if ($history['pain_event'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($history['pain_event'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Stroke</label>
+                                                        <select name="stroke" style="width: 100%;" required>
+                                                            <option value="<?= $history['stroke'] ?>"><?php if ($history) {
+                                                                                                            if ($history['stroke'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($history['stroke'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Pneumonia </label>
+                                                        <select name="pneumonia" style="width: 100%;" required>
+                                                            <option value="<?= $history['pneumonia'] ?>"><?php if ($history) {
+                                                                                                                if ($history['pneumonia'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($history['pneumonia'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Blood Transfusion</label>
+                                                        <select name="blood_transfusion" style="width: 100%;" required>
+                                                            <option value="<?= $history['blood_transfusion'] ?>"><?php if ($history) {
+                                                                                                                        if ($history['blood_transfusion'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($history['blood_transfusion'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Acute chest syndrome </label>
+                                                        <select name="acute_chest" style="width: 100%;" required>
+                                                            <option value="<?= $history['acute_chest'] ?>"><?php if ($history) {
+                                                                                                                if ($history['acute_chest'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($history['acute_chest'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Other</label>
+                                                        <select name="other_complication" style="width: 100%;" required>
+                                                            <option value="<?= $history['other_complication'] ?>"><?php if ($history) {
+                                                                                                                        if ($history['other_complication'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($history['other_complication'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6" id="specify_complication">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Other Specify</label>
+                                                        <input type="text" name="specify_complication" value="<?php if ($history['specify_complication']) {
+                                                                                                                    print_r($history['specify_complication']);
+                                                                                                                }  ?>" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                        <option value="3">CKD</option>
-                                                        <option value="4">Depression</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Diseases History</label>
-                                                    <select name="disease" style="width: 100%;" required>
-                                                        <option value="<?= $history['disease'] ?>"><?php if ($history) {
-                                                                                                        if ($history['disease'] == 1) {
-                                                                                                            echo 'Hypertension';
-                                                                                                        } elseif ($history['disease'] == 2) {
-                                                                                                            echo 'Diabetes';
-                                                                                                        } elseif ($history['disease'] == 3) {
-                                                                                                            echo 'CKD';
-                                                                                                        } elseif ($history['disease'] == 4) {
-                                                                                                            echo 'Depression';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Hypertension</option>
-                                                        <option value="2">Diabetes</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php } ?>
 
 
                                     <div class="row">
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Date Of Entry</label>
-                                                    <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($history['visit_date']) {
-                                                                                                                                                            print_r($history['visit_date']);
-                                                                                                                                                        }  ?>" />
-                                                    <span>Example: 2010-12-01</span>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>HIV</label>
@@ -3051,7 +2888,7 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -3065,7 +2902,7 @@ if ($user->isLoggedIn()) {
                                         </div>
 
 
-                                        <div class="col-sm-3" id="art_date">
+                                        <div class="col-sm-4" id="art_date">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -3317,15 +3154,15 @@ if ($user->isLoggedIn()) {
                                                     <div class="form-group">
                                                         <label>Hypertension ?</label>
                                                         <select name="hypertension_disease" id="hypertension_disease" style="width: 100%;" required>
-                                                            <option value="<?= $history['hypertension'] ?>"><?php if ($history) {
-                                                                                                                if ($history['hypertension_disease'] == 1) {
-                                                                                                                    echo 'Yes';
-                                                                                                                } elseif ($history['hypertension_disease'] == 2) {
-                                                                                                                    echo 'No';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?></option>
+                                                            <option value="<?= $history['hypertension_disease'] ?>"><?php if ($history) {
+                                                                                                                        if ($history['hypertension_disease'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($history['hypertension_disease'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                         </select>

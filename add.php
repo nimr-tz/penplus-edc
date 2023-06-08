@@ -3288,6 +3288,8 @@ if ($user->isLoggedIn()) {
                             <div class="block-fluid">
                                 <form id="validation" method="post">
 
+                                <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
+
                                     <div class="head clearfix">
                                         <div class="isw-ok"></div>
                                         <h1>Symptoms ( Cardiac )</h1>
@@ -3436,6 +3438,12 @@ if ($user->isLoggedIn()) {
                                         </div>
 
                                     </div>
+
+                                    <?php } ?>
+
+
+                                                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
+
 
 
                                     <div class="head clearfix">
@@ -3588,6 +3596,11 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+                                    <?php } ?>
+
+                                                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+
+
                                     <div class="head clearfix">
                                         <div class="isw-ok"></div>
                                         <h1>Symptoms ( Sickle Cell )</h1>
@@ -3666,6 +3679,9 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    <?php } ?>
 
 
                                     <div class="head clearfix">

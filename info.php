@@ -1567,7 +1567,26 @@ if ($user->isLoggedIn()) {
                                                                 <div class="row">
 
                                                                     <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Screening Date</div>
+                                                                        <div class="col-md-8">Consenting individuals?</div>
+                                                                        <div class="col-md-4">
+                                                                            <select name="consent" style="width: 100%;" required>
+                                                                                <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
+                                                                                                                                    if ($screening['consent'] == 1) {
+                                                                                                                                        echo 'Yes';
+                                                                                                                                    } elseif ($screening['consent'] == 2) {
+                                                                                                                                        echo 'No';
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    echo 'Select';
+                                                                                                                                } ?></option>
+                                                                                <option value="1">Yes</option>
+                                                                                <option value="2">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="col-md-8">Date of Conset</div>
                                                                         <div class="col-md-4">
                                                                             <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($screening['screening_date']) {
                                                                                                                                                                                     print_r($screening['screening_date']);
@@ -1651,25 +1670,6 @@ if ($user->isLoggedIn()) {
                                                                             </select>
                                                                         </div>
                                                                     </div> -->
-
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Consenting individuals?</div>
-                                                                        <div class="col-md-4">
-                                                                            <select name="consent" style="width: 100%;" required>
-                                                                                <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
-                                                                                                                                    if ($screening['consent'] == 1) {
-                                                                                                                                        echo 'Yes';
-                                                                                                                                    } elseif ($screening['consent'] == 2) {
-                                                                                                                                        echo 'No';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                                <option value="1">Yes</option>
-                                                                                <option value="2">No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
 
                                                                     <div class="dr"><span></span></div>
                                                                 </div>

@@ -1065,6 +1065,7 @@ if ($user->isLoggedIn()) {
                     $hospitalization = $override->get3('hospitalization', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                     if ($hospitalization) {
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
                         $user->updateRecord('hospitalization', array(
                             'visit_date' => Input::get('hospitalization_date'),
                             'hospitalization_date' => Input::get('hospitalization_date'),
@@ -1080,6 +1081,44 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $hospitalization['id']);
+                    }
+
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
+                            $user->updateRecord('hospitalization', array(
+                                'visit_date' => Input::get('hospitalization_date'),
+                                'hospitalization_date' => Input::get('hospitalization_date'),
+                                'hospitalizations' => Input::get('hospitalizations'),
+                                'ncd_hospitalizations' => Input::get('ncd_hospitalizations'),
+                                'hospitalization_number' => Input::get('hospitalization_number'),
+                                'missed_days' => Input::get('missed_days'),
+                                'school_days' => Input::get('school_days'),
+                                'fluid' => Input::get('fluid'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $hospitalization['id']);
+                        }
+
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
+                            $user->updateRecord('hospitalization', array(
+                                'visit_date' => Input::get('hospitalization_date'),
+                                'hospitalization_date' => Input::get('hospitalization_date'),
+                                'hospitalizations' => Input::get('hospitalizations'),
+                                'ncd_hospitalizations' => Input::get('ncd_hospitalizations'),
+                                'hospitalization_number' => Input::get('hospitalization_number'),
+                                'missed_days' => Input::get('missed_days'),
+                                'school_days' => Input::get('school_days'),
+                                'transfusion' => Input::get('transfusion'),
+                                'fluid' => Input::get('fluid'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $hospitalization['id']);
+                        }
                     } else {
                         $user->createRecord('hospitalization', array(
                             'visit_date' => Input::get('hospitalization_date'),
@@ -1094,6 +1133,7 @@ if ($user->isLoggedIn()) {
                             'hospitalization_number' => Input::get('hospitalization_number'),
                             'missed_days' => Input::get('missed_days'),
                             'school_days' => Input::get('school_days'),
+                            'transfusion' => Input::get('transfusion'), 
                             'fluid' => Input::get('fluid'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -4862,101 +4902,174 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Date:</div>
-                                        <div class="col-md-9">
-                                            <input class="validate[required,custom[date]]" type="text" name="hospitalization_date" id="hospitalization_date" value="<?php if ($hospitalization['hospitalization_date']) {
-                                                                                                                                                                        print_r($hospitalization['hospitalization_date']);
-                                                                                                                                                                    }  ?>" required />
-                                            <span>Example: 2023-01-01</span>
+                                    <div class="row">
+
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Hospitalization Date:</label>
+                                                    <input class="validate[required,custom[date]]" type="text" name="hospitalization_date" id="hospitalization_date" value="<?php if ($hospitalization['hospitalization_date']) {
+                                                                                                                                                                                print_r($hospitalization['hospitalization_date']);
+                                                                                                                                                                            }  ?>" required />
+                                                    <span>Example: 2023-01-01</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Any recent hospitalizations not yet recorded?</div>
-                                        <div class="col-md-9">
-                                            <select name="hospitalizations" id="hospitalizations" style="width: 100%;" required>
-                                                <option value="<?= $hospitalization['echo'] ?>"><?php if ($hospitalization) {
-                                                                                                    if ($hospitalization['hospitalizations'] == 1) {
-                                                                                                        echo 'Yes';
-                                                                                                    } elseif ($hospitalization['hospitalizations'] == 2) {
-                                                                                                        echo 'No';
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    echo 'Select';
-                                                                                                } ?>
-                                                </option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Hospitalizations</h1>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Any recent hospitalizations not yet recorded?</label>
+                                                    <select name="hospitalizations" id="hospitalizations" style="width: 100%;" required>
+                                                        <option value="<?= $hospitalization['hospitalizations'] ?>"><?php if ($hospitalization) {
+                                                                                                                        if ($hospitalization['hospitalizations'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($hospitalization['hospitalizations'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                        </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4" id="ncd_hospitalizations">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>If yes, for NCD?</label>
+                                                    <select name="ncd_hospitalizations" id="ncd_hospitalizations" style="width: 100%;">
+                                                        <option value="<?= $hospitalization['ncd_hospitalizations'] ?>"><?php if ($hospitalization) {
+                                                                                                                            if ($hospitalization['ncd_hospitalizations'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($hospitalization['ncd_hospitalizations'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?>
+                                                        </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Number of hospitalization from NCD in last 12 months</label>
+                                                    <input type="text" name="hospitalization_number" id="hospitalization_number" value="<?php if ($hospitalization['hospitalization_number']) {
+                                                                                                                                            print_r($hospitalization['hospitalization_number']);
+                                                                                                                                        }  ?>" required />
+                                                    <span>Record on hospitalization record</span>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix" id="ncd_hospitalizations">
-                                        <div class="col-md-3">If yes, for NCD?</div>
-                                        <div class="col-md-9">
-                                            <select name="ncd_hospitalizations" id="ncd_hospitalizations" style="width: 100%;">
-                                                <option value="<?= $hospitalization['echo'] ?>"><?php if ($hospitalization) {
-                                                                                                    if ($hospitalization['ncd_hospitalizations'] == 1) {
-                                                                                                        echo 'Yes';
-                                                                                                    } elseif ($hospitalization['ncd_hospitalizations'] == 2) {
-                                                                                                        echo 'No';
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    echo 'Select';
-                                                                                                } ?>
-                                                </option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>School</h1>
+                                    </div>
+
+                                    <div class="row">
+
+
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Number of missed days of school in the last month?</label>
+                                                    <input type="text" name="school_days" id="school_days" value="<?php if ($hospitalization['school_days']) {
+                                                                                                                        print_r($hospitalization['school_days']);
+                                                                                                                    }  ?>" required />
+                                                    <span>N / A</span>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Number of hospitalization from NCD in last 12 months:</div>
-                                        <div class="col-md-9">
-                                            <input type="text" name="hospitalization_number" id="hospitalization_number" value="<?php if ($hospitalization['hospitalization_number']) {
-                                                                                                                                    print_r($hospitalization['hospitalization_number']);
-                                                                                                                                }  ?>" required />
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {?>
+
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Transfusion</h1>
+                                    </div>
+
+                                    <div class="row">
+
+
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Number of Transfusion in the past month?</label>
+                                                    <input type="text" name="transfusion" id="transfusion" value="<?php if ($hospitalization['transfusion']) {
+                                                                                                                        print_r($hospitalization['transfusion']);
+                                                                                                                    }  ?>" required />
+                                                    <span>N / A</span>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Number of missed days of school in the last month?:</div>
-                                        <div class="col-md-9"><input type="text" name="school_days" id="school_days" value="<?php if ($hospitalization['school_days']) {
-                                                                                                                                print_r($hospitalization['school_days']);
-                                                                                                                            }  ?>" required />
-                                        </div>
+                                    <?php } ?>
+
+
+
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Management at Home</h1>
                                     </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">How many days of missed medications in past 7 days?</div>
-                                        <div class="col-md-9">
-                                            <input type="text" name="missed_days" id="missed_days" value="<?php if ($hospitalization['missed_days']) {
-                                                                                                                print_r($hospitalization['missed_days']);
-                                                                                                            }  ?>" required />
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>How many days of missed medications in past 7 days?</label>
+                                                    <input type="text" name="missed_days" id="missed_days" value="<?php if ($hospitalization['missed_days']) {
+                                                                                                                        print_r($hospitalization['missed_days']);
+                                                                                                                    }  ?>" required />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row-form clearfix">
-                                        <div class="col-md-3">Fluid restricted?</div>
-                                        <div class="col-md-9">
-
-                                            <select name="fluid" id="fluid" style="width: 100%;" required>
-                                                <option value="<?= $hospitalization['fluid'] ?>"><?php if ($hospitalization) {
-                                                                                                        if ($hospitalization['fluid'] == 1) {
-                                                                                                            echo 'Yes';
-                                                                                                        } elseif ($hospitalization['fluid'] == 2) {
-                                                                                                            echo 'No';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?>
-                                                </option>
-                                                <option value="1">Yes</option>
-                                                <option value="2">No</option>
-                                            </select>
+                                        <div class="col-sm-6" id="ncd_hospitalizations">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Fluid restricted?</label>
+                                                    <select name="fluid" id="fluid" style="width: 100%;" required>
+                                                        <option value="<?= $hospitalization['fluid'] ?>"><?php if ($hospitalization) {
+                                                                                                                if ($hospitalization['fluid'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($hospitalization['fluid'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?>
+                                                        </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
 
                                     <div class="footer tar">

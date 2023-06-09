@@ -1272,28 +1272,82 @@ if ($user->isLoggedIn()) {
                     $lab_details = $override->get3('lab_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                     if ($lab_details) {
-                        $user->updateRecord('lab_details', array(
-                            'visit_date' => Input::get('lab_date'),
-                            'lab_date' => Input::get('lab_date'),
-                            'ncd_coping' => Input::get('ncd_coping'),
-                            'family_planning' => Input::get('family_planning'),
-                            'na' => Input::get('na'),
-                            'k' => Input::get('k'),
-                            'bun' => Input::get('bun'),
-                            'cre' => Input::get('cre'),
-                            'bnp' => Input::get('bnp'),
-                            'inr' => Input::get('inr'),
-                            'lab_Other' => Input::get('lab_Other'),
-                            'lab_ecg' => Input::get('lab_ecg'),
-                            'lab_ecg_other' => Input::get('lab_ecg_other'),
-                            'cardiac_surgery' => Input::get('cardiac_surgery'),
-                            'cardiac_surgery_type' => Input::get('cardiac_surgery_type'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ), $lab_details['id']);
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
+
+                            $user->updateRecord('lab_details', array(
+                                'visit_date' => Input::get('lab_date'),
+                                'lab_date' => Input::get('lab_date'),
+                                'ncd_coping' => Input::get('ncd_coping'),
+                                'family_planning' => Input::get('family_planning'),
+                                'na' => Input::get('na'),
+                                'k' => Input::get('k'),
+                                'bun' => Input::get('bun'),
+                                'cre' => Input::get('cre'),
+                                'bnp' => Input::get('bnp'),
+                                'inr' => Input::get('inr'),
+                                'lab_Other' => Input::get('lab_Other'),
+                                'lab_specify' => Input::get('lab_specify'),
+                                'lab_ecg' => Input::get('lab_ecg'),
+                                'lab_ecg_other' => Input::get('lab_ecg_other'),
+                                'cardiac_surgery' => Input::get('cardiac_surgery'),
+                                'cardiac_surgery_type' => Input::get('cardiac_surgery_type'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $lab_details['id']);
+                        }
+
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
+
+                            $user->updateRecord('lab_details', array(
+                                'visit_date' => Input::get('lab_date'),
+                                'lab_date' => Input::get('lab_date'),
+                                'ncd_coping' => Input::get('ncd_coping'),
+                                'family_planning' => Input::get('family_planning'),
+                                'dka_number' => Input::get('dka_number'),
+                                'eyes_examined' => Input::get('eyes_examined'),
+                                'cataracts' => Input::get('cataracts'),
+                                'retinopathy_screening' => Input::get('retinopathy_screening'),
+                                'foot_exam_diabetes' => Input::get('foot_exam_diabetes'),
+                                'na_diabetes' => Input::get('na_diabetes'),
+                                'k_diabetes' => Input::get('k_diabetes'),
+                                'cre_diabetes' => Input::get('cre_diabetes'),
+                                'proteinuria' => Input::get('proteinuria'),
+                                'lipid_panel' => Input::get('lipid_panel'),
+                                'other_lab_diabetes' => Input::get('other_lab_diabetes'),
+                                'specify_lab_diabetes' => Input::get('specify_lab_diabetes'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $lab_details['id']);
+                        }
+
+                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
+
+                            $user->updateRecord('lab_details', array(
+                                'visit_date' => Input::get('lab_date'),
+                                'lab_date' => Input::get('lab_date'),
+                                'ncd_coping' => Input::get('ncd_coping'),
+                                'family_planning' => Input::get('family_planning'),
+                                'lab_transfusion_sickle' => Input::get('lab_transfusion_sickle'),
+                                'transcranial_doppler' => Input::get('transcranial_doppler'),
+                                'wbc' => Input::get('wbc'),
+                                'hb' => Input::get('hb'),
+                                'mcv' => Input::get('mcv'),
+                                'plt' => Input::get('plt'),
+                                'fe_studies' => Input::get('fe_studies'),
+                                'lfts' => Input::get('lfts'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $lab_details['id']);
+                        }
                     } else {
                         $user->createRecord('lab_details', array(
                             'visit_date' => Input::get('lab_date'),
@@ -1312,10 +1366,31 @@ if ($user->isLoggedIn()) {
                             'bnp' => Input::get('bnp'),
                             'inr' => Input::get('inr'),
                             'lab_Other' => Input::get('lab_Other'),
+                            'lab_specify' => Input::get('lab_specify'),
                             'lab_ecg' => Input::get('lab_ecg'),
                             'lab_ecg_other' => Input::get('lab_ecg_other'),
                             'cardiac_surgery' => Input::get('cardiac_surgery'),
                             'cardiac_surgery_type' => Input::get('cardiac_surgery_type'),
+                            'dka_number' => Input::get('dka_number'),
+                            'eyes_examined' => Input::get('eyes_examined'),
+                            'cataracts' => Input::get('cataracts'),
+                            'retinopathy_screening' => Input::get('retinopathy_screening'),
+                            'foot_exam_diabetes' => Input::get('foot_exam_diabetes'),
+                            'na_diabetes' => Input::get('na_diabetes'),
+                            'k_diabetes' => Input::get('k_diabetes'),
+                            'cre_diabetes' => Input::get('cre_diabetes'),
+                            'proteinuria' => Input::get('proteinuria'),
+                            'lipid_panel' => Input::get('lipid_panel'),
+                            'other_lab_diabetes' => Input::get('other_lab_diabetes'),
+                            'specify_lab_diabetes' => Input::get('specify_lab_diabetes'),
+                            'lab_transfusion_sickle' => Input::get('lab_transfusion_sickle'),
+                            'transcranial_doppler' => Input::get('transcranial_doppler'),
+                            'wbc' => Input::get('wbc'),
+                            'hb' => Input::get('hb'),
+                            'mcv' => Input::get('mcv'),
+                            'plt' => Input::get('plt'),
+                            'fe_studies' => Input::get('fe_studies'),
+                            'lfts' => Input::get('lfts'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -8390,192 +8465,626 @@ if ($user->isLoggedIn()) {
                             <div class="col-md-offset-1 col-md-8">
                                 <div class="head clearfix">
                                     <div class="isw-ok"></div>
-                                    <h1>Lab Details</h1>
+                                    <h1>Lab and Clinical Monitoring</h1>
                                 </div>
                                 <div class="block-fluid">
                                     <form id="validation" method="post">
 
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Date</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="lab_date" id="lab_date" value="<?php if ($lab_details['lab_date']) {
-                                                                                                            print_r($lab_details['lab_date']);
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Date:</label>
+                                                        <input type="text" name="lab_date" id="lab_date" value="<?php if ($lab_details['lab_date']) {
+                                                                                                                    print_r($lab_details['lab_date']);
+                                                                                                                }  ?>" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>NCD coping ?:</label>
+                                                        <select name="ncd_coping" id="ncd_coping" style="width: 100%;" required>
+                                                            <option value="<?= $lab_details['ncd_coping'] ?>"><?php if ($lab_details) {
+                                                                                                                    if ($lab_details['ncd_coping'] == 1) {
+                                                                                                                        echo 'Well';
+                                                                                                                    } elseif ($lab_details['ncd_coping'] == 2) {
+                                                                                                                        echo 'Some problems';
+                                                                                                                    } elseif ($lab_details['ncd_coping'] == 3) {
+                                                                                                                        echo 'Poor';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
+                                                            </option>
+                                                            <option value="1">Well</option>
+                                                            <option value="2">Some problems</option>
+                                                            <option value="3">Poor</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Family planning ?:</label>
+                                                        <select name="family_planning" id="family_planning" style="width: 100%;" required>
+                                                            <option value="<?= $lab_details['family_planning'] ?>"><?php if ($lab_details) {
+                                                                                                                        if ($lab_details['family_planning'] == 1) {
+                                                                                                                            echo 'Not eligible';
+                                                                                                                        } elseif ($lab_details['family_planning'] == 2) {
+                                                                                                                            echo 'Not interested';
+                                                                                                                        } elseif ($lab_details['family_planning'] == 3) {
+                                                                                                                            echo 'Currently using';
+                                                                                                                        } elseif ($lab_details['family_planning'] == 3) {
+                                                                                                                            echo 'referred';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                            </option>
+                                                            <option value="1">Not eligible</option>
+                                                            <option value="2">Not interested</option>
+                                                            <option value="3">Currently using</option>
+                                                            <option value="3">referred</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
+
+
+                                            <div class="head clearfix">
+                                                <div class="isw-ok"></div>
+                                                <h1>Cardiac</h1>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Na:</label>
+                                                            <input type="text" name="na" id="na" value="<?php if ($lab_details['na']) {
+                                                                                                            print_r($lab_details['na']);
                                                                                                         }  ?>" required />
-                                            </div>
-                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                                <div class="col-sm-2">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>K:</label>
+                                                            <input type="text" name="k" id="k" value="<?php if ($lab_details['k']) {
+                                                                                                            print_r($lab_details['k']);
+                                                                                                        }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">NCD coping</div>
-                                            <div class="col-md-9">
-                                                <select name="ncd_coping" id="ncd_coping" style="width: 100%;" required>
-                                                    <option value="<?= $lab_details['ncd_coping'] ?>"><?php if ($lab_details) {
-                                                                                                            if ($lab_details['ncd_coping'] == 1) {
-                                                                                                                echo 'Well';
-                                                                                                            } elseif ($lab_details['ncd_coping'] == 2) {
-                                                                                                                echo 'Some problems';
-                                                                                                            } elseif ($lab_details['ncd_coping'] == 3) {
-                                                                                                                echo 'Poor';
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            echo 'Select';
-                                                                                                        } ?>
-                                                    </option>
-                                                    <option value="1">Well</option>
-                                                    <option value="2">Some problems</option>
-                                                    <option value="3">Poor</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Family planning</div>
-                                            <div class="col-md-9">
-                                                <select name="family_planning" id="family_planning" style="width: 100%;" required>
-                                                    <option value="<?= $lab_details['family_planning'] ?>"><?php if ($lab_details) {
-                                                                                                                if ($lab_details['family_planning'] == 1) {
-                                                                                                                    echo 'Not eligible';
-                                                                                                                } elseif ($lab_details['family_planning'] == 2) {
-                                                                                                                    echo 'Not interested';
-                                                                                                                } elseif ($lab_details['family_planning'] == 3) {
-                                                                                                                    echo 'Currently using';
-                                                                                                                } elseif ($lab_details['family_planning'] == 3) {
-                                                                                                                    echo 'referred';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?>
-                                                    </option>
-                                                    <option value="1">Not eligible</option>
-                                                    <option value="2">Not interested</option>
-                                                    <option value="3">Currently using</option>
-                                                    <option value="3">referred</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Na</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="na" id="na" value="<?php if ($lab_details['na']) {
-                                                                                                print_r($lab_details['na']);
-                                                                                            }  ?>" required />
-                                            </div>
-                                        </div>
-
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">K</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="k" id="k" value="<?php if ($lab_details['k']) {
-                                                                                                print_r($lab_details['k']);
-                                                                                            }  ?>" required />
-                                            </div>
-                                        </div>
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">BUN</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="bun" id="bun" value="<?php if ($lab_details['bun']) {
-                                                                                                    print_r($lab_details['bun']);
-                                                                                                }  ?>" required />
-                                            </div>
-                                        </div>
-
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Cre</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="cre" id="cre" value="<?php if ($lab_details['cre']) {
-                                                                                                    print_r($lab_details['cre']);
-                                                                                                }  ?>" required />
-                                            </div>
-                                        </div>
-
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">BNP</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="bnp" id="bnp" value="<?php if ($lab_details['bnp']) {
-                                                                                                    print_r($lab_details['bnp']);
-                                                                                                }  ?>" required />
-                                            </div>
-                                        </div>
-
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">INR</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="inr" id="inr" value="<?php if ($lab_details['inr']) {
-                                                                                                    print_r($lab_details['inr']);
-                                                                                                }  ?>" required />
-                                            </div>
-                                        </div>
-
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">lab_Other:</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="lab_Other" id="lab_Other" value="<?php if ($lab_details['lab_Other']) {
-                                                                                                                print_r($lab_details['lab_Other']);
+                                                <div class="col-sm-2">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>BUN:</label>
+                                                            <input type="text" name="bun" id="bun" value="<?php if ($lab_details['bun']) {
+                                                                                                                print_r($lab_details['bun']);
                                                                                                             }  ?>" required />
-                                            </div>
-                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">ECG</div>
-                                            <div class="col-md-9">
-                                                <select name="lab_ecg" id="lab_ecg" style="width: 100%;" required>
-                                                    <option value="<?= $lab_details['lab_ecg'] ?>"><?php if ($lab_details) {
-                                                                                                        if ($lab_details['lab_ecg'] == 1) {
-                                                                                                            echo 'NSR';
-                                                                                                        } elseif ($lab_details['lab_ecg'] == 2) {
-                                                                                                            echo 'Other';
-                                                                                                        } elseif ($lab_details['lab_ecg'] == 3) {
-                                                                                                            echo 'Afib';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?>
-                                                    </option>
-                                                    <option value="1">NSR</option>
-                                                    <option value="2">Other</option>
-                                                    <option value="3">Afib</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                                <div class="col-sm-2">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Cre:</label>
+                                                            <input type="text" name="cre" id="cre" value="<?php if ($lab_details['cre']) {
+                                                                                                                print_r($lab_details['cre']);
+                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                        <div class="row-form clearfix" id="lab_ecg_other">
-                                            <div class="col-md-3">Specify:</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="lab_ecg_other" value="<?php if ($lab_details['lab_ecg_other']) {
-                                                                                                    print_r($lab_details['lab_ecg_other']);
-                                                                                                }  ?>" />
-                                            </div>
-                                        </div>
+                                                <div class="col-sm-2">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>BNP:</label>
+                                                            <input type="text" name="bnp" id="bnp" value="<?php if ($lab_details['bnp']) {
+                                                                                                                print_r($lab_details['bnp']);
+                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Cardiac surgery / intervention?</div>
-                                            <div class="col-md-9">
-                                                <select name="cardiac_surgery" id="cardiac_surgery" style="width: 100%;" required>
-                                                    <option value="<?= $lab_details['cardiac_surgery'] ?>"><?php if ($lab_details) {
-                                                                                                                if ($lab_details['cardiac_surgery'] == 1) {
-                                                                                                                    echo 'Yes';
-                                                                                                                } elseif ($lab_details['cardiac_surgery'] == 2) {
-                                                                                                                    echo 'No';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?>
-                                                    </option>
-                                                    <option value="1">Yes</option>
-                                                    <option value="2">No</option>
-                                                </select>
+                                                <div class="col-sm-2">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>INR:</label>
+                                                            <input type="text" name="inr" id="inr" value="<?php if ($lab_details['inr']) {
+                                                                                                                print_r($lab_details['inr']);
+                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="row-form clearfix" id="cardiac_surgery_type">
-                                            <div class="col-md-3">Type:</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="cardiac_surgery_type" value="<?php if ($lab_details['cardiac_surgery_type']) {
-                                                                                                            print_r($lab_details['cardiac_surgery_type']);
-                                                                                                        }  ?>" />
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Other:</label>
+                                                            <select name="lab_Other" id="lab_Other" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['lab_Other'] ?>"><?php if ($lab_details) {
+                                                                                                                        if ($lab_details['lab_Other'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($lab_details['lab_Other'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                                </option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Other Specify:</label>
+                                                            <input type="text" name="lab_specify" id="lab_specify" value="<?php if ($lab_details['lab_specify']) {
+                                                                                                                                print_r($lab_details['lab_specify']);
+                                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>ECG:</label>
+                                                            <select name="lab_ecg" id="lab_ecg" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['lab_ecg'] ?>"><?php if ($lab_details) {
+                                                                                                                    if ($lab_details['lab_ecg'] == 1) {
+                                                                                                                        echo 'NSR';
+                                                                                                                    } elseif ($lab_details['lab_ecg'] == 2) {
+                                                                                                                        echo 'Other';
+                                                                                                                    } elseif ($lab_details['lab_ecg'] == 3) {
+                                                                                                                        echo 'Afib';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
+                                                                </option>
+                                                                <option value="1">NSR</option>
+                                                                <option value="2">Other</option>
+                                                                <option value="3">Afib</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3" id="lab_ecg_other">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Specify:</label>
+                                                            <input type="text" name="lab_ecg_other" value="<?php if ($lab_details['lab_ecg_other']) {
+                                                                                                                print_r($lab_details['lab_ecg_other']);
+                                                                                                            }  ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+
+
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Cardiac surgery / intervention?:</label>
+                                                            <select name="cardiac_surgery" id="cardiac_surgery" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['cardiac_surgery'] ?>"><?php if ($lab_details) {
+                                                                                                                            if ($lab_details['cardiac_surgery'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($lab_details['cardiac_surgery'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?>
+                                                                </option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Type:</label>
+                                                            <input type="text" name="cardiac_surgery_type" value="<?php if ($lab_details['cardiac_surgery_type']) {
+                                                                                                                        print_r($lab_details['cardiac_surgery_type']);
+                                                                                                                    }  ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <?php } ?>
+
+                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
+
+
+                                            <div class="head clearfix">
+                                                <div class="isw-ok"></div>
+                                                <h1>Diabetes</h1>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label># episodes DKA in last yr:</label>
+                                                            <input type="text" name="dka_number" id="dka_number" value="<?php if ($lab_details['dka_number']) {
+                                                                                                                            print_r($lab_details['dka_number']);
+                                                                                                                        }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Eyes examined:</label>
+                                                            <select name="eyes_examined" id="eyes_examined" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['eyes_examined'] ?>"><?php if ($lab_details) {
+                                                                                                                            if ($lab_details['eyes_examined'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($lab_details['eyes_examined'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?>
+                                                                </option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4" id="cataracts">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Cataracts ?:</label>
+                                                            <select name="cataracts" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['cataracts'] ?>"><?php if ($lab_details) {
+                                                                                                                        if ($lab_details['cataracts'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($lab_details['cataracts'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                                </option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Retinopathy screening:</label>
+                                                            <select name="retinopathy_screening" id="retinopathy_screening" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['retinopathy_screening'] ?>"><?php if ($lab_details) {
+                                                                                                                                    if ($lab_details['retinopathy_screening'] == 1) {
+                                                                                                                                        echo 'Unknown';
+                                                                                                                                    } elseif ($lab_details['retinopathy_screening'] == 2) {
+                                                                                                                                        echo 'None';
+                                                                                                                                    } elseif ($lab_details['retinopathy_screening'] == 3) {
+                                                                                                                                        echo 'Background';
+                                                                                                                                    } elseif ($lab_details['retinopathy_screening'] == 4) {
+                                                                                                                                        echo 'Profilerative';
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    echo 'Select';
+                                                                                                                                } ?>
+                                                                </option>
+                                                                <option value="1">Unknown</option>
+                                                                <option value="2">None</option>
+                                                                <option value="3">Background</option>
+                                                                <option value="4">Profilerative</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Foot exam:</label>
+                                                            <select name="foot_exam_diabetes" id="foot_exam_diabetes" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['foot_exam_diabetes'] ?>"><?php if ($lab_details) {
+                                                                                                                                if ($lab_details['foot_exam_diabetes'] == 1) {
+                                                                                                                                    echo 'Normal';
+                                                                                                                                } elseif ($lab_details['foot_exam_diabetes'] == 2) {
+                                                                                                                                    echo 'Abnormal';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?>
+                                                                </option>
+                                                                <option value="1">Normal</option>
+                                                                <option value="2">Abnormal</option>
+                                                            </select>
+                                                            <span>Light touch or monofilament</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Na:</label>
+                                                            <input type="text" name="na_diabetes" id="na_diabetes" value="<?php if ($lab_details['na_diabetes']) {
+                                                                                                                                print_r($lab_details['na_diabetes']);
+                                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>K:</label>
+                                                            <input type="text" name="k_diabetes" id="k_diabetes" value="<?php if ($lab_details['k_diabetes']) {
+                                                                                                                            print_r($lab_details['k_diabetes']);
+                                                                                                                        }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Cre:</label>
+                                                            <input type="text" name="cre_diabetes" id="cre_diabetes" value="<?php if ($lab_details['cre_diabetes']) {
+                                                                                                                                print_r($lab_details['cre_diabetes']);
+                                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Proteinuria:</label>
+                                                            <input type="text" name="proteinuria" id="proteinuria" value="<?php if ($lab_details['proteinuria']) {
+                                                                                                                                print_r($lab_details['proteinuria']);
+                                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Lipid panel:</label>
+                                                            <input type="text" name="lipid_panel" id="lipid_panel" value="<?php if ($lab_details['lipid_panel']) {
+                                                                                                                                print_r($lab_details['lipid_panel']);
+                                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Other ?:</label>
+                                                            <select name="other_lab_diabetes" id="other_lab_diabetes" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['other_lab_diabetes'] ?>"><?php if ($lab_details) {
+                                                                                                                                if ($lab_details['other_lab_diabetes'] == 1) {
+                                                                                                                                    echo 'Yes';
+                                                                                                                                } elseif ($lab_details['other_lab_diabetes'] == 2) {
+                                                                                                                                    echo 'No';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?>
+                                                                </option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-8" id="specify_lab_diabetes">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Specify:</label>
+                                                            <input type="text" name="specify_lab_diabetes" value="<?php if ($lab_details['specify_lab_diabetes']) {
+                                                                                                                        print_r($lab_details['specify_lab_diabetes']);
+                                                                                                                    }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <?php } ?>
+
+                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+
+
+                                            <div class="head clearfix">
+                                                <div class="isw-ok"></div>
+                                                <h1>Sickle Cell</h1>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label># Transfusion in last 12 months</label>
+                                                            <input type="text" name="lab_transfusion_sickle" id="lab_transfusion_sickle" value="<?php if ($lab_details['na']) {
+                                                                                                                                                    print_r($lab_details['lab_transfusion_sickle']);
+                                                                                                                                                }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label># Transcranial Doppler</label>
+                                                            <input type="text" name="transcranial_doppler" id="transcranial_doppler" value="<?php if ($lab_details['transcranial_doppler']) {
+                                                                                                                                                print_r($lab_details['transcranial_doppler']);
+                                                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>WBC:</label>
+                                                            <input type="text" name="wbc" id="wbc" value="<?php if ($lab_details['wbc']) {
+                                                                                                                print_r($lab_details['wbc']);
+                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Hb:</label>
+                                                            <input type="text" name="hb" id="hb" value="<?php if ($lab_details['hb']) {
+                                                                                                            print_r($lab_details['hb']);
+                                                                                                        }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>MCV:</label>
+                                                            <input type="text" name="mcv" id="mcv" value="<?php if ($lab_details['mcv']) {
+                                                                                                                print_r($lab_details['mcv']);
+                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Plt:</label>
+                                                            <input type="text" name="plt" id="plt" value="<?php if ($lab_details['plt']) {
+                                                                                                                print_r($lab_details['plt']);
+                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Fe studies:</label>
+                                                            <input type="text" name="fe_studies" id="fe_studies" value="<?php if ($lab_details['fe_studies']) {
+                                                                                                                            print_r($lab_details['fe_studies']);
+                                                                                                                        }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>LFTs:</label>
+                                                            <input type="text" name="lfts" id="lfts" value="<?php if ($lab_details['lfts']) {
+                                                                                                                print_r($lab_details['lfts']);
+                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <?php } ?>
 
                                         <div class="footer tar">
                                             <input type="submit" name="add_lab_details" value="Submit" class="btn btn-default">

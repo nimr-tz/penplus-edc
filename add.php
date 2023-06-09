@@ -1732,6 +1732,31 @@ if ($user->isLoggedIn()) {
                             'medication_other' => Input::get('medication_other'),
                             'action_medication_other' => Input::get('action_medication_other'),
                             'dose_medication_other' => Input::get('dose_medication_other'),
+                            'metformin' => Input::get('metformin'),
+                            'action_metformin' => Input::get('action_metformin'),
+                            'dose_metformin' => Input::get('dose_metformin'),
+                            'glibenclamide' => Input::get('glibenclamide'),
+                            'action_glibenclamide' => Input::get('action_glibenclamide'),
+                            'dose_glibenclamide' => Input::get('dose_glibenclamide'),
+                            'anti_diabetic' => Input::get('anti_diabetic'),
+                            'action_anti_diabetic' => Input::get('action_anti_diabetic'),
+                            'dose_anti_diabetic' => Input::get('dose_anti_diabetic'),
+                            'aspirin' => Input::get('aspirin'),
+                            'action_aspirin' => Input::get('action_aspirin'),
+                            'dose_aspirin' => Input::get('dose_aspirin'),
+                            'anti_hypertensive2' => Input::get('anti_hypertensive2'),
+                            'action_anti_hypertensive2' => Input::get('action_anti_hypertensive2'),
+                            'dose_anti_hypertensive2' => Input::get('dose_anti_hypertensive2'),
+                            'medication_other2' => Input::get('medication_other2'),
+                            'action_medication_other2' => Input::get('action_medication_other2'),
+                            'dose_medication_other2' => Input::get('dose_medication_other2'),
+                            'basal_changed' => Input::get('basal_changed'),
+                            'basal_am2' => Input::get('basal_am2'),
+                            'basal_pm2' => Input::get('basal_pm2'),
+                            'prandial_changed' => Input::get('prandial_changed'),
+                            'prandial_am2' => Input::get('prandial_am2'),
+                            'prandial_lunch2' => Input::get('prandial_lunch2'),
+                            'prandial_pm2' => Input::get('prandial_pm2'),
                             'salt' => Input::get('salt'),
                             'fluid' => Input::get('fluid'),
                             'restriction_other' => Input::get('restriction_other'),
@@ -6646,8 +6671,8 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Units in am:</label>
-                                                        <input type="text" name="basal_am2" id="basal_am2" value="<?php if ($hospitalization['basal_am2']) {
-                                                                                                                        print_r($hospitalization['basal_am2']);
+                                                        <input type="text" name="basal_am2" id="basal_am2" value="<?php if ($treatment_plan['basal_am2']) {
+                                                                                                                        print_r($treatment_plan['basal_am2']);
                                                                                                                     }  ?>" required />
 
                                                     </div>
@@ -6657,8 +6682,8 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Units in pm:</label>
-                                                        <input type="text" name="basal_pm2" id="basal_pm2" value="<?php if ($hospitalization['basal_pm2']) {
-                                                                                                                        print_r($hospitalization['basal_pm2']);
+                                                        <input type="text" name="basal_pm2" id="basal_pm2" value="<?php if ($treatment_plan['basal_pm2']) {
+                                                                                                                        print_r($treatment_plan['basal_pm2']);
                                                                                                                     }  ?>" required />
 
                                                     </div>
@@ -6697,8 +6722,8 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Units in am :</label>
-                                                        <input type="text" name="prandial_am2" id="prandial_am2" value="<?php if ($hospitalization['prandial_am2']) {
-                                                                                                                            print_r($hospitalization['prandial_am2']);
+                                                        <input type="text" name="prandial_am2" id="prandial_am2" value="<?php if ($treatment_plan['prandial_am2']) {
+                                                                                                                            print_r($treatment_plan['prandial_am2']);
                                                                                                                         }  ?>" required />
                                                     </div>
                                                 </div>
@@ -6707,8 +6732,8 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Units at lunch :</label>
-                                                        <input type="text" name="prandial_lunch2" id="prandial_lunch2" value="<?php if ($hospitalization['prandial_lunch2']) {
-                                                                                                                                    print_r($hospitalization['prandial_lunch2']);
+                                                        <input type="text" name="prandial_lunch2" id="prandial_lunch2" value="<?php if ($treatment_plan['prandial_lunch2']) {
+                                                                                                                                    print_r($treatment_plan['prandial_lunch2']);
                                                                                                                                 }  ?>" required />
 
                                                     </div>
@@ -6719,8 +6744,8 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Units in pm :</label>
-                                                        <input type="text" name="prandial_pm2" id="prandial_pm2" value="<?php if ($hospitalization['prandial_pm2']) {
-                                                                                                                            print_r($hospitalization['prandial_pm2']);
+                                                        <input type="text" name="prandial_pm2" id="prandial_pm2" value="<?php if ($treatment_plan['prandial_pm2']) {
+                                                                                                                            print_r($treatment_plan['prandial_pm2']);
                                                                                                                         }  ?>" required />
 
                                                     </div>

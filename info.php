@@ -223,26 +223,26 @@ if ($user->isLoggedIn()) {
                 'visit_date' => array(
                     'required' => true,
                 ),
-                'age_6_above' => array(
-                    'required' => true,
-                ),
+                // 'age_6_above' => array(
+                //     'required' => true,
+                // ),
                 'consent' => array(
                     'required' => true,
                 ),
-                'scd' => array(
-                    'required' => true,
-                ),
-                'rhd' => array(
-                    'required' => true,
-                ),
-                'residence' => array(
-                    'required' => true,
-                ),
+                // 'scd' => array(
+                //     'required' => true,
+                // ),
+                // 'rhd' => array(
+                //     'required' => true,
+                // ),
+                // 'residence' => array(
+                //     'required' => true,
+                // ),
             ));
             if ($validate->passed()) {
                 try {
                     $eligibility = 0;
-                    if (Input::get('age_6_above') == 1 && Input::get('consent') == 1 && Input::get('scd') == 2 && Input::get('rhd') == 2 && Input::get('residence') == 2) {
+                    if (Input::get('consent') == 1) {
                         $eligibility = 1;
                     }
 
@@ -1454,9 +1454,6 @@ if ($user->isLoggedIn()) {
                                                         <?php
                                                         } ?>
 
-                                                        <!-- <td>
-        <a href="#" class="btn btn-danger"><?= $end_study['outcome'] ?></a>
-    </td> -->
                                                     <?php } else { ?>
                                                         <td>
                                                             <a href="#" class="btn btn-success">ACTIVE</a>
@@ -1570,7 +1567,26 @@ if ($user->isLoggedIn()) {
                                                                 <div class="row">
 
                                                                     <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Screening Date</div>
+                                                                        <div class="col-md-8">Consenting individuals?</div>
+                                                                        <div class="col-md-4">
+                                                                            <select name="consent" style="width: 100%;" required>
+                                                                                <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
+                                                                                                                                    if ($screening['consent'] == 1) {
+                                                                                                                                        echo 'Yes';
+                                                                                                                                    } elseif ($screening['consent'] == 2) {
+                                                                                                                                        echo 'No';
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    echo 'Select';
+                                                                                                                                } ?></option>
+                                                                                <option value="1">Yes</option>
+                                                                                <option value="2">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="col-md-8">Date of Conset</div>
                                                                         <div class="col-md-4">
                                                                             <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($screening['screening_date']) {
                                                                                                                                                                                     print_r($screening['screening_date']);
@@ -1579,7 +1595,7 @@ if ($user->isLoggedIn()) {
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="row-form clearfix">
+                                                                    <!-- <div class="row-form clearfix">
                                                                         <div class="col-md-8">Aged 6 years and above</div>
                                                                         <div class="col-md-4">
                                                                             <select name="age_6_above" style="width: 100%;" required>
@@ -1596,9 +1612,9 @@ if ($user->isLoggedIn()) {
                                                                                 <option value="2">No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div>
+                                                                    </div> -->
 
-                                                                    <div class="row-form clearfix">
+                                                                    <!-- <div class="row-form clearfix">
                                                                         <div class="col-md-8">Known SCD?</div>
                                                                         <div class="col-md-4">
                                                                             <select name="scd" style="width: 100%;" required>
@@ -1653,26 +1669,7 @@ if ($user->isLoggedIn()) {
                                                                                 <option value="2">No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div>
-
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Consenting individuals?</div>
-                                                                        <div class="col-md-4">
-                                                                            <select name="consent" style="width: 100%;" required>
-                                                                                <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
-                                                                                                                                    if ($screening['consent'] == 1) {
-                                                                                                                                        echo 'Yes';
-                                                                                                                                    } elseif ($screening['consent'] == 2) {
-                                                                                                                                        echo 'No';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                                <option value="1">Yes</option>
-                                                                                <option value="2">No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
+                                                                    </div> -->
 
                                                                     <div class="dr"><span></span></div>
                                                                 </div>
@@ -2564,7 +2561,7 @@ if ($user->isLoggedIn()) {
 
                                         <tr>
                                             <td>3</td>
-                                            <td>Patient Hitory & Complication</td>
+                                            <td>Patient Hitory & Family History & Complication</td>
                                             <?php if ($override->get3('history', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
                                                 <td><a href="add.php?id=9&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success" disabled> Change </a> </td>
@@ -2575,7 +2572,7 @@ if ($user->isLoggedIn()) {
 
                                         <tr>
                                             <td>4</td>
-                                            <td>Family History(Symtom & Exam)</td>
+                                            <td>Symtom & Exam</td>
                                             <?php if ($override->get3('symptoms', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
                                                 <td><a href="add.php?id=10&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success" disabled> Change </a> </td>
@@ -2587,61 +2584,66 @@ if ($user->isLoggedIn()) {
 
                                         <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
+                                            <tr>
+                                                <td>5</td>
+                                                <td>Main diagnosis 1 ( Cardiac )</td>
+                                                <?php if ($override->get3('diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Main diagnosis 1 ( Cardiac )</td>
-                                            <?php if ($override->get3('diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
-                                            <?php } else { ?>
-                                                <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
-                                            <?php } ?>
-                                        </tr>
+                                                    <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
+                                                <?php } else { ?>
+                                                    <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                <?php } ?>
+                                            </tr>
                                         <?php } ?>
 
                                         <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
 
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Main diagnosis 2 ( Diabetes )</td>
-                                            <?php if ($override->get3('diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>Main diagnosis 2 ( Diabetes )</td>
+                                                <?php if ($override->get3('diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
-                                            <?php } else { ?>
-                                                <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
-                                            <?php } ?>
-                                        </tr>
+                                                    <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
+                                                <?php } else { ?>
+                                                    <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                <?php } ?>
+                                            </tr>
                                         <?php } ?>
 
 
                                         <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
 
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Main diagnosis 3 ( Sickle Cell )</td>
-                                            <?php if ($override->get3('diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>Main diagnosis 3 ( Sickle Cell )</td>
+                                                <?php if ($override->get3('diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
-                                            <?php } else { ?>
-                                                <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
-                                            <?php } ?>
-                                        </tr>
+                                                    <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
+                                                <?php } else { ?>
+                                                    <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                <?php } ?>
+                                            </tr>
 
                                         <?php } ?>
 
-                                        <tr>
-                                            <td>6</td>
-                                            <td>Results at enrollment</td>
-                                            <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
-                                                <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
-                                            <?php } else { ?>
-                                                <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
-                                            <?php } ?>
 
-                                        </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>Results at enrollment</td>
+                                                <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
+                                                <?php } else { ?>
+                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                <?php } ?>
+
+                                            </tr>
+
+                                        <?php } ?>
+
 
                                         <tr>
                                             <td>7</td>

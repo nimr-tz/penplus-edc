@@ -605,7 +605,25 @@ if ($user->isLoggedIn()) {
             $filename = null;
             if (Input::get('clients')) {
                 $data = $override->getData('clients');
-                $filename = 'Clients';
+                $filename = 'Registartion Data';
+            } elseif (Input::get('screening')) {
+                $data = $override->getData('site');
+                $filename = 'screening Data';
+            } elseif (Input::get('demographic')) {
+                $data = $override->getData('demographic');
+                $filename = 'Demographic Data';
+            } elseif (Input::get('sites')) {
+                $data = $override->getData('site');
+                $filename = 'Sites';
+            } elseif (Input::get('sites')) {
+                $data = $override->getData('site');
+                $filename = 'Sites';
+            } elseif (Input::get('sites')) {
+                $data = $override->getData('site');
+                $filename = 'Sites';
+            } elseif (Input::get('sites')) {
+                $data = $override->getData('site');
+                $filename = 'Sites';
             } elseif (Input::get('visits')) {
                 $data = $override->getData('visit');
                 $filename = 'Visits';
@@ -2341,16 +2359,23 @@ if ($user->isLoggedIn()) {
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>Clients</td>
+                                            <td>Registered Clients</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="clients" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>6</td>
-                                            <td>Screening</td>
+                                            <td>2</td>
+                                            <td>Screened Clients</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="screening" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Demographic Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="demographic" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
@@ -2368,7 +2393,7 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
 
-                                        <!-- <tr>
+                                        <tr>
                                             <td>1</td>
                                             <td>CRF1</td>
                                             <td>
@@ -2473,7 +2498,7 @@ if ($user->isLoggedIn()) {
                                             <td>
                                                 <form method="post"><input type="submit" name="sites" value="Download"></form>
                                             </td>
-                                        </tr> -->
+                                        </tr>
 
                                     </tbody>
                                 </table>

@@ -2342,14 +2342,14 @@ if ($user->isLoggedIn()) {
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>Registered Clients</td>
+                                            <td>Registered Clients Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="clients" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>2</td>
-                                            <td>Screened Clients</td>
+                                            <td>Screened Clients Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="screening" value="Download"></form>
                                             </td>
@@ -2377,14 +2377,14 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                         <tr>
                                             <td>6</td>
-                                            <td> Patient & Family History & Complication</td>
+                                            <td> Patient & Family History & Complication Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="history" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>7</td>
-                                            <td> Symtom & Exam</td>
+                                            <td> Symtom & Exam Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="symptoms" value="Download"></form>
                                             </td>

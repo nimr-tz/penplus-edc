@@ -654,7 +654,17 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('social_economic')) {
                 $data = $override->getData('social_economic');
                 $filename = 'Socioeconomic Status Data';
+            } elseif (Input::get('visit')) {
+                $data = $override->getData('visit');
+                $filename = 'visit Schedule Data';
+            } elseif (Input::get('study_id')) {
+                $data = $override->getData('study_id');
+                $filename = 'study_id Status Data';
+            } elseif (Input::get('site')) {
+                $data = $override->getData('site');
+                $filename = 'Site List';
             }
+
             $user->exportData($data, $filename);
         }
     }
@@ -2466,9 +2476,17 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                         <tr>
                                             <td>19</td>
-                                            <td>Sites</td>
+                                            <td>Sites List</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="sites" value="Download"></form>
+                                                <form method="post"><input type="submit" name="site" value="Download"></form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>19</td>
+                                            <td>Visit Schedules Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="visit" value="Download"></form>
                                             </td>
                                         </tr>
 

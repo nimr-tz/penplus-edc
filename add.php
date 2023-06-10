@@ -10055,6 +10055,183 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Water Access:?</label>
+                                                        <select name="water_access" id="water_access" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['water_access'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['water_access'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($social_economic['water_access'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                        <span>IF no, skip next question</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Drinking water source:?</label>
+                                                        <select name="water_source" id="water_source" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['water_source'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['water_source'] == 1) {
+                                                                                                                            echo 'Piped into dwelling';
+                                                                                                                        } elseif ($social_economic['water_source'] == 2) {
+                                                                                                                            echo 'Piped to neighbor ';
+                                                                                                                        } elseif ($social_economic['water_source'] == 3) {
+                                                                                                                            echo 'Tube well or borehole';
+                                                                                                                        } elseif ($social_economic['water_source'] == 4) {
+                                                                                                                            echo 'Unprotected well';
+                                                                                                                        } elseif ($social_economic['water_source'] == 5) {
+                                                                                                                            echo 'Unprotected spring';
+                                                                                                                        } elseif ($social_economic['water_source'] == 6) {
+                                                                                                                            echo 'Surface water';
+                                                                                                                        } elseif ($social_economic['water_source'] == 7) {
+                                                                                                                            echo 'Piped to yard/plot';
+                                                                                                                        } elseif ($social_economic['water_source'] == 8) {
+                                                                                                                            echo 'Public tap or standpipe ';
+                                                                                                                        } elseif ($social_economic['water_source'] == 9) {
+                                                                                                                            echo 'Protected well';
+                                                                                                                        } elseif ($social_economic['water_source'] == 10) {
+                                                                                                                            echo 'Protected spring';
+                                                                                                                        } elseif ($social_economic['water_source'] == 11) {
+                                                                                                                            echo 'Rainwater';
+                                                                                                                        } elseif ($social_economic['water_source'] == 96) {
+                                                                                                                            echo 'Other';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Piped into dwelling</option>
+                                                            <option value="2">Piped to neighbor</option>
+                                                            <option value="3">Tube well or borehole</option>
+                                                            <option value="4">Unprotected well </option>
+                                                            <option value="5">Unprotected spring</option>
+                                                            <option value="6">Surface water</option>
+                                                            <option value="7">Piped to yard/plot</option>
+                                                            <option value="8">Public tap or standpipe</option>
+                                                            <option value="9">Protected well</option>
+                                                            <option value="10">Protected spring</option>
+                                                            <option value="11">Rainwater</option>
+                                                            <option value="96">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="water_source_other" rows="4">
+                                                        <?php if ($social_economic['water_source_other']) {
+                                                            print_r($social_economic['water_source_other']);
+                                                        }  ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Toilet Access:?</label>
+                                                        <select name="toilet_access" id="toilet_access" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['toilet_access'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['toilet_access'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($social_economic['toilet_access'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                        <span>IF no, skip next question</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Drinking water source:?</label>
+                                                        <select name="water_source" id="water_source" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['water_source'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['water_source'] == 1) {
+                                                                                                                            echo 'Flush to pit latrine';
+                                                                                                                        } elseif ($social_economic['water_source'] == 2) {
+                                                                                                                            echo 'Flush to somewhere else';
+                                                                                                                        } elseif ($social_economic['water_source'] == 3) {
+                                                                                                                            echo 'Flush, don’t know where';
+                                                                                                                        } elseif ($social_economic['water_source'] == 4) {
+                                                                                                                            echo 'Ventilated improved pit latrine';
+                                                                                                                        } elseif ($social_economic['water_source'] == 5) {
+                                                                                                                            echo 'Pit latrine with slab';
+                                                                                                                        } elseif ($social_economic['water_source'] == 6) {
+                                                                                                                            echo 'Pit latrine without slab/open pit';
+                                                                                                                        } elseif ($social_economic['water_source'] == 7) {
+                                                                                                                            echo 'Composting toilet ';
+                                                                                                                        } elseif ($social_economic['water_source'] == 8) {
+                                                                                                                            echo 'Hanging toilet';
+                                                                                                                        } elseif ($social_economic['water_source'] == 9) {
+                                                                                                                            echo 'Bucket toilet';
+                                                                                                                        } elseif ($social_economic['water_source'] == 10) {
+                                                                                                                            echo 'No facilities';
+                                                                                                                        } elseif ($social_economic['water_source'] == 96) {
+                                                                                                                            echo 'Other';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Flush to pit latrine</option>
+                                                            <option value="2">Flush to somewhere else</option>
+                                                            <option value="3">Flush, don’t know where</option>
+                                                            <option value="4">Ventilated improved pit latrine</option>
+                                                            <option value="5">Pit latrine with slab</option>
+                                                            <option value="6">Pit latrine without slab/open pit</option>
+                                                            <option value="7">Composting toilet </option>
+                                                            <option value="8">Hanging toilet</option>
+                                                            <option value="9">Bucket toilet</option>
+                                                            <option value="10">No facilities</option>
+                                                            <option value="96">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="toilet_access_other" rows="4">
+                                                        <?php if ($social_economic['toilet_access_other']) {
+                                                            print_r($social_economic['toilet_access_other']);
+                                                        }  ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
 
 
                                         <div class="footer tar">

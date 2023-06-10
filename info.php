@@ -2719,7 +2719,7 @@ if ($user->isLoggedIn()) {
 
                                         <tr>
                                             <td>12</td>
-                                            <td>Socioeconomic Statusc</td>
+                                            <td>Socioeconomic Status</td>
                                             <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
                                                 <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>

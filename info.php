@@ -642,9 +642,9 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('dgns_complctns_comorbdts')) {
                 $data = $override->getData('dgns_complctns_comorbdts');
                 $filename = 'Diagnosis, Complications, & Comorbidities Data';
-            } elseif (Input::get('crf2')) {
-                $data = $override->getData('crf2');
-                $filename = 'CRF 2';
+            } elseif (Input::get('risks')) {
+                $data = $override->getData('risks');
+                $filename = 'RISK Data';
             } elseif (Input::get('crf3')) {
                 $data = $override->getData('crf3');
                 $filename = 'CRF 3';
@@ -2454,9 +2454,9 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                         <tr>
                                             <td>14</td>
-                                            <td>RISK</td>
+                                            <td>RISK Data</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="crf4" value="Download"></form>
+                                                <form method="post"><input type="submit" name="risks" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>

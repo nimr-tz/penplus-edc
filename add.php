@@ -10173,7 +10173,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Drinking water source:?</label>
+                                                        <label>Type of Toilet facility?</label>
                                                         <select name="water_source" id="water_source" style="width: 100%;" required>
                                                             <option value="<?= $social_economic['water_source'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['water_source'] == 1) {
@@ -10231,6 +10231,178 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Does your household have </h1>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Television?</label>
+                                                        <select name="television" id="television" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['television'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['television'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($social_economic['television'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Refrigerator?</label>
+                                                        <select name="refrigerator" id="refrigerator" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['refrigerator'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['refrigerator'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($social_economic['refrigerator'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Sofa ?</label>
+                                                        <select name="sofa" id="sofa" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['sofa'] ?>"><?php if ($social_economic) {
+                                                                                                                if ($social_economic['sofa'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($social_economic['sofa'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Clock:?</label>
+                                                        <select name="clock" id="clock" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['clock'] ?>"><?php if ($social_economic) {
+                                                                                                                    if ($social_economic['clock'] == 1) {
+                                                                                                                        echo 'Yes';
+                                                                                                                    } elseif ($social_economic['clock'] == 2) {
+                                                                                                                        echo 'No';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Fan ?</label>
+                                                        <select name="fan" id="fan" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['fan'] ?>"><?php if ($social_economic) {
+                                                                                                                if ($social_economic['fan'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($social_economic['fan'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>VCR/DVD?</label>
+                                                        <select name="vcr_dvd" id="vcr_dvd" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['vcr_dvd'] ?>"><?php if ($social_economic) {
+                                                                                                                    if ($social_economic['vcr_dvd'] == 1) {
+                                                                                                                        echo 'Yes';
+                                                                                                                    } elseif ($social_economic['vcr_dvd'] == 2) {
+                                                                                                                        echo 'No';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Does any member of this household have a bank account? </label>
+                                                        <select name="bank_account" id="bank_account" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['bank_account'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['bank_account'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($social_economic['bank_account'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
 
 
 

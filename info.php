@@ -2432,13 +2432,13 @@ if ($user->isLoggedIn()) {
 
                                         <tr>
                                             <td>11</td>
-                                            <td>Hospitalization</td>
+                                            <td>Hospitalization Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="hospitalization" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
+                                            <td>12</td>
                                             <td>Treatment Plan
                                             </td>
                                             <td>
@@ -2446,21 +2446,21 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
+                                            <td>13</td>
                                             <td>Diagnosis, Complications, & Comorbidities</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="crf3" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
+                                            <td>14</td>
                                             <td>RISK</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="crf4" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
+                                            <td>15</td>
                                             <td>Hospitalization Details
                                             </td>
                                             <td>
@@ -2468,7 +2468,7 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
+                                            <td>16</td>
                                             <td>Lab Details
                                             </td>
                                             <td>
@@ -2476,7 +2476,7 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
+                                            <td>17</td>
                                             <td>Socioeconomic Status
                                             </td>
                                             <td>
@@ -2485,14 +2485,14 @@ if ($user->isLoggedIn()) {
                                         </tr>
 
                                         <tr>
-                                            <td>4</td>
+                                            <td>18</td>
                                             <td>Study IDs</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="study_id" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>5</td>
+                                            <td>19</td>
                                             <td>Sites</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="sites" value="Download"></form>

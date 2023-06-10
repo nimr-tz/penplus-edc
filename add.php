@@ -9871,6 +9871,55 @@ if ($user->isLoggedIn()) {
                                         </div>
 
 
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>How much was spent on transport for the
+                                                            person to accompany you today?</label>
+                                                        <input type="text" name="earn_individual" id="earn_individual" value="<?php if ($social_economic['earn_individual']) {
+                                                                                                                                    print_r($social_economic['earn_individual']);
+                                                                                                                                }  ?>" required />
+                                                        <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>What other expenses have they made to
+                                                            accompany you today? (for example food,
+                                                            child care)</label>
+                                                        <input type="text" name="earn_household" id="earn_household" value="<?php if ($social_economic['earn_household']) {
+                                                                                                                                print_r($social_economic['earn_household']);
+                                                                                                                            }  ?>" required />
+                                                        <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>In the last month, on how many days were
+                                                            your normal activities disrupted through
+                                                            illness?</label>
+                                                        <input type="text" name="earn_household" id="earn_household" value="<?php if ($social_economic['earn_household']) {
+                                                                                                                                print_r($social_economic['earn_household']);
+                                                                                                                            }  ?>" required />
+                                                        <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
 
                                         <div class="footer tar">
                                             <input type="submit" name="add_social" value="Submit" class="btn btn-default">

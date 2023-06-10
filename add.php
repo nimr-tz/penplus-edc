@@ -2021,7 +2021,7 @@ if ($user->isLoggedIn()) {
                             'toilet_access_other' => Input::get('toilet_access_other'),
                             'television' => Input::get('television'),
                             'refrigerator' => Input::get('refrigerator'),
-                            'toilet_access' => Input::get('toilet_access'),
+                            'toilet_access' => Input::get('sofa'),
                             'toilet_access' => Input::get('toilet_access'),
                             'toilet_access' => Input::get('toilet_access'),
                             'toilet_access' => Input::get('toilet_access'),

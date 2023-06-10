@@ -2022,7 +2022,7 @@ if ($user->isLoggedIn()) {
                             'television' => Input::get('television'),
                             'refrigerator' => Input::get('refrigerator'),
                             'toilet_access' => Input::get('sofa'),
-                            'toilet_access' => Input::get('toilet_access'),
+                            'clock' => Input::get('clock'),
                             'toilet_access' => Input::get('toilet_access'),
                             'toilet_access' => Input::get('toilet_access'),
                             'patient_id' => $_GET['cid'],

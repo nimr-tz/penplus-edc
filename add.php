@@ -1962,6 +1962,101 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('add_social_economic')) {
+            $validate = $validate->check($_POST, array(
+                'social_economic_date' => array(
+                    'required' => true,
+                ),
+
+            ));
+            if ($validate->passed()) {
+                try {
+
+                    $summary = $override->get3('summary', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                    if ($summary) {
+                        $user->updateRecord('summary', array(
+                            'visit_date' => Input::get('visit_date'),
+                            'social_economic_date' => Input::get('social_economic_date'),
+                            'distance_km' => Input::get('distance_km'),
+                            'distance_minutes' => Input::get('distance_minutes'),
+                            'diagnosis_other' => Input::get('diagnosis_other'),
+                            'transport_mode' => Input::get('transport_mode'),
+                            'transport_mode_other' => Input::get('transport_mode_other'),
+                            'transportation_cost' => Input::get('transportation_cost'),
+                            'household_head' => Input::get('household_head'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_years' => Input::get('household_years'),
+                            'household_people' => Input::get('household_people'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_head_other' => Input::get('household_head_other'),
+
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ), $summary['id']);
+                    } else {
+                        $user->createRecord('summary', array(
+                            'visit_date' => Input::get('summary_date'),
+                            'study_id' => Input::get('sid'),
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'summary_date' => Input::get('summary_date'),
+                            'comments' => Input::get('comments'),
+                            'diagnosis' => Input::get('diagnosis'),
+                            'diagnosis_other' => Input::get('diagnosis_other'),
+                            'outcome' => Input::get('outcome'),
+                            'transfer_out' => Input::get('transfer_out'),
+                            'cause_death' => Input::get('cause_death'),
+                            'next_appointment_notes' => Input::get('next_appointment_notes'),
+                            'next_appointment' => Input::get('next_appointment'),
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ));
+                    }
+                    $successMessage = 'Visit Summary  details added Successful';
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    die;
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         }
     }
 } else {
@@ -10174,34 +10269,34 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Type of Toilet facility?</label>
-                                                        <select name="water_source" id="water_source" style="width: 100%;" required>
-                                                            <option value="<?= $social_economic['water_source'] ?>"><?php if ($social_economic) {
-                                                                                                                        if ($social_economic['water_source'] == 1) {
-                                                                                                                            echo 'Flush to pit latrine';
-                                                                                                                        } elseif ($social_economic['water_source'] == 2) {
-                                                                                                                            echo 'Flush to somewhere else';
-                                                                                                                        } elseif ($social_economic['water_source'] == 3) {
-                                                                                                                            echo 'Flush, don’t know where';
-                                                                                                                        } elseif ($social_economic['water_source'] == 4) {
-                                                                                                                            echo 'Ventilated improved pit latrine';
-                                                                                                                        } elseif ($social_economic['water_source'] == 5) {
-                                                                                                                            echo 'Pit latrine with slab';
-                                                                                                                        } elseif ($social_economic['water_source'] == 6) {
-                                                                                                                            echo 'Pit latrine without slab/open pit';
-                                                                                                                        } elseif ($social_economic['water_source'] == 7) {
-                                                                                                                            echo 'Composting toilet ';
-                                                                                                                        } elseif ($social_economic['water_source'] == 8) {
-                                                                                                                            echo 'Hanging toilet';
-                                                                                                                        } elseif ($social_economic['water_source'] == 9) {
-                                                                                                                            echo 'Bucket toilet';
-                                                                                                                        } elseif ($social_economic['water_source'] == 10) {
-                                                                                                                            echo 'No facilities';
-                                                                                                                        } elseif ($social_economic['water_source'] == 96) {
-                                                                                                                            echo 'Other';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
+                                                        <select name="toilet_facility" id="toilet_facility" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['toilet_facility'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['toilet_facility'] == 1) {
+                                                                                                                                echo 'Flush to pit latrine';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 2) {
+                                                                                                                                echo 'Flush to somewhere else';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 3) {
+                                                                                                                                echo 'Flush, don’t know where';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 4) {
+                                                                                                                                echo 'Ventilated improved pit latrine';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 5) {
+                                                                                                                                echo 'Pit latrine with slab';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 6) {
+                                                                                                                                echo 'Pit latrine without slab/open pit';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 7) {
+                                                                                                                                echo 'Composting toilet ';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 8) {
+                                                                                                                                echo 'Hanging toilet';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 9) {
+                                                                                                                                echo 'Bucket toilet';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 10) {
+                                                                                                                                echo 'No facilities';
+                                                                                                                            } elseif ($social_economic['toilet_facility'] == 96) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
                                                             <option value="1">Flush to pit latrine</option>
                                                             <option value="2">Flush to somewhere else</option>
                                                             <option value="3">Flush, don’t know where</option>
@@ -10458,7 +10553,7 @@ if ($user->isLoggedIn()) {
 
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">
-                                                    <!-- select -->
+                                                    <!-- s8elect -->
                                                     <div class="form-group">
                                                         <label>Did you or any household member go a whole day without eating anything because there was not enough food?</label>
                                                         <select name="day_hungry" id="day_hungry" style="width: 100%;" required>
@@ -11022,7 +11117,7 @@ if ($user->isLoggedIn()) {
                                         </div>
 
                                         <div class="footer tar">
-                                            <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
+                                            <input type="submit" name="add_social_economic" value="Submit" class="btn btn-default">
                                         </div>
 
                                     </form>

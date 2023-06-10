@@ -645,9 +645,9 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('risks')) {
                 $data = $override->getData('risks');
                 $filename = 'RISK Data';
-            } elseif (Input::get('crf3')) {
-                $data = $override->getData('crf3');
-                $filename = 'CRF 3';
+            } elseif (Input::get('hospitalization_details')) {
+                $data = $override->getData('hospitalization_details');
+                $filename = 'Hospitalization Details Data';
             } elseif (Input::get('crf4')) {
                 $data = $override->getData('crf4');
                 $filename = 'CRF 4';
@@ -663,25 +663,7 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('crf7')) {
                 $data = $override->getData('crf7');
                 $filename = 'CRF 7';
-            } elseif (Input::get('herbal')) {
-                $data = $override->getData('herbal_treatment');
-                $filename = 'Other Herbal Treatment';
-            } elseif (Input::get('medication')) {
-                $data = $override->getData('other_medication');
-                $filename = 'other_medication';
-            } elseif (Input::get('nimregenin')) {
-                $data = $override->getData('nimregenin');
-                $filename = 'nimregenin';
-            } elseif (Input::get('radiotherapy')) {
-                $data = $override->getData('radiotherapy');
-                $filename = 'radiotherapy';
-            } elseif (Input::get('chemotherapy')) {
-                $data = $override->getData('chemotherapy');
-                $filename = 'chemotherapy';
-            } elseif (Input::get('surgery')) {
-                $data = $override->getData('surgery');
-                $filename = 'surgery';
-            }
+            } 
             $user->exportData($data, $filename);
         }
     }
@@ -2461,10 +2443,10 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                         <tr>
                                             <td>15</td>
-                                            <td>Hospitalization Details
+                                            <td>Hospitalization Details Data
                                             </td>
                                             <td>
-                                                <form method="post"><input type="submit" name="crf5" value="Download"></form>
+                                                <form method="post"><input type="submit" name="hospitalization_details" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>

@@ -612,12 +612,12 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('demographic')) {
                 $data = $override->getData('demographic');
                 $filename = 'Demographic Data';
+            } elseif (Input::get('vital')) {
+                $data = $override->getData('site');
+                $filename = 'Vitals Sign Data';
             } elseif (Input::get('sites')) {
                 $data = $override->getData('site');
-                $filename = 'Sites';
-            } elseif (Input::get('sites')) {
-                $data = $override->getData('site');
-                $filename = 'Sites';
+                $filename = 'vital Sign';
             } elseif (Input::get('sites')) {
                 $data = $override->getData('site');
                 $filename = 'Sites';
@@ -2376,6 +2376,13 @@ if ($user->isLoggedIn()) {
                                             <td>Demographic Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="demographic" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Vital Sign Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="vital" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>

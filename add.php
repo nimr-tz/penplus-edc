@@ -6017,7 +6017,8 @@ if ($user->isLoggedIn()) {
                             </div>
                         </div>
                     <?php } elseif ($_GET['id'] == 14) { ?>
-                        <?php $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                        <?php
+                        $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
@@ -9195,55 +9196,496 @@ if ($user->isLoggedIn()) {
                             </div>
 
                         <?php } elseif ($_GET['id'] == 20) { ?>
+                            <?php
+                            $risocial_economicsks = $override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                            ?>
                             <div class="col-md-offset-1 col-md-8">
                                 <div class="head clearfix">
                                     <div class="isw-ok"></div>
-                                    <h1>Socila Economic</h1>
+                                    <h1>Socioeconomic Status </h1>
                                 </div>
                                 <div class="block-fluid">
                                     <form id="validation" method="post">
 
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Date</div>
-                                            <div class="col-md-9">
-                                                <input type="text" name="diagnosis_date" id="diagnosis_date" value="<?php if ($lab_details['diagnosis_date']) {
-                                                                                                                        print_r($lab_details['diagnosis_date']);
-                                                                                                                    }  ?>" required />
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>date:</label>
+                                                        <input type="text" name="social_economic_date" id="social_economic_date" value="<?php if ($social_economic['social_economic_date']) {
+                                                                                                                                            print_r($social_economic['social_economic_date']);
+                                                                                                                                        }  ?>" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Distance to clinic:</label>
+                                                        <input type="text" name="distance_km" id="distance_km" value="<?php if ($social_economic['distance_km']) {
+                                                                                                                            print_r($social_economic['distance_km']);
+                                                                                                                        }  ?>" required />
+                                                        <span>( km )</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Distance to clinic:</label>
+                                                        <input type="text" name="distance_minutes" id="distance_minutes" value="<?php if ($social_economic['distance_minutes']) {
+                                                                                                                                    print_r($social_economic['distance_minutes']);
+                                                                                                                                }  ?>" required />
+                                                        <span>( minutes )</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Mode of transportation to clinic:</label>
+                                                        <select name="transport_mode" id="transport_mode" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['transport_mode'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['transport_mode'] == 1) {
+                                                                                                                                echo 'Walk';
+                                                                                                                            } elseif ($social_economic['transport_mode'] == 2) {
+                                                                                                                                echo 'Taxi';
+                                                                                                                            } elseif ($social_economic['transport_mode'] == 3) {
+                                                                                                                                echo 'Bodaboda Motorcycle';
+                                                                                                                            } elseif ($social_economic['transport_mode'] == 4) {
+                                                                                                                                echo 'Bodaboda Bicycle';
+                                                                                                                            } elseif ($social_economic['transport_mode'] == 5) {
+                                                                                                                                echo 'My own car';
+                                                                                                                            } elseif ($social_economic['transport_mode'] == 6) {
+                                                                                                                                echo 'My own bicycle';
+                                                                                                                            } elseif ($social_economic['transport_mode'] == 7) {
+                                                                                                                                echo 'Commuter bus/Daladala';
+                                                                                                                            } elseif ($social_economic['transport_mode'] == 8) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Walk</option>
+                                                            <option value="2">Taxi</option>
+                                                            <option value="3">Bodaboda Motorcycle</option>
+                                                            <option value="4">Bodaboda Bicycle</option>
+                                                            <option value="5">My own car</option>
+                                                            <option value="6">My own bicycle</option>
+                                                            <option value="7">Commuter bus/Daladala</option>
+                                                            <option value="8">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Other Specify</label>
+                                                        <input type="text" name="transport_mode_other" id="transport_mode_other" value="<?php if ($social_economic['transport_mode_other']) {
+                                                                                                                                            print_r($social_economic['transport_mode_other']);
+                                                                                                                                        }  ?>" required />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Cost of transportation to clinic (round trip)::</label>
+                                                        <input type="text" name="transportation_cost" id="transportation_cost" value="<?php if ($social_economic['transportation_cost']) {
+                                                                                                                                            print_r($social_economic['transportation_cost']);
+                                                                                                                                        }  ?>" required />
+                                                        <span>( TSHS )</span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Patient for Cardiac</div>
-                                            <div class="col-md-9">
-                                                <select name="cardiac" style="width: 100%;" required>
-                                                    <option value="">Select</option>
-                                                    <option value="1">Yes</option>
-                                                    <option value="2">No</option>
-                                                </select>
+                                        <div class="row">
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Who is the head of your household?:</label>
+                                                        <select name="household_head" id="household_head" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['household_head'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['household_head'] == 1) {
+                                                                                                                                echo 'Yourself';
+                                                                                                                            } elseif ($social_economic['household_head'] == 2) {
+                                                                                                                                echo 'Your spouse/partner';
+                                                                                                                            } elseif ($social_economic['household_head'] == 3) {
+                                                                                                                                echo 'Your father or mother';
+                                                                                                                            } elseif ($social_economic['household_head'] == 4) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Yourself</option>
+                                                            <option value="2">Your spouse/partner</option>
+                                                            <option value="3">Your father or mother</option>
+                                                            <option value="4">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Other Specify</label>
+                                                        <input type="text" name="household_head_other" id="household_head_other" value="<?php if ($social_economic['household_head_other']) {
+                                                                                                                                            print_r($social_economic['household_head_other']);
+                                                                                                                                        }  ?>" required />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>How old is your head of household?</label>
+                                                        <input type="text" name="household_years" id="household_years" value="<?php if ($social_economic['household_years']) {
+                                                                                                                                    print_r($social_economic['household_years']);
+                                                                                                                                }  ?>" required />
+                                                        <span>( Age in Years )</span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Patient for Diabetes</div>
-                                            <div class="col-md-9">
-                                                <select name="diabetes" style="width: 100%;" required>
-                                                    <option value="">Select</option>
-                                                    <option value="1">Yes</option>
-                                                    <option value="2">No</option>
-                                                </select>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>How many people are in your household?</label>
+                                                        <input type="text" name="household_people" id="household_head_other" value="<?php if ($social_economic['household_head_other']) {
+                                                                                                                                        print_r($social_economic['household_head_other']);
+                                                                                                                                    }  ?>" required />
+                                                        <span>( ENTER NUMBERS )</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>How do you rate your wealth in comparison to others?:</label>
+                                                        <select name="wealth_rate" id="wealth_rate" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['wealth_rate'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['wealth_rate'] == 1) {
+                                                                                                                            echo 'Among most wealthy';
+                                                                                                                        } elseif ($social_economic['wealth_rate'] == 2) {
+                                                                                                                            echo 'Above average';
+                                                                                                                        } elseif ($social_economic['wealth_rate'] == 3) {
+                                                                                                                            echo 'Average wealth';
+                                                                                                                        } elseif ($social_economic['wealth_rate'] == 4) {
+                                                                                                                            echo 'Below average';
+                                                                                                                        } elseif ($social_economic['wealth_rate'] == 5) {
+                                                                                                                            echo 'Among least wealthy';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Among most wealthy</option>
+                                                            <option value="2">Above average</option>
+                                                            <option value="3">Average wealth</option>
+                                                            <option value="4">Below average</option>
+                                                            <option value="5">Among least wealthy</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">Patient for Sickle cell</div>
-                                            <div class="col-md-9">
-                                                <select name="sickle_cell" style="width: 100%;" required>
-                                                    <option value="">Select</option>
-                                                    <option value="1">Yes</option>
-                                                    <option value="2">No</option>
-                                                </select>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>What is the main occupation of the person
+                                                            who contributes most for your regular
+                                                            expenditure?:</label>
+                                                        <select name="contributer_occupation" id="contributer_occupation" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['contributer_occupation'] ?>"><?php if ($social_economic) {
+                                                                                                                                    if ($social_economic['contributer_occupation'] == 1) {
+                                                                                                                                        echo 'Employed';
+                                                                                                                                    } elseif ($social_economic['contributer_occupation'] == 2) {
+                                                                                                                                        echo 'Self employed';
+                                                                                                                                    } elseif ($social_economic['contributer_occupation'] == 3) {
+                                                                                                                                        echo 'Unemployed';
+                                                                                                                                    } elseif ($social_economic['contributer_occupation'] == 4) {
+                                                                                                                                        echo 'Farmer';
+                                                                                                                                    } elseif ($social_economic['contributer_occupation'] == 5) {
+                                                                                                                                        echo 'Fisher';
+                                                                                                                                    } elseif ($social_economic['contributer_occupation'] == 6) {
+                                                                                                                                        echo 'Student';
+                                                                                                                                    } elseif ($social_economic['contributer_occupation'] == 7) {
+                                                                                                                                        echo 'Housewife';
+                                                                                                                                    } elseif ($social_economic['contributer_occupation'] == 8) {
+                                                                                                                                        echo 'Other';
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    echo 'Select';
+                                                                                                                                } ?></option>
+                                                            <option value="1">Employed</option>
+                                                            <option value="2">Self employed</option>
+                                                            <option value="3">Unemployed</option>
+                                                            <option value="4">Farmer</option>
+                                                            <option value="5">Fisher</option>
+                                                            <option value="6">Student</option>
+                                                            <option value="7">Housewife</option>
+                                                            <option value="8">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="contributer_occupation_other" rows="4">
+                                                        <?php if ($social_economic['contributer_occupation_other']) {
+                                                            print_r($social_economic['contributer_occupation_other']);
+                                                        }  ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>What type of work do you do for your main occupation?:</label>
+                                                        <select name="main_occupation" id="main_occupation" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['main_occupation'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['main_occupation'] == 1) {
+                                                                                                                                echo 'Employed';
+                                                                                                                            } elseif ($social_economic['main_occupation'] == 2) {
+                                                                                                                                echo 'Self employed';
+                                                                                                                            } elseif ($social_economic['main_occupation'] == 3) {
+                                                                                                                                echo 'Unemployed';
+                                                                                                                            } elseif ($social_economic['main_occupation'] == 4) {
+                                                                                                                                echo 'Farmer';
+                                                                                                                            } elseif ($social_economic['main_occupation'] == 5) {
+                                                                                                                                echo 'Fisher';
+                                                                                                                            } elseif ($social_economic['main_occupation'] == 6) {
+                                                                                                                                echo 'Student';
+                                                                                                                            } elseif ($social_economic['main_occupation'] == 7) {
+                                                                                                                                echo 'Housewife';
+                                                                                                                            } elseif ($social_economic['main_occupation'] == 8) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Employed</option>
+                                                            <option value="2">Self employed</option>
+                                                            <option value="3">Unemployed</option>
+                                                            <option value="4">Farmer</option>
+                                                            <option value="5">Fisher</option>
+                                                            <option value="6">Student</option>
+                                                            <option value="7">Housewife</option>
+                                                            <option value="8">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="main_occupation_other" rows="4">
+                                                        <?php if ($social_economic['main_occupation_other']) {
+                                                            print_r($social_economic['main_occupation_other']);
+                                                        }  ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>What is your main income based on?:</label>
+                                                        <select name="main_icome_based" id="main_icome_based" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['main_icome_based'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['main_icome_based'] == 1) {
+                                                                                                                                echo 'Monthly salary';
+                                                                                                                            } elseif ($social_economic['main_icome_based'] == 2) {
+                                                                                                                                echo 'Daily wage';
+                                                                                                                            } elseif ($social_economic['main_icome_based'] == 3) {
+                                                                                                                                echo 'Business/firm earnings';
+                                                                                                                            } elseif ($social_economic['main_icome_based'] == 4) {
+                                                                                                                                echo 'Sale of farm produce';
+                                                                                                                            } elseif ($social_economic['main_icome_based'] == 5) {
+                                                                                                                                echo 'Have no income';
+                                                                                                                            } elseif ($social_economic['main_icome_based'] == 6) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Monthly salary</option>
+                                                            <option value="2">Daily wage</option>
+                                                            <option value="3">Business/firm earnings</option>
+                                                            <option value="4">Sale of farm produce</option>
+                                                            <option value="5">Have no income</option>
+                                                            <option value="6">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="main_icome_other" rows="4">
+                                                        <?php if ($social_economic['main_icome_other']) {
+                                                            print_r($social_economic['main_icome_other']);
+                                                        }  ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Altogether, how much did you earn from
+                                                            all your different sources of income in the
+                                                            last month?</label>
+                                                        <input type="text" name="earn_individual" id="earn_individual" value="<?php if ($social_economic['earn_individual']) {
+                                                                                                                                    print_r($social_economic['earn_individual']);
+                                                                                                                                }  ?>" required />
+                                                        <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Altogether how much did others in your
+                                                            household (including the household head)
+                                                            earn in the last month?</label>
+                                                        <input type="text" name="earn_household" id="earn_household" value="<?php if ($social_economic['earn_household']) {
+                                                                                                                                print_r($social_economic['earn_household']);
+                                                                                                                            }  ?>" required />
+                                                        <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>What was the main form of transport that
+                                                            you used to get here today?</label>
+                                                        <input type="text" name="earn_individual" id="earn_individual" value="<?php if ($social_economic['earn_individual']) {
+                                                                                                                                    print_r($social_economic['earn_individual']);
+                                                                                                                                }  ?>" required />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>About how long did it take you to arrive
+
+                                                            here from home?</label>
+                                                        <input type="text" name="earn_household" id="earn_household" value="<?php if ($social_economic['earn_household']) {
+                                                                                                                                print_r($social_economic['earn_household']);
+                                                                                                                            }  ?>" required />
+                                                        <span>Amount in hours (e.g 0.5, 2.25 etc)</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>What was the main form of transport that
+                                                            you used to get here today?</label>
+                                                        <input type="text" name="earn_individual" id="earn_individual" value="<?php if ($social_economic['earn_individual']) {
+                                                                                                                                    print_r($social_economic['earn_individual']);
+                                                                                                                                }  ?>" required />
+                                                        <span>Amount in hours (e.g 0.5, 2.25 etc)</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Did you leave young children (aged less
+                                                            than about 6 years) at home to come here
+                                                            today?</label>
+                                                        <input type="text" name="earn_household" id="earn_household" value="<?php if ($social_economic['earn_household']) {
+                                                                                                                                print_r($social_economic['earn_household']);
+                                                                                                                            }  ?>" required />
+                                                        <span>IF no, skip next question </span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
 
                                         <div class="footer tar">
                                             <input type="submit" name="add_social" value="Submit" class="btn btn-default">

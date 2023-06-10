@@ -10463,16 +10463,16 @@ if ($user->isLoggedIn()) {
                                                         <label>Did you or any household member go a whole day without eating anything because there was not enough food?</label>
                                                         <select name="day_hungry" id="day_hungry" style="width: 100%;" required>
                                                             <option value="<?= $social_economic['day_hungry'] ?>"><?php if ($social_economic) {
-                                                                                                                if ($social_economic['day_hungry'] == 1) {
-                                                                                                                    echo 'never, rarely (once or twice)';
-                                                                                                                } elseif ($social_economic['day_hungry'] == 2) {
-                                                                                                                    echo 'sometimes (3-10 times)';
-                                                                                                                } elseif ($social_economic['day_hungry'] == 3) {
-                                                                                                                    echo 'often (>10 times)';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?></option>
+                                                                                                                        if ($social_economic['day_hungry'] == 1) {
+                                                                                                                            echo 'never, rarely (once or twice)';
+                                                                                                                        } elseif ($social_economic['day_hungry'] == 2) {
+                                                                                                                            echo 'sometimes (3-10 times)';
+                                                                                                                        } elseif ($social_economic['day_hungry'] == 3) {
+                                                                                                                            echo 'often (>10 times)';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
                                                             <option value="1">never, rarely (once or twice)</option>
                                                             <option value="2">sometimes (3-10 times)</option>
                                                             <option value="3">often (>10 times)</option>
@@ -10483,6 +10483,24 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                         </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Notes on socioeconomic situation & needs: </label>
+                                                        <textarea name="socioeconomic_notes" rows="4">
+                                                        <?php if ($social_economic['socioeconomic_notes']) {
+                                                            print_r($social_economic['socioeconomic_notes']);
+                                                        }  ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
 
 
 

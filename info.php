@@ -648,22 +648,13 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('hospitalization_details')) {
                 $data = $override->getData('hospitalization_details');
                 $filename = 'Hospitalization Details Data';
-            } elseif (Input::get('crf4')) {
-                $data = $override->getData('crf4');
-                $filename = 'CRF 4';
-            } elseif (Input::get('crf5')) {
-                $data = $override->getData('crf5');
-                $filename = 'CRF 5';
-            } elseif (Input::get('crf5')) {
-                $data = $override->getData('crf5');
-                $filename = 'CRF 5';
-            } elseif (Input::get('crf6')) {
-                $data = $override->getData('crf6');
-                $filename = 'CRF 6';
-            } elseif (Input::get('crf7')) {
-                $data = $override->getData('crf7');
-                $filename = 'CRF 7';
-            } 
+            } elseif (Input::get('lab_details')) {
+                $data = $override->getData('lab_details');
+                $filename = 'Lab Details Data';
+            } elseif (Input::get('social_economic')) {
+                $data = $override->getData('social_economic');
+                $filename = 'Socioeconomic Status Data';
+            }
             $user->exportData($data, $filename);
         }
     }
@@ -2451,18 +2442,18 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                         <tr>
                                             <td>16</td>
-                                            <td>Lab Details
+                                            <td>Lab Details Data
                                             </td>
                                             <td>
-                                                <form method="post"><input type="submit" name="crf6" value="Download"></form>
+                                                <form method="post"><input type="submit" name="lab_details" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>17</td>
-                                            <td>Socioeconomic Status
+                                            <td>Socioeconomic Status Data
                                             </td>
                                             <td>
-                                                <form method="post"><input type="submit" name="cr7" value="Download"></form>
+                                                <form method="post"><input type="submit" name="social_economic" value="Download"></form>
                                             </td>
                                         </tr>
 

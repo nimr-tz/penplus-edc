@@ -615,12 +615,12 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('vital')) {
                 $data = $override->getData('site');
                 $filename = 'Vitals Sign Data';
-            } elseif (Input::get('sites')) {
-                $data = $override->getData('site');
-                $filename = 'vital Sign';
-            } elseif (Input::get('sites')) {
-                $data = $override->getData('site');
-                $filename = 'Sites';
+            } elseif (Input::get('main_diagnosis')) {
+                $data = $override->getData('main_diagnosis');
+                $filename = 'Pateint Category Data';
+            } elseif (Input::get('history')) {
+                $data = $override->getData('history');
+                $filename = 'Patient & Family History & Complication';
             } elseif (Input::get('sites')) {
                 $data = $override->getData('site');
                 $filename = 'Sites';
@@ -2372,22 +2372,36 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>2</td>
+                                            <td>3</td>
                                             <td>Demographic Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="demographic" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>2</td>
+                                            <td>4</td>
                                             <td>Vital Sign Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="vital" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td>5</td>
+                                            <td> Patient Categories Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="main_diagnosis" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td> Patient & Family History & Complication</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="history" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>3</td>
-                                            <td>Main Diagnosis( Patient Category )</td>
+                                            <td> Patient Categories Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="main_diagnosis" value="Download"></form>
                                             </td>

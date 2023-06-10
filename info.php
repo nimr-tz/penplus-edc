@@ -621,18 +621,18 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('history')) {
                 $data = $override->getData('history');
                 $filename = 'Patient & Family History & Complication';
-            } elseif (Input::get('sites')) {
-                $data = $override->getData('site');
-                $filename = 'Sites';
-            } elseif (Input::get('visits')) {
-                $data = $override->getData('visit');
-                $filename = 'Visits';
-            } elseif (Input::get('main_diagnosis')) {
-                $data = $override->getData('main_diagnosis');
-                $filename = 'Mian diagnosis (Patient Category)';
-            } elseif (Input::get('study_id')) {
-                $data = $override->getData('study_id');
-                $filename = 'Study IDs';
+            } elseif (Input::get('symptoms')) {
+                $data = $override->getData('symptoms');
+                $filename = 'Symtom & Exam';
+            } elseif (Input::get('diagnosis')) {
+                $data = $override->getData('diagnosis');
+                $filename = 'Main diagnosis 3 ( Cardiac )';
+            } elseif (Input::get('diabetic')) {
+                $data = $override->getData('diabetic');
+                $filename = 'Main diagnosis 3 ( Diabetic )';
+            } elseif (Input::get('sickle_cell')) {
+                $data = $override->getData('sickle_cell');
+                $filename = 'Main diagnosis 3 ( Sickle Cell )';
             } elseif (Input::get('sites')) {
                 $data = $override->getData('site');
                 $filename = 'Sites';
@@ -2400,17 +2400,33 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>3</td>
-                                            <td> Patient Categories Data</td>
+                                            <td>7</td>
+                                            <td> Symtom & Exam</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="main_diagnosis" value="Download"></form>
+                                                <form method="post"><input type="submit" name="symptoms" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>2</td>
-                                            <td>Visit</td>
+                                            <td>8</td>
+                                            <td>Main diagnosis 3 ( Cardiac ) </td>
                                             <td>
-                                                <form method="post"><input type="submit" name="visits" value="Download"></form>
+                                                <form method="post"><input type="submit" name="diagnosis" value="Download"></form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>9</td>
+                                            <td>Main diagnosis 3 ( Diabetes ) </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="diabetic" value="Download"></form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>10</td>
+                                            <td>Main diagnosis 3 ( Sickle Cell ) </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="sickle_cell" value="Download"></form>
                                             </td>
                                         </tr>
 

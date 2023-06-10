@@ -633,9 +633,9 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('sickle_cell')) {
                 $data = $override->getData('sickle_cell');
                 $filename = 'Main diagnosis 3 ( Sickle Cell )';
-            } elseif (Input::get('sites')) {
-                $data = $override->getData('site');
-                $filename = 'Sites';
+            } elseif (Input::get('hospitalization')) {
+                $data = $override->getData('hospitalization');
+                $filename = 'Hospitalization Data';
             } elseif (Input::get('screening')) {
                 $data = $override->getData('screening');
                 $filename = 'Inclusion criteria';
@@ -2431,10 +2431,10 @@ if ($user->isLoggedIn()) {
                                         </tr>
 
                                         <tr>
-                                            <td>1</td>
+                                            <td>11</td>
                                             <td>Hospitalization</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="crf1" value="Download"></form>
+                                                <form method="post"><input type="submit" name="hospitalization" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
@@ -2482,7 +2482,7 @@ if ($user->isLoggedIn()) {
                                             <td>
                                                 <form method="post"><input type="submit" name="cr7" value="Download"></form>
                                             </td>
-                                        </tr>                                      
+                                        </tr>
 
                                         <tr>
                                             <td>4</td>

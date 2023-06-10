@@ -9202,7 +9202,7 @@ if ($user->isLoggedIn()) {
                             <div class="col-md-offset-1 col-md-8">
                                 <div class="head clearfix">
                                     <div class="isw-ok"></div>
-                                    <h1>Socioeconomic Status </h1>
+                                    <h1>Socioeconomic Status ( EXIT-TB SOCIAL ECONOMIC TOOL (2018)) </h1>
                                 </div>
                                 <div class="block-fluid">
                                     <form id="validation" method="post">
@@ -9878,9 +9878,9 @@ if ($user->isLoggedIn()) {
                                                     <div class="form-group">
                                                         <label>How much was spent on transport for the
                                                             person to accompany you today?</label>
-                                                        <input type="text" name="earn_individual" id="earn_individual" value="<?php if ($social_economic['earn_individual']) {
-                                                                                                                                    print_r($social_economic['earn_individual']);
-                                                                                                                                }  ?>" required />
+                                                        <input type="text" name="accompany_transport" id="accompany_transport" value="<?php if ($social_economic['accompany_transport']) {
+                                                                                                                                            print_r($social_economic['accompany_transport']);
+                                                                                                                                        }  ?>" required />
                                                         <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
 
                                                     </div>
@@ -9894,9 +9894,9 @@ if ($user->isLoggedIn()) {
                                                         <label>What other expenses have they made to
                                                             accompany you today? (for example food,
                                                             child care)</label>
-                                                        <input type="text" name="earn_household" id="earn_household" value="<?php if ($social_economic['earn_household']) {
-                                                                                                                                print_r($social_economic['earn_household']);
-                                                                                                                            }  ?>" required />
+                                                        <input type="text" name="accompany_expenses" id="accompany_expenses" value="<?php if ($social_economic['accompany_expenses']) {
+                                                                                                                                        print_r($social_economic['accompany_expenses']);
+                                                                                                                                    }  ?>" required />
                                                         <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
 
                                                     </div>
@@ -9909,11 +9909,147 @@ if ($user->isLoggedIn()) {
                                                         <label>In the last month, on how many days were
                                                             your normal activities disrupted through
                                                             illness?</label>
-                                                        <input type="text" name="earn_household" id="earn_household" value="<?php if ($social_economic['earn_household']) {
-                                                                                                                                print_r($social_economic['earn_household']);
-                                                                                                                            }  ?>" required />
+                                                        <input type="text" name="activities_disrupted" id="activities_disrupted" value="<?php if ($social_economic['activities_disrupted']) {
+                                                                                                                                            print_r($social_economic['activities_disrupted']);
+                                                                                                                                        }  ?>" required />
                                                         <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>DHS Questions </h1>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Main material of the floor::</label>
+                                                        <select name="material_floor" id="material_floor" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['material_floor'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['material_floor'] == 1) {
+                                                                                                                                echo 'Earth/ sand/dung ';
+                                                                                                                            } elseif ($social_economic['material_floor'] == 2) {
+                                                                                                                                echo 'Concrete cement';
+                                                                                                                            } elseif ($social_economic['material_floor'] == 3) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Earth/ sand/dung</option>
+                                                            <option value="2">Concrete cement</option>
+                                                            <option value="3">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="material_floor_other" rows="4">
+                                                        <?php if ($social_economic['material_floor_other']) {
+                                                            print_r($social_economic['material_floor_other']);
+                                                        }  ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Main material of the Roof:</label>
+                                                        <select name="material_roof" id="material_roof" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['material_roof'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['material_roof'] == 1) {
+                                                                                                                                echo 'Thatch/ palm ';
+                                                                                                                            } elseif ($social_economic['material_roof'] == 2) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Thatch/ palm</option>
+                                                            <option value="2">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="material_roof_other" rows="4">
+                                                        <?php if ($social_economic['material_roof_other']) {
+                                                            print_r($social_economic['material_roof_other']);
+                                                        }  ?>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Main type of cooking fuel:</label>
+                                                        <select name="cooking_fuel" id="cooking_fuel" style="width: 100%;" required>
+                                                            <option value="<?= $social_economic['cooking_fuel'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['cooking_fuel'] == 1) {
+                                                                                                                            echo 'Electricity ';
+                                                                                                                        } elseif ($social_economic['cooking_fuel'] == 2) {
+                                                                                                                            echo 'LPG/ natural gas/ biogas';
+                                                                                                                        } elseif ($social_economic['cooking_fuel'] == 3) {
+                                                                                                                            echo 'Kerosene ';
+                                                                                                                        } elseif ($social_economic['cooking_fuel'] == 4) {
+                                                                                                                            echo 'coal/lignite/ charcoal';
+                                                                                                                        } elseif ($social_economic['cooking_fuel'] == 5) {
+                                                                                                                            echo 'wood/ straw/shrub/grass/agricultural crop animal dung ';
+                                                                                                                        } elseif ($social_economic['cooking_fuel'] == 6) {
+                                                                                                                            echo 'no food cooked';
+                                                                                                                        } elseif ($social_economic['cooking_fuel'] == 7) {
+                                                                                                                            echo 'Other';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Electricity</option>
+                                                            <option value="2">LPG/ natural gas/ biogas</option>
+                                                            <option value="3">Kerosene </option>
+                                                            <option value="4">coal/lignite/ charcoal</option>
+                                                            <option value="5">wood/ straw/shrub/grass/agricultural crop animal dung</option>
+                                                            <option value="6">no food cooked</option>
+                                                            <option value="7">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="cooking_fuel_other" rows="4">
+                                                        <?php if ($social_economic['cooking_fuel_other']) {
+                                                            print_r($social_economic['cooking_fuel_other']);
+                                                        }  ?>
+                                                        </textarea>
                                                     </div>
                                                 </div>
                                             </div>

@@ -636,12 +636,12 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('hospitalization')) {
                 $data = $override->getData('hospitalization');
                 $filename = 'Hospitalization Data';
-            } elseif (Input::get('screening')) {
-                $data = $override->getData('screening');
-                $filename = 'Inclusion criteria';
-            } elseif (Input::get('crf1')) {
-                $data = $override->getData('crf1');
-                $filename = 'CRF 1';
+            } elseif (Input::get('treatment_plan')) {
+                $data = $override->getData('treatment_plan');
+                $filename = 'Treatment Plan Data';
+            } elseif (Input::get('dgns_complctns_comorbdts')) {
+                $data = $override->getData('dgns_complctns_comorbdts');
+                $filename = 'Diagnosis, Complications, & Comorbidities Data';
             } elseif (Input::get('crf2')) {
                 $data = $override->getData('crf2');
                 $filename = 'CRF 2';
@@ -2439,17 +2439,17 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                         <tr>
                                             <td>12</td>
-                                            <td>Treatment Plan
+                                            <td>Treatment Plan Data
                                             </td>
                                             <td>
-                                                <form method="post"><input type="submit" name="crf2" value="Download"></form>
+                                                <form method="post"><input type="submit" name="treatment_plan" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>13</td>
-                                            <td>Diagnosis, Complications, & Comorbidities</td>
+                                            <td>Diagnosis, Complications, & Comorbidities Data</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="crf3" value="Download"></form>
+                                                <form method="post"><input type="submit" name="dgns_complctns_comorbdts" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>

@@ -2719,8 +2719,8 @@ if ($user->isLoggedIn()) {
 
                                         <tr>
                                             <td>12</td>
-                                            <td>Social Economic</td>
-                                            <?php if ($override->get3('summary', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                            <td>Socioeconomic Statusc</td>
+                                            <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
                                                 <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
                                             <?php } else { ?>
@@ -2729,44 +2729,7 @@ if ($user->isLoggedIn()) {
 
                                         </tr>
 
-                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 111)) { ?>
 
-                                            <tr>
-                                                <td>9</td>
-                                                <td>Cardiac</td>
-                                                <?php if ($override->get('cardiac', 'patient_id', $_GET['cid'])) { ?>
-                                                    <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>" class="btn btn-success" disabled=> CHange </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-                                            </tr>
-                                        <?php } ?>
-                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 11)) { ?>
-
-                                            <tr>
-                                                <td>10</td>
-                                                <td>Diabetes</td>
-                                                <?php if ($override->get('diabetic', 'patient_id', $_GET['cid'])) { ?>
-                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>" class="btn btn-success" disabled> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-                                            </tr>
-                                        <?php } ?>
-
-                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 11)) { ?>
-
-                                            <tr>
-                                                <td>11</td>
-                                                <td>Sickle cell</td>
-                                                <?php if ($override->get('sickle_cell', 'patient_id', $_GET['cid'])) { ?>
-                                                    <td><a href="add.php?id=13&cid=<?= $_GET['cid'] ?>" class="btn btn-success" disabled=""> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=13&cid=<?= $_GET['cid'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-
-                                            </tr>
-                                        <?php } ?>
 
                                     </tbody>
                                 </table>

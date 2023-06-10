@@ -1972,14 +1972,13 @@ if ($user->isLoggedIn()) {
             if ($validate->passed()) {
                 try {
 
-                    $summary = $override->get3('summary', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
-                    if ($summary) {
-                        $user->updateRecord('summary', array(
-                            'visit_date' => Input::get('visit_date'),
+                    $social_economic = $override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                    if ($social_economic) {
+                        $user->updateRecord('social_economic', array(
+                            'visit_date' => Input::get('social_economic_date'),
                             'social_economic_date' => Input::get('social_economic_date'),
                             'distance_km' => Input::get('distance_km'),
                             'distance_minutes' => Input::get('distance_minutes'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
                             'transport_mode' => Input::get('transport_mode'),
                             'transport_mode_other' => Input::get('transport_mode_other'),
                             'transportation_cost' => Input::get('transportation_cost'),
@@ -2004,9 +2003,11 @@ if ($user->isLoggedIn()) {
                             'occupation_looking_child' => Input::get('occupation_looking_child'),
                             'occupation_looking_child_other' => Input::get('occupation_looking_child_other'),
                             'accompany' => Input::get('accompany'),
+                            'accompany_occupation' => Input::get('accompany_occupation'), 
                             'accompany_occupation_other' => Input::get('accompany_occupation_other'),
                             'accompany_transport' => Input::get('accompany_transport'),
                             'accompany_expenses' => Input::get('accompany_expenses'),
+                            'activities_disrupted' => Input::get('activities_disrupted'), 
                             'material_floor' => Input::get('material_floor'),
                             'material_floor_other' => Input::get('material_floor_other'),
                             'material_roof' => Input::get('material_roof'),
@@ -2035,24 +2036,70 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
-                        ), $summary['id']);
+                        ), $social_economic['id']);
                     } else {
-                        $user->createRecord('summary', array(
-                            'visit_date' => Input::get('summary_date'),
+                        $user->createRecord('social_economic', array(
+                            'visit_date' => Input::get('social_economic_date'),
                             'study_id' => Input::get('sid'),
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
-                            'summary_date' => Input::get('summary_date'),
-                            'comments' => Input::get('comments'),
-                            'diagnosis' => Input::get('diagnosis'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
-                            'outcome' => Input::get('outcome'),
-                            'transfer_out' => Input::get('transfer_out'),
-                            'cause_death' => Input::get('cause_death'),
-                            'next_appointment_notes' => Input::get('next_appointment_notes'),
-                            'next_appointment' => Input::get('next_appointment'),
+                            'social_economic_date' => Input::get('social_economic_date'),
+                            'distance_km' => Input::get('distance_km'),
+                            'distance_minutes' => Input::get('distance_minutes'),
+                            'transport_mode' => Input::get('transport_mode'),
+                            'transport_mode_other' => Input::get('transport_mode_other'),
+                            'transportation_cost' => Input::get('transportation_cost'),
+                            'household_head' => Input::get('household_head'),
+                            'household_head_other' => Input::get('household_head_other'),
+                            'household_years' => Input::get('household_years'),
+                            'household_people' => Input::get('household_people'),
+                            'wealth_rate' => Input::get('wealth_rate'),
+                            'contributer_occupation' => Input::get('contributer_occupation'),
+                            'contributer_occupation_other' => Input::get('contributer_occupation_other'),
+                            'main_occupation' => Input::get('main_occupation'),
+                            'main_occupation_other' => Input::get('main_occupation_other'),
+                            'main_icome_based' => Input::get('main_icome_based'),
+                            'main_icome_other' => Input::get('main_icome_other'),
+                            'earn_individual' => Input::get('earn_individual'),
+                            'earn_household' => Input::get('earn_household'),
+                            'main_transport' => Input::get('main_transport'),
+                            'time_from_home' => Input::get('time_from_home'),
+                            'leave_children' => Input::get('leave_children'),
+                            'looking_children' => Input::get('looking_children'),
+                            'looking_children_other' => Input::get('looking_children_other'),
+                            'occupation_looking_child' => Input::get('occupation_looking_child'),
+                            'occupation_looking_child_other' => Input::get('occupation_looking_child_other'),
+                            'accompany' => Input::get('accompany'),
+                            'accompany_occupation' => Input::get('accompany_occupation'), 
+                            'accompany_occupation_other' => Input::get('accompany_occupation_other'),
+                            'accompany_transport' => Input::get('accompany_transport'),
+                            'accompany_expenses' => Input::get('accompany_expenses'),
+                            'activities_disrupted' => Input::get('activities_disrupted'), 
+                            'material_floor' => Input::get('material_floor'),
+                            'material_floor_other' => Input::get('material_floor_other'),
+                            'material_roof' => Input::get('material_roof'),
+                            'material_roof_other' => Input::get('material_roof_other'),
+                            'cooking_fuel' => Input::get('cooking_fuel'),
+                            'cooking_fuel_other' => Input::get('cooking_fuel_other'),
+                            'water_access' => Input::get('water_access'),
+                            'water_source' => Input::get('water_source'),
+                            'water_source_other' => Input::get('water_source_other'),
+                            'toilet_access' => Input::get('toilet_access'),
+                            'toilet_facility' => Input::get('toilet_facility'),
+                            'toilet_access_other' => Input::get('toilet_access_other'),
+                            'television' => Input::get('television'),
+                            'refrigerator' => Input::get('refrigerator'),
+                            'sofa' => Input::get('sofa'),
+                            'clock' => Input::get('clock'),
+                            'fan' => Input::get('fan'),
+                            'vcr_dvd' => Input::get('vcr_dvd'),
+                            'bank_account' => Input::get('bank_account'),
+                            'no_food' => Input::get('no_food'),
+                            'sleep_hungry' => Input::get('sleep_hungry'),
+                            'day_hungry' => Input::get('day_hungry'),
+                            'socioeconomic_notes' => Input::get('socioeconomic_notes'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -2060,7 +2107,7 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ));
                     }
-                    $successMessage = 'Visit Summary  details added Successful';
+                    $successMessage = 'Social economic  details added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                     die;
                 } catch (Exception $e) {
@@ -9304,7 +9351,7 @@ if ($user->isLoggedIn()) {
 
                         <?php } elseif ($_GET['id'] == 20) { ?>
                             <?php
-                            $risocial_economicsks = $override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                            $social_economic = $override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                             ?>
                             <div class="col-md-offset-1 col-md-8">
                                 <div class="head clearfix">
@@ -10613,7 +10660,7 @@ if ($user->isLoggedIn()) {
 
 
                                         <div class="footer tar">
-                                            <input type="submit" name="add_social" value="Submit" class="btn btn-default">
+                                            <input type="submit" name="add_social_economic" value="Submit" class="btn btn-default">
                                         </div>
 
                                     </form>

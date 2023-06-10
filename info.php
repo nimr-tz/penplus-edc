@@ -2432,95 +2432,57 @@ if ($user->isLoggedIn()) {
 
                                         <tr>
                                             <td>1</td>
-                                            <td>CRF1</td>
+                                            <td>Hospitalization</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="crf1" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td>CFR2</td>
+                                            <td>Treatment Plan
+                                            </td>
                                             <td>
                                                 <form method="post"><input type="submit" name="crf2" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td>CRF3</td>
+                                            <td>Diagnosis, Complications, & Comorbidities</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="crf3" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td>CRF4</td>
+                                            <td>RISK</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="crf4" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td>CRF5</td>
+                                            <td>Hospitalization Details
+                                            </td>
                                             <td>
                                                 <form method="post"><input type="submit" name="crf5" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td>CRF6</td>
+                                            <td>Lab Details
+                                            </td>
                                             <td>
                                                 <form method="post"><input type="submit" name="crf6" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td>CRF7</td>
+                                            <td>Socioeconomic Status
+                                            </td>
                                             <td>
                                                 <form method="post"><input type="submit" name="cr7" value="Download"></form>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Other Medications</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="medication" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>NIMREGENIN</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="nimregenin" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>OTHER HERBAL TREATMENT</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="herbal" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Radiotherapy</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="radiotherapy" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Chemotherapy</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="chemotherapy" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Surgery</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="surgery" value="Download"></form>
-                                            </td>
-                                        </tr>
+                                        </tr>                                      
 
                                         <tr>
                                             <td>4</td>

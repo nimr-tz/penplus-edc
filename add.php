@@ -1987,7 +1987,7 @@ if ($user->isLoggedIn()) {
                             'household_head_other' => Input::get('household_head_other'),
                             'household_years' => Input::get('household_years'),
                             'household_people' => Input::get('household_people'),
-                            'household_head_other' => Input::get('household_head_other'),
+                            'wealth_rate' => Input::get('wealth_rate'),
                             'household_head_other' => Input::get('household_head_other'),
                             'household_head_other' => Input::get('household_head_other'),
                             'household_head_other' => Input::get('household_head_other'),

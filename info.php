@@ -366,7 +366,7 @@ if ($user->isLoggedIn()) {
                         'visit_code' => $visit_code,
                         'visit_day' => 'Day 1',
                         'expected_date' => Input::get('visit_date'),
-                        'visit_date' => Input::get('visit_date'),
+                        'visit_date' => '',
                         'visit_window' => 0,
                         'status' => 0,
                         'client_id' => Input::get('id'),
@@ -543,7 +543,7 @@ if ($user->isLoggedIn()) {
                         'reasons' => Input::get('reasons'),
                     ), Input::get('id'));
 
-                    // $client_id = $override->getNews('clients', 'id', Input::get('cid'), 'status', 1)[0];
+                    $client_id = $override->getNews('clients', 'id', Input::get('cid'), 'status', 1)[0];
 
 
                     if (Input::get('visit_name') == 'Study Termination Visit') {
@@ -1313,7 +1313,7 @@ if ($user->isLoggedIn()) {
                                 <table cellpadding="0" cellspacing="0" width="100%" class="table">
                                     <thead>
                                         <tr>
-                                            <th><input type="checkbox" name="checkall" /></th>
+                                            <!-- <th><input type="checkbox" name="checkall" /></th> -->
                                             <td width="20">#</td>
                                             <th width="40">Picture</th>
                                             <th width="10%">Study ID</th>
@@ -1325,8 +1325,10 @@ if ($user->isLoggedIn()) {
                                             <?php if ($_GET['status'] == 4) { ?>
 
                                                 <th width="10%">REASON</th>
+                                                <!-- <th width="10%">DETAILS</th> -->
+
                                             <?php } else { ?>
-                                                <th width="40%">ACTION</th>
+                                                <th width="20%">ACTION</th>
 
                                             <?php } ?>
                                         </tr>
@@ -1338,6 +1340,10 @@ if ($user->isLoggedIn()) {
                                             $visit = $override->getCount('visit', 'client_id', $client['id']);
                                             $visits = $override->get('visit', 'client_id', $client['id'])[0];
                                             $end_study = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
+                                            $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
+
+                                            // print_r($termination);
+
                                             $screened = 0;
                                             $eligibility = 0;
                                             $enrollment = 0;
@@ -1363,9 +1369,9 @@ if ($user->isLoggedIn()) {
 
                                         ?>
                                             <tr>
-                                                <td>
+                                                <!-- <td>
                                                     <input type="checkbox" name="checkbox" />
-                                                </td>
+                                                </td> -->
                                                 <td><?= $x ?></td>
                                                 <td width="100">
                                                     <?php if ($client['client_image'] != '' || is_null($client['client_image'])) {
@@ -1429,92 +1435,91 @@ if ($user->isLoggedIn()) {
                                                 } ?>
 
 
+
                                                 <?php if ($_GET['status'] == 4) { ?>
-
-                                                    <?php if ($client['end_study'] == 1) { ?>
-                                                        <td>
+                                                    <td>
+                                                        <?php if ($client['end_study'] == 1) { ?>
                                                             <a href="#" class="btn btn-danger">END</a>
-                                                        </td>
+                                                    </td>
 
-                                                        <?php if ($end_study['end_study'] == 1) { ?>
-                                                            <td>
-                                                                <a href="#" class="btn btn-info">Completed 120 days</a>
-                                                            </td>
+                                                    <td>
+                                                        <?php if ($termination == 1) { ?>
+                                                            <a href="#" class="btn btn-info">On Treatment</a>
+                                                        <?php } elseif ($termination == '2') { ?>
 
-                                                        <?php } elseif ($end_study['end_study'] == 1) { ?>
-                                                            <td>
-                                                                <a href="#" class="btn btn-info">Reported Dead</a>
-                                                            </td>
+                                                            <a href="#" class="btn btn-info">Default</a>
                                                         <?php
-                                                        } elseif ($end_study['end_study'] == 1) { ?>
-                                                            <td>
-                                                                <a href="#" class="btn btn-info">Withdrew Consent</a>
-                                                            </td>
+                                                            } elseif ($termination == 3) { ?>
+                                                             <a href="#" class="btn btn-info">Stop treatment</a>
                                                         <?php
-                                                        } else { ?>
-                                                            <td>
-                                                                <a href="#" class="btn btn-info">Other</a>
-                                                            </td>
+                                                            } elseif ($termination == 4) { ?>
+                                                            <a href="#" class="btn btn-info">Trnasfer Out</a>
                                                         <?php
-                                                        } ?>
-
-                                                    <?php } else { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-success">ACTIVE</a>
-                                                        </td>
-                                                <?php }
-                                                } ?>
-
-                                                <?php if ($_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
-
-                                                    <?php if ($client['screened'] == 1) { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-success">SCREENED</a>
-                                                        </td>
-                                                    <?php } else { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-danger">NOT SCREENED</a>
-                                                        </td>
-                                                <?php }
-                                                } ?>
+                                                            } elseif ($termination == 5) { ?>
+                                                            <a href="#" class="btn btn-info">Death</a>
+                                                        <?php
+                                                            } else { ?>
+                                                            <a href="#" class="btn btn-info">Other</a>
+                                                        <?php
+                                                            } ?> 
+                                                    </td>
 
 
-
-
-                                                <td>
-                                                    <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
-                                                        <a href="#clientView<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
-                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->power == 1) { ?>
-                                                            <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
-                                                            <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
-                                                        <?php } ?>
-
-                                                        <a href="add.php?id=4&cid=<?= $client['id'] ?>" class="btn btn-info">Edit Client</a>
-
-                                                        <?php if ($screened) { ?>
-                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Screening</a>
-                                                        <?php } else {  ?>
-                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Screening</a>
-                                                    <?php }
+                                                <?php } else { ?>
+                                                    <td>
+                                                        <a href="#" class="btn btn-success">ACTIVE</a>
+                                                    </td>
+                                            <?php }
                                                     } ?>
 
-                                                    <?php if ($_GET['status'] == 2) { ?>
-                                                        <?php if ($enrollment == 1) { ?>
-                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Enrollment</a>
-                                                        <?php } else {  ?>
-                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Enrollment</a>
 
-                                                        <?php }
-                                                        ?>
+                                            <?php if ($_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
+
+                                                <?php if ($client['screened'] == 1) { ?>
+                                                    <td>
+                                                        <a href="#" class="btn btn-success">SCREENED</a>
+                                                    </td>
+                                                <?php } else { ?>
+                                                    <td>
+                                                        <a href="#" class="btn btn-danger">NOT SCREENED</a>
+                                                    </td>
+                                            <?php }
+                                            } ?>
+
+                                            <td>
+                                                <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
+                                                    <a href="#clientView<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
+                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->power == 1) { ?>
+                                                        <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
+                                                        <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                     <?php } ?>
-                                                    <?php if ($_GET['status'] == 3) { ?>
-                                                        <?php if ($enrollment == 1) { ?>
-                                                            <a href="info.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-warning">Study Crf</a>
-                                                            <!-- <a href="#addSchedule<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Next Visit</a> -->
+
+                                                    <a href="add.php?id=4&cid=<?= $client['id'] ?>" class="btn btn-info">Edit Client</a>
+
+                                                    <?php if ($screened) { ?>
+                                                        <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Screening</a>
+                                                    <?php } else {  ?>
+                                                        <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Screening</a>
+                                                <?php }
+                                                } ?>
+
+                                                <?php if ($_GET['status'] == 2) { ?>
+                                                    <?php if ($enrollment == 1) { ?>
+                                                        <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Enrollment</a>
+                                                    <?php } else {  ?>
+                                                        <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Enrollment</a>
 
                                                     <?php }
-                                                    } ?>
-                                                </td>
+                                                    ?>
+                                                <?php } ?>
+                                                <?php if ($_GET['status'] == 3) { ?>
+                                                    <?php if ($enrollment == 1) { ?>
+                                                        <a href="info.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-warning">Study Crf</a>
+                                                        <!-- <a href="#addSchedule<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Next Visit</a> -->
+
+                                                <?php }
+                                                } ?>
+                                            </td>
                                             </tr>
                                             <div class="modal fade" id="delete<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
@@ -1766,7 +1771,7 @@ if ($user->isLoggedIn()) {
                         </div>
                     <?php } elseif ($_GET['id'] == 4) { ?>
                         <div class="col-md-12">
-                            <?php 
+                            <?php
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                             $visits_status = $override->firstRow1('visit', 'status', 'id', 'client_id', $_GET['cid'], 'visit_code', 'EV')[0]['status'];
 
@@ -1906,13 +1911,11 @@ if ($user->isLoggedIn()) {
                                                                                     <div class="row-form clearfix">
                                                                                         <!-- select -->
                                                                                         <div class="form-group">
-                                                                                            <label>Visit Name</label>
-                                                                                            <select name="visit_name" style="width: 100%;" required>
-                                                                                                <option value="">Select</option>
-                                                                                                <?php foreach ($override->getData('schedule') as $study) { ?>
-                                                                                                    <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
-                                                                                                <?php } ?>
-                                                                                            </select>
+                                                                                            <label>Visit Date</label>
+                                                                                            <input value="<?php if ($visit['status'] != 0) {
+                                                                                                                echo $visit['visit_date'];
+                                                                                                            } ?>" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" />
+                                                                                            <span>Example: 2010-12-01</span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -1921,11 +1924,13 @@ if ($user->isLoggedIn()) {
                                                                                     <div class="row-form clearfix">
                                                                                         <!-- select -->
                                                                                         <div class="form-group">
-                                                                                            <label>Visit Date</label>
-                                                                                            <input value="<?php if ($visit['status'] != 0) {
-                                                                                                                echo $visit['visit_date'];
-                                                                                                            } ?>" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" />
-                                                                                            <span>Example: 2010-12-01</span>
+                                                                                            <label>Visit Name</label>
+                                                                                            <select name="visit_name" style="width: 100%;" required>
+                                                                                                <option value="">Select</option>
+                                                                                                <?php foreach ($override->getData('schedule') as $study) { ?>
+                                                                                                    <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
+                                                                                                <?php } ?>
+                                                                                            </select>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

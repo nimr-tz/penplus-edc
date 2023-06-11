@@ -1,6 +1,6 @@
 <?php
-require 'dompdf/autoload.inc.php';
-require 'php/core/init.php';
+include 'dompdf/autoload.inc.php';
+include 'php/core/init.php';
 
 use Dompdf\Dompdf;
 

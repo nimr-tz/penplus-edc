@@ -1507,7 +1507,7 @@ if ($user->isLoggedIn()) {
                                                     <?php if ($_GET['status'] == 3) { ?>
                                                         <?php if ($enrollment == 1) { ?>
                                                             <a href="info.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-warning">Study Crf</a>
-                                                            <a href="#addSchedule<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Next Visit</a>
+                                                            <!-- <a href="#addSchedule<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Next Visit</a> -->
 
                                                     <?php }
                                                     } ?>
@@ -1691,7 +1691,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="modal-content">
                                                         <form id="validation" method="post">
                                                             <?php
-                                                            $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'],'visit_code','EV')[0];
+                                                            $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
                                                             $visits = $override->getlastRow('visit', 'client_id', $client['id'], 'id')[0];
                                                             ?>
                                                             <div class="modal-header">
@@ -2094,12 +2094,13 @@ if ($user->isLoggedIn()) {
                                                     <th width="8%">Expected Date</th>
                                                     <th width="8%">Visit Date</th>
                                                     <th width="5%">Status</th>
-                                                    <th width="25%">Action</th>
+                                                    <th width="20%">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $x = 1;
                                                 foreach ($override->get('visit', 'client_id', $_GET['cid']) as $visit) {
+                                                    // print_r($visit['visit_code']);
                                                     $clnt = $override->get('clients', 'id', $_GET['cid'])[0];
                                                     $cntV = $override->getCount('visit', 'client_id', $visit['client_id']);
 
@@ -2130,7 +2131,7 @@ if ($user->isLoggedIn()) {
                                                         <td> <?= $visit['visit_code'] ?></td>
                                                         <td> <?= $visit['visit_day'] ?></td>
                                                         <td> <?= $visit['expected_date'] ?></td>
-                                                        <td> <?= $visit['visit_date'] ?></td>
+                                                        <td> <?= $visit['visit_date'] ?> </td>
                                                         <td>
                                                             <?php if ($visit['status'] == 1) { ?>
                                                                 <a href="#editVisit<?= $visit['id'] ?>" role="button" class="btn btn-success" data-toggle="modal">Done</a>
@@ -2138,18 +2139,33 @@ if ($user->isLoggedIn()) {
                                                                 <a href="#editVisit<?= $visit['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Pending</a>
                                                             <?php } ?>
                                                         </td>
-                                                        <?php if ($visit['status'] == 1 && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
-                                                            <?php if ($demographic && $vital && $history && $symptoms && $diagnosis && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $summary) { ?>
-                                                                <td>
-                                                                    <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
-                                                                </td>
-                                                            <?php } else { ?>
-                                                                <td>
-                                                                    <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
-                                                                </td>
-                                                        <?php }
-                                                        } ?>
+                                                        <td>
 
+                                                            <?php if ($visit['status'] == 1 && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
+
+                                                                <?php if ($demographic && $vital && $history && $symptoms && $diagnosis && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $summary) { ?>
+
+                                                                    <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
+
+                                                                    <?php if ($visit['visit_code'] == 'RV') { ?>
+
+                                                                        <a href="#addSchedule<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Next Visit</a>
+
+                                                                    <?php } ?>
+
+
+                                                                <?php } else { ?>
+                                                                    <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
+
+
+                                                                    <?php if ($visit['visit_code'] == 'RV') { ?>
+
+                                                                        <a href="#addSchedule<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Next Visit</a>
+                                                                    <?php } ?>
+                                                            <?php }
+                                                            } ?>
+
+                                                        </td>
                                                     </tr>
                                                     <div class="modal fade" id="editVisit<?= $visit['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">

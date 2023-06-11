@@ -5149,71 +5149,89 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="block-fluid">
                                 <form id="validation" method="post">
-                                    <div class="head clearfix">
-                                        <div class="isw-ok"></div>
-                                        <h1>Results at enrollment</h1>
-                                    </div>
 
-                                    <div class="row">
+                                    <?php if ($_GET['seq'] == 1) { ?>
 
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>ECG Date:</label>
-                                                    <input class="validate[required,custom[date]]" type="text" name="ecg_date" id="ecg_date" value="<?php if ($results['ecg_date']) {
-                                                                                                                                                        print_r($results['ecg_date']);
-                                                                                                                                                    }  ?>" required />
-                                                    <span>Example: 2023-01-01</span>
-                                                </div>
-                                            </div>
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Results at enrollment</h1>
                                         </div>
+                                    <?php } else { ?>
 
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>ECG</label>
-                                                    <select name="ecg" id="ecg" style="width: 100%;" required>
-                                                        <option value="<?= $results['ecg'] ?>"><?php if ($results) {
-                                                                                                    if ($results['ecg'] == 1) {
-                                                                                                        echo 'Single lead or';
-                                                                                                    } elseif ($results['ecg'] == 2) {
-                                                                                                        echo '12 lead';
-                                                                                                    } elseif ($results['ecg'] == 3) {
-                                                                                                        echo 'Normal sinus rhythm';
-                                                                                                    } elseif ($results['ecg'] == 4) {
-                                                                                                        echo 'Atrial fibrillation';
-                                                                                                    } elseif ($results['ecg'] == 5) {
-                                                                                                        echo 'Other';
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    echo 'Select';
-                                                                                                } ?></option>
-                                                        <option value="1">Single lead or</option>
-                                                        <option value="2">12 lead</option>
-                                                        <option value="3">Normal sinus rhythm</option>
-                                                        <option value="4">Atrial fibrillation</option>
-                                                        <option value="5">Other</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Echo Results </h1>
                                         </div>
 
 
-                                        <div class="col-sm-6" id="ecg_other">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Other specify::</label>
-                                                    <textarea name="ecg_other" rows="4">
+                                    <?php } ?>
+
+
+                                    <?php if ($_GET['seq'] == 1) { ?>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>ECG Date:</label>
+                                                        <input class="validate[required,custom[date]]" type="text" name="ecg_date" id="ecg_date" value="<?php if ($results['ecg_date']) {
+                                                                                                                                                            print_r($results['ecg_date']);
+                                                                                                                                                        }  ?>" required />
+                                                        <span>Example: 2023-01-01</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>ECG</label>
+                                                        <select name="ecg" id="ecg" style="width: 100%;" required>
+                                                            <option value="<?= $results['ecg'] ?>"><?php if ($results) {
+                                                                                                        if ($results['ecg'] == 1) {
+                                                                                                            echo 'Single lead or';
+                                                                                                        } elseif ($results['ecg'] == 2) {
+                                                                                                            echo '12 lead';
+                                                                                                        } elseif ($results['ecg'] == 3) {
+                                                                                                            echo 'Normal sinus rhythm';
+                                                                                                        } elseif ($results['ecg'] == 4) {
+                                                                                                            echo 'Atrial fibrillation';
+                                                                                                        } elseif ($results['ecg'] == 5) {
+                                                                                                            echo 'Other';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?></option>
+                                                            <option value="1">Single lead or</option>
+                                                            <option value="2">12 lead</option>
+                                                            <option value="3">Normal sinus rhythm</option>
+                                                            <option value="4">Atrial fibrillation</option>
+                                                            <option value="5">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-6" id="ecg_other">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Other specify::</label>
+                                                        <textarea name="ecg_other" rows="4">
                                                         <?php if ($results['ecg_other']) {
                                                             print_r($results['ecg_other']);
                                                         }  ?>
                                                     </textarea>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+
+                                    <?php } ?>
+
 
                                     <div class="row">
 

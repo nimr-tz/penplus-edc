@@ -2618,7 +2618,7 @@ if ($user->isLoggedIn()) {
 
                                         <tr>
                                             <td>4</td>
-                                            <td>Symtom & Exam</td>
+                                            <td>History, Symtom & Exam</td>
                                             <?php if ($override->get3('symptoms', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
                                                 <td><a href="add.php?id=10&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success" disabled> Change </a> </td>

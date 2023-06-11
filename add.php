@@ -358,13 +358,13 @@ if ($user->isLoggedIn()) {
 
                     $main_diagnosis = $override->get3('main_diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
-                    if ((Input::get('cardiac') == 1 && Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
-                        || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
-                        || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
-                        || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
-                    ) {
-                        $errorMessage = 'Patient Diagnosed with more than one Disease';
-                    } else {
+                    // if ((Input::get('cardiac') == 1 && Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
+                    //     || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
+                    //     || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
+                    //     || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
+                    // ) {
+                    //     $errorMessage = 'Patient Diagnosed with more than one Disease';
+                    // } else {
 
                         if ($main_diagnosis) {
 
@@ -411,7 +411,7 @@ if ($user->isLoggedIn()) {
                         $successMessage = 'Diagnosis added Successful';
                         Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                         die;
-                    }
+                    // }
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }

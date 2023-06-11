@@ -70,14 +70,31 @@ $output = ' ';
     // Load HTML content into dompdf
     $x = 1;
     foreach ($clients as $client) {
+        if($client['eligible'] == 1){
+            $eligible = 'ELIGIBLE';
+        }else{
+             $eligible = 'NOT ELIGIBLE';
+        }
+
+        
+        $screening = $override->get('screening', 'patient_id', $client['id'])[0];
+
+
+        if ($screening['consent'] == 1) {
+            $consent = 'Consented';
+        } else {
+            $consent = 'Not Consented';
+        }
+
+    
 
         $output .= '
          <tr>
             <td colspan="1">' . $x . '</td>
-            <td colspan="2">' . $client['create_on'] . '</td>
-            <td colspan="2">' . $client['create_on'] . '</td>
-            <td colspan="2">' . $client['create_on'] . '</td>
-            <td colspan="2">' . $client['create_on'] . '</td>
+            <td colspan="2">' . $client['clinic_date'] . '</td>
+            <td colspan="2">' . $client['firstname'] . '   -  ' . $client['lastname'] .  '</td>
+            <td colspan="2">' . $eligible . '</td>
+            <td colspan="2">' . $consent . '</td>
         </tr>
         ';
 

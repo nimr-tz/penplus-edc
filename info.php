@@ -249,7 +249,7 @@ if ($user->isLoggedIn()) {
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
                             'screening_date' => Input::get('visit_date'),
-                            'study_id' => '',
+                            // 'study_id' => '',
                             'age_6_above' => Input::get('age_6_above'),
                             'consent' => Input::get('consent'),
                             'scd' => Input::get('scd'),
@@ -1700,22 +1700,17 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="modal-body modal-body-np">
                                                                 <div class="row">
-                                                                    <div class="block-fluid">
-                                                                        <div class="row-form clearfix">
-                                                                            <div class="col-md-3">Visit Name:</div>
-                                                                            <div class="col-md-9">
-                                                                                <select name="visit_name" style="width: 100%;" required>
-                                                                                    <option value="">Select</option>
-                                                                                    <?php foreach ($override->getData2('schedule', 'status', 3) as $study) { ?>
-                                                                                        <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
-                                                                                    <?php } ?>
-                                                                                </select>
-                                                                            </div>
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="col-md-3">Date of Enrollment:</div>
+                                                                        <div class="col-md-9">
+                                                                            <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($visits_date['visits_date']) {
+                                                                                                                                                                                    print_r($visits_date['visits_date']);
+                                                                                                                                                                                }  ?>" />
+                                                                            <span>Example: 2010-12-01</span>
                                                                         </div>
                                                                     </div>
-
                                                                     <div class="row-form clearfix">
-                                                                        <div class="col-md-3">Notes:</div>
+                                                                        <div class="col-md-3">Notes / Remarks / Comments:</div>
                                                                         <div class="col-md-9">
                                                                             <textarea name="reasons" rows="4">
                                                                                  <?php
@@ -1725,18 +1720,13 @@ if ($user->isLoggedIn()) {
                                                                                 </textarea>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-3">Date of Enrollment:</div>
-                                                                        <div class="col-md-9">
-                                                                            <input value="<?= $visits_date['visits_date'] ?>" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" /> <span>Example: 2010-12-01</span>
-                                                                        </div>
-                                                                    </div>
                                                                     <div class="dr"><span></span></div>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="hidden" name="id" value="<?= $client['id'] ?>">
                                                                 <input type="hidden" name="screening_id" value="<?= $screening['id'] ?>">
+                                                                <input type="hidden" name="visit_name" value="Enrollment Visit">
                                                                 <input type="submit" name="add_Enrollment" class="btn btn-warning" value="Save">
                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                             </div>

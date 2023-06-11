@@ -605,65 +605,66 @@ if ($user->isLoggedIn()) {
             $filename = null;
             if (Input::get('clients')) {
                 $data = $override->getData('clients');
-                $filename = 'Clients';
-            } elseif (Input::get('visits')) {
-                $data = $override->getData('visit');
-                $filename = 'Visits';
+                $filename = 'Registartion Data';
+            } elseif (Input::get('screening')) {
+                $data = $override->getData('site');
+                $filename = 'screening Data';
+            } elseif (Input::get('demographic')) {
+                $data = $override->getData('demographic');
+                $filename = 'Demographic Data';
+            } elseif (Input::get('vital')) {
+                $data = $override->getData('site');
+                $filename = 'Vitals Sign Data';
             } elseif (Input::get('main_diagnosis')) {
                 $data = $override->getData('main_diagnosis');
-                $filename = 'Mian diagnosis (Patient Category)';
+                $filename = 'Pateint Category Data';
+            } elseif (Input::get('history')) {
+                $data = $override->getData('history');
+                $filename = 'Patient & Family History & Complication';
+            } elseif (Input::get('symptoms')) {
+                $data = $override->getData('symptoms');
+                $filename = 'Symtom & Exam';
+            } elseif (Input::get('diagnosis')) {
+                $data = $override->getData('diagnosis');
+                $filename = 'Main diagnosis 3 ( Cardiac )';
+            } elseif (Input::get('diabetic')) {
+                $data = $override->getData('diabetic');
+                $filename = 'Main diagnosis 3 ( Diabetic )';
+            } elseif (Input::get('sickle_cell')) {
+                $data = $override->getData('sickle_cell');
+                $filename = 'Main diagnosis 3 ( Sickle Cell )';
+            } elseif (Input::get('hospitalization')) {
+                $data = $override->getData('hospitalization');
+                $filename = 'Hospitalization Data';
+            } elseif (Input::get('treatment_plan')) {
+                $data = $override->getData('treatment_plan');
+                $filename = 'Treatment Plan Data';
+            } elseif (Input::get('dgns_complctns_comorbdts')) {
+                $data = $override->getData('dgns_complctns_comorbdts');
+                $filename = 'Diagnosis, Complications, & Comorbidities Data';
+            } elseif (Input::get('risks')) {
+                $data = $override->getData('risks');
+                $filename = 'RISK Data';
+            } elseif (Input::get('hospitalization_details')) {
+                $data = $override->getData('hospitalization_details');
+                $filename = 'Hospitalization Details Data';
+            } elseif (Input::get('lab_details')) {
+                $data = $override->getData('lab_details');
+                $filename = 'Lab Details Data';
+            } elseif (Input::get('social_economic')) {
+                $data = $override->getData('social_economic');
+                $filename = 'Socioeconomic Status Data';
+            } elseif (Input::get('visit')) {
+                $data = $override->getData('visit');
+                $filename = 'visit Schedule Data';
             } elseif (Input::get('study_id')) {
                 $data = $override->getData('study_id');
-                $filename = 'Study IDs';
-            } elseif (Input::get('sites')) {
+                $filename = 'study_id Status Data';
+            } elseif (Input::get('site')) {
                 $data = $override->getData('site');
-                $filename = 'Sites';
-            } elseif (Input::get('screening')) {
-                $data = $override->getData('screening');
-                $filename = 'Inclusion criteria';
-            } elseif (Input::get('crf1')) {
-                $data = $override->getData('crf1');
-                $filename = 'CRF 1';
-            } elseif (Input::get('crf2')) {
-                $data = $override->getData('crf2');
-                $filename = 'CRF 2';
-            } elseif (Input::get('crf3')) {
-                $data = $override->getData('crf3');
-                $filename = 'CRF 3';
-            } elseif (Input::get('crf4')) {
-                $data = $override->getData('crf4');
-                $filename = 'CRF 4';
-            } elseif (Input::get('crf5')) {
-                $data = $override->getData('crf5');
-                $filename = 'CRF 5';
-            } elseif (Input::get('crf5')) {
-                $data = $override->getData('crf5');
-                $filename = 'CRF 5';
-            } elseif (Input::get('crf6')) {
-                $data = $override->getData('crf6');
-                $filename = 'CRF 6';
-            } elseif (Input::get('crf7')) {
-                $data = $override->getData('crf7');
-                $filename = 'CRF 7';
-            } elseif (Input::get('herbal')) {
-                $data = $override->getData('herbal_treatment');
-                $filename = 'Other Herbal Treatment';
-            } elseif (Input::get('medication')) {
-                $data = $override->getData('other_medication');
-                $filename = 'other_medication';
-            } elseif (Input::get('nimregenin')) {
-                $data = $override->getData('nimregenin');
-                $filename = 'nimregenin';
-            } elseif (Input::get('radiotherapy')) {
-                $data = $override->getData('radiotherapy');
-                $filename = 'radiotherapy';
-            } elseif (Input::get('chemotherapy')) {
-                $data = $override->getData('chemotherapy');
-                $filename = 'chemotherapy';
-            } elseif (Input::get('surgery')) {
-                $data = $override->getData('surgery');
-                $filename = 'surgery';
+                $filename = 'Site List';
             }
+
             $user->exportData($data, $filename);
         }
     }
@@ -2341,139 +2342,153 @@ if ($user->isLoggedIn()) {
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>Clients</td>
+                                            <td>Registered Clients Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="clients" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>6</td>
-                                            <td>Screening</td>
+                                            <td>2</td>
+                                            <td>Screened Clients Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="screening" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
-                                            <td>Main Diagnosis( Patient Category )</td>
+                                            <td>Demographic Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="demographic" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Vital Sign Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="vital" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td> Patient Categories Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="main_diagnosis" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>2</td>
-                                            <td>Visit</td>
+                                            <td>6</td>
+                                            <td> Patient & Family History & Complication Data</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="visits" value="Download"></form>
-                                            </td>
-                                        </tr>
-
-                                        <!-- <tr>
-                                            <td>1</td>
-                                            <td>CRF1</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="crf1" value="Download"></form>
+                                                <form method="post"><input type="submit" name="history" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
-                                            <td>CFR2</td>
+                                            <td>7</td>
+                                            <td> Symtom & Exam Data</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="crf2" value="Download"></form>
+                                                <form method="post"><input type="submit" name="symptoms" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
-                                            <td>CRF3</td>
+                                            <td>8</td>
+                                            <td>Main diagnosis 3 ( Cardiac ) </td>
                                             <td>
-                                                <form method="post"><input type="submit" name="crf3" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>CRF4</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="crf4" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>CRF5</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="crf5" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>CRF6</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="crf6" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>CRF7</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="cr7" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Other Medications</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="medication" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>NIMREGENIN</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="nimregenin" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>OTHER HERBAL TREATMENT</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="herbal" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Radiotherapy</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="radiotherapy" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Chemotherapy</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="chemotherapy" value="Download"></form>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Surgery</td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="surgery" value="Download"></form>
+                                                <form method="post"><input type="submit" name="diagnosis" value="Download"></form>
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td>4</td>
+                                            <td>9</td>
+                                            <td>Main diagnosis 3 ( Diabetes ) </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="diabetic" value="Download"></form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>10</td>
+                                            <td>Main diagnosis 3 ( Sickle Cell ) </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="sickle_cell" value="Download"></form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>11</td>
+                                            <td>Hospitalization Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="hospitalization" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>12</td>
+                                            <td>Treatment Plan Data
+                                            </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="treatment_plan" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>13</td>
+                                            <td>Diagnosis, Complications, & Comorbidities Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="dgns_complctns_comorbdts" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>14</td>
+                                            <td>RISK Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="risks" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>15</td>
+                                            <td>Hospitalization Details Data
+                                            </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="hospitalization_details" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>16</td>
+                                            <td>Lab Details Data
+                                            </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="lab_details" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>17</td>
+                                            <td>Socioeconomic Status Data
+                                            </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="social_economic" value="Download"></form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>18</td>
                                             <td>Study IDs</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="study_id" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>5</td>
-                                            <td>Sites</td>
+                                            <td>19</td>
+                                            <td>Sites List</td>
                                             <td>
-                                                <form method="post"><input type="submit" name="sites" value="Download"></form>
+                                                <form method="post"><input type="submit" name="site" value="Download"></form>
                                             </td>
-                                        </tr> -->
+                                        </tr>
+
+                                        <tr>
+                                            <td>19</td>
+                                            <td>Visit Schedules Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="visit" value="Download"></form>
+                                            </td>
+                                        </tr>
 
                                     </tbody>
                                 </table>
@@ -2719,8 +2734,8 @@ if ($user->isLoggedIn()) {
 
                                         <tr>
                                             <td>12</td>
-                                            <td>Social Economic</td>
-                                            <?php if ($override->get3('summary', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                            <td>Socioeconomic Status</td>
+                                            <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
                                                 <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
                                             <?php } else { ?>
@@ -2729,44 +2744,7 @@ if ($user->isLoggedIn()) {
 
                                         </tr>
 
-                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 111)) { ?>
 
-                                            <tr>
-                                                <td>9</td>
-                                                <td>Cardiac</td>
-                                                <?php if ($override->get('cardiac', 'patient_id', $_GET['cid'])) { ?>
-                                                    <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>" class="btn btn-success" disabled=> CHange </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-                                            </tr>
-                                        <?php } ?>
-                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 11)) { ?>
-
-                                            <tr>
-                                                <td>10</td>
-                                                <td>Diabetes</td>
-                                                <?php if ($override->get('diabetic', 'patient_id', $_GET['cid'])) { ?>
-                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>" class="btn btn-success" disabled> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-                                            </tr>
-                                        <?php } ?>
-
-                                        <?php if ($override->get2('diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 11)) { ?>
-
-                                            <tr>
-                                                <td>11</td>
-                                                <td>Sickle cell</td>
-                                                <?php if ($override->get('sickle_cell', 'patient_id', $_GET['cid'])) { ?>
-                                                    <td><a href="add.php?id=13&cid=<?= $_GET['cid'] ?>" class="btn btn-success" disabled=""> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=13&cid=<?= $_GET['cid'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-
-                                            </tr>
-                                        <?php } ?>
 
                                     </tbody>
                                 </table>

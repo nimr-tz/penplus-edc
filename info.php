@@ -607,7 +607,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('clients');
                 $filename = 'Registartion Data';
             } elseif (Input::get('screening')) {
-                $data = $override->getData('site');
+                $data = $override->getData('screening');
                 $filename = 'screening Data';
             } elseif (Input::get('demographic')) {
                 $data = $override->getData('demographic');

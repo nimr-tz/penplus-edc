@@ -49,7 +49,7 @@ if ($user->isLoggedIn()) {
 
 
 
-$title = 'PENPLUS SUMMARY REPORT_' . date('Y-m-d');
+$title = 'NIMREGENIN SUMMARY REPORT_' . date('Y-m-d');
 
 $pdf = new Pdf();
 
@@ -64,30 +64,30 @@ if ($site_data) {
     $output .= '
             <table width="100%" border="1" cellpadding="5" cellspacing="0">
                 <tr>
-                    <td colspan="17" align="center" style="font-size: 18px">
+                    <td colspan="18" align="center" style="font-size: 18px">
                         <b>DATE  ' . date('Y-m-d') . '</b>
                     </td>
                 </tr>
 
 
                 <tr>
-                    <td colspan="17" align="center" style="font-size: 18px">
+                    <td colspan="18" align="center" style="font-size: 18px">
                         <b>TABLE 0 </b>
                     </td>
                 </tr>
 
                 <tr>
-                    <td colspan="17" align="center" style="font-size: 18px">
+                    <td colspan="18" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="17" align="center" style="font-size: 18px">
+                    <td colspan="18" align="center" style="font-size: 18px">
                         <b>Total Registered ( ' . $Total . ' ):  Total Enrolled( ' . $data_enrolled . ' )</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="17">                        
+                    <td colspan="18">                        
                         <br />
                         <table width="100%" border="1" cellpadding="5" cellspacing="0">
                             <tr>
@@ -95,15 +95,16 @@ if ($site_data) {
                                 <th rowspan="2">SITE</th>
                                 <th rowspan="2">REGISTERED</th>
                                 <th rowspan="2">SCREENED.</th>
-                                <th colspan="3"> Category ( INCLUSION )</th>
+                                <th colspan="4"> CANCER ( INCLUSION )</th>
                                 <th rowspan="2">ELIGIBLE</th>
                                 <th rowspan="2">ENROLLED</th>
                                 <th rowspan="2">END</th>
                             </tr>
                             <tr>
-                                <th>cardiac</th>
-                                <th>diabetes</th>
-                                <th>sickle_cell </th>
+                                <th>Breast</th>
+                                <th>Brain</th>
+                                <th>Cervical </th>
+                                <th>Prostate </th>
                             </tr>
             ';
 
@@ -114,12 +115,16 @@ if ($site_data) {
         $registered_Total = $override->getCount('clients', 'status', 1);
         $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $row['id']);
         $screened_Total = $override->countData('clients', 'status', 1, 'screened', 1);
-        $sickle_cell = $override->countData2('clients', 'status', 1, 'sickle_cell', 1, 'site_id', $row['id']);
-        $sickle_cell_Total = $override->countData('clients', 'status', 1, 'sickle_cell', 1);
-        $cardiac = $override->countData2('clients', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
-        $cardiac_Total = $override->countData('clients', 'status', 1, 'cardiac', 1);
-        $diabetes = $override->countData2('clients', 'status', 1, 'diabetes', 1, 'site_id', $row['id']);
-        $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
+        $breast_cancer = $override->countData2('screening', 'status', 1, 'breast_cancer', 1, 'site_id', $row['id']);
+        $breast_cancer_Total = $override->countData('screening', 'status', 1, 'breast_cancer', 1);
+        $brain_cancer = $override->countData2('screening', 'status', 1, 'brain_cancer', 1, 'site_id', $row['id']);
+        $brain_cancer_Total = $override->countData('screening', 'status', 1, 'brain_cancer', 1);
+        $cervical_cancer = $override->countData2('screening', 'status', 1, 'cervical_cancer', 1, 'site_id', $row['id']);
+        $cervical_cancer_Total = $override->countData('screening', 'status', 1, 'cervical_cancer', 1);
+        $prostate_cancer = $override->countData2('screening', 'status', 1, 'prostate_cancer', 1, 'site_id', $row['id']);
+        $prostate_cancer_Total = $override->countData('screening', 'status', 1, 'prostate_cancer', 1);
+        $biopsy = $override->countData2('screening', 'status', 1, 'biopsy', 1, 'site_id', $row['id']);
+        $biopsy_Total = $override->countData('screening', 'status', 1, 'biopsy', 1);
         $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $row['id']);
         $eligible_Total = $override->countData('clients', 'status', 1, 'eligible', 1);
         $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
@@ -131,11 +136,12 @@ if ($site_data) {
                 <tr>
                     <td>' . $x . '</td>
                     <td>' . $row['name']  . '</td>
-                    <td align="right">' . $registered . '</td>
+                    <td>' . $registered . '</td>
                     <td align="right">' . $screened . '</td>
-                    <td align="right">' . $cardiac . '</td>
-                    <td align="right">' . $diabetes . '</td>
-                    <td align="right">' . $sickle_cell . '</td>
+                    <td align="right">' . $breast_cancer . '</td>
+                    <td align="right">' . $brain_cancer . '</td>
+                    <td align="right">' . $cervical_cancer . '</td>
+                    <td align="right">' . $prostate_cancer . '</td>
                     <td align="right">' . $eligible . '</td>
                     <td align="right">' . $enrolled . '</td>
                     <td align="right">' . $end_study . '</td>
@@ -150,9 +156,10 @@ if ($site_data) {
                     <td align="right" colspan="2"><b>Total</b></td>
                     <td align="right"><b>' . $registered_Total . '</b></td>
                     <td align="right"><b>' . $screened_Total . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total . '</b></td>
-                    <td align="right"><b>' . $diabetes_Total . '</b></td>
-                    <td align="right"><b>' . $eligible_Total . '</b></td>
+                    <td align="right"><b>' . $breast_cancer_Total . '</b></td>
+                    <td align="right"><b>' . $brain_cancer_Total . '</b></td>
+                    <td align="right"><b>' . $cervical_cancer_Total . '</b></td>
+                    <td align="right"><b>' . $prostate_cancer_Total . '</b></td>
                     <td align="right"><b>' . $eligible_Total . '</b></td>
                     <td align="right"><b>' . $enrolled_Total . '</b></td>
                     <td align="right"><b>' . $end_study_Total . '</b></td>
@@ -164,7 +171,7 @@ if ($site_data) {
     $output .= '
             </table>    
                 <tr>
-                    <td colspan="8" align="center" style="font-size: 18px">
+                    <td colspan="9" align="center" style="font-size: 18px">
                         <br />
                         <br />
                         <br />

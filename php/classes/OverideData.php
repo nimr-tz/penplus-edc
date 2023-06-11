@@ -187,6 +187,13 @@ class OverideData{
         return $result;
     }
 
+    public function firstRow1($table, $param, $id, $where, $client_id,$where1,$id1)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT $param FROM $table WHERE $where = '$client_id' AND $where1 = '$id1' ORDER BY '$id' ASC");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function clearDataTable($table){
         $query = $this->_pdo->query("TRUNCATE TABLE `$table`");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

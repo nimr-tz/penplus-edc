@@ -1691,7 +1691,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="modal-content">
                                                         <form id="validation" method="post">
                                                             <?php
-                                                            $visits_date = $override->firstRow('visit', 'visit_date', 'id', 'client_id', $client['id'])[0];
+                                                            $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'],'visit_code','EV')[0];
                                                             $visits = $override->getlastRow('visit', 'client_id', $client['id'], 'id')[0];
                                                             ?>
                                                             <div class="modal-header">
@@ -1703,8 +1703,8 @@ if ($user->isLoggedIn()) {
                                                                     <div class="row-form clearfix">
                                                                         <div class="col-md-3">Date of Enrollment:</div>
                                                                         <div class="col-md-9">
-                                                                            <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($visits_date['visits_date']) {
-                                                                                                                                                                                    print_r($visits_date['visits_date']);
+                                                                            <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($visits_date['visit_date']) {
+                                                                                                                                                                                    print_r($visits_date['visit_date']);
                                                                                                                                                                                 }  ?>" />
                                                                             <span>Example: 2010-12-01</span>
                                                                         </div>
@@ -2163,14 +2163,14 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row">
 
                                                                             <div class="row">
-                                                                                <div class="col-sm-6">
+                                                                                <div class="col-sm-3">
                                                                                     <div class="row-form clearfix">
                                                                                         <!-- select -->
                                                                                         <div class="form-group">
                                                                                             <label>Visit Name</label>
                                                                                             <select name="visit_name" style="width: 100%;" required>
                                                                                                 <option value="">Select</option>
-                                                                                                <?php foreach ($override->getData2('schedule', 'status', 4) as $study) { ?>
+                                                                                                <?php foreach ($override->getData('schedule') as $study) { ?>
                                                                                                     <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
                                                                                                 <?php } ?>
                                                                                             </select>
@@ -2178,7 +2178,7 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="col-sm-6">
+                                                                                <div class="col-sm-3">
                                                                                     <div class="row-form clearfix">
                                                                                         <!-- select -->
                                                                                         <div class="form-group">
@@ -2190,17 +2190,19 @@ if ($user->isLoggedIn()) {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
 
-                                                                            <div class="row-form clearfix">
-                                                                                <div class="col-md-3">Notes:</div>
-                                                                                <div class="col-md-9">
-                                                                                    <textarea name="reasons" rows="4"><?php if ($visit['status'] != 0) {
-                                                                                                                            echo $visit['reasons'];
-                                                                                                                        } ?></textarea>
+                                                                                <div class="col-sm-6">
+                                                                                    <div class="row-form clearfix">
+                                                                                        <!-- select -->
+                                                                                        <div class="form-group">
+                                                                                            <label>Notes / Remarks /Comments</label>
+                                                                                            <textarea name="reasons" rows="4"><?php if ($visit['status'] != 0) {
+                                                                                                                                    echo $visit['reasons'];
+                                                                                                                                } ?></textarea>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-
                                                                             <div class="dr"><span></span></div>
                                                                         </div>
                                                                     </div>

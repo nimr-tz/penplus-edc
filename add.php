@@ -260,7 +260,8 @@ if ($user->isLoggedIn()) {
                         }
 
                         $successMessage = 'Client Added Successful';
-                        Redirect::to('info.php?id=3');
+                        // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                        Redirect::to('info.php?id=3&status=5');
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());

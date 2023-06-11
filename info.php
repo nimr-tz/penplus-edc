@@ -1766,7 +1766,11 @@ if ($user->isLoggedIn()) {
                         </div>
                     <?php } elseif ($_GET['id'] == 4) { ?>
                         <div class="col-md-12">
-                            <?php $patient = $override->get('clients', 'id', $_GET['cid'])[0] ?>
+                            <?php 
+                            $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $visits_status = $override->firstRow1('visit', 'status', 'id', 'client_id', $_GET['cid'], 'visit_code', 'EV')[0]['status'];
+
+                            ?>
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="ucard clearfix">
@@ -1879,9 +1883,11 @@ if ($user->isLoggedIn()) {
                                                         </td>
                                                         <td>
                                                             <?php if ($visit['visit_code'] == 'RV') { ?>
-
-                                                                <a href="#addSchedule<?= $visit['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Next Visit</a>
+                                                                <?php if ($visits_status  == 1) { ?>
+                                                                    <a href="#addSchedule<?= $visit['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Next Visit</a>
+                                                                <?php } ?>
                                                             <?php } ?>
+
                                                         </td>
                                                     </tr>
                                                     <div class="modal fade" id="editVisit<?= $visit['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -2013,26 +2019,26 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Type of diagnosis</label>
                                                                                     <select name="diagnosis" id="diagnosis" style="width: 100%;" required>
                                                                                         <option value="<?= $visit['diagnosis'] ?>"><?php if ($visit) {
-                                                                                                                                            if ($visit['diagnosis'] == 1) {
-                                                                                                                                                echo 'Type 1 Diabetes';
-                                                                                                                                            } elseif ($visit['diagnosis'] == 2) {
-                                                                                                                                                echo 'Type 2 Diabetes';
-                                                                                                                                            } elseif ($visit['diagnosis'] == 3) {
-                                                                                                                                                echo 'Cardiac';
-                                                                                                                                            } elseif ($visit['diagnosis'] == 4) {
-                                                                                                                                                echo 'Sickle Cell Disease ';
-                                                                                                                                            } elseif ($visit['diagnosis'] == 5) {
-                                                                                                                                                echo 'Respiratory';
-                                                                                                                                            } elseif ($visit['diagnosis'] == 6) {
-                                                                                                                                                echo 'Liver';
-                                                                                                                                            } elseif ($visit['diagnosis'] == 7) {
-                                                                                                                                                echo 'Kidney';
-                                                                                                                                            } elseif ($visit['diagnosis'] == 8) {
-                                                                                                                                                echo 'Other';
-                                                                                                                                            }
-                                                                                                                                        } else {
-                                                                                                                                            echo 'Select';
-                                                                                                                                        } ?>
+                                                                                                                                        if ($visit['diagnosis'] == 1) {
+                                                                                                                                            echo 'Type 1 Diabetes';
+                                                                                                                                        } elseif ($visit['diagnosis'] == 2) {
+                                                                                                                                            echo 'Type 2 Diabetes';
+                                                                                                                                        } elseif ($visit['diagnosis'] == 3) {
+                                                                                                                                            echo 'Cardiac';
+                                                                                                                                        } elseif ($visit['diagnosis'] == 4) {
+                                                                                                                                            echo 'Sickle Cell Disease ';
+                                                                                                                                        } elseif ($visit['diagnosis'] == 5) {
+                                                                                                                                            echo 'Respiratory';
+                                                                                                                                        } elseif ($visit['diagnosis'] == 6) {
+                                                                                                                                            echo 'Liver';
+                                                                                                                                        } elseif ($visit['diagnosis'] == 7) {
+                                                                                                                                            echo 'Kidney';
+                                                                                                                                        } elseif ($visit['diagnosis'] == 8) {
+                                                                                                                                            echo 'Other';
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        echo 'Select';
+                                                                                                                                    } ?>
                                                                                         </option>
                                                                                         <option value="1">Type 1 Diabetes</option>
                                                                                         <option value="2">Type 2 Diabetes </option>

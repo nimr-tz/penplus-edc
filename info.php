@@ -250,11 +250,11 @@ if ($user->isLoggedIn()) {
                         $user->updateRecord('screening', array(
                             'screening_date' => Input::get('visit_date'),
                             // 'study_id' => '',
-                            'age_6_above' => Input::get('age_6_above'),
+                            // 'age_6_above' => Input::get('age_6_above'),
                             'consent' => Input::get('consent'),
-                            'scd' => Input::get('scd'),
-                            'rhd' => Input::get('rhd'),
-                            'residence' => Input::get('residence'),
+                            // 'scd' => Input::get('scd'),
+                            // 'rhd' => Input::get('rhd'),
+                            // 'residence' => Input::get('residence'),
                             'created_on' => date('Y-m-d'),
                             'patient_id' => Input::get('id'),
                             'staff_id' => $user->data()->id,
@@ -262,7 +262,7 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                         ), Input::get('scrrening_id'));
 
-                        $visit = $override->getNews('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', 'Screening')[0];
+                        $visit = $override->getNews('visit', 'client_id', Input::get('id'), 'seq_no', 0, 'visit_name', 'Screening')[0];
 
                         $user->updateRecord('visit', array(
                             'expected_date' => Input::get('visit_date'),
@@ -272,11 +272,11 @@ if ($user->isLoggedIn()) {
                         $user->createRecord('screening', array(
                             'screening_date' => Input::get('visit_date'),
                             'study_id' => '',
-                            'age_6_above' => Input::get('age_6_above'),
+                            // 'age_6_above' => Input::get('age_6_above'),
                             'consent' => Input::get('consent'),
-                            'scd' => Input::get('scd'),
-                            'rhd' => Input::get('rhd'),
-                            'residence' => Input::get('residence'),
+                            // 'scd' => Input::get('scd'),
+                            // 'rhd' => Input::get('rhd'),
+                            // 'residence' => Input::get('residence'),
                             'created_on' => date('Y-m-d'),
                             'patient_id' => Input::get('id'),
                             'staff_id' => $user->data()->id,
@@ -332,7 +332,8 @@ if ($user->isLoggedIn()) {
                 $screening_id = $override->getNews('screening', 'patient_id', Input::get('id'), 'status', 1)[0];
                 $visit_id = $override->get('visit', 'client_id', Input::get('id'))[0];
                 $last_visit = $override->getlastRow('visit', 'client_id', Input::get('id'), 'id')[0];
-                $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
+                $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'));
+                $visit_id = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
 
                 if (!$client_study['study_id']) {
                     $study_id = $std_id['study_id'];
@@ -355,7 +356,9 @@ if ($user->isLoggedIn()) {
                 }
 
                 if ($visit) {
-                    $errorMessage = 'Visit with the same Date ana Name already exists for this Client';
+                    $user->updateRecord('visit', array('visit_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
+
+                    // $errorMessage = 'Visit with the same Date ana Name already exists for this Client';
                 } else {
                     $user->createRecord('visit', array(
                         'study_id' => $study_id,
@@ -1692,7 +1695,9 @@ if ($user->isLoggedIn()) {
                                                         <form id="validation" method="post">
                                                             <?php
                                                             $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
-                                                            $visits = $override->getlastRow('visit', 'client_id', $client['id'], 'id')[0];
+                                                            $visits_reason = $override->firstRow1('visit', 'reasons', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
+
+                                                            // $visits = $override->getlastRow('visit', 'client_id', $client['id'], 'id')[0];
                                                             ?>
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -1714,8 +1719,8 @@ if ($user->isLoggedIn()) {
                                                                         <div class="col-md-9">
                                                                             <textarea name="reasons" rows="4">
                                                                                  <?php
-                                                                                    if ($visits['reasons']) {
-                                                                                        print_r($visits['reasons']);
+                                                                                    if ($visits_reason['reasons']) {
+                                                                                        print_r($visits_reason['reasons']);
                                                                                     } ?>
                                                                                 </textarea>
                                                                         </div>
@@ -1725,7 +1730,6 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="hidden" name="id" value="<?= $client['id'] ?>">
-                                                                <input type="hidden" name="screening_id" value="<?= $screening['id'] ?>">
                                                                 <input type="hidden" name="visit_name" value="Enrollment Visit">
                                                                 <input type="submit" name="add_Enrollment" class="btn btn-warning" value="Save">
                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>

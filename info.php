@@ -223,21 +223,21 @@ if ($user->isLoggedIn()) {
                 'visit_date' => array(
                     'required' => true,
                 ),
-                // 'age_6_above' => array(
-                //     'required' => true,
-                // ),
+                'age_6_above' => array(
+                    'required' => true,
+                ),
                 'consent' => array(
                     'required' => true,
                 ),
-                // 'scd' => array(
-                //     'required' => true,
-                // ),
-                // 'rhd' => array(
-                //     'required' => true,
-                // ),
-                // 'residence' => array(
-                //     'required' => true,
-                // ),
+                'scd' => array(
+                    'required' => true,
+                ),
+                'rhd' => array(
+                    'required' => true,
+                ),
+                'residence' => array(
+                    'required' => true,
+                ),
             ));
             if ($validate->passed()) {
                 try {
@@ -250,11 +250,11 @@ if ($user->isLoggedIn()) {
                         $user->updateRecord('screening', array(
                             'screening_date' => Input::get('visit_date'),
                             // 'study_id' => '',
-                            // 'age_6_above' => Input::get('age_6_above'),
+                            'age_6_above' => Input::get('age_6_above'),
                             'consent' => Input::get('consent'),
-                            // 'scd' => Input::get('scd'),
-                            // 'rhd' => Input::get('rhd'),
-                            // 'residence' => Input::get('residence'),
+                            'scd' => Input::get('scd'),
+                            'rhd' => Input::get('rhd'),
+                            'residence' => Input::get('residence'),
                             'created_on' => date('Y-m-d'),
                             'patient_id' => Input::get('id'),
                             'staff_id' => $user->data()->id,
@@ -272,11 +272,11 @@ if ($user->isLoggedIn()) {
                         $user->createRecord('screening', array(
                             'screening_date' => Input::get('visit_date'),
                             'study_id' => '',
-                            // 'age_6_above' => Input::get('age_6_above'),
+                            'age_6_above' => Input::get('age_6_above'),
                             'consent' => Input::get('consent'),
-                            // 'scd' => Input::get('scd'),
-                            // 'rhd' => Input::get('rhd'),
-                            // 'residence' => Input::get('residence'),
+                            'scd' => Input::get('scd'),
+                            'rhd' => Input::get('rhd'),
+                            'residence' => Input::get('residence'),
                             'created_on' => date('Y-m-d'),
                             'patient_id' => Input::get('id'),
                             'staff_id' => $user->data()->id,
@@ -1604,7 +1604,7 @@ if ($user->isLoggedIn()) {
                                                                         </div>
                                                                     </div>
 
-                                                                    <!-- <div class="row-form clearfix">
+                                                                    <div class="row-form clearfix">
                                                                         <div class="col-md-8">Aged 6 years and above</div>
                                                                         <div class="col-md-4">
                                                                             <select name="age_6_above" style="width: 100%;" required>
@@ -1621,9 +1621,9 @@ if ($user->isLoggedIn()) {
                                                                                 <option value="2">No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div> -->
+                                                                    </div> 
 
-                                                                    <!-- <div class="row-form clearfix">
+                                                                    <div class="row-form clearfix">
                                                                         <div class="col-md-8">Known SCD?</div>
                                                                         <div class="col-md-4">
                                                                             <select name="scd" style="width: 100%;" required>
@@ -1678,7 +1678,7 @@ if ($user->isLoggedIn()) {
                                                                                 <option value="2">No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div> -->
+                                                                    </div> 
 
                                                                     <div class="dr"><span></span></div>
                                                                 </div>

@@ -11,7 +11,6 @@ if ($user->isLoggedIn()) {
         $clients = $override->get('clients', 'status', 1);
         $Total = $override->getCount('clients', 'status', 1);
         $data_enrolled = $override->getCount1('clients', 'status', 1, 'enrolled', 1);
-
         $successMessage = 'Report Successful Created';
     } catch (Exception $e) {
         die($e->getMessage());
@@ -20,7 +19,7 @@ if ($user->isLoggedIn()) {
     Redirect::to('index.php');
 }
 
-$title = 'PENPLUS SCREENING AND ENROLLMENT LOG REPORT_' . date('Y-m-d');
+$title = 'PENPLUS SCREENING AND ENROLLMENT LOG REPORT ' . date('Y-m-d');
 
 $pdf = new Pdf();
 

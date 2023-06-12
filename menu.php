@@ -114,7 +114,7 @@ if ($user->isLoggedIn()) {
                 </li> -->
                 </ul>
             </li>
-
+<!-- 
             <li class="openable">
                 <a href="#"><span class="isw-documents"></span><span class="text">Reports</span></a>
                 <ul>
@@ -124,7 +124,7 @@ if ($user->isLoggedIn()) {
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li class="">
                 <a href="#">
                     <span class="isw-download"></span><span class="text">Download</span>
@@ -135,6 +135,22 @@ if ($user->isLoggedIn()) {
                     <span class="isw-download"></span><span class="text">Download Data</span>
                 </a>
             </li>
+            <li class="openable">
+                <a href="#"><span class="isw-tag"></span><span class="text">View Reports</span></a>
+                <ul>
+                    <li class="active">
+                        <a href="report1.php">
+                            <span class="text">Report 1 ( TABLE 1) </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report2.php">
+                            <span class="text">Report 2 ( TABLE 2)</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
 
             <li class="openable">
                 <a href="#"><span class="isw-tag"></span><span class="text">Extra</span></a>

@@ -1740,6 +1740,8 @@ if ($user->isLoggedIn()) {
                                 'social_support' => Input::get('social_support'),
                                 'social_support_type' => Input::get('social_support_type'),
                                 'cardiology' => Input::get('cardiology'),
+                                'completed' => Input::get('completed'),
+                                'cardiology_reason' => Input::get('cardiology_reason'), 
                                 'cardiology_date' => Input::get('cardiology_date'),
                                 'awaiting_surgery' => Input::get('awaiting_surgery'),
                                 'new_referrals' => Input::get('new_referrals'),
@@ -1788,6 +1790,8 @@ if ($user->isLoggedIn()) {
                                 'social_support' => Input::get('social_support'),
                                 'social_support_type' => Input::get('social_support_type'),
                                 'cardiology' => Input::get('cardiology'),
+                                'completed' => Input::get('completed'),
+                                'cardiology_reason' => Input::get('cardiology_reason'), 
                                 'cardiology_date' => Input::get('cardiology_date'),
                                 'awaiting_surgery' => Input::get('awaiting_surgery'),
                                 'new_referrals' => Input::get('new_referrals'),
@@ -1839,6 +1843,8 @@ if ($user->isLoggedIn()) {
                                 'social_support' => Input::get('social_support'),
                                 'social_support_type' => Input::get('social_support_type'),
                                 'cardiology' => Input::get('cardiology'),
+                                'completed' => Input::get('completed'),
+                                'cardiology_reason' => Input::get('cardiology_reason'), 
                                 'cardiology_date' => Input::get('cardiology_date'),
                                 'awaiting_surgery' => Input::get('awaiting_surgery'),
                                 'new_referrals' => Input::get('new_referrals'),
@@ -1942,6 +1948,8 @@ if ($user->isLoggedIn()) {
                             'social_support' => Input::get('social_support'),
                             'social_support_type' => Input::get('social_support_type'),
                             'cardiology' => Input::get('cardiology'),
+                            'completed' => Input::get('completed'),
+                            'cardiology_reason' => Input::get('cardiology_reason'), 
                             'cardiology_date' => Input::get('cardiology_date'),
                             'awaiting_surgery' => Input::get('awaiting_surgery'),
                             'new_referrals' => Input::get('new_referrals'),
@@ -7798,16 +7806,16 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Completed ?:</label>
-                                                        <select name="cardiology" id="cardiology" style="width: 100%;" required>
-                                                            <option value="<?= $treatment_plan['cardiology'] ?>"><?php if ($treatment_plan) {
-                                                                                                                        if ($treatment_plan['cardiology'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($treatment_plan['cardiology'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?>
+                                                        <select name="completed" id="completed" style="width: 100%;" required>
+                                                            <option value="<?= $treatment_plan['completed'] ?>"><?php if ($treatment_plan) {
+                                                                                                                    if ($treatment_plan['completed'] == 1) {
+                                                                                                                        echo 'Yes';
+                                                                                                                    } elseif ($treatment_plan['completed'] == 2) {
+                                                                                                                        echo 'No';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
                                                             </option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
@@ -7821,9 +7829,9 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>If no, why ?:</label>
-                                                        <input style="width: 100%;" type="text" name="cardiology_date" id="cardiology_date" value="<?php if ($treatment_plan['cardiology_date']) {
-                                                                                                                                                        print_r($treatment_plan['cardiology_date']);
-                                                                                                                                                    }  ?>" />
+                                                        <input style="width: 100%;" type="text" name="cardiology_reason" id="cardiology_reason" value="<?php if ($treatment_plan['cardiology_reason']) {
+                                                                                                                                                            print_r($treatment_plan['cardiology_reason']);
+                                                                                                                                                        }  ?>" />
                                                     </div>
                                                 </div>
                                             </div>

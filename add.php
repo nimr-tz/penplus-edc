@@ -366,51 +366,51 @@ if ($user->isLoggedIn()) {
                     //     $errorMessage = 'Patient Diagnosed with more than one Disease';
                     // } else {
 
-                        if ($main_diagnosis) {
+                    if ($main_diagnosis) {
 
-                            $user->updateRecord('main_diagnosis', array(
-                                'visit_date' => Input::get('diagnosis_date'),
-                                'cardiac' => Input::get('cardiac'),
-                                'diabetes' => Input::get('diabetes'),
-                                'sickle_cell' => Input::get('sickle_cell'),
-                                'comments' => Input::get('comments'),
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ), $main_diagnosis['id']);
-                        } else {
-                            $user->createRecord('main_diagnosis', array(
-                                'visit_date' => Input::get('diagnosis_date'),
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'cardiac' => Input::get('cardiac'),
-                                'diabetes' => Input::get('diabetes'),
-                                'sickle_cell' => Input::get('sickle_cell'),
-                                'comments' => Input::get('comments'),
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ));
-                        }
-
-
-                        $user->updateRecord('clients', array(
+                        $user->updateRecord('main_diagnosis', array(
+                            'visit_date' => Input::get('diagnosis_date'),
                             'cardiac' => Input::get('cardiac'),
                             'diabetes' => Input::get('diabetes'),
                             'sickle_cell' => Input::get('sickle_cell'),
-                        ), $_GET['cid']);
+                            'comments' => Input::get('comments'),
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ), $main_diagnosis['id']);
+                    } else {
+                        $user->createRecord('main_diagnosis', array(
+                            'visit_date' => Input::get('diagnosis_date'),
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'cardiac' => Input::get('cardiac'),
+                            'diabetes' => Input::get('diabetes'),
+                            'sickle_cell' => Input::get('sickle_cell'),
+                            'comments' => Input::get('comments'),
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ));
+                    }
 
 
-                        $successMessage = 'Diagnosis added Successful';
-                        Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
-                        die;
+                    $user->updateRecord('clients', array(
+                        'cardiac' => Input::get('cardiac'),
+                        'diabetes' => Input::get('diabetes'),
+                        'sickle_cell' => Input::get('sickle_cell'),
+                    ), $_GET['cid']);
+
+
+                    $successMessage = 'Diagnosis added Successful';
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    die;
                     // }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -4137,7 +4137,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>Symptoms of hypoglycemia?:</label>
+                                                        <label>Severe hypoglycemia in last month?:</label>
                                                         <select name="hypoglycemia_severe" id="hypoglycemia_severe" style="width: 100%;" required>
                                                             <option value="<?= $symptoms['hypoglycemia_severe'] ?>"><?php if ($symptoms) {
                                                                                                                         if ($symptoms['hypoglycemia_severe'] == 1) {
@@ -4162,7 +4162,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-sm-6">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>If , Yes #:....</label>
+                                                        <label>If Yes, how many episodes of severe hypoglycemia</label>
                                                         <input type="text" name="hypoglycemia__number" value="<?php if ($symptoms['hypoglycemia__number']) {
                                                                                                                     print_r($symptoms['hypoglycemia__number']);
                                                                                                                 }  ?>" />
@@ -7444,48 +7444,58 @@ if ($user->isLoggedIn()) {
 
                                     <?php } ?>
 
-                                    <div class="head clearfix">
-                                        <div class="isw-ok"></div>
-                                        <h1>Diet and Fluid restriction</h1>
-                                    </div>
+                                    <?php
+                                    if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
+                                    ?>
 
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Salt:</label>
-                                                    <input type="text" name="salt" id="salt" value="<?php if ($treatment_plan['salt']) {
-                                                                                                        print_r($treatment_plan['salt']);
-                                                                                                    }  ?>" />
-                                                </div>
-                                            </div>
+
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>Diet and Fluid restriction</h1>
                                         </div>
 
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Fluid:</label>
-                                                    <input type="text" name="fluid" id="fluid" value="<?php if ($treatment_plan['fluid']) {
-                                                                                                            print_r($treatment_plan['fluid']);
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Salt:</label>
+                                                        <input type="text" name="salt" id="salt" value="<?php if ($treatment_plan['salt']) {
+                                                                                                            print_r($treatment_plan['salt']);
                                                                                                         }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Fluid:</label>
+                                                        <input type="text" name="fluid" id="fluid" value="<?php if ($treatment_plan['fluid']) {
+                                                                                                                print_r($treatment_plan['fluid']);
+                                                                                                            }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Other:</label>
+                                                        <input type="text" name="restriction_other" id="restriction_other" value="<?php if ($treatment_plan['restriction_other']) {
+                                                                                                                                        print_r($treatment_plan['restriction_other']);
+                                                                                                                                    }  ?>" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Other:</label>
-                                                    <input type="text" name="restriction_other" id="restriction_other" value="<?php if ($treatment_plan['restriction_other']) {
-                                                                                                                                    print_r($treatment_plan['restriction_other']);
-                                                                                                                                }  ?>" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php
+                                    }
+                                    ?>
+
 
 
                                     <div class="head clearfix">
@@ -7760,7 +7770,7 @@ if ($user->isLoggedIn()) {
 
 
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -7783,7 +7793,42 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Completed ?:</label>
+                                                        <select name="cardiology" id="cardiology" style="width: 100%;" required>
+                                                            <option value="<?= $treatment_plan['cardiology'] ?>"><?php if ($treatment_plan) {
+                                                                                                                        if ($treatment_plan['cardiology'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($treatment_plan['cardiology'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                            </option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>If no, why ?:</label>
+                                                        <input style="width: 100%;" type="text" name="cardiology_date" id="cardiology_date" value="<?php if ($treatment_plan['cardiology_date']) {
+                                                                                                                                                        print_r($treatment_plan['cardiology_date']);
+                                                                                                                                                    }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -7794,8 +7839,10 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-12">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -7822,7 +7869,7 @@ if ($user->isLoggedIn()) {
                                     <?php } ?>
 
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -7845,7 +7892,7 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -7856,8 +7903,13 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-sm-6">
+
+                                    <div class="row">
+
+
+                                        <div class="col-sm-12">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">

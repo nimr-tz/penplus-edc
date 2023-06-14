@@ -1,6 +1,6 @@
 <?php
 
-include 'pdf.php';
+require 'pdf.php';
 $user = new User();
 $override = new OverideData();
 $email = new Email();

@@ -620,13 +620,18 @@ if ($user->isLoggedIn()) {
                 try {
                     $medications = $override->get('medications', 'name', Input::get('name'));
                     if ($medications) {
-                        $user->updateRecord('medications', array(
-                            'name' => Input::get('name'),
-                            'cardiac' => Input::get('cardiac'),
-                            'diabetes' => Input::get('diabetes'),
-                            'sickle_cell' => Input::get('sickle_cell'),
-                            'status' => 1,
-                        ), $medications[0]['id']);
+                        if(Input::get('action') == 'edit'){
+                            $user->updateRecord('medications', array(
+                                'name' => Input::get('name'),
+                                'cardiac' => Input::get('cardiac'),
+                                'diabetes' => Input::get('diabetes'),
+                                'sickle_cell' => Input::get('sickle_cell'),
+                                'status' => 1,
+                            ), $medications[0]['id']);
+                            $successMessage = 'Medications Successful Updated';
+                        }elseif(Input::get('action') == 'add'){
+                            $errorMessage = 'Medications Already  Available Please Update instead!';
+                        }
                     } else {
                         $user->createRecord('medications', array(
                             'name' => Input::get('name'),
@@ -635,8 +640,8 @@ if ($user->isLoggedIn()) {
                             'sickle_cell' => Input::get('sickle_cell'),
                             'status' => 1,
                         ));
+                        $successMessage = 'Medications Successful Added';
                     }
-                    $successMessage = 'Position Successful Added';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -2887,7 +2892,10 @@ if ($user->isLoggedIn()) {
 
                         </div>
                     <?php } elseif ($_GET['id'] == 9) { ?>
+
                         <div class="col-md-6">
+                            <input class="form-control" id="myInput" type="text" placeholder="Search medications..">
+
                             <div class="head clearfix">
                                 <div class="isw-grid"></div>
                                 <h1>List of Medications</h1>
@@ -2905,7 +2913,7 @@ if ($user->isLoggedIn()) {
                                 </ul>
                             </div>
                             <div class="block-fluid">
-                                <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                <table id="medication_list" cellpadding="0" cellspacing="0" width="100%" class="table">
                                     <thead>
                                         <tr>
                                             <th width="25%">Name</th>
@@ -3038,6 +3046,8 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="hidden" name="id" value="<?= $medication['id'] ?>">
+                                                                                                                                <input type="hidden" name="action" value="edit">
+
                                                                 <input type="submit" name="add_medications" value="Submit" class="btn btn-default">
                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                             </div>
@@ -3056,20 +3066,24 @@ if ($user->isLoggedIn()) {
                                 <h1>Add Medications</h1>
                             </div>
                             <div class="block-fluid">
-                                <form id="validation" method="post">
+                                <form id="validation" method="post" autocomplete="off">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Medication Name:</label>
-                                                    <input type="text" name="name" value="" required />
+                                                    <div class="autocomplete" style="width:300px;">
+                                                        <!-- <div class="form-group autocomplete" style="width:300px;"> -->
+                                                        <label>Medication Name:</label>
+                                                        <input type="text" name="name" id="medication_name" value="" placeholder="Type medications name..." onkeyup="myFunction()" required />
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class=" row">
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
@@ -3105,13 +3119,15 @@ if ($user->isLoggedIn()) {
                                                         <option value="">Select </option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
-                                                    </select>                                                    
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="footer tar">
+                                                                                                                                                                        <input type="hidden" name="action" value="add">
+
                                         <input type="submit" name="add_medications" value="Submit" class="btn btn-default">
                                     </div>
 
@@ -3143,6 +3159,173 @@ if ($user->isLoggedIn()) {
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+
+    $(document).ready(function() {
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#medication_list tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+
+    function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function(e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) {
+                return false;
+            }
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function(e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function(e) {
+            closeAllLists(e.target);
+        });
+    }
+
+    /*An array containing all the country names in the world:*/
+    // var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
+    // var getUid = $(this).val();
+    fetch('fetch_medications.php')
+        .then(response => response.json())
+        .then(data => {
+            // Process the data received from the PHP script
+            // console.log(data);
+            autocomplete(document.getElementById("medication_name"), data);
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the fetch request
+            console.error('Error:', error);
+        });
+
+    fetch('fetching_brand.php')
+        .then(response => response.json())
+        .then(data => {
+            // Process the data received from the PHP script
+            // console.log(data);
+            autocomplete(document.getElementById("brand_id2"), data);
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the fetch request
+            console.error('Error:', error);
+        });
+
+
+    fetch('fetching_batch.php')
+        .then(response => response.json())
+        .then(data => {
+            // Process the data received from the PHP script
+            // console.log(data);
+            autocomplete(document.getElementById("batch_no"), data);
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the fetch request
+            console.error('Error:', error);
+        });
+
+    fetch('fetching_manufacturer.php')
+        .then(response => response.json())
+        .then(data => {
+            // Process the data received from the PHP script
+            // console.log(data);
+            autocomplete(document.getElementById("manufacturer"), data);
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the fetch request
+            console.error('Error:', error);
+        });
+
+    /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+    // autocomplete(document.getElementById("myInput"), countries);
 </script>
 
 </html>

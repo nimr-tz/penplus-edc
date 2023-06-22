@@ -618,29 +618,30 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $medications = $override->get('medications', 'name', Input::get('name'));
-                    if ($medications) {
-                        if (Input::get('action') == 'edit') {
-                            $user->updateRecord('medications', array(
-                                'name' => Input::get('name'),
-                                'cardiac' => Input::get('cardiac'),
-                                'diabetes' => Input::get('diabetes'),
-                                'sickle_cell' => Input::get('sickle_cell'),
-                                'status' => 1,
-                            ), $medications[0]['id']);
-                            $successMessage = 'Medications Successful Updated';
-                        } elseif (Input::get('action') == 'add') {
-                            $errorMessage = 'Medications Already  Available Please Update instead!';
-                        }
-                    } else {
-                        $user->createRecord('medications', array(
+                    if (Input::get('action') == 'edit') {
+                        $user->updateRecord('medications', array(
                             'name' => Input::get('name'),
                             'cardiac' => Input::get('cardiac'),
                             'diabetes' => Input::get('diabetes'),
                             'sickle_cell' => Input::get('sickle_cell'),
                             'status' => 1,
-                        ));
-                        $successMessage = 'Medications Successful Added';
+                        ), Input::get('id'));
+                        $successMessage = 'Medications Successful Updated';
+                    } elseif (Input::get('action') == 'add') {
+
+                        $medications = $override->get('medications', 'name', Input::get('name'));
+                        if ($medications) {
+                            $errorMessage = 'Medications Already  Available Please Update instead!';
+                        } else {
+                            $user->createRecord('medications', array(
+                                'name' => Input::get('name'),
+                                'cardiac' => Input::get('cardiac'),
+                                'diabetes' => Input::get('diabetes'),
+                                'sickle_cell' => Input::get('sickle_cell'),
+                                'status' => 1,
+                            ));
+                            $successMessage = 'Medications Successful Added';
+                        }
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -3076,7 +3077,6 @@ if ($user->isLoggedIn()) {
                                                         <label>Medication Name:</label>
                                                         <input type="text" name="name" id="medication_name" value="" placeholder="Type medications name..." onkeyup="myFunction()" required />
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>

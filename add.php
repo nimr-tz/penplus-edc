@@ -1751,31 +1751,10 @@ if ($user->isLoggedIn()) {
 
                     if ($treatment_plan) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
-
                             $user->updateRecord('treatment_plan', array(
                                 'visit_date' => Input::get('visit_date'),
                                 'asa' => Input::get('asa'),
                                 'action_asa' => Input::get('action_asa'),
-                                'dose_asa' => Input::get('dose_asa'),
-                                'furosemide' => Input::get('furosemide'),
-                                'action_furosemide' => Input::get('action_furosemide'),
-                                'dose_furosemide' => Input::get('dose_furosemide'),
-                                'ace_i' => Input::get('ace_i'),
-                                'action_ace_i' => Input::get('action_ace_i'),
-                                'dose_ace_i' => Input::get('dose_ace_i'),
-                                'beta_blocker' => Input::get('beta_blocker'),
-                                'action_beta_blocker' => Input::get('action_beta_blocker'),
-                                'dose_beta_blocker' => Input::get('dose_beta_blocker'),
-                                'anti_hypertensive' => Input::get('anti_hypertensive'),
-                                'action_anti_hypertensive' => Input::get('action_anti_hypertensive'),
-                                'dose_anti_hypertensive' => Input::get('dose_anti_hypertensive'),
-                                'benzathine' => Input::get('benzathine'),
-                                'action_benzathine' => Input::get('action_benzathine'),
-                                'dose_benzathine' => Input::get('dose_benzathine'),
-                                'anticoagulation' => Input::get('anticoagulation'),
-                                'action_anticoagulation' => Input::get('action_anticoagulation'),
-                                'dose_anticoagulation' => Input::get('dose_anticoagulation'),
-                                'medication_other' => Input::get('medication_other'),
                                 'action_medication_other' => Input::get('action_medication_other'),
                                 'dose_medication_other' => Input::get('dose_medication_other'),
                                 'salt' => Input::get('salt'),
@@ -1797,30 +1776,47 @@ if ($user->isLoggedIn()) {
                                 'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+
+                            $medication_type = $override->get('medication_treatments', 'patient_id', $_GET['cid']);
+
+                            for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
+                                $p = in_array(Input::get('medication_type')[$i], array_values($medication_type[0]));
+                                if ($p) {
+                                    $user->updateRecord('medication_treatments', array(
+                                        'medication_type' => Input::get('medication_type')[$i],
+                                        'medication_action' => Input::get('medication_action')[$i],
+                                        'medication_dose' => Input::get('medication_dose')[$i],
+                                        'patient_id' => $_GET['cid'],
+                                        'staff_id' => $user->data()->id,
+                                        'status' => 1,
+                                        'created_on' => date('Y-m-d'),
+                                        'site_id' => $user->data()->site_id,
+                                    ), $type['id']);
+                                } else {
+                                    $user->createRecord('medication_treatments', array(
+                                        'study_id' => Input::get('sid'),
+                                        'visit_code' => $_GET['vcode'],
+                                        'visit_day' => $_GET['vday'],
+                                        'seq_no' => $_GET['seq'],
+                                        'vid' => $_GET['vid'],
+                                        'medication_type' => Input::get('medication_type')[$i],
+                                        'medication_action' => Input::get('medication_action')[$i],
+                                        'medication_dose' => Input::get('medication_dose')[$i],
+                                        'patient_id' => $_GET['cid'],
+                                        'staff_id' => $user->data()->id,
+                                        'status' => 1,
+                                        'created_on' => date('Y-m-d'),
+                                        'site_id' => $user->data()->site_id,
+                                    ));
+                                }
+                            }
                         }
 
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
 
                             $user->updateRecord('treatment_plan', array(
                                 'visit_date' => Input::get('visit_date'),
-                                'metformin' => Input::get('metformin'),
-                                'action_metformin' => Input::get('action_metformin'),
-                                'dose_metformin' => Input::get('dose_metformin'),
-                                'glibenclamide' => Input::get('glibenclamide'),
-                                'action_glibenclamide' => Input::get('action_glibenclamide'),
-                                'dose_glibenclamide' => Input::get('dose_glibenclamide'),
-                                'anti_diabetic' => Input::get('anti_diabetic'),
-                                'action_anti_diabetic' => Input::get('action_anti_diabetic'),
-                                'dose_anti_diabetic' => Input::get('dose_anti_diabetic'),
-                                'aspirin' => Input::get('aspirin'),
-                                'action_aspirin' => Input::get('action_aspirin'),
-                                'dose_aspirin' => Input::get('dose_aspirin'),
-                                'anti_hypertensive2' => Input::get('anti_hypertensive2'),
-                                'action_anti_hypertensive2' => Input::get('action_anti_hypertensive2'),
-                                'dose_anti_hypertensive2' => Input::get('dose_anti_hypertensive2'),
-                                'medication_other2' => Input::get('medication_other2'),
-                                'action_medication_other2' => Input::get('action_medication_other2'),
-                                'dose_medication_other2' => Input::get('dose_medication_other2'),
                                 'basal_changed' => Input::get('basal_changed'),
                                 'basal_am2' => Input::get('basal_am2'),
                                 'basal_pm2' => Input::get('basal_pm2'),
@@ -1853,24 +1849,6 @@ if ($user->isLoggedIn()) {
 
                             $user->updateRecord('treatment_plan', array(
                                 'visit_date' => Input::get('visit_date'),
-                                'prophylaxis2' => Input::get('prophylaxis2'),
-                                'action_prophylaxis2' => Input::get('action_prophylaxis2'),
-                                'dose_prophylaxis2' => Input::get('dose_prophylaxis2'),
-                                'folic_acid2' => Input::get('folic_acid2'),
-                                'action_folic_acid2' => Input::get('action_folic_acid2'),
-                                'dose_folic_acid2' => Input::get('dose_folic_acid2'),
-                                'penicillin2' => Input::get('penicillin2'),
-                                'action_penicillin2' => Input::get('action_penicillin2'),
-                                'dose_penicillin2' => Input::get('dose_penicillin2'),
-                                'pain_control' => Input::get('pain_control'),
-                                'action_pain_control' => Input::get('action_pain_control'),
-                                'dose_pain_control' => Input::get('dose_pain_control'),
-                                'hydroxyurea' => Input::get('hydroxyurea'),
-                                'action_hydroxyurea' => Input::get('action_hydroxyurea'),
-                                'dose_hydroxyurea' => Input::get('dose_hydroxyurea'),
-                                'medication_other3' => Input::get('medication_other3'),
-                                'action_medication_other3' => Input::get('action_medication_other3'),
-                                'dose_medication_other3' => Input::get('dose_medication_other3'),
                                 'salt' => Input::get('salt'),
                                 'fluid' => Input::get('fluid'),
                                 'restriction_other' => Input::get('restriction_other'),
@@ -1909,66 +1887,6 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
-                            'asa' => Input::get('asa'),
-                            'action_asa' => Input::get('action_asa'),
-                            'dose_asa' => Input::get('dose_asa'),
-                            'furosemide' => Input::get('furosemide'),
-                            'action_furosemide' => Input::get('action_furosemide'),
-                            'dose_furosemide' => Input::get('dose_furosemide'),
-                            'ace_i' => Input::get('ace_i'),
-                            'action_ace_i' => Input::get('action_ace_i'),
-                            'dose_ace_i' => Input::get('dose_ace_i'),
-                            'beta_blocker' => Input::get('beta_blocker'),
-                            'action_beta_blocker' => Input::get('action_beta_blocker'),
-                            'dose_beta_blocker' => Input::get('dose_beta_blocker'),
-                            'anti_hypertensive' => Input::get('anti_hypertensive'),
-                            'action_anti_hypertensive' => Input::get('action_anti_hypertensive'),
-                            'dose_anti_hypertensive' => Input::get('dose_anti_hypertensive'),
-                            'benzathine' => Input::get('benzathine'),
-                            'action_benzathine' => Input::get('action_benzathine'),
-                            'dose_benzathine' => Input::get('dose_benzathine'),
-                            'anticoagulation' => Input::get('anticoagulation'),
-                            'action_anticoagulation' => Input::get('action_anticoagulation'),
-                            'dose_anticoagulation' => Input::get('dose_anticoagulation'),
-                            'medication_other' => Input::get('medication_other'),
-                            'action_medication_other' => Input::get('action_medication_other'),
-                            'dose_medication_other' => Input::get('dose_medication_other'),
-                            'metformin' => Input::get('metformin'),
-                            'action_metformin' => Input::get('action_metformin'),
-                            'dose_metformin' => Input::get('dose_metformin'),
-                            'glibenclamide' => Input::get('glibenclamide'),
-                            'action_glibenclamide' => Input::get('action_glibenclamide'),
-                            'dose_glibenclamide' => Input::get('dose_glibenclamide'),
-                            'anti_diabetic' => Input::get('anti_diabetic'),
-                            'action_anti_diabetic' => Input::get('action_anti_diabetic'),
-                            'dose_anti_diabetic' => Input::get('dose_anti_diabetic'),
-                            'aspirin' => Input::get('aspirin'),
-                            'action_aspirin' => Input::get('action_aspirin'),
-                            'dose_aspirin' => Input::get('dose_aspirin'),
-                            'anti_hypertensive2' => Input::get('anti_hypertensive2'),
-                            'action_anti_hypertensive2' => Input::get('action_anti_hypertensive2'),
-                            'dose_anti_hypertensive2' => Input::get('dose_anti_hypertensive2'),
-                            'medication_other2' => Input::get('medication_other2'),
-                            'action_medication_other2' => Input::get('action_medication_other2'),
-                            'dose_medication_other2' => Input::get('dose_medication_other2'),
-                            'prophylaxis2' => Input::get('prophylaxis2'),
-                            'action_prophylaxis2' => Input::get('action_prophylaxis2'),
-                            'dose_prophylaxis2' => Input::get('dose_prophylaxis2'),
-                            'folic_acid2' => Input::get('folic_acid2'),
-                            'action_folic_acid2' => Input::get('action_folic_acid2'),
-                            'dose_folic_acid2' => Input::get('dose_folic_acid2'),
-                            'penicillin2' => Input::get('penicillin2'),
-                            'action_penicillin2' => Input::get('action_penicillin2'),
-                            'dose_penicillin2' => Input::get('dose_penicillin2'),
-                            'pain_control' => Input::get('pain_control'),
-                            'action_pain_control' => Input::get('action_pain_control'),
-                            'dose_pain_control' => Input::get('dose_pain_control'),
-                            'hydroxyurea' => Input::get('hydroxyurea'),
-                            'action_hydroxyurea' => Input::get('action_hydroxyurea'),
-                            'dose_hydroxyurea' => Input::get('dose_hydroxyurea'),
-                            'medication_other3' => Input::get('medication_other3'),
-                            'action_medication_other3' => Input::get('action_medication_other3'),
-                            'dose_medication_other3' => Input::get('dose_medication_other3'),
                             'basal_changed' => Input::get('basal_changed'),
                             'basal_am2' => Input::get('basal_am2'),
                             'basal_pm2' => Input::get('basal_pm2'),
@@ -2005,6 +1923,26 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+
+
+
+                        // if (Input::get('other_medical')) {
+                        // for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
+                        //     $user->createRecord('medication_treatments', array(
+                        //         'vid' => $_GET["vid"],
+                        //         'vcode' => $_GET["vcode"],
+                        //         'study_id' => $_GET['sid'],
+                        //         'medication_type' => Input::get('medication_type')[$i],
+                        //         'medication_action' => Input::get('medication_action')[$i],
+                        //         'medication_dose' => Input::get('medication_dose')[$i],
+                        //         'patient_id' => $_GET['cid'],
+                        //         'staff_id' => $user->data()->id,
+                        //         'status' => 1,
+                        //         'created_on' => date('Y-m-d'),
+                        //         'site_id' => $user->data()->site_id,
+                        //     ));
+                        // }
+                        // }
                     }
                     $successMessage = 'Treatment plan added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
@@ -6398,7 +6336,8 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
+                                    ?>
 
 
                                         <div class="head clearfix">
@@ -6441,22 +6380,45 @@ if ($user->isLoggedIn()) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input value='' type="text" name="medication_type[]" id="medication_type[]" placeholder="Type medications name..." onkeyup="myFunction()">
-                                                    </td>
-                                                    <td>
-                                                        <select name="medication_action[]" id="medication_action[]" style="width: 100%;">
-                                                            <option value="">Select</option>
-                                                            <option value="1">Continue</option>
-                                                            <option value="2">Start</option>
-                                                            <option value="3">Stop</option>
-                                                            <option value="4">Not Eligible</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input value='' type="text" name="medication_dose[]"></td>
-                                                    <td><button type="button" class="remove-row">Remove</button></td>
-                                                </tr>
+                                                <?php foreach ($override->get('medication_treatments', 'patient_id', $_GET['cid']) as $treatment) { ?>
+
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="medication_type[]" id="medication_type[]" placeholder="Type medications name..." onkeyup="myFunction()" value="<?php if ($treatment['medication_type']) {
+                                                                                                                                                                                                        print_r($treatment['medication_type']);
+                                                                                                                                                                                                    }  ?>">
+                                                        </td>
+                                                        <td>
+                                                            <select name="medication_action" id="medication_action" style="width: 100%;" required>
+                                                                <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
+                                                                                                                            if ($treatment['medication_action'] == 1) {
+                                                                                                                                echo 'Continue';
+                                                                                                                            } elseif ($treatment['medication_action'] == 2) {
+                                                                                                                                echo 'Start';
+                                                                                                                            } elseif ($treatment['medication_action'] == 3) {
+                                                                                                                                echo 'Stop';
+                                                                                                                            } elseif ($treatment['medication_action'] == 4) {
+                                                                                                                                echo 'Not Eligible';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?>
+                                                                </option>
+                                                                <option value="1">Continue</option>
+                                                                <option value="2">Start</option>
+                                                                <option value="3">Stop</option>
+                                                                <option value="4">Not Eligible</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="medication_dose[]" value='<?php if ($treatment['medication_dose']) {
+                                                                                                                    print_r($treatment['medication_dose']);
+                                                                                                                }  ?>'>
+                                                        </td>
+                                                        <td><button type="button" class="remove-row">Remove</button></td>
+                                                    </tr>
+
+                                                <?php } ?>
                                             </tbody>
                                         </table>
                                         <button type="button" id="add-medication">Add Row</button>
@@ -7047,8 +7009,6 @@ if ($user->isLoggedIn()) {
 
 
                                     <div class="row">
-
-
                                         <div class="col-sm-12">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
@@ -11040,7 +11000,7 @@ if ($user->isLoggedIn()) {
             var actionCell = newRow.insertCell(3);
             other_specify.innerHTML = '<input type="text" name="medication_type[]" placeholder="Type medications name...">';
             other_medical_medicatn.innerHTML = '<select name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
-            other_medicatn_name.innerHTML = '<input type="text" name="other_medicatn_name[]">';
+            other_medicatn_name.innerHTML = '<input type="text" name="medication_dose[]">';
             actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
         });
 

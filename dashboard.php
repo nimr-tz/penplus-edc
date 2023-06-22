@@ -114,7 +114,7 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $x = 1;
+                                        <?php $x = 1;        
                                         foreach ($visits as $visit) {
                                             $client = $override->get('clients', 'id', $visit['client_id'])[0] ?>
                                             <tr>

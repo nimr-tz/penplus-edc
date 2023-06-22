@@ -620,7 +620,7 @@ if ($user->isLoggedIn()) {
                 try {
                     $medications = $override->get('medications', 'name', Input::get('name'));
                     if ($medications) {
-                        if(Input::get('action') == 'edit'){
+                        if (Input::get('action') == 'edit') {
                             $user->updateRecord('medications', array(
                                 'name' => Input::get('name'),
                                 'cardiac' => Input::get('cardiac'),
@@ -629,7 +629,7 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                             ), $medications[0]['id']);
                             $successMessage = 'Medications Successful Updated';
-                        }elseif(Input::get('action') == 'add'){
+                        } elseif (Input::get('action') == 'add') {
                             $errorMessage = 'Medications Already  Available Please Update instead!';
                         }
                     } else {
@@ -3046,8 +3046,7 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="hidden" name="id" value="<?= $medication['id'] ?>">
-                                                                                                                                <input type="hidden" name="action" value="edit">
-
+                                                                <input type="hidden" name="action" value="edit">
                                                                 <input type="submit" name="add_medications" value="Submit" class="btn btn-default">
                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                             </div>
@@ -3126,8 +3125,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="footer tar">
-                                                                                                                                                                        <input type="hidden" name="action" value="add">
-
+                                        <input type="hidden" name="action" value="add">
                                         <input type="submit" name="add_medications" value="Submit" class="btn btn-default">
                                     </div>
 

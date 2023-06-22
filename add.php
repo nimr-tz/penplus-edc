@@ -96,7 +96,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('add_medication')) {
+        } elseif (Input::get('add_medications')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
                     'required' => true,
@@ -11361,11 +11361,6 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row">
-
-
-
-
-
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
@@ -11434,9 +11429,8 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-
                                     <div class="footer tar">
-                                        <input type="submit" name="add_position" value="Submit" class="btn btn-default">
+                                        <input type="submit" name="add_medications" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>

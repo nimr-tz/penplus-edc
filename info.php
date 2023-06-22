@@ -601,6 +601,48 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('add_medications')) {
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+                'cardiac' => array(
+                    'required' => true,
+                ),
+                'diabetes' => array(
+                    'required' => true,
+                ),
+                'sickle_cell' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $medications = $override->get('medications', 'name', Input::get('name'));
+                    if ($medications) {
+                        $user->updateRecord('medications', array(
+                            'name' => Input::get('name'),
+                            'cardiac' => Input::get('cardiac'),
+                            'diabetes' => Input::get('diabetes'),
+                            'sickle_cell' => Input::get('sickle_cell'),
+                            'status' => 1,
+                        ), $medications[0]['id']);
+                    } else {
+                        $user->createRecord('medications', array(
+                            'name' => Input::get('name'),
+                            'cardiac' => Input::get('cardiac'),
+                            'diabetes' => Input::get('diabetes'),
+                            'sickle_cell' => Input::get('sickle_cell'),
+                            'status' => 1,
+                        ));
+                    }
+                    $successMessage = 'Position Successful Added';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         }
 
         if ($_GET['id'] == 6) {
@@ -1621,7 +1663,7 @@ if ($user->isLoggedIn()) {
                                                                                 <option value="2">No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div> 
+                                                                    </div>
 
                                                                     <div class="row-form clearfix">
                                                                         <div class="col-md-8">Known SCD?</div>
@@ -1678,7 +1720,7 @@ if ($user->isLoggedIn()) {
                                                                                 <option value="2">No</option>
                                                                             </select>
                                                                         </div>
-                                                                    </div> 
+                                                                    </div>
 
                                                                     <div class="dr"><span></span></div>
                                                                 </div>
@@ -2845,6 +2887,238 @@ if ($user->isLoggedIn()) {
 
                         </div>
                     <?php } elseif ($_GET['id'] == 9) { ?>
+                        <div class="col-md-6">
+                            <div class="head clearfix">
+                                <div class="isw-grid"></div>
+                                <h1>List of Medications</h1>
+                                <ul class="buttons">
+                                    <li><a href="#" class="isw-download"></a></li>
+                                    <li><a href="#" class="isw-attachment"></a></li>
+                                    <li>
+                                        <a href="#" class="isw-settings"></a>
+                                        <ul class="dd-list">
+                                            <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                            <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                            <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="block-fluid">
+                                <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="25%">Name</th>
+                                            <th width="5%">cardiac</th>
+                                            <th width="5%">diabetes</th>
+                                            <th width="5%">sickle_cell</th>
+                                            <th width="5%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($override->getData('medications') as $medication) { ?>
+                                            <tr>
+                                                <td> <?= $medication['name'] ?></td>
+                                                <td>
+                                                    <?php if ($medication['cardiac'] == 1) {
+                                                        echo 'Yes';
+                                                    } else {
+                                                        echo 'No';
+                                                    } ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($medication['diabetes'] == 1) {
+                                                        echo 'Yes';
+                                                    } else {
+                                                        echo 'No';
+                                                    } ?>
+                                                </td>
+
+                                                <td>
+                                                    <?php if ($medication['sickle_cell'] == 1) {
+                                                        echo 'Yes';
+                                                    } else {
+                                                        echo 'No';
+                                                    } ?>
+                                                </td>
+
+                                                <td><a href="#medication<?= $medication['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a></td>
+                                                <!-- EOF Bootrstrap modal form -->
+                                            </tr>
+                                            <div class="modal fade" id="medication<?= $medication['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <form method="post">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4>List of Medications</h4>
+                                                            </div>
+                                                            <div class="modal-body modal-body-np">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="row-form clearfix">
+                                                                            <!-- select -->
+                                                                            <div class="form-group">
+                                                                                <label>Medication Name:</label>
+                                                                                <input type="text" name="name" value="<?php if ($medication['name']) {
+                                                                                                                            print_r($medication['name']);
+                                                                                                                        }  ?>" required />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <!-- select -->
+                                                                            <div class="form-group">
+                                                                                <label>Cardiac:</label>
+                                                                                <select name="cardiac" style="width: 100%;" required>
+                                                                                    <option value="<?= $medication['cardiac'] ?>"><?php if ($medication) {
+                                                                                                                                        if ($medication['cardiac'] == 1) {
+                                                                                                                                            echo 'Yes';
+                                                                                                                                        } elseif ($medication['cardiac'] == 2) {
+                                                                                                                                            echo 'No';
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        echo 'Select';
+                                                                                                                                    } ?>
+                                                                                    </option>
+                                                                                    <option value="1">Yes</option>
+                                                                                    <option value="2">No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <!-- select -->
+                                                                            <div class="form-group">
+                                                                                <label>Diabetes:</label>
+                                                                                <select name="diabetes" style="width: 100%;" required>
+                                                                                    <option value="<?= $medication['diabetes'] ?>"><?php if ($medication) {
+                                                                                                                                        if ($medication['diabetes'] == 1) {
+                                                                                                                                            echo 'Yes';
+                                                                                                                                        } elseif ($medication['diabetes'] == 2) {
+                                                                                                                                            echo 'No';
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        echo 'Select';
+                                                                                                                                    } ?>
+                                                                                    </option>
+                                                                                    <option value="1">Yes</option>
+                                                                                    <option value="2">No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <!-- select -->
+                                                                            <div class="form-group">
+                                                                                <label>Sickle Cell:</label>
+                                                                                <select name="sickle_cell" style="width: 100%;" required>
+                                                                                    <option value="<?= $medication['sickle_cell'] ?>"><?php if ($medication) {
+                                                                                                                                            if ($medication['sickle_cell'] == 1) {
+                                                                                                                                                echo 'Yes';
+                                                                                                                                            } elseif ($medication['sickle_cell'] == 2) {
+                                                                                                                                                echo 'No';
+                                                                                                                                            }
+                                                                                                                                        } else {
+                                                                                                                                            echo 'Select';
+                                                                                                                                        } ?>
+                                                                                    </option>
+                                                                                    <option value="1">Yes</option>
+                                                                                    <option value="2">No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?= $medication['id'] ?>">
+                                                                <input type="submit" name="add_medications" value="Submit" class="btn btn-default">
+                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Add Medications</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Medication Name:</label>
+                                                    <input type="text" name="name" value="" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Cardiac:</label>
+                                                    <select name="cardiac" style="width: 100%;" required>
+                                                        <option value="">Select </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Diabetes:</label>
+                                                    <select name="diabetes" style="width: 100%;" required>
+                                                        <option value="">Select </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Sickle Cell:</label>
+                                                    <select name="sickle_cell" style="width: 100%;" required>
+                                                        <option value="">Select </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_medications" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
 
                     <?php } elseif ($_GET['id'] == 10) { ?>
 

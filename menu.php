@@ -161,7 +161,7 @@ if ($user->isLoggedIn()) {
                         </a>
                     </li>
                     <li>
-                        <a href="add.php?id=26">
+                        <a href="info.php?id=9">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Medications</span>
                         </a>
                     </li>

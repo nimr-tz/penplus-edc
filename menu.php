@@ -114,7 +114,7 @@ if ($user->isLoggedIn()) {
                 </li> -->
                 </ul>
             </li>
-<!-- 
+            <!-- 
             <li class="openable">
                 <a href="#"><span class="isw-documents"></span><span class="text">Reports</span></a>
                 <ul>
@@ -158,6 +158,11 @@ if ($user->isLoggedIn()) {
                     <li>
                         <a href="add.php?id=2">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Position</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="add.php?id=26">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Medications</span>
                         </a>
                     </li>
                     <li>

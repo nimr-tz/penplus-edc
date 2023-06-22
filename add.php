@@ -96,6 +96,48 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('add_medication')) {
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+                'cardiac' => array(
+                    'required' => true,
+                ),
+                'diabetes' => array(
+                    'required' => true,
+                ),
+                'sickle_cell' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $medications = $override->get('medications', 'name', Input::get('name'));
+                    if ($medications) {
+                        $user->updateRecord('medications', array(
+                            'name' => Input::get('name'),
+                            'cardiac' => Input::get('cardiac'),
+                            'diabetes' => Input::get('diabetes'),
+                            'sickle_cell' => Input::get('sickle_cell'),
+                            'status' => 1,
+                        ), $medications[0]['id']);
+                    } else {
+                        $user->createRecord('medications', array(
+                            'name' => Input::get('name'),
+                            'cardiac' => Input::get('cardiac'),
+                            'diabetes' => Input::get('diabetes'),
+                            'sickle_cell' => Input::get('sickle_cell'),
+                            'status' => 1,
+                        ));
+                    }
+                    $successMessage = 'Position Successful Added';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         } elseif (Input::get('add_site')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
@@ -675,6 +717,7 @@ if ($user->isLoggedIn()) {
                                 'quantity' => Input::get('quantity'),
                                 'cardiac_disease' => Input::get('cardiac_disease'),
                                 'cardiac_surgery' => Input::get('cardiac_surgery'),
+                                'cardiac_surgery_type' => Input::get('cardiac_surgery_type'),
                                 'surgery_other' => Input::get('surgery_other'),
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
@@ -796,6 +839,7 @@ if ($user->isLoggedIn()) {
                             'specify_complication' => Input::get('specify_complication'),
                             'cardiac_disease' => Input::get('cardiac_disease'),
                             'cardiac_surgery' => Input::get('cardiac_surgery'),
+                            'cardiac_surgery_type' => Input::get('cardiac_surgery_type'),
                             'surgery_other' => Input::get('surgery_other'),
                             'diabetic_disease' => Input::get('diabetic_disease'),
                             'hypertension_disease' => Input::get('hypertension_disease'),
@@ -1741,7 +1785,7 @@ if ($user->isLoggedIn()) {
                                 'social_support_type' => Input::get('social_support_type'),
                                 'cardiology' => Input::get('cardiology'),
                                 'completed' => Input::get('completed'),
-                                'cardiology_reason' => Input::get('cardiology_reason'), 
+                                'cardiology_reason' => Input::get('cardiology_reason'),
                                 'cardiology_date' => Input::get('cardiology_date'),
                                 'awaiting_surgery' => Input::get('awaiting_surgery'),
                                 'new_referrals' => Input::get('new_referrals'),
@@ -1791,7 +1835,7 @@ if ($user->isLoggedIn()) {
                                 'social_support_type' => Input::get('social_support_type'),
                                 'cardiology' => Input::get('cardiology'),
                                 'completed' => Input::get('completed'),
-                                'cardiology_reason' => Input::get('cardiology_reason'), 
+                                'cardiology_reason' => Input::get('cardiology_reason'),
                                 'cardiology_date' => Input::get('cardiology_date'),
                                 'awaiting_surgery' => Input::get('awaiting_surgery'),
                                 'new_referrals' => Input::get('new_referrals'),
@@ -1844,7 +1888,7 @@ if ($user->isLoggedIn()) {
                                 'social_support_type' => Input::get('social_support_type'),
                                 'cardiology' => Input::get('cardiology'),
                                 'completed' => Input::get('completed'),
-                                'cardiology_reason' => Input::get('cardiology_reason'), 
+                                'cardiology_reason' => Input::get('cardiology_reason'),
                                 'cardiology_date' => Input::get('cardiology_date'),
                                 'awaiting_surgery' => Input::get('awaiting_surgery'),
                                 'new_referrals' => Input::get('new_referrals'),
@@ -1949,7 +1993,7 @@ if ($user->isLoggedIn()) {
                             'social_support_type' => Input::get('social_support_type'),
                             'cardiology' => Input::get('cardiology'),
                             'completed' => Input::get('completed'),
-                            'cardiology_reason' => Input::get('cardiology_reason'), 
+                            'cardiology_reason' => Input::get('cardiology_reason'),
                             'cardiology_date' => Input::get('cardiology_date'),
                             'awaiting_surgery' => Input::get('awaiting_surgery'),
                             'new_referrals' => Input::get('new_referrals'),
@@ -3737,7 +3781,7 @@ if ($user->isLoggedIn()) {
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Family History of cardiac disease?</label>
@@ -3762,7 +3806,7 @@ if ($user->isLoggedIn()) {
                                             </div>
 
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>History of cardiac surgery?</label>
@@ -3783,7 +3827,31 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-4" id="surgery_other">
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Type of cardiac surgery</label>
+                                                        <select name="cardiac_surgery_type" id="cardiac_surgery_type" style="width: 100%;" onchange="handleSelectChange(this)" required>
+                                                            <option value=" <?= $history['cardiac_surgery_type'] ?>"><?php if ($history) {
+                                                                                                                            if ($history['cardiac_surgery_type'] == 1) {
+                                                                                                                                echo 'Valve Surgery';
+                                                                                                                            } elseif ($history['cardiac_surgery_type'] == 2) {
+                                                                                                                                echo 'Defect repair';
+                                                                                                                            } elseif ($history['cardiac_surgery_type'] == 96) {
+                                                                                                                                echo 'Other specify';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                            <option value="1">Valve Surgery</option>
+                                                            <option value="2">Defect repair</option>
+                                                            <option value="96">Other specify</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3" id="surgery_other">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -11267,8 +11335,114 @@ if ($user->isLoggedIn()) {
 
 
 
-                    <?php } elseif ($_GET['id'] == 26 && $user->data()->position == 1) { ?>
+                    <?php } elseif ($_GET['id'] == 26) { ?>
+                        <?php
+                        $medications = $override->get('medications', 'status', 1)[0];
+                        ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Add Medications</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Medication Name:</label>
+                                                    <input type="text" name="name" value="<?php if ($medications['name']) {
+                                                                                                print_r($medications['name']);
+                                                                                            }  ?>" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                    <div class="row">
+
+
+
+
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Cardiac:</label>
+                                                    <select name="cardiac" style="width: 100%;" required>
+                                                        <option value="<?= $medications['cardiac'] ?>"><?php if ($medications) {
+                                                                                                            if ($medications['cardiac'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($medications['cardiac'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?>
+                                                        </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Diabetes:</label>
+                                                    <select name="diabetes" style="width: 100%;" required>
+                                                        <option value="<?= $medications['diabetes'] ?>"><?php if ($medications) {
+                                                                                                            if ($medications['diabetes'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($medications['diabetes'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?>
+                                                        </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Sickle Cell:</label>
+                                                    <select name="sickle_cell" style="width: 100%;" required>
+                                                        <option value="<?= $medications['sickle_cell'] ?>"><?php if ($medications) {
+                                                                                                                if ($medications['sickle_cell'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($medications['sickle_cell'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?>
+                                                        </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_position" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
 
                     <?php } ?>
                     <div class="dr"><span></span></div>
@@ -11526,24 +11700,26 @@ if ($user->isLoggedIn()) {
             });
         }
 
-        if ($('#cardiac_surgery').val() === "1") {
-            $('#surgery_other').show();
-            $('#cardiac_surgery').change(function() {
-                var getUid = $(this).val();
-                if (getUid === "1") {
-                    $('#surgery_other').show();
-                } else {
-                    $('#surgery_other').hide();
-                }
-            });
-        } else {
-            $('#surgery_other').hide();
-            $('#cardiac_surgery').change(function() {
-                var getUid = $(this).val();
-                if (getUid === "1") {
-                    $('#surgery_other').show();
-                }
-            });
+        function handleSelectChange(selectElement) {
+            var selectedValue = selectElement.value;
+
+            if (selectedValue === '96') {
+                var input = prompt('Please enter your option:');
+
+                // Perform any necessary validation or processing on the entered value
+                // ...
+
+                // Create a new option with the entered value
+                var newOption = document.createElement('option');
+                newOption.value = input;
+                newOption.text = input;
+
+                // Add the new option to the select element
+                selectElement.appendChild(newOption);
+
+                // Set the new option as the selected option
+                selectElement.value = input;
+            }
         }
 
         if ($('#lungs').val() === "5") {

@@ -105,7 +105,7 @@ if ($user->isLoggedIn()) {
                                         <tr>
                                             <!-- <th><input type="checkbox" name="checkall" /></th> -->
                                             <td width="5">#</td>
-                                            <th width="20">Picture</th>
+                                        <th width="20">Picture</th>
                                             <th width="10%">Study ID</th>
                                             <th width="20%">Name</th>
                                             <th width="10%">Gender</th>

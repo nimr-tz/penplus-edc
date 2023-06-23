@@ -501,9 +501,12 @@ if ($user->isLoggedIn()) {
                                 'congenital' => Input::get('congenital'),
                                 'heart_failure' => Input::get('heart_failure'),
                                 'pericardial' => Input::get('pericardial'),
+                                'pericardial_other' => Input::get('pericardial_other'),
                                 'arrhythmia' => Input::get('arrhythmia'),
+                                'arrhythmia_other' => Input::get('arrhythmia_other'),
                                 'stroke' => Input::get('stroke'),
                                 'thromboembolic' => Input::get('thromboembolic'),
+                                'thromboembolic_other' => Input::get('thromboembolic_other'),
                                 'comments' => Input::get('comments'),
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
@@ -5131,7 +5134,7 @@ if ($user->isLoggedIn()) {
                                 <form id="validation" method="post">
 
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -5143,111 +5146,123 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        </br>
+
+
+                                        <div class="col-sm-8">
+                                            <div class="head clearfix">
+                                                <div class="isw-ok"></div>
+                                                <h1>Check diagnosis Done (Cardiac)</h1>
+                                            </div>
+
+                                            <input type="checkbox" id="cardiac1" name="cardiac[]" value="1" onchange="hideCardiac()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                            if ($checking['main_diagnosis'] == 1) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            }
+                                                                                                                                        } ?>>
+                                            <label for="cardiac1"> Cardiomyopathy</label><br>
+
+
+                                            <input type="checkbox" id="cardiac2" name="cardiac[]" value="2" onchange="hideRheumatic()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                            if ($checking['main_diagnosis'] == 2) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            }
+                                                                                                                                        } ?>>
+                                            <label for="cardiac2"> Rheumatic Heart Disease</label><br>
+
+
+
+
+                                            <input type="checkbox" id="cardiac3" name="cardiac[]" value="3" onchange="hideSevere()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                        if ($checking['main_diagnosis'] == 3) {
+                                                                                                                                            echo 'checked';
+                                                                                                                                        }
+                                                                                                                                    } ?>>
+                                            <label for="cardiac3"> Severe / Uncontrolled Hypertension</label><br>
+
+
+
+
+                                            <input type="checkbox" id="cardiac4" name="cardiac[]" value="4" onchange="hideHypertensive()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                                if ($checking['main_diagnosis'] == 4) {
+                                                                                                                                                    echo 'checked';
+                                                                                                                                                }
+                                                                                                                                            } ?>>
+                                            <label for="cardiac4"> Hypertensive Heart Disease </label><br>
+
+
+
+
+                                            <input type="checkbox" id="cardiac5" name="cardiac[]" value="5" onchange="hideCongenital()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                            if ($checking['main_diagnosis'] == 5) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            }
+                                                                                                                                        } ?>>
+                                            <label for="cardiac5"> Congenital heart Disease</label><br>
+
+
+                                            <input type="checkbox" id="cardiac6" name="cardiac[]" value="6" onchange="hideHeart()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                        if ($checking['main_diagnosis'] == 6) {
+                                                                                                                                            echo 'checked';
+                                                                                                                                        }
+                                                                                                                                    } ?>>
+                                            <label for="cardiac6"> Right Heart Failure</label><br>
+
+
+
+                                            <input type="checkbox" id="cardiac7" name="cardiac[]" value="7" onchange="hidePericardial()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                                if ($checking['main_diagnosis'] == 7) {
+                                                                                                                                                    echo 'checked';
+                                                                                                                                                }
+                                                                                                                                            } ?>>
+                                            <label for="cardiac7"> Pericardial disease</label><br>
+
+
+                                            <input type="checkbox" id="cardiac8" name="cardiac[]" value="8" onchange="hideCoronary()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                            if ($checking['main_diagnosis'] == 8) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            }
+                                                                                                                                        } ?>>
+                                            <label for="cardiac8"> Coronary Artery Disease</label><br>
+
+
+
+
+
+
+                                            <input type="checkbox" id="cardiac9" name="cardiac[]" value="9" onchange="hideArrhythmia()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                            if ($checking['main_diagnosis'] == 9) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            }
+                                                                                                                                        } ?>>
+                                            <label for="cardiac9"> Arrhythmia</label><br>
+
+
+
+
+                                            <input type="checkbox" id="cardiac10" name="cardiac[]" value="10" onchange="hideThromboembolic()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                                    if ($checking['main_diagnosis'] == 10) {
+                                                                                                                                                        echo 'checked';
+                                                                                                                                                    }
+                                                                                                                                                } ?>>
+                                            <label for="cardiac10"> Thromboembolic</label><br>
+
+
+
+
+
+                                            <input type="checkbox" id="cardiac11" name="cardiac[]" value="11" onchange="hideStroke()" <?php foreach ($diagnosis1 as $checking) {
+                                                                                                                                            if ($checking['main_diagnosis'] == 11) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            }
+                                                                                                                                        } ?>>
+                                            <label for="cardiac11"> Stroke</label><br>
+
+                                        </div>
                                     </div>
 
 
-                                    <input type="checkbox" id="cardiac1" name="cardiac[]" value="1" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 1) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac1"> Cardiomyopathy</label><br>
-
-
-                                    <input type="checkbox" id="cardiac2" name="cardiac[]" value="2" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 2) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac2"> Rheumatic Heart Disease</label><br>
-
-
-
-
-                                    <input type="checkbox" id="cardiac3" name="cardiac[]" value="3" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 3) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac3"> Severe / Uncontrolled Hypertension</label><br>
-
-
-
-
-                                    <input type="checkbox" id="cardiac4" name="cardiac[]" value="4" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 4) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac4"> Hypertensive Heart Disease </label><br>
-
-
-
-
-                                    <input type="checkbox" id="cardiac5" name="cardiac[]" value="5" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 5) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac5"> Congenital heart Disease</label><br>
-
-
-                                    <input type="checkbox" id="cardiac6" name="cardiac[]" value="6" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 6) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac6"> Right Heart Failure</label><br>
-
-
-
-                                    <input type="checkbox" id="cardiac7" name="cardiac[]" value="7" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 7) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac7"> Pericardial disease</label><br>
-
-
-                                    <input type="checkbox" id="cardiac8" name="cardiac[]" value="8" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 8) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac8"> Coronary Artery Disease</label><br>
-
-
-
-
-
-
-                                    <input type="checkbox" id="cardiac9" name="cardiac[]" value="9" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 9) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac9"> Arrhythmia</label><br>
-
-
-
-
-                                    <input type="checkbox" id="cardiac10" name="cardiac[]" value="10" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 10) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac10"> Thromboembolic</label><br>
-
-
-
-
-
-                                    <input type="checkbox" id="cardiac11" name="cardiac[]" value="11" onchange="hideElement()" <?php foreach ($diagnosis1 as $checking) {
-                                                                                                                                    if ($checking['main_diagnosis'] == 11) {
-                                                                                                                                        echo 'checked';
-                                                                                                                                    }
-                                                                                                                                } ?>>
-                                    <label for="cardiac11"> Stroke</label><br>
 
 
                                     <div class="row" id="cardiomyopathy1" style="display: none;">
@@ -5305,12 +5320,12 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                    <div class="row" id="heumatic1" style="display: none;">
-                                        <div class="col-sm-4">
+                                    <div class="row">
+                                        <div class="col-sm-4" id="heumatic1" style="display: none;">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>If heumatic Heart Disease</label>
+                                                    <label>If Rheumatic Heart Disease</label>
                                                     <select name="heumatic" id="heumatic" style="width: 100%;">
                                                         <option value="<?= $diagnosis['heumatic'] ?>"><?php if ($diagnosis) {
                                                                                                             if ($diagnosis['heumatic'] == 1) {
@@ -5354,47 +5369,61 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+                                    <div class="row" id="congenital1" style="display: none;">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>If Congenital heart Disease</label>
+                                                    <select name="congenital" id="congenital" style="width: 100%;">
+                                                        <option value="<?= $diagnosis['congenital'] ?>"><?php if ($diagnosis) {
+                                                                                                            if ($diagnosis['congenital'] == 1) {
+                                                                                                                echo 'ASD';
+                                                                                                            } elseif ($diagnosis['congenital'] == 2) {
+                                                                                                                echo 'VSD';
+                                                                                                            } elseif ($diagnosis['congenital'] == 3) {
+                                                                                                                echo 'PDA';
+                                                                                                            } elseif ($diagnosis['congenital'] == 4) {
+                                                                                                                echo 'Coarctation of aorta';
+                                                                                                            } elseif ($diagnosis['congenital'] == 5) {
+                                                                                                                echo 'Tetralogy of Fallot';
+                                                                                                            } elseif ($diagnosis['congenital'] == 96) {
+                                                                                                                echo 'Other';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                        <option value="1">ASD</option>
+                                                        <option value="2">VSD</option>
+                                                        <option value="3">PDA</option>
+                                                        <option value="4">Coarctation of aorta </option>
+                                                        <option value="5">Tetralogy of Fallot</option>
+                                                        <option value="96">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <div id="Congenital" style="display: none;">
-                                        <div class="row-form clearfix">
-                                            <div class="col-md-3">If Congenital heart Disease</div>
-                                            <div class="col-md-9">
-
-                                                <select name="congenital" id="congenital1" style="width: 100%;">
-                                                    <option value="<?= $diagnosis['congenital'] ?>"><?php if ($diagnosis) {
-                                                                                                        if ($diagnosis['congenital'] == 1) {
-                                                                                                            echo 'ASD';
-                                                                                                        } elseif ($diagnosis['congenital'] == 2) {
-                                                                                                            echo 'VSD';
-                                                                                                        } elseif ($diagnosis['congenital'] == 3) {
-                                                                                                            echo 'PDA';
-                                                                                                        } elseif ($diagnosis['congenital'] == 4) {
-                                                                                                            echo 'Coarctation of aorta';
-                                                                                                        } elseif ($diagnosis['congenital'] == 5) {
-                                                                                                            echo 'Tetralogy of Fallot';
-                                                                                                        } elseif ($diagnosis['congenital'] == 6) {
-                                                                                                            echo 'Other';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                    <option value="1">ASD</option>
-                                                    <option value="2">VSD</option>
-                                                    <option value="3">PDA</option>
-                                                    <option value="4">Coarctation of aorta </option>
-                                                    <option value="5">Tetralogy of Fallot</option>
-                                                    <option value="6">Other</option>
-                                                </select>
+                                        <div class="col-sm-8" id="congenital_other1" style="display: none;">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Other specify( If heumatic Heart Disease )</label>
+                                                    <textarea name="congenital_other" rows="4"><?php if ($diagnosis['congenital_other']) {
+                                                                                                    print_r($diagnosis['congenital_other']);
+                                                                                                }  ?>
+                                                                                                    </textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div id="Failure" style="display: none;">
+                                    <div id="heart_failure1" style="display: none;">
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">If Right Heart Failure</div>
                                             <div class="col-md-9">
 
-                                                <select name="heart_failure" id="heart_failure1" style="width: 100%;">
+                                                <select name="heart_failure" id="heart_failure" style="width: 100%;">
                                                     <option value="<?= $diagnosis['heart_failure'] ?>"><?php if ($diagnosis) {
                                                                                                             if ($diagnosis['heart_failure'] == 1) {
                                                                                                                 echo 'Yes';
@@ -5412,12 +5441,12 @@ if ($user->isLoggedIn()) {
                                     </div>
 
 
-                                    <div id="Pericardial" style="display: none;">
+                                    <div id="pericardial1" style="display: none;">
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">If Pericardial disease</div>
                                             <div class="col-md-9">
 
-                                                <select name="pericardial" id="pericardial1" style="width: 100%;">
+                                                <select name="pericardial" id="pericardial" style="width: 100%;">
                                                     <option value="<?= $diagnosis['pericardial'] ?>"><?php if ($diagnosis) {
                                                                                                             if ($diagnosis['pericardial'] == 1) {
                                                                                                                 echo 'Tuberculosis';
@@ -5425,7 +5454,7 @@ if ($user->isLoggedIn()) {
                                                                                                                 echo 'HIV';
                                                                                                             } elseif ($diagnosis['pericardial'] == 3) {
                                                                                                                 echo 'malignancy';
-                                                                                                            } elseif ($diagnosis['pericardial'] == 4) {
+                                                                                                            } elseif ($diagnosis['pericardial'] == 96) {
                                                                                                                 echo 'Other';
                                                                                                             }
                                                                                                         } else {
@@ -5434,19 +5463,32 @@ if ($user->isLoggedIn()) {
                                                     <option value="1">Tuberculosis</option>
                                                     <option value="2">HIV</option>
                                                     <option value="3">malignancy</option>
-                                                    <option value="4">Other</option>
+                                                    <option value="96">Other</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-8" id="pericardial_other1" style="display: none;">
+                                        <div class="row-form clearfix">
+                                            <!-- select -->
+                                            <div class="form-group">
+                                                <label>Other specify( If heumatic Heart Disease )</label>
+                                                <textarea name="pericardial_other" rows="4"><?php if ($diagnosis['pericardial_other']) {
+                                                                                                print_r($diagnosis['pericardial_other']);
+                                                                                            }  ?>
+                                                                                                    </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    <div id="Arrhythmia" style="display: none;">
+
+                                    <div id="arrhythmia1" style="display: none;">
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">If Arrhythmia</div>
                                             <div class="col-md-9">
 
-                                                <select name="arrhythmia" id="arrhythmia1" style="width: 100%;">
+                                                <select name="arrhythmia" id="arrhythmia" style="width: 100%;">
                                                     <option value="<?= $diagnosis['arrhythmia'] ?>"><?php if ($diagnosis) {
                                                                                                         if ($diagnosis['arrhythmia'] == 1) {
                                                                                                             echo 'Atrial fibrillation';
@@ -5463,11 +5505,25 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                    <div id="Thromboembolic" style="display: none;">
+                                    <div class="col-sm-8" id="arrhythmia_other1" style="display: none;">
+                                        <div class="row-form clearfix">
+                                            <!-- select -->
+                                            <div class="form-group">
+                                                <label>Other specify( If heumatic Heart Disease )</label>
+                                                <textarea name="arrhythmia_other" rows="4"><?php if ($diagnosis['arrhythmia_other']) {
+                                                                                                print_r($diagnosis['arrhythmia_other']);
+                                                                                            }  ?>
+                                                                                                    </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="thromboembolic1" style="display: none;">
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">If Thromboembolic</div>
                                             <div class="col-md-9">
-                                                <select name="thromboembolic" id="thromboembolic1" style="width: 100%;">
+                                                <select name="thromboembolic" id="thromboembolic" style="width: 100%;">
                                                     <option value="<?= $diagnosis['thromboembolic'] ?>"><?php if ($diagnosis) {
                                                                                                             if ($diagnosis['thromboembolic'] == 1) {
                                                                                                                 echo 'pulmonary embolism';
@@ -5486,6 +5542,20 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-sm-8" id="thromboembolic_other1" style="display: none;">
+                                        <div class="row-form clearfix">
+                                            <!-- select -->
+                                            <div class="form-group">
+                                                <label>Other specify( If heumatic Heart Disease )</label>
+                                                <textarea name="thromboembolic_other" rows="4"><?php if ($diagnosis['thromboembolic_other']) {
+                                                                                                    print_r($diagnosis['thromboembolic_other']);
+                                                                                                }  ?>
+                                                                                                    </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                                     <div id="Stroke" style="display: none;">
                                         <div class="row-form clearfix">
@@ -10731,59 +10801,6 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 27) { ?>
 
-                        <div class="container">
-                            <div class="main">
-                                <form id="validation" method="post">
-                                    <label class="heading">Cardiac diagnosis</label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="1">
-                                        Cardiomyopathy
-
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="2">
-                                        Rheumatic Heart Disease <br>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="3">
-                                        Severe / Uncontrolled Hypertension <br>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="4">
-                                        Hypertensive Heart Disease <br>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="5"> Congenital heart Disease
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="6"> Right Heart Failure
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="7"> Pericardial disease
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="8"> Coronary Artery Disease
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="9"> Arrhythmia
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="10"> Thromboembolic
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="cardiac[]" value="11"> Stroke
-                                    </label>
-                                    <input type="submit" name="add_card_test" Value="Add Diagnosis" />
-                                    <!----- Including PHP Script ----->
-                                    <?php
-                                    //  include 'checkbox_value.php';
-                                    ?>
-                                </form>
-
-                            </div>
-                        </div>
-
-
                     <?php } ?> <div class="dr"><span></span></div>
                 </div>
 
@@ -10906,58 +10923,197 @@ if ($user->isLoggedIn()) {
         });
 
 
-        // function hideElement() {
-        //     var checkbox = document.getElementById("myCheckbox");
-        //     var hiddenElement = document.getElementById("hiddenElement");
-
-        //     if (checkbox.checked) {
-        //         hiddenElement.style.display = "none";
-        //     } else {
-        //         hiddenElement.style.display = "block";
-        //     }
-        // }
-
-
-
-
-        function hideElement() {
+        function hideCardiac() {
             var checkbox = document.getElementById("cardiac1");
-            var hiddenElementCheckbox = document.getElementById("cardiomyopathy1");
+            var hiddenElement = document.getElementById("cardiomyopathy1");
             if (checkbox.checked) {
-                hiddenElementCheckbox.style.display = "block";
-            } else {
-                hiddenElementCheckbox.style.display = "none";
-            }
-
-            var select = document.getElementById("cardiomyopathy");
-            var hiddenElement = document.getElementById("cardiomyopathy_other1");
-
-            if (select.value === "96") {
                 hiddenElement.style.display = "block";
             } else {
                 hiddenElement.style.display = "none";
             }
 
+            var select = document.getElementById("cardiomyopathy");
+            var hiddenSelect = document.getElementById("cardiomyopathy_other1");
 
-            var cardiac2 = document.getElementById("cardiac2");
-            var hiddenHeumatic = document.getElementById("heumatic1");
-            if (cardiac2.checked) {
-                hiddenHeumatic.style.display = "block";
+            if (select.value === "96") {
+                hiddenSelect.style.display = "block";
             } else {
-                hiddenHeumatic.style.display = "none";
-            }
-
-            var selectHeumatic = document.getElementById("heumatic");
-            var hiddenElement = document.getElementById("heumatic_other1");
-
-            if (selectHeumatic.value === "96") {
-                hiddenHeumatic.style.display = "block";
-            } else {
-                hiddenHeumatic.style.display = "none";
+                hiddenSelect.style.display = "none";
             }
         }
-      
 
+        function hideRheumatic() {
+            var checkbox = document.getElementById("cardiac2");
+            var hiddenElement = document.getElementById("heumatic1");
+            if (checkbox.checked) {
+                hiddenElement.style.display = "block";
+            } else {
+                hiddenElement.style.display = "none";
+            }
+
+            var select = document.getElementById("heumatic");
+            var hiddenSelect = document.getElementById("heumatic_other1");
+
+            if (select.value === "96") {
+                hiddenSelect.style.display = "block";
+            } else {
+                hiddenSelect.style.display = "none";
+            }
+        }
+
+        // function hideSevere() {
+        //     var checkbox = document.getElementById("cardiac2");
+        //     var hiddenElement = document.getElementById("Rheumaticl1");
+        //     if (checkbox.checked) {
+        //         hiddenElement.style.display = "block";
+        //     } else {
+        //         hiddenElement.style.display = "none";
+        //     }
+
+        //     var select = document.getElementById("rheumaticl");
+        //     var hiddenSelect = document.getElementById("rheumaticl_other1");
+
+        //     if (select.value === "96") {
+        //         hiddenSelect.style.display = "block";
+        //     } else {
+        //         hiddenSelect.style.display = "none";
+        //     }
+        // }
+
+
+        // function hideHypertensive() {
+        //     var checkbox = document.getElementById("cardiac2");
+        //     var hiddenElement = document.getElementById("Rheumaticl1");
+        //     if (checkbox.checked) {
+        //         hiddenElement.style.display = "block";
+        //     } else {
+        //         hiddenElement.style.display = "none";
+        //     }
+
+        //     var select = document.getElementById("rheumaticl");
+        //     var hiddenSelect = document.getElementById("rheumaticl_other1");
+
+        //     if (select.value === "96") {
+        //         hiddenSelect.style.display = "block";
+        //     } else {
+        //         hiddenSelect.style.display = "none";
+        //     }
+        // }
+
+        function hideCongenital() {
+            var checkbox = document.getElementById("cardiac5");
+            var hiddenElement = document.getElementById("congenital1");
+            if (checkbox.checked) {
+                hiddenElement.style.display = "block";
+            } else {
+                hiddenElement.style.display = "none";
+            }
+
+            var select = document.getElementById("congenital");
+            var hiddenSelect = document.getElementById("congenital_other1");
+
+            if (select.value === "96") {
+                hiddenSelect.style.display = "block";
+            } else {
+                hiddenSelect.style.display = "none";
+            }
+        }
+
+        function hideHeart() {
+            var checkbox = document.getElementById("cardiac6");
+            var hiddenElement = document.getElementById("heart_failure1");
+            if (checkbox.checked) {
+                hiddenElement.style.display = "block";
+            } else {
+                hiddenElement.style.display = "none";
+            }
+        }
+
+        function hidePericardial() {
+            var checkbox = document.getElementById("cardiac7");
+            var hiddenElement = document.getElementById("pericardial1");
+            if (checkbox.checked) {
+                hiddenElement.style.display = "block";
+            } else {
+                hiddenElement.style.display = "none";
+            }
+
+            var select = document.getElementById("pericardial");
+            var hiddenSelect = document.getElementById("pericardial_other1");
+
+            if (select.value === "96") {
+                hiddenSelect.style.display = "block";
+            } else {
+                hiddenSelect.style.display = "none";
+            }
+        }
+
+        // function hideCoronary() {
+        //     var checkbox = document.getElementById("cardiac8");
+        //     var hiddenElement = document.getElementById("Rheumaticl1");
+        //     if (checkbox.checked) {
+        //         hiddenElement.style.display = "block";
+        //     } else {
+        //         hiddenElement.style.display = "none";
+        //     }
+
+        //     var select = document.getElementById("rheumaticl");
+        //     var hiddenSelect = document.getElementById("rheumaticl_other1");
+
+        //     if (select.value === "96") {
+        //         hiddenSelect.style.display = "block";
+        //     } else {
+        //         hiddenSelect.style.display = "none";
+        //     }
+        // }
+
+        function hideArrhythmia() {
+            var checkbox = document.getElementById("cardiac9");
+            var hiddenElement = document.getElementById("arrhythmia1");
+            if (checkbox.checked) {
+                hiddenElement.style.display = "block";
+            } else {
+                hiddenElement.style.display = "none";
+            }
+
+            var select = document.getElementById("arrhythmia");
+            var hiddenSelect = document.getElementById("arrhythmia_other1");
+
+            if (select.value === "96") {
+                hiddenSelect.style.display = "block";
+            } else {
+                hiddenSelect.style.display = "none";
+            }
+        }
+
+        function hideThromboembolic() {
+            var checkbox = document.getElementById("cardiac10");
+            var hiddenElement = document.getElementById("thromboembolic1");
+            if (checkbox.checked) {
+                hiddenElement.style.display = "block";
+            } else {
+                hiddenElement.style.display = "none";
+            }
+
+            var select = document.getElementById("thromboembolic");
+            var hiddenSelect = document.getElementById("thromboembolic_other1");
+
+            if (select.value === "96") {
+                hiddenSelect.style.display = "block";
+            } else {
+                hiddenSelect.style.display = "none";
+            }
+        }
+
+        function hideStroke() {
+            var checkbox = document.getElementById("cardiac11");
+            var hiddenElement = document.getElementById("stroke1");
+            if (checkbox.checked) {
+                hiddenElement.style.display = "block";
+            } else {
+                hiddenElement.style.display = "none";
+            }
+        }
         // Add row chemotherapy
         document.getElementById("add-medication").addEventListener("click", function() {
             var table = document.getElementById("medication_list").getElementsByTagName("tbody")[0];

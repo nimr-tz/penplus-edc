@@ -1016,54 +1016,62 @@ if ($user->isLoggedIn()) {
                 try {
                     $diagnosis = $override->get3('diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
-                    if ($diagnosis) {
-                        $user->updateRecord('diagnosis', array(
-                            'visit_date' => Input::get('diagnosis_date'),
-                            'diagnosis_date' => Input::get('diagnosis_date'),
-                            'cardiac' => Input::get('cardiac'),
-                            'diagnosis_date' => Input::get('diagnosis_date'),
-                            'cardiomyopathy' => Input::get('cardiomyopathy'),
-                            'heumatic' => Input::get('heumatic'),
-                            'congenital' => Input::get('congenital'),
-                            'heart_failure' => Input::get('heart_failure'),
-                            'pericardial' => Input::get('pericardial'),
-                            'arrhythmia' => Input::get('arrhythmia'),
-                            'stroke' => Input::get('stroke'),
-                            'thromboembolic' => Input::get('thromboembolic'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
-                            'comments' => Input::get('comments'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ), $diagnosis['id']);
-                    } else {
-                        $user->createRecord('diagnosis', array(
-                            'visit_date' => Input::get('diagnosis_date'),
-                            'study_id' => Input::get('sid'),
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
-                            'cardiac' => Input::get('cardiac'),
-                            'diagnosis_date' => Input::get('diagnosis_date'),
-                            'cardiomyopathy' => Input::get('cardiomyopathy'),
-                            'heumatic' => Input::get('heumatic'),
-                            'congenital' => Input::get('congenital'),
-                            'heart_failure' => Input::get('heart_failure'),
-                            'pericardial' => Input::get('pericardial'),
-                            'arrhythmia' => Input::get('arrhythmia'),
-                            'stroke' => Input::get('stroke'),
-                            'thromboembolic' => Input::get('thromboembolic'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
-                            'comments' => Input::get('comments'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ));
+
+                    // Counting number of checked checkboxes.
+                    $checked_count = count(Input::get('cardiac'));
+
+                    $i = 0;
+                    foreach (Input::get('cardiac') as $selected) {
+
+                        if ($diagnosis) {
+                            $user->updateRecord('diagnosis', array(
+                                'visit_date' => Input::get('diagnosis_date'),
+                                'diagnosis_date' => Input::get('diagnosis_date'),
+                                'cardiac' => Input::get('cardiac')[$i],
+                                'diagnosis_date' => Input::get('diagnosis_date'),
+                                'cardiomyopathy' => Input::get('cardiomyopathy'),
+                                'heumatic' => Input::get('heumatic'),
+                                'congenital' => Input::get('congenital'),
+                                'heart_failure' => Input::get('heart_failure'),
+                                'pericardial' => Input::get('pericardial'),
+                                'arrhythmia' => Input::get('arrhythmia'),
+                                'stroke' => Input::get('stroke'),
+                                'thromboembolic' => Input::get('thromboembolic'),
+                                'diagnosis_other' => Input::get('diagnosis_other'),
+                                'comments' => Input::get('comments'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ), $diagnosis['id']);
+                        } else {
+                            $user->createRecord('diagnosis', array(
+                                'visit_date' => Input::get('diagnosis_date'),
+                                'study_id' => Input::get('sid'),
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
+                                'cardiac' => Input::get('cardiac')[$i],
+                                'diagnosis_date' => Input::get('diagnosis_date'),
+                                'cardiomyopathy' => Input::get('cardiomyopathy'),
+                                'heumatic' => Input::get('heumatic'),
+                                'congenital' => Input::get('congenital'),
+                                'heart_failure' => Input::get('heart_failure'),
+                                'pericardial' => Input::get('pericardial'),
+                                'arrhythmia' => Input::get('arrhythmia'),
+                                'stroke' => Input::get('stroke'),
+                                'thromboembolic' => Input::get('thromboembolic'),
+                                'diagnosis_other' => Input::get('diagnosis_other'),
+                                'comments' => Input::get('comments'),
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ));
+                        }
                     }
                     $successMessage = 'Diagnosis added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
@@ -2107,6 +2115,42 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('add_card_test')) {
+            $validate = $validate->check($_POST, array(
+                // 'cardiac' => array(
+                //     'required' => true,
+                // ),
+
+
+            ));
+            if ($validate->passed()) {
+                try {
+                    $multiArray = $override->get('card_test', 'status', 1);
+                    foreach (Input::get('cardiac') as $searchValue) {
+                        if ($user->isValueInMultiArrays($searchValue, $multiArray)) {
+                            // echo "The value '{$searchValue}' exists in the multi-dimensional array.";
+                            // $user->isValueInMultiArrays($searchValue, $multiArray);
+                            // $id = $override->get('card_test', 'cardiac', $searchValue);
+                            // $user->updateRecord('card_test', array(
+                            //     'cardiac' => $searchValue,
+                            // ), $id['id']);
+                        } else {
+                            // echo "The value '{$searchValue}' does not exist in the multi-dimensional array.";
+                            $user->createRecord('card_test', array(
+                                'cardiac' => $searchValue,
+                            ));
+                        }
+                    }
+
+                    $successMessage = 'Diagnosis added Successful';
+                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    die;
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         }
     }
 } else {
@@ -2238,6 +2282,93 @@ if ($user->isLoggedIn()) {
 
         .remove-row:hover {
             background-color: #da190b;
+        }
+
+
+
+
+
+        @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+
+        div.container {
+            width: 960px;
+            height: 610px;
+            margin: 50px auto;
+            font-family: 'Droid Serif', serif;
+        }
+
+        div.main {
+            width: 308px;
+            margin-top: 35px;
+            float: left;
+            border-radius: 5px;
+            Border: 2px solid #999900;
+            padding: 0px 50px 20px;
+        }
+
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            color: green;
+            font-weight: bold;
+        }
+
+        h2 {
+            background-color: #FEFFED;
+            padding: 25px;
+            margin: 0 -50px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+
+        hr {
+            margin: 0 -50px;
+            border: 0;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 25px;
+        }
+
+        span {
+            font-size: 13.5px;
+        }
+
+        label {
+            color: #464646;
+            text-shadow: 0 1px 0 #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .heading {
+            font-size: 17px;
+        }
+
+        b {
+            color: red;
+        }
+
+        input[type=checkbox] {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        input[type=submit] {
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            background: linear-gradient(#ffbc00 5%, #ffdd7f 100%);
+            border: 2px solid #e5a900;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            text-shadow: 0px 1px 0px #13506D;
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        input[type=submit]:hover {
+            background: linear-gradient(#ffdd7f 5%, #ffbc00 100%);
         }
     </style>
 </head>
@@ -4954,7 +5085,7 @@ if ($user->isLoggedIn()) {
                                 <form id="validation" method="post">
 
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-12">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -4966,56 +5097,52 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Cardiac diagnosis</label>
-                                                    <select name="cardiac" id="cardiac" style="width: 100%;" required>
-                                                        <option value="<?= $diagnosis['cardiac'] ?>"><?php if ($diagnosis) {
-                                                                                                            if ($diagnosis['cardiac'] == 1) {
-                                                                                                                echo 'Cardiomyopathy';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 2) {
-                                                                                                                echo 'Rheumatic Heart Disease';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 3) {
-                                                                                                                echo 'Severe / Uncontrolled Hypertension';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 4) {
-                                                                                                                echo 'Hypertensive Heart Disease';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 5) {
-                                                                                                                echo 'Congenital heart Disease';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 6) {
-                                                                                                                echo 'Right Heart Failure';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 7) {
-                                                                                                                echo 'Pericardial disease';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 8) {
-                                                                                                                echo 'Coronary Artery Disease';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 9) {
-                                                                                                                echo 'Arrhythmia';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 10) {
-                                                                                                                echo 'Thromboembolic';
-                                                                                                            } elseif ($diagnosis['cardiac'] == 11) {
-                                                                                                                echo 'Stroke';
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            echo 'Select';
-                                                                                                        } ?></option>
-                                                        <option value="1">Cardiomyopathy</option>
-                                                        <option value="2">Rheumatic Heart Disease</option>
-                                                        <option value="3">Severe / Uncontrolled Hypertension</option>
-                                                        <option value="4">Hypertensive Heart Disease</option>
-                                                        <option value="5">Congenital heart Disease</option>
-                                                        <option value="6">Right Heart Failure</option>
-                                                        <option value="7">Pericardial disease</option>
-                                                        <option value="8">Coronary Artery Disease</option>
-                                                        <option value="9">Arrhythmia</option>
-                                                        <option value="10">Thromboembolic</option>
-                                                        <option value="11">Stroke</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
 
+
+                                    <div class="container">
+                                        <div class="main">
+                                            <label class="heading">Cardiac diagnosis</label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="1">
+                                                Cardiomyopathy
+
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="2">
+                                                Rheumatic Heart Disease <br>
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="3">
+                                                Severe / Uncontrolled Hypertension <br>
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="4">
+                                                Hypertensive Heart Disease <br>
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="5"> Congenital heart Disease
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="6"> Right Heart Failure
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="7"> Pericardial disease
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="8"> Coronary Artery Disease
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="9"> Arrhythmia
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="10"> Thromboembolic
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="cardiac[]" value="11"> Stroke
+                                            </label>
+                                        </div>
+                                    </div>
 
                                     <div id="cardiomyopathy">
                                         <div class="row-form clearfix">
@@ -10462,8 +10589,63 @@ if ($user->isLoggedIn()) {
 
                         </div>
 
-                    <?php } ?>
-                    <div class="dr"><span></span></div>
+
+                    <?php } elseif ($_GET['id'] == 27) { ?>
+
+                        <div class="container">
+                            <div class="main">
+                                <form id="validation" method="post">
+                                    <label class="heading">Cardiac diagnosis</label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="1">
+                                        Cardiomyopathy
+
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="2">
+                                        Rheumatic Heart Disease <br>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="3">
+                                        Severe / Uncontrolled Hypertension <br>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="4">
+                                        Hypertensive Heart Disease <br>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="5"> Congenital heart Disease
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="6"> Right Heart Failure
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="7"> Pericardial disease
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="8"> Coronary Artery Disease
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="9"> Arrhythmia
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="10"> Thromboembolic
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="cardiac[]" value="11"> Stroke
+                                    </label>
+                                    <input type="submit" name="add_card_test" Value="Add Diagnosis" />
+                                    <!----- Including PHP Script ----->
+                                    <?php
+                                    //  include 'checkbox_value.php';
+                                    ?>
+                                </form>
+
+                            </div>
+                        </div>
+
+
+                    <?php } ?> <div class="dr"><span></span></div>
                 </div>
 
             </div>
@@ -10483,6 +10665,19 @@ if ($user->isLoggedIn()) {
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+
+        // fetch('fetching_cardiac.php')
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         // Process the data received from the PHP script
+        //         console.log(data);
+        //         alert(data);
+        //         // autocomplete(document.getElementById("brand_id2"), data);
+        //     })
+        //     .catch(error => {
+        //         // Handle any errors that occurred during the fetch request
+        //         console.error('Error:', error);
+        //     });
 
         $('#weight, #height').on('input', function() {
             setTimeout(function() {

@@ -166,6 +166,11 @@ if ($user->isLoggedIn()) {
                         </a>
                     </li>
                     <li>
+                        <a href="add.php?id=27">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Test Multiple</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="add.php?id=5">
                             <span class="glyphicon glyphicon-floppy-disk"></span><span class="text">Study</span>
                         </a>

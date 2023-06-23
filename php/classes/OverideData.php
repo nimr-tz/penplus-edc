@@ -105,6 +105,13 @@ class OverideData{
         return $result;
     }
 
+    public function getArray($table, $where, $id)
+    {
+        $query = $this->_pdo->query("SELECT 'cardiac' FROM $table WHERE $where = '$id'");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function getRQ1($table){
         $query = $this->_pdo->query("SELECT * FROM $table");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

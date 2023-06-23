@@ -829,6 +829,8 @@ if ($user->isLoggedIn()) {
                                 'stroke' => Input::get('stroke'),
                                 'pneumonia' => Input::get('pneumonia'),
                                 'blood_transfusion' => Input::get('blood_transfusion'),
+                                'transfusion_born' => Input::get('transfusion_born'),
+                                'transfusion_12months' => Input::get('transfusion_12months'),
                                 'acute_chest' => Input::get('acute_chest'),
                                 'other_complication' => Input::get('other_complication'),
                                 'specify_complication' => Input::get('specify_complication'),
@@ -880,6 +882,8 @@ if ($user->isLoggedIn()) {
                             'stroke' => Input::get('stroke'),
                             'pneumonia' => Input::get('pneumonia'),
                             'blood_transfusion' => Input::get('blood_transfusion'),
+                            'transfusion_born' => Input::get('transfusion_born'),
+                            'transfusion_12months' => Input::get('transfusion_12months'),
                             'acute_chest' => Input::get('acute_chest'),
                             'other_complication' => Input::get('other_complication'),
                             'specify_complication' => Input::get('specify_complication'),
@@ -3726,7 +3730,7 @@ if ($user->isLoggedIn()) {
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Pain Event</label>
@@ -3747,7 +3751,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Stroke</label>
@@ -3768,7 +3772,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Pneumonia </label>
@@ -3788,8 +3792,13 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="col-sm-3">
+
+
+                                        <div class="row">
+
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Blood Transfusion</label>
@@ -3810,7 +3819,33 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>how many times since you were born ? </label>
+                                                        <input type="text" name="transfusion_born" value="<?php if ($history['transfusion_born']) {
+                                                                                                                print_r($history['transfusion_born']);
+                                                                                                            }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>how many times for the past twelve months ?</label>
+                                                        <input type="text" name="transfusion_12months" value="<?php if ($history['transfusion_12months']) {
+                                                                                                                    print_r($history['transfusion_12months']);
+                                                                                                                }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
+
+
 
                                         <div class="row">
 
@@ -3885,12 +3920,16 @@ if ($user->isLoggedIn()) {
                                                                                                         echo 'R';
                                                                                                     } elseif ($history['hiv'] == 2) {
                                                                                                         echo 'NR';
+                                                                                                    } elseif ($history['hiv'] == 3) {
+                                                                                                        echo 'Unknown';
                                                                                                     }
                                                                                                 } else {
                                                                                                     echo 'Select';
                                                                                                 } ?></option>
                                                         <option value="1">R</option>
                                                         <option value="2">NR</option>
+                                                        <option value="3">Unknown</option>
+
                                                     </select>
                                                 </div>
                                             </div>

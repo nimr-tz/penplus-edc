@@ -1136,7 +1136,9 @@ if ($user->isLoggedIn()) {
 
             ));
             if ($validate->passed()) {
+                print_r($_POST);
                 try {
+
 
                     $results = $override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
@@ -1147,7 +1149,7 @@ if ($user->isLoggedIn()) {
                             'ecg' => Input::get('ecg'),
                             'ecg_performed' => Input::get('ecg_performed'),
                             'ecg_other' => Input::get('ecg_other'),
-                            'eho_performed' => Input::get('eho_performed'),
+                            'echo_performed' => Input::get('echo_performed'),
                             'echo_date' => Input::get('echo_date'),
                             'echo' => Input::get('echo'),
                             'echo_other' => Input::get('echo_other'),

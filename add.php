@@ -8266,9 +8266,9 @@ if ($user->isLoggedIn()) {
                                         <table id="hospitalization_table">
                                             <thead>
                                                 <tr>
-                                                    <th> Medication name </th>
-                                                    <th> Action </th>
-                                                    <th> Dose </th>
+                                                    <th> Admission Date </th>
+                                                    <th> Admission Reason </th>
+                                                    <th> Discharge Diagnosis </th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -8278,13 +8278,13 @@ if ($user->isLoggedIn()) {
                                                     <tr>
                                                         <td>
                                                             <input type="text" name="admission_date[]" id="admission_date[]" placeholder="Type admission_date..." value="<?php if ($hospitalization_table['admission_date']) {
-                                                                                                                                                                                                    print_r($hospitalization_table['admission_date']);
-                                                                                                                                                                                                }  ?>">
+                                                                                                                                                                                print_r($hospitalization_table['admission_date']);
+                                                                                                                                                                            }  ?>">
                                                         </td>
                                                         <td>
                                                             <input type="text" name="admission_reason[]" id="admission_reason[]" placeholder="Type admission_reason..." value="<?php if ($hospitalization_table['admission_reason']) {
-                                                                                                                                                                                                            print_r($hospitalization_table['admission_reason']);
-                                                                                                                                                                                                        }  ?>">
+                                                                                                                                                                                    print_r($hospitalization_table['admission_reason']);
+                                                                                                                                                                                }  ?>">
                                                         </td>
                                                         <td>
                                                             <input type="text" name="discharge_diagnosis[]" value='<?php if ($hospitalization_table['discharge_diagnosis']) {
@@ -11392,8 +11392,8 @@ if ($user->isLoggedIn()) {
         document.getElementById("add-hospitalization").addEventListener("click", function() {
             var table = document.getElementById("hospitalization_table").getElementsByTagName("tbody")[0];
             var newRow = table.insertRow(table.rows.length);
-            var chemotherapy = newRow.insertCell(0);
-            var chemotherapy_start = newRow.insertCell(1);
+            var admission_date = newRow.insertCell(0);
+            var admission_reason = newRow.insertCell(1);
             var discharge_diagnosis = newRow.insertCell(2);
             var actionCell = newRow.insertCell(3);
             admission_date.innerHTML = '<input type="text" name="admission_date[]"><span>(Example: 2010-12-01)</span>';

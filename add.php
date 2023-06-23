@@ -1145,7 +1145,9 @@ if ($user->isLoggedIn()) {
                             'visit_date' => Input::get('visit_date'),
                             'ecg_date' => Input::get('ecg_date'),
                             'ecg' => Input::get('ecg'),
+                            'ecg_performed' => Input::get('ecg_performed'),
                             'ecg_other' => Input::get('ecg_other'),
+                            'eho_performed' => Input::get('eho_performed'),
                             'echo_date' => Input::get('echo_date'),
                             'echo' => Input::get('echo'),
                             'echo_other' => Input::get('echo_other'),
@@ -1170,9 +1172,11 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
+                            'ecg_performed' => Input::get('ecg_performed'),
                             'ecg_date' => Input::get('ecg_date'),
                             'ecg' => Input::get('ecg'),
                             'ecg_other' => Input::get('ecg_other'),
+                            'eho_performed' => Input::get('eho_performed'),
                             'echo_date' => Input::get('echo_date'),
                             'echo' => Input::get('echo'),
                             'lv' => Input::get('lv'),
@@ -4036,7 +4040,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>History of cardiac surgery?</label>
-                                                        <select name="cardiac_surgery" id="cardiac_surgery" style="width: 100%;" required>
+                                                        <select name="cardiac_surgery" id="cardiac_surgery" style="width: 100%;" onchange="hideSugeryType()" required>
                                                             <option value="<?= $history['cardiac_surgery'] ?>"><?php if ($history) {
                                                                                                                     if ($history['cardiac_surgery'] == 1) {
                                                                                                                         echo 'Yes';
@@ -4053,11 +4057,11 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3" id="cardiac_surgery_type1">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Type of cardiac surgery</label>
-                                                        <select name="cardiac_surgery_type" id="cardiac_surgery_type" style="width: 100%;" onchange="handleSelectChange(this)" required>
+                                                        <select name="cardiac_surgery_type" id="cardiac_surgery_type" style="width: 100%;" onchange="hideSugeryOther()" required>
                                                             <option value=" <?= $history['cardiac_surgery_type'] ?>"><?php if ($history) {
                                                                                                                             if ($history['cardiac_surgery_type'] == 1) {
                                                                                                                                 echo 'Valve Surgery';
@@ -4077,7 +4081,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3" id="surgery_other">
+                                            <div class="col-sm-3" id="surgery_other1">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -5630,7 +5634,36 @@ if ($user->isLoggedIn()) {
 
                                     <?php if ($_GET['seq'] == 1) { ?>
 
+                                        </br>
+                                        <div class="head clearfix">
+                                            <div class="isw-ok"></div>
+                                            <h1>ECG Results </h1>
+                                        </div>
+
                                         <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Did the patient do an ECG?</label>
+                                                        <select name="ecg_performed" id="ecg_performed" style="width: 100%;" onchange=hideEcg() required>
+                                                            <option value="<?= $results['ecg_performed'] ?>"><?php if ($results) {
+                                                                                                                    if ($results['ecg_performed'] == 1) {
+                                                                                                                        echo 'Yes';
+                                                                                                                    } elseif ($results['ecg_performed'] == 2) {
+                                                                                                                        echo 'No';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="ecg_performed1" style="display: none;">
 
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
@@ -5693,8 +5726,38 @@ if ($user->isLoggedIn()) {
 
                                     <?php } ?>
 
+                                    </br>
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Echo Results </h1>
+                                    </div>
 
                                     <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Did the patient do an echo?</label>
+                                                    <select name="echo_performed" id="echo_performed" style="width: 100%;" onchange=hideEcho() required>
+                                                        <option value="<?= $results['echo_performed'] ?>"><?php if ($results) {
+                                                                                                                if ($results['echo_performed'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($results['echo_performed'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row" id="echo_performed1" style="display: none;">
 
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
@@ -5774,7 +5837,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
 
-                                    <div class="row">
+                                    <div class="row" id="echo_performed2" style="display: none;">
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
@@ -5872,7 +5935,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
 
-                                    <div class="row">
+                                    <div class="row" id="echo_performed3" style="display: none;">
 
                                         <div class="col-sm-8">
                                             <div class="row-form clearfix">
@@ -10922,6 +10985,59 @@ if ($user->isLoggedIn()) {
 
         });
 
+        function hideEcg() {
+            var select = document.getElementById("ecg_performed");
+            var hiddenSelect = document.getElementById("ecg_performed1");
+
+            if (select.value === "1") {
+                hiddenSelect.style.display = "block";
+            } else {
+                hiddenSelect.style.display = "none";
+            }
+        }
+
+        function hideEcho() {
+            var select = document.getElementById("echo_performed");
+            var hiddenSelect1 = document.getElementById("echo_performed1");
+            var hiddenSelect2 = document.getElementById("echo_performed2");
+            var hiddenSelect3 = document.getElementById("echo_performed3");
+
+
+            if (select.value === "1") {
+                hiddenSelect1.style.display = "block";
+                hiddenSelect2.style.display = "block";
+                hiddenSelect3.style.display = "block";
+
+            } else {
+                hiddenSelect1.style.display = "none";
+                hiddenSelect2.style.display = "none";
+                hiddenSelect3.style.display = "none";
+
+            }
+        }
+
+        function hideSugeryType() {
+            var select = document.getElementById("cardiac_surgery");
+            var hiddenSelect = document.getElementById("cardiac_surgery_type1");
+
+            if (select.value === "1") {
+                hiddenSelect.style.display = "block";
+            } else {
+                hiddenSelect.style.display = "none";
+            }
+        }
+
+        function hideSugeryOther() {
+
+            var select = document.getElementById("cardiac_surgery_type");
+            var hiddenSelect = document.getElementById("surgery_other1");
+
+            if (select.value === "96") {
+                hiddenSelect.style.display = "block";
+            } else {
+                hiddenSelect.style.display = "none";
+            }
+        }
 
         function hideCardiac() {
             var checkbox = document.getElementById("cardiac1");

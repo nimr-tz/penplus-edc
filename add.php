@@ -6164,6 +6164,7 @@ if ($user->isLoggedIn()) {
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                         </select>
+                                                        <span>doctor to ask the patient</span>
                                                     </div>
                                                 </div>
                                             </div>

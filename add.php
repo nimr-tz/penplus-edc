@@ -1977,6 +1977,8 @@ if ($user->isLoggedIn()) {
                                 'awaiting_surgery' => Input::get('awaiting_surgery'),
                                 'new_referrals' => Input::get('new_referrals'),
                                 'new_referrals_type' => Input::get('new_referrals_type'),
+                                'misconception' => Input::get('misconception'),
+                                'life_style' => Input::get('life_style'), 
                                 'medication_notes' => Input::get('medication_notes'),
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
@@ -2022,6 +2024,8 @@ if ($user->isLoggedIn()) {
                             'awaiting_surgery' => Input::get('awaiting_surgery'),
                             'new_referrals' => Input::get('new_referrals'),
                             'new_referrals_type' => Input::get('new_referrals_type'),
+                            'misconception' => Input::get('misconception'),
+                            'life_style' => Input::get('life_style'),
                             'medication_notes' => Input::get('medication_notes'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -2263,82 +2267,6 @@ if ($user->isLoggedIn()) {
     <?php include "head.php"; ?>
 
     <style>
-        #chemotherapy_table {
-            border-collapse: collapse;
-        }
-
-        #surgery_table {
-            border-collapse: collapse;
-        }
-
-        #herbal_preparation_table {
-            border-collapse: collapse;
-        }
-
-        #chemotherapy_table th,
-        #chemotherapy_table td {
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-
-        #surgery_table th,
-        #surgery_table td {
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-
-        #herbal_preparation_table th,
-        #herbal_preparation_table td {
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-
-        #chemotherapy_table th {
-            text-align: left;
-            background-color: #f2f2f2;
-        }
-
-        #surgery_table th {
-            text-align: left;
-            background-color: #f2f2f2;
-        }
-
-        #herbal_table th {
-            text-align: left;
-            background-color: #f2f2f2;
-        }
-
-        #nimregenin_table {
-            border-collapse: collapse;
-        }
-
-        #nimregenin_table th,
-        #nimregenin_table td {
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-
-        #nimregenin_table th {
-            text-align: left;
-            background-color: #f2f2f2;
-        }
-
-        #radiotherapy_table {
-            border-collapse: collapse;
-        }
-
-        #radiotherapy_table th,
-        #radiotherapy_table td {
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-
-        #radiotherapy_table th {
-            text-align: left;
-            background-color: #f2f2f2;
-        }
-
-
         #medication_table {
             border-collapse: collapse;
         }
@@ -2403,92 +2331,26 @@ if ($user->isLoggedIn()) {
             background-color: #f2f2f2;
         }
 
-
-
-
-
-        /* @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
-
-        div.container {
-            width: 960px;
-            height: 830px;
-            margin: 2px auto;
-            font-family: 'Droid Serif', serif;
+        #sickle_cell_table {
+            border-collapse: collapse;
         }
 
-        div.main {
-            width: 338px;
-            margin-top: 1px;
-            float: left;
-            border-radius: 5px;
-            Border: 2px solid #999900;
-            padding: 0px 50px 20px;
+        #sickle_cell_table th,
+        #sickle_cell_table td {
+            padding: 8px;
+            border: 1px solid #ddd;
         }
 
-        p {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            color: green;
-            font-weight: bold;
+        #sickle_cell_table th,
+        #sickle_cell_table td {
+            padding: 8px;
+            border: 1px solid #ddd;
         }
 
-        h2 {
-            background-color: #FEFFED;
-            padding: 25px;
-            margin: 0 -50px;
-            text-align: center;
-            border-radius: 5px 5px 0 0;
+        #sickle_cell_table th {
+            text-align: left;
+            background-color: #f2f2f2;
         }
-
-        hr {
-            margin: 0 -50px;
-            border: 0;
-            border-bottom: 1px solid #ccc;
-            margin-bottom: 25px;
-        }
-
-        span {
-            font-size: 13.5px;
-        }
-
-        label {
-            color: #464646;
-            text-shadow: 0 1px 0 #fff;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .heading {
-            font-size: 20px;
-        }
-
-        b {
-            color: red;
-        }
-
-        input[type=checkbox] {
-            margin-bottom: 10px;
-            margin-right: 10px;
-        }
-
-        input[type=submit] {
-            padding: 10px;
-            text-align: center;
-            font-size: 18px;
-            background: linear-gradient(#ffbc00 5%, #ffdd7f 100%);
-            border: 2px solid #e5a900;
-            color: #ffffff;
-            font-weight: bold;
-            cursor: pointer;
-            text-shadow: 0px 1px 0px #13506D;
-            width: 100%;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        input[type=submit]:hover {
-            background: linear-gradient(#ffdd7f 5%, #ffbc00 100%);
-        } */
     </style>
 </head>
 
@@ -4267,7 +4129,7 @@ if ($user->isLoggedIn()) {
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
                                         <div class="row">
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Family History of SCD?</label>
@@ -4290,6 +4152,104 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>How many siblings do you have?</label>
+                                                        <select name="scd_disease" style="width: 100%;" required>
+                                                            <option value="<?= $history['scd_disease'] ?>"><?php if ($history) {
+                                                                                                                if ($history['scd_disease'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($history['scd_disease'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                } elseif ($history['scd_disease'] == 3) {
+                                                                                                                    echo 'Unknown';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                            <option value="3">Unknown</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>How many of them are alive?</label>
+                                                        <select name="scd_disease" style="width: 100%;" required>
+                                                            <option value="<?= $history['scd_disease'] ?>"><?php if ($history) {
+                                                                                                                if ($history['scd_disease'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($history['scd_disease'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                } elseif ($history['scd_disease'] == 3) {
+                                                                                                                    echo 'Unknown';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                            <option value="3">Unknown</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row-form clearfix">
+
+                                            <table id="sickle_cell_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th> age </th>
+                                                        <th> sex </th>
+                                                        <th> sickle cell disease status </th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($override->get('sickle_cell_status_table', 'patient_id', $_GET['cid']) as $sickle_cell_status_table) { ?>
+
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" name="age[]" id="age[]" placeholder="Type age..." value="<?php if ($sickle_cell_status_table['age']) {
+                                                                                                                                                print_r($sickle_cell_status_table['age']);
+                                                                                                                                            }  ?>">
+                                                            </td>
+                                                            <td>
+                                                                <select name="sex[]" style="width: 100%;" required>
+                                                                    <option value="<?= $sickle_cell_status_table['sex'] ?>"><?php if ($sickle_cell_status_table) {
+                                                                                                                                if ($sickle_cell_status_table['sex'] == 1) {
+                                                                                                                                    echo 'Male';
+                                                                                                                                } elseif ($sickle_cell_status_table['sex'] == 2) {
+                                                                                                                                    echo 'Female';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?></option>
+                                                                    <option value="">Select</option>
+                                                                    <option value="1">Male</option>
+                                                                    <option value="2">Female</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="status[]" value='<?php if ($sickle_cell_status_table['sickle_status']) {
+                                                                                                                print_r($sickle_cell_status_table['sickle_status']);
+                                                                                                            }  ?>'>
+                                                            </td>
+                                                            <td><button type="button" class="remove-row">Remove</button></td>
+                                                        </tr>
+
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                            <button type="button" id="add-sickle_cell_status">Add Row</button>
                                         </div>
 
                                     <?php } ?>
@@ -7102,12 +7062,6 @@ if ($user->isLoggedIn()) {
                                     ?>
 
 
-
-                                    <div class="head clearfix">
-                                        <div class="isw-ok"></div>
-                                        <h1>Support</h1>
-                                    </div>
-
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
                                         <div class="head clearfix">
                                             <div class="isw-ok"></div>
@@ -7333,6 +7287,11 @@ if ($user->isLoggedIn()) {
 
                                     <?php } ?>
 
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Support</h1>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="row-form clearfix">
@@ -7509,6 +7468,36 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
                                     </div>
+
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+                                        <div class="row">
+
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Life style :</label>
+                                                        <input style="width: 100%;" type="text" name="life_style" id="life_style" value="<?php if ($treatment_plan['life_style']) {
+                                                                                                                                                print_r($treatment_plan['life_style']);
+                                                                                                                                            }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>misconception:</label>
+                                                        <input style="width: 100%;" type="text" name="misconception" id="misconception" value="<?php if ($treatment_plan['misconception']) {
+                                                                                                                                                    print_r($treatment_plan['misconception']);
+                                                                                                                                                }  ?>" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <?php } ?>
 
 
                                     <div class="row">
@@ -11560,18 +11549,16 @@ if ($user->isLoggedIn()) {
         });
 
         // Add row surgery
-        document.getElementById("add-row4").addEventListener("click", function() {
-            var table = document.getElementById("surgery_table").getElementsByTagName("tbody")[0];
+        document.getElementById("add-sickle_cell_status").addEventListener("click", function() {
+            var table = document.getElementById("sickle_cell_table").getElementsByTagName("tbody")[0];
             var newRow = table.insertRow(table.rows.length);
-            var surgery = newRow.insertCell(0);
-            var surgery_start = newRow.insertCell(1);
-            var surgery_number = newRow.insertCell(2);
-            var surgery_remarks = newRow.insertCell(3);
-            var actionCell = newRow.insertCell(4);
-            surgery.innerHTML = '<input type="text" name="surgery[]">';
-            surgery_start.innerHTML = '<input type="text" name="surgery_start[]"><span>(Example: 2010-12-01)</span>';
-            surgery_number.innerHTML = '<input type="text" name="surgery_number[]"><span>(numbers)</span>';
-            surgery_remarks.innerHTML = '<input type="text" name="surgery_remarks[]">';
+            var age = newRow.insertCell(0);
+            var sex = newRow.insertCell(1);
+            var status = newRow.insertCell(2);
+            var actionCell = newRow.insertCell(3);
+            age.innerHTML = '<input type="text" name="age[]">';
+            sex.innerHTML = '<select name="sex[]" id="sex[]" style="width: 100%;"><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select>';
+            status.innerHTML = '<input type="text" name="status[]">';
             actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
         });
 

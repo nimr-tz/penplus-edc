@@ -223,7 +223,10 @@ if ($user->isLoggedIn()) {
                 'visit_date' => array(
                     'required' => true,
                 ),
-                'age_6_above' => array(
+                'ncd' => array(
+                    'required' => true,
+                ),
+                'dm' => array(
                     'required' => true,
                 ),
                 'consent' => array(
@@ -242,7 +245,7 @@ if ($user->isLoggedIn()) {
             if ($validate->passed()) {
                 try {
                     $eligibility = 0;
-                    if (Input::get('consent') == 1) {
+                    if ((Input::get('consent') == 1 && Input::get('residence') == 1) && (Input::get('ncd') == 1 || Input::get('dm') == 1 || Input::get('scd') == 1 || Input::get('rhd') == 1)) {
                         $eligibility = 1;
                     }
 
@@ -250,7 +253,8 @@ if ($user->isLoggedIn()) {
                         $user->updateRecord('screening', array(
                             'screening_date' => Input::get('visit_date'),
                             // 'study_id' => '',
-                            'age_6_above' => Input::get('age_6_above'),
+                            'dm' => Input::get('dm'),
+                            'ncd' => Input::get('ncd'),
                             'consent' => Input::get('consent'),
                             'scd' => Input::get('scd'),
                             'rhd' => Input::get('rhd'),
@@ -271,9 +275,10 @@ if ($user->isLoggedIn()) {
                     } else {
                         $user->createRecord('screening', array(
                             'screening_date' => Input::get('visit_date'),
-                            'study_id' => '',
-                            'age_6_above' => Input::get('age_6_above'),
                             'consent' => Input::get('consent'),
+                            'ncd' => Input::get('ncd'),   
+                            'study_id' => '',
+                            'dm' => Input::get('dm'),
                             'scd' => Input::get('scd'),
                             'rhd' => Input::get('rhd'),
                             'residence' => Input::get('residence'),
@@ -1653,32 +1658,13 @@ if ($user->isLoggedIn()) {
                                                                     </div>
 
                                                                     <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Aged 6 years and above</div>
+                                                                        <div class="col-md-8">Known NCD?</div>
                                                                         <div class="col-md-4">
-                                                                            <select name="age_6_above" style="width: 100%;" required>
-                                                                                <option value="<?= $screening['age_6_above'] ?>"><?php if ($screening) {
-                                                                                                                                        if ($screening['age_6_above'] == 1) {
-                                                                                                                                            echo 'Yes';
-                                                                                                                                        } elseif ($screening['age_6_above'] == 2) {
-                                                                                                                                            echo 'No';
-                                                                                                                                        }
-                                                                                                                                    } else {
-                                                                                                                                        echo 'Select';
-                                                                                                                                    } ?></option>
-                                                                                <option value="1">Yes</option>
-                                                                                <option value="2">No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Known SCD?</div>
-                                                                        <div class="col-md-4">
-                                                                            <select name="scd" style="width: 100%;" required>
+                                                                            <select name="ncd" style="width: 100%;" required>
                                                                                 <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
-                                                                                                                                if ($screening['scd'] == 1) {
+                                                                                                                                if ($screening['ncd'] == 1) {
                                                                                                                                     echo 'Yes';
-                                                                                                                                } elseif ($screening['scd'] == 2) {
+                                                                                                                                } elseif ($screening['ncd'] == 2) {
                                                                                                                                     echo 'No';
                                                                                                                                 }
                                                                                                                             } else {
@@ -1691,7 +1677,26 @@ if ($user->isLoggedIn()) {
                                                                     </div>
 
                                                                     <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Diabetes, RHD patients</div>
+                                                                        <div class="col-md-8">Confirmed cases for DM</div>
+                                                                        <div class="col-md-4">
+                                                                            <select name="dm" style="width: 100%;" required>
+                                                                                <option value="<?= $screening['dm'] ?>"><?php if ($screening) {
+                                                                                                                                if ($screening['dm'] == 1) {
+                                                                                                                                    echo 'Yes';
+                                                                                                                                } elseif ($screening['dm'] == 2) {
+                                                                                                                                    echo 'No';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?></option>
+                                                                                <option value="1">Yes</option>
+                                                                                <option value="2">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="col-md-8">Confirmed cases for RHD</div>
                                                                         <div class="col-md-4">
                                                                             <select name="rhd" style="width: 100%;" required>
                                                                                 <option value="<?= $screening['rhd'] ?>"><?php if ($screening) {
@@ -1710,7 +1715,26 @@ if ($user->isLoggedIn()) {
                                                                     </div>
 
                                                                     <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Non permanent resident</div>
+                                                                        <div class="col-md-8">Confirmed cases for SCD</div>
+                                                                        <div class="col-md-4">
+                                                                            <select name="scd" style="width: 100%;" required>
+                                                                                <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
+                                                                                                                                if ($screening['scd'] == 1) {
+                                                                                                                                    echo 'Yes';
+                                                                                                                                } elseif ($screening['scd'] == 2) {
+                                                                                                                                    echo 'No';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?></option>
+                                                                                <option value="1">Yes</option>
+                                                                                <option value="2">No</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="col-md-8">Permanent resident</div>
                                                                         <div class="col-md-4">
                                                                             <select name="residence" style="width: 100%;" required>
                                                                                 <option value="<?= $screening['residence'] ?>"><?php if ($screening) {
@@ -2698,7 +2722,7 @@ if ($user->isLoggedIn()) {
                                                 <tr>
                                                     <td>5</td>
                                                     <td>Main diagnosis 2 ( Diabetes )</td>
-                                                    <?php if ($override->get3('diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                    <?php if ($override->get3('diabetic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
                                                         <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
                                                     <?php } else { ?>

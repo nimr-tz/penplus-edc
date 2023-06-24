@@ -702,7 +702,8 @@ if ($user->isLoggedIn()) {
                             'weight' => Input::get('weight'),
                             'bmi' => Input::get('bmi'),
                             'muac' => Input::get('muac'),
-                            'bp' => Input::get('bp'),
+                            'systolic' => Input::get('systolic'),
+                            'dystolic' => Input::get('dystolic'),
                             'pr' => Input::get('pr'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -722,7 +723,8 @@ if ($user->isLoggedIn()) {
                             'weight' => Input::get('weight'),
                             'bmi' => Input::get('bmi'),
                             'muac' => Input::get('muac'),
-                            'bp' => Input::get('bp'),
+                            'systolic' => Input::get('systolic'),
+                            'dystolic' => Input::get('dystolic'),
                             'pr' => Input::get('pr'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -963,6 +965,7 @@ if ($user->isLoggedIn()) {
                                 'weight_loss' => Input::get('weight_loss'),
                                 'foot_exam' => Input::get('foot_exam'),
                                 'foot_exam_finding' => Input::get('foot_exam_finding'),
+                                'foot_exam_other' => Input::get('foot_exam_other'), 
                                 'fasting' => Input::get('fasting'),
                                 'random_fs' => Input::get('random_fs'),
                                 'hba1c' => Input::get('hba1c'),
@@ -1031,6 +1034,7 @@ if ($user->isLoggedIn()) {
                             'murmur' => Input::get('murmur'),
                             'foot_exam' => Input::get('foot_exam'),
                             'foot_exam_finding' => Input::get('foot_exam_finding'),
+                            'foot_exam_other' => Input::get('foot_exam_other'), 
                             'malnutrition' => Input::get('malnutrition'),
                             'pallor' => Input::get('pallor'),
                             'jaundice' => Input::get('jaundice'),
@@ -1884,39 +1888,39 @@ if ($user->isLoggedIn()) {
                             ), $treatment_plan['id']);
 
 
-                            $medication_type = $override->get('medication_treatments', 'patient_id', $_GET['cid']);
+                            // $medication_type = $override->get('medication_treatments', 'patient_id', $_GET['cid']);
 
-                            for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
-                                $p = in_array(Input::get('medication_type')[$i], array_values($medication_type[0]));
-                                if ($p) {
-                                    $user->updateRecord('medication_treatments', array(
-                                        'medication_type' => Input::get('medication_type')[$i],
-                                        'medication_action' => Input::get('medication_action')[$i],
-                                        'medication_dose' => Input::get('medication_dose')[$i],
-                                        'patient_id' => $_GET['cid'],
-                                        'staff_id' => $user->data()->id,
-                                        'status' => 1,
-                                        'created_on' => date('Y-m-d'),
-                                        'site_id' => $user->data()->site_id,
-                                    ), $type['id']);
-                                } else {
-                                    $user->createRecord('medication_treatments', array(
-                                        'study_id' => Input::get('sid'),
-                                        'visit_code' => $_GET['vcode'],
-                                        'visit_day' => $_GET['vday'],
-                                        'seq_no' => $_GET['seq'],
-                                        'vid' => $_GET['vid'],
-                                        'medication_type' => Input::get('medication_type')[$i],
-                                        'medication_action' => Input::get('medication_action')[$i],
-                                        'medication_dose' => Input::get('medication_dose')[$i],
-                                        'patient_id' => $_GET['cid'],
-                                        'staff_id' => $user->data()->id,
-                                        'status' => 1,
-                                        'created_on' => date('Y-m-d'),
-                                        'site_id' => $user->data()->site_id,
-                                    ));
-                                }
-                            }
+                            // for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
+                            // $p = in_array(Input::get('medication_type')[$i], array_values($medication_type[0]));
+                            // if ($p) {
+                            //     $user->updateRecord('medication_treatments', array(
+                            //         'medication_type' => Input::get('medication_type')[$i],
+                            //         'medication_action' => Input::get('medication_action')[$i],
+                            //         'medication_dose' => Input::get('medication_dose')[$i],
+                            //         'patient_id' => $_GET['cid'],
+                            //         'staff_id' => $user->data()->id,
+                            //         'status' => 1,
+                            //         'created_on' => date('Y-m-d'),
+                            //         'site_id' => $user->data()->site_id,
+                            //     ), $medication_type[0]['id']);
+                            // } else {
+                            //         $user->createRecord('medication_treatments', array(
+                            //             'study_id' => Input::get('sid'),
+                            //             'visit_code' => $_GET['vcode'],
+                            //             'visit_day' => $_GET['vday'],
+                            //             'seq_no' => $_GET['seq'],
+                            //             'vid' => $_GET['vid'],
+                            //             'medication_type' => Input::get('medication_type')[$i],
+                            //             'medication_action' => Input::get('medication_action')[$i],
+                            //             'medication_dose' => Input::get('medication_dose')[$i],
+                            //             'patient_id' => $_GET['cid'],
+                            //             'staff_id' => $user->data()->id,
+                            //             'status' => 1,
+                            //             'created_on' => date('Y-m-d'),
+                            //             'site_id' => $user->data()->site_id,
+                            // ));
+                            //     }
+                            // }
                         }
 
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
@@ -1978,7 +1982,7 @@ if ($user->isLoggedIn()) {
                                 'new_referrals' => Input::get('new_referrals'),
                                 'new_referrals_type' => Input::get('new_referrals_type'),
                                 'misconception' => Input::get('misconception'),
-                                'life_style' => Input::get('life_style'), 
+                                'life_style' => Input::get('life_style'),
                                 'medication_notes' => Input::get('medication_notes'),
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
@@ -2033,15 +2037,14 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                    }
 
+                    $medication_type = $override->get('medication_treatments', 'patient_id', $_GET['cid']);
 
-
-                        // if (Input::get('other_medical')) {
-                        // for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
-                        //     $user->createRecord('medication_treatments', array(
-                        //         'vid' => $_GET["vid"],
-                        //         'vcode' => $_GET["vcode"],
-                        //         'study_id' => $_GET['sid'],
+                    for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
+                        // $p = in_array(Input::get('medication_type')[$i], array_values($medication_type[0]));
+                        // if ($p) {
+                        //     $user->updateRecord('medication_treatments', array(
                         //         'medication_type' => Input::get('medication_type')[$i],
                         //         'medication_action' => Input::get('medication_action')[$i],
                         //         'medication_dose' => Input::get('medication_dose')[$i],
@@ -2050,10 +2053,26 @@ if ($user->isLoggedIn()) {
                         //         'status' => 1,
                         //         'created_on' => date('Y-m-d'),
                         //         'site_id' => $user->data()->site_id,
-                        //     ));
-                        // }
-                        // }
+                        //     ), $medication_type[0]['id']);
+                        // } else {
+                        $user->createRecord('medication_treatments', array(
+                            'study_id' => Input::get('sid'),
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'medication_type' => Input::get('medication_type')[$i],
+                            'medication_action' => Input::get('medication_action')[$i],
+                            'medication_dose' => Input::get('medication_dose')[$i],
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ));
+                        //     }
                     }
+
                     $successMessage = 'Treatment plan added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                     die;
@@ -3125,17 +3144,23 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Ht (cm)</label>
-                                                    <input type="text" name="height" id="height" value="<?php if ($vital['height']) {
-                                                                                                            print_r($vital['height']);
-                                                                                                        }  ?>" />
+                                        <?php if ($override->get5('clients', 'id', $_GET['cid'], 'status', 1)) { ?>
+
+
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Ht (cm)</label>
+                                                        <input type="text" name="height" id="height" value="<?php if ($vital['height']) {
+                                                                                                                print_r($vital['height']);
+                                                                                                            }  ?>" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                        <?php } ?>
+
 
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
@@ -3162,7 +3187,7 @@ if ($user->isLoggedIn()) {
 
 
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -3174,19 +3199,31 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>BP</label>
-                                                    <input type="text" name="bp" id="bp" value="<?php if ($vital['bp']) {
-                                                                                                    print_r($vital['bp']);
-                                                                                                }  ?>" />
+                                                    <label>Systolic</label>
+                                                    <input type="text" name="systolic" id="systolic" value="<?php if ($vital['systolic']) {
+                                                                                                                print_r($vital['systolic']);
+                                                                                                            }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Dystolic</label>
+                                                    <input type="text" name="dystolic" id="dystolic" value="<?php if ($vital['dystolic']) {
+                                                                                                                print_r($vital['dystolic']);
+                                                                                                            }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -4791,8 +4828,6 @@ if ($user->isLoggedIn()) {
                                         </div>
 
                                         <div class="row">
-
-
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
@@ -4868,7 +4903,6 @@ if ($user->isLoggedIn()) {
 
 
                                         <div class="row">
-
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
@@ -4954,7 +4988,7 @@ if ($user->isLoggedIn()) {
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Foot Exam</label>
@@ -4975,13 +5009,34 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Foot Exam Category</label>
+                                                        <select name="foot_exam_finding" id="foot_exam_finding" style="width: 100%;" required>
+                                                            <option value="<?= $symptoms['foot_exam_finding'] ?>"><?php if ($symptoms) {
+                                                                                                                        if ($symptoms['foot_exam_finding'] == 1) {
+                                                                                                                            echo 'Normal';
+                                                                                                                        } elseif ($symptoms['foot_exam_finding'] == 2) {
+                                                                                                                            echo 'Abnormal';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-sm-6" id="foot_exam_finding">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Foot exam Finding:</label>
-                                                        <input type="text" name="foot_exam_finding" value="<?php if ($symptoms['foot_exam_finding']) {
-                                                                                                                print_r($symptoms['foot_exam_finding']);
+                                                        <label>Foot exam Finding Other:</label>
+                                                        <input type="text" name="foot_exam_other" value="<?php if ($symptoms['foot_exam_other']) {
+                                                                                                                print_r($symptoms['foot_exam_other']);
                                                                                                             }  ?>" />
                                                     </div>
                                                 </div>
@@ -5191,7 +5246,6 @@ if ($user->isLoggedIn()) {
                         <?php
                         $diagnosis = $override->get3('cardiac', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                         $diagnosis1 = $override->get3('cardiac', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode']);
-
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
@@ -6244,7 +6298,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>Home BG measurement in last week</label>
+                                                        <label>Number of Home BG measurement in last week</label>
                                                         <input type="text" name="bg_measurement" id="bg_measurement" value="<?php if ($hospitalization['bg_measurement']) {
                                                                                                                                 print_r($hospitalization['bg_measurement']);
                                                                                                                             }  ?>" required />
@@ -6259,7 +6313,7 @@ if ($user->isLoggedIn()) {
                                                         <input type="text" name="bg_result180" id="bg_result180" value="<?php if ($hospitalization['bg_result180']) {
                                                                                                                             print_r($hospitalization['bg_result180']);
                                                                                                                         }  ?>" required />
-                                                        <span> # > 180: </span>
+                                                        <span> # > 10: </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -6271,7 +6325,7 @@ if ($user->isLoggedIn()) {
                                                         <input type="text" name="bg_result70_180" id="bg_result70_180" value="<?php if ($hospitalization['bg_result70_180']) {
                                                                                                                                     print_r($hospitalization['bg_result70_180']);
                                                                                                                                 }  ?>" required />
-                                                        <span> # 70 - 180: </span>
+                                                        <span> # 3.8 - 10: </span>
 
                                                     </div>
                                                 </div>
@@ -6286,7 +6340,7 @@ if ($user->isLoggedIn()) {
                                                         <input type="text" name="bg_result70" id="bg_result70" value="<?php if ($hospitalization['bg_result70']) {
                                                                                                                             print_r($hospitalization['bg_result70']);
                                                                                                                         }  ?>" required />
-                                                        <span> # < 70: </span>
+                                                        <span> # < 3.8: </span>
 
                                                     </div>
                                                 </div>
@@ -6385,21 +6439,17 @@ if ($user->isLoggedIn()) {
                                                         <select name="prandial_insulin" id="prandial_insulin" style="width: 100%;" required>
                                                             <option value="<?= $hospitalization['prandial_insulin'] ?>"><?php if ($hospitalization) {
                                                                                                                             if ($hospitalization['prandial_insulin'] == 1) {
-                                                                                                                                echo 'NPH';
-                                                                                                                            } elseif ($hospitalization['prandial_insulin'] == 2) {
                                                                                                                                 echo 'Analog';
-                                                                                                                            } elseif ($hospitalization['prandial_insulin'] == 3) {
+                                                                                                                            } elseif ($hospitalization['prandial_insulin'] == 2) {
                                                                                                                                 echo 'Regular';
-                                                                                                                            }
+                                                                                                                            } 
                                                                                                                         } else {
                                                                                                                             echo 'Select';
                                                                                                                         } ?>
                                                             </option>
-                                                            <option value="1">NPH</option>
-                                                            <option value="2">Analog</option>
-                                                            <option value="3">Regular</option>
+                                                            <option value="1">Analog</option>
+                                                            <option value="2">Regular</option>
                                                         </select>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -6787,7 +6837,7 @@ if ($user->isLoggedIn()) {
                                 <h1>TREATMMENT PLAN</h1>
                             </div>
                             <div class="block-fluid">
-                                <form id="validation" method="post">
+                                <form id="validation" method="post" autocomplete="off">
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Date:</div>
@@ -7806,21 +7856,16 @@ if ($user->isLoggedIn()) {
                                                         <select name="diagns_complication" id="diagns_complication" style="width: 100%;" required>
                                                             <option value="<?= $dgns_complctns_comorbdts['diagns_complication'] ?>"><?php if ($dgns_complctns_comorbdts) {
                                                                                                                                         if ($dgns_complctns_comorbdts['diagns_complication'] == 1) {
-                                                                                                                                            echo 'Hypertension';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_complication'] == 2) {
-                                                                                                                                            echo 'Diabetes';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_complication'] == 3) {
                                                                                                                                             echo 'CKD';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_complication'] == 4) {
+                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_complication'] == 2) {
                                                                                                                                             echo 'Depression';
                                                                                                                                         }
                                                                                                                                     } else {
                                                                                                                                         echo 'Select';
                                                                                                                                     } ?></option>
-                                                            <option value="1">Hypertension</option>
-                                                            <option value="2">Diabetes</option>
-                                                            <option value="3">CKD</option>
-                                                            <option value="4">Depression</option>
+
+                                                            <option value="1">CKD</option>
+                                                            <option value="2">Depression</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -11152,6 +11197,124 @@ if ($user->isLoggedIn()) {
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+
+
+        function autocomplete(inp, arr) {
+            /*the autocomplete function takes two arguments,
+            the text field element and an array of possible autocompleted values:*/
+            var currentFocus;
+            /*execute a function when someone writes in the text field:*/
+            inp.addEventListener("input", function(e) {
+                var a, b, i, val = this.value;
+                /*close any already open lists of autocompleted values*/
+                closeAllLists();
+                if (!val) {
+                    return false;
+                }
+                currentFocus = -1;
+                /*create a DIV element that will contain the items (values):*/
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                /*append the DIV element as a child of the autocomplete container:*/
+                this.parentNode.appendChild(a);
+                /*for each item in the array...*/
+                for (i = 0; i < arr.length; i++) {
+                    /*check if the item starts with the same letters as the text field value:*/
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        /*create a DIV element for each matching element:*/
+                        b = document.createElement("DIV");
+                        /*make the matching letters bold:*/
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        /*execute a function when someone clicks on the item value (DIV element):*/
+                        b.addEventListener("click", function(e) {
+                            /*insert the value for the autocomplete text field:*/
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            /*close the list of autocompleted values,
+                            (or any other open lists of autocompleted values:*/
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            /*execute a function presses a key on the keyboard:*/
+            inp.addEventListener("keydown", function(e) {
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    /*If the arrow DOWN key is pressed,
+                    increase the currentFocus variable:*/
+                    currentFocus++;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                } else if (e.keyCode == 38) { //up
+                    /*If the arrow UP key is pressed,
+                    decrease the currentFocus variable:*/
+                    currentFocus--;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        /*and simulate a click on the "active" item:*/
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+
+            function addActive(x) {
+                /*a function to classify an item as "active":*/
+                if (!x) return false;
+                /*start by removing the "active" class on all items:*/
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                /*add class "autocomplete-active":*/
+                x[currentFocus].classList.add("autocomplete-active");
+            }
+
+            function removeActive(x) {
+                /*a function to remove the "active" class from all autocomplete items:*/
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("autocomplete-active");
+                }
+            }
+
+            function closeAllLists(elmnt) {
+                /*close all autocomplete lists in the document,
+                except the one passed as an argument:*/
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            /*execute a function when someone clicks in the document:*/
+            document.addEventListener("click", function(e) {
+                closeAllLists(e.target);
+            });
+        }
+
+        /*An array containing all the country names in the world:*/
+        // var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
+        // var getUid = $(this).val();
+        fetch('fetch_medications.php')
+            .then(response => response.json())
+            .then(data => {
+                // Process the data received from the PHP script
+                // console.log(data);
+                autocomplete(document.getElementById("medication_name"), data);
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch request
+                console.error('Error:', error);
+            });
 
         // fetch('fetching_cardiac.php')
         //     .then(response => response.json())

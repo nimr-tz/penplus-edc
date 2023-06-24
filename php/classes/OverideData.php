@@ -87,6 +87,13 @@ class OverideData{
         return $result;
     }
 
+    public function get5($table, $where, $id, $id2, $where2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $id2 = '$where2' AND 'age' >= 25");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function getSumD($table,$variable){
         $query = $this->_pdo->query("SELECT SUM($variable) FROM $table");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

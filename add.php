@@ -11923,7 +11923,7 @@ if ($user->isLoggedIn()) {
             var select = document.getElementById("heumatic");
             var select1 = document.getElementById("sub_heumatic");
             var hiddenSelect = document.getElementById("sub_heumatic1");
-            var hiddenSelect1 = document.getElementById("heumatic_other");
+            var hiddenSelect1 = document.getElementById("heumatic_other1");
             if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
@@ -11943,7 +11943,7 @@ if ($user->isLoggedIn()) {
             var select = document.getElementById("congenital");
             var select1 = document.getElementById("sub_congenital");
             var hiddenSelect = document.getElementById("sub_congenital1");
-            var hiddenSelect1 = document.getElementById("congenital_other");
+            var hiddenSelect1 = document.getElementById("congenital_other1");
             if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
@@ -11963,7 +11963,7 @@ if ($user->isLoggedIn()) {
             var select = document.getElementById("heart_failure");
             var select1 = document.getElementById("sub_heart_failure");
             var hiddenSelect = document.getElementById("sub_heart_failure1");
-            var hiddenSelect1 = document.getElementById("heart_failure_other");
+            var hiddenSelect1 = document.getElementById("heart_failure_other1");
             if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
@@ -12044,7 +12044,7 @@ if ($user->isLoggedIn()) {
             var select = document.getElementById("stroke");
             var select1 = document.getElementById("sub_stroke1");
             var hiddenSelect = document.getElementById("sub_stroke1");
-            var hiddenSelect1 = document.getElementById("tstroke_other1");
+            var hiddenSelect1 = document.getElementById("stroke_other1");
             if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {

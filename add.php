@@ -555,9 +555,8 @@ if ($user->isLoggedIn()) {
                         'created_on' => date('Y-m-d'),
                         'site_id' => $user->data()->site_id,
                     ));
-
-
                     $successMessage = 'Cardiac added Successful';
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -1204,9 +1203,7 @@ if ($user->isLoggedIn()) {
 
             ));
             if ($validate->passed()) {
-                print_r($_POST);;
                 try {
-
 
                     $results = $override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
@@ -2434,6 +2431,9 @@ if ($user->isLoggedIn()) {
             background-color: #f2f2f2;
         }
     </style>
+
+    <!-- <script type="text/javascript" src="hospital.js"></script> -->
+
 </head>
 
 <body>
@@ -7462,13 +7462,20 @@ if ($user->isLoggedIn()) {
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <!-- <div class="autocomplete" style="width:300px;">
+                                                    <input id="myInput" type="text" name="myCountry" onkeyup="fetchData()" placeholder="Add name..">
+                                                </div> -->
                                                 <?php foreach ($override->get('medication_treatments', 'patient_id', $_GET['cid']) as $treatment) { ?>
 
                                                     <tr>
+                                                        <!-- <div class="autocomplete" style="width:300px;">
+                                                            <input id="myInput" type="text" name="myCountry" onkeyup="myFunction()" placeholder="Add name..">
+                                                        </div>
+                                                     -->
                                                         <td>
-                                                            <input type="text" name="medication_type[]" id="medication_type[]" placeholder="Type medications name..." onkeyup="myFunction()" value="<?php if ($treatment['medication_type']) {
-                                                                                                                                                                                                        print_r($treatment['medication_type']);
-                                                                                                                                                                                                    }  ?>">
+                                                            <input type="text" name="medication_type[]" id="medication_type[]" placeholder="Type medications name..." value="<?php if ($treatment['medication_type']) {
+                                                                                                                                                                                    print_r($treatment['medication_type']);
+                                                                                                                                                                                }  ?>">
                                                         </td>
                                                         <td>
                                                             <select name="medication_action[]" id="medication_action[]" style="width: 100%;" required>
@@ -8585,7 +8592,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Date:</label>
+                                                    <label>Entry Date:</label>
                                                     <input type="text" name="risk_date" id="risk_date" value="<?php if ($risks['risk_date']) {
                                                                                                                     print_r($risks['risk_date']);
                                                                                                                 }  ?>" required />
@@ -8740,6 +8747,32 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
+                                                    <label>HIV:</label>
+                                                    <select name="risk_hiv" id="risk_hiv" style="width: 100%;" required>
+                                                        <option value="<?= $risks['risk_hiv'] ?>"><?php if ($risks) {
+                                                                                                        if ($risks['risk_hiv'] == 1) {
+                                                                                                            echo 'R';
+                                                                                                        } elseif ($risks['risk_hiv'] == 2) {
+                                                                                                            echo 'NR';
+                                                                                                        } elseif ($risks['risk_hiv'] == 3) {
+                                                                                                            echo 'Unknown';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
+                                                        </option>
+                                                        <option value="1">R</option>
+                                                        <option value="2">RN</option>
+                                                        <option value="3">Unknown</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
                                                     <label>Date Test:</label>
                                                     <input type="text" name="risk_hiv_date" id="risk_hiv_date" value="<?php if ($risks['risk_hiv_date']) {
                                                                                                                             print_r($risks['risk_hiv_date']);
@@ -8748,28 +8781,7 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>HIV:</label>
-                                                    <select name="risk_hiv" id="risk_hiv" style="width: 100%;" required>
-                                                        <option value="<?= $risks['risk_hiv'] ?>"><?php if ($risks) {
-                                                                                                        if ($risks['risk_hiv'] == 1) {
-                                                                                                            echo 'R';
-                                                                                                        } elseif ($risks['risk_hiv'] == 2) {
-                                                                                                            echo 'NR';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?>
-                                                        </option>
-                                                        <option value="1">R</option>
-                                                        <option value="2">RN</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
+
 
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
@@ -8794,18 +8806,6 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Date Screened:</label>
-                                                    <input type="text" name="risk_tb_date" id="risk_tb_date" value="<?php if ($risks['risk_tb_date']) {
-                                                                                                                        print_r($risks['risk_tb_date']);
-                                                                                                                    }  ?>" required />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
                                                     <label>TB:</label>
                                                     <select name="risk_tb" id="risk_tb" style="width: 100%;" required>
                                                         <option value="<?= $risks['risk_tb'] ?>"><?php if ($risks) {
@@ -8815,6 +8815,8 @@ if ($user->isLoggedIn()) {
                                                                                                             echo 'Negative : Smear / Xpert / Other';
                                                                                                         } elseif ($risks['risk_tb'] == 3) {
                                                                                                             echo 'EPTB';
+                                                                                                        } elseif ($risks['risk_tb'] == 4) {
+                                                                                                            echo 'EPTB';
                                                                                                         }
                                                                                                     } else {
                                                                                                         echo 'Select';
@@ -8823,10 +8825,25 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Positive : Smear / Xpert / Other</option>
                                                         <option value="2">Negative : Smear / Xpert / Other</option>
                                                         <option value="3">EPTB</option>
+                                                        <option value="4">Unknown</option>
+
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-sm-6">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Date Screened:</label>
+                                                    <input type="text" name="risk_tb_date" id="risk_tb_date" value="<?php if ($risks['risk_tb_date']) {
+                                                                                                                        print_r($risks['risk_tb_date']);
+                                                                                                                    }  ?>" required />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                     </div>
 
                                     <div class="footer tar">
@@ -11572,59 +11589,6 @@ if ($user->isLoggedIn()) {
         }
 
 
-
-        // Add row chemotherapy
-        document.getElementById("add-medication").addEventListener("click", function() {
-            var table = document.getElementById("medication_list").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var medication_type = newRow.insertCell(0);
-            var medication_action = newRow.insertCell(1);
-            var medication_dose = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            medication_type.innerHTML = '<input type="text" name="medication_type[]" placeholder="Type medications name...">';
-            medication_action.innerHTML = '<select name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
-            medication_dose.innerHTML = '<input type="text" name="medication_dose[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
-
-        // Add row chemotherapy
-        document.getElementById("add-hospitalization-details").addEventListener("click", function() {
-            var table = document.getElementById("hospitalization_details_table").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var admission_date = newRow.insertCell(0);
-            var admission_reason = newRow.insertCell(1);
-            var discharge_diagnosis = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            admission_date.innerHTML = '<input type="text" name="admission_date[]"><span>(Example: 2010-12-01)</span>';
-            admission_reason.innerHTML = '<input type="text" name="admission_reason[]">';
-            discharge_diagnosis.innerHTML = '<input type="text" name="discharge_diagnosis[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
-
-
-        // Add row surgery
-        document.getElementById("add-sickle-cell-status").addEventListener("click", function() {
-            var table = document.getElementById("sickle_cell_table").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var age = newRow.insertCell(0);
-            var sex = newRow.insertCell(1);
-            var status = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            age.innerHTML = '<input type="text" name="age[]">';
-            sex.innerHTML = '<select name="sex[]" id="sex[]" style="width: 100%;"><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select>';
-            status.innerHTML = '<input type="text" name="sickle_status[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
-
-        // Remove row
-        document.addEventListener("click", function(e) {
-            if (e.target && e.target.classList.contains("remove-row")) {
-                var row = e.target.parentNode.parentNode;
-                row.parentNode.removeChild(row);
-            }
-        });
-
-
         function autocomplete(inp, arr) {
             /*the autocomplete function takes two arguments,
             the text field element and an array of possible autocompleted values:*/
@@ -11727,33 +11691,54 @@ if ($user->isLoggedIn()) {
             });
         }
 
-        /*An array containing all the country names in the world:*/
-        // var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
-        // var getUid = $(this).val();
-        fetch('fetch_medications.php')
-            .then(response => response.json())
-            .then(data => {
-                // Process the data received from the PHP script
-                // console.log(data);
-                autocomplete(document.getElementById("medication_name"), data);
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the fetch request
-                console.error('Error:', error);
-            });
+        function fetchData() {
 
-        // fetch('fetching_cardiac.php')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         // Process the data received from the PHP script
-        //         console.log(data);
-        //         alert(data);
-        //         // autocomplete(document.getElementById("brand_id2"), data);
-        //     })
-        //     .catch(error => {
-        //         // Handle any errors that occurred during the fetch request
-        //         console.error('Error:', error);
-        //     });
+            /*An array containing all the country names in the world:*/
+            // var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
+            // var getUid = $(this).val();
+            fetch('fetch_medications.php')
+                .then(response => response.json())
+                .then(data => {
+                    // Process the data received from the PHP script
+                    // console.log(data);
+                    autocomplete(document.getElementById("myInput"), data);
+                })
+                .catch(error => {
+                    // Handle any errors that occurred during the fetch request
+                    console.error('Error:', error);
+                });
+        }
+
+        // function fetchData() {
+        //     // Clear previous search results
+        //     // document.getElementById("searchResults").innerHTML = "";
+        //     // document.getElementById("myInput").innerHTML = "";
+
+
+        //     // Get the search input value
+        //     // var searchInput = document.getElementById("searchInput").value;
+        //     var searchInput = document.getElementById("myInput").value;
+
+
+        //     // Fetch data from the server
+        //     // fetch("search.php?query=" + searchInput)
+        //     fetch("fetch_medications.php")
+
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             // Process the fetched data
+        //             // data.forEach(result => {
+        //             //     // Create a list item for each result
+        //             //     var li = document.createElement("li");
+        //             //     li.textContent = result;
+        //             //     document.getElementById("searchResults").appendChild(li);
+        //             // });
+        //             // var searchInput = document.getElementById("myInput").value;
+
+        //             // console.log(data);
+        //         })
+        //         .catch(error => console.error(error));
+        // }
 
 
         $('#weight, #height').on('input', function() {
@@ -12079,28 +12064,58 @@ if ($user->isLoggedIn()) {
 
 
 
+        // Add row chemotherapy
+        document.getElementById("add-medication").addEventListener("click", function() {
+            var table = document.getElementById("medication_list").getElementsByTagName("tbody")[0];
+            var newRow = table.insertRow(table.rows.length);
+            var medication_type = newRow.insertCell(0);
+            var medication_action = newRow.insertCell(1);
+            var medication_dose = newRow.insertCell(2);
+            var actionCell = newRow.insertCell(3);
+            medication_type.innerHTML = '<input class="autocomplete" type="text" name="medication_type[]" id="myInput" placeholder="Type medications name..." onkeyup="fetchData()">';
+            medication_action.innerHTML = '<select name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
+            medication_dose.innerHTML = '<input type="text" name="medication_dose[]">';
+            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+            // console.log(medication_type);
 
-        // // Add row herbal treatment
-        // document.getElementById("add-medication-type").addEventListener("click", function() {
-        //     var table = document.getElementById("medication_list1").getElementsByTagName("tbody")[0];
-        //     var newRow = table.insertRow(table.rows.length);
-        //     var herbal_preparation = newRow.insertCell(0);
-        //     var herbal_start = newRow.insertCell(1);
-        //     var herbal_ongoing = newRow.insertCell(2);
-        //     var herbal_end = newRow.insertCell(3);
-        //     var herbal_dose = newRow.insertCell(4);
-        //     var herbal_frequency = newRow.insertCell(5);
-        //     var herbal_remarks = newRow.insertCell(6);
-        //     var actionCell = newRow.insertCell(7);
-        //     herbal_preparation.innerHTML = '<input type="text" name="herbal_preparation[]">';
-        //     herbal_start.innerHTML = '<input type="text" name="herbal_start[]"><span>(Example: 2010-12-01)</span>';
-        //     herbal_ongoing.innerHTML = '<select name="herbal_ongoing[]" id="herbal_ongoing[]" style="width: 100%;"><option value="">Select</option><option value="1">Yes</option><option value="2">No</option></select>';
-        //     herbal_end.innerHTML = '<input type="text" name="herbal_end[]"><span>(Example: 2010-12-01)</span>';
-        //     herbal_dose.innerHTML = '<input type="text" name="herbal_dose[]"><span>(per day)</span>';
-        //     herbal_frequency.innerHTML = '<input type="text" name="herbal_frequency[]"><span>(per day)</span>';
-        //     herbal_remarks.innerHTML = '<input type="text" name="herbal_remarks[]">';
-        //     actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        // });
+        });
+
+        // Add row chemotherapy
+        document.getElementById("add-hospitalization-details").addEventListener("click", function() {
+            var table = document.getElementById("hospitalization_details_table").getElementsByTagName("tbody")[0];
+            var newRow = table.insertRow(table.rows.length);
+            var admission_date = newRow.insertCell(0);
+            var admission_reason = newRow.insertCell(1);
+            var discharge_diagnosis = newRow.insertCell(2);
+            var actionCell = newRow.insertCell(3);
+            admission_date.innerHTML = '<input type="text" name="admission_date[]"><span>(Example: 2010-12-01)</span>';
+            admission_reason.innerHTML = '<input type="text" name="admission_reason[]">';
+            discharge_diagnosis.innerHTML = '<input type="text" name="discharge_diagnosis[]">';
+            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+        });
+
+
+        // Add row surgery
+        document.getElementById("add-sickle-cell-status").addEventListener("click", function() {
+            var table = document.getElementById("sickle_cell_table").getElementsByTagName("tbody")[0];
+            var newRow = table.insertRow(table.rows.length);
+            var age = newRow.insertCell(0);
+            var sex = newRow.insertCell(1);
+            var status = newRow.insertCell(2);
+            var actionCell = newRow.insertCell(3);
+            age.innerHTML = '<input type="text" name="age[]">';
+            sex.innerHTML = '<select name="sex[]" id="sex[]" style="width: 100%;"><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select>';
+            status.innerHTML = '<input type="text" name="sickle_status[]">';
+            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+        });
+
+        // Remove row
+        document.addEventListener("click", function(e) {
+            if (e.target && e.target.classList.contains("remove-row")) {
+                var row = e.target.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+        });
     </script>
 </body>
 

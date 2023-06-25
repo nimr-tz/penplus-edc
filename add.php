@@ -5740,7 +5740,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Cardiomyopathy</label>
-                                                    <select name="sub_cardiomyopathy" id="sub_cardiomyopathy" style="width: 100%;" onchange="hideElement()">
+                                                    <select name="sub_cardiomyopathy" id="sub_cardiomyopathy" style="width: 100%;" onchange="hideCardiac()">
                                                         <option value="<?= $diagnosis['sub_cardiomyopathy'] ?>"><?php if ($diagnosis) {
                                                                                                                     if ($diagnosis['sub_cardiomyopathy'] == 1) {
                                                                                                                         echo 'Ischemic';
@@ -5795,7 +5795,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Rheumatic Heart Disease</label>
-                                                    <select name="sub_heumatic" id="sub_heumatic" style="width: 100%;">
+                                                    <select name="sub_heumatic" id="sub_heumatic" style="width: 100%;" onchange="hideRheumatic()">
                                                         <option value="<?= $diagnosis['sub_heumatic'] ?>"><?php if ($diagnosis) {
                                                                                                                 if ($diagnosis['sub_heumatic'] == 1) {
                                                                                                                     echo 'Pure mitral stenosis';
@@ -5844,7 +5844,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Congenital heart Disease</label>
-                                                    <select name="sub_congenital" id="sub_congenital" style="width: 100%;">
+                                                    <select name="sub_congenital" id="sub_congenital" style="width: 100%;" onchange="hideCongenital()">
                                                         <option value="<?= $diagnosis['sub_congenital'] ?>"><?php if ($diagnosis) {
                                                                                                                 if ($diagnosis['sub_congenital'] == 1) {
                                                                                                                     echo 'ASD';
@@ -5896,16 +5896,16 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Right Heart Failure</label>
-                                                    <select name="heart_failure" id="heart_failure" style="width: 100%;">
-                                                        <option value="<?= $diagnosis['heart_failure'] ?>"><?php if ($diagnosis) {
-                                                                                                                if ($diagnosis['heart_failure'] == 1) {
-                                                                                                                    echo 'Yes';
-                                                                                                                } elseif ($diagnosis['heart_failure'] == 2) {
-                                                                                                                    echo 'No';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?></option>
+                                                    <select name="sub_heart_failure" id="sub_heart_failure" style="width: 100%;" onchange="hideHeart()">
+                                                        <option value="<?= $diagnosis['sub_heart_failure'] ?>"><?php if ($diagnosis) {
+                                                                                                                    if ($diagnosis['heart_failure'] == 1) {
+                                                                                                                        echo 'Yes';
+                                                                                                                    } elseif ($diagnosis['heart_failure'] == 2) {
+                                                                                                                        echo 'No';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
@@ -5920,7 +5920,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Pericardial disease</label>
-                                                    <select name="sub_pericardial" id="sub_pericardial" style="width: 100%;">
+                                                    <select name="sub_pericardial" id="sub_pericardial" style="width: 100%;" onchange="hidePericardial()">
                                                         <option value="<?= $diagnosis['sub_pericardial'] ?>"><?php if ($diagnosis) {
                                                                                                                     if ($diagnosis['sub_pericardial'] == 1) {
                                                                                                                         echo 'Tuberculosis';
@@ -5967,7 +5967,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Arrhythmia</label>
-                                                    <select name="sub_arrhythmia" id="sub_arrhythmia" style="width: 100%;">
+                                                    <select name="sub_arrhythmia" id="sub_arrhythmia" style="width: 100%;" onchange="hideArrhythmia()">
                                                         <option value="<?= $diagnosis['sub_arrhythmia'] ?>"><?php if ($diagnosis) {
                                                                                                                 if ($diagnosis['sub_arrhythmia'] == 1) {
                                                                                                                     echo 'Atrial fibrillation';
@@ -6007,7 +6007,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Thromboembolic</label>
-                                                    <select name="sub_thromboembolic" id="sub_thromboembolic" style="width: 100%;">
+                                                    <select name="sub_thromboembolic" id="sub_thromboembolic" style="width: 100%;" onchange="hideThromboembolic()">
                                                         <option value="<?= $diagnosis['sub_thromboembolic'] ?>"><?php if ($diagnosis) {
                                                                                                                     if ($diagnosis['sub_thromboembolic'] == 1) {
                                                                                                                         echo 'pulmonary embolism';
@@ -6072,7 +6072,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-6" id="diagnosis_specify" style="display: none;">
+                                        <div class="col-sm-6" id="diagnosis_specify1" style="display: none;">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -11901,7 +11901,7 @@ if ($user->isLoggedIn()) {
             var select = document.getElementById("cardiomyopathy");
             var select1 = document.getElementById("sub_cardiomyopathy");
             var hiddenSelect = document.getElementById("sub_cardiomyopathy1");
-            var hiddenSelect1 = document.getElementById("cardiomyopathy_other");
+            var hiddenSelect1 = document.getElementById("cardiomyopathy_other1");
             if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
@@ -11920,127 +11920,153 @@ if ($user->isLoggedIn()) {
 
 
         function hideRheumatic() {
-            var checkbox = document.getElementById("cardiac2");
-            var hiddenElement = document.getElementById("heumatic1");
-            if (checkbox.checked) {
-                hiddenElement.style.display = "block";
-            } else {
-                hiddenElement.style.display = "none";
-            }
-
             var select = document.getElementById("heumatic");
-            var hiddenSelect = document.getElementById("heumatic_other1");
-
-            if (select.value === "96") {
+            var select1 = document.getElementById("sub_heumatic");
+            var hiddenSelect = document.getElementById("sub_heumatic1");
+            var hiddenSelect1 = document.getElementById("heumatic_other");
+            if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
                 hiddenSelect.style.display = "none";
+            }
+
+            if (select1.value === "96") {
+                hiddenSelect1.style.display = "block";
+
+            } else {
+                hiddenSelect1.style.display = "none";
+
             }
         }
 
         function hideCongenital() {
-            var checkbox = document.getElementById("cardiac5");
-            var hiddenElement = document.getElementById("congenital1");
-            if (checkbox.checked) {
-                hiddenElement.style.display = "block";
-            } else {
-                hiddenElement.style.display = "none";
-            }
-
             var select = document.getElementById("congenital");
-            var hiddenSelect = document.getElementById("congenital_other1");
-
-            if (select.value === "96") {
+            var select1 = document.getElementById("sub_congenital");
+            var hiddenSelect = document.getElementById("sub_congenital1");
+            var hiddenSelect1 = document.getElementById("congenital_other");
+            if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
                 hiddenSelect.style.display = "none";
+            }
+
+            if (select1.value === "96") {
+                hiddenSelect1.style.display = "block";
+
+            } else {
+                hiddenSelect1.style.display = "none";
+
             }
         }
 
         function hideHeart() {
-            var checkbox = document.getElementById("cardiac6");
-            var hiddenElement = document.getElementById("heart_failure1");
-            if (checkbox.checked) {
-                hiddenElement.style.display = "block";
+            var select = document.getElementById("heart_failure");
+            var select1 = document.getElementById("sub_heart_failure");
+            var hiddenSelect = document.getElementById("sub_heart_failure1");
+            var hiddenSelect1 = document.getElementById("heart_failure_other");
+            if (select.value === "1") {
+                hiddenSelect.style.display = "block";
             } else {
-                hiddenElement.style.display = "none";
+                hiddenSelect.style.display = "none";
+            }
+
+            if (select1.value === "96") {
+                hiddenSelect1.style.display = "block";
+
+            } else {
+                hiddenSelect1.style.display = "none";
+
             }
         }
 
         function hidePericardial() {
-            var checkbox = document.getElementById("cardiac7");
-            var hiddenElement = document.getElementById("pericardial1");
-            if (checkbox.checked) {
-                hiddenElement.style.display = "block";
-            } else {
-                hiddenElement.style.display = "none";
-            }
-
             var select = document.getElementById("pericardial");
-            var hiddenSelect = document.getElementById("pericardial_other1");
-
-            if (select.value === "96") {
+            var select1 = document.getElementById("sub_pericardial");
+            var hiddenSelect = document.getElementById("sub_pericardial1");
+            var hiddenSelect1 = document.getElementById("pericardial_other1");
+            if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
                 hiddenSelect.style.display = "none";
             }
+
+            if (select1.value === "96") {
+                hiddenSelect1.style.display = "block";
+
+            } else {
+                hiddenSelect1.style.display = "none";
+
+            }
+
         }
 
         function hideArrhythmia() {
-            var checkbox = document.getElementById("cardiac9");
-            var hiddenElement = document.getElementById("arrhythmia1");
-            if (checkbox.checked) {
-                hiddenElement.style.display = "block";
-            } else {
-                hiddenElement.style.display = "none";
-            }
-
             var select = document.getElementById("arrhythmia");
-            var hiddenSelect = document.getElementById("arrhythmia_other1");
-
-            if (select.value === "96") {
+            var select1 = document.getElementById("sub_arrhythmia");
+            var hiddenSelect = document.getElementById("sub_arrhythmia1");
+            var hiddenSelect1 = document.getElementById("arrhythmia_other1");
+            if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
                 hiddenSelect.style.display = "none";
+            }
+
+            if (select1.value === "96") {
+                hiddenSelect1.style.display = "block";
+
+            } else {
+                hiddenSelect1.style.display = "none";
+
             }
         }
 
         function hideThromboembolic() {
-            var checkbox = document.getElementById("cardiac10");
-            var hiddenElement = document.getElementById("thromboembolic1");
-            if (checkbox.checked) {
-                hiddenElement.style.display = "block";
-            } else {
-                hiddenElement.style.display = "none";
-            }
-
             var select = document.getElementById("thromboembolic");
-            var hiddenSelect = document.getElementById("thromboembolic_other1");
-
-            if (select.value === "96") {
+            var select1 = document.getElementById("sub_thromboembolic");
+            var hiddenSelect = document.getElementById("sub_thromboembolic1");
+            var hiddenSelect1 = document.getElementById("thromboembolic_other1");
+            if (select.value === "1") {
                 hiddenSelect.style.display = "block";
             } else {
                 hiddenSelect.style.display = "none";
             }
+
+            if (select1.value === "96") {
+                hiddenSelect1.style.display = "block";
+
+            } else {
+                hiddenSelect1.style.display = "none";
+
+            }
         }
 
         function hideStroke() {
-            var checkbox = document.getElementById("cardiac11");
-            var hiddenElement = document.getElementById("stroke1");
-            if (checkbox.checked) {
-                hiddenElement.style.display = "block";
+            var select = document.getElementById("stroke");
+            var select1 = document.getElementById("sub_stroke1");
+            var hiddenSelect = document.getElementById("sub_stroke1");
+            var hiddenSelect1 = document.getElementById("tstroke_other1");
+            if (select.value === "1") {
+                hiddenSelect.style.display = "block";
             } else {
-                hiddenElement.style.display = "none";
+                hiddenSelect.style.display = "none";
+            }
+
+            if (select1.value === "96") {
+                hiddenSelect1.style.display = "block";
+
+            } else {
+                hiddenSelect1.style.display = "none";
+
             }
         }
 
         function hideOther() {
-            var checkbox = document.getElementById("cardiac12");
-            var hiddenElement = document.getElementById("diagnosis_other");
-            if (checkbox.checked) {
-                hiddenElement.style.display = "block";
+            var select = document.getElementById("diagnosis_other");
+            var hiddenSelect = document.getElementById("diagnosis_specify1");
+            if (select.value === "1") {
+                hiddenSelect.style.display = "block";
             } else {
-                hiddenElement.style.display = "none";
+                hiddenSelect.style.display = "none";
             }
         }
 

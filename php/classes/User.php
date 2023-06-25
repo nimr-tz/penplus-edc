@@ -159,9 +159,9 @@ class User
     {
         foreach ($multiArray as $element) {
             if (in_array($value, $element, true)) {
-                $this->updateRecord('cardiac', array(
-                    'main_diagnosis' => $value,
-                ), $element['id']);
+                // $this->updateRecord('cardiac', array(
+                //     'main_diagnosis' => $value,
+                // ), $element['id']);
                 return true;
             }
         }

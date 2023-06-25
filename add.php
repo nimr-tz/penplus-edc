@@ -910,6 +910,40 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ));
                     }
+
+                    $multiArray = $override->get('sickle_cell_status_table', 'patient_id', $_GET['cid']);
+                    $i = 0;
+                    foreach (Input::get('age') as $searchValue) {
+                        if ($user->isValueInMultiArrays($searchValue, $multiArray)) {
+                            // echo "The value '{$searchValue}' exists in the multi-dimensional array.";
+                            // $user->isValueInMultiArrays($searchValue, $multiArray);
+                            // $id = $override->get('card_test', 'cardiac', $searchValue);
+                            // $user->updateRecord('card_test', array(
+                            //     'cardiac' => $searchValue,
+                            // ), $id['id']);
+                        } else {
+                            // echo "The value '{$searchValue}' does not exist in the multi-dimensional array.";
+                            // $user->createRecord('card_test', array(
+                            //     'cardiac' => $searchValue,
+                            // ));vehicle11
+                            $user->createRecord('sickle_cell_status_table', array(
+                                'study_id' => Input::get('sid'),
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
+                                'age' => $searchValue,
+                                'sex' => Input::get('sex')[$i],
+                                'sickle_status' => Input::get('sickle_status')[$i],
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ));
+                        }
+                        $i++;
+                    }
                     $successMessage = 'Vital added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                     die;
@@ -1603,30 +1637,28 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-
-                    $hospitalization_table = $override->get('hospitalization_table', 'patient_id', $_GET['cid']);
-
-                    for ($i = 0; $i < count(Input::get('admission_reason')); $i++) {
-                        $p = in_array(Input::get('admission_reason')[$i], array_values($hospitalization_table[0]));
-                        if ($p) {
-                            $user->updateRecord('hospitalization_table', array(
-                                'admission_date' => Input::get('admission_date')[$i],
-                                'admission_reason' => Input::get('admission_reason')[$i],
-                                'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ), $hospitalization_table[0]['id']);
+                    $multiArray = $override->get('hospitalization_table', 'patient_id', $_GET['cid']);
+                    $i = 0;
+                    foreach (Input::get('admission_date') as $searchValue) {
+                        if ($user->isValueInMultiArrays($searchValue, $multiArray)) {
+                            // echo "The value '{$searchValue}' exists in the multi-dimensional array.";
+                            // $user->isValueInMultiArrays($searchValue, $multiArray);
+                            // $id = $override->get('card_test', 'cardiac', $searchValue);
+                            // $user->updateRecord('card_test', array(
+                            //     'cardiac' => $searchValue,
+                            // ), $id['id']);
                         } else {
+                            // echo "The value '{$searchValue}' does not exist in the multi-dimensional array.";
+                            // $user->createRecord('card_test', array(
+                            //     'cardiac' => $searchValue,
+                            // ));vehicle11
                             $user->createRecord('hospitalization_table', array(
                                 'study_id' => Input::get('sid'),
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
-                                'admission_date' => Input::get('admission_date')[$i],
+                                'admission_date' => $searchValue,
                                 'admission_reason' => Input::get('admission_reason')[$i],
                                 'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
                                 'patient_id' => $_GET['cid'],
@@ -1636,7 +1668,9 @@ if ($user->isLoggedIn()) {
                                 'site_id' => $user->data()->site_id,
                             ));
                         }
+                        $i++;
                     }
+
 
                     $successMessage = 'Hospitalization details added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
@@ -1898,10 +1932,6 @@ if ($user->isLoggedIn()) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
                             $user->updateRecord('treatment_plan', array(
                                 'visit_date' => Input::get('visit_date'),
-                                'asa' => Input::get('asa'),
-                                'action_asa' => Input::get('action_asa'),
-                                'action_medication_other' => Input::get('action_medication_other'),
-                                'dose_medication_other' => Input::get('dose_medication_other'),
                                 'salt' => Input::get('salt'),
                                 'fluid' => Input::get('fluid'),
                                 'restriction_other' => Input::get('restriction_other'),
@@ -1921,41 +1951,6 @@ if ($user->isLoggedIn()) {
                                 'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
-
-
-                            // $medication_type = $override->get('medication_treatments', 'patient_id', $_GET['cid']);
-
-                            // for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
-                            // $p = in_array(Input::get('medication_type')[$i], array_values($medication_type[0]));
-                            // if ($p) {
-                            //     $user->updateRecord('medication_treatments', array(
-                            //         'medication_type' => Input::get('medication_type')[$i],
-                            //         'medication_action' => Input::get('medication_action')[$i],
-                            //         'medication_dose' => Input::get('medication_dose')[$i],
-                            //         'patient_id' => $_GET['cid'],
-                            //         'staff_id' => $user->data()->id,
-                            //         'status' => 1,
-                            //         'created_on' => date('Y-m-d'),
-                            //         'site_id' => $user->data()->site_id,
-                            //     ), $medication_type[0]['id']);
-                            // } else {
-                            //         $user->createRecord('medication_treatments', array(
-                            //             'study_id' => Input::get('sid'),
-                            //             'visit_code' => $_GET['vcode'],
-                            //             'visit_day' => $_GET['vday'],
-                            //             'seq_no' => $_GET['seq'],
-                            //             'vid' => $_GET['vid'],
-                            //             'medication_type' => Input::get('medication_type')[$i],
-                            //             'medication_action' => Input::get('medication_action')[$i],
-                            //             'medication_dose' => Input::get('medication_dose')[$i],
-                            //             'patient_id' => $_GET['cid'],
-                            //             'staff_id' => $user->data()->id,
-                            //             'status' => 1,
-                            //             'created_on' => date('Y-m-d'),
-                            //             'site_id' => $user->data()->site_id,
-                            // ));
-                            //     }
-                            // }
                         }
 
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
@@ -2074,38 +2069,38 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    $medication_type = $override->get('medication_treatments', 'patient_id', $_GET['cid']);
-
-                    for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
-                        // $p = in_array(Input::get('medication_type')[$i], array_values($medication_type[0]));
-                        // if ($p) {
-                        //     $user->updateRecord('medication_treatments', array(
-                        //         'medication_type' => Input::get('medication_type')[$i],
-                        //         'medication_action' => Input::get('medication_action')[$i],
-                        //         'medication_dose' => Input::get('medication_dose')[$i],
-                        //         'patient_id' => $_GET['cid'],
-                        //         'staff_id' => $user->data()->id,
-                        //         'status' => 1,
-                        //         'created_on' => date('Y-m-d'),
-                        //         'site_id' => $user->data()->site_id,
-                        //     ), $medication_type[0]['id']);
-                        // } else {
-                        $user->createRecord('medication_treatments', array(
-                            'study_id' => Input::get('sid'),
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
-                            'medication_type' => Input::get('medication_type')[$i],
-                            'medication_action' => Input::get('medication_action')[$i],
-                            'medication_dose' => Input::get('medication_dose')[$i],
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ));
-                        //     }
+                    $multiArray = $override->get('medication_treatments', 'patient_id', $_GET['cid']);
+                    $i = 0;
+                    foreach (Input::get('medication_type') as $searchValue) {
+                        if ($user->isValueInMultiArrays($searchValue, $multiArray)) {
+                            // echo "The value '{$searchValue}' exists in the multi-dimensional array.";
+                            // $user->isValueInMultiArrays($searchValue, $multiArray);
+                            // $id = $override->get('card_test', 'cardiac', $searchValue);
+                            // $user->updateRecord('card_test', array(
+                            //     'cardiac' => $searchValue,
+                            // ), $id['id']);
+                        } else {
+                            // echo "The value '{$searchValue}' does not exist in the multi-dimensional array.";
+                            // $user->createRecord('card_test', array(
+                            //     'cardiac' => $searchValue,
+                            // ));vehicle11
+                            $user->createRecord('medication_treatments', array(
+                                'study_id' => Input::get('sid'),
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
+                                'medication_type' => $searchValue,
+                                'medication_action' => Input::get('medication_action')[$i],
+                                'medication_dose' => Input::get('medication_dose')[$i],
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ));
+                        }
+                        $i++;
                     }
 
                     $successMessage = 'Treatment plan added Successful';
@@ -2364,23 +2359,36 @@ if ($user->isLoggedIn()) {
             background-color: #da190b;
         }
 
-        #hospitalization_table {
+        .edit-row {
+            background-color: #3FF22F;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .edit-row:hover {
+            background-color: #da190b;
+        }
+
+        #hospitalization_details_table {
             border-collapse: collapse;
         }
 
-        #hospitalization_table th,
-        #hospitalization_table td {
+        #hospitalization_details_table th,
+        #hospitalization_details_table td {
             padding: 8px;
             border: 1px solid #ddd;
         }
 
-        #hospitalization_table th,
-        #hospitalization_table td {
+        #hospitalization_details_table th,
+        #hospitalization_details_table td {
             padding: 8px;
             border: 1px solid #ddd;
         }
 
-        #hospitalization_table th {
+        #hospitalization_details_table th {
             text-align: left;
             background-color: #f2f2f2;
         }
@@ -3128,8 +3136,8 @@ if ($user->isLoggedIn()) {
                                                 <div class="form-group">
                                                     <label>Household Size:</label>
                                                     <input class="" type="number" min="1" max="100" name="household_size" id="household_size" value="<?php if ($demographic['household_size']) {
-                                                                                                                                                        print_r($demographic['household_size']);
-                                                                                                                                                    }  ?>" />
+                                                                                                                                                            print_r($demographic['household_size']);
+                                                                                                                                                        }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -3193,6 +3201,10 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 8) { ?>
                         <?php $vital = $override->get3('vital', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                        if ($override->get5('clients', 'id', $_GET['cid'], 'age', 25)) {
+                            $height = $override->get3('vital', 'patient_id', $_GET['cid'], 'seq_no', 1, 'visit_code', 'EV')[0]['height'];
+                        }
+
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
@@ -3216,26 +3228,29 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <?php
-                                        //  if ($override->get5('clients', 'id', $_GET['cid'], 'status', 1)) { 
-                                            ?>
-
-
-                                            <div class="col-sm-4">
-                                                <div class="row-form clearfix">
-                                                    <!-- select -->
-                                                    <div class="form-group">
-                                                        <label>Ht (cm)</label>
-                                                        <input type="text" name="height" id="height" <?php if($override->get5('clients', 'id', $_GET['cid'], 'status', 1)){ echo 'readonly'; } ?> value="<?php if ($vital['height']) {
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Ht (cm)<?php if ($_GET['seq'] > 1) {
+                                                                        echo '( unchangeable )';
+                                                                    } ?></label>
+                                                    <input type="text" name="height" id="height" value="<?php if ($_GET['seq'] > 1) {
+                                                                                                            if ($override->get5('clients', 'id', $_GET['cid'], 'age', 25)) {
+                                                                                                                print_r($height);
+                                                                                                            } else {
                                                                                                                 print_r($vital['height']);
-                                                                                                            }  ?>" />
-                                                    </div>
+                                                                                                            }
+                                                                                                        } elseif ($vital['height']) {
+                                                                                                            print_r($vital['height']);
+                                                                                                        }  ?>" <?php if ($_GET['seq'] > 1) {
+                                                                                                                    if ($override->get5('clients', 'id', $_GET['cid'], 'age', 25)) {
+                                                                                                                        echo 'readonly';
+                                                                                                                    }
+                                                                                                                } ?> />
                                                 </div>
                                             </div>
-
-                                        <?php 
-                                    // }
-                                     ?>
+                                        </div>
 
 
                                         <div class="col-sm-4">
@@ -4424,7 +4439,9 @@ if ($user->isLoggedIn()) {
                                                         <th> age </th>
                                                         <th> sex </th>
                                                         <th> sickle cell disease status </th>
-                                                        <th></th>
+                                                        <th>Action</th>
+                                                        <th>Action</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -4453,17 +4470,19 @@ if ($user->isLoggedIn()) {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="status[]" value='<?php if ($sickle_cell_status_table['sickle_status']) {
-                                                                                                                print_r($sickle_cell_status_table['sickle_status']);
-                                                                                                            }  ?>'>
+                                                                <input type="text" name="sickle_status[]" value='<?php if ($sickle_cell_status_table['sickle_status']) {
+                                                                                                                        print_r($sickle_cell_status_table['sickle_status']);
+                                                                                                                    }  ?>'>
                                                             </td>
+                                                            <td><button type="button" class="edit-row">Edit</button></td>
                                                             <td><button type="button" class="remove-row">Remove</button></td>
+                                                            <td><button type="button" class="delete-row">Delete</button></td>
                                                         </tr>
 
                                                     <?php } ?>
                                                 </tbody>
                                             </table>
-                                            <button type="button" id="add-sickle_cell_status">Add Row</button>
+                                            <button type="button" id="add-sickle-cell-status">Add Row</button>
                                         </div>
 
                                     <?php } ?>
@@ -5838,11 +5857,11 @@ if ($user->isLoggedIn()) {
                                     </div>
 
 
-                                    <div id="Stroke" style="display: none;">
+                                    <div id="stroke1" style="display: none;">
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">If Stroke</div>
                                             <div class="col-md-9">
-                                                <select name="stroke" id="stroke1" style="width: 100%;">
+                                                <select name="stroke" id="stroke" style="width: 100%;">
                                                     <option value="<?= $diagnosis['thromboembolic'] ?>"><?php if ($diagnosis) {
                                                                                                             if ($diagnosis['stroke'] == 1) {
                                                                                                                 echo 'Ischemic';
@@ -7221,7 +7240,7 @@ if ($user->isLoggedIn()) {
                                     <?php } ?>
 
 
-                                    <div class="row-form clearfix" id="other_medication">
+                                    <div class="row-form clearfix">
 
                                         <table id="medication_list">
                                             <thead>
@@ -7229,6 +7248,8 @@ if ($user->isLoggedIn()) {
                                                     <th> Medication name </th>
                                                     <th> Action </th>
                                                     <th> Dose </th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -7242,7 +7263,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                                                     }  ?>">
                                                         </td>
                                                         <td>
-                                                            <select name="medication_action" id="medication_action" style="width: 100%;" required>
+                                                            <select name="medication_action[]" id="medication_action[]" style="width: 100%;" required>
                                                                 <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
                                                                                                                             if ($treatment['medication_action'] == 1) {
                                                                                                                                 echo 'Continue';
@@ -7268,7 +7289,11 @@ if ($user->isLoggedIn()) {
                                                                                                                     print_r($treatment['medication_dose']);
                                                                                                                 }  ?>'>
                                                         </td>
+                                                        <td><button type="button" class="edit-row">Edit</button></td>
                                                         <td><button type="button" class="remove-row">Remove</button></td>
+                                                        <td><button type="button" class="delete-row">Delete</button></td>
+
+
                                                     </tr>
 
                                                 <?php } ?>
@@ -8693,16 +8718,17 @@ if ($user->isLoggedIn()) {
 
                                     </div>
 
-
                                     <div class="row-form clearfix">
 
-                                        <table id="hospitalization_table">
+                                        <table id="hospitalization_details_table">
                                             <thead>
                                                 <tr>
                                                     <th> Admission Date </th>
                                                     <th> Admission Reason </th>
                                                     <th> Discharge Diagnosis </th>
-                                                    <th></th>
+                                                    <th>Action</th>
+                                                    <th>Action</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -8724,15 +8750,16 @@ if ($user->isLoggedIn()) {
                                                                                                                         print_r($hospitalization_table['discharge_diagnosis']);
                                                                                                                     }  ?>'>
                                                         </td>
+                                                        <td><button type="button" class="edit-row">Edit</button></td>
                                                         <td><button type="button" class="remove-row">Remove</button></td>
+                                                        <td><button type="button" class="delete-row">Delete</button></td>
                                                     </tr>
 
                                                 <?php } ?>
                                             </tbody>
                                         </table>
-                                        <button type="button" id="add-hospitalization">Add Row</button>
+                                        <button type="button" id="add-hospitalization-details">Add Row</button>
                                     </div>
-
                                     <div class="footer tar">
                                         <input type="submit" name="add_hospitalization_details" value="Submit" class="btn btn-default">
                                     </div>
@@ -11337,6 +11364,59 @@ if ($user->isLoggedIn()) {
         }
 
 
+
+        // Add row chemotherapy
+        document.getElementById("add-medication").addEventListener("click", function() {
+            var table = document.getElementById("medication_list").getElementsByTagName("tbody")[0];
+            var newRow = table.insertRow(table.rows.length);
+            var medication_type = newRow.insertCell(0);
+            var medication_action = newRow.insertCell(1);
+            var medication_dose = newRow.insertCell(2);
+            var actionCell = newRow.insertCell(3);
+            medication_type.innerHTML = '<input type="text" name="medication_type[]" placeholder="Type medications name...">';
+            medication_action.innerHTML = '<select name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
+            medication_dose.innerHTML = '<input type="text" name="medication_dose[]">';
+            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+        });
+
+        // Add row chemotherapy
+        document.getElementById("add-hospitalization-details").addEventListener("click", function() {
+            var table = document.getElementById("hospitalization_details_table").getElementsByTagName("tbody")[0];
+            var newRow = table.insertRow(table.rows.length);
+            var admission_date = newRow.insertCell(0);
+            var admission_reason = newRow.insertCell(1);
+            var discharge_diagnosis = newRow.insertCell(2);
+            var actionCell = newRow.insertCell(3);
+            admission_date.innerHTML = '<input type="text" name="admission_date[]"><span>(Example: 2010-12-01)</span>';
+            admission_reason.innerHTML = '<input type="text" name="admission_reason[]">';
+            discharge_diagnosis.innerHTML = '<input type="text" name="discharge_diagnosis[]">';
+            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+        });
+
+
+        // Add row surgery
+        document.getElementById("add-sickle-cell-status").addEventListener("click", function() {
+            var table = document.getElementById("sickle_cell_table").getElementsByTagName("tbody")[0];
+            var newRow = table.insertRow(table.rows.length);
+            var age = newRow.insertCell(0);
+            var sex = newRow.insertCell(1);
+            var status = newRow.insertCell(2);
+            var actionCell = newRow.insertCell(3);
+            age.innerHTML = '<input type="text" name="age[]">';
+            sex.innerHTML = '<select name="sex[]" id="sex[]" style="width: 100%;"><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select>';
+            status.innerHTML = '<input type="text" name="sickle_status[]">';
+            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+        });
+
+        // Remove row
+        document.addEventListener("click", function(e) {
+            if (e.target && e.target.classList.contains("remove-row")) {
+                var row = e.target.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+        });
+
+
         function autocomplete(inp, arr) {
             /*the autocomplete function takes two arguments,
             the text field element and an array of possible autocompleted values:*/
@@ -11646,45 +11726,6 @@ if ($user->isLoggedIn()) {
             }
         }
 
-        // function hideSevere() {
-        //     var checkbox = document.getElementById("cardiac2");
-        //     var hiddenElement = document.getElementById("Rheumaticl1");
-        //     if (checkbox.checked) {
-        //         hiddenElement.style.display = "block";
-        //     } else {
-        //         hiddenElement.style.display = "none";
-        //     }
-
-        //     var select = document.getElementById("rheumaticl");
-        //     var hiddenSelect = document.getElementById("rheumaticl_other1");
-
-        //     if (select.value === "96") {
-        //         hiddenSelect.style.display = "block";
-        //     } else {
-        //         hiddenSelect.style.display = "none";
-        //     }
-        // }
-
-
-        // function hideHypertensive() {
-        //     var checkbox = document.getElementById("cardiac2");
-        //     var hiddenElement = document.getElementById("Rheumaticl1");
-        //     if (checkbox.checked) {
-        //         hiddenElement.style.display = "block";
-        //     } else {
-        //         hiddenElement.style.display = "none";
-        //     }
-
-        //     var select = document.getElementById("rheumaticl");
-        //     var hiddenSelect = document.getElementById("rheumaticl_other1");
-
-        //     if (select.value === "96") {
-        //         hiddenSelect.style.display = "block";
-        //     } else {
-        //         hiddenSelect.style.display = "none";
-        //     }
-        // }
-
         function hideCongenital() {
             var checkbox = document.getElementById("cardiac5");
             var hiddenElement = document.getElementById("congenital1");
@@ -11733,25 +11774,6 @@ if ($user->isLoggedIn()) {
             }
         }
 
-        // function hideCoronary() {
-        //     var checkbox = document.getElementById("cardiac8");
-        //     var hiddenElement = document.getElementById("Rheumaticl1");
-        //     if (checkbox.checked) {
-        //         hiddenElement.style.display = "block";
-        //     } else {
-        //         hiddenElement.style.display = "none";
-        //     }
-
-        //     var select = document.getElementById("rheumaticl");
-        //     var hiddenSelect = document.getElementById("rheumaticl_other1");
-
-        //     if (select.value === "96") {
-        //         hiddenSelect.style.display = "block";
-        //     } else {
-        //         hiddenSelect.style.display = "none";
-        //     }
-        // }
-
         function hideArrhythmia() {
             var checkbox = document.getElementById("cardiac9");
             var hiddenElement = document.getElementById("arrhythmia1");
@@ -11799,77 +11821,31 @@ if ($user->isLoggedIn()) {
                 hiddenElement.style.display = "none";
             }
         }
-        // Add row chemotherapy
-        document.getElementById("add-medication").addEventListener("click", function() {
-            var table = document.getElementById("medication_list").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var other_specify = newRow.insertCell(0);
-            var other_medical_medicatn = newRow.insertCell(1);
-            var other_medicatn_name = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            other_specify.innerHTML = '<input type="text" name="medication_type[]" placeholder="Type medications name...">';
-            other_medical_medicatn.innerHTML = '<select name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
-            other_medicatn_name.innerHTML = '<input type="text" name="medication_dose[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
 
-        // Add row herbal treatment
-        document.getElementById("add-medication-type").addEventListener("click", function() {
-            var table = document.getElementById("medication_list").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var herbal_preparation = newRow.insertCell(0);
-            var herbal_start = newRow.insertCell(1);
-            var herbal_ongoing = newRow.insertCell(2);
-            var herbal_end = newRow.insertCell(3);
-            var herbal_dose = newRow.insertCell(4);
-            var herbal_frequency = newRow.insertCell(5);
-            var herbal_remarks = newRow.insertCell(6);
-            var actionCell = newRow.insertCell(7);
-            herbal_preparation.innerHTML = '<input type="text" name="herbal_preparation[]">';
-            herbal_start.innerHTML = '<input type="text" name="herbal_start[]"><span>(Example: 2010-12-01)</span>';
-            herbal_ongoing.innerHTML = '<select name="herbal_ongoing[]" id="herbal_ongoing[]" style="width: 100%;"><option value="">Select</option><option value="1">Yes</option><option value="2">No</option></select>';
-            herbal_end.innerHTML = '<input type="text" name="herbal_end[]"><span>(Example: 2010-12-01)</span>';
-            herbal_dose.innerHTML = '<input type="text" name="herbal_dose[]"><span>(per day)</span>';
-            herbal_frequency.innerHTML = '<input type="text" name="herbal_frequency[]"><span>(per day)</span>';
-            herbal_remarks.innerHTML = '<input type="text" name="herbal_remarks[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
 
-        // Add row chemotherapy
-        document.getElementById("add-hospitalization").addEventListener("click", function() {
-            var table = document.getElementById("hospitalization_table").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var admission_date = newRow.insertCell(0);
-            var admission_reason = newRow.insertCell(1);
-            var discharge_diagnosis = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            admission_date.innerHTML = '<input type="text" name="admission_date[]"><span>(Example: 2010-12-01)</span>';
-            admission_reason.innerHTML = '<input type="text" name="admission_reason[]">';
-            discharge_diagnosis.innerHTML = '<input type="text" name="discharge_diagnosis[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
 
-        // Add row surgery
-        document.getElementById("add-sickle_cell_status").addEventListener("click", function() {
-            var table = document.getElementById("sickle_cell_table").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var age = newRow.insertCell(0);
-            var sex = newRow.insertCell(1);
-            var status = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            age.innerHTML = '<input type="text" name="age[]">';
-            sex.innerHTML = '<select name="sex[]" id="sex[]" style="width: 100%;"><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select>';
-            status.innerHTML = '<input type="text" name="status[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
 
-        // Remove row
-        document.addEventListener("click", function(e) {
-            if (e.target && e.target.classList.contains("remove-row")) {
-                var row = e.target.parentNode.parentNode;
-                row.parentNode.removeChild(row);
-            }
-        });
+        // // Add row herbal treatment
+        // document.getElementById("add-medication-type").addEventListener("click", function() {
+        //     var table = document.getElementById("medication_list1").getElementsByTagName("tbody")[0];
+        //     var newRow = table.insertRow(table.rows.length);
+        //     var herbal_preparation = newRow.insertCell(0);
+        //     var herbal_start = newRow.insertCell(1);
+        //     var herbal_ongoing = newRow.insertCell(2);
+        //     var herbal_end = newRow.insertCell(3);
+        //     var herbal_dose = newRow.insertCell(4);
+        //     var herbal_frequency = newRow.insertCell(5);
+        //     var herbal_remarks = newRow.insertCell(6);
+        //     var actionCell = newRow.insertCell(7);
+        //     herbal_preparation.innerHTML = '<input type="text" name="herbal_preparation[]">';
+        //     herbal_start.innerHTML = '<input type="text" name="herbal_start[]"><span>(Example: 2010-12-01)</span>';
+        //     herbal_ongoing.innerHTML = '<select name="herbal_ongoing[]" id="herbal_ongoing[]" style="width: 100%;"><option value="">Select</option><option value="1">Yes</option><option value="2">No</option></select>';
+        //     herbal_end.innerHTML = '<input type="text" name="herbal_end[]"><span>(Example: 2010-12-01)</span>';
+        //     herbal_dose.innerHTML = '<input type="text" name="herbal_dose[]"><span>(per day)</span>';
+        //     herbal_frequency.innerHTML = '<input type="text" name="herbal_frequency[]"><span>(per day)</span>';
+        //     herbal_remarks.innerHTML = '<input type="text" name="herbal_remarks[]">';
+        //     actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+        // });
     </script>
 </body>
 

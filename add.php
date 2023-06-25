@@ -5582,7 +5582,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -5603,7 +5603,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -5624,7 +5624,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -5639,6 +5639,27 @@ if ($user->isLoggedIn()) {
                                                                                                                     echo 'Select';
                                                                                                                 }
                                                                                                             } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Stroke</label>
+                                                    <select name="stroke" id="stroke" style="width: 100%;" onchange="hideStroke()">
+                                                        <option value="<?= $diagnosis['stroke'] ?>"><?php if ($diagnosis) {
+                                                                                                        if ($diagnosis['stroke'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($diagnosis['stroke'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        }
+                                                                                                    } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
@@ -5690,27 +5711,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Stroke</label>
-                                                    <select name="stroke" id="stroke" style="width: 100%;" onchange="hideStroke()">
-                                                        <option value="<?= $diagnosis['stroke'] ?>"><?php if ($diagnosis) {
-                                                                                                        if ($diagnosis['stroke'] == 1) {
-                                                                                                            echo 'Yes';
-                                                                                                        } elseif ($diagnosis['stroke'] == 2) {
-                                                                                                            echo 'No';
-                                                                                                        } else {
-                                                                                                            echo 'Select';
-                                                                                                        }
-                                                                                                    } ?></option>
-                                                        <option value="1">Yes</option>
-                                                        <option value="2">No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
@@ -5732,6 +5733,23 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-sm-3" id="diagnosis_specify1" style="display: none;">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Other Diagnosis specify</label>
+                                                    <textarea name="diagnosis_specify" rows="4"><?php if ($diagnosis['diagnosis_specify']) {
+                                                                                                    print_r($diagnosis['diagnosis_specify']);
+                                                                                                }  ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="head clearfix">
+                                        <div class="isw-ok"></div>
+                                        <h1>Sub diagnosis (Cardiac)</h1>
                                     </div>
 
                                     <div class="row" id="sub_cardiomyopathy1" style="display: none;">
@@ -6032,7 +6050,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Other specify( If heumatic Heart Disease )</label>
+                                                        <label>Other specify( If Thromboembolic )</label>
                                                         <textarea name="thromboembolic_other" rows="4"><?php if ($diagnosis['thromboembolic_other']) {
                                                                                                             print_r($diagnosis['thromboembolic_other']);
                                                                                                         }  ?>
@@ -6072,18 +6090,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-6" id="diagnosis_specify1" style="display: none;">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Other Diagnosis specify</label>
-                                                    <textarea name="diagnosis_specify" rows="4"><?php if ($diagnosis['diagnosis_specify']) {
-                                                                                                    print_r($diagnosis['diagnosis_specify']);
-                                                                                                }  ?></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-12">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">

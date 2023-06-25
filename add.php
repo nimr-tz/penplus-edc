@@ -1065,17 +1065,33 @@ if ($user->isLoggedIn()) {
                             'dyspnea' => Input::get('dyspnea'),
                             'orthopnea' => Input::get('orthopnea'),
                             'paroxysmal' => Input::get('paroxysmal'),
+                            'headache' => Input::get('headache'),
+                            'score_headache' => Input::get('score_headache'),
                             'chest_pain' => Input::get('chest_pain'),
+                            'score_chest_pain' => Input::get('score_chest_pain'),
+                            'chest_pain' => Input::get('chest_pain'),
+                            'score_chest_pain' => Input::get('score_chest_pain'),
+                            'abnorminal_pain' => Input::get('abnorminal_pain'),
+                            'score_abnorminal_pain' => Input::get('score_abnorminal_pain'),
+                            'upper_arms' => Input::get('upper_arms'),
+                            'score_upper_arms' => Input::get('score_upper_arms'),
+                            'lower_arms' => Input::get('lower_arms'),
+                            'score_lower_arms' => Input::get('score_lower_arms'),
+                            'waist' => Input::get('waist'),
+                            'score_waist' => Input::get('score_waist'),
+                            'joints' => Input::get('joints'),
+                            'spescify_joints' => Input::get('spescify_joints'),
+                            'score_joints' => Input::get('score_joints'),
+                            'other_pain' => Input::get('other_pain'),
+                            'spescify_other_pain' => Input::get('spescify_other_pain'),
+                            'score_other_pain' => Input::get('score_other_pain'),
                             'cough' => Input::get('cough'),
                             'thirst' => Input::get('thirst'),
                             'urination' => Input::get('urination'),
                             'vision' => Input::get('vision'),
-                            'abnorminal_pain' => Input::get('abnorminal_pain'),
                             'vomiting' => Input::get('vomiting'),
                             'weight_loss' => Input::get('weight_loss'),
                             'breathing' => Input::get('breathing'),
-                            'chest_pain2' => Input::get('chest_pain2'),
-                            'pain_score' => Input::get('pain_score'),
                             'other_sickle' => Input::get('other_sickle'),
                             'edema' => Input::get('edema'),
                             'lungs' => Input::get('lungs'),
@@ -4549,35 +4565,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-4">
-                                                <div class="row-form clearfix">
-                                                    <div class="form-group">
-                                                        <label>Dyspnea on exertion: NYHA Classification</label>
-                                                        <select name="dyspnea" style="width: 100%;" required>
-                                                            <option value="<?= $symptoms['dyspnea'] ?>"><?php if ($symptoms) {
-                                                                                                            if ($symptoms['dyspnea'] == 1) {
-                                                                                                                echo 'I';
-                                                                                                            } elseif ($symptoms['dyspnea'] == 2) {
-                                                                                                                echo 'II';
-                                                                                                            } elseif ($symptoms['dyspnea'] == 3) {
-                                                                                                                echo 'III';
-                                                                                                            } elseif ($symptoms['dyspnea'] == 4) {
-                                                                                                                echo 'IV';
-                                                                                                            } elseif ($symptoms['dyspnea'] == 5) {
-                                                                                                                echo 'cannot determine';
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            echo 'Select';
-                                                                                                        } ?></option>
-                                                            <option value="1">I</option>
-                                                            <option value="2">II</option>
-                                                            <option value="3">III</option>
-                                                            <option value="4">IV</option>
-                                                            <option value="5">cannot determine</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+
 
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">
@@ -4595,6 +4583,29 @@ if ($user->isLoggedIn()) {
                                                                                                             } else {
                                                                                                                 echo 'Select';
                                                                                                             } ?></option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                            <option value="3">Unsure</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Cough</label>
+                                                        <select name="cough" id="cough" style="width: 100%;" required>
+                                                            <option value="<?= $symptoms['cough'] ?>"><?php if ($symptoms) {
+                                                                                                            if ($symptoms['cough'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($symptoms['cough'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($symptoms['cough'] == 3) {
+                                                                                                                echo 'Unsure';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                             <option value="3">Unsure</option>
@@ -4634,26 +4645,34 @@ if ($user->isLoggedIn()) {
                                             <div class="col-sm-6">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>Cough</label>
-                                                        <select name="cough" id="cough" style="width: 100%;" required>
-                                                            <option value="<?= $symptoms['cough'] ?>"><?php if ($symptoms) {
-                                                                                                            if ($symptoms['cough'] == 1) {
-                                                                                                                echo 'Yes';
-                                                                                                            } elseif ($symptoms['cough'] == 2) {
-                                                                                                                echo 'No';
-                                                                                                            } elseif ($symptoms['cough'] == 3) {
-                                                                                                                echo 'Unsure';
+                                                        <label>Dyspnea on exertion: NYHA Classification</label>
+                                                        <select name="dyspnea" style="width: 100%;" required>
+                                                            <option value="<?= $symptoms['dyspnea'] ?>"><?php if ($symptoms) {
+                                                                                                            if ($symptoms['dyspnea'] == 1) {
+                                                                                                                echo 'I';
+                                                                                                            } elseif ($symptoms['dyspnea'] == 2) {
+                                                                                                                echo 'II';
+                                                                                                            } elseif ($symptoms['dyspnea'] == 3) {
+                                                                                                                echo 'III';
+                                                                                                            } elseif ($symptoms['dyspnea'] == 4) {
+                                                                                                                echo 'IV';
+                                                                                                            } elseif ($symptoms['dyspnea'] == 5) {
+                                                                                                                echo 'cannot determine';
                                                                                                             }
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
-                                                            <option value="1">Yes</option>
-                                                            <option value="2">No</option>
-                                                            <option value="3">Unsure</option>
+                                                            <option value="1">I</option>
+                                                            <option value="2">II</option>
+                                                            <option value="3">III</option>
+                                                            <option value="4">IV</option>
+                                                            <option value="5">cannot determine</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                         </div>
 
                                     <?php } ?>
@@ -4665,7 +4684,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Headache</label>
@@ -4689,7 +4708,7 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Pain Score Today( Headache ):</label>
@@ -4700,8 +4719,11 @@ if ($user->isLoggedIn()) {
                                                 <span> ( 1 - 10 )</span>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-sm-3">
+                                    <div class="row">
+
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Chest Pain</label>
@@ -4724,13 +4746,13 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Pain Score Today( Chest Pain ):</label>
-                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
-                                                                                                        print_r($symptoms['score_headache']);
-                                                                                                    }  ?>" />
+                                                    <input type="text" name="score_chest_pain" value="<?php if ($symptoms['score_chest_pain']) {
+                                                                                                            print_r($symptoms['score_chest_pain']);
+                                                                                                        }  ?>" />
                                                 </div>
                                                 <span> ( 1 - 10 )</span>
                                             </div>
@@ -4740,7 +4762,7 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row">
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Abnorminal Pain</label>
@@ -4764,19 +4786,22 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Pain Score Today( Chest Pain ):</label>
-                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
-                                                                                                        print_r($symptoms['score_headache']);
-                                                                                                    }  ?>" />
+                                                    <input type="text" name="score_abnorminal_pain" value="<?php if ($symptoms['score_abnorminal_pain']) {
+                                                                                                                print_r($symptoms['score_abnorminal_pain']);
+                                                                                                            }  ?>" />
                                                 </div>
                                                 <span> ( 1 - 10 )</span>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-sm-3">
+                                    <div class="row">
+
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Upper arms</label>
@@ -4799,13 +4824,13 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Pain Score Today( Chest Pain ):</label>
-                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
-                                                                                                        print_r($symptoms['score_headache']);
-                                                                                                    }  ?>" />
+                                                    <input type="text" name="score_upper_arms" value="<?php if ($symptoms['score_upper_arms']) {
+                                                                                                            print_r($symptoms['score_upper_arms']);
+                                                                                                        }  ?>" />
                                                 </div>
                                                 <span> ( 1 - 10 )</span>
                                             </div>
@@ -4815,7 +4840,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row">
 
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Lower arms</label>
@@ -4839,29 +4864,33 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Pain Score Today( Chest Pain ):</label>
-                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
-                                                                                                        print_r($symptoms['score_headache']);
-                                                                                                    }  ?>" />
+                                                    <input type="text" name="score_lower_arms" value="<?php if ($symptoms['score_lower_arms']) {
+                                                                                                            print_r($symptoms['score_lower_arms']);
+                                                                                                        }  ?>" />
                                                 </div>
                                                 <span> ( 1 - 10 )</span>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Waist</label>
-                                                    <select name="Waist" id="Waist" style="width: 100%;" required>
-                                                        <option value="<?= $symptoms['Waist'] ?>"><?php if ($symptoms) {
-                                                                                                        if ($symptoms['Waist'] == 1) {
+                                                    <select name="waist" id="waist" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['waist'] ?>"><?php if ($symptoms) {
+                                                                                                        if ($symptoms['waist'] == 1) {
                                                                                                             echo 'Yes';
-                                                                                                        } elseif ($symptoms['Waist'] == 2) {
+                                                                                                        } elseif ($symptoms['waist'] == 2) {
                                                                                                             echo 'No';
-                                                                                                        } elseif ($symptoms['Waist'] == 3) {
+                                                                                                        } elseif ($symptoms['waist'] == 3) {
                                                                                                             echo 'Unk';
                                                                                                         }
                                                                                                     } else {
@@ -4875,12 +4904,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Pain Score Today( Chest Pain ):</label>
-                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
-                                                                                                        print_r($symptoms['score_headache']);
+                                                    <input type="text" name="score_waist" value="<?php if ($symptoms['score_waist']) {
+                                                                                                        print_r($symptoms['score_waist']);
                                                                                                     }  ?>" />
                                                 </div>
                                                 <span> ( 1 - 10 )</span>
@@ -4891,7 +4920,7 @@ if ($user->isLoggedIn()) {
 
                                     <div class="row">
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Joints( Specify )</label>
@@ -4914,35 +4943,48 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
-                                                    <label>Pain Score Today:</label>
-                                                    <input type="text" name="pain_score" value="<?php if ($symptoms['pain_score']) {
-                                                                                                    print_r($symptoms['pain_score']);
-                                                                                                }  ?>" />
+                                                    <label>Joints( Specify )</label>
+                                                    <input type="text" name="spescify_joints" value="<?php if ($symptoms['spescify_joints']) {
+                                                                                                            print_r($symptoms['spescify_joints']);
+                                                                                                        }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Pain Score Today ( Joints ):</label>
+                                                    <input type="text" name="score_joints" value="<?php if ($symptoms['score_joints']) {
+                                                                                                        print_r($symptoms['score_joints']);
+                                                                                                    }  ?>" />
                                                 </div>
                                                 <span> ( 1 - 10 )</span>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-sm-3">
+                                    <div class="row">
+
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
-                                                    <label>Other ( Specify )</label>
-                                                    <select name="joints" id="joints" style="width: 100%;" required>
-                                                        <option value="<?= $symptoms['joints'] ?>"><?php if ($symptoms) {
-                                                                                                        if ($symptoms['joints'] == 1) {
-                                                                                                            echo 'Yes';
-                                                                                                        } elseif ($symptoms['joints'] == 2) {
-                                                                                                            echo 'No';
-                                                                                                        } elseif ($symptoms['joints'] == 3) {
-                                                                                                            echo 'Unk';
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
+                                                    <label>Other Pain</label>
+                                                    <select name="other_pain" id="other_pain" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['other_pain'] ?>"><?php if ($symptoms) {
+                                                                                                            if ($symptoms['other_pain'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($symptoms['other_pain'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            } elseif ($symptoms['other_pain'] == 3) {
+                                                                                                                echo 'Unk';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                         <option value="3">Unk</option>
@@ -4950,14 +4992,24 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Other ( Specify )</label>
+                                                    <input type="text" name="spescify_other_pain" value="<?php if ($symptoms['spescify_other_pain']) {
+                                                                                                                    print_r($symptoms['spescify_other_pain']);
+                                                                                                                }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Pain Score Today ( Other ):</label>
-                                                    <input type="text" name="pain_score" value="<?php if ($symptoms['pain_score']) {
-                                                                                                    print_r($symptoms['pain_score']);
-                                                                                                }  ?>" />
+                                                    <input type="text" name="score_other_pain" value="<?php if ($symptoms['score_other_pain']) {
+                                                                                                            print_r($symptoms['score_other_pain']);
+                                                                                                        }  ?>" />
                                                 </div>
                                                 <span> ( 1 - 10 )</span>
                                             </div>

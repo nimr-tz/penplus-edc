@@ -105,7 +105,7 @@ if ($user->isLoggedIn()) {
                                         <tr>
                                             <!-- <th><input type="checkbox" name="checkall" /></th> -->
                                             <td width="5">#</td>
-                                            <th width="20">Picture</th>
+                                        <th width="20">Picture</th>
                                             <th width="10%">Study ID</th>
                                             <th width="20%">Name</th>
                                             <th width="10%">Gender</th>
@@ -114,7 +114,7 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $x = 1;
+                                        <?php $x = 1;        
                                         foreach ($visits as $visit) {
                                             $client = $override->get('clients', 'id', $visit['client_id'])[0] ?>
                                             <tr>

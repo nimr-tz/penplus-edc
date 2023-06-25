@@ -5971,14 +5971,14 @@ if ($user->isLoggedIn()) {
                                                         <option value="<?= $diagnosis['sub_arrhythmia'] ?>"><?php if ($diagnosis) {
                                                                                                                 if ($diagnosis['sub_arrhythmia'] == 1) {
                                                                                                                     echo 'Atrial fibrillation';
-                                                                                                                } elseif ($diagnosis['sub_arrhythmia'] == 2) {
+                                                                                                                } elseif ($diagnosis['sub_arrhythmia'] == 96) {
                                                                                                                     echo 'Other';
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 echo 'Select';
                                                                                                             } ?></option>
                                                         <option value="1">Atrial fibrillation </option>
-                                                        <option value="2">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -6013,7 +6013,7 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'pulmonary embolism';
                                                                                                                     } elseif ($diagnosis['sub_thromboembolic'] == 2) {
                                                                                                                         echo 'DVT';
-                                                                                                                    } elseif ($diagnosis['sub_thromboembolic'] == 4) {
+                                                                                                                    } elseif ($diagnosis['sub_thromboembolic'] == 96) {
                                                                                                                         echo 'Other';
                                                                                                                     }
                                                                                                                 } else {
@@ -6021,7 +6021,7 @@ if ($user->isLoggedIn()) {
                                                                                                                 } ?></option>
                                                         <option value="1">pulmonary embolism </option>
                                                         <option value="2">DVT</option>
-                                                        <option value="3">other</option>
+                                                        <option value="96">other</option>
                                                     </select>
                                                 </div>
                                             </div>

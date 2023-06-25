@@ -4692,6 +4692,18 @@ if ($user->isLoggedIn()) {
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
+                                                    <label>Pain Score Today( Headache ):</label>
+                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
+                                                                                                        print_r($symptoms['score_headache']);
+                                                                                                    }  ?>" />
+                                                </div>
+                                                <span> ( 1 - 10 )</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
                                                     <label>Chest Pain</label>
                                                     <select name="chest_pain" id="chest_pain" style="width: 100%;" required>
                                                         <option value="<?= $symptoms['chest_pain'] ?>"><?php if ($symptoms) {
@@ -4712,6 +4724,21 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Pain Score Today( Chest Pain ):</label>
+                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
+                                                                                                        print_r($symptoms['score_headache']);
+                                                                                                    }  ?>" />
+                                                </div>
+                                                <span> ( 1 - 10 )</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
 
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
@@ -4740,6 +4767,18 @@ if ($user->isLoggedIn()) {
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
+                                                    <label>Pain Score Today( Chest Pain ):</label>
+                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
+                                                                                                        print_r($symptoms['score_headache']);
+                                                                                                    }  ?>" />
+                                                </div>
+                                                <span> ( 1 - 10 )</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
                                                     <label>Upper arms</label>
                                                     <select name="upper_arms " id="upper_arms" style="width: 100%;" required>
                                                         <option value="<?= $symptoms['upper_arms'] ?>"><?php if ($symptoms) {
@@ -4758,6 +4797,17 @@ if ($user->isLoggedIn()) {
                                                         <option value="3">Unk</option>
                                                     </select>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Pain Score Today( Chest Pain ):</label>
+                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
+                                                                                                        print_r($symptoms['score_headache']);
+                                                                                                    }  ?>" />
+                                                </div>
+                                                <span> ( 1 - 10 )</span>
                                             </div>
                                         </div>
                                     </div>
@@ -4792,6 +4842,18 @@ if ($user->isLoggedIn()) {
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
+                                                    <label>Pain Score Today( Chest Pain ):</label>
+                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
+                                                                                                        print_r($symptoms['score_headache']);
+                                                                                                    }  ?>" />
+                                                </div>
+                                                <span> ( 1 - 10 )</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
                                                     <label>Waist</label>
                                                     <select name="Waist" id="Waist" style="width: 100%;" required>
                                                         <option value="<?= $symptoms['Waist'] ?>"><?php if ($symptoms) {
@@ -4812,6 +4874,22 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Pain Score Today( Chest Pain ):</label>
+                                                    <input type="text" name="score_headache" value="<?php if ($symptoms['score_headache']) {
+                                                                                                        print_r($symptoms['score_headache']);
+                                                                                                    }  ?>" />
+                                                </div>
+                                                <span> ( 1 - 10 )</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
 
                                         <div class="col-sm-3">
                                             <div class="row-form clearfix">
@@ -4841,6 +4919,42 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Pain Score Today:</label>
+                                                    <input type="text" name="pain_score" value="<?php if ($symptoms['pain_score']) {
+                                                                                                    print_r($symptoms['pain_score']);
+                                                                                                }  ?>" />
+                                                </div>
+                                                <span> ( 1 - 10 )</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Other ( Specify )</label>
+                                                    <select name="joints" id="joints" style="width: 100%;" required>
+                                                        <option value="<?= $symptoms['joints'] ?>"><?php if ($symptoms) {
+                                                                                                        if ($symptoms['joints'] == 1) {
+                                                                                                            echo 'Yes';
+                                                                                                        } elseif ($symptoms['joints'] == 2) {
+                                                                                                            echo 'No';
+                                                                                                        } elseif ($symptoms['joints'] == 3) {
+                                                                                                            echo 'Unk';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                        <option value="3">Unk</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Pain Score Today ( Other ):</label>
                                                     <input type="text" name="pain_score" value="<?php if ($symptoms['pain_score']) {
                                                                                                     print_r($symptoms['pain_score']);
                                                                                                 }  ?>" />

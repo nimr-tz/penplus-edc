@@ -5897,7 +5897,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Other specify( If Congenital Heart Disease )</label>
-                                                        <textarea name="congenital_other" rows="4"><?php if ($diagnosis['ongenital_other']) {
+                                                        <textarea name="congenital_other" rows="4"><?php if ($diagnosis['congenital_other']) {
                                                                                                         print_r($diagnosis['congenital_other']);
                                                                                                     }  ?>
                                                                                                     </textarea>

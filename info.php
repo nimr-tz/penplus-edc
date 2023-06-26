@@ -253,7 +253,6 @@ if ($user->isLoggedIn()) {
 
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
-                            'visit_date' => Input::get('screening_date'),
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
                             // 'study_id' => '',
@@ -278,7 +277,6 @@ if ($user->isLoggedIn()) {
                         ), $visit['id']);
                     } else {
                         $user->createRecord('screening', array(
-                            'visit_date' => Input::get('screening_date'),
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
                             'consent' => Input::get('consent'),

@@ -1862,7 +1862,6 @@ if ($user->isLoggedIn()) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
 
                             $user->updateRecord('dgns_complctns_comorbdts', array(
-                                'diagns_changed' => Input::get('diagns_changed'),
                                 'diagns_cardiac' => Input::get('diagns_cardiac'),
                                 'cmplctn_ckd' => Input::get('cmplctn_ckd'),
                                 'cmplctn_depression' => Input::get('cmplctn_depression'),
@@ -4752,14 +4751,14 @@ if ($user->isLoggedIn()) {
 
                                     <div class="head clearfix">
                                         <div class="isw-ok"></div>
-                                        <h1>Pains</h1>
+                                        <h1>Pains ( Symptoms )</h1>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
-                                                    <label>Headache</label>
+                                                    <label>Headache Pains </label>
                                                     <select name="headache" id="headache" style="width: 100%;" required>
                                                         <option value="<?= $symptoms['headache'] ?>"><?php if ($symptoms) {
                                                                                                             if ($symptoms['headache'] == 1) {
@@ -4876,7 +4875,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
-                                                    <label>Upper arms</label>
+                                                    <label>Upper arms Pains </label>
                                                     <select name="upper_arms" id="upper_arms" style="width: 100%;" required>
                                                         <option value="<?= $symptoms['upper_arms'] ?>"><?php if ($symptoms) {
                                                                                                             if ($symptoms['upper_arms'] == 1) {
@@ -4915,7 +4914,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
-                                                    <label>Lower arms</label>
+                                                    <label>Lower arms Pains </label>
                                                     <select name="lower_arms" id="lower_arms" style="width: 100%;" required>
                                                         <option value="<?= $symptoms['lower_arms'] ?>"><?php if ($symptoms) {
                                                                                                             if ($symptoms['lower_arms'] == 1) {
@@ -4955,7 +4954,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
-                                                    <label>Waist</label>
+                                                    <label>Waist Pains </label>
                                                     <select name="waist" id="waist" style="width: 100%;" required>
                                                         <option value="<?= $symptoms['waist'] ?>"><?php if ($symptoms) {
                                                                                                         if ($symptoms['waist'] == 1) {
@@ -4995,7 +4994,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
-                                                    <label>Joints( Specify )</label>
+                                                    <label>Joints Pains( Specify )</label>
                                                     <select name="joints" id="joints" style="width: 100%;" required>
                                                         <option value="<?= $symptoms['joints'] ?>"><?php if ($symptoms) {
                                                                                                         if ($symptoms['joints'] == 1) {
@@ -5067,7 +5066,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
-                                                    <label>Other ( Specify )</label>
+                                                    <label>Other Pain ( Specify )</label>
                                                     <input type="text" name="spescify_other_pain" value="<?php if ($symptoms['spescify_other_pain']) {
                                                                                                                 print_r($symptoms['spescify_other_pain']);
                                                                                                             }  ?>" />
@@ -5385,7 +5384,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-sm-8">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>Other:</label>
+                                                        <label>Other (Symptoms)</label>
                                                         <input type="text" name="other_sickle" value="<?php if ($symptoms['other_sickle']) {
                                                                                                             print_r($symptoms['other_sickle']);
                                                                                                         }  ?>" />

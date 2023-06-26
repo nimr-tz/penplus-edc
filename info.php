@@ -2752,16 +2752,12 @@ if ($user->isLoggedIn()) {
 
 
                                         <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1) || $override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
-
-
                                             <tr>
                                                 <td>6</td>
                                                 <?php if ($_GET['seq'] == 1) { ?>
-
                                                     <td>Results at enrollment</td>
-
                                                 <?php } else { ?>
-                                                    <td>Echo Results</td>
+                                                    <td>Results at Follow Up</td>
                                                 <?php } ?>
 
                                                 <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
@@ -2774,29 +2770,6 @@ if ($user->isLoggedIn()) {
                                             </tr>
 
                                         <?php } ?>
-
-                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
-
-
-                                            <tr>
-                                                <td>6</td>
-                                                <?php if ($_GET['seq'] == 1) { ?>
-
-                                                    <td>Results at enrollment</td>
-
-                                                <?php } ?>
-
-                                                <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-
-                                            </tr>
-
-                                        <?php } ?>
-
 
                                         <tr>
                                             <td>7</td>

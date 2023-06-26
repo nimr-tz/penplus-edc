@@ -251,7 +251,9 @@ if ($user->isLoggedIn()) {
 
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
-                            'screening_date' => Input::get('visit_date'),
+                            'screening_date' => Input::get('screening_date'),
+                            'conset_date' => Input::get('conset_date'),
+
                             // 'study_id' => '',
                             'dm' => Input::get('dm'),
                             'ncd' => Input::get('ncd'),
@@ -274,7 +276,8 @@ if ($user->isLoggedIn()) {
                         ), $visit['id']);
                     } else {
                         $user->createRecord('screening', array(
-                            'screening_date' => Input::get('visit_date'),
+                            'screening_date' => Input::get('screening_date'),
+                            'conset_date' => Input::get('conset_date'),
                             'consent' => Input::get('consent'),
                             'ncd' => Input::get('ncd'),
                             'study_id' => '',
@@ -1627,6 +1630,15 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="modal-body modal-body-np">
                                                                 <div class="row">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="col-md-8">Date of Screening</div>
+                                                                        <div class="col-md-4">
+                                                                            <input class="validate[required,custom[date]]" type="text" name="screening_date" id="screening_date" value="<?php if ($screening['screening_date']) {
+                                                                                                                                                                                            print_r($screening['screening_date']);
+                                                                                                                                                                                        }  ?>" />
+                                                                            <span>Example: 2010-12-01</span>
+                                                                        </div>
+                                                                    </div>
 
                                                                     <div class="row-form clearfix">
                                                                         <div class="col-md-8">Consenting individuals?</div>
@@ -1650,9 +1662,9 @@ if ($user->isLoggedIn()) {
                                                                     <div class="row-form clearfix">
                                                                         <div class="col-md-8">Date of Conset</div>
                                                                         <div class="col-md-4">
-                                                                            <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($screening['screening_date']) {
-                                                                                                                                                                                    print_r($screening['screening_date']);
-                                                                                                                                                                                }  ?>" />
+                                                                            <input class="validate[required,custom[date]]" type="text" name="conset_date" id="conset_date" value="<?php if ($screening['conset_date']) {
+                                                                                                                                                                                        print_r($screening['conset_date']);
+                                                                                                                                                                                    }  ?>" />
                                                                             <span>Example: 2010-12-01</span>
                                                                         </div>
                                                                     </div>

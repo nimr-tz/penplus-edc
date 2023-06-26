@@ -2225,6 +2225,22 @@ if ($user->isLoggedIn()) {
                             'household_head_other' => Input::get('household_head_other'),
                             'household_years' => Input::get('household_years'),
                             'household_people' => Input::get('household_people'),
+                            'primary_income_earner' => Input::get('primary_income_earner'),
+                            'primary_income_earner_other' => Input::get('primary_income_earner_other'),
+                            'formally_employed' => Input::get('formally_employed'),
+                            'formally_employed_other' => Input::get('formally_employed_other'),
+                            'main_income_based_other' => Input::get('main_income_based_other'),
+                            'main_income_based' => Input::get('main_income_based'),
+                            'reason_not_working' => Input::get('reason_not_working'),
+                            'last_working' => Input::get('last_working'),
+                            'stopped_working' => Input::get('stopped_working'),
+                            'stopped_duration' => Input::get('stopped_duration'),
+                            'someone_take_care' => Input::get('someone_take_care'),
+                            'take_care_duration' => Input::get('take_care_duration'),
+                            'quit_job' => Input::get('quit_job'),
+                            'affect_social' => Input::get('affect_social'),
+                            'affect_social_how' => Input::get('affect_social_how'),
+                            'affect_social_other' => Input::get('affect_social_other'),
                             'wealth_rate' => Input::get('wealth_rate'),
                             'contributer_occupation' => Input::get('contributer_occupation'),
                             'contributer_occupation_other' => Input::get('contributer_occupation_other'),
@@ -2294,6 +2310,22 @@ if ($user->isLoggedIn()) {
                             'household_head_other' => Input::get('household_head_other'),
                             'household_years' => Input::get('household_years'),
                             'household_people' => Input::get('household_people'),
+                            'primary_income_earner' => Input::get('primary_income_earner'),
+                            'primary_income_earner_other' => Input::get('primary_income_earner_other'),
+                            'formally_employed' => Input::get('formally_employed'),
+                            'formally_employed_other' => Input::get('formally_employed_other'),
+                            'main_income_based_other' => Input::get('main_income_based_other'),
+                            'main_income_based' => Input::get('main_income_based'),
+                            'reason_not_working' => Input::get('reason_not_working'),
+                            'last_working' => Input::get('last_working'),
+                            'stopped_working' => Input::get('stopped_working'),
+                            'stopped_duration' => Input::get('stopped_duration'),
+                            'someone_take_care' => Input::get('someone_take_care'),
+                            'take_care_duration' => Input::get('take_care_duration'),
+                            'quit_job' => Input::get('quit_job'),
+                            'affect_social' => Input::get('affect_social'),
+                            'affect_social_how' => Input::get('affect_social_how'),
+                            'affect_social_other' => Input::get('affect_social_other'),
                             'wealth_rate' => Input::get('wealth_rate'),
                             'contributer_occupation' => Input::get('contributer_occupation'),
                             'contributer_occupation_other' => Input::get('contributer_occupation_other'),
@@ -10739,30 +10771,30 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Is the patients currently formally employed?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Yes, formal work ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'No, informal work';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
-                                                                                                                                    echo 'Housework';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
-                                                                                                                                    echo 'Retired';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 5) {
-                                                                                                                                    echo 'On sick leave';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 6) {
-                                                                                                                                    echo 'School, university';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 7) {
-                                                                                                                                    echo 'Not working';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 8) {
-                                                                                                                                    echo 'Combination (specify)';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
-                                                                                                                                    echo 'Other (specify)';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="formally_employed" id="formally_employed" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['formally_employed'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['formally_employed'] == 1) {
+                                                                                                                                echo 'Yes, formal work ';
+                                                                                                                            } elseif ($social_economic['formally_employed'] == 2) {
+                                                                                                                                echo 'No, informal work';
+                                                                                                                            } elseif ($social_economic['formally_employed'] == 3) {
+                                                                                                                                echo 'Housework';
+                                                                                                                            } elseif ($social_economic['formally_employed'] == 4) {
+                                                                                                                                echo 'Retired';
+                                                                                                                            } elseif ($social_economic['formally_employed'] == 5) {
+                                                                                                                                echo 'On sick leave';
+                                                                                                                            } elseif ($social_economic['formally_employed'] == 6) {
+                                                                                                                                echo 'School, university';
+                                                                                                                            } elseif ($social_economic['formally_employed'] == 7) {
+                                                                                                                                echo 'Not working';
+                                                                                                                            } elseif ($social_economic['formally_employed'] == 8) {
+                                                                                                                                echo 'Combination (specify)';
+                                                                                                                            } elseif ($social_economic['formally_employed'] == 96) {
+                                                                                                                                echo 'Other (specify)';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
                                                         <option value="1">Yes, formal work </option>
                                                         <option value="2">No, informal work</option>
                                                         <option value="3">Housework</option>
@@ -10782,9 +10814,9 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="formally_employed_other" id="formally_employed_other" value="<?php if ($social_economic['formally_employed_other']) {
+                                                                                                                                                print_r($social_economic['formally_employed_other']);
+                                                                                                                                            }  ?>" required />
 
                                                 </div>
                                             </div>
@@ -10797,26 +10829,26 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If formal /informal work/housework what is your main income based on?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Monthly salary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'Daily wage';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
-                                                                                                                                    echo 'Business/firm earnings';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
-                                                                                                                                    echo 'Sale of farm produce';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 5) {
-                                                                                                                                    echo 'Inkind payment';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 6) {
-                                                                                                                                    echo 'Have no income';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
-                                                                                                                                    echo 'Other';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="main_income_based" id="main_income_based" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['main_income_based'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['main_income_based'] == 1) {
+                                                                                                                                echo 'Monthly salary';
+                                                                                                                            } elseif ($social_economic['main_income_based'] == 2) {
+                                                                                                                                echo 'Daily wage';
+                                                                                                                            } elseif ($social_economic['main_income_based'] == 3) {
+                                                                                                                                echo 'Business/firm earnings';
+                                                                                                                            } elseif ($social_economic['main_income_based'] == 4) {
+                                                                                                                                echo 'Sale of farm produce';
+                                                                                                                            } elseif ($social_economic['main_income_based'] == 5) {
+                                                                                                                                echo 'Inkind payment';
+                                                                                                                            } elseif ($social_economic['main_income_based'] == 6) {
+                                                                                                                                echo 'Have no income';
+                                                                                                                            } elseif ($social_economic['main_income_based'] == 96) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
                                                         <option value="1">Monthly salary</option>
                                                         <option value="2">Daily wage</option>
                                                         <option value="3">Business/firm earnings</option>
@@ -10834,9 +10866,9 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="main_income_based_other" id="main_income_based_other" value="<?php if ($social_economic['main_income_based_other']) {
+                                                                                                                                                print_r($social_economic['main_income_based_other']);
+                                                                                                                                            }  ?>" required />
 
                                                 </div>
                                             </div>
@@ -10849,16 +10881,16 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If patient is not working/retired/sick leave is the reason is it because of this NCD illness? :</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="reason_not_working" id="reason_not_working" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['reason_not_working'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['reason_not_working'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($social_economic['reason_not_working'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
@@ -10871,9 +10903,9 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Yes: When was the last time you were working? (mm/yy)</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="last_working" id="last_working" value="<?php if ($social_economic['last_working']) {
+                                                                                                                        print_r($social_economic['last_working']);
+                                                                                                                    }  ?>" required />
 
                                                 </div>
                                             </div>
@@ -10886,16 +10918,16 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Have you ever stopped working/going to school/doing housework due to this disease?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="stopped_working" id="stopped_working" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['stopped_working'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['stopped_working'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($social_economic['stopped_working'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
@@ -10908,22 +10940,22 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If YES: for how long? Specify</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Less than 1 month ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'One month ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
-                                                                                                                                    echo '2-3 months';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
-                                                                                                                                    echo '4-5 months';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 5) {
-                                                                                                                                    echo 'More than 6 months ';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="stopped_duration" id="stopped_duration" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['stopped_duration'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['stopped_duration'] == 1) {
+                                                                                                                            echo 'Less than 1 month ';
+                                                                                                                        } elseif ($social_economic['stopped_duration'] == 2) {
+                                                                                                                            echo 'One month ';
+                                                                                                                        } elseif ($social_economic['stopped_duration'] == 3) {
+                                                                                                                            echo '2-3 months';
+                                                                                                                        } elseif ($social_economic['stopped_duration'] == 4) {
+                                                                                                                            echo '4-5 months';
+                                                                                                                        } elseif ($social_economic['stopped_duration'] == 5) {
+                                                                                                                            echo 'More than 6 months ';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
                                                         <option value="1">Less than 1 month </option>
                                                         <option value="2">One month </option>
                                                         <option value="3">2-3 months </option>
@@ -10941,16 +10973,16 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Does someone stay home specifically to take care of you?</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="someone_take_care" id="someone_take_care" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['someone_take_care'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['someone_take_care'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($social_economic['someone_take_care'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
@@ -10963,9 +10995,9 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If YES: for how long? ( weeks) </label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="take_care_duration" id="take_care_duration" value="<?php if ($social_economic['take_care_duration']) {
+                                                                                                                                    print_r($social_economic['take_care_duration']);
+                                                                                                                                }  ?>" required />
 
                                                 </div>
                                             </div>
@@ -10975,16 +11007,16 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Did they quit their income-earning job to stay home and care for you?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="quit_job" id="quit_job" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['quit_job'] ?>"><?php if ($social_economic) {
+                                                                                                                if ($social_economic['quit_job'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($social_economic['quit_job'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
@@ -10999,16 +11031,16 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label> Has this NCD illness affected your social or private life in any way? :</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="affect_social" id="affect_social" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['affect_social'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['affect_social'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($social_economic['affect_social'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
@@ -11021,16 +11053,16 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Yes: Has this resulted in a financial burden? </label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="financial_burden" id="financial_burden" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['financial_burden'] ?>"><?php if ($social_economic) {
+                                                                                                                        if ($social_economic['financial_burden'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($social_economic['financial_burden'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
@@ -11042,26 +11074,26 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Yes: How ? </label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                    echo 'Divorce';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                    echo 'Loss of Job';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
-                                                                                                                                    echo 'Dropped out of school';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
-                                                                                                                                    echo 'Separated from spouse/partner.';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 5) {
-                                                                                                                                    echo 'Disruption of sexual life';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 6) {
-                                                                                                                                    echo 'Sick child';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
-                                                                                                                                    echo 'Other (specify)';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
+                                                    <select name="affect_social_how" id="affect_social_how" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['affect_social_how'] ?>"><?php if ($social_economic) {
+                                                                                                                            if ($social_economic['affect_social_how'] == 1) {
+                                                                                                                                echo 'Divorce';
+                                                                                                                            } elseif ($social_economic['affect_social_how'] == 2) {
+                                                                                                                                echo 'Loss of Job';
+                                                                                                                            } elseif ($social_economic['affect_social_how'] == 3) {
+                                                                                                                                echo 'Dropped out of school';
+                                                                                                                            } elseif ($social_economic['affect_social_how'] == 4) {
+                                                                                                                                echo 'Separated from spouse/partner.';
+                                                                                                                            } elseif ($social_economic['affect_social_how'] == 5) {
+                                                                                                                                echo 'Disruption of sexual life';
+                                                                                                                            } elseif ($social_economic['affect_social_how'] == 6) {
+                                                                                                                                echo 'Sick child';
+                                                                                                                            } elseif ($social_economic['affect_social_how'] == 96) {
+                                                                                                                                echo 'Other (specify)';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
                                                         <option value="1">Divorce</option>
                                                         <option value="2">Loss of Job</option>
                                                         <option value="3">Dropped out of school</option>
@@ -11078,9 +11110,9 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other (specify)</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="affect_social_other" id="affect_social_other" value="<?php if ($social_economic['affect_social_other']) {
+                                                                                                                                        print_r($social_economic['affect_social_other']);
+                                                                                                                                    }  ?>" required />
 
                                                 </div>
                                             </div>

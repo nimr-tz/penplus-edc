@@ -10999,7 +10999,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>f Yes: Has this resulted in a financial burden? </label>
+                                                    <label>If Yes: Has this resulted in a financial burden? </label>
                                                     <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
                                                         <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['primary_income_earner'] == 1) {

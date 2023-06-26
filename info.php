@@ -220,7 +220,9 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_screening')) {
             $validate = $validate->check($_POST, array(
-                'visit_date' => array(
+                'screening_date' => array(
+                    'required' => true,
+                ),                'conset_date' => array(
                     'required' => true,
                 ),
                 'ncd' => array(
@@ -251,9 +253,9 @@ if ($user->isLoggedIn()) {
 
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
+                            'visit_date' => Input::get('screening_date'),
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
-
                             // 'study_id' => '',
                             'dm' => Input::get('dm'),
                             'ncd' => Input::get('ncd'),
@@ -271,11 +273,12 @@ if ($user->isLoggedIn()) {
                         $visit = $override->getNews('visit', 'client_id', Input::get('id'), 'seq_no', 0, 'visit_name', 'Screening')[0];
 
                         $user->updateRecord('visit', array(
-                            'expected_date' => Input::get('visit_date'),
-                            'visit_date' => Input::get('visit_date'),
+                            'expected_date' => Input::get('screening_date'),
+                            'visit_date' => Input::get('screening_date'),
                         ), $visit['id']);
                     } else {
                         $user->createRecord('screening', array(
+                            'visit_date' => Input::get('screening_date'),
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
                             'consent' => Input::get('consent'),
@@ -297,8 +300,8 @@ if ($user->isLoggedIn()) {
                             'visit_name' => 'Screening',
                             'visit_code' => 'SV',
                             'visit_day' => 'Day 0',
-                            'expected_date' => Input::get('visit_date'),
-                            'visit_date' => Input::get('visit_date'),
+                            'expected_date' => Input::get('screening_date'),
+                            'visit_date' => Input::get('screening_date'),
                             'visit_window' => 0,
                             'status' => 1,
                             'seq_no' => 0,

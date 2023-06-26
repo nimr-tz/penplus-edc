@@ -1842,8 +1842,8 @@ if ($user->isLoggedIn()) {
                             'new_diagns' => Input::get('new_diagns'),
                             'new_diagns_specify' => Input::get('new_diagns_specify'),
                             'diagns_complication' => Input::get('diagns_complication'),
-                            'cmplctn_ckd' => Input::get('cmplctn_ckd'),
-                            'cmplctn_depression' => Input::get('cmplctn_depression'),
+                            'cmplctn_other' => Input::get('cmplctn_other'),
+                            'complication_specify' => Input::get('complication_specify'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -8986,7 +8986,7 @@ if ($user->isLoggedIn()) {
 
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1) || $override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -9007,7 +9007,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -9028,12 +9028,14 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        <?php } ?>
+                                        </div>
+
+                                    <?php } ?>
 
 
-                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
-
+                                        <div class="row">
 
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">
@@ -9056,8 +9058,6 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
@@ -9100,6 +9100,10 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="row">
+
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
@@ -9124,10 +9128,8 @@ if ($user->isLoggedIn()) {
 
 
 
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -9149,7 +9151,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -9217,46 +9219,47 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="row-form clearfix">
-                                                    <!-- select -->
-                                                    <div class="form-group">
-                                                        <label>Other</label>
-                                                        <select name="cmplctn_other" id="cmplctn_other" style="width: 100%;" required>
-                                                            <option value="<?= $dgns_complctns_comorbdts['cmplctn_other'] ?>"><?php if ($dgns_complctns_comorbdts) {
-                                                                                                                                    if ($dgns_complctns_comorbdts['cmplctn_other'] == 1) {
-                                                                                                                                        echo 'Yes';
-                                                                                                                                    } elseif ($dgns_complctns_comorbdts['cmplctn_other'] == 2) {
-                                                                                                                                        echo 'No';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                            <option value="1">Yes</option>
-                                                            <option value="2">No</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <?php } ?>
 
 
-
-                                            <div class="col-sm-8" id="complication_specify">
-                                                <div class="row-form clearfix">
-                                                    <!-- select -->
-                                                    <div class="form-group">
-                                                        <label>Specify Other:</label>
-                                                        <input type="text" name="complication_specify" value="<?php if ($dgns_complctns_comorbdts['complication_specify']) {
-                                                                                                                    print_r($dgns_complctns_comorbdts['complication_specify']);
-                                                                                                                }  ?>" />
-                                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Other</label>
+                                                    <select name="cmplctn_other" id="cmplctn_other" style="width: 100%;" required>
+                                                        <option value="<?= $dgns_complctns_comorbdts['cmplctn_other'] ?>"><?php if ($dgns_complctns_comorbdts) {
+                                                                                                                                if ($dgns_complctns_comorbdts['cmplctn_other'] == 1) {
+                                                                                                                                    echo 'Yes';
+                                                                                                                                } elseif ($dgns_complctns_comorbdts['cmplctn_other'] == 2) {
+                                                                                                                                    echo 'No';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
 
-                                    <?php } ?>
+
+
+                                        <div class="col-sm-8" id="complication_specify">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Specify Other:</label>
+                                                    <input type="text" name="complication_specify" value="<?php if ($dgns_complctns_comorbdts['complication_specify']) {
+                                                                                                                print_r($dgns_complctns_comorbdts['complication_specify']);
+                                                                                                            }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                                     <div class="footer tar">
                                         <input type="submit" name="add_dgns_complctns_comorbdts" value="Submit" class="btn btn-default">

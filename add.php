@@ -10936,11 +10936,11 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Does someone stay home specifically to take care of you? :</label>
+                                                    <label>Does someone stay home specifically to take care of you?</label>
                                                     <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
                                                         <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['primary_income_earner'] == 1) {
@@ -10958,11 +10958,11 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>If YES: for how long? _______________________weeks</label>
+                                                    <label>If YES: for how long? ( weeks) </label>
                                                     <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
                                                                                                                                                         print_r($social_economic['primary_income_earner_other']);
                                                                                                                                                     }  ?>" required />
@@ -10970,10 +10970,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -10994,8 +10991,32 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label> Has this NCD illness affected your social or private life in any way? :</label>
+                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                                                                                                    echo 'Yes';
+                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                    echo 'No';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?></option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -11013,6 +11034,54 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Yes</option>
                                                         <option value="2">No</option>
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>If Yes: How ? </label>
+                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
+                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                                                                                                    echo 'Divorce';
+                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                    echo 'Loss of Job';
+                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                    echo 'Dropped out of school';
+                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                    echo 'Separated from spouse/partner.';
+                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 5) {
+                                                                                                                                    echo 'Disruption of sexual life';
+                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 6) {
+                                                                                                                                    echo 'Sick child';
+                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                    echo 'Other (specify)';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?></option>
+                                                        <option value="1">Divorce</option>
+                                                        <option value="2">Loss of Job</option>
+                                                        <option value="3">Dropped out of school</option>
+                                                        <option value="4">Separated from spouse/partner</option>
+                                                        <option value="5">Disruption of sexual life</option>
+                                                        <option value="6">Sick child</option>
+                                                        <option value="96">Other (specify)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Other (specify)</label>
+                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
+                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
+                                                                                                                                                    }  ?>" required />
+
                                                 </div>
                                             </div>
                                         </div>

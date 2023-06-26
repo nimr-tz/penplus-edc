@@ -3185,7 +3185,7 @@ if ($user->isLoggedIn()) {
                                             <select name="name" id="name" style="width: 100%;" required>
                                                 <option value="">Select Table Name</option>
                                                 <?php foreach ($AllTables as $tables) { ?>
-                                                    <option value="<?= $tables['Tables_in_nimregenin'] ?>"><?= $tables['Tables_in_nimregenin'] ?></option>
+                                                    <option value="<?= $tables['Tables_in_penplus'] ?>"><?= $tables['Tables_in_penplus'] ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>

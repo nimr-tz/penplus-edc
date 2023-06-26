@@ -191,7 +191,7 @@ if ($user->isLoggedIn()) {
                         </a>
                     </li>
                     <li>
-                        <a href="info.php?id=8">
+                        <a href="info.php?id=10">
                             <span class="glyphicon glyphicon-list"></span><span class="text">Clear Data on Table</span>
                         </a>
                     </li>

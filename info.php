@@ -3169,7 +3169,36 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 10) { ?>
 
+                        <?php
+                        $AllTables = $override->AllTables();
+                        ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Clear Data on Table</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Table Name:</div>
+                                        <div class="col-md-9">
+                                            <select name="name" id="name" style="width: 100%;" required>
+                                                <option value="">Select Table Name</option>
+                                                <?php foreach ($AllTables as $tables) { ?>
+                                                    <option value="<?= $tables['Tables_in_nimregenin'] ?>"><?= $tables['Tables_in_nimregenin'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
 
+                                    <div class="footer tar">
+                                        <input type="submit" name="clear_data" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
                     <?php } ?>
                 </div>
 

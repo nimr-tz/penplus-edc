@@ -213,4 +213,40 @@ class OverideData{
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    // public function clearDataTable($table)
+    // {
+    //     $query = $this->_pdo->query("TRUNCATE TABLE `$table`");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+
+    public function AllTables()
+    {
+        $query = $this->_pdo->query("SHOW TABLES");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function AllTablesCont()
+    {
+        $query = $this->_pdo->query("SHOW TABLES");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function AllDatabasesCount()
+    {
+        $query = $this->_pdo->query("SHOW DATABASES");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function AllDatabases()
+    {
+        $query = $this->_pdo->query("SHOW DATABASES");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }

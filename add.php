@@ -2240,6 +2240,7 @@ if ($user->isLoggedIn()) {
                             'quit_job' => Input::get('quit_job'),
                             'affect_social' => Input::get('affect_social'),
                             'affect_social_how' => Input::get('affect_social_how'),
+                            'financial_burden' => Input::get('financial_burden'), 
                             'affect_social_other' => Input::get('affect_social_other'),
                             'wealth_rate' => Input::get('wealth_rate'),
                             'contributer_occupation' => Input::get('contributer_occupation'),
@@ -2326,6 +2327,7 @@ if ($user->isLoggedIn()) {
                             'affect_social' => Input::get('affect_social'),
                             'affect_social_how' => Input::get('affect_social_how'),
                             'affect_social_other' => Input::get('affect_social_other'),
+                            'financial_burden' => Input::get('financial_burden'), 
                             'wealth_rate' => Input::get('wealth_rate'),
                             'contributer_occupation' => Input::get('contributer_occupation'),
                             'contributer_occupation_other' => Input::get('contributer_occupation_other'),
@@ -10722,7 +10724,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Who is the primary income earner in the household ?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
+                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" >
                                                         <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['primary_income_earner'] == 1) {
                                                                                                                                     echo 'Patient';
@@ -10758,7 +10760,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Other Specify</label>
                                                     <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
                                                                                                                                                         print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                                                                                                                    }  ?>"  />
 
                                                 </div>
                                             </div>
@@ -10771,7 +10773,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Is the patients currently formally employed?:</label>
-                                                    <select name="formally_employed" id="formally_employed" style="width: 100%;" required>
+                                                    <select name="formally_employed" id="formally_employed" style="width: 100%;" >
                                                         <option value="<?= $social_economic['formally_employed'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['formally_employed'] == 1) {
                                                                                                                                 echo 'Yes, formal work ';
@@ -10816,7 +10818,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Other Specify</label>
                                                     <input type="text" name="formally_employed_other" id="formally_employed_other" value="<?php if ($social_economic['formally_employed_other']) {
                                                                                                                                                 print_r($social_economic['formally_employed_other']);
-                                                                                                                                            }  ?>" required />
+                                                                                                                                            }  ?>"  />
 
                                                 </div>
                                             </div>
@@ -10829,7 +10831,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If formal /informal work/housework what is your main income based on?:</label>
-                                                    <select name="main_income_based" id="main_income_based" style="width: 100%;" required>
+                                                    <select name="main_income_based" id="main_income_based" style="width: 100%;" >
                                                         <option value="<?= $social_economic['main_income_based'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['main_income_based'] == 1) {
                                                                                                                                 echo 'Monthly salary';
@@ -10868,7 +10870,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Other Specify</label>
                                                     <input type="text" name="main_income_based_other" id="main_income_based_other" value="<?php if ($social_economic['main_income_based_other']) {
                                                                                                                                                 print_r($social_economic['main_income_based_other']);
-                                                                                                                                            }  ?>" required />
+                                                                                                                                            }  ?>"  />
 
                                                 </div>
                                             </div>
@@ -10881,7 +10883,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If patient is not working/retired/sick leave is the reason is it because of this NCD illness? :</label>
-                                                    <select name="reason_not_working" id="reason_not_working" style="width: 100%;" required>
+                                                    <select name="reason_not_working" id="reason_not_working" style="width: 100%;" >
                                                         <option value="<?= $social_economic['reason_not_working'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['reason_not_working'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -10905,7 +10907,7 @@ if ($user->isLoggedIn()) {
                                                     <label>If Yes: When was the last time you were working? (mm/yy)</label>
                                                     <input type="text" name="last_working" id="last_working" value="<?php if ($social_economic['last_working']) {
                                                                                                                         print_r($social_economic['last_working']);
-                                                                                                                    }  ?>" required />
+                                                                                                                    }  ?>"  />
 
                                                 </div>
                                             </div>
@@ -10918,7 +10920,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Have you ever stopped working/going to school/doing housework due to this disease?:</label>
-                                                    <select name="stopped_working" id="stopped_working" style="width: 100%;" required>
+                                                    <select name="stopped_working" id="stopped_working" style="width: 100%;" >
                                                         <option value="<?= $social_economic['stopped_working'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['stopped_working'] == 1) {
                                                                                                                             echo 'Yes';
@@ -10940,7 +10942,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If YES: for how long? Specify</label>
-                                                    <select name="stopped_duration" id="stopped_duration" style="width: 100%;" required>
+                                                    <select name="stopped_duration" id="stopped_duration" style="width: 100%;" >
                                                         <option value="<?= $social_economic['stopped_duration'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['stopped_duration'] == 1) {
                                                                                                                             echo 'Less than 1 month ';
@@ -10973,7 +10975,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Does someone stay home specifically to take care of you?</label>
-                                                    <select name="someone_take_care" id="someone_take_care" style="width: 100%;" required>
+                                                    <select name="someone_take_care" id="someone_take_care" style="width: 100%;" >
                                                         <option value="<?= $social_economic['someone_take_care'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['someone_take_care'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -10997,7 +10999,7 @@ if ($user->isLoggedIn()) {
                                                     <label>If YES: for how long? ( weeks) </label>
                                                     <input type="text" name="take_care_duration" id="take_care_duration" value="<?php if ($social_economic['take_care_duration']) {
                                                                                                                                     print_r($social_economic['take_care_duration']);
-                                                                                                                                }  ?>" required />
+                                                                                                                                }  ?>"  />
 
                                                 </div>
                                             </div>
@@ -11007,7 +11009,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Did they quit their income-earning job to stay home and care for you?:</label>
-                                                    <select name="quit_job" id="quit_job" style="width: 100%;" required>
+                                                    <select name="quit_job" id="quit_job" style="width: 100%;" >
                                                         <option value="<?= $social_economic['quit_job'] ?>"><?php if ($social_economic) {
                                                                                                                 if ($social_economic['quit_job'] == 1) {
                                                                                                                     echo 'Yes';
@@ -11031,7 +11033,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label> Has this NCD illness affected your social or private life in any way? :</label>
-                                                    <select name="affect_social" id="affect_social" style="width: 100%;" required>
+                                                    <select name="affect_social" id="affect_social" style="width: 100%;">
                                                         <option value="<?= $social_economic['affect_social'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['affect_social'] == 1) {
                                                                                                                             echo 'Yes';
@@ -11053,7 +11055,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Yes: Has this resulted in a financial burden? </label>
-                                                    <select name="financial_burden" id="financial_burden" style="width: 100%;" required>
+                                                    <select name="financial_burden" id="financial_burden" style="width: 100%;">
                                                         <option value="<?= $social_economic['financial_burden'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['financial_burden'] == 1) {
                                                                                                                             echo 'Yes';
@@ -11074,7 +11076,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Yes: How ? </label>
-                                                    <select name="affect_social_how" id="affect_social_how" style="width: 100%;" required>
+                                                    <select name="affect_social_how" id="affect_social_how" style="width: 100%;">
                                                         <option value="<?= $social_economic['affect_social_how'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['affect_social_how'] == 1) {
                                                                                                                                 echo 'Divorce';
@@ -11112,7 +11114,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Other (specify)</label>
                                                     <input type="text" name="affect_social_other" id="affect_social_other" value="<?php if ($social_economic['affect_social_other']) {
                                                                                                                                         print_r($social_economic['affect_social_other']);
-                                                                                                                                    }  ?>" required />
+                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>

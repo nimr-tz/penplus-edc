@@ -6714,6 +6714,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 } else {
                                                                                                                     echo 'Select';
                                                                                                                 } ?></option>
+                                                                                                                                                                            <option value="1">Yes</option>
+                                                            <option value="">Select</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                         </select>
@@ -6755,6 +6757,8 @@ if ($user->isLoggedIn()) {
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
+                                                                                                                                                                    <option value="">Select</option>
+                                                                <option value="">Select</option>
                                                                 <option value="1">Single lead or</option>
                                                                 <option value="2">12 lead</option>
                                                                 <option value="3">Normal sinus rhythm</option>
@@ -6803,6 +6807,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 } else {
                                                                                                                     echo 'Select';
                                                                                                                 } ?></option>
+                                                                                                                                                                            <option value="">Select</option>
+                                                            <option value="">Select</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                         </select>
@@ -6838,6 +6844,7 @@ if ($user->isLoggedIn()) {
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
+                                                                 <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                             </select>
@@ -6866,6 +6873,7 @@ if ($user->isLoggedIn()) {
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
+                                                                <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                                 <option value="3">Unseen</option>
@@ -6891,6 +6899,7 @@ if ($user->isLoggedIn()) {
                                                                                                             } else {
                                                                                                                 echo 'Select';
                                                                                                             } ?></option>
+                                                                <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                                 <option value="3">Unseen</option>
@@ -6917,6 +6926,7 @@ if ($user->isLoggedIn()) {
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
+                                                                <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                                 <option value="3">Unseen</option>
@@ -6943,6 +6953,7 @@ if ($user->isLoggedIn()) {
                                                                                                                 } else {
                                                                                                                     echo 'Select';
                                                                                                                 } ?></option>
+                                                                 <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                                 <option value="3">Unseen</option>
@@ -6967,6 +6978,7 @@ if ($user->isLoggedIn()) {
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
+                                                                <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                                 <option value="3">Unseen</option>
@@ -6992,6 +7004,7 @@ if ($user->isLoggedIn()) {
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
+                                                                <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                                 <option value="3">Unseen</option>
@@ -7018,6 +7031,7 @@ if ($user->isLoggedIn()) {
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
+                                                                <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                                 <option value="3">Unseen</option>
@@ -7040,6 +7054,7 @@ if ($user->isLoggedIn()) {
                                                                                                                 } else {
                                                                                                                     echo 'Select';
                                                                                                                 } ?></option>
+                                                                <option value="">Select</option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
                                                             </select>
@@ -7079,6 +7094,7 @@ if ($user->isLoggedIn()) {
                                                                                                             } else {
                                                                                                                 echo 'Select';
                                                                                                             } ?></option>
+                                                             <option value="">Select</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                             <option value="3">Unseen</option>
@@ -7102,7 +7118,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Any SCD Test done today?</label>
-                                                        <select name="scd_done" id="scd_done" style="width: 100%;" onchange="checkQuestionValue1('scd_done','scd_done_hide')" required>
+                                                        <select name="scd_done" id="scd_done" style="width: 100%;" onchange="checkQuestionValue1('scd_done','scd_done_hide')">
                                                             <option value="<?= $results['scd_done'] ?>"><?php if ($results) {
                                                                                                             if ($results['scd_done'] == 1) {
                                                                                                                 echo 'Yes';
@@ -7112,6 +7128,7 @@ if ($user->isLoggedIn()) {
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
+                                                            <option value="">Select</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                         </select>
@@ -7147,6 +7164,7 @@ if ($user->isLoggedIn()) {
                                                                                                             echo 'Select';
                                                                                                         } ?>
                                                             </option>
+                                                            <option value="">Select</option>
                                                             <option value="1">Presumptive Diagnosis</option>
                                                             <option value="2">Sickling Test</option>
                                                             <option value="3">SS </option>
@@ -7173,7 +7191,6 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
                                         <div class="row">
 
@@ -7182,7 +7199,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Confirmatory Test:</label>
-                                                        <select name="confirmatory_test" id="confirmatory_test" style="width: 100%;" onchange="checkQuestionValue96('confirmatory_test','confirmatory_test_type')">
+                                                        <select name="confirmatory_test" id="confirmatory_test" style="width: 100%;" onchange="checkQuestionValue1('confirmatory_test','confirmatory_test_type')">
                                                             <option value="<?= $results['confirmatory_test'] ?>"><?php if ($results) {
                                                                                                                         if ($results['confirmatory_test'] == 1) {
                                                                                                                             echo 'Yes';
@@ -7193,6 +7210,7 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Select';
                                                                                                                     } ?>
                                                             </option>
+                                                            <option value="">Select</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
                                                         </select>
@@ -7226,6 +7244,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Select';
                                                                                                                         } ?>
                                                             </option>
+                                                            <option value="">Select</option>
                                                             <option value="1">HPLC</option>
                                                             <option value="2">HBE</option>
                                                             <option value="3">IEF</option>
@@ -7238,13 +7257,9 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                                                                    </div>
-
-
+                                        </div>
+                                    </div>
                                     <?php } ?>
-
-
-
                                     <div class="footer tar">
                                         <input type="submit" name="add_results" value="Submit" class="btn btn-default">
                                     </div>

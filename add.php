@@ -2544,6 +2544,10 @@ if ($user->isLoggedIn()) {
             text-align: left;
             background-color: #f2f2f2;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 
     <!-- <script type="text/javascript" src="hospital.js"></script> -->
@@ -2925,11 +2929,12 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
+
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Occupational Exposures</label>
-                                                        <select name="occupation" style="width: 100%;" required>
+                                                        <select name="occupation" id="occupation" style="width: 100%;" onchange="checkQuestionValue1('occupation','exposure')" required>
                                                             <option value="<?= $client['occupation'] ?>"><?php if ($client) {
                                                                                                                 if ($client['occupation'] == 1) {
                                                                                                                     echo 'Yes';
@@ -2947,9 +2952,10 @@ if ($user->isLoggedIn()) {
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                <!-- <input type="text" id="occupation" onkeyup="checkQuestionValue('occupation','exposure')"> -->
 
-                                            <div class="col-sm-6">
+                                            </div>
+                                            <div class="col-sm-6 hidden" id="exposure">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -3219,40 +3225,51 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
+                                                    <label>Household Size:</label>
+                                                    <input class="" type="number" min="1" max="100" name="household_size" id="household_size" value="<?php if ($demographic['household_size']) {
+                                                                                                                                                            print_r($demographic['household_size']);
+                                                                                                                                                        }  ?>" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
                                                     <label>Patient referred from:</label>
-                                                    <select id="referred" name="referred" style="width: 100%;" required>
-                                                        <option value="<?= $demographic['referred'] ?>"><?php if ($demographic) {
-                                                                                                            if ($demographic['referred'] == 1) {
-                                                                                                                echo 'Inpatient / hospital stay';
-                                                                                                            } elseif ($demographic['referred'] == 2) {
-                                                                                                                echo 'Primary care clinic';
-                                                                                                            } elseif ($demographic['referred'] == 3) {
-                                                                                                                echo 'Other outpatient clinic';
-                                                                                                            } elseif ($demographic['referred'] == 4) {
-                                                                                                                echo 'Maternal health';
-                                                                                                            } elseif ($demographic['referred'] == 5) {
-                                                                                                                echo 'Community';
-                                                                                                            } elseif ($demographic['referred'] == 6) {
-                                                                                                                echo 'Self';
-                                                                                                            } elseif ($demographic['referred'] == 7) {
-                                                                                                                echo 'Other';
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            echo 'Select';
-                                                                                                        } ?></option>
+                                                    <select id="referred" name="referred" style="width: 100%;" onchange="checkQuestionValue96('referred','referred_other')" required>
+                                                        <option value=" <?= $demographic['referred'] ?>"><?php if ($demographic) {
+                                                                                                                if ($demographic['referred'] == 1) {
+                                                                                                                    echo 'Inpatient / hospital stay';
+                                                                                                                } elseif ($demographic['referred'] == 2) {
+                                                                                                                    echo 'Primary care clinic';
+                                                                                                                } elseif ($demographic['referred'] == 3) {
+                                                                                                                    echo 'Other outpatient clinic';
+                                                                                                                } elseif ($demographic['referred'] == 4) {
+                                                                                                                    echo 'Maternal health';
+                                                                                                                } elseif ($demographic['referred'] == 5) {
+                                                                                                                    echo 'Community';
+                                                                                                                } elseif ($demographic['referred'] == 6) {
+                                                                                                                    echo 'Self';
+                                                                                                                } elseif ($demographic['referred'] == 96) {
+                                                                                                                    echo 'Other';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
                                                         <option value="1">Inpatient / hospital stay</option>
                                                         <option value="2">Primary care clinic</option>
                                                         <option value="3">Other outpatient clinic</option>
                                                         <option value="4">Maternal health</option>
                                                         <option value="5">Community</option>
                                                         <option value="6">Self</option>
-                                                        <option value="7">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-3 hidden" id="referred_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -3260,18 +3277,6 @@ if ($user->isLoggedIn()) {
                                                     <input class="" type="text" name="referred_other" value="<?php if ($demographic['referred_other']) {
                                                                                                                     print_r($demographic['referred_other']);
                                                                                                                 }  ?>" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Household Size:</label>
-                                                    <input class="" type="number" min="1" max="100" name="household_size" id="household_size" value="<?php if ($demographic['household_size']) {
-                                                                                                                                                            print_r($demographic['household_size']);
-                                                                                                                                                        }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -12973,6 +12978,60 @@ if ($user->isLoggedIn()) {
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+
+        // function toggleQuestionVisibility(currentQuestionId, nextQuestionId) {
+        //     alert('hi');
+        //     console.log('hi');
+        //     var currentQuestion = document.getElementById(currentQuestionId);
+        //     var nextQuestion = document.getElementById(nextQuestionId);
+
+        //     // Check if the current question has a value
+        //     if (currentQuestion.value) {
+        //         nextQuestion.classList.remove("hidden"); // Show the next question
+        //     } else {
+        //         nextQuestion.classList.add("hidden"); // Hide the next question
+        //     }
+        // }
+
+        function checkQuestionValue1(currentQuestion, elementToHide) {
+            var currentQuestionInput = document.getElementById(currentQuestion);
+            var elementToHide = document.getElementById(elementToHide);
+
+            var questionValue = currentQuestionInput.value;
+
+            if (questionValue === "1") {
+                elementToHide.classList.remove("hidden");
+            } else {
+                elementToHide.classList.add("hidden");
+            }
+        }
+
+        function checkQuestionValue96(currentQuestion, elementToHide) {
+            var currentQuestionInput = document.getElementById(currentQuestion);
+            var elementToHide = document.getElementById(elementToHide);
+
+            var questionValue = currentQuestionInput.value;
+
+            if (questionValue === "96") {
+                elementToHide.classList.remove("hidden");
+            } else {
+                elementToHide.classList.add("hidden");
+            }
+        }
+
+        // function checkQuestionValue96(occupation,exposure) {
+        //     var select = document.getElementById(occupation);
+        //     var hiddenSelect = document.getElementById(exposure);
+        //     console.log(select);
+
+
+        //     if (select.value === "1") {
+        //         hiddenSelect.style.display = "block";
+        //     } else {
+        //         hiddenSelect.style.display = "none";
+        //     }
+        // }
+
 
 
         function autocomplete(inp, arr) {

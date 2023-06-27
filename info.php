@@ -3229,6 +3229,18 @@ if ($user->isLoggedIn()) {
         });
     });
 
+    function toggleQuestionVisibility(currentQuestionId, nextQuestionId) {
+        var currentQuestion = document.getElementById(currentQuestionId);
+        var nextQuestion = document.getElementById(nextQuestionId);
+
+        // Check if the current question has a value
+        if (currentQuestion.value) {
+            nextQuestion.classList.remove("hidden"); // Show the next question
+        } else {
+            nextQuestion.classList.add("hidden"); // Hide the next question
+        }
+    }
+
 
     function autocomplete(inp, arr) {
         /*the autocomplete function takes two arguments,

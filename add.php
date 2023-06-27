@@ -7224,7 +7224,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Type of Confirmatory Test</label>
-                                                            <select name="confirmatory_test_type" style="width: 100%;" required>
+                                                            <select name="confirmatory_test_type" style="width: 100%;">
                                                                 <option value="<?= $results['confirmatory_test_type'] ?>"><?php if ($results) {
                                                                                                                                 if ($results['confirmatory_test_type'] == 1) {
                                                                                                                                     echo 'HPLC';

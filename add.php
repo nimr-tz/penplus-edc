@@ -6704,7 +6704,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Did the patient do an ECG?</label>
-                                                        <select name="ecg_performed" id="ecg_performed" style="width: 100%;" onchange=hideEcg() required>
+                                                        <select name="ecg_performed" id="ecg_performed" style="width: 100%;" onchange="checkQuestionValue1('ecg_performed','ecg_performed1')">
                                                             <option value="<?= $results['ecg_performed'] ?>"><?php if ($results) {
                                                                                                                     if ($results['ecg_performed'] == 1) {
                                                                                                                         echo 'Yes';
@@ -6714,7 +6714,6 @@ if ($user->isLoggedIn()) {
                                                                                                                 } else {
                                                                                                                     echo 'Select';
                                                                                                                 } ?></option>
-                                                                                                                                                                            <option value="1">Yes</option>
                                                             <option value="">Select</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
@@ -6722,8 +6721,12 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div id="ecg_performed1" style="display: none;">
+
+                                        <div class="hidden" id="ecg_performed1">
+                                             <div class="row">
+
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -6741,7 +6744,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>ECG</label>
-                                                            <select name="ecg" id="ecg" style="width: 100%;">
+                                                            <select name="ecg" id="ecg" style="width: 100%;" onchange="checkQuestionValue96('ecg','ecg_other')">
                                                                 <option value="<?= $results['ecg'] ?>"><?php if ($results) {
                                                                                                             if ($results['ecg'] == 1) {
                                                                                                                 echo 'Single lead or';
@@ -6751,26 +6754,25 @@ if ($user->isLoggedIn()) {
                                                                                                                 echo 'Normal sinus rhythm';
                                                                                                             } elseif ($results['ecg'] == 4) {
                                                                                                                 echo 'Atrial fibrillation';
-                                                                                                            } elseif ($results['ecg'] == 5) {
+                                                                                                            } elseif ($results['ecg'] == 96) {
                                                                                                                 echo 'Other';
                                                                                                             }
                                                                                                         } else {
                                                                                                             echo 'Select';
                                                                                                         } ?></option>
-                                                                                                                                                                    <option value="">Select</option>
                                                                 <option value="">Select</option>
                                                                 <option value="1">Single lead or</option>
                                                                 <option value="2">12 lead</option>
                                                                 <option value="3">Normal sinus rhythm</option>
                                                                 <option value="4">Atrial fibrillation</option>
-                                                                <option value="5">Other</option>
+                                                                <option value="96">Other</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
 
 
-                                                <div class="col-sm-3" id="ecg_other">
+                                                <div class="col-sm-4 hidden" id="ecg_other">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -6797,7 +6799,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Did the patient do an echo?</label>
-                                                        <select name="echo_performed" id="echo_performed" style="width: 100%;" onchange=hideEcho() required>
+                                                        <select name="echo_performed" id="echo_performed" style="width: 100%;" onchange="checkQuestionValue1('echo_performed','echo_performed1')">
                                                             <option value="<?= $results['echo_performed'] ?>"><?php if ($results) {
                                                                                                                     if ($results['echo_performed'] == 1) {
                                                                                                                         echo 'Yes';
@@ -6807,7 +6809,6 @@ if ($user->isLoggedIn()) {
                                                                                                                 } else {
                                                                                                                     echo 'Select';
                                                                                                                 } ?></option>
-                                                                                                                                                                            <option value="">Select</option>
                                                             <option value="">Select</option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
@@ -6815,8 +6816,12 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div id="echo_performed1" style="display: none;">
+
+                                            <div class="hidden" id="echo_performed1">
+                                            <div class="row">
+
                                                 <div class="col-sm-4">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -6852,9 +6857,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div id="echo_performed2" style="display: none;">
 
                                             <div class="row">
                                                 <div class="col-sm-4">
@@ -7043,8 +7046,8 @@ if ($user->isLoggedIn()) {
                                                 <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
-                                                            <label>Other Echo</label>
-                                                            <select name="echo_other" id="echo_other" style="width: 100%;" onchange="checkQuestionValue1('echo_other','echo_performed3')">
+                                                            <label>Any Other Echo ?</label>
+                                                            <select name="echo_other" id="echo_other" style="width: 100%;" onchange="checkQuestionValue1('echo_other','echo_performed2')">
                                                                 <option value=" <?= $results['echo_other'] ?>"><?php if ($results) {
                                                                                                                     if ($results['echo_other'] == 1) {
                                                                                                                         echo 'Yes';
@@ -7064,11 +7067,11 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="row hidden" id="echo_performed3">
+                                        <div class="row hidden" id="echo_performed2">
                                             <div class="col-sm-8">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>Other specify</label>
+                                                        <label>Other Echo specify</label>
                                                         <textarea name="echo_specify" rows="4">
                                                         <?php if ($results['echo_specify']) {
                                                             print_r($results['echo_specify']);

@@ -322,9 +322,9 @@ if ($user->isLoggedIn()) {
                 'referred' => array(
                     'required' => true,
                 ),
-                'chw' => array(
-                    'required' => true,
-                ),
+                // 'chw' => array(
+                //     'required' => true,
+                // ),
             ));
             if ($validate->passed()) {
                 print_r($_POST);

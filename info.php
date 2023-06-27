@@ -1692,7 +1692,7 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-4 hidden" id="conset_date">
+                                                                    <div class="col-sm-4" id="conset_date">
                                                                         <div class="row-form clearfix">
                                                                             <div class="form-group">
                                                                                 <label>Date of Conset</label>

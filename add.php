@@ -3598,7 +3598,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Cardiovascular Diseases</label>
-                                                        <select name="cardiovascular" style="width: 100%;" required>
+                                                        <select name="cardiovascular" id="cardiovascular" style="width: 100%;" onchange="checkQuestionValue1('cardiovascular','cardiovascular_date')" required>
                                                             <option value="<?= $history['cardiovascular'] ?>"><?php if ($history) {
                                                                                                                     if ($history['cardiovascular'] == 1) {
                                                                                                                         echo 'Yes';
@@ -3616,14 +3616,14 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 hidden" id="cardiovascular_date">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Date of Cardiovascular</label>
-                                                        <input class="validate[required,custom[date]]" type="text" name="cardiovascular_date" id="cardiovascular_date" value="<?php if ($history['cardiovascular_date']) {
-                                                                                                                                                                                    print_r($history['cardiovascular_date']);
-                                                                                                                                                                                }  ?>" />
+                                                        <input class="validate[required,custom[date]]" type="text" name="cardiovascular_date" value="<?php if ($history['cardiovascular_date']) {
+                                                                                                                                                            print_r($history['cardiovascular_date']);
+                                                                                                                                                        }  ?>" />
                                                         <span>Example: 2010-12-01</span>
                                                     </div>
                                                 </div>
@@ -3633,7 +3633,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Retinopathy</label>
-                                                        <select name="retinopathy" style="width: 100%;" required>
+                                                        <select name="retinopathy" id="retinopathy" style="width: 100%;" onchange="checkQuestionValue1('retinopathy','retinopathy_date')" required>
                                                             <option value="<?= $history['retinopathy'] ?>"><?php if ($history) {
                                                                                                                 if ($history['retinopathy'] == 1) {
                                                                                                                     echo 'Yes';
@@ -3650,7 +3650,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 hidden" id="retinopathy_date">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -3672,7 +3672,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Renal Disease </label>
-                                                        <select name="renal" style="width: 100%;" required>
+                                                        <select name="renal" id="renal" style="width: 100%;" onchange="checkQuestionValue1('renal','renal_date')" required>
                                                             <option value="<?= $history['renal'] ?>"><?php if ($history) {
                                                                                                             if ($history['renal'] == 1) {
                                                                                                                 echo 'Yes';
@@ -3691,14 +3691,14 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 hidden" id="renal_date">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Date of Renal</label>
-                                                        <input class="validate[required,custom[date]]" type="text" name="renal_date" id="renal_date" value="<?php if ($history['renal_date']) {
-                                                                                                                                                                print_r($history['renal_date']);
-                                                                                                                                                            }  ?>" />
+                                                        <input class="validate[required,custom[date]]" type="text" name="renal_date" value="<?php if ($history['renal_date']) {
+                                                                                                                                                print_r($history['renal_date']);
+                                                                                                                                            }  ?>" />
                                                         <span>Example: 2010-12-01</span>
                                                     </div>
                                                 </div>
@@ -3708,7 +3708,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Stroke / TIA</label>
-                                                        <select name="stroke_tia" style="width: 100%;" required>
+                                                        <select name="stroke_tia" id="stroke_tia" style="width: 100%;" onchange="checkQuestionValue1('stroke_tia','stroke_tia_date')" required>
                                                             <option value="<?= $history['stroke_tia'] ?>"><?php if ($history) {
                                                                                                                 if ($history['stroke_tia'] == 1) {
                                                                                                                     echo 'Yes';
@@ -3725,14 +3725,14 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 hidden" id="stroke_tia_date">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Date of Stroke / TIA</label>
-                                                        <input class="validate[required,custom[date]]" type="text" name="stroke_tia_date" id="stroke_tia_date" value="<?php if ($history['stroke_tia_date']) {
-                                                                                                                                                                            print_r($history['stroke_tia_date']);
-                                                                                                                                                                        }  ?>" />
+                                                        <input class="validate[required,custom[date]]" type="text" name="stroke_tia_date" value="<?php if ($history['stroke_tia_date']) {
+                                                                                                                                                        print_r($history['stroke_tia_date']);
+                                                                                                                                                    }  ?>" />
                                                         <span>Example: 2010-12-01</span>
                                                     </div>
                                                 </div>
@@ -3746,7 +3746,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>PVD </label>
-                                                        <select name="pvd" style="width: 100%;" required>
+                                                        <select name="pvd" id="pvd" style="width: 100%;" onchange="checkQuestionValue1('pvd','pvd_date')" required>
                                                             <option value="<?= $history['pvd'] ?>"><?php if ($history) {
                                                                                                         if ($history['pvd'] == 1) {
                                                                                                             echo 'Yes';
@@ -3765,7 +3765,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 hidden" id="pvd_date">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -3782,7 +3782,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Neuropathy</label>
-                                                        <select name="neuropathy" style="width: 100%;" required>
+                                                        <select name="neuropathy" id="neuropathy" style="width: 100%;" onchange="checkQuestionValue1('neuropathy','neuropathy_date')" required>
                                                             <option value="<?= $history['neuropathy'] ?>"><?php if ($history) {
                                                                                                                 if ($history['neuropathy'] == 1) {
                                                                                                                     echo 'Yes';
@@ -3799,7 +3799,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 hidden" id="neuropathy_date">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -3821,7 +3821,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Sexual dysfunction</label>
-                                                        <select name="sexual_dysfunction" style="width: 100%;" required>
+                                                        <select name="sexual_dysfunction" id="sexual_dysfunction" style="width: 100%;" onchange="checkQuestionValue1('sexual_dysfunction','sexual_dysfunction_date')" required>
                                                             <option value="<?= $history['sexual_dysfunction'] ?>"><?php if ($history) {
                                                                                                                         if ($history['sexual_dysfunction'] == 1) {
                                                                                                                             echo 'Yes';
@@ -3838,7 +3838,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 hidden" id="sexual_dysfunction_date">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -3939,7 +3939,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Blood Transfusion</label>
-                                                        <select name="blood_transfusion" style="width: 100%;" required>
+                                                        <select name="blood_transfusion" id="blood_transfusion" style="width: 100%;" onchange="checkQuestionValue3('blood_transfusion','transfusion_born','transfusion_12months')" required>
                                                             <option value="<?= $history['blood_transfusion'] ?>"><?php if ($history) {
                                                                                                                         if ($history['blood_transfusion'] == 1) {
                                                                                                                             echo 'Yes';
@@ -3956,7 +3956,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4 hidden" id="transfusion_born">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -3968,7 +3968,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4 hidden" id="transfusion_12months">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -4012,7 +4012,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Other</label>
-                                                        <select name="other_complication" style="width: 100%;" required>
+                                                        <select name="other_complication" id="other_complication" style="width: 100%;" onchange="checkQuestionValue1('other_complication','specify_complication')" required>
                                                             <option value="<?= $history['other_complication'] ?>"><?php if ($history) {
                                                                                                                         if ($history['other_complication'] == 1) {
                                                                                                                             echo 'Yes';
@@ -4029,7 +4029,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6" id="specify_complication">
+                                            <div class="col-sm-6 hidden" id="specify_complication">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -4051,7 +4051,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>HIV</label>
-                                                    <select name="hiv" id="hiv" style="width: 100%;" required>
+                                                    <select name="hiv" id="hiv" style="width: 100%;" onchange="checkQuestionValue1('hiv','specify_complication')" required>
                                                         <option value="<?= $history['hiv'] ?>"><?php if ($history) {
                                                                                                     if ($history['hiv'] == 1) {
                                                                                                         echo 'R';
@@ -4066,7 +4066,6 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">R</option>
                                                         <option value="2">NR</option>
                                                         <option value="3">Unknown</option>
-
                                                     </select>
                                                 </div>
                                             </div>
@@ -13016,6 +13015,24 @@ if ($user->isLoggedIn()) {
                 elementToHide.classList.remove("hidden");
             } else {
                 elementToHide.classList.add("hidden");
+            }
+        }
+
+        function checkQuestionValue3(currentQuestion, elementToHide1, elementToHide2) {
+            var currentQuestionInput = document.getElementById(currentQuestion);
+            var elementToHide1 = document.getElementById(elementToHide1);
+            var elementToHide2 = document.getElementById(elementToHide2);
+
+            var questionValue = currentQuestionInput.value;
+
+            if (questionValue === "1") {
+                elementToHide1.classList.remove("hidden");
+                elementToHide2.classList.remove("hidden");
+
+            } else {
+                elementToHide1.classList.add("hidden");
+                elementToHide2.classList.remove("hidden");
+
             }
         }
 

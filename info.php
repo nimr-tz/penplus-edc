@@ -738,6 +738,12 @@ if ($user->isLoggedIn()) {
 <head>
     <title> Info - PenPLus </title>
     <?php include "head.php"; ?>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -1669,7 +1675,7 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row-form clearfix">
                                                                             <div class="form-group">
                                                                                 <label>Consenting individuals?</label>
-                                                                                <select name="consent" style="width: 100%;" required>
+                                                                                <select name="consent" id="consent" style="width: 100%;" onchange="checkQuestionValue1('consent','conset_date')" required>
                                                                                     <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
                                                                                                                                         if ($screening['consent'] == 1) {
                                                                                                                                             echo 'Yes';
@@ -1685,13 +1691,13 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-4">
+                                                                    <div class="col-sm-4 hidden" id="conset_date">
                                                                         <div class="row-form clearfix">
                                                                             <div class="form-group">
                                                                                 <label>Date of Conset</label>
-                                                                                <input class="validate[required,custom[date]]" type="text" name="conset_date" id="conset_date" value="<?php if ($screening['conset_date']) {
-                                                                                                                                                                                            print_r($screening['conset_date']);
-                                                                                                                                                                                        }  ?>" />
+                                                                                <input type="text" name="conset_date" value="<?php if ($screening['conset_date']) {
+                                                                                                                                                                            print_r($screening['conset_date']);
+                                                                                                                                                                        }  ?>" />
                                                                                 <span>Example: 2010-12-01</span>
                                                                             </div>
                                                                         </div>
@@ -3266,6 +3272,19 @@ if ($user->isLoggedIn()) {
             });
         });
     });
+
+    function checkQuestionValue1(currentQuestion, elementToHide) {
+        var currentQuestionInput = document.getElementById(currentQuestion);
+        var elementToHide = document.getElementById(elementToHide);
+
+        var questionValue = currentQuestionInput.value;
+
+        if (questionValue === "1") {
+            elementToHide.classList.remove("hidden");
+        } else {
+            elementToHide.classList.add("hidden");
+        }
+    }
 
     function toggleQuestionVisibility(currentQuestionId, nextQuestionId) {
         var currentQuestion = document.getElementById(currentQuestionId);

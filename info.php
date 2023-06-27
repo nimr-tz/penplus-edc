@@ -1375,7 +1375,8 @@ if ($user->isLoggedIn()) {
                                             <th width="40">Picture</th>
                                             <th width="10%">Study ID</th>
                                             <th width="20%">Name</th>
-                                            <th width="10%">Gender</th>
+                                            <th width="10%">TYPE</th>
+                                            <th width="5%">Gender</th>
                                             <th width="10%">Age</th>
                                             <th width="10%">Site</th>
                                             <th width="10%">Status</th>
@@ -1398,6 +1399,8 @@ if ($user->isLoggedIn()) {
                                             $visits = $override->get('visit', 'client_id', $client['id'])[0];
                                             $end_study = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
                                             $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
+                                            $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
+
 
                                             // print_r($termination);
 
@@ -1440,6 +1443,25 @@ if ($user->isLoggedIn()) {
                                                 </td>
                                                 <td><?= $client['study_id'] ?></td>
                                                 <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
+
+                                                <?php if ($type['cardiac'] == 1) { ?>
+                                                    <td>
+                                                        <a href="#" class="btn btn-default">Cardiac</a>
+                                                    </td>
+                                                <?php } elseif ($type['diabetes'] == 1) { ?>
+                                                    <td>
+                                                        <a href="#" class="btn btn-info">Diabtes</a>
+                                                    </td>
+                                                <?php } elseif ($type['sickle_cell'] == 1) { ?>
+                                                    <td>
+                                                        <a href="#" class="btn btn-success">Sickle Cell</a>
+                                                    </td>
+                                                <?php } else { ?>
+                                                    <td>
+                                                        <a href="#" class="btn btn-warning">Not Diagnosised</a>
+                                                    </td>
+                                                <?php
+                                                } ?>
                                                 <?php if ($client['gender'] == 1) { ?>
                                                     <td>MALE </td>
                                                 <?php } else { ?>

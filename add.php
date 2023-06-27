@@ -6471,18 +6471,15 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Right Heart Failure</label>
-                                                    <select name="sub_heart_failure" id="sub_heart_failure" style="width: 100%;" onchange="checkQuestionValue96('sub_heart_failure','sub_pericardial1')">
+                                                    <select name="sub_heart_failure" id="sub_heart_failure" style="width: 100%;">
                                                         <option value="<?= $diagnosis['sub_heart_failure'] ?>"><?php if ($diagnosis) {
                                                                                                                     if ($diagnosis['heart_failure'] == 1) {
-                                                                                                                        echo 'Yes';
-                                                                                                                    } elseif ($diagnosis['heart_failure'] == 2) {
-                                                                                                                        echo 'No';
-                                                                                                                    }
+                                                                                                                        echo 'Chronic Lung Disease';
+                                                                                                                    } 
                                                                                                                 } else {
                                                                                                                     echo 'Select';
                                                                                                                 } ?></option>
-                                                        <option value="1">Yes</option>
-                                                        <option value="2">No</option>
+                                                        <option value="1">Chronic Lung Disease</option>
                                                     </select>
                                                 </div>
                                             </div>

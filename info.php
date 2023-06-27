@@ -1700,62 +1700,69 @@ if ($user->isLoggedIn()) {
 
                                                                 <div class="row">
 
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Known NCD?</div>
-                                                                        <div class="col-md-4">
-                                                                            <select name="ncd" style="width: 100%;" required>
-                                                                                <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
-                                                                                                                                if ($screening['ncd'] == 1) {
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="form-group">
+                                                                                <label>Known NCD?</label>
+                                                                                <select name="ncd" style="width: 100%;" required>
+                                                                                    <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
+                                                                                                                                    if ($screening['ncd'] == 1) {
+                                                                                                                                        echo 'Yes';
+                                                                                                                                    } elseif ($screening['ncd'] == 2) {
+                                                                                                                                        echo 'No';
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    echo 'Select';
+                                                                                                                                } ?></option>
+                                                                                    <option value="1">Yes</option>
+                                                                                    <option value="2">No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="form-group">
+                                                                                <label>Confirmed cases for DM ?</label>
+                                                                                <select name="dm" style="width: 100%;" required>
+                                                                                    <option value="<?= $screening['dm'] ?>"><?php if ($screening) {
+                                                                                                                                if ($screening['dm'] == 1) {
                                                                                                                                     echo 'Yes';
-                                                                                                                                } elseif ($screening['ncd'] == 2) {
+                                                                                                                                } elseif ($screening['dm'] == 2) {
                                                                                                                                     echo 'No';
                                                                                                                                 }
                                                                                                                             } else {
                                                                                                                                 echo 'Select';
                                                                                                                             } ?></option>
-                                                                                <option value="1">Yes</option>
-                                                                                <option value="2">No</option>
-                                                                            </select>
+                                                                                    <option value="1">Yes</option>
+                                                                                    <option value="2">No</option>
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="form-group">
+                                                                                <label>Confirmed cases for RHD ?</label>
+                                                                                <select name="rhd" style="width: 100%;" required>
+                                                                                    <option value="<?= $screening['rhd'] ?>"><?php if ($screening) {
+                                                                                                                                    if ($screening['rhd'] == 1) {
+                                                                                                                                        echo 'Yes';
+                                                                                                                                    } elseif ($screening['rhd'] == 2) {
+                                                                                                                                        echo 'No';
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    echo 'Select';
+                                                                                                                                } ?></option>
+                                                                                    <option value="1">Yes</option>
+                                                                                    <option value="2">No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Confirmed cases for DM</div>
-                                                                        <div class="col-md-4">
-                                                                            <select name="dm" style="width: 100%;" required>
-                                                                                <option value="<?= $screening['dm'] ?>"><?php if ($screening) {
-                                                                                                                            if ($screening['dm'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($screening['dm'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                                <option value="1">Yes</option>
-                                                                                <option value="2">No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Confirmed cases for RHD</div>
-                                                                        <div class="col-md-4">
-                                                                            <select name="rhd" style="width: 100%;" required>
-                                                                                <option value="<?= $screening['rhd'] ?>"><?php if ($screening) {
-                                                                                                                                if ($screening['rhd'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($screening['rhd'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                                <option value="1">Yes</option>
-                                                                                <option value="2">No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="row">
 
                                                                     <div class="row-form clearfix">
                                                                         <div class="col-md-8">Confirmed cases for SCD</div>

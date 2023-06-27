@@ -222,9 +222,10 @@ if ($user->isLoggedIn()) {
             $validate = $validate->check($_POST, array(
                 'screening_date' => array(
                     'required' => true,
-                ),                'conset_date' => array(
-                    'required' => true,
                 ),
+                // 'conset_date' => array(
+                //     'required' => true,
+                // ),
                 'ncd' => array(
                     'required' => true,
                 ),

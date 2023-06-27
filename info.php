@@ -1653,44 +1653,52 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="modal-body modal-body-np">
                                                                 <div class="row">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Date of Screening</div>
-                                                                        <div class="col-md-4">
-                                                                            <input class="validate[required,custom[date]]" type="text" name="screening_date" id="screening_date" value="<?php if ($screening['screening_date']) {
-                                                                                                                                                                                            print_r($screening['screening_date']);
+
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="form-group">
+                                                                                <label>Date of Screening</label>
+                                                                                <input class="validate[required,custom[date]]" type="text" name="screening_date" id="screening_date" value="<?php if ($screening['screening_date']) {
+                                                                                                                                                                                                print_r($screening['screening_date']);
+                                                                                                                                                                                            }  ?>" />
+                                                                                <span>Example: 2010-12-01</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="form-group">
+                                                                                <label>Consenting individuals?</label>
+                                                                                <select name="consent" style="width: 100%;" required>
+                                                                                    <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
+                                                                                                                                        if ($screening['consent'] == 1) {
+                                                                                                                                            echo 'Yes';
+                                                                                                                                        } elseif ($screening['consent'] == 2) {
+                                                                                                                                            echo 'No';
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        echo 'Select';
+                                                                                                                                    } ?></option>
+                                                                                    <option value="1">Yes</option>
+                                                                                    <option value="2">No</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="form-group">
+                                                                                <label>Date of Conset</label>
+                                                                                <input class="validate[required,custom[date]]" type="text" name="conset_date" id="conset_date" value="<?php if ($screening['conset_date']) {
+                                                                                                                                                                                            print_r($screening['conset_date']);
                                                                                                                                                                                         }  ?>" />
-                                                                            <span>Example: 2010-12-01</span>
+                                                                                <span>Example: 2010-12-01</span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
+                                                                </div>
 
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Consenting individuals?</div>
-                                                                        <div class="col-md-4">
-                                                                            <select name="consent" style="width: 100%;" required>
-                                                                                <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
-                                                                                                                                    if ($screening['consent'] == 1) {
-                                                                                                                                        echo 'Yes';
-                                                                                                                                    } elseif ($screening['consent'] == 2) {
-                                                                                                                                        echo 'No';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                                <option value="1">Yes</option>
-                                                                                <option value="2">No</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="col-md-8">Date of Conset</div>
-                                                                        <div class="col-md-4">
-                                                                            <input class="validate[required,custom[date]]" type="text" name="conset_date" id="conset_date" value="<?php if ($screening['conset_date']) {
-                                                                                                                                                                                        print_r($screening['conset_date']);
-                                                                                                                                                                                    }  ?>" />
-                                                                            <span>Example: 2010-12-01</span>
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="row">
 
                                                                     <div class="row-form clearfix">
                                                                         <div class="col-md-8">Known NCD?</div>

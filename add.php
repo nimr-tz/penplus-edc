@@ -5215,7 +5215,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>Other Pain</label>
+                                                        <label>Any Other Pain?</label>
                                                         <select name="other_pain" id="other_pain" style="width: 100%;" onchange="checkQuestionValue1('other_pain','other_pain_hides')">
                                                             <option value="<?= $symptoms['other_pain'] ?>"><?php if ($symptoms) {
                                                                                                                 if ($symptoms['other_pain'] == 1) {
@@ -5557,7 +5557,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>Other (Symptoms)</label>
+                                                        <label>Any Other (Symptoms) ?</label>
                                                         <select name="other_sickle" id="other_sickle" style="width: 100%;" onchange="checkQuestionValue1('other_sickle','sickle_specify')">
                                                             <option value="<?= $symptoms['other_sickle'] ?>"><?php if ($symptoms) {
                                                                                                                     if ($symptoms['other_sickle'] == 1) {
@@ -5583,7 +5583,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-sm-6 hidden" id="sickle_specify">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
-                                                        <label>Other (Specify)</label>
+                                                        <label>Other Symptoms (Specify)</label>
                                                         <input type="text" name="sickle_specify" value="<?php if ($symptoms['sickle_specify']) {
                                                                                                             print_r($symptoms['sickle_specify']);
                                                                                                         }  ?>" />

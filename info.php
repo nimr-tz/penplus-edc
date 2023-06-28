@@ -97,6 +97,11 @@ if ($user->isLoggedIn()) {
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = 'User Deleted Successful';
+        } elseif (Input::get('delete_client')) {
+            $user->updateRecord('clients', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'User Deleted Successful';
         } elseif (Input::get('edit_study')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
@@ -1577,7 +1582,7 @@ if ($user->isLoggedIn()) {
                                             <td>
                                                 <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
                                                     <a href="#clientView<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
-                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->power == 1) { ?>
+                                                    <?php if ($user->data()->position == 1) { ?>
                                                         <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
                                                         <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                     <?php } ?>
@@ -1615,16 +1620,16 @@ if ($user->isLoggedIn()) {
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                                <h4>Delete User</h4>
+                                                                <h4>Delete Client</h4>
                                                             </div>
                                                             <div class="modal-body">
                                                                 <strong style="font-weight: bold;color: red">
-                                                                    <p>Are you sure you want to delete this user</p>
+                                                                    <p>Are you sure you want to delete this Client</p>
                                                                 </strong>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <input type="hidden" name="id" value="<?= $client['id'] ?>">
-                                                                <input type="submit" name="delete_staff" value="Delete" class="btn btn-danger">
+                                                                <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                             </div>
                                                         </div>
@@ -2834,7 +2839,9 @@ if ($user->isLoggedIn()) {
                                         <?php }  ?>
 
 
-                                        <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1) || $override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+                                        <?php
+                                        //  if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1) || $override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { 
+                                            ?>
                                             <tr>
                                                 <td>6</td>
                                                 <?php if ($_GET['seq'] == 1) { ?>
@@ -2852,7 +2859,9 @@ if ($user->isLoggedIn()) {
 
                                             </tr>
 
-                                        <?php } ?>
+                                        <?php
+                                    //  }
+                                      ?>
 
                                         <tr>
                                             <td>7</td>
@@ -2926,20 +2935,20 @@ if ($user->isLoggedIn()) {
                                             <?php } ?>
 
                                         </tr>
+                                        <?php if ($_GET['seq'] == 1) { ?>
 
-                                        <tr>
-                                            <td>13</td>
-                                            <td>Socioeconomic Status</td>
-                                            <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                            <tr>
+                                                <td>13</td>
+                                                <td>Socioeconomic Status</td>
+                                                <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
-                                            <?php } else { ?>
-                                                <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
-                                            <?php } ?>
+                                                    <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
+                                                <?php } else { ?>
+                                                    <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                <?php } ?>
 
-                                        </tr>
-
-
+                                            </tr>
+                                        <?php } ?>
 
                                     </tbody>
                                 </table>

@@ -50,7 +50,7 @@ if ($user->isLoggedIn()) {
                 <span class="isw-grid"></span><span class="text">Dashboard</span>
             </a>
         </li>
-        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+        <?php if ($user->data()->position == 1) { ?>
             <li class="openable">
                 <a href="#"><span class="isw-user"></span><span class="text">Staff</span></a>
                 <ul>
@@ -66,55 +66,59 @@ if ($user->isLoggedIn()) {
                     </li>
                 </ul>
             </li>
-            <li class="openable">
-                <a href="#"><span class="isw-users"></span><span class="text">Clients Registration</span></a>
-                <ul>
+        <?php } ?>
+
+        <li class="openable">
+            <a href="#"><span class="isw-users"></span><span class="text">Clients Registration</span></a>
+            <ul>
+                <li>
+                    <a href="add.php?id=4">
+                        <span class="glyphicon glyphicon-user"></span><span class="text">Register New Client</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="info.php?id=3&status=5">
+                        <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Registred Clients</span>
+                        <span class="badge badge-secondary badge-pill"><?= $registered ?></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="info.php?id=3&status=6">
+                        <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients Not Screened</span>
+                        <span class="badge badge-secondary badge-pill"><?= $not_screened ?></span>
+                    </a>
+                </li>
+
+                <?php if ($user->data()->position == 1) { ?>
+
                     <li>
-                        <a href="add.php?id=4">
-                            <span class="glyphicon glyphicon-user"></span><span class="text">Register New Client</span>
+                        <a href="info.php?id=3&status=7">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">All Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $all ?></span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="info.php?id=3&status=5">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Registred Clients</span>
-                            <span class="badge badge-secondary badge-pill"><?= $registered ?></span>
+                        <a href="info.php?id=3&status=8">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Deleted Clients</span>
+                            <span class="badge badge-secondary badge-pill"><?= $deleted ?></span>
                         </a>
                     </li>
 
-                    <li>
-                        <a href="info.php?id=3&status=6">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients Not Screened</span>
-                            <span class="badge badge-secondary badge-pill"><?= $not_screened ?></span>
-                        </a>
-                    </li>
 
-                    <?php if ($user->data()->accessLevel == 1) { ?>
-
-                        <li>
-                            <a href="info.php?id=3&status=7">
-                                <span class="glyphicon glyphicon-registration-mark"></span><span class="text">All Clients</span>
-                                <span class="badge badge-secondary badge-pill"><?= $all ?></span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="info.php?id=3&status=8">
-                                <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Deleted Clients</span>
-                                <span class="badge badge-secondary badge-pill"><?= $deleted ?></span>
-                            </a>
-                        </li>
-
-                    <?php } ?>
 
                     <!-- <li class="active">
                     <a href="info.php?id=3&status=7" target="_blank">
                         <span class="isw-download"></span><span class="text">Pending Clients Visits</span>
                     </a>
                 </li> -->
-                </ul>
-            </li>
-            <!-- 
+                <?php } ?>
+
+            </ul>
+        </li>
+        <!-- 
             <li class="openable">
                 <a href="#"><span class="isw-documents"></span><span class="text">Reports</span></a>
                 <ul>
@@ -125,6 +129,8 @@ if ($user->isLoggedIn()) {
                     </li>
                 </ul>
             </li> -->
+        <?php if ($user->data()->position == 1) { ?>
+
             <li class="">
                 <a href="#">
                     <span class="isw-download"></span><span class="text">Download</span>
@@ -150,11 +156,16 @@ if ($user->isLoggedIn()) {
                     </li>
                 </ul>
             </li>
+        <?php } ?>
+
+
+        <?php if ($user->data()->position == 1) { ?>
 
 
             <li class="openable">
                 <a href="#"><span class="isw-tag"></span><span class="text">Extra</span></a>
                 <ul>
+
                     <li>
                         <a href="add.php?id=2">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Position</span>
@@ -165,6 +176,10 @@ if ($user->isLoggedIn()) {
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Medications</span>
                         </a>
                     </li>
+                <?php } ?>
+
+                <?php if ($user->data()->power == 1) { ?>
+
                     <li>
                         <a href="add.php?id=27">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Test Multiple</span>
@@ -195,6 +210,10 @@ if ($user->isLoggedIn()) {
                             <span class="glyphicon glyphicon-list"></span><span class="text">Clear Data on Table</span>
                         </a>
                     </li>
+                <?php } ?>
+                <?php if ($user->data()->position == 1) { ?>
+
+
                     <li>
                         <a href="info.php?id=2">
                             <span class="glyphicon glyphicon-share"></span><span class="text">Manage</span>
@@ -202,7 +221,9 @@ if ($user->isLoggedIn()) {
                     </li>
                 </ul>
             </li>
-        <?php } else { ?>
+        <?php } ?>
+        <?php if ($user->data()->power == 1) { ?>
+
             <li class="openable">
                 <a href="#"><span class="isw-user"></span><span class="text">Pre Screening</span></a>
                 <ul>
@@ -214,21 +235,6 @@ if ($user->isLoggedIn()) {
                     <li>
                         <a href="info.php?id=6">
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Pre-screening List</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="openable">
-                <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
-                <ul>
-                    <li>
-                        <a href="add.php?id=4">
-                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Client</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="info.php?id=3&status=1">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Clients</span>
                         </a>
                     </li>
                 </ul>

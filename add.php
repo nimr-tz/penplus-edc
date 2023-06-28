@@ -230,6 +230,16 @@ if ($user->isLoggedIn()) {
                         }
                         $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
 
+                        // $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
+                        $check_clients = $override->countData3('clients', 'firstname', Input::get('firstname'), 'middlename', Input::get('middlename'), 'lastname', Input::get('lastname'));
+
+                        $firstname = Input::get('firstname');
+                        $middlename = Input::get('middlename');
+                        $lastname = Input::get('lastname');
+
+                        if ($check_clients >= 1) {
+                            $errorMessage = 'Participant '. $firstname .' -  ' . $middlename . '  -  ' . $lastname . '  -  '. '  Already Registered';
+                        } else {
 
                         if ($override->get('clients', 'id', $_GET['cid'])) {
                             $user->updateRecord('clients', array(
@@ -304,6 +314,7 @@ if ($user->isLoggedIn()) {
                         $successMessage = 'Client Added Successful';
                         // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                         Redirect::to('info.php?id=3&status=5');
+                    }
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2674,12 +2685,14 @@ if ($user->isLoggedIn()) {
                                     </div>
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Phone Number:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span></div>
+                                        <div class="col-md-9"><input value="" class="" type="text" name="phone_number" id="phone"/> <span>Example: 0700 000 111</span></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">E-mail Address:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[email]]" type="text" name="email_address" id="email" /> <span>Example: someone@nowhere.com</span></div>
+                                        <!-- <div class="col-md-9"><input value="" class="validate[required,custom[email]]" type="text" name="email_address" id="email" /> <span>Example: someone@nowhere.com</span></div> -->
+
+                                        <div class="col-md-9"><input value="" type="text" name="email_address" id="email" /> <span>Example: someone@nowhere.com</span></div>
                                     </div>
 
                                     <div class="footer tar">
@@ -2795,7 +2808,7 @@ if ($user->isLoggedIn()) {
                                 <h1>Add Client</h1>
                             </div>
                             <div class="block-fluid">
-                                <form id="validation" enctype="multipart/form-data" method="post">
+                                <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
 
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -2814,7 +2827,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>First Name</label>
-                                                    <input class="validate[required]" type="text" name="firstname" id="firstname" value="<?php if ($client['firstname']) {
+                                                    <input class="validate[required]" type="text" name="firstname" id="firstname" placeholder="Type firstname..." onkeyup="fetchData()"  value="<?php if ($client['firstname']) {
                                                                                                                                                 print_r($client['firstname']);
                                                                                                                                             }  ?>" required />
                                                 </div>
@@ -2825,7 +2838,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Middle Name</label>
-                                                    <input class="validate[required]" type="text" name="middlename" id="middlename" value="<?php if ($client['middlename']) {
+                                                    <input class="validate[required]" type="text" name="middlename" id="middlename" placeholder="Type middlename..." onkeyup="fetchData()"  value="<?php if ($client['middlename']) {
                                                                                                                                                 print_r($client['middlename']);
                                                                                                                                             }  ?>" required />
                                                 </div>
@@ -2835,7 +2848,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Last Name</label>
-                                                    <input class="validate[required]" type="text" name="lastname" id="lastname" value="<?php if ($client['lastname']) {
+                                                    <input class="validate[required]" type="text" name="lastname" id="lastname" placeholder="Type lastname..." onkeyup="fetchData()"  value="<?php if ($client['lastname']) {
                                                                                                                                             print_r($client['lastname']);
                                                                                                                                         }  ?>" required />
                                                 </div>
@@ -2897,6 +2910,8 @@ if ($user->isLoggedIn()) {
                                                                                                                     echo 'Undergraduate degree';
                                                                                                                 } elseif ($client['education_level'] == 7) {
                                                                                                                     echo 'Postgraduate degree';
+                                                                                                                }elseif ($client['education_level'] == 8) {
+                                                                                                                    echo 'N / A';
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 echo 'Select';
@@ -2908,6 +2923,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="5">Diploma</option>
                                                         <option value="6">Undergraduate degree</option>
                                                         <option value="7">Postgraduate degree</option>
+                                                        <option value="8">N / A</option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -2947,6 +2964,8 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Employed but on leave of absence';
                                                                                                                     } elseif ($client['employment_status'] == 4) {
                                                                                                                         echo 'Unemployed';
+                                                                                                                    } elseif ($client['employment_status'] == 5) {
+                                                                                                                        echo 'Student';
                                                                                                                     }
                                                                                                                 } else {
                                                                                                                     echo 'Select';
@@ -2955,6 +2974,8 @@ if ($user->isLoggedIn()) {
                                                             <option value="2">Self-employed</option>
                                                             <option value="3">Employed but on leave of absence</option>
                                                             <option value="4">Unemployed</option>
+                                                            <option value="5">Student</option>
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -9646,6 +9667,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 echo 'Yes, in the past';
                                                                                                             } elseif ($risks['risk_tobacco'] == 3) {
                                                                                                                 echo 'never';
+                                                                                                            }elseif ($risks['risk_tobacco'] == 4) {
+                                                                                                                echo 'Unknown';
                                                                                                             }
                                                                                                         } else {
                                                                                                             echo 'Select';
@@ -9654,6 +9677,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Yes, currently</option>
                                                         <option value="2">Yes, in the past</option>
                                                         <option value="3">never</option>
+                                                        <option value="4">Unknown</option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -9672,6 +9697,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 echo 'Yes, in the past';
                                                                                                             } elseif ($risks['risk_alcohol'] == 3) {
                                                                                                                 echo 'never';
+                                                                                                            }elseif ($risks['risk_tobacco'] == 4) {
+                                                                                                                echo 'Unknown';
                                                                                                             }
                                                                                                         } else {
                                                                                                             echo 'Select';
@@ -9680,6 +9707,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Yes, currently</option>
                                                         <option value="2">Yes, in the past</option>
                                                         <option value="3">never</option>
+                                                        <option value="4">Unknown</option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -9702,6 +9731,8 @@ if ($user->isLoggedIn()) {
                                                                                                                     echo 'Unemployed';
                                                                                                                 } elseif ($risks['risk_employment'] == 4) {
                                                                                                                     echo 'Leave of absence';
+                                                                                                                }elseif ($risks['risk_employment'] == 5) {
+                                                                                                                    echo 'Student';
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 echo 'Select';
@@ -9710,7 +9741,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Employed</option>
                                                         <option value="2">Self-employed</option>
                                                         <option value="3">Unemployed</option>
-                                                        <option value="3">Leave of absence</option>
+                                                        <option value="4">Leave of absence</option>
+                                                        <option value="5">Student</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -9891,7 +9923,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Date Screened:</label>
                                                     <input type="text" name="risk_tb_date"  value="<?php if ($risks['risk_tb_date']) {
                                                                                                                         print_r($risks['risk_tb_date']);
-                                                                                                                    }  ?>" required />
+                                                                                                                    }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -11010,7 +11042,7 @@ if ($user->isLoggedIn()) {
                                                     <label>How old is your head of household?</label>
                                                     <input type="text" name="household_years" id="household_years" value="<?php if ($social_economic['household_years']) {
                                                                                                                                 print_r($social_economic['household_years']);
-                                                                                                                            }  ?>" required />
+                                                                                                                            }  ?>" />
                                                     <span>( Age in Years )</span>
 
                                                 </div>
@@ -11026,7 +11058,7 @@ if ($user->isLoggedIn()) {
                                                     <label>How many people are in your household?</label>
                                                     <input type="text" name="household_people" id="household_head_other" value="<?php if ($social_economic['household_head_other']) {
                                                                                                                                     print_r($social_economic['household_head_other']);
-                                                                                                                                }  ?>" required />
+                                                                                                                                }  ?>" />
                                                     <span>( ENTER NUMBERS )</span>
 
                                                 </div>
@@ -11038,7 +11070,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>How do you rate your wealth in comparison to others?:</label>
-                                                    <select name="wealth_rate" id="wealth_rate" style="width: 100%;" required>
+                                                    <select name="wealth_rate" id="wealth_rate" style="width: 100%;">
                                                         <option value="<?= $social_economic['wealth_rate'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['wealth_rate'] == 1) {
                                                                                                                         echo 'Among most wealthy';
@@ -11071,7 +11103,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Who is the primary income earner in the household ?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;">
+                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" onchange="checkQuestionValue96('primary_income_earner','primary_income_earner_other')">
                                                         <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['primary_income_earner'] == 1) {
                                                                                                                                     echo 'Patient';
@@ -11100,12 +11132,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="primary_income_earner_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
+                                                    <input type="text" name="primary_income_earner_other"  value="<?php if ($social_economic['primary_income_earner_other']) {
                                                                                                                                                         print_r($social_economic['primary_income_earner_other']);
                                                                                                                                                     }  ?>" />
 
@@ -11120,7 +11152,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Is the patients currently formally employed?:</label>
-                                                    <select name="formally_employed" id="formally_employed" style="width: 100%;">
+                                                    <select name="formally_employed" id="formally_employed" style="width: 100%;" onchange="checkQuestionValue96('formally_employed','formally_employed_other')">
                                                         <option value="<?= $social_economic['formally_employed'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['formally_employed'] == 1) {
                                                                                                                                 echo 'Yes, formal work ';
@@ -11158,12 +11190,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="formally_employed_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="formally_employed_other" id="formally_employed_other" value="<?php if ($social_economic['formally_employed_other']) {
+                                                    <input type="text" name="formally_employed_other"  value="<?php if ($social_economic['formally_employed_other']) {
                                                                                                                                                 print_r($social_economic['formally_employed_other']);
                                                                                                                                             }  ?>" />
 
@@ -11178,7 +11210,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If formal /informal work/housework what is your main income based on?:</label>
-                                                    <select name="main_income_based" id="main_income_based" style="width: 100%;">
+                                                    <select name="main_income_based" id="main_income_based" style="width: 100%;" onchange="checkQuestionValue96('main_income_based','main_income_based_other')">
                                                         <option value="<?= $social_economic['main_income_based'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['main_income_based'] == 1) {
                                                                                                                                 echo 'Monthly salary';
@@ -11210,12 +11242,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="main_income_based_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="main_income_based_other" id="main_income_based_other" value="<?php if ($social_economic['main_income_based_other']) {
+                                                    <input type="text" name="main_income_based_other" value="<?php if ($social_economic['main_income_based_other']) {
                                                                                                                                                 print_r($social_economic['main_income_based_other']);
                                                                                                                                             }  ?>" />
 
@@ -13377,6 +13409,182 @@ if ($user->isLoggedIn()) {
                     // Handle any errors that occurred during the fetch request
                     console.error('Error:', error);
                 });
+
+                        fetch('fetch_firstname.php')
+            .then(response => response.json())
+            .then(data => {
+                // Process the data received from the PHP script
+                // console.log(data);
+                autocomplete(document.getElementById("firstname"), data);
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch request
+                console.error('Error:', error);
+            });
+
+        fetch('fetch_middlename.php')
+            .then(response => response.json())
+            .then(data => {
+                // Process the data received from the PHP script
+                // console.log(data);
+                autocomplete(document.getElementById("middlename"), data);
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch request
+                console.error('Error:', error);
+            });
+
+
+        fetch('fetch_lastname.php')
+            .then(response => response.json())
+            .then(data => {
+                // Process the data received from the PHP script
+                autocomplete(document.getElementById("lastname"), data);
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch request
+                console.error('Error:', error);
+            });
+
+
+     
+     
+            $(document).ready(function() {
+
+            $("#add_crf6").click(function(e) {
+                // if ($("#validation")[0].checkValidity()) {
+                //   PREVENT PAGE TO REFRESH
+                // e.preventDefault();
+
+
+
+                // if($("#FDATE").val() == ''){
+                //     $("#FDATEError").text('* Date is empty');
+                // };
+                // if($("#cDATE").val() == ''){
+                //     $("#cDATEError").text('* Date is empty');
+                // };
+                // if($("#cpersid").val() == ''){
+                //     $("#cpersidError").text('* NAME is empty');
+                // };
+
+
+                if ($("#renal_urea").val() == '') {
+                    $("#renal_ureaError").text('* Renal Urea is empty');
+                };
+
+                if ($("#renal_urea_units").val() == '') {
+                    $("#renal_urea_unitsError").text('* Renal Urea Units is empty');
+                };
+
+                // if ($("#password1").val() != $("#password2").val()) {
+                //     $("#passError").text('* Passowrd do not match');
+                //     //console.log("Not matched"); 
+                //     $("#register-btn").val('Sign Up');
+                // }
+                // }
+            });
+
+            $('#weight, #height').on('input', function() {
+                setTimeout(function() {
+                    var weight = $('#weight').val();
+                    var height = $('#height').val() / 100; // Convert cm to m
+                    var bmi = weight / (height * height);
+                    $('#bmi').text(bmi.toFixed(2));
+                }, 1);
+            });
+
+            $("#one").on("input", null, null, function(e) {
+                if ($("#one").val().length == 2) {
+                    setTimeout(function() {
+                        $("#two").focus();
+                    }, 1);
+                }
+            });
+            $("#three").click(function() {
+                $("#four").focus();
+            });
+            $("#five").on("input", null, null, function() {
+                if ($("#five").val().length == 2) {
+                    $("#six").val("It works!");
+                }
+            });
+
+
+            $('#fl_wait').hide();
+            $('#wait_ds').hide();
+            $('#region').change(function() {
+                var getUid = $(this).val();
+                $('#wait_ds').show();
+                $.ajax({
+                    url: "process.php?cnt=region",
+                    method: "GET",
+                    data: {
+                        getUid: getUid
+                    },
+                    success: function(data) {
+                        $('#ds_data').html(data);
+                        $('#wait_ds').hide();
+                    }
+                });
+            });
+            $('#wait_wd').hide();
+            $('#ds_data').change(function() {
+                $('#wait_wd').hide();
+                var getUid = $(this).val();
+                $.ajax({
+                    url: "process.php?cnt=district",
+                    method: "GET",
+                    data: {
+                        getUid: getUid
+                    },
+                    success: function(data) {
+                        $('#wd_data').html(data);
+                        $('#wait_wd').hide();
+                    }
+                });
+
+            });
+
+            $('#a_cc').change(function() {
+                var getUid = $(this).val();
+                $('#wait').show();
+                $.ajax({
+                    url: "process.php?cnt=payAc",
+                    method: "GET",
+                    data: {
+                        getUid: getUid
+                    },
+                    success: function(data) {
+                        $('#cus_acc').html(data);
+                        $('#wait').hide();
+                    }
+                });
+
+            });
+
+            $('#study_id').change(function() {
+                var getUid = $(this).val();
+                var type = $('#type').val();
+                $('#fl_wait').show();
+                $.ajax({
+                    url: "process.php?cnt=study",
+                    method: "GET",
+                    data: {
+                        getUid: getUid,
+                        type: type
+                    },
+
+                    success: function(data) {
+                        console.log(data);
+                        $('#s2_2').html(data);
+                        $('#fl_wait').hide();
+                    }
+                });
+
+            });
+
+        });
         }
 
         // function fetchData() {

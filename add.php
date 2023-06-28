@@ -322,9 +322,9 @@ if ($user->isLoggedIn()) {
                 'referred' => array(
                     'required' => true,
                 ),
-                'chw' => array(
-                    'required' => true,
-                ),
+                // 'chw' => array(
+                //     'required' => true,
+                // ),
             ));
             if ($validate->passed()) {
                 print_r($_POST);
@@ -566,7 +566,7 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_diabetic')) {
             $validate = $validate->check($_POST, array(
-                'hypertension' => array(
+                'diagnosis_date' => array(
                     'required' => true,
                 ),
 
@@ -581,6 +581,7 @@ if ($user->isLoggedIn()) {
                         $user->updateRecord('diabetic', array(
                             'visit_date' => Input::get('diagnosis_date'),
                             'diagnosis' => Input::get('diagnosis'),
+                            'diagnosis_other' => Input::get('diagnosis_other'),
                             'hypertension' => Input::get('hypertension'),
                             'hypertension_date' => Input::get('hypertension_date'),
                             'symptoms' => Input::get('symptoms'),
@@ -602,6 +603,7 @@ if ($user->isLoggedIn()) {
                         $user->createRecord('diabetic', array(
                             'visit_date' => Input::get('diagnosis_date'),
                             'diagnosis' => Input::get('diagnosis'),
+                            'diagnosis_other' => Input::get('diagnosis_other'),
                             'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
@@ -1293,6 +1295,8 @@ if ($user->isLoggedIn()) {
                                 'rv' => Input::get('rv'),
                                 'pericardial' => Input::get('pericardial'),
                                 'ivc' => Input::get('ivc'),
+                                'congenital_defect' => Input::get('congenital_defect'),
+                                'thrombus' => Input::get('thrombus'),   
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
@@ -1351,6 +1355,8 @@ if ($user->isLoggedIn()) {
                             'rv' => Input::get('rv'),
                             'pericardial' => Input::get('pericardial'),
                             'ivc' => Input::get('ivc'),
+                             'congenital_defect' => Input::get('congenital_defect'),
+                            'thrombus' => Input::get('thrombus'),                            
                             'echo_other' => Input::get('echo_other'),
                             'echo_specify' => Input::get('echo_specify'),
                             'echo_other2' => Input::get('echo_other2'),
@@ -3171,7 +3177,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Vital sign Date:</label>
+                                                        <label>Date of Visit:</label>
                                                         <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($demographic['visit_date']) {
                                                                                                                                                                 print_r($demographic['visit_date']);
                                                                                                                                                             }  ?>" />
@@ -4771,7 +4777,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry Date</label>
+                                                    <label>Visit Date</label>
                                                     <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($symptoms['visit_date']) {
                                                                                                                                                             print_r($symptoms['visit_date']);
                                                                                                                                                         }  ?>" />
@@ -5354,7 +5360,7 @@ if ($user->isLoggedIn()) {
                                                         <?php } else { ?>
                                                             <label>Severe hypoglycemia since last visit?:</label>
                                                         <?php } ?>
-                                                        <select name="hypoglycemia_severe" id="hypoglycemia_severe" style="width: 100%;">
+                                                        <select name="hypoglycemia_severe" id="hypoglycemia_severe" style="width: 100%;" onchange="checkQuestionValue1('hypoglycemia_severe','hypoglycemia__number')">
                                                             <option value="<?= $symptoms['hypoglycemia_severe'] ?>"><?php if ($symptoms) {
                                                                                                                         if ($symptoms['hypoglycemia_severe'] == 1) {
                                                                                                                             echo 'Yes';
@@ -5375,7 +5381,7 @@ if ($user->isLoggedIn()) {
                                             </div>
 
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 hidden" id="hypoglycemia__number">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>If Yes, how many episodes of severe hypoglycemia</label>
@@ -5669,7 +5675,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Other specify:</label>
+                                                        <label>Other Lung specify:</label>
                                                         <input type="text" name="lungs_other" value="<?php if ($symptoms['lungs_other']) {
                                                                                                             print_r($symptoms['lungs_other']);
                                                                                                         }  ?>" />
@@ -5786,11 +5792,11 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3" id="foot_exam_finding1">
+                                            <div class="col-sm-3 hidden" id="foot_exam_finding1">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Foot Exam Category</label>
-                                                        <select name="foot_exam_finding" id="foot_exam_finding" style="width: 100%;" onchange="checkQuestionValue21('foot_exam_finding','foot_exam_finding')">
+                                                        <select name="foot_exam_finding" id="foot_exam_finding" style="width: 100%;" onchange="checkQuestionValue21('foot_exam_finding','foot_exam_other')">
                                                             <option value="<?= $symptoms['foot_exam_finding'] ?>"><?php if ($symptoms) {
                                                                                                                         if ($symptoms['foot_exam_finding'] == 1) {
                                                                                                                             echo 'Normal';
@@ -5807,7 +5813,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6 hidden" id="foot_exam_finding">
+                                            <div class="col-sm-6 hidden" id="foot_exam_other">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
@@ -6118,7 +6124,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Rheumatic Heart Disease</label>
-                                                    <select name="heumatic" id="heumatic" style="width: 100%;" onchange="checkQuestionValue1('cardiomyopathy','sub_heumatic1')">
+                                                    <select name="heumatic" id="heumatic" style="width: 100%;" onchange="checkQuestionValue1('heumatic','sub_heumatic1')">
                                                         <option value="<?= $diagnosis['heumatic'] ?>"><?php if ($diagnosis) {
                                                                                                             if ($diagnosis['heumatic'] == 1) {
                                                                                                                 echo 'Yes';
@@ -6273,7 +6279,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Other</label>
+                                                    <label>Any Other diagnosis? </label>
                                                     <select name="diagnosis_other" id="diagnosis_other" style="width: 100%;" onchange="checkQuestionValue1('diagnosis_other','diagnosis_specify1')">
                                                         <option value="<?= $diagnosis['diagnosis_other'] ?>"><?php if ($diagnosis) {
                                                                                                                     if ($diagnosis['diagnosis_other'] == 1) {
@@ -6992,13 +6998,13 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Thrombus</label>
-                                                            <select name="ivc" id="ivc" style="width: 100%;">
-                                                                <option value="<?= $results['ivc'] ?>"><?php if ($results) {
-                                                                                                            if ($results['ivc'] == 1) {
+                                                            <select name="thrombus" id="thrombus" style="width: 100%;">
+                                                                <option value="<?= $results['thrombus'] ?>"><?php if ($results) {
+                                                                                                            if ($results['ithrombusvc'] == 1) {
                                                                                                                 echo 'Yes';
-                                                                                                            } elseif ($results['ivc'] == 2) {
+                                                                                                            } elseif ($results['thrombus'] == 2) {
                                                                                                                 echo 'No';
-                                                                                                            } elseif ($results['ivc'] == 3) {
+                                                                                                            } elseif ($results['thrombus'] == 3) {
                                                                                                                 echo 'Unseen';
                                                                                                             }
                                                                                                         } else {
@@ -7019,13 +7025,13 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Congenital defect</label>
-                                                            <select name="ivc" id="ivc" style="width: 100%;">
-                                                                <option value="<?= $results['ivc'] ?>"><?php if ($results) {
-                                                                                                            if ($results['ivc'] == 1) {
+                                                            <select name="congenital_defect" id="congenital_defect" style="width: 100%;">
+                                                                <option value="<?= $results['congenital_defect'] ?>"><?php if ($results) {
+                                                                                                            if ($results['congenital_defect'] == 1) {
                                                                                                                 echo 'Yes';
-                                                                                                            } elseif ($results['ivc'] == 2) {
+                                                                                                            } elseif ($results['congenital_defect'] == 2) {
                                                                                                                 echo 'No';
-                                                                                                            } elseif ($results['ivc'] == 3) {
+                                                                                                            } elseif ($results['congenital_defect'] == 3) {
                                                                                                                 echo 'Unseen';
                                                                                                             }
                                                                                                         } else {
@@ -7224,7 +7230,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Type of Confirmatory Test</label>
-                                                            <select name="confirmatory_test_type" style="width: 100%;" required>
+                                                            <select name="confirmatory_test_type" style="width: 100%;">
                                                                 <option value="<?= $results['confirmatory_test_type'] ?>"><?php if ($results) {
                                                                                                                                 if ($results['confirmatory_test_type'] == 1) {
                                                                                                                                     echo 'HPLC';
@@ -7285,7 +7291,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry Date:</label>
+                                                    <label>Visit Date:</label>
                                                     <input class="validate[required,custom[date]]" type="text" name="hospitalization_date" id="hospitalization_date" value="<?php if ($hospitalization['hospitalization_date']) {
                                                                                                                                                                                 print_r($hospitalization['hospitalization_date']);
                                                                                                                                                                             }  ?>" required />
@@ -7306,7 +7312,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Any recent hospitalizations not yet recorded?</label>
-                                                    <select name="hospitalizations" id="hospitalizations" style="width: 100%;" onchange="check2QuestionValue2('hospitalizations','ncd_hospitalizations','hospitalization_number')" required>
+                                                    <select name="hospitalizations" id="hospitalizations" style="width: 100%;" onchange="checkQuestionValue1('hospitalizations','ncd_hospitalizations_hides')" required>
                                                         <option value="<?= $hospitalization['hospitalizations'] ?>"><?php if ($hospitalization) {
                                                                                                                         if ($hospitalization['hospitalizations'] == 1) {
                                                                                                                             echo 'Yes';
@@ -7323,7 +7329,9 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4 hidden" id="ncd_hospitalizations">
+                                        <div class="row hidden"  id="ncd_hospitalizations_hides">
+
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>If yes, for NCD?</label>
@@ -7344,7 +7352,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4 hidden" id="hospitalization_number">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <?php if ($_GET['seq'] == 1) { ?>
@@ -7362,6 +7370,8 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+                                    </div>
+
                                     <div class="head clearfix">
                                         <div class="isw-ok"></div>
                                         <h1>School</h1>
@@ -7376,7 +7386,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Number of missed days of school in the last month?</label>
                                                     <input type="text" name="school_days" id="school_days" value="<?php if ($hospitalization['school_days']) {
                                                                                                                         print_r($hospitalization['school_days']);
-                                                                                                                    }  ?>" required />
+                                                                                                                    }  ?>" />
                                                     <span>N / A</span>
 
                                                 </div>
@@ -7400,7 +7410,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Number of Transfusion in the past month?</label>
                                                         <input type="text" name="transfusion" id="transfusion" value="<?php if ($hospitalization['transfusion']) {
                                                                                                                             print_r($hospitalization['transfusion']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
                                                         <span>N / A</span>
 
                                                     </div>
@@ -7427,7 +7437,7 @@ if ($user->isLoggedIn()) {
                                                         <label>How many days of missed medications in past 7 days?</label>
                                                         <input type="text" name="missed_days" id="missed_days" value="<?php if ($hospitalization['missed_days']) {
                                                                                                                             print_r($hospitalization['missed_days']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -7436,7 +7446,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Fluid restricted?</label>
-                                                        <select name="fluid" id="fluid" style="width: 100%;" required>
+                                                        <select name="fluid" id="fluid" style="width: 100%;">
                                                             <option value="<?= $hospitalization['fluid'] ?>"><?php if ($hospitalization) {
                                                                                                                     if ($hospitalization['fluid'] == 1) {
                                                                                                                         echo 'Yes';
@@ -7471,7 +7481,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Number of Home BG measurement in last week</label>
                                                         <input type="text" name="bg_measurement" id="bg_measurement" value="<?php if ($hospitalization['bg_measurement']) {
                                                                                                                                 print_r($hospitalization['bg_measurement']);
-                                                                                                                            }  ?>" required />
+                                                                                                                            }  ?>" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -7482,7 +7492,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Home BG result in last week</label>
                                                         <input type="text" name="bg_result180" id="bg_result180" value="<?php if ($hospitalization['bg_result180']) {
                                                                                                                             print_r($hospitalization['bg_result180']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
                                                         <span> # > 10: </span>
                                                     </div>
                                                 </div>
@@ -7494,7 +7504,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Home BG result in last week</label>
                                                         <input type="text" name="bg_result70_180" id="bg_result70_180" value="<?php if ($hospitalization['bg_result70_180']) {
                                                                                                                                     print_r($hospitalization['bg_result70_180']);
-                                                                                                                                }  ?>" required />
+                                                                                                                                }  ?>" />
                                                         <span> # 3.8 - 10: </span>
 
                                                     </div>
@@ -7509,7 +7519,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Home BG result in last week</label>
                                                         <input type="text" name="bg_result70" id="bg_result70" value="<?php if ($hospitalization['bg_result70']) {
                                                                                                                             print_r($hospitalization['bg_result70']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
                                                         <span> # < 3.8: </span>
 
                                                     </div>
@@ -7526,7 +7536,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Number of insulin doses missed in last week</label>
                                                         <input type="text" name="basal" id="basal" value="<?php if ($hospitalization['basal']) {
                                                                                                                 print_r($hospitalization['basal']);
-                                                                                                            }  ?>" required />
+                                                                                                            }  ?>" />
                                                         <span> Basal: </span>
 
                                                     </div>
@@ -7539,7 +7549,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Number of insulin doses missed in last week</label>
                                                         <input type="text" name="prandial" id="prandial" value="<?php if ($hospitalization['prandial']) {
                                                                                                                     print_r($hospitalization['prandial']);
-                                                                                                                }  ?>" required />
+                                                                                                                }  ?>" />
                                                         <span> Prandial: </span>
 
                                                     </div>
@@ -7557,7 +7567,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Basal insulin</label>
-                                                        <select name="basal_insulin" id="basal_insulin" style="width: 100%;" required>
+                                                        <select name="basal_insulin" id="basal_insulin" style="width: 100%;">
                                                             <option value="<?= $hospitalization['basal_insulin'] ?>"><?php if ($hospitalization) {
                                                                                                                             if ($hospitalization['basal_insulin'] == 1) {
                                                                                                                                 echo 'NPH';
@@ -7568,6 +7578,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Select';
                                                                                                                         } ?>
                                                             </option>
+                                                            <option value="">Select</option>
                                                             <option value="1">NPH</option>
                                                             <option value="2">Analog</option>
                                                         </select>
@@ -7582,7 +7593,7 @@ if ($user->isLoggedIn()) {
                                                         <label> Units in am:</label>
                                                         <input type="text" name="basal_am" id="basal_am" value="<?php if ($hospitalization['basal_am']) {
                                                                                                                     print_r($hospitalization['basal_am']);
-                                                                                                                }  ?>" required />
+                                                                                                                }  ?>" />
 
                                                     </div>
                                                 </div>
@@ -7593,7 +7604,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Units in pm</label>
                                                         <input type="text" name="basal_pm" id="basal_pm" value="<?php if ($hospitalization['basal_pm']) {
                                                                                                                     print_r($hospitalization['basal_pm']);
-                                                                                                                }  ?>" required />
+                                                                                                                }  ?>" />
 
                                                     </div>
                                                 </div>
@@ -7606,7 +7617,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Prandial insulin</label>
-                                                        <select name="prandial_insulin" id="prandial_insulin" style="width: 100%;" required>
+                                                        <select name="prandial_insulin" id="prandial_insulin" style="width: 100%;">
                                                             <option value="<?= $hospitalization['prandial_insulin'] ?>"><?php if ($hospitalization) {
                                                                                                                             if ($hospitalization['prandial_insulin'] == 1) {
                                                                                                                                 echo 'Analog';
@@ -7617,6 +7628,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Select';
                                                                                                                         } ?>
                                                             </option>
+                                                            <option value="">Select</option>
                                                             <option value="1">Analog</option>
                                                             <option value="2">Regular</option>
                                                         </select>
@@ -7629,7 +7641,7 @@ if ($user->isLoggedIn()) {
                                                         <label> Units in am:</label>
                                                         <input type="text" name="prandial_am" id="prandial_am" value="<?php if ($hospitalization['prandial_am']) {
                                                                                                                             print_r($hospitalization['prandial_am']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
 
                                                     </div>
                                                 </div>
@@ -7640,7 +7652,7 @@ if ($user->isLoggedIn()) {
                                                         <label> Units in pm:</label>
                                                         <input type="text" name="prandial_pm" id="prandial_pm" value="<?php if ($hospitalization['prandial_pm']) {
                                                                                                                             print_r($hospitalization['prandial_pm']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
 
                                                     </div>
                                                 </div>
@@ -7651,7 +7663,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Units in lunch:</label>
                                                         <input type="text" name="prandial_lunch" id="prandial_lunch" value="<?php if ($hospitalization['prandial_lunch']) {
                                                                                                                                 print_r($hospitalization['prandial_lunch']);
-                                                                                                                            }  ?>" required />
+                                                                                                                            }  ?>" />
 
                                                     </div>
                                                 </div>
@@ -7665,7 +7677,7 @@ if ($user->isLoggedIn()) {
                                                         <label>Total daily insulin dose</label>
                                                         <input type="text" name="total_insulin_dose" id="total_insulin_dose" value="<?php if ($hospitalization['total_insulin_dose']) {
                                                                                                                                         print_r($hospitalization['total_insulin_dose']);
-                                                                                                                                    }  ?>" required />
+                                                                                                                                    }  ?>" />
                                                         <span> ( Units ): </span>
 
                                                     </div>
@@ -7697,7 +7709,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Any issues at injection sites?</label>
-                                                        <select name="issue_injection" id="issue_injection" style="width: 100%;" required>
+                                                        <select name="issue_injection" id="issue_injection" style="width: 100%;" onchange="checkQuestionValue1('issue_injection','issue_injection_yes')">
                                                             <option value="<?= $hospitalization['issue_injection'] ?>"><?php if ($hospitalization) {
                                                                                                                             if ($hospitalization['issue_injection'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -7714,11 +7726,11 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 hidden" id="issue_injection_yes">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>If yes</label>
-                                                        <select name="issue_injection_yes" id="issue_injection_yes" style="width: 100%;">
+                                                        <select name="issue_injection_yes"  style="width: 100%;">
                                                             <option value="<?= $hospitalization['issue_injection_yes'] ?>"><?php if ($hospitalization) {
                                                                                                                                 if ($hospitalization['issue_injection_yes'] == 1) {
                                                                                                                                     echo 'Infection';
@@ -7743,16 +7755,16 @@ if ($user->isLoggedIn()) {
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
                                         <div class="row">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Taking at home ( Malaria prophylaxis )?</label>
-                                                        <select name="prophylaxis" id="prophylaxis" style="width: 100%;" required>
+                                                        <select name="prophylaxis" id="prophylaxis" style="width: 100%;">
                                                             <option value="<?= $hospitalization['prophylaxis'] ?>"><?php if ($hospitalization) {
                                                                                                                         if ($hospitalization['prophylaxis'] == 1) {
-                                                                                                                            echo 'Y';
+                                                                                                                            echo 'Yes';
                                                                                                                         } elseif ($hospitalization['prophylaxis'] == 2) {
-                                                                                                                            echo 'N';
+                                                                                                                            echo 'No';
                                                                                                                         } elseif ($hospitalization['prophylaxis'] == 3) {
                                                                                                                             echo 'N / A';
                                                                                                                         }
@@ -7760,8 +7772,8 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Select';
                                                                                                                     } ?>
                                                             </option>
-                                                            <option value="1">Y</option>
-                                                            <option value="2">N</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
                                                             <option value="3">N / A</option>
                                                         </select>
                                                         <span>( Medication )</span>
@@ -7770,16 +7782,16 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Taking at home ( Insecticide treated bed net )?</label>
-                                                        <select name="insecticide" id="insecticide" style="width: 100%;" required>
+                                                        <select name="insecticide" id="insecticide" style="width: 100%;">
                                                             <option value="<?= $hospitalization['insecticide'] ?>"><?php if ($hospitalization) {
                                                                                                                         if ($hospitalization['insecticide'] == 1) {
-                                                                                                                            echo 'Y';
+                                                                                                                            echo 'Yes';
                                                                                                                         } elseif ($hospitalization['insecticide'] == 2) {
-                                                                                                                            echo 'N';
+                                                                                                                            echo 'No';
                                                                                                                         } elseif ($hospitalization['insecticide'] == 3) {
                                                                                                                             echo 'N / A';
                                                                                                                         }
@@ -7787,8 +7799,8 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Select';
                                                                                                                     } ?>
                                                             </option>
-                                                            <option value="1">Y</option>
-                                                            <option value="2">N</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
                                                             <option value="3">N / A</option>
                                                         </select>
                                                         <span>( Medication )</span>
@@ -7797,16 +7809,16 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Taking at home ( Folic acid )?</label>
-                                                        <select name="folic_acid" id="folic_acid" style="width: 100%;" required>
+                                                        <select name="folic_acid" id="folic_acid" style="width: 100%;">
                                                             <option value="<?= $hospitalization['folic_acid'] ?>"><?php if ($hospitalization) {
                                                                                                                         if ($hospitalization['folic_acid'] == 1) {
-                                                                                                                            echo 'Y';
+                                                                                                                            echo 'Yes';
                                                                                                                         } elseif ($hospitalization['folic_acid'] == 2) {
-                                                                                                                            echo 'N';
+                                                                                                                            echo 'No';
                                                                                                                         } elseif ($hospitalization['folic_acid'] == 3) {
                                                                                                                             echo 'N / A';
                                                                                                                         }
@@ -7814,26 +7826,29 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Select';
                                                                                                                     } ?>
                                                             </option>
-                                                            <option value="1">Y</option>
-                                                            <option value="2">N</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
                                                             <option value="3">N / A</option>
                                                         </select>
                                                         <span>( Medication )</span>
 
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>                                           
 
-                                            <div class="col-sm-3" id="ncd_hospitalizations">
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Taking at home ( Penicillin prophylaxis )?</label>
-                                                        <select name="penicillin" id="penicillin" style="width: 100%;" required>
+                                                        <select name="penicillin" id="penicillin" style="width: 100%;">
                                                             <option value="<?= $hospitalization['penicillin'] ?>"><?php if ($hospitalization) {
                                                                                                                         if ($hospitalization['penicillin'] == 1) {
-                                                                                                                            echo 'Y';
+                                                                                                                            echo 'Yes';
                                                                                                                         } elseif ($hospitalization['penicillin'] == 2) {
-                                                                                                                            echo 'N';
+                                                                                                                            echo 'No';
                                                                                                                         } elseif ($hospitalization['penicillin'] == 3) {
                                                                                                                             echo 'N / A';
                                                                                                                         }
@@ -7841,8 +7856,8 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Select';
                                                                                                                     } ?>
                                                             </option>
-                                                            <option value="1">Y</option>
-                                                            <option value="2">N</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
                                                             <option value="3">N / A</option>
                                                         </select>
                                                         <span>( Medication )</span>
@@ -7851,20 +7866,16 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                        </div>
-
-                                        <div class="row">
-
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Pneumococcal vaccination up to date?</label>
-                                                        <select name="pneumococcal" id="pneumococcal" style="width: 100%;" required>
+                                                        <select name="pneumococcal" id="pneumococcal" style="width: 100%;">
                                                             <option value="<?= $hospitalization['pneumococcal'] ?>"><?php if ($hospitalization) {
                                                                                                                         if ($hospitalization['pneumococcal'] == 1) {
-                                                                                                                            echo 'Y';
+                                                                                                                            echo 'Yes';
                                                                                                                         } elseif ($hospitalization['pneumococcal'] == 2) {
-                                                                                                                            echo 'N';
+                                                                                                                            echo 'No';
                                                                                                                         } elseif ($hospitalization['pneumococcal'] == 3) {
                                                                                                                             echo 'N / A';
                                                                                                                         } elseif ($hospitalization['pneumococcal'] == 4) {
@@ -7874,8 +7885,8 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Select';
                                                                                                                     } ?>
                                                             </option>
-                                                            <option value="1">Y</option>
-                                                            <option value="2">N</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
                                                             <option value="3">N / A</option>
                                                             <option value="4">Unsure</option>
                                                         </select>
@@ -7883,16 +7894,20 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-4">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>On chronic opioid therapy?</label>
-                                                        <select name="opioid" id="opioid" style="width: 100%;" required>
+                                                        <select name="opioid" id="opioid" style="width: 100%;" onchange="checkQuestionValue1('opioid','opioid_hides')">
                                                             <option value="<?= $hospitalization['opioid'] ?>"><?php if ($hospitalization) {
                                                                                                                     if ($hospitalization['opioid'] == 1) {
-                                                                                                                        echo 'Y';
+                                                                                                                        echo 'Yes';
                                                                                                                     } elseif ($hospitalization['opioid'] == 2) {
-                                                                                                                        echo 'N';
+                                                                                                                        echo 'No';
                                                                                                                     } elseif ($hospitalization['opioid'] == 3) {
                                                                                                                         echo 'N / A';
                                                                                                                     }
@@ -7900,36 +7915,39 @@ if ($user->isLoggedIn()) {
                                                                                                                     echo 'Select';
                                                                                                                 } ?>
                                                             </option>
-                                                            <option value="1">Y</option>
-                                                            <option value="2">N</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
                                                             <option value="3">N / A</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-3">
-                                                <div class="row-form clearfix">
-                                                    <div class="form-group">
-                                                        <label>Type</label>
-                                                        <input type="text" name="opioid_type" id="opioid_type" value="<?php if ($hospitalization['opioid_type']) {
-                                                                                                                            print_r($hospitalization['opioid_type']);
-                                                                                                                        }  ?>" required />
+                                            <div class="hidden" id="opioid_hides">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Type</label>
+                                                            <input type="text" name="opioid_type" value="<?php if ($hospitalization['opioid_type']) {
+                                                                                                                                print_r($hospitalization['opioid_type']);
+                                                                                                                            }  ?>" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-sm-2">
-                                                <div class="row-form clearfix">
-                                                    <div class="form-group">
-                                                        <label>Dose</label>
-                                                        <input type="text" name="opioid_dose" id="opioid_dose" value="<?php if ($hospitalization['opioid_dose']) {
-                                                                                                                            print_r($hospitalization['opioid_dose']);
-                                                                                                                        }  ?>" required />
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Dose</label>
+                                                            <input type="text" name="opioid_dose" id="opioid_dose" value="<?php if ($hospitalization['opioid_dose']) {
+                                                                                                                                print_r($hospitalization['opioid_dose']);
+                                                                                                                            }  ?>" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
 
 
 
@@ -7939,12 +7957,12 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>On hydroxyurea?</label>
-                                                        <select name="hydroxyurea" id="hydroxyurea" style="width: 100%;" required>
+                                                        <select name="hydroxyurea" id="hydroxyurea" style="width: 100%;" onchange="checkQuestionValue1('hydroxyurea','hydroxyurea_hides')">
                                                             <option value="<?= $hospitalization['hydroxyurea'] ?>"><?php if ($hospitalization) {
                                                                                                                         if ($hospitalization['hydroxyurea'] == 1) {
-                                                                                                                            echo 'Y';
+                                                                                                                            echo 'Yes';
                                                                                                                         } elseif ($hospitalization['hydroxyurea'] == 2) {
-                                                                                                                            echo 'N';
+                                                                                                                            echo 'No';
                                                                                                                         } elseif ($hospitalization['hydroxyurea'] == 3) {
                                                                                                                             echo 'N / A';
                                                                                                                         }
@@ -7952,8 +7970,8 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Select';
                                                                                                                     } ?>
                                                             </option>
-                                                            <option value="1">Y</option>
-                                                            <option value="2">N</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
                                                             <option value="2">N / A</option>
                                                         </select>
 
@@ -7961,29 +7979,31 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-4">
-                                                <div class="row-form clearfix">
-                                                    <div class="form-group">
-                                                        <label>Start Date</label>
-                                                        <input type="text" name="hydroxyurea_date" id="hydroxyurea_date" value="<?php if ($hospitalization['hydroxyurea_date']) {
-                                                                                                                                    print_r($hospitalization['hydroxyurea_date']);
-                                                                                                                                }  ?>" required />
+                                            <div class="hidden" id="hydroxyurea_hides">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Start Date</label>
+                                                            <input type="text" name="hydroxyurea_date" id="hydroxyurea_date" value="<?php if ($hospitalization['hydroxyurea_date']) {
+                                                                                                                                        print_r($hospitalization['hydroxyurea_date']);
+                                                                                                                                    }  ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Dose</label>
+                                                            <input type="text" name="hydroxyurea_dose" id="hydroxyurea_dose" value="<?php if ($hospitalization['hydroxyurea_dose']) {
+                                                                                                                                        print_r($hospitalization['hydroxyurea_dose']);
+                                                                                                                                    }  ?>" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="col-sm-4">
-                                                <div class="row-form clearfix">
-                                                    <div class="form-group">
-                                                        <label>Dose</label>
-                                                        <input type="text" name="hydroxyurea_dose" id="hydroxyurea_dose" value="<?php if ($hospitalization['hydroxyurea_dose']) {
-                                                                                                                                    print_r($hospitalization['hydroxyurea_dose']);
-                                                                                                                                }  ?>" required />
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
+
 
 
                                     <?php } ?>
@@ -8132,7 +8152,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Changed?</label>
-                                                        <select name="basal_changed" id="basal_changed" style="width: 100%;" onchange="checkQuestionValue1('basal_changed','basal_changed_hides')" required>
+                                                        <select name="basal_changed" id="basal_changed" style="width: 100%;" onchange="checkQuestionValue1('basal_changed','basal_changed_hides')">
                                                             <option value="<?= $treatment_plan['basal_changed'] ?>"><?php if ($treatment_plan) {
                                                                                                                         if ($treatment_plan['basal_changed'] == 1) {
                                                                                                                             echo 'Yes';
@@ -8187,7 +8207,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Changed?</label>
-                                                        <select name="prandial_changed" id="prandial_changed" style="width: 100%;"  onchange="checkQuestionValue1('prandial_changed','prandial_changed_hides')" required>
+                                                        <select name="prandial_changed" id="prandial_changed" style="width: 100%;"  onchange="checkQuestionValue1('prandial_changed','prandial_changed_hides')">
                                                             <option value="<?= $treatment_plan['prandial_changed'] ?>"><?php if ($treatment_plan) {
                                                                                                                             if ($treatment_plan['prandial_changed'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -8262,7 +8282,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Salt:</label>
-                                                        <select name="salt" id="salt" style="width: 100%;" required>
+                                                        <select name="salt" id="salt" style="width: 100%;">
                                                             <option value="<?= $treatment_plan['salt'] ?>"><?php if ($treatment_plan) {
                                                                                                                         if ($treatment_plan['salt'] == 1) {
                                                                                                                             echo 'Yes';
@@ -8285,7 +8305,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Fluid:</label>
-                                                         <select name="fluid" id="fluid" style="width: 100%;" required>
+                                                         <select name="fluid" id="fluid" style="width: 100%;">
                                                             <option value="<?= $treatment_plan['salt'] ?>"><?php if ($treatment_plan) {
                                                                                                                         if ($treatment_plan['salt'] == 1) {
                                                                                                                             echo 'Yes';
@@ -8308,7 +8328,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Other Restriction ?:</label>
-                                                         <select name="restriction_other" id="restriction_other" style="width: 100%;" onchange="checkQuestionValue1('restriction_other','restriction_specify')" required>
+                                                         <select name="restriction_other" id="restriction_other" style="width: 100%;" onchange="checkQuestionValue1('restriction_other','restriction_specify')">
                                                             <option value="<?= $treatment_plan['restriction_other'] ?>"><?php if ($treatment_plan) {
                                                                                                                         if ($treatment_plan['restriction_other'] == 1) {
                                                                                                                             echo 'Yes';
@@ -8355,7 +8375,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Vaccination needed?:</label>
-                                                        <select name="vaccination" id="vaccination" style="width: 100%;" onchange="checkQuestionValue1('vaccination','vaccination_specify')" required>
+                                                        <select name="vaccination" id="vaccination" style="width: 100%;" onchange="checkQuestionValue1('vaccination','vaccination_specify')">
                                                             <option value="<?= $treatment_plan['vaccination'] ?>"><?php if ($treatment_plan) {
                                                                                                                         if ($treatment_plan['vaccination'] == 1) {
                                                                                                                             echo 'Yes';
@@ -8398,7 +8418,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Transfusion needed today?</label>
-                                                        <select name="transfusion_needed" id="transfusion_needed" style="width: 100%;" onchange="checkQuestionValue1('transfusion_needed','transfusion_units')" required>
+                                                        <select name="transfusion_needed" id="transfusion_needed" style="width: 100%;" onchange="checkQuestionValue1('transfusion_needed','transfusion_units')">
                                                             <option value="<?= $treatment_plan['transfusion_needed'] ?>"><?php if ($treatment_plan) {
                                                                                                                                 if ($treatment_plan['transfusion_needed'] == 1) {
                                                                                                                                     echo 'Yes';
@@ -8441,7 +8461,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Diet?:</label>
-                                                        <select name="diet" id="diet" style="width: 100%;" required>
+                                                        <select name="diet" id="diet" style="width: 100%;">
                                                             <option value="<?= $treatment_plan['diet'] ?>"><?php if ($treatment_plan) {
                                                                                                                 if ($treatment_plan['diet'] == 1) {
                                                                                                                     echo 'Yes';
@@ -8464,7 +8484,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Hydration?:</label>
-                                                        <select name="hydration" id="hydration" style="width: 100%;" required>
+                                                        <select name="hydration" id="hydration" style="width: 100%;">
                                                             <option value="<?= $treatment_plan['hydration'] ?>"><?php if ($treatment_plan) {
                                                                                                                     if ($treatment_plan['hydration'] == 1) {
                                                                                                                         echo 'Yes';
@@ -8487,7 +8507,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Acute Symptoms?:</label>
-                                                        <select name="acute_symptoms" id="acute_symptoms" style="width: 100%;" required>
+                                                        <select name="acute_symptoms" id="acute_symptoms" style="width: 100%;">
                                                             <option value="<?= $treatment_plan['acute_symptoms'] ?>"><?php if ($treatment_plan) {
                                                                                                                             if ($treatment_plan['acute_symptoms'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -8510,7 +8530,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Fever ?:</label>
-                                                        <select name="fever" id="fever" style="width: 100%;" required>
+                                                        <select name="fever" id="fever" style="width: 100%;">
                                                             <option value="<?= $treatment_plan['fever'] ?>"><?php if ($treatment_plan) {
                                                                                                                 if ($treatment_plan['fever'] == 1) {
                                                                                                                     echo 'Yes';
@@ -8537,7 +8557,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Life style :</label>
-                                                            <select name="life_style" id="life_style" style="width: 100%;" required>
+                                                            <select name="life_style" id="life_style" style="width: 100%;">
                                                                 <option value="<?= $treatment_plan['life_style'] ?>"><?php if ($treatment_plan) {
                                                                                                                             if ($treatment_plan['life_style'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -8560,7 +8580,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Misconception:</label>
-                                                            <select name="misconception" id="misconception" style="width: 100%;" required>
+                                                            <select name="misconception" id="misconception" style="width: 100%;">
                                                                 <option value="<?= $treatment_plan['misconception'] ?>"><?php if ($treatment_plan) {
                                                                                                                             if ($treatment_plan['misconception'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -8587,8 +8607,8 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Other ?:</label>
-                                                        <select name="other_support" id="other_support" style="width: 100%;" onchange="checkQuestionValue1('other_support','support_specify')" required>
+                                                        <label>Any Other Support?:</label>
+                                                        <select name="other_support" id="other_support" style="width: 100%;" onchange="checkQuestionValue1('other_support','support_specify')">
                                                             <option value="<?= $treatment_plan['other_support'] ?>"><?php if ($treatment_plan) {
                                                                                                                         if ($treatment_plan['other_support'] == 1) {
                                                                                                                             echo 'Yes';
@@ -8852,7 +8872,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Date of Entry:</label>
+                                                    <label>Visit Date:</label>
                                                     <input class="validate[required,custom[date]]" style="width: 100%;" type="text" name="diagns_date" id="diagns_date" value="<?php if ($dgns_complctns_comorbdts['diagns_date']) {
                                                                                                                                             print_r($dgns_complctns_comorbdts['diagns_date']);
                                                                                                                                         }  ?>" />
@@ -8865,7 +8885,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Has diagnosis been changed or specified?:</label>
-                                                    <select name="diagns_changed" id="diagns_changed" style="width: 100%;" onchange="checkQuestionValue1('diagns_changed','ncd_diagns')" required>
+                                                    <select name="diagns_changed" id="diagns_changed" style="width: 100%;" onchange="checkQuestionValue1('diagns_changed','ncd_diagns')">
                                                         <option value="<?= $dgns_complctns_comorbdts['diagns_changed'] ?>"><?php if ($dgns_complctns_comorbdts) {
                                                                                                                                 if ($dgns_complctns_comorbdts['diagns_changed'] == 1) {
                                                                                                                                     echo 'Yes';
@@ -8933,7 +8953,7 @@ if ($user->isLoggedIn()) {
                                                             <option value="9">Arrhythmia</option>
                                                             <option value="10">Thromboembolic</option>
                                                             <option value="11">Stroke</option>
-                                                                                                                        <option value="96">Other</option>
+                                                            <option value="96">Other</option>
 
                                                         </select>
                                                     </div>
@@ -9007,7 +9027,7 @@ if ($user->isLoggedIn()) {
                                         <?php } ?>
 
 
-                                        <div class="col-sm-6" id="diagns_specify">
+                                        <div class="col-sm-6" id="diagns_specify_diabetic">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -9027,7 +9047,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>New NCD diagnosis:?</label>
-                                                    <select name="new_diagns" id="new_diagns" style="width: 100%;" onchange="checkQuestionValue1('new_diagns','new_diagns_specify')" required>
+                                                    <select name="new_diagns" id="new_diagns" style="width: 100%;" onchange="checkQuestionValue1('new_diagns','new_diagns_specify')">
                                                         <option value="<?= $dgns_complctns_comorbdts['new_diagns'] ?>"><?php if ($dgns_complctns_comorbdts) {
                                                                                                                             if ($dgns_complctns_comorbdts['new_diagns'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -9605,7 +9625,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry Date:</label>
+                                                    <label>Visit Date:</label>
                                                     <input class="validate[required,custom[date]]" type="text" name="risk_date" id="risk_date" value="<?php if ($risks['risk_date']) {
                                                                                                                     print_r($risks['risk_date']);
                                                                                                                 }  ?>" required />
@@ -9618,7 +9638,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Tobacco:</label>
-                                                    <select name="risk_tobacco" id="risk_tobacco" style="width: 100%;" required>
+                                                    <select name="risk_tobacco" id="risk_tobacco" style="width: 100%;">
                                                         <option value="<?= $risks['risk_tobacco'] ?>"><?php if ($risks) {
                                                                                                             if ($risks['risk_tobacco'] == 1) {
                                                                                                                 echo 'Yes, currently';
@@ -9644,7 +9664,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Alcohol:</label>
-                                                    <select name="risk_alcohol" id="risk_alcohol" style="width: 100%;" required>
+                                                    <select name="risk_alcohol" id="risk_alcohol" style="width: 100%;">
                                                         <option value="<?= $risks['risk_alcohol'] ?>"><?php if ($risks) {
                                                                                                             if ($risks['risk_alcohol'] == 1) {
                                                                                                                 echo 'Yes, currently';
@@ -9672,7 +9692,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Employment status:</label>
-                                                    <select name="risk_employment" id="risk_employment" style="width: 100%;" required>
+                                                    <select name="risk_employment" id="risk_employment" style="width: 100%;">
                                                         <option value="<?= $risks['risk_employment'] ?>"><?php if ($risks) {
                                                                                                                 if ($risks['risk_employment'] == 1) {
                                                                                                                     echo 'Employed';
@@ -9701,7 +9721,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>NCD limiting school?:</label>
-                                                    <select name="ncd_limiting" id="ncd_limiting" style="width: 100%;" required>
+                                                    <select name="ncd_limiting" id="ncd_limiting" style="width: 100%;">
                                                         <option value="<?= $risks['ncd_limiting'] ?>"><?php if ($risks) {
                                                                                                             if ($risks['ncd_limiting'] == 1) {
                                                                                                                 echo 'Yes';
@@ -9760,7 +9780,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>HIV:</label>
-                                                    <select name="risk_hiv" id="risk_hiv" style="width: 100%;" onchange="check2QuestionValue2('risk_hiv','risk_hiv_date','art2')" required>
+                                                    <select name="risk_hiv" id="risk_hiv" style="width: 100%;" onchange="check2QuestionValue2('risk_hiv','risk_hiv_date','art2')">
                                                         <option value="<?= $risks['risk_hiv'] ?>"><?php if ($risks) {
                                                                                                         if ($risks['risk_hiv'] == 1) {
                                                                                                             echo 'R';
@@ -9788,7 +9808,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Date Test:</label>
                                                     <input type="text" name="risk_hiv_date"  value="<?php if ($risks['risk_hiv_date']) {
                                                                                                                             print_r($risks['risk_hiv_date']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -9840,7 +9860,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>TB:</label>
-                                                    <select name="risk_tb" id="risk_tb" style="width: 100%;" onchange="checkNotQuestionValue4('risk_tb','risk_tb_date')" required>
+                                                    <select name="risk_tb" id="risk_tb" style="width: 100%;" onchange="checkNotQuestionValue4('risk_tb','risk_tb_date')">
                                                         <option value="<?= $risks['risk_tb'] ?>"><?php if ($risks) {
                                                                                                         if ($risks['risk_tb'] == 1) {
                                                                                                             echo 'Positive : Smear / Xpert / Other';
@@ -9902,8 +9922,8 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry date:</label>
-                                                    <input type="text" name="hospitalization_date" id="hospitalization_date" value="<?php if ($hospitalization_details['hospitalization_date']) {
+                                                    <label>Visit date:</label>
+                                                    <input class="validate[required,custom[date]]" type="text" name="hospitalization_date" id="hospitalization_date" value="<?php if ($hospitalization_details['hospitalization_date']) {
                                                                                                                                         print_r($hospitalization_details['hospitalization_date']);
                                                                                                                                     }  ?>" required />
                                                 </div>
@@ -9941,7 +9961,7 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                <div id="hospitalization_ncd_hides">
+                                <div class="hidden" id="hospitalization_ncd_hides">
                                     <div class="row" id="hospitalization_year">
                                         <div class="col-sm-6">
                                             <div class="row-form clearfix">
@@ -10048,7 +10068,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Date:</label>
                                                     <input type="text" name="lab_date" id="lab_date" value="<?php if ($lab_details['lab_date']) {
                                                                                                                 print_r($lab_details['lab_date']);
-                                                                                                            }  ?>" required />
+                                                                                                            }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -10058,7 +10078,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>NCD coping ?:</label>
-                                                    <select name="ncd_coping" id="ncd_coping" style="width: 100%;" required>
+                                                    <select name="ncd_coping" id="ncd_coping" style="width: 100%;">
                                                         <option value="<?= $lab_details['ncd_coping'] ?>"><?php if ($lab_details) {
                                                                                                                 if ($lab_details['ncd_coping'] == 1) {
                                                                                                                     echo 'Well';
@@ -10084,7 +10104,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Family planning ?:</label>
-                                                    <select name="family_planning" id="family_planning" style="width: 100%;" required>
+                                                    <select name="family_planning" id="family_planning" style="width: 100%;">
                                                         <option value="<?= $lab_details['family_planning'] ?>"><?php if ($lab_details) {
                                                                                                                     if ($lab_details['family_planning'] == 1) {
                                                                                                                         echo 'Not eligible';
@@ -10423,33 +10443,32 @@ if ($user->isLoggedIn()) {
                                         </div>
 
                                         <div class="row">
-
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Any Chemistry Test today?:</label>
-                                                    <select name="chemistry_test2" id="chemistry_test2" style="width: 100%;" onchange="checkQuestionValue1('chemistry_test2','hide_chemistry_test2')" required>
-                                                        <option value="<?= $lab_details['chemistry_test'] ?>"><?php if ($lab_details) {
-                                                                                                                    if ($lab_details['chemistry_test'] == 1) {
-                                                                                                                        echo 'Yes';
-                                                                                                                    } elseif ($lab_details['chemistry_test'] == 2) {
-                                                                                                                        echo 'No';
-                                                                                                                    } 
-                                                                                                                } else {
-                                                                                                                    echo 'Select';
-                                                                                                                } ?>
-                                                        </option>
-                                                        <option value="1">Yes</option>
-                                                        <option value="2">No</option>
-                                                    </select>
+                                            <div class="col-sm-4">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Any Chemistry Test today?:</label>
+                                                        <select name="chemistry_test2" id="chemistry_test2" style="width: 100%;" onchange="checkQuestionValue1('chemistry_test2','hide_chemistry_test2')">
+                                                            <option value="<?= $lab_details['chemistry_test'] ?>"><?php if ($lab_details) {
+                                                                                                                        if ($lab_details['chemistry_test'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($lab_details['chemistry_test'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        } 
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                            </option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
 
 
-                                        <div class="hidden" id="hide_chemistry_test2">
+                                        <div class="row hidden" id="hide_chemistry_test2">
 
                                             <div class="row">
                                                 <div class="col-sm-4">
@@ -10789,8 +10808,8 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Date:</label>
-                                                    <input type="text" name="diagnosis_date" id="diagnosis_date" value="<?php if ($main_diagnosis['visit_date']) {
+                                                    <label>Date of Diagnosis:</label>
+                                                    <input class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" value="<?php if ($main_diagnosis['visit_date']) {
                                                                                                                             print_r($main_diagnosis['visit_date']);
                                                                                                                         }  ?>" required />
                                                 </div>
@@ -10837,8 +10856,8 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry date:</label>
-                                                    <input type="text" name="social_economic_date" id="social_economic_date" value="<?php if ($social_economic['social_economic_date']) {
+                                                    <label>Visit date:</label>
+                                                    <input type="text" class="validate[required,custom[date]]" name="social_economic_date" id="social_economic_date" value="<?php if ($social_economic['social_economic_date']) {
                                                                                                                                         print_r($social_economic['social_economic_date']);
                                                                                                                                     }  ?>" />
                                                 </div>
@@ -10879,7 +10898,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Mode of transportation to clinic:</label>
-                                                    <select name="transport_mode" id="transport_mode" style="width: 100%;">
+                                                    <select name="transport_mode" id="transport_mode" style="width: 100%;" onchange="checkQuestionValue96('transport_mode','transport_mode_other')">
                                                         <option value="<?= $social_economic['transport_mode'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['transport_mode'] == 1) {
                                                                                                                             echo 'Walk';
@@ -10914,14 +10933,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="transport_mode_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="transport_mode_other" id="transport_mode_other" value="<?php if ($social_economic['transport_mode_other']) {
+                                                    <input type="text" name="transport_mode_other"  value="<?php if ($social_economic['transport_mode_other']) {
                                                                                                                                         print_r($social_economic['transport_mode_other']);
-                                                                                                                                    }  ?>" required />
+                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -10934,7 +10953,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Cost of transportation to clinic (round trip)::</label>
                                                     <input type="text" name="transportation_cost" id="transportation_cost" value="<?php if ($social_economic['transportation_cost']) {
                                                                                                                                         print_r($social_economic['transportation_cost']);
-                                                                                                                                    }  ?>" required />
+                                                                                                                                    }  ?>" />
                                                     <span>( TSHS )</span>
 
                                                 </div>
@@ -10948,7 +10967,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Who is the head of your household?:</label>
-                                                    <select name="household_head" id="household_head" style="width: 100%;" required>
+                                                    <select name="household_head" id="household_head" style="width: 100%;" onchange="checkQuestionValue96('household_head','household_head_other')">
                                                         <option value="<?= $social_economic['household_head'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['household_head'] == 1) {
                                                                                                                             echo 'Yourself';
@@ -10956,7 +10975,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Your spouse/partner';
                                                                                                                         } elseif ($social_economic['household_head'] == 3) {
                                                                                                                             echo 'Your father or mother';
-                                                                                                                        } elseif ($social_economic['household_head'] == 4) {
+                                                                                                                        } elseif ($social_economic['household_head'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
@@ -10965,20 +10984,20 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Yourself</option>
                                                         <option value="2">Your spouse/partner</option>
                                                         <option value="3">Your father or mother</option>
-                                                        <option value="4">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="household_head_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="household_head_other" id="household_head_other" value="<?php if ($social_economic['household_head_other']) {
+                                                    <input type="text" name="household_head_other"  value="<?php if ($social_economic['household_head_other']) {
                                                                                                                                         print_r($social_economic['household_head_other']);
-                                                                                                                                    }  ?>" required />
+                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -12734,21 +12753,21 @@ if ($user->isLoggedIn()) {
                             <div class="block-fluid">
                                 <form id="validation" method="post">
                                     <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Main diagnosis</label>
-                                                    <select name="diagnosis" style="width: 100%;" required>
+                                                    <select name="diagnosis" id="diagnosis" style="width: 100%;"  onchange="checkQuestionValue96('diagnosis','diagnosis_other_hide')" required>
                                                         <option value="<?= $diabetic['diagnosis'] ?>"><?php if ($diabetic) {
                                                                                                             if ($diabetic['diagnosis'] == 1) {
                                                                                                                 echo 'Type 1 DM';
                                                                                                             } elseif ($diabetic['diagnosis'] == 2) {
                                                                                                                 echo 'Type 2 DM';
-                                                                                                            } elseif ($diabetic['diagnosis'] == 2) {
+                                                                                                            } elseif ($diabetic['diagnosis'] == 3) {
                                                                                                                 echo 'Gestational DM';
-                                                                                                            } elseif ($diabetic['diagnosis'] == 2) {
+                                                                                                            } elseif ($diabetic['diagnosis'] == 4) {
                                                                                                                 echo 'DM not yet specified';
-                                                                                                            } elseif ($diabetic['diagnosis'] == 2) {
+                                                                                                            } elseif ($diabetic['diagnosis'] == 96) {
                                                                                                                 echo 'Other';
                                                                                                             }
                                                                                                         } else {
@@ -12759,16 +12778,27 @@ if ($user->isLoggedIn()) {
                                                         <option value="2">Type 2 DM</option>
                                                         <option value="3">Gestational DM</option>
                                                         <option value="4">DM not yet specified</option>
-                                                        <option value="5">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4 hidden" id="diagnosis_other_hide">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <label>Other Diagnosis:</label>
+                                                    <input type="text" name="diagnosis_other"  value="<?php if ($diabetic['visit_date']) {
+                                                                                                                                                                    print_r($diabetic['visit_date']);
+                                                                                                                                                                }  ?>"  />
+                                                    <span>Example: 2023-01-01</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4" id="diagnosis_date">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Diagnosis Date:</label>
-                                                    <input class="validate[required,custom[date]]" type="text" name="diagnosis_date" id="diagnosis_date" value="<?php if ($diabetic['visit_date']) {
+                                                    <input class="validate[required,custom[date]]" type="text" name="diagnosis_date"  value="<?php if ($diabetic['visit_date']) {
                                                                                                                                                                     print_r($diabetic['visit_date']);
                                                                                                                                                                 }  ?>" required />
                                                     <span>Example: 2023-01-01</span>
@@ -12782,7 +12812,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Hypertension:</label>
-                                                    <select name="hypertension" style="width: 100%;" required>
+                                                    <select name="hypertension" id="hypertension" style="width: 100%;" onchange="checkQuestionValue1('hypertension','hypertension_date')">
                                                         <option value="<?= $diabetic['hypertension'] ?>"><?php if ($diabetic) {
                                                                                                                 if ($diabetic['hypertension'] == 1) {
                                                                                                                     echo 'Yes';
@@ -12802,11 +12832,11 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="hypertension_date">
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Hypertension Date:</label>
-                                                    <input  type="text" name="hypertension_date" id="hypertension_date" value="<?php if ($diabetic['hypertension_date']) {
+                                                    <input  type="text" name="hypertension_date"  value="<?php if ($diabetic['hypertension_date']) {
                                                                                                                                                                             print_r($diabetic['hypertension_date']);
                                                                                                                                                                         }  ?>" />
                                                     <span>Example: 2023-01-01</span>

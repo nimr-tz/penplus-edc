@@ -1692,13 +1692,13 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-4 hidden" id="conset_date">
+                                                                    <div class="col-sm-4" id="conset_date">
                                                                         <div class="row-form clearfix">
                                                                             <div class="form-group">
                                                                                 <label>Date of Conset</label>
                                                                                 <input type="text" name="conset_date" value="<?php if ($screening['conset_date']) {
-                                                                                                                                                                            print_r($screening['conset_date']);
-                                                                                                                                                                        }  ?>" />
+                                                                                                                                    print_r($screening['conset_date']);
+                                                                                                                                }  ?>" />
                                                                                 <span>Example: 2010-12-01</span>
                                                                             </div>
                                                                         </div>
@@ -2647,7 +2647,28 @@ if ($user->isLoggedIn()) {
                         </div>
                     <?php } elseif ($_GET['id'] == 7) { ?>
                         <div class="col-md-2">
-                            <?php $patient = $override->get('clients', 'id', $_GET['cid'])[0] ?>
+                            <?php $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+                            ?>
                             <div class="ucard clearfix">
                                 <div class="right">
                                     <div class="image">
@@ -2659,15 +2680,17 @@ if ($user->isLoggedIn()) {
                                         <a href="#"><img src="<?= $img ?>" width="300" class="img-thumbnail"></a>
                                     </div>
                                     <h5><?= 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] ?></h5>
-                                    <h4><strong style="font-size: medium">Screening ID: <?= $patient['participant_id'] ?></strong></h4>
+                                    <h4><strong style="font-size: medium">Category: <?= $cat ?></strong></h4>
                                     <h4><strong style="font-size: larger">Study ID: <?= $patient['study_id'] ?></strong></h4>
+                                    <h4><strong style="font-size: larger">Sex: <?= $gender ?></strong></h4>
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-grid"></div>
-                                <h1>Study CRF (Enrollment)</h1>
+                                <h1>Study CRF (Enrollment) Category : <?= $cat ?></h1>
                                 <ul class="buttons">
                                     <li><a href="#" class="isw-download"></a></li>
                                     <li><a href="#" class="isw-attachment"></a></li>

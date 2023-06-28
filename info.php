@@ -1378,6 +1378,7 @@ if ($user->isLoggedIn()) {
                                     $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec);
                                 }
                             } ?>
+                            <br>
                             <input class="form-control" id="myInput11" type="text" placeholder="Search participant name here...">
 
                             <div class="block-fluid">

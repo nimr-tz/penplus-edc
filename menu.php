@@ -130,12 +130,6 @@ if ($user->isLoggedIn()) {
                 </ul>
             </li> -->
         <?php if ($user->data()->position == 1) { ?>
-
-            <li class="">
-                <a href="#">
-                    <span class="isw-download"></span><span class="text">Download</span>
-                </a>
-            </li>
             <li class="active">
                 <a href="info.php?id=6" target="_blank">
                     <span class="isw-download"></span><span class="text">Download Data</span>

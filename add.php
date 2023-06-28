@@ -3191,7 +3191,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Appropriate grade for age:</label>
-                                                        <select name="grade_age" style="width: 100%;" required>
+                                                        <select name="grade_age" style="width: 100%;">
                                                             <option value="<?= $demographic['grade_age'] ?>"><?php if ($demographic) {
                                                                                                                     if ($demographic['grade_age'] == 1) {
                                                                                                                         echo 'Yes';
@@ -3216,7 +3216,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>NCD limiting school attendance::</label>
-                                                        <select name="school_attendance" style="width: 100%;" required>
+                                                        <select name="school_attendance" style="width: 100%;">
                                                             <option value="<?= $demographic['school_attendance'] ?>"><?php if ($demographic) {
                                                                                                                             if ($demographic['school_attendance'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -3246,7 +3246,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Days of missed school in past month:</label>
-                                                    <input class="validate[required]" type="number" min="0" max="100" name="missed_school" id="missed_school" value="<?php if ($demographic['missed_school']) {
+                                                    <input type="number" min="0" max="100" name="missed_school" id="missed_school" value="<?php if ($demographic['missed_school']) {
                                                                                                                                                                             print_r($demographic['missed_school']);
                                                                                                                                                                         }  ?>" />
                                                 </div>
@@ -3257,7 +3257,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Household Size:</label>
-                                                    <input class="" type="number" min="1" max="100" name="household_size" id="household_size" value="<?php if ($demographic['household_size']) {
+                                                    <input class="" type="number" min="0" max="100" name="household_size" id="household_size" value="<?php if ($demographic['household_size']) {
                                                                                                                                                             print_r($demographic['household_size']);
                                                                                                                                                         }  ?>" />
                                                 </div>
@@ -3268,7 +3268,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Patient referred from:</label>
-                                                    <select id="referred" name="referred" style="width: 100%;" onchange="checkQuestionValue96('referred','referred_other')" required>
+                                                    <select id="referred" name="referred" style="width: 100%;" onchange="checkQuestionValue96('referred','referred_other')">
                                                         <option value=" <?= $demographic['referred'] ?>"><?php if ($demographic) {
                                                                                                                 if ($demographic['referred'] == 1) {
                                                                                                                     echo 'Inpatient / hospital stay';
@@ -12800,7 +12800,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Diagnosis Date:</label>
                                                     <input class="validate[required,custom[date]]" type="text" name="diagnosis_date"  value="<?php if ($diabetic['visit_date']) {
                                                                                                                                                                     print_r($diabetic['visit_date']);
-                                                                                                                                                                }  ?>" required />
+                                                                                                                                                                }  ?>" />
                                                     <span>Example: 2023-01-01</span>
                                                 </div>
                                             </div>
@@ -12862,6 +12862,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 echo 'Hyperglycemia';
                                                                                                             } elseif ($diabetic['symptoms'] == 5) {
                                                                                                                 echo 'By Screening';
+                                                                                                            }elseif ($diabetic['symptoms'] == 6) {
+                                                                                                                echo 'None';
                                                                                                             }
                                                                                                         } else {
                                                                                                             echo 'Select';
@@ -12872,6 +12874,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="3">Ketosis</option>
                                                         <option value="4">Hyperglycemia</option>
                                                         <option value="5">By Screening</option>
+                                                        <option value="6">None</option>
+
 
                                                     </select>
                                                 </div>

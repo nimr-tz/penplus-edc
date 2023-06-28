@@ -7291,7 +7291,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry Date:</label>
+                                                    <label>Visit Date:</label>
                                                     <input class="validate[required,custom[date]]" type="text" name="hospitalization_date" id="hospitalization_date" value="<?php if ($hospitalization['hospitalization_date']) {
                                                                                                                                                                                 print_r($hospitalization['hospitalization_date']);
                                                                                                                                                                             }  ?>" required />
@@ -7578,6 +7578,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Select';
                                                                                                                         } ?>
                                                             </option>
+                                                            <option value="">Select</option>
                                                             <option value="1">NPH</option>
                                                             <option value="2">Analog</option>
                                                         </select>
@@ -7627,6 +7628,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Select';
                                                                                                                         } ?>
                                                             </option>
+                                                            <option value="">Select</option>
                                                             <option value="1">Analog</option>
                                                             <option value="2">Regular</option>
                                                         </select>
@@ -7707,7 +7709,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
                                                         <label>Any issues at injection sites?</label>
-                                                        <select name="issue_injection" id="issue_injection" style="width: 100%;" onchange="checkQuestionValue96('issue_injection','issue_injection_yes')">
+                                                        <select name="issue_injection" id="issue_injection" style="width: 100%;" onchange="checkQuestionValue1('issue_injection','issue_injection_yes')">
                                                             <option value="<?= $hospitalization['issue_injection'] ?>"><?php if ($hospitalization) {
                                                                                                                             if ($hospitalization['issue_injection'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -8870,7 +8872,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Date of Entry:</label>
+                                                    <label>Visit Date:</label>
                                                     <input class="validate[required,custom[date]]" style="width: 100%;" type="text" name="diagns_date" id="diagns_date" value="<?php if ($dgns_complctns_comorbdts['diagns_date']) {
                                                                                                                                             print_r($dgns_complctns_comorbdts['diagns_date']);
                                                                                                                                         }  ?>" />
@@ -8951,7 +8953,7 @@ if ($user->isLoggedIn()) {
                                                             <option value="9">Arrhythmia</option>
                                                             <option value="10">Thromboembolic</option>
                                                             <option value="11">Stroke</option>
-                                                                                                                        <option value="96">Other</option>
+                                                            <option value="96">Other</option>
 
                                                         </select>
                                                     </div>
@@ -9025,7 +9027,7 @@ if ($user->isLoggedIn()) {
                                         <?php } ?>
 
 
-                                        <div class="col-sm-6" id="diagns_specify">
+                                        <div class="col-sm-6" id="diagns_specify_diabetic">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -9623,7 +9625,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry Date:</label>
+                                                    <label>Visit Date:</label>
                                                     <input class="validate[required,custom[date]]" type="text" name="risk_date" id="risk_date" value="<?php if ($risks['risk_date']) {
                                                                                                                     print_r($risks['risk_date']);
                                                                                                                 }  ?>" required />
@@ -9920,8 +9922,8 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry date:</label>
-                                                    <input type="text" name="hospitalization_date" id="hospitalization_date" value="<?php if ($hospitalization_details['hospitalization_date']) {
+                                                    <label>Visit date:</label>
+                                                    <input class="validate[required,custom[date]]" type="text" name="hospitalization_date" id="hospitalization_date" value="<?php if ($hospitalization_details['hospitalization_date']) {
                                                                                                                                         print_r($hospitalization_details['hospitalization_date']);
                                                                                                                                     }  ?>" required />
                                                 </div>

@@ -1378,7 +1378,7 @@ if ($user->isLoggedIn()) {
                                     $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec);
                                 }
                             } ?>
-                            <input class="form-control" id="myInput11" type="text" placeholder="Search..">
+                            <input class="form-control" id="myInput11" type="text" placeholder="Search participant name here...">
 
                             <div class="block-fluid">
                                 <table id='inventory_report1' cellpadding="0" cellspacing="0" width="100%" class="table">

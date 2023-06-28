@@ -12121,7 +12121,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Head of household?:</label>
-                                                    <select name="id=household_education" id="household_education" style="width: 100%;" onchange="checkQuestionValue96('household_education','household_education_other')">
+                                                    <select name="household_education" id="household_education" style="width: 100%;" onchange="checkQuestionValue96('household_education','household_education_other')">
                                                         <option value="<?= $social_economic['household_education'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['household_education'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';

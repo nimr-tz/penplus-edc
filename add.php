@@ -10856,8 +10856,8 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Entry date:</label>
-                                                    <input type="text" name="social_economic_date" id="social_economic_date" value="<?php if ($social_economic['social_economic_date']) {
+                                                    <label>Visit date:</label>
+                                                    <input type="text" class="validate[required,custom[date]]" name="social_economic_date" id="social_economic_date" value="<?php if ($social_economic['social_economic_date']) {
                                                                                                                                         print_r($social_economic['social_economic_date']);
                                                                                                                                     }  ?>" />
                                                 </div>
@@ -10898,7 +10898,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Mode of transportation to clinic:</label>
-                                                    <select name="transport_mode" id="transport_mode" style="width: 100%;">
+                                                    <select name="transport_mode" id="transport_mode" style="width: 100%;" onchange="checkQuestionValue96('transport_mode','transport_mode_other')">
                                                         <option value="<?= $social_economic['transport_mode'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['transport_mode'] == 1) {
                                                                                                                             echo 'Walk';
@@ -10933,14 +10933,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="transport_mode_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="transport_mode_other" id="transport_mode_other" value="<?php if ($social_economic['transport_mode_other']) {
+                                                    <input type="text" name="transport_mode_other"  value="<?php if ($social_economic['transport_mode_other']) {
                                                                                                                                         print_r($social_economic['transport_mode_other']);
-                                                                                                                                    }  ?>" required />
+                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -10953,7 +10953,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Cost of transportation to clinic (round trip)::</label>
                                                     <input type="text" name="transportation_cost" id="transportation_cost" value="<?php if ($social_economic['transportation_cost']) {
                                                                                                                                         print_r($social_economic['transportation_cost']);
-                                                                                                                                    }  ?>" required />
+                                                                                                                                    }  ?>" />
                                                     <span>( TSHS )</span>
 
                                                 </div>
@@ -10967,7 +10967,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Who is the head of your household?:</label>
-                                                    <select name="household_head" id="household_head" style="width: 100%;" required>
+                                                    <select name="household_head" id="household_head" style="width: 100%;" onchange="checkQuestionValue96('household_head','household_head_other')">
                                                         <option value="<?= $social_economic['household_head'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['household_head'] == 1) {
                                                                                                                             echo 'Yourself';
@@ -10975,7 +10975,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Your spouse/partner';
                                                                                                                         } elseif ($social_economic['household_head'] == 3) {
                                                                                                                             echo 'Your father or mother';
-                                                                                                                        } elseif ($social_economic['household_head'] == 4) {
+                                                                                                                        } elseif ($social_economic['household_head'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
@@ -10984,20 +10984,20 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Yourself</option>
                                                         <option value="2">Your spouse/partner</option>
                                                         <option value="3">Your father or mother</option>
-                                                        <option value="4">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="household_head_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="household_head_other" id="household_head_other" value="<?php if ($social_economic['household_head_other']) {
+                                                    <input type="text" name="household_head_other"  value="<?php if ($social_economic['household_head_other']) {
                                                                                                                                         print_r($social_economic['household_head_other']);
-                                                                                                                                    }  ?>" required />
+                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>

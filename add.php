@@ -3197,11 +3197,38 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 7) { ?>
                         <?php $demographic = $override->get3('demographic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                            $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Demographic</h1>
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -3413,11 +3440,37 @@ if ($user->isLoggedIn()) {
                             $height = $override->get3('vital', 'patient_id', $_GET['cid'], 'seq_no', 1, 'visit_code', 'EV')[0]['height'];
                         }
 
+                            $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
+
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>VITAL SIGNS</h1>
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -3546,11 +3599,38 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 9) { ?>
                         <?php $history = $override->get3('history', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Patient Hitory & Complication</h1>
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -4799,11 +4879,37 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 10) { ?>
                         <?php $symptoms = $override->get3('symptoms', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>History, Symptoms, & Exam</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -6044,11 +6150,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 11) { ?>
                         <?php
                         $diagnosis = $override->get3('cardiac', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Main diagnosis ( Cardiac )</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -6712,6 +6844,30 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 12) { ?>
                         <?php $results = $override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="block-fluid">
@@ -6723,12 +6879,16 @@ if ($user->isLoggedIn()) {
                                             <div class="head clearfix">
                                                 <div class="isw-ok"></div>
                                                 <h1>Results at enrollment</h1>
+                                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                                             </div>
                                         <?php } else { ?>
 
                                             <div class="head clearfix">
                                                 <div class="isw-ok"></div>
                                                 <h1>Results at Follow Up </h1>
+                                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                                             </div>
 
 
@@ -7315,11 +7475,37 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 13) { ?>
                         <?php $hospitalization = $override->get3('hospitalization', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Hospitalizations , School and Management at Home</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -8058,11 +8244,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 14) { ?>
                         <?php
                         $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>TREATMMENT PLAN</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post" autocomplete="off">
@@ -8895,11 +9107,38 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 15) { ?>
                         <?php $dgns_complctns_comorbdts = $override->get3('dgns_complctns_comorbdts', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Diagnosis, Complications, & Comorbidities</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -9649,11 +9888,38 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 16) { ?>
                         <?php
                         $risks = $override->get3('risks', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>RISK</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -9958,11 +10224,38 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 17) { ?>
                         <?php
                         $hospitalization_details = $override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Hospitalizazions Details</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -10100,11 +10393,38 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 18) { ?>
                         <?php
                         $lab_details = $override->get3('lab_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Lab and Clinical Monitoring</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -10775,11 +11095,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 19) { ?>
                         <?php
                         $main_diagnosis = $override->get3('main_diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Diagnosis Category</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -10891,11 +11237,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 20) { ?>
                         <?php
                         $social_economic = $override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Socioeconomic Status ( EXIT-TB SOCIAL ECONOMIC TOOL (2018)) </h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -12802,11 +13174,38 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 21) { ?>
                         <?php
                         $diabetic = $override->get3('diabetic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Diabetic</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -12952,11 +13351,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 22) { ?>
                         <?php
                         $sickle_cell = $override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>SICKLE CELL</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">

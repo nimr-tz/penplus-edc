@@ -2654,7 +2654,8 @@ if ($user->isLoggedIn()) {
                         </div>
                     <?php } elseif ($_GET['id'] == 7) { ?>
                         <div class="col-md-2">
-                            <?php $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            <?php 
+                            $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                             $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
                             $cat = '';
 

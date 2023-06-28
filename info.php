@@ -1373,8 +1373,10 @@ if ($user->isLoggedIn()) {
                                     $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec);
                                 }
                             } ?>
+                            <input class="form-control" id="myInput11" type="text" placeholder="Search..">
+
                             <div class="block-fluid">
-                                <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                <table id='inventory_report1' cellpadding="0" cellspacing="0" width="100%" class="table">
                                     <thead>
                                         <tr>
                                             <!-- <th><input type="checkbox" name="checkall" /></th> -->
@@ -3287,6 +3289,15 @@ if ($user->isLoggedIn()) {
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+
+    $(document).ready(function() {
+        $("#myInput11").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#inventory_report1 tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 
     $(document).ready(function() {
         $("#myInput").on("keyup", function() {

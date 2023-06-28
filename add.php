@@ -2336,6 +2336,15 @@ if ($user->isLoggedIn()) {
                             'no_food' => Input::get('no_food'),
                             'sleep_hungry' => Input::get('sleep_hungry'),
                             'day_hungry' => Input::get('day_hungry'),
+                            'patient_education' => Input::get('patient_education'),
+                            'patient_education_other' => Input::get('patient_education_other'),
+                            'primary_earner_edctn' => Input::get('primary_earner_edctn'),
+                            'household_education' => Input::get('household_education'),
+                            'household_education_other' => Input::get('household_education_other'),
+                            'earner_edctn_other' => Input::get('earner_edctn_other'),
+                            'spouse_edctn' => Input::get('spouse_edctn'),
+                            'spouse_edctn_other' => Input::get('spouse_edctn_other'),
+                            'socioeconomic_notes' => Input::get('socioeconomic_notes'),
                             'socioeconomic_notes' => Input::get('socioeconomic_notes'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -2422,6 +2431,14 @@ if ($user->isLoggedIn()) {
                             'no_food' => Input::get('no_food'),
                             'sleep_hungry' => Input::get('sleep_hungry'),
                             'day_hungry' => Input::get('day_hungry'),
+                            'patient_education' => Input::get('patient_education'),
+                            'patient_education_other' => Input::get('patient_education_other'),
+                            'primary_earner_edctn' => Input::get('primary_earner_edctn'),
+                            'household_education' => Input::get('household_education'),
+                            'household_education_other' => Input::get('household_education_other'),
+                            'earner_edctn_other' => Input::get('earner_edctn_other'),
+                            'spouse_edctn' => Input::get('spouse_edctn'),
+                            'spouse_edctn_other' => Input::get('spouse_edctn_other'),
                             'socioeconomic_notes' => Input::get('socioeconomic_notes'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -12013,7 +12030,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>The patient?:</label>
-                                                    <select name="patient_education" id="patient_education" style="width: 100%;" onchange="checkQuestionValue96('patient_education','main_income_based_other')">
+                                                    <select name="patient_education" id="patient_education" style="width: 100%;" onchange="checkQuestionValue96('patient_education','patient_education_other')">
                                                         <option value="<?= $social_economic['patient_education'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['patient_education'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
@@ -12039,14 +12056,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="patient_education_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="patient_education_other" id="patient_education_other" value="<?php if ($social_economic['patient_education_other']) {
+                                                    <input type="text" name="patient_education_other"  value="<?php if ($social_economic['patient_education_other']) {
                                                                                                                                                         print_r($social_economic['patient_education_other']);
-                                                                                                                                                    }  ?>" required />
+                                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -12058,17 +12075,17 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Primary income earner?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" onchange="checkQuestionValue96('main_income_based','main_income_based_other')">
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                    <select name="primary_earner_edctn" id="primary_earner_edctn" style="width: 100%;" onchange="checkQuestionValue96('primary_earner_edctn','earner_edctn_other')">
+                                                        <option value="<?= $social_economic['primary_earner_edctn'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['primary_earner_edctn'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                } elseif ($social_economic['primary_earner_edctn'] == 2) {
                                                                                                                                     echo 'Primaryr';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                } elseif ($social_economic['primary_earner_edctn'] == 3) {
                                                                                                                                     echo 'Secondary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                } elseif ($social_economic['primary_earner_edctn'] == 4) {
                                                                                                                                     echo 'Graduate/certificate';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                } elseif ($social_economic['primary_earner_edctn'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -12084,14 +12101,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="earner_edctn_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="earner_edctn_other"  value="<?php if ($social_economic['earner_edctn_other']) {
+                                                                                                                                                        print_r($social_economic['earner_edctn_other']);
+                                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -12104,17 +12121,17 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Head of household?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" onchange="checkQuestionValue96('main_income_based','main_income_based_other')">
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                    <select name="id=household_education" id="household_education" style="width: 100%;" onchange="checkQuestionValue96('household_education','household_education_other')">
+                                                        <option value="<?= $social_economic['household_education'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['household_education'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                } elseif ($social_economic['household_education'] == 2) {
                                                                                                                                     echo 'Primaryr';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                } elseif ($social_economic['household_education'] == 3) {
                                                                                                                                     echo 'Secondary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                } elseif ($social_economic['household_education'] == 4) {
                                                                                                                                     echo 'Graduate/certificate';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                } elseif ($social_economic['household_education'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -12131,14 +12148,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="household_education_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="household_education_other"  value="<?php if ($social_economic['household_education_other']) {
+                                                                                                                                                        print_r($social_economic['household_education_other']);
+                                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -12151,17 +12168,17 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Spouse of the head of household?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" onchange="checkQuestionValue96('main_income_based','main_income_based_other')">
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                    <select name="spouse_edctn" id="spouse_edctn" style="width: 100%;" onchange="checkQuestionValue96('spouse_edctn','spouse_edctn_other')">
+                                                        <option value="<?= $social_economic['spouse_edctn'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['spouse_edctn'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                } elseif ($social_economic['spouse_edctn'] == 2) {
                                                                                                                                     echo 'Primaryr';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                } elseif ($social_economic['spouse_edctn'] == 3) {
                                                                                                                                     echo 'Secondary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                } elseif ($social_economic['spouse_edctn'] == 4) {
                                                                                                                                     echo 'Graduate/certificate';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                } elseif ($social_economic['spouse_edctn'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -12178,13 +12195,13 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="spouse_edctn_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
+                                                    <input type="text" name="spouse_edctn_other"  value="<?php if ($social_economic['spouse_edctn_other']) {
+                                                                                                                                                        print_r($social_economic['spouse_edctn_other']);
                                                                                                                                                     }  ?>" required />
 
                                                 </div>

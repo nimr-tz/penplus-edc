@@ -12013,17 +12013,17 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>The patient?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" onchange="checkQuestionValue96('main_income_based','main_income_based_other')">
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                    <select name="patient_education" id="patient_education" style="width: 100%;" onchange="checkQuestionValue96('patient_education','main_income_based_other')">
+                                                        <option value="<?= $social_economic['patient_education'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['patient_education'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                } elseif ($social_economic['patient_education'] == 2) {
                                                                                                                                     echo 'Primaryr';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                } elseif ($social_economic['patient_education'] == 3) {
                                                                                                                                     echo 'Secondary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                } elseif ($social_economic['patient_education'] == 4) {
                                                                                                                                     echo 'Graduate/certificate';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                } elseif ($social_economic['patient_education'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -12044,8 +12044,8 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
+                                                    <input type="text" name="patient_education_other" id="patient_education_other" value="<?php if ($social_economic['patient_education_other']) {
+                                                                                                                                                        print_r($social_economic['patient_education_other']);
                                                                                                                                                     }  ?>" required />
 
                                                 </div>
@@ -12204,13 +12204,13 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Main material of the floor::</label>
-                                                    <select name="material_floor" id="material_floor" style="width: 100%;" required>
+                                                    <select name="material_floor" id="material_floor" style="width: 100%;" onchange="checkQuestionValue96('material_floor','material_floor_other')">
                                                         <option value="<?= $social_economic['material_floor'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['material_floor'] == 1) {
                                                                                                                             echo 'Earth/ sand/dung ';
                                                                                                                         } elseif ($social_economic['material_floor'] == 2) {
                                                                                                                             echo 'Concrete cement';
-                                                                                                                        } elseif ($social_economic['material_floor'] == 3) {
+                                                                                                                        } elseif ($social_economic['material_floor'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
@@ -12218,12 +12218,12 @@ if ($user->isLoggedIn()) {
                                                                                                                     } ?></option>
                                                         <option value="1">Earth/ sand/dung</option>
                                                         <option value="2">Concrete cement</option>
-                                                        <option value="3">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="material_floor_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12245,23 +12245,23 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Main material of the Roof:</label>
-                                                    <select name="material_roof" id="material_roof" style="width: 100%;" required>
+                                                    <select name="material_roof" id="material_roof" style="width: 100%;" onchange="checkQuestionValue96('material_roof','material_roof_other')">
                                                         <option value="<?= $social_economic['material_roof'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['material_roof'] == 1) {
                                                                                                                             echo 'Thatch/ palm ';
-                                                                                                                        } elseif ($social_economic['material_roof'] == 2) {
+                                                                                                                        } elseif ($social_economic['material_roof'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
                                                                                                                         echo 'Select';
                                                                                                                     } ?></option>
                                                         <option value="1">Thatch/ palm</option>
-                                                        <option value="2">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="material_roof_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12282,7 +12282,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Main type of cooking fuel:</label>
-                                                    <select name="cooking_fuel" id="cooking_fuel" style="width: 100%;" required>
+                                                    <select name="cooking_fuel" id="cooking_fuel" style="width: 100%;" onchange="checkQuestionValue96('cooking_fuel','cooking_fuel_other')">
                                                         <option value="<?= $social_economic['cooking_fuel'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['cooking_fuel'] == 1) {
                                                                                                                         echo 'Electricity ';
@@ -12296,7 +12296,7 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'wood/ straw/shrub/grass/agricultural crop animal dung ';
                                                                                                                     } elseif ($social_economic['cooking_fuel'] == 6) {
                                                                                                                         echo 'no food cooked';
-                                                                                                                    } elseif ($social_economic['cooking_fuel'] == 7) {
+                                                                                                                    } elseif ($social_economic['cooking_fuel'] == 96) {
                                                                                                                         echo 'Other';
                                                                                                                     }
                                                                                                                 } else {
@@ -12308,12 +12308,12 @@ if ($user->isLoggedIn()) {
                                                         <option value="4">coal/lignite/ charcoal</option>
                                                         <option value="5">wood/ straw/shrub/grass/agricultural crop animal dung</option>
                                                         <option value="6">no food cooked</option>
-                                                        <option value="7">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="cooking_fuel_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12334,7 +12334,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Water Access:?</label>
-                                                    <select name="water_access" id="water_access" style="width: 100%;" required>
+                                                    <select name="water_access" id="water_access" style="width: 100%;" onchange="checkQuestionValue1('water_access','water_source1')">
                                                         <option value="<?= $social_economic['water_access'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['water_access'] == 1) {
                                                                                                                         echo 'Yes';
@@ -12352,12 +12352,12 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="water_source1">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Drinking water source:?</label>
-                                                    <select name="water_source" id="water_source" style="width: 100%;" required>
+                                                    <select name="water_source" id="water_source" style="width: 100%;" onchange="checkQuestionValue96('water_source','water_source_other')">
                                                         <option value="<?= $social_economic['water_source'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['water_source'] == 1) {
                                                                                                                         echo 'Piped into dwelling';
@@ -12403,7 +12403,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="water_source_other" >
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12424,7 +12424,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Toilet Access:?</label>
-                                                    <select name="toilet_access" id="toilet_access" style="width: 100%;" required>
+                                                    <select name="toilet_access" id="toilet_access" style="width: 100%;" onchange="checkQuestionValue1('toilet_access','toilet_facility1')">
                                                         <option value="<?= $social_economic['toilet_access'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['toilet_access'] == 1) {
                                                                                                                             echo 'Yes';
@@ -12442,12 +12442,12 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="toilet_facility1">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Type of Toilet facility?</label>
-                                                    <select name="toilet_facility" id="toilet_facility" style="width: 100%;" required>
+                                                    <select name="toilet_facility" id="toilet_facility" style="width: 100%;" onchange="checkQuestionValue96('toilet_facility','toilet_access_other')">
                                                         <option value="<?= $social_economic['toilet_facility'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['toilet_facility'] == 1) {
                                                                                                                             echo 'Flush to pit latrine';
@@ -12490,7 +12490,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="toilet_access_other" >
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">

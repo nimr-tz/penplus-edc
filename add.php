@@ -1293,6 +1293,8 @@ if ($user->isLoggedIn()) {
                                 'rv' => Input::get('rv'),
                                 'pericardial' => Input::get('pericardial'),
                                 'ivc' => Input::get('ivc'),
+                                'congenital_defect' => Input::get('congenital_defect'),
+                                'thrombus' => Input::get('thrombus'),   
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
@@ -1351,6 +1353,8 @@ if ($user->isLoggedIn()) {
                             'rv' => Input::get('rv'),
                             'pericardial' => Input::get('pericardial'),
                             'ivc' => Input::get('ivc'),
+                             'congenital_defect' => Input::get('congenital_defect'),
+                            'thrombus' => Input::get('thrombus'),                            
                             'echo_other' => Input::get('echo_other'),
                             'echo_specify' => Input::get('echo_specify'),
                             'echo_other2' => Input::get('echo_other2'),
@@ -6118,7 +6122,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Rheumatic Heart Disease</label>
-                                                    <select name="heumatic" id="heumatic" style="width: 100%;" onchange="checkQuestionValue1('cardiomyopathy','sub_heumatic1')">
+                                                    <select name="heumatic" id="heumatic" style="width: 100%;" onchange="checkQuestionValue1('heumatic','sub_heumatic1')">
                                                         <option value="<?= $diagnosis['heumatic'] ?>"><?php if ($diagnosis) {
                                                                                                             if ($diagnosis['heumatic'] == 1) {
                                                                                                                 echo 'Yes';
@@ -6273,7 +6277,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Other</label>
+                                                    <label>Any Other diagnosis? </label>
                                                     <select name="diagnosis_other" id="diagnosis_other" style="width: 100%;" onchange="checkQuestionValue1('diagnosis_other','diagnosis_specify1')">
                                                         <option value="<?= $diagnosis['diagnosis_other'] ?>"><?php if ($diagnosis) {
                                                                                                                     if ($diagnosis['diagnosis_other'] == 1) {
@@ -6992,13 +6996,13 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Thrombus</label>
-                                                            <select name="ivc" id="ivc" style="width: 100%;">
-                                                                <option value="<?= $results['ivc'] ?>"><?php if ($results) {
-                                                                                                            if ($results['ivc'] == 1) {
+                                                            <select name="thrombus" id="thrombus" style="width: 100%;">
+                                                                <option value="<?= $results['thrombus'] ?>"><?php if ($results) {
+                                                                                                            if ($results['ithrombusvc'] == 1) {
                                                                                                                 echo 'Yes';
-                                                                                                            } elseif ($results['ivc'] == 2) {
+                                                                                                            } elseif ($results['thrombus'] == 2) {
                                                                                                                 echo 'No';
-                                                                                                            } elseif ($results['ivc'] == 3) {
+                                                                                                            } elseif ($results['thrombus'] == 3) {
                                                                                                                 echo 'Unseen';
                                                                                                             }
                                                                                                         } else {
@@ -7019,13 +7023,13 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Congenital defect</label>
-                                                            <select name="ivc" id="ivc" style="width: 100%;">
-                                                                <option value="<?= $results['ivc'] ?>"><?php if ($results) {
-                                                                                                            if ($results['ivc'] == 1) {
+                                                            <select name="congenital_defect" id="congenital_defect" style="width: 100%;">
+                                                                <option value="<?= $results['congenital_defect'] ?>"><?php if ($results) {
+                                                                                                            if ($results['congenital_defect'] == 1) {
                                                                                                                 echo 'Yes';
-                                                                                                            } elseif ($results['ivc'] == 2) {
+                                                                                                            } elseif ($results['congenital_defect'] == 2) {
                                                                                                                 echo 'No';
-                                                                                                            } elseif ($results['ivc'] == 3) {
+                                                                                                            } elseif ($results['congenital_defect'] == 3) {
                                                                                                                 echo 'Unseen';
                                                                                                             }
                                                                                                         } else {
@@ -8599,7 +8603,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Other ?:</label>
+                                                        <label>Any Other Support?:</label>
                                                         <select name="other_support" id="other_support" style="width: 100%;" onchange="checkQuestionValue1('other_support','support_specify')">
                                                             <option value="<?= $treatment_plan['other_support'] ?>"><?php if ($treatment_plan) {
                                                                                                                         if ($treatment_plan['other_support'] == 1) {
@@ -8877,7 +8881,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Has diagnosis been changed or specified?:</label>
-                                                    <select name="diagns_changed" id="diagns_changed" style="width: 100%;" onchange="checkQuestionValue1('diagns_changed','ncd_diagns')" required>
+                                                    <select name="diagns_changed" id="diagns_changed" style="width: 100%;" onchange="checkQuestionValue1('diagns_changed','ncd_diagns')">
                                                         <option value="<?= $dgns_complctns_comorbdts['diagns_changed'] ?>"><?php if ($dgns_complctns_comorbdts) {
                                                                                                                                 if ($dgns_complctns_comorbdts['diagns_changed'] == 1) {
                                                                                                                                     echo 'Yes';
@@ -9039,7 +9043,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>New NCD diagnosis:?</label>
-                                                    <select name="new_diagns" id="new_diagns" style="width: 100%;" onchange="checkQuestionValue1('new_diagns','new_diagns_specify')" required>
+                                                    <select name="new_diagns" id="new_diagns" style="width: 100%;" onchange="checkQuestionValue1('new_diagns','new_diagns_specify')">
                                                         <option value="<?= $dgns_complctns_comorbdts['new_diagns'] ?>"><?php if ($dgns_complctns_comorbdts) {
                                                                                                                             if ($dgns_complctns_comorbdts['new_diagns'] == 1) {
                                                                                                                                 echo 'Yes';

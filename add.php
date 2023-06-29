@@ -2822,7 +2822,14 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                 <h1>Add Client</h1>
+                                <?php } ?>
+
+                                <?php if ($user->data()->position == 2) { ?>
+                                <h1>View clients info</h1>
+                                <?php } ?>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
@@ -3115,9 +3122,12 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_client" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
+
 
                                 </form>
                             </div>
@@ -3162,10 +3172,11 @@ if ($user->isLoggedIn()) {
                                             <input value="" class="validate[required,custom[date]]" type="text" name="end_date" id="end_date" /> <span>Example: 2010-12-01</span>
                                         </div>
                                     </div>
-
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_study" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -3185,10 +3196,11 @@ if ($user->isLoggedIn()) {
                                             <input value="" class="validate[required]" type="text" name="name" id="name" />
                                         </div>
                                     </div>
-
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_site" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -3423,11 +3435,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
                                     </div>
-
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="hidden" name="sid" value="<?= $_GET['sid'] ?>">
                                         <input type="submit" name="add_demographic" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
+
+
 
                                 </form>
                             </div>
@@ -3587,11 +3602,13 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
                                     </div>
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
 
                                     <div class="footer tar">
                                         <input type="hidden" name="bmi" value="<?= $vital['bmi'] ?>">
                                         <input type="submit" name="add_vital" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
                                 </form>
                             </div>
 
@@ -4868,9 +4885,14 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+
                                     <div class="footer tar">
                                         <input type="submit" name="add_history" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -4960,7 +4982,12 @@ if ($user->isLoggedIn()) {
                                                                                                             } ?></option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
-                                                            <option value="3">Unsure</option>
+                                              <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_history" value="Submit" class="btn btn-default">
+                                    </div>
+                                <?php } ?>                                              <option value="3">Unsure</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -6136,9 +6163,14 @@ if ($user->isLoggedIn()) {
 
                                     <?php } ?>
 
+
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+
                                     <div class="footer tar">
                                         <input type="submit" name="add_symptoms" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -6833,9 +6865,12 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_cardiac" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -7464,9 +7499,13 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
                                     <?php } ?>
-                                    <div class="footer tar">
+                                
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                     <div class="footer tar">
                                         <input type="submit" name="add_results" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -8232,11 +8271,13 @@ if ($user->isLoggedIn()) {
 
                                     <?php } ?>
 
-
-
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_hospitalizaion" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
+
+
 
                                 </form>
                             </div>
@@ -9097,9 +9138,12 @@ if ($user->isLoggedIn()) {
                                     </div>
 
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_treatment_plan" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
                                 </form>
                             </div>
                         </div>
@@ -9878,9 +9922,12 @@ if ($user->isLoggedIn()) {
                                     </div>
 
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_dgns_complctns_comorbdts" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -10214,9 +10261,12 @@ if ($user->isLoggedIn()) {
 
                                     </div>
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_risks" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -10383,9 +10433,13 @@ if ($user->isLoggedIn()) {
                                     </div>
                                  </div>
 
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_hospitalization_details" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
+
+
 
                                 </form>
                             </div>
@@ -11085,9 +11139,12 @@ if ($user->isLoggedIn()) {
 
                                     <?php } ?>
 
+
+                                    <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_lab_details" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -11225,9 +11282,12 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_main_diagnosis" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -13161,9 +13221,12 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_social_economic" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -13339,9 +13402,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>                                      
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_diabetic" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -13455,9 +13521,12 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_scd" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>
@@ -13560,9 +13629,12 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
                                         <input type="submit" name="add_medications" value="Submit" class="btn btn-default">
                                     </div>
+                                <?php } ?>
 
                                 </form>
                             </div>

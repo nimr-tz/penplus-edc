@@ -3122,8 +3122,13 @@ if ($user->isLoggedIn()) {
                                         </div>
                                     </div>
 
-                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+
+
                                     <div class="footer tar">
+                                        <button onclick="history.go(-1);">Back </button>
+                                 <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+
+
                                         <input type="submit" name="add_client" value="Submit" class="btn btn-default">
                                     </div>
                                 <?php } ?>
@@ -3435,8 +3440,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
                                     </div>
-                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                     <div class="footer tar">
+
+                                <!-- <button onclick="history.go(-1);">Back </button> -->
+
+                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+
                                         <input type="hidden" name="sid" value="<?= $_GET['sid'] ?>">
                                         <input type="submit" name="add_demographic" value="Submit" class="btn btn-default">
                                     </div>

@@ -13896,7 +13896,7 @@ if ($user->isLoggedIn()) {
                 // Handle any errors that occurred during the fetch request
                 console.error('Error:', error);
             });
-
+        
 
      
      

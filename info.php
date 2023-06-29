@@ -373,7 +373,7 @@ if ($user->isLoggedIn()) {
                 if ($visit) {
                     $user->updateRecord('visit', array('visit_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
 
-                    // $errorMessage = 'Visit with the same Date ana Name already exists for this Client';
+                    $errorMessage = 'Visit with the same Date ana Name already exists for this Client';
                 } else {
                     $user->createRecord('visit', array(
                         'study_id' => $study_id,
@@ -406,7 +406,83 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('add_Schedule')) {
+        } 
+        // elseif (Input::get('edit_Enrollment')) {
+        //     $validate = $validate->check($_POST, array(
+        //         'visit_date' => array(
+        //             'required' => true,
+        //         ),
+        //     ));
+        //     if ($validate->passed()) {
+        //         $client_study = $override->getNews('clients', 'id', Input::get('id'), 'status', 1)[0];
+        //         $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
+        //         $screening_id = $override->getNews('screening', 'patient_id', Input::get('id'), 'status', 1)[0];
+        //         $visit_id = $override->get('visit', 'client_id', Input::get('id'))[0];
+        //         $last_visit = $override->getlastRow('visit', 'client_id', Input::get('id'), 'id')[0];
+        //         $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'));
+        //         $visit_id = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
+
+        //         if (!$client_study['study_id']) {
+        //             $study_id = $std_id['study_id'];
+        //         } else {
+        //             $study_id = $client_study['study_id'];
+        //         }
+
+        //         if (Input::get('visit_name') == 'Registration Visit') {
+        //             $visit_code = 'RV';
+        //         } elseif (Input::get('visit_name') == 'Screening Visit') {
+        //             $visit_code = 'SV';
+        //         } elseif (Input::get('visit_name') == 'Enrollment Visit') {
+        //             $visit_code = 'EV';
+        //         } elseif (Input::get('visit_name') == 'Follow Up Visit') {
+        //             $visit_code = 'FV';
+        //         } elseif (Input::get('visit_name') == 'Study Termination Visit') {
+        //             $visit_code = 'TV';
+        //         } elseif (Input::get('visit_name') == 'Unschedule Visit') {
+        //             $visit_code = 'UV';
+        //         }
+
+
+
+        //         $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
+        //         // $enrollment_date = $override->get('clients', 'id', Input::get('id'))[0];
+        //         $visit_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', Input::get('id'),'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
+        //         if ($override->get('visit', 'client_id', Input::get('id'))) {
+        //             if (Input::get('visit_date') != $visit_date['visit_date']) {
+        //                 $user->deleteRecord('visit', 'client_id', Input::get('id'));
+        //                 $user->createRecord('visit', array(
+        //                     'study_id' => $study_id,
+        //                     'visit_name' => Input::get('visit_name'),
+        //                     'visit_code' => $visit_code,
+        //                     'visit_day' => 'Day 1',
+        //                     'expected_date' => Input::get('visit_date'),
+        //                     'visit_date' => '',
+        //                     'visit_window' => 0,
+        //                     'status' => 0,
+        //                     'client_id' => Input::get('id'),
+        //                     'created_on' => date('Y-m-d'),
+        //                     'seq_no' => 1,
+        //                     'reasons' => Input::get('reasons'),
+        //                     'visit_status' => 1,
+        //                 ));
+        //             }
+
+        //             // if (!$client_study['study_id']) {
+        //             //     $user->updateRecord('screening', array('study_id' => $std_id['study_id']), $screening_id['id']);
+        //             //     $user->updateRecord('clients', array('study_id' => $std_id['study_id'], 'enrolled' => 1), Input::get('id'));
+        //             //     $user->updateRecord('study_id', array('status' => 1, 'client_id' => Input::get('id')), $std_id['id']);
+        //             // } else {
+        //             //     $user->updateRecord('screening', array('study_id' => $client_study['study_id']), $screening_id['id']);
+        //             //     $user->updateRecord('clients', array('study_id' => $client_study['study_id'], 'enrolled' => 1), Input::get('id'));
+        //             // }
+        //         }
+        //         $successMessage = 'Enrollment  Added Successful';
+        //         Redirect::to('info.php?id=3&status=3');
+        //     } else {
+        //         $pageError = $validate->errors();
+        //     }
+        // }
+         elseif (Input::get('add_Schedule')) {
             $validate = $validate->check($_POST, array(
                 'expected_date' => array(
                     'required' => true,

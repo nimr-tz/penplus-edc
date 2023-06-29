@@ -7504,7 +7504,7 @@ if ($user->isLoggedIn()) {
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Hospitalizations , School and Management at Home</h1>
-                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
 
                             </div>
                             <div class="block-fluid">

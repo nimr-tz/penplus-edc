@@ -371,7 +371,7 @@ if ($user->isLoggedIn()) {
                 }
 
                 if ($visit) {
-                    $user->updateRecord('visit', array('visit_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
+                    $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
 
                     // $errorMessage = 'Visit with the same Date ana Name already exists for this Client';
                 } else {
@@ -1995,6 +1995,30 @@ if ($user->isLoggedIn()) {
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                             $visits_status = $override->firstRow1('visit', 'status', 'id', 'client_id', $_GET['cid'], 'visit_code', 'EV')[0]['status'];
 
+                            // $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+
+
                             ?>
                             <div class="row">
                                 <div class="col-md-2">
@@ -2009,15 +2033,17 @@ if ($user->isLoggedIn()) {
                                                 <a href="#"><img src="<?= $img ?>" width="300" class="img-thumbnail"></a>
                                             </div>
                                             <h5><?= 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] ?></h5>
-                                            <h4><strong style="font-size: medium">Screening ID: <?= $patient['participant_id'] ?></strong></h4>
+                                            <h4><strong style="font-size: medium">Category: <?= $cat ?></strong></h4>
                                             <h4><strong style="font-size: larger">Study ID: <?= $patient['study_id'] ?></strong></h4>
+                                            <h4><strong style="font-size: larger">Sex: <?= $gender ?></strong></h4>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-10">
                                     <div class="head clearfix">
                                         <div class="isw-grid"></div>
-                                        <h1>Schedule</h1>
+                                        <h1>Schedule <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+                                        </h1>
                                         <ul class="buttons">
                                             <li><a href="#" class="isw-download"></a></li>
                                             <li><a href="#" class="isw-attachment"></a></li>
@@ -2075,6 +2101,9 @@ if ($user->isLoggedIn()) {
                                                     } elseif ($visit['status'] == 1) {
                                                         $btnV = 'Edit';
                                                     }
+
+                                                    $visit_name = $visit['visit_name'];
+
                                                 ?>
                                                     <tr>
                                                         <td><?= $x ?></td>
@@ -2127,7 +2156,7 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row">
 
                                                                             <div class="row">
-                                                                                <div class="col-sm-3">
+                                                                                <div class="col-sm-6">
                                                                                     <div class="row-form clearfix">
                                                                                         <!-- select -->
                                                                                         <div class="form-group">
@@ -2140,10 +2169,10 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
+                                                                                <!-- <div class="col-sm-3">
+                                                                                    <div class="row-form clearfix"> -->
+                                                                                <!-- select -->
+                                                                                <!-- <div class="form-group">
                                                                                             <label>Visit Name</label>
                                                                                             <select name="visit_name" style="width: 100%;" required>
                                                                                                 <option value="">Select</option>
@@ -2153,7 +2182,7 @@ if ($user->isLoggedIn()) {
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
+                                                                                </div> -->
 
                                                                                 <div class="col-sm-6">
                                                                                     <div class="row-form clearfix">
@@ -2173,6 +2202,7 @@ if ($user->isLoggedIn()) {
                                                                     <div class="modal-footer">
                                                                         <input type="hidden" name="id" value="<?= $visit['id'] ?>">
                                                                         <input type="hidden" name="vc" value="<?= $visit['visit_code'] ?>">
+                                                                        <input type="hidden" name="visit_name" value="<?= $visit['visit_name'] ?>">
                                                                         <input type="hidden" name="cid" value="<?= $visit['client_id'] ?>">
                                                                         <input type="submit" name="edit_visit" class="btn btn-warning" value="Save">
                                                                         <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>

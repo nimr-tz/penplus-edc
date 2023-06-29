@@ -72,7 +72,7 @@ if ($site_data) {
 
                 <tr>
                     <td colspan="17" align="center" style="font-size: 18px">
-                        <b>TABLE 0 </b>
+                        <b>TABLE 3 </b>
                     </td>
                 </tr>
 
@@ -95,15 +95,17 @@ if ($site_data) {
                                 <th rowspan="2">SITE</th>
                                 <th rowspan="2">REGISTERED</th>
                                 <th rowspan="2">SCREENED.</th>
-                                <th colspan="3"> Category ( INCLUSION )</th>
                                 <th rowspan="2">ELIGIBLE</th>
+                                <th colspan="5"> Category ( INCLUSION )</th>
                                 <th rowspan="2">ENROLLED</th>
                                 <th rowspan="2">END</th>
                             </tr>
                             <tr>
                                 <th>Cardiac</th>
-                                <th>Diabetes</th>
+                                <th>Diabetes(Type 1)</th>
+                                <th>Diabetes(Type 2)</th>
                                 <th>Sickle cell </th>
+                                <th>Sickle cell( Other ) </th>
                             </tr>
             ';
 
@@ -114,10 +116,22 @@ if ($site_data) {
         $registered_Total = $override->getCount('clients', 'status', 1);
         $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $row['id']);
         $screened_Total = $override->countData('clients', 'status', 1, 'screened', 1);
+        $sickle_cell1 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
+        $sickle_cell_Total1 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 1);
+        $sickle_cell2 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 96, 'site_id', $row['id']);
+        $sickle_cell_Total2 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 96);
         $sickle_cell = $override->countData2('clients', 'status', 1, 'sickle_cell', 1, 'site_id', $row['id']);
         $sickle_cell_Total = $override->countData('clients', 'status', 1, 'sickle_cell', 1);
+        // $cardiac1 = $override->countData2('cardiac', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
+        // $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'cardiac', 1);
+        // $cardiac2 = $override->countData2('cardiac', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
+        // $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'cardiac', 1);
         $cardiac = $override->countData2('clients', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
         $cardiac_Total = $override->countData('clients', 'status', 1, 'cardiac', 1);
+        $diabetes1 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
+        $diabetes_Total1 = $override->countData('diabetic', 'status', 1, 'diagnosis', 1);
+        $diabetes2 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 2, 'site_id', $row['id']);
+        $diabetes_Total2 = $override->countData('diabetic', 'status', 1, 'diagnosis', 2);
         $diabetes = $override->countData2('clients', 'status', 1, 'diabetes', 1, 'site_id', $row['id']);
         $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
         $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $row['id']);
@@ -133,10 +147,12 @@ if ($site_data) {
                     <td>' . $row['name']  . '</td>
                     <td align="right">' . $registered . '</td>
                     <td align="right">' . $screened . '</td>
-                    <td align="right">' . $cardiac . '</td>
-                    <td align="right">' . $diabetes . '</td>
-                    <td align="right">' . $sickle_cell . '</td>
                     <td align="right">' . $eligible . '</td>
+                    <td align="right">' . $cardiac . '</td>
+                    <td align="right">' . $diabetes1 . '</td>
+                     <td align="right">' . $diabetes2 . '</td>
+                    <td align="right">' . $sickle_cell1 . '</td>
+                    <td align="right">' . $sickle_cell2 . '</td>
                     <td align="right">' . $enrolled . '</td>
                     <td align="right">' . $end_study . '</td>
                 </tr>
@@ -150,10 +166,12 @@ if ($site_data) {
                     <td align="right" colspan="2"><b>Total</b></td>
                     <td align="right"><b>' . $registered_Total . '</b></td>
                     <td align="right"><b>' . $screened_Total . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total . '</b></td>
-                    <td align="right"><b>' . $diabetes_Total . '</b></td>
-                    <td align="right"><b>' . $sickle_cell_Total . '</b></td>
                     <td align="right"><b>' . $eligible_Total . '</b></td>
+                    <td align="right"><b>' . $cardiac_Total . '</b></td>
+                    <td align="right"><b>' . $diabetes_Total1 . '</b></td>
+                    <td align="right"><b>' . $diabetes_Total2 . '</b></td>
+                    <td align="right"><b>' . $sickle_cell_Total1 . '</b></td>
+                    <td align="right"><b>' . $sickle_cell_Total2 . '</b></td>
                     <td align="right"><b>' . $enrolled_Total . '</b></td>
                     <td align="right"><b>' . $end_study_Total . '</b></td>
                 </tr>  

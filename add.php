@@ -230,6 +230,16 @@ if ($user->isLoggedIn()) {
                         }
                         $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
 
+                        // $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
+                        $check_clients = $override->countData3('clients', 'firstname', Input::get('firstname'), 'middlename', Input::get('middlename'), 'lastname', Input::get('lastname'));
+
+                        $firstname = Input::get('firstname');
+                        $middlename = Input::get('middlename');
+                        $lastname = Input::get('lastname');
+
+                        if ($check_clients >= 1) {
+                            $errorMessage = 'Participant '. $firstname .' -  ' . $middlename . '  -  ' . $lastname . '  -  '. '  Already Registered';
+                        } else {
 
                         if ($override->get('clients', 'id', $_GET['cid'])) {
                             $user->updateRecord('clients', array(
@@ -304,6 +314,7 @@ if ($user->isLoggedIn()) {
                         $successMessage = 'Client Added Successful';
                         // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                         Redirect::to('info.php?id=3&status=5');
+                    }
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2325,6 +2336,15 @@ if ($user->isLoggedIn()) {
                             'no_food' => Input::get('no_food'),
                             'sleep_hungry' => Input::get('sleep_hungry'),
                             'day_hungry' => Input::get('day_hungry'),
+                            'patient_education' => Input::get('patient_education'),
+                            'patient_education_other' => Input::get('patient_education_other'),
+                            'primary_earner_edctn' => Input::get('primary_earner_edctn'),
+                            'household_education' => Input::get('household_education'),
+                            'household_education_other' => Input::get('household_education_other'),
+                            'earner_edctn_other' => Input::get('earner_edctn_other'),
+                            'spouse_edctn' => Input::get('spouse_edctn'),
+                            'spouse_edctn_other' => Input::get('spouse_edctn_other'),
+                            'socioeconomic_notes' => Input::get('socioeconomic_notes'),
                             'socioeconomic_notes' => Input::get('socioeconomic_notes'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -2411,6 +2431,14 @@ if ($user->isLoggedIn()) {
                             'no_food' => Input::get('no_food'),
                             'sleep_hungry' => Input::get('sleep_hungry'),
                             'day_hungry' => Input::get('day_hungry'),
+                            'patient_education' => Input::get('patient_education'),
+                            'patient_education_other' => Input::get('patient_education_other'),
+                            'primary_earner_edctn' => Input::get('primary_earner_edctn'),
+                            'household_education' => Input::get('household_education'),
+                            'household_education_other' => Input::get('household_education_other'),
+                            'earner_edctn_other' => Input::get('earner_edctn_other'),
+                            'spouse_edctn' => Input::get('spouse_edctn'),
+                            'spouse_edctn_other' => Input::get('spouse_edctn_other'),
                             'socioeconomic_notes' => Input::get('socioeconomic_notes'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -2674,12 +2702,14 @@ if ($user->isLoggedIn()) {
                                     </div>
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Phone Number:</div>
-                                        <div class="col-md-9"><input value="" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span></div>
+                                        <div class="col-md-9"><input value="" class="" type="text" name="phone_number" id="phone"/> <span>Example: 0700 000 111</span></div>
                                     </div>
 
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">E-mail Address:</div>
-                                        <div class="col-md-9"><input value="" class="validate[required,custom[email]]" type="text" name="email_address" id="email" /> <span>Example: someone@nowhere.com</span></div>
+                                        <!-- <div class="col-md-9"><input value="" class="validate[required,custom[email]]" type="text" name="email_address" id="email" /> <span>Example: someone@nowhere.com</span></div> -->
+
+                                        <div class="col-md-9"><input value="" type="text" name="email_address" id="email" /> <span>Example: someone@nowhere.com</span></div>
                                     </div>
 
                                     <div class="footer tar">
@@ -2795,7 +2825,7 @@ if ($user->isLoggedIn()) {
                                 <h1>Add Client</h1>
                             </div>
                             <div class="block-fluid">
-                                <form id="validation" enctype="multipart/form-data" method="post">
+                                <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
 
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -2814,7 +2844,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>First Name</label>
-                                                    <input class="validate[required]" type="text" name="firstname" id="firstname" value="<?php if ($client['firstname']) {
+                                                    <input class="validate[required]" type="text" name="firstname" id="firstname" placeholder="Type firstname..." onkeyup="fetchData()"  value="<?php if ($client['firstname']) {
                                                                                                                                                 print_r($client['firstname']);
                                                                                                                                             }  ?>" required />
                                                 </div>
@@ -2825,7 +2855,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Middle Name</label>
-                                                    <input class="validate[required]" type="text" name="middlename" id="middlename" value="<?php if ($client['middlename']) {
+                                                    <input class="validate[required]" type="text" name="middlename" id="middlename" placeholder="Type middlename..." onkeyup="fetchData()"  value="<?php if ($client['middlename']) {
                                                                                                                                                 print_r($client['middlename']);
                                                                                                                                             }  ?>" required />
                                                 </div>
@@ -2835,7 +2865,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Last Name</label>
-                                                    <input class="validate[required]" type="text" name="lastname" id="lastname" value="<?php if ($client['lastname']) {
+                                                    <input class="validate[required]" type="text" name="lastname" id="lastname" placeholder="Type lastname..." onkeyup="fetchData()"  value="<?php if ($client['lastname']) {
                                                                                                                                             print_r($client['lastname']);
                                                                                                                                         }  ?>" required />
                                                 </div>
@@ -2897,6 +2927,8 @@ if ($user->isLoggedIn()) {
                                                                                                                     echo 'Undergraduate degree';
                                                                                                                 } elseif ($client['education_level'] == 7) {
                                                                                                                     echo 'Postgraduate degree';
+                                                                                                                }elseif ($client['education_level'] == 8) {
+                                                                                                                    echo 'N / A';
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 echo 'Select';
@@ -2908,6 +2940,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="5">Diploma</option>
                                                         <option value="6">Undergraduate degree</option>
                                                         <option value="7">Postgraduate degree</option>
+                                                        <option value="8">N / A</option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -2947,6 +2981,8 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'Employed but on leave of absence';
                                                                                                                     } elseif ($client['employment_status'] == 4) {
                                                                                                                         echo 'Unemployed';
+                                                                                                                    } elseif ($client['employment_status'] == 5) {
+                                                                                                                        echo 'Student';
                                                                                                                     }
                                                                                                                 } else {
                                                                                                                     echo 'Select';
@@ -2955,6 +2991,8 @@ if ($user->isLoggedIn()) {
                                                             <option value="2">Self-employed</option>
                                                             <option value="3">Employed but on leave of absence</option>
                                                             <option value="4">Unemployed</option>
+                                                            <option value="5">Student</option>
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -3159,11 +3197,38 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 7) { ?>
                         <?php $demographic = $override->get3('demographic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                            $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Demographic</h1>
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -3191,7 +3256,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>Appropriate grade for age:</label>
-                                                        <select name="grade_age" style="width: 100%;" required>
+                                                        <select name="grade_age" style="width: 100%;">
                                                             <option value="<?= $demographic['grade_age'] ?>"><?php if ($demographic) {
                                                                                                                     if ($demographic['grade_age'] == 1) {
                                                                                                                         echo 'Yes';
@@ -3216,7 +3281,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- select -->
                                                     <div class="form-group">
                                                         <label>NCD limiting school attendance::</label>
-                                                        <select name="school_attendance" style="width: 100%;" required>
+                                                        <select name="school_attendance" style="width: 100%;">
                                                             <option value="<?= $demographic['school_attendance'] ?>"><?php if ($demographic) {
                                                                                                                             if ($demographic['school_attendance'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -3246,7 +3311,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Days of missed school in past month:</label>
-                                                    <input class="validate[required]" type="number" min="0" max="100" name="missed_school" id="missed_school" value="<?php if ($demographic['missed_school']) {
+                                                    <input type="number" min="0" max="100" name="missed_school" id="missed_school" value="<?php if ($demographic['missed_school']) {
                                                                                                                                                                             print_r($demographic['missed_school']);
                                                                                                                                                                         }  ?>" />
                                                 </div>
@@ -3257,7 +3322,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Household Size:</label>
-                                                    <input class="" type="number" min="1" max="100" name="household_size" id="household_size" value="<?php if ($demographic['household_size']) {
+                                                    <input class="" type="number" min="0" max="100" name="household_size" id="household_size" value="<?php if ($demographic['household_size']) {
                                                                                                                                                             print_r($demographic['household_size']);
                                                                                                                                                         }  ?>" />
                                                 </div>
@@ -3268,7 +3333,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Patient referred from:</label>
-                                                    <select id="referred" name="referred" style="width: 100%;" onchange="checkQuestionValue96('referred','referred_other')" required>
+                                                    <select id="referred" name="referred" style="width: 100%;" onchange="checkQuestionValue96('referred','referred_other')">
                                                         <option value=" <?= $demographic['referred'] ?>"><?php if ($demographic) {
                                                                                                                 if ($demographic['referred'] == 1) {
                                                                                                                     echo 'Inpatient / hospital stay';
@@ -3375,11 +3440,37 @@ if ($user->isLoggedIn()) {
                             $height = $override->get3('vital', 'patient_id', $_GET['cid'], 'seq_no', 1, 'visit_code', 'EV')[0]['height'];
                         }
 
+                            $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
+
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>VITAL SIGNS</h1>
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -3508,11 +3599,38 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 9) { ?>
                         <?php $history = $override->get3('history', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Patient Hitory & Complication</h1>
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -4761,11 +4879,37 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 10) { ?>
                         <?php $symptoms = $override->get3('symptoms', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>History, Symptoms, & Exam</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -6006,11 +6150,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 11) { ?>
                         <?php
                         $diagnosis = $override->get3('cardiac', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Main diagnosis ( Cardiac )</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -6674,6 +6844,30 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 12) { ?>
                         <?php $results = $override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="block-fluid">
@@ -6685,12 +6879,16 @@ if ($user->isLoggedIn()) {
                                             <div class="head clearfix">
                                                 <div class="isw-ok"></div>
                                                 <h1>Results at enrollment</h1>
+                                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                                             </div>
                                         <?php } else { ?>
 
                                             <div class="head clearfix">
                                                 <div class="isw-ok"></div>
                                                 <h1>Results at Follow Up </h1>
+                                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                                             </div>
 
 
@@ -7277,11 +7475,37 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 13) { ?>
                         <?php $hospitalization = $override->get3('hospitalization', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Hospitalizations , School and Management at Home</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -8020,11 +8244,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 14) { ?>
                         <?php
                         $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>TREATMMENT PLAN</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post" autocomplete="off">
@@ -8857,11 +9107,38 @@ if ($user->isLoggedIn()) {
 
                     <?php } elseif ($_GET['id'] == 15) { ?>
                         <?php $dgns_complctns_comorbdts = $override->get3('dgns_complctns_comorbdts', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Diagnosis, Complications, & Comorbidities</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -9611,11 +9888,38 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 16) { ?>
                         <?php
                         $risks = $override->get3('risks', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>RISK</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -9646,6 +9950,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 echo 'Yes, in the past';
                                                                                                             } elseif ($risks['risk_tobacco'] == 3) {
                                                                                                                 echo 'never';
+                                                                                                            }elseif ($risks['risk_tobacco'] == 4) {
+                                                                                                                echo 'Unknown';
                                                                                                             }
                                                                                                         } else {
                                                                                                             echo 'Select';
@@ -9654,6 +9960,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Yes, currently</option>
                                                         <option value="2">Yes, in the past</option>
                                                         <option value="3">never</option>
+                                                        <option value="4">Unknown</option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -9672,6 +9980,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 echo 'Yes, in the past';
                                                                                                             } elseif ($risks['risk_alcohol'] == 3) {
                                                                                                                 echo 'never';
+                                                                                                            }elseif ($risks['risk_tobacco'] == 4) {
+                                                                                                                echo 'Unknown';
                                                                                                             }
                                                                                                         } else {
                                                                                                             echo 'Select';
@@ -9680,6 +9990,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Yes, currently</option>
                                                         <option value="2">Yes, in the past</option>
                                                         <option value="3">never</option>
+                                                        <option value="4">Unknown</option>
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -9702,6 +10014,8 @@ if ($user->isLoggedIn()) {
                                                                                                                     echo 'Unemployed';
                                                                                                                 } elseif ($risks['risk_employment'] == 4) {
                                                                                                                     echo 'Leave of absence';
+                                                                                                                }elseif ($risks['risk_employment'] == 5) {
+                                                                                                                    echo 'Student';
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 echo 'Select';
@@ -9710,7 +10024,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="1">Employed</option>
                                                         <option value="2">Self-employed</option>
                                                         <option value="3">Unemployed</option>
-                                                        <option value="3">Leave of absence</option>
+                                                        <option value="4">Leave of absence</option>
+                                                        <option value="5">Student</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -9891,7 +10206,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Date Screened:</label>
                                                     <input type="text" name="risk_tb_date"  value="<?php if ($risks['risk_tb_date']) {
                                                                                                                         print_r($risks['risk_tb_date']);
-                                                                                                                    }  ?>" required />
+                                                                                                                    }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -9909,11 +10224,38 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 17) { ?>
                         <?php
                         $hospitalization_details = $override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Hospitalizazions Details</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -10051,11 +10393,38 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 18) { ?>
                         <?php
                         $lab_details = $override->get3('lab_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Lab and Clinical Monitoring</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -10726,11 +11095,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 19) { ?>
                         <?php
                         $main_diagnosis = $override->get3('main_diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Diagnosis Category</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -10842,11 +11237,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 20) { ?>
                         <?php
                         $social_economic = $override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Socioeconomic Status ( EXIT-TB SOCIAL ECONOMIC TOOL (2018)) </h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -11010,7 +11431,7 @@ if ($user->isLoggedIn()) {
                                                     <label>How old is your head of household?</label>
                                                     <input type="text" name="household_years" id="household_years" value="<?php if ($social_economic['household_years']) {
                                                                                                                                 print_r($social_economic['household_years']);
-                                                                                                                            }  ?>" required />
+                                                                                                                            }  ?>" />
                                                     <span>( Age in Years )</span>
 
                                                 </div>
@@ -11026,7 +11447,7 @@ if ($user->isLoggedIn()) {
                                                     <label>How many people are in your household?</label>
                                                     <input type="text" name="household_people" id="household_head_other" value="<?php if ($social_economic['household_head_other']) {
                                                                                                                                     print_r($social_economic['household_head_other']);
-                                                                                                                                }  ?>" required />
+                                                                                                                                }  ?>" />
                                                     <span>( ENTER NUMBERS )</span>
 
                                                 </div>
@@ -11038,7 +11459,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>How do you rate your wealth in comparison to others?:</label>
-                                                    <select name="wealth_rate" id="wealth_rate" style="width: 100%;" required>
+                                                    <select name="wealth_rate" id="wealth_rate" style="width: 100%;">
                                                         <option value="<?= $social_economic['wealth_rate'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['wealth_rate'] == 1) {
                                                                                                                         echo 'Among most wealthy';
@@ -11071,7 +11492,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Who is the primary income earner in the household ?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;">
+                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" onchange="checkQuestionValue96('primary_income_earner','primary_income_earner_other')">
                                                         <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['primary_income_earner'] == 1) {
                                                                                                                                     echo 'Patient';
@@ -11100,12 +11521,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="primary_income_earner_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
+                                                    <input type="text" name="primary_income_earner_other"  value="<?php if ($social_economic['primary_income_earner_other']) {
                                                                                                                                                         print_r($social_economic['primary_income_earner_other']);
                                                                                                                                                     }  ?>" />
 
@@ -11120,7 +11541,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Is the patients currently formally employed?:</label>
-                                                    <select name="formally_employed" id="formally_employed" style="width: 100%;">
+                                                    <select name="formally_employed" id="formally_employed" style="width: 100%;" onchange="checkQuestionValue96('formally_employed','formally_employed_other')">
                                                         <option value="<?= $social_economic['formally_employed'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['formally_employed'] == 1) {
                                                                                                                                 echo 'Yes, formal work ';
@@ -11158,12 +11579,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="formally_employed_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="formally_employed_other" id="formally_employed_other" value="<?php if ($social_economic['formally_employed_other']) {
+                                                    <input type="text" name="formally_employed_other"  value="<?php if ($social_economic['formally_employed_other']) {
                                                                                                                                                 print_r($social_economic['formally_employed_other']);
                                                                                                                                             }  ?>" />
 
@@ -11178,7 +11599,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If formal /informal work/housework what is your main income based on?:</label>
-                                                    <select name="main_income_based" id="main_income_based" style="width: 100%;">
+                                                    <select name="main_income_based" id="main_income_based" style="width: 100%;" onchange="checkQuestionValue96('main_income_based','main_income_based_other')">
                                                         <option value="<?= $social_economic['main_income_based'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['main_income_based'] == 1) {
                                                                                                                                 echo 'Monthly salary';
@@ -11210,12 +11631,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="main_income_based_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="main_income_based_other" id="main_income_based_other" value="<?php if ($social_economic['main_income_based_other']) {
+                                                    <input type="text" name="main_income_based_other" value="<?php if ($social_economic['main_income_based_other']) {
                                                                                                                                                 print_r($social_economic['main_income_based_other']);
                                                                                                                                             }  ?>" />
 
@@ -11230,7 +11651,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If patient is not working/retired/sick leave is the reason is it because of this NCD illness? :</label>
-                                                    <select name="reason_not_working" id="reason_not_working" style="width: 100%;">
+                                                    <select name="reason_not_working" id="reason_not_working" style="width: 100%;" onchange="checkQuestionValue1('reason_not_working','last_working')">
                                                         <option value="<?= $social_economic['reason_not_working'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['reason_not_working'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -11247,12 +11668,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="last_working">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Yes: When was the last time you were working? (mm/yy)</label>
-                                                    <input type="text" name="last_working" id="last_working" value="<?php if ($social_economic['last_working']) {
+                                                    <input type="text" name="last_working"  value="<?php if ($social_economic['last_working']) {
                                                                                                                         print_r($social_economic['last_working']);
                                                                                                                     }  ?>" />
 
@@ -11267,7 +11688,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Have you ever stopped working/going to school/doing housework due to this disease?:</label>
-                                                    <select name="stopped_working" id="stopped_working" style="width: 100%;">
+                                                    <select name="stopped_working" id="stopped_working" style="width: 100%;" onchange="checkQuestionValue1('stopped_working','stopped_duration')">
                                                         <option value="<?= $social_economic['stopped_working'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['stopped_working'] == 1) {
                                                                                                                             echo 'Yes';
@@ -11284,12 +11705,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="stopped_duration">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If YES: for how long? Specify</label>
-                                                    <select name="stopped_duration" id="stopped_duration" style="width: 100%;">
+                                                    <select name="stopped_duration" style="width: 100%;">
                                                         <option value="<?= $social_economic['stopped_duration'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['stopped_duration'] == 1) {
                                                                                                                             echo 'Less than 1 month ';
@@ -11322,7 +11743,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Does someone stay home specifically to take care of you?</label>
-                                                    <select name="someone_take_care" id="someone_take_care" style="width: 100%;">
+                                                    <select name="someone_take_care" id="someone_take_care" style="width: 100%;" onchange="checkQuestionValue1('someone_take_care','take_care_duration1')">
                                                         <option value="<?= $social_economic['someone_take_care'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['someone_take_care'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -11339,12 +11760,13 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
+                                        <div class="hidden" id="take_care_duration1">
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If YES: for how long? ( weeks) </label>
-                                                    <input type="text" name="take_care_duration" id="take_care_duration" value="<?php if ($social_economic['take_care_duration']) {
+                                                    <input type="text" name="take_care_duration" value="<?php if ($social_economic['take_care_duration']) {
                                                                                                                                     print_r($social_economic['take_care_duration']);
                                                                                                                                 }  ?>" />
 
@@ -11373,6 +11795,8 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
                                     </div>
+                                    </div>
+
 
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -11380,7 +11804,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label> Has this NCD illness affected your social or private life in any way? :</label>
-                                                    <select name="affect_social" id="affect_social" style="width: 100%;">
+                                                    <select name="affect_social" id="affect_social" style="width: 100%;" onchange="checkQuestionValue1('affect_social','financial_burden1')">
                                                         <option value="<?= $social_economic['affect_social'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['affect_social'] == 1) {
                                                                                                                             echo 'Yes';
@@ -11397,12 +11821,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-3 hidden" id="financial_burden1">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Yes: Has this resulted in a financial burden? </label>
-                                                    <select name="financial_burden" id="financial_burden" style="width: 100%;">
+                                                    <select name="financial_burden" id="financial_burden" style="width: 100%;" onchange="checkQuestionValue1('financial_burden','affect_social_how1')">
                                                         <option value="<?= $social_economic['financial_burden'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['financial_burden'] == 1) {
                                                                                                                             echo 'Yes';
@@ -11418,12 +11842,12 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-3 hidden" id="affect_social_how1">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>If Yes: How ? </label>
-                                                    <select name="affect_social_how" id="affect_social_how" style="width: 100%;">
+                                                    <select name="affect_social_how" id="affect_social_how" style="width: 100%;" onchange="checkQuestionValue96('affect_social_how','affect_social_other')">
                                                         <option value="<?= $social_economic['affect_social_how'] ?>"><?php if ($social_economic) {
                                                                                                                             if ($social_economic['affect_social_how'] == 1) {
                                                                                                                                 echo 'Divorce';
@@ -11454,12 +11878,12 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-3 hidden" id="affect_social_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other (specify)</label>
-                                                    <input type="text" name="affect_social_other" id="affect_social_other" value="<?php if ($social_economic['affect_social_other']) {
+                                                    <input type="text" name="affect_social_other"  value="<?php if ($social_economic['affect_social_other']) {
                                                                                                                                         print_r($social_economic['affect_social_other']);
                                                                                                                                     }  ?>" />
 
@@ -11476,7 +11900,7 @@ if ($user->isLoggedIn()) {
                                                     <label>What is the main occupation of the person
                                                         who contributes most for your regular
                                                         expenditure?:</label>
-                                                    <select name="contributer_occupation" id="contributer_occupation" style="width: 100%;" required>
+                                                    <select name="contributer_occupation" id="contributer_occupation" style="width: 100%;" onchange="checkQuestionValue96('contributer_occupation','contributer_occupation_other')">
                                                         <option value="<?= $social_economic['contributer_occupation'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['contributer_occupation'] == 1) {
                                                                                                                                     echo 'Employed';
@@ -11492,7 +11916,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                     echo 'Student';
                                                                                                                                 } elseif ($social_economic['contributer_occupation'] == 7) {
                                                                                                                                     echo 'Housewife';
-                                                                                                                                } elseif ($social_economic['contributer_occupation'] == 8) {
+                                                                                                                                } elseif ($social_economic['contributer_occupation'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -11505,12 +11929,12 @@ if ($user->isLoggedIn()) {
                                                         <option value="5">Fisher</option>
                                                         <option value="6">Student</option>
                                                         <option value="7">Housewife</option>
-                                                        <option value="8">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="contributer_occupation_other" >
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -11531,7 +11955,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>What type of work do you do for your main occupation?:</label>
-                                                    <select name="main_occupation" id="main_occupation" style="width: 100%;" required>
+                                                    <select name="main_occupation" id="main_occupation" style="width: 100%;" onchange="checkQuestionValue96('main_occupation','main_occupation_other')">
                                                         <option value="<?= $social_economic['main_occupation'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['main_occupation'] == 1) {
                                                                                                                             echo 'Employed';
@@ -11547,7 +11971,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Student';
                                                                                                                         } elseif ($social_economic['main_occupation'] == 7) {
                                                                                                                             echo 'Housewife';
-                                                                                                                        } elseif ($social_economic['main_occupation'] == 8) {
+                                                                                                                        } elseif ($social_economic['main_occupation'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
@@ -11560,12 +11984,12 @@ if ($user->isLoggedIn()) {
                                                         <option value="5">Fisher</option>
                                                         <option value="6">Student</option>
                                                         <option value="7">Housewife</option>
-                                                        <option value="8">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="main_occupation_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -11586,7 +12010,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>What is your main income based on?:</label>
-                                                    <select name="main_icome_based" id="main_icome_based" style="width: 100%;" required>
+                                                    <select name="main_icome_based" id="main_icome_based" style="width: 100%;" onchange="checkQuestionValue96('main_icome_based','main_icome_other')">
                                                         <option value="<?= $social_economic['main_icome_based'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['main_icome_based'] == 1) {
                                                                                                                             echo 'Monthly salary';
@@ -11598,7 +12022,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Sale of farm produce';
                                                                                                                         } elseif ($social_economic['main_icome_based'] == 5) {
                                                                                                                             echo 'Have no income';
-                                                                                                                        } elseif ($social_economic['main_icome_based'] == 6) {
+                                                                                                                        } elseif ($social_economic['main_icome_based'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
@@ -11609,12 +12033,12 @@ if ($user->isLoggedIn()) {
                                                         <option value="3">Business/firm earnings</option>
                                                         <option value="4">Sale of farm produce</option>
                                                         <option value="5">Have no income</option>
-                                                        <option value="6">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="main_icome_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -11639,7 +12063,7 @@ if ($user->isLoggedIn()) {
                                                         last month?</label>
                                                     <input type="text" name="earn_individual" id="earn_individual" value="<?php if ($social_economic['earn_individual']) {
                                                                                                                                 print_r($social_economic['earn_individual']);
-                                                                                                                            }  ?>" required />
+                                                                                                                            }  ?>" />
                                                     <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
 
                                                 </div>
@@ -11655,7 +12079,7 @@ if ($user->isLoggedIn()) {
                                                         earn in the last month?</label>
                                                     <input type="text" name="earn_household" id="earn_household" value="<?php if ($social_economic['earn_household']) {
                                                                                                                             print_r($social_economic['earn_household']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
                                                     <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
 
                                                 </div>
@@ -11664,7 +12088,7 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -11672,21 +12096,36 @@ if ($user->isLoggedIn()) {
                                                         you used to get here today?</label>
                                                     <input type="text" name="main_transport" id="main_transport" value="<?php if ($social_economic['main_transport']) {
                                                                                                                             print_r($social_economic['main_transport']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
 
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>About how long did it take you to arrive here from home?</label>
                                                     <input type="text" name="time_from_home" id="time_from_home" value="<?php if ($social_economic['time_from_home']) {
                                                                                                                             print_r($social_economic['time_from_home']);
-                                                                                                                        }  ?>" required />
+                                                                                                                        }  ?>" />
                                                     <span>Amount in hours (e.g 0.5, 2.25 etc)</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>In the last month, on how many days were
+                                                        your normal activities disrupted through
+                                                        illness?</label>
+                                                    <input type="text" name="activities_disrupted" id="activities_disrupted" value="<?php if ($social_economic['activities_disrupted']) {
+                                                                                                                                        print_r($social_economic['activities_disrupted']);
+                                                                                                                                    }  ?>" />
+                                                    <!-- <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span> -->
 
                                                 </div>
                                             </div>
@@ -11694,14 +12133,14 @@ if ($user->isLoggedIn()) {
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Did you leave young children (aged less
                                                         than about 6 years) at home to come here
                                                         today?</label>
-                                                    <select name="leave_children" id="leave_children" style="width: 100%;" required>
+                                                    <select name="leave_children" id="leave_children" style="width: 100%;" onchange="checkQuestionValue1('leave_children','looking_children1')">
                                                         <option value="<?= $social_economic['leave_children'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['leave_children'] == 1) {
                                                                                                                             echo 'Yes';
@@ -11720,13 +12159,13 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4 hidden" id="looking_children1">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label> If yes, who is looking after them?
                                                     </label>
-                                                    <select name="looking_children" id="looking_children" style="width: 100%;" required>
+                                                    <select name="looking_children" id="looking_children" style="width: 100%;" onchange="checkQuestionValue96('looking_children','looking_children_other')">
                                                         <option value="<?= $social_economic['looking_children'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['looking_children'] == 1) {
                                                                                                                             echo 'Adult relatives/Household members';
@@ -11736,7 +12175,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'Neighbour';
                                                                                                                         } elseif ($social_economic['looking_children'] == 4) {
                                                                                                                             echo 'Maid';
-                                                                                                                        } elseif ($social_economic['looking_children'] == 5) {
+                                                                                                                        } elseif ($social_economic['looking_children'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
@@ -11746,14 +12185,14 @@ if ($user->isLoggedIn()) {
                                                         <option value="2">Other older children</option>
                                                         <option value="3">Neighbouro</option>
                                                         <option value="4">Maid</option>
-                                                        <option value="5">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
 
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4 hidden" id="looking_children_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -11777,7 +12216,7 @@ if ($user->isLoggedIn()) {
                                                     <label>What type of work does the person
                                                         looking after the children do for their main
                                                         occupation??:</label>
-                                                    <select name="occupation_looking_child" id="occupation_looking_child" style="width: 100%;" required>
+                                                    <select name="occupation_looking_child" id="occupation_looking_child" style="width: 100%;" onchange="checkQuestionValue96('occupation_looking_child','occupation_looking_child_other')">
                                                         <option value="<?= $social_economic['occupation_looking_child'] ?>"><?php if ($social_economic) {
                                                                                                                                 if ($social_economic['occupation_looking_child'] == 1) {
                                                                                                                                     echo 'Employed';
@@ -11793,7 +12232,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                     echo 'Student';
                                                                                                                                 } elseif ($social_economic['occupation_looking_child'] == 7) {
                                                                                                                                     echo 'Housewife';
-                                                                                                                                } elseif ($social_economic['occupation_looking_child'] == 8) {
+                                                                                                                                } elseif ($social_economic['occupation_looking_child'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 } elseif ($social_economic['occupation_looking_child'] == 9) {
                                                                                                                                     echo 'Don’t know';
@@ -11808,14 +12247,14 @@ if ($user->isLoggedIn()) {
                                                         <option value="5">Fisher</option>
                                                         <option value="6">Student</option>
                                                         <option value="7">Housewife</option>
-                                                        <option value="8">Other</option>
+                                                        <option value="96">Other</option>
                                                         <option value="9">Don’t know</option>
 
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="occupation_looking_child_other" >
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -11836,7 +12275,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Did anyone accompany you today?</label>
-                                                    <select name="accompany" id="accompany" style="width: 100%;" required>
+                                                    <select name="accompany" id="accompany" style="width: 100%;" onchange="checkQuestionValue1('accompany','accompany_occupation1')">
                                                         <option value="<?= $social_economic['accompany'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['accompany'] == 1) {
                                                                                                                         echo 'Yes';
@@ -11854,113 +12293,104 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>What is the main occupation of the person
-                                                        you came with today?:</label>
-                                                    <select name="accompany_occupation" id="accompany_occupation" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['accompany_occupation'] ?>"><?php if ($social_economic) {
-                                                                                                                            if ($social_economic['accompany_occupation'] == 1) {
-                                                                                                                                echo 'Employed';
-                                                                                                                            } elseif ($social_economic['accompany_occupation'] == 2) {
-                                                                                                                                echo 'Self employed';
-                                                                                                                            } elseif ($social_economic['accompany_occupation'] == 3) {
-                                                                                                                                echo 'Unemployed';
-                                                                                                                            } elseif ($social_economic['accompany_occupation'] == 4) {
-                                                                                                                                echo 'Farmer';
-                                                                                                                            } elseif ($social_economic['accompany_occupation'] == 5) {
-                                                                                                                                echo 'Fisher';
-                                                                                                                            } elseif ($social_economic['accompany_occupation'] == 6) {
-                                                                                                                                echo 'Student';
-                                                                                                                            } elseif ($social_economic['accompany_occupation'] == 7) {
-                                                                                                                                echo 'Housewife';
-                                                                                                                            } elseif ($social_economic['accompany_occupation'] == 8) {
-                                                                                                                                echo 'Other';
-                                                                                                                            } elseif ($social_economic['accompany_occupation'] == 9) {
-                                                                                                                                echo 'Don’t know';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                        <option value="1">Employed</option>
-                                                        <option value="2">Self employed</option>
-                                                        <option value="3">Unemployed</option>
-                                                        <option value="4">Farmer</option>
-                                                        <option value="5">Fisher</option>
-                                                        <option value="6">Student</option>
-                                                        <option value="7">Housewife</option>
-                                                        <option value="8">Other</option>
-                                                        <option value="9">Don’t know</option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Specify</label>
-                                                    <textarea name="accompany_occupation_other" rows="4">
-                                                        <?php if ($social_economic['accompany_occupation_other']) {
-                                                            print_r($social_economic['accompany_occupation_other']);
-                                                        }  ?>
-                                                        </textarea>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
 
 
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>How much was spent on transport for the
-                                                        person to accompany you today?</label>
-                                                    <input type="text" name="accompany_transport" id="accompany_transport" value="<?php if ($social_economic['accompany_transport']) {
-                                                                                                                                        print_r($social_economic['accompany_transport']);
-                                                                                                                                    }  ?>" required />
-                                                    <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
+                                    <div class="hidden" id="accompany_occupation1">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>What is the main occupation of the person
+                                                            you came with today?:</label>
+                                                        <select name="accompany_occupation" id="accompany_occupation" style="width: 100%;" onchange="checkQuestionValue96('accompany_occupation','accompany_occupation_other')">
+                                                            <option value="<?= $social_economic['accompany_occupation'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['accompany_occupation'] == 1) {
+                                                                                                                                    echo 'Employed';
+                                                                                                                                } elseif ($social_economic['accompany_occupation'] == 2) {
+                                                                                                                                    echo 'Self employed';
+                                                                                                                                } elseif ($social_economic['accompany_occupation'] == 3) {
+                                                                                                                                    echo 'Unemployed';
+                                                                                                                                } elseif ($social_economic['accompany_occupation'] == 4) {
+                                                                                                                                    echo 'Farmer';
+                                                                                                                                } elseif ($social_economic['accompany_occupation'] == 5) {
+                                                                                                                                    echo 'Fisher';
+                                                                                                                                } elseif ($social_economic['accompany_occupation'] == 6) {
+                                                                                                                                    echo 'Student';
+                                                                                                                                } elseif ($social_economic['accompany_occupation'] == 7) {
+                                                                                                                                    echo 'Housewife';
+                                                                                                                                } elseif ($social_economic['accompany_occupation'] == 96) {
+                                                                                                                                    echo 'Other';
+                                                                                                                                } elseif ($social_economic['accompany_occupation'] == 9) {
+                                                                                                                                    echo 'Don’t know';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?></option>
+                                                            <option value="1">Employed</option>
+                                                            <option value="2">Self employed</option>
+                                                            <option value="3">Unemployed</option>
+                                                            <option value="4">Farmer</option>
+                                                            <option value="5">Fisher</option>
+                                                            <option value="6">Student</option>
+                                                            <option value="7">Housewife</option>
+                                                            <option value="96">Other</option>
+                                                            <option value="9">Don’t know</option>
 
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 hidden" id="accompany_occupation_other">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Specify</label>
+                                                        <textarea name="accompany_occupation_other" rows="4">
+                                                            <?php if ($social_economic['accompany_occupation_other']) {
+                                                                print_r($social_economic['accompany_occupation_other']);
+                                                            }  ?>
+                                                            </textarea>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>What other expenses have they made to
-                                                        accompany you today? (for example food,
-                                                        child care)</label>
-                                                    <input type="text" name="accompany_expenses" id="accompany_expenses" value="<?php if ($social_economic['accompany_expenses']) {
-                                                                                                                                    print_r($social_economic['accompany_expenses']);
-                                                                                                                                }  ?>" required />
-                                                    <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>How much was spent on transport for the
+                                                            person to accompany you today?</label>
+                                                        <input type="text" name="accompany_transport" id="accompany_transport" value="<?php if ($social_economic['accompany_transport']) {
+                                                                                                                                            print_r($social_economic['accompany_transport']);
+                                                                                                                                        }  ?>" />
+                                                        <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
 
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>In the last month, on how many days were
-                                                        your normal activities disrupted through
-                                                        illness?</label>
-                                                    <input type="text" name="activities_disrupted" id="activities_disrupted" value="<?php if ($social_economic['activities_disrupted']) {
-                                                                                                                                        print_r($social_economic['activities_disrupted']);
-                                                                                                                                    }  ?>" required />
-                                                    <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
 
+                                            <div class="col-sm-6">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>What other expenses have they made to
+                                                            accompany you today? (for example food,
+                                                            child care)</label>
+                                                        <input type="text" name="accompany_expenses" id="accompany_expenses" value="<?php if ($social_economic['accompany_expenses']) {
+                                                                                                                                        print_r($social_economic['accompany_expenses']);
+                                                                                                                                    }  ?>" />
+                                                        <span>Amount in shillings (write 0 if none, 99 if Don’t know ) </span>
+
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </div>                                        
                                         </div>
                                     </div>
+
 
                                     <div class="head clearfix">
                                         <div class="isw-ok"></div>
@@ -11972,17 +12402,17 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>The patient?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                    <select name="patient_education" id="patient_education" style="width: 100%;" onchange="checkQuestionValue96('patient_education','patient_education_other')">
+                                                        <option value="<?= $social_economic['patient_education'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['patient_education'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                } elseif ($social_economic['patient_education'] == 2) {
                                                                                                                                     echo 'Primaryr';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                } elseif ($social_economic['patient_education'] == 3) {
                                                                                                                                     echo 'Secondary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                } elseif ($social_economic['patient_education'] == 4) {
                                                                                                                                     echo 'Graduate/certificate';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                } elseif ($social_economic['patient_education'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -11998,14 +12428,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="patient_education_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="patient_education_other"  value="<?php if ($social_economic['patient_education_other']) {
+                                                                                                                                                        print_r($social_economic['patient_education_other']);
+                                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -12017,17 +12447,17 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Primary income earner?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                    <select name="primary_earner_edctn" id="primary_earner_edctn" style="width: 100%;" onchange="checkQuestionValue96('primary_earner_edctn','earner_edctn_other')">
+                                                        <option value="<?= $social_economic['primary_earner_edctn'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['primary_earner_edctn'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                } elseif ($social_economic['primary_earner_edctn'] == 2) {
                                                                                                                                     echo 'Primaryr';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                } elseif ($social_economic['primary_earner_edctn'] == 3) {
                                                                                                                                     echo 'Secondary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                } elseif ($social_economic['primary_earner_edctn'] == 4) {
                                                                                                                                     echo 'Graduate/certificate';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                } elseif ($social_economic['primary_earner_edctn'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -12043,14 +12473,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="earner_edctn_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="earner_edctn_other"  value="<?php if ($social_economic['earner_edctn_other']) {
+                                                                                                                                                        print_r($social_economic['earner_edctn_other']);
+                                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -12063,17 +12493,17 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Head of household?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                    <select name="household_education" id="household_education" style="width: 100%;" onchange="checkQuestionValue96('household_education','household_education_other')">
+                                                        <option value="<?= $social_economic['household_education'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['household_education'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                } elseif ($social_economic['household_education'] == 2) {
                                                                                                                                     echo 'Primaryr';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                } elseif ($social_economic['household_education'] == 3) {
                                                                                                                                     echo 'Secondary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                } elseif ($social_economic['household_education'] == 4) {
                                                                                                                                     echo 'Graduate/certificate';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                } elseif ($social_economic['household_education'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -12090,14 +12520,14 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="household_education_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                    }  ?>" required />
+                                                    <input type="text" name="household_education_other"  value="<?php if ($social_economic['household_education_other']) {
+                                                                                                                                                        print_r($social_economic['household_education_other']);
+                                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>
@@ -12110,17 +12540,17 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Spouse of the head of household?:</label>
-                                                    <select name="primary_income_earner" id="primary_income_earner" style="width: 100%;" required>
-                                                        <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['primary_income_earner'] == 1) {
+                                                    <select name="spouse_edctn" id="spouse_edctn" style="width: 100%;" onchange="checkQuestionValue96('spouse_edctn','spouse_edctn_other')">
+                                                        <option value="<?= $social_economic['spouse_edctn'] ?>"><?php if ($social_economic) {
+                                                                                                                                if ($social_economic['spouse_edctn'] == 1) {
                                                                                                                                     echo 'Not attended/illiterate ';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                } elseif ($social_economic['spouse_edctn'] == 2) {
                                                                                                                                     echo 'Primaryr';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                } elseif ($social_economic['spouse_edctn'] == 3) {
                                                                                                                                     echo 'Secondary';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                } elseif ($social_economic['spouse_edctn'] == 4) {
                                                                                                                                     echo 'Graduate/certificate';
-                                                                                                                                } elseif ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                } elseif ($social_economic['spouse_edctn'] == 96) {
                                                                                                                                     echo 'Other';
                                                                                                                                 }
                                                                                                                             } else {
@@ -12137,13 +12567,13 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="spouse_edctn_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Other Specify</label>
-                                                    <input type="text" name="primary_income_earner_other" id="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                        print_r($social_economic['primary_income_earner_other']);
+                                                    <input type="text" name="spouse_edctn_other"  value="<?php if ($social_economic['spouse_edctn_other']) {
+                                                                                                                                                        print_r($social_economic['spouse_edctn_other']);
                                                                                                                                                     }  ?>" required />
 
                                                 </div>
@@ -12163,13 +12593,13 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Main material of the floor::</label>
-                                                    <select name="material_floor" id="material_floor" style="width: 100%;" required>
+                                                    <select name="material_floor" id="material_floor" style="width: 100%;" onchange="checkQuestionValue96('material_floor','material_floor_other')">
                                                         <option value="<?= $social_economic['material_floor'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['material_floor'] == 1) {
                                                                                                                             echo 'Earth/ sand/dung ';
                                                                                                                         } elseif ($social_economic['material_floor'] == 2) {
                                                                                                                             echo 'Concrete cement';
-                                                                                                                        } elseif ($social_economic['material_floor'] == 3) {
+                                                                                                                        } elseif ($social_economic['material_floor'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
@@ -12177,12 +12607,12 @@ if ($user->isLoggedIn()) {
                                                                                                                     } ?></option>
                                                         <option value="1">Earth/ sand/dung</option>
                                                         <option value="2">Concrete cement</option>
-                                                        <option value="3">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="material_floor_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12204,23 +12634,23 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Main material of the Roof:</label>
-                                                    <select name="material_roof" id="material_roof" style="width: 100%;" required>
+                                                    <select name="material_roof" id="material_roof" style="width: 100%;" onchange="checkQuestionValue96('material_roof','material_roof_other')">
                                                         <option value="<?= $social_economic['material_roof'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['material_roof'] == 1) {
                                                                                                                             echo 'Thatch/ palm ';
-                                                                                                                        } elseif ($social_economic['material_roof'] == 2) {
+                                                                                                                        } elseif ($social_economic['material_roof'] == 96) {
                                                                                                                             echo 'Other';
                                                                                                                         }
                                                                                                                     } else {
                                                                                                                         echo 'Select';
                                                                                                                     } ?></option>
                                                         <option value="1">Thatch/ palm</option>
-                                                        <option value="2">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="material_roof_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12241,7 +12671,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Main type of cooking fuel:</label>
-                                                    <select name="cooking_fuel" id="cooking_fuel" style="width: 100%;" required>
+                                                    <select name="cooking_fuel" id="cooking_fuel" style="width: 100%;" onchange="checkQuestionValue96('cooking_fuel','cooking_fuel_other')">
                                                         <option value="<?= $social_economic['cooking_fuel'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['cooking_fuel'] == 1) {
                                                                                                                         echo 'Electricity ';
@@ -12255,7 +12685,7 @@ if ($user->isLoggedIn()) {
                                                                                                                         echo 'wood/ straw/shrub/grass/agricultural crop animal dung ';
                                                                                                                     } elseif ($social_economic['cooking_fuel'] == 6) {
                                                                                                                         echo 'no food cooked';
-                                                                                                                    } elseif ($social_economic['cooking_fuel'] == 7) {
+                                                                                                                    } elseif ($social_economic['cooking_fuel'] == 96) {
                                                                                                                         echo 'Other';
                                                                                                                     }
                                                                                                                 } else {
@@ -12267,12 +12697,12 @@ if ($user->isLoggedIn()) {
                                                         <option value="4">coal/lignite/ charcoal</option>
                                                         <option value="5">wood/ straw/shrub/grass/agricultural crop animal dung</option>
                                                         <option value="6">no food cooked</option>
-                                                        <option value="7">Other</option>
+                                                        <option value="96">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 hidden" id="cooking_fuel_other">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12293,7 +12723,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Water Access:?</label>
-                                                    <select name="water_access" id="water_access" style="width: 100%;" required>
+                                                    <select name="water_access" id="water_access" style="width: 100%;" onchange="checkQuestionValue1('water_access','water_source1')">
                                                         <option value="<?= $social_economic['water_access'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['water_access'] == 1) {
                                                                                                                         echo 'Yes';
@@ -12311,12 +12741,12 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="water_source1">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Drinking water source:?</label>
-                                                    <select name="water_source" id="water_source" style="width: 100%;" required>
+                                                    <select name="water_source" id="water_source" style="width: 100%;" onchange="checkQuestionValue96('water_source','water_source_other')">
                                                         <option value="<?= $social_economic['water_source'] ?>"><?php if ($social_economic) {
                                                                                                                     if ($social_economic['water_source'] == 1) {
                                                                                                                         echo 'Piped into dwelling';
@@ -12362,7 +12792,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="water_source_other" >
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12383,7 +12813,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Toilet Access:?</label>
-                                                    <select name="toilet_access" id="toilet_access" style="width: 100%;" required>
+                                                    <select name="toilet_access" id="toilet_access" style="width: 100%;" onchange="checkQuestionValue1('toilet_access','toilet_facility1')">
                                                         <option value="<?= $social_economic['toilet_access'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['toilet_access'] == 1) {
                                                                                                                             echo 'Yes';
@@ -12401,12 +12831,12 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="toilet_facility1">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
                                                     <label>Type of Toilet facility?</label>
-                                                    <select name="toilet_facility" id="toilet_facility" style="width: 100%;" required>
+                                                    <select name="toilet_facility" id="toilet_facility" style="width: 100%;" onchange="checkQuestionValue96('toilet_facility','toilet_access_other')">
                                                         <option value="<?= $social_economic['toilet_facility'] ?>"><?php if ($social_economic) {
                                                                                                                         if ($social_economic['toilet_facility'] == 1) {
                                                                                                                             echo 'Flush to pit latrine';
@@ -12449,7 +12879,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 hidden" id="toilet_access_other" >
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
@@ -12744,11 +13174,38 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 21) { ?>
                         <?php
                         $diabetic = $override->get3('diabetic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Diabetic</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -12800,7 +13257,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Diagnosis Date:</label>
                                                     <input class="validate[required,custom[date]]" type="text" name="diagnosis_date"  value="<?php if ($diabetic['visit_date']) {
                                                                                                                                                                     print_r($diabetic['visit_date']);
-                                                                                                                                                                }  ?>" required />
+                                                                                                                                                                }  ?>" />
                                                     <span>Example: 2023-01-01</span>
                                                 </div>
                                             </div>
@@ -12862,6 +13319,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 echo 'Hyperglycemia';
                                                                                                             } elseif ($diabetic['symptoms'] == 5) {
                                                                                                                 echo 'By Screening';
+                                                                                                            }elseif ($diabetic['symptoms'] == 6) {
+                                                                                                                echo 'None';
                                                                                                             }
                                                                                                         } else {
                                                                                                             echo 'Select';
@@ -12872,6 +13331,8 @@ if ($user->isLoggedIn()) {
                                                         <option value="3">Ketosis</option>
                                                         <option value="4">Hyperglycemia</option>
                                                         <option value="5">By Screening</option>
+                                                        <option value="6">None</option>
+
 
                                                     </select>
                                                 </div>
@@ -12890,11 +13351,37 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 22) { ?>
                         <?php
                         $sickle_cell = $override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                          $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age']. ' Gender: ' . $gender. ' Type: ' . $cat;
                         ?>
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>SICKLE CELL</h1>
+                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -13373,6 +13860,182 @@ if ($user->isLoggedIn()) {
                     // Handle any errors that occurred during the fetch request
                     console.error('Error:', error);
                 });
+
+                        fetch('fetch_firstname.php')
+            .then(response => response.json())
+            .then(data => {
+                // Process the data received from the PHP script
+                // console.log(data);
+                autocomplete(document.getElementById("firstname"), data);
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch request
+                console.error('Error:', error);
+            });
+
+        fetch('fetch_middlename.php')
+            .then(response => response.json())
+            .then(data => {
+                // Process the data received from the PHP script
+                // console.log(data);
+                autocomplete(document.getElementById("middlename"), data);
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch request
+                console.error('Error:', error);
+            });
+
+
+        fetch('fetch_lastname.php')
+            .then(response => response.json())
+            .then(data => {
+                // Process the data received from the PHP script
+                autocomplete(document.getElementById("lastname"), data);
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch request
+                console.error('Error:', error);
+            });
+
+
+     
+     
+            $(document).ready(function() {
+
+            $("#add_crf6").click(function(e) {
+                // if ($("#validation")[0].checkValidity()) {
+                //   PREVENT PAGE TO REFRESH
+                // e.preventDefault();
+
+
+
+                // if($("#FDATE").val() == ''){
+                //     $("#FDATEError").text('* Date is empty');
+                // };
+                // if($("#cDATE").val() == ''){
+                //     $("#cDATEError").text('* Date is empty');
+                // };
+                // if($("#cpersid").val() == ''){
+                //     $("#cpersidError").text('* NAME is empty');
+                // };
+
+
+                if ($("#renal_urea").val() == '') {
+                    $("#renal_ureaError").text('* Renal Urea is empty');
+                };
+
+                if ($("#renal_urea_units").val() == '') {
+                    $("#renal_urea_unitsError").text('* Renal Urea Units is empty');
+                };
+
+                // if ($("#password1").val() != $("#password2").val()) {
+                //     $("#passError").text('* Passowrd do not match');
+                //     //console.log("Not matched"); 
+                //     $("#register-btn").val('Sign Up');
+                // }
+                // }
+            });
+
+            $('#weight, #height').on('input', function() {
+                setTimeout(function() {
+                    var weight = $('#weight').val();
+                    var height = $('#height').val() / 100; // Convert cm to m
+                    var bmi = weight / (height * height);
+                    $('#bmi').text(bmi.toFixed(2));
+                }, 1);
+            });
+
+            $("#one").on("input", null, null, function(e) {
+                if ($("#one").val().length == 2) {
+                    setTimeout(function() {
+                        $("#two").focus();
+                    }, 1);
+                }
+            });
+            $("#three").click(function() {
+                $("#four").focus();
+            });
+            $("#five").on("input", null, null, function() {
+                if ($("#five").val().length == 2) {
+                    $("#six").val("It works!");
+                }
+            });
+
+
+            $('#fl_wait').hide();
+            $('#wait_ds').hide();
+            $('#region').change(function() {
+                var getUid = $(this).val();
+                $('#wait_ds').show();
+                $.ajax({
+                    url: "process.php?cnt=region",
+                    method: "GET",
+                    data: {
+                        getUid: getUid
+                    },
+                    success: function(data) {
+                        $('#ds_data').html(data);
+                        $('#wait_ds').hide();
+                    }
+                });
+            });
+            $('#wait_wd').hide();
+            $('#ds_data').change(function() {
+                $('#wait_wd').hide();
+                var getUid = $(this).val();
+                $.ajax({
+                    url: "process.php?cnt=district",
+                    method: "GET",
+                    data: {
+                        getUid: getUid
+                    },
+                    success: function(data) {
+                        $('#wd_data').html(data);
+                        $('#wait_wd').hide();
+                    }
+                });
+
+            });
+
+            $('#a_cc').change(function() {
+                var getUid = $(this).val();
+                $('#wait').show();
+                $.ajax({
+                    url: "process.php?cnt=payAc",
+                    method: "GET",
+                    data: {
+                        getUid: getUid
+                    },
+                    success: function(data) {
+                        $('#cus_acc').html(data);
+                        $('#wait').hide();
+                    }
+                });
+
+            });
+
+            $('#study_id').change(function() {
+                var getUid = $(this).val();
+                var type = $('#type').val();
+                $('#fl_wait').show();
+                $.ajax({
+                    url: "process.php?cnt=study",
+                    method: "GET",
+                    data: {
+                        getUid: getUid,
+                        type: type
+                    },
+
+                    success: function(data) {
+                        console.log(data);
+                        $('#s2_2').html(data);
+                        $('#fl_wait').hide();
+                    }
+                });
+
+            });
+
+        });
         }
 
         // function fetchData() {

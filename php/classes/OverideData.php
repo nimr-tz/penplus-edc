@@ -47,6 +47,13 @@ class OverideData{
         return $num;
     }
 
+    public function countData3($table, $where, $id, $where2, $id2, $where3, $id3)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 = '$id3'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
     public function countData2($table, $field, $value, $field1, $value1, $field2, $value2)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1' AND $field2 = '$value2'");

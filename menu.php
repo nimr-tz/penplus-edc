@@ -140,17 +140,32 @@ if ($user->isLoggedIn()) {
                 <ul>
                     <li class="active">
                         <a href="report1.php">
-                            <span class="text">Report 1 ( TABLE 1) </span>
+                            <span class="text">Report 1 ( SUMMARY ) </span>
                         </a>
                     </li>
                     <li class="active">
                         <a href="report2.php">
-                            <span class="text">Report 2 ( TABLE 2)</span>
+                            <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
                         </a>
                     </li>
                     <li class="active">
                         <a href="report1_2.php">
-                            <span class="text">Report 3 ( TABLE 3)</span>
+                            <span class="text">Report 3 ( SUMMARY 2)</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report4.php">
+                            <span class="text">Report 4 ( CARDIAC )</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report5.php">
+                            <span class="text">Report 5 ( DIABETES )</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report6.php">
+                            <span class="text">Report 6 ( SICKLE CELL )</span>
                         </a>
                     </li>
                 </ul>

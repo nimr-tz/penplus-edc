@@ -767,7 +767,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('symptoms');
                 $filename = 'Symtom & Exam';
             } elseif (Input::get('diagnosis')) {
-                $data = $override->getData('diagnosis');
+                $data = $override->getData('cardiac');
                 $filename = 'Main diagnosis 3 ( Cardiac )';
             } elseif (Input::get('diabetic')) {
                 $data = $override->getData('diabetic');

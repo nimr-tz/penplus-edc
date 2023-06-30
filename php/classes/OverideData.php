@@ -88,6 +88,13 @@ class OverideData{
         return $result;
     }
 
+    // public function get3($table, $where, $id, $where2, $id2, $where3, $id3)
+    // {
+    //     $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 = '$id3'");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+
     public function get4($table,$where,$id,$where2){
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 >= 20");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -211,6 +218,13 @@ class OverideData{
     public function firstRow1($table, $param, $id, $where, $client_id,$where1,$id1)
     {
         $query = $this->_pdo->query("SELECT DISTINCT $param FROM $table WHERE $where = '$client_id' AND $where1 = '$id1' ORDER BY '$id' ASC");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function firstRow2($table, $param, $id, $where, $client_id, $where1, $id1, $where2, $id2)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT $param FROM $table WHERE $where = '$client_id' AND $where1 = '$id1'  AND $where2 = '$id2' ORDER BY '$id' ASC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

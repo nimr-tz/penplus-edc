@@ -371,7 +371,7 @@ if ($user->isLoggedIn()) {
                 }
 
                 if ($visit) {
-                    $user->updateRecord('visit', array('visit_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
+                    $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
 
                     // $errorMessage = 'Visit with the same Date ana Name already exists for this Client';
                 } else {
@@ -406,7 +406,83 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('add_Schedule')) {
+        }
+        // elseif (Input::get('edit_Enrollment')) {
+        //     $validate = $validate->check($_POST, array(
+        //         'visit_date' => array(
+        //             'required' => true,
+        //         ),
+        //     ));
+        //     if ($validate->passed()) {
+        //         $client_study = $override->getNews('clients', 'id', Input::get('id'), 'status', 1)[0];
+        //         $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
+        //         $screening_id = $override->getNews('screening', 'patient_id', Input::get('id'), 'status', 1)[0];
+        //         $visit_id = $override->get('visit', 'client_id', Input::get('id'))[0];
+        //         $last_visit = $override->getlastRow('visit', 'client_id', Input::get('id'), 'id')[0];
+        //         $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'));
+        //         $visit_id = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
+
+        //         if (!$client_study['study_id']) {
+        //             $study_id = $std_id['study_id'];
+        //         } else {
+        //             $study_id = $client_study['study_id'];
+        //         }
+
+        //         if (Input::get('visit_name') == 'Registration Visit') {
+        //             $visit_code = 'RV';
+        //         } elseif (Input::get('visit_name') == 'Screening Visit') {
+        //             $visit_code = 'SV';
+        //         } elseif (Input::get('visit_name') == 'Enrollment Visit') {
+        //             $visit_code = 'EV';
+        //         } elseif (Input::get('visit_name') == 'Follow Up Visit') {
+        //             $visit_code = 'FV';
+        //         } elseif (Input::get('visit_name') == 'Study Termination Visit') {
+        //             $visit_code = 'TV';
+        //         } elseif (Input::get('visit_name') == 'Unschedule Visit') {
+        //             $visit_code = 'UV';
+        //         }
+
+
+
+        //         $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
+        //         // $enrollment_date = $override->get('clients', 'id', Input::get('id'))[0];
+        //         $visit_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', Input::get('id'),'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
+        //         if ($override->get('visit', 'client_id', Input::get('id'))) {
+        //             if (Input::get('visit_date') != $visit_date['visit_date']) {
+        //                 $user->deleteRecord('visit', 'client_id', Input::get('id'));
+        //                 $user->createRecord('visit', array(
+        //                     'study_id' => $study_id,
+        //                     'visit_name' => Input::get('visit_name'),
+        //                     'visit_code' => $visit_code,
+        //                     'visit_day' => 'Day 1',
+        //                     'expected_date' => Input::get('visit_date'),
+        //                     'visit_date' => '',
+        //                     'visit_window' => 0,
+        //                     'status' => 0,
+        //                     'client_id' => Input::get('id'),
+        //                     'created_on' => date('Y-m-d'),
+        //                     'seq_no' => 1,
+        //                     'reasons' => Input::get('reasons'),
+        //                     'visit_status' => 1,
+        //                 ));
+        //             }
+
+        //             // if (!$client_study['study_id']) {
+        //             //     $user->updateRecord('screening', array('study_id' => $std_id['study_id']), $screening_id['id']);
+        //             //     $user->updateRecord('clients', array('study_id' => $std_id['study_id'], 'enrolled' => 1), Input::get('id'));
+        //             //     $user->updateRecord('study_id', array('status' => 1, 'client_id' => Input::get('id')), $std_id['id']);
+        //             // } else {
+        //             //     $user->updateRecord('screening', array('study_id' => $client_study['study_id']), $screening_id['id']);
+        //             //     $user->updateRecord('clients', array('study_id' => $client_study['study_id'], 'enrolled' => 1), Input::get('id'));
+        //             // }
+        //         }
+        //         $successMessage = 'Enrollment  Added Successful';
+        //         Redirect::to('info.php?id=3&status=3');
+        //     } else {
+        //         $pageError = $validate->errors();
+        //     }
+        // }
+        elseif (Input::get('add_Schedule')) {
             $validate = $validate->check($_POST, array(
                 'expected_date' => array(
                     'required' => true,
@@ -691,7 +767,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('symptoms');
                 $filename = 'Symtom & Exam';
             } elseif (Input::get('diagnosis')) {
-                $data = $override->getData('diagnosis');
+                $data = $override->getData('cardiac');
                 $filename = 'Main diagnosis 3 ( Cardiac )';
             } elseif (Input::get('diabetic')) {
                 $data = $override->getData('diabetic');
@@ -1386,14 +1462,15 @@ if ($user->isLoggedIn()) {
                                     <thead>
                                         <tr>
                                             <!-- <th><input type="checkbox" name="checkall" /></th> -->
-                                            <td width="20">#</td>
-                                            <th width="40">Picture</th>
-                                            <th width="10%">Study ID</th>
+                                            <td width="2">#</td>
+                                            <th width="30">Picture</th>
+                                            <th width="8%">Study ID</th>
+                                            <th width="10%">Enrollment date</th>
                                             <th width="20%">Name</th>
                                             <th width="10%">TYPE</th>
                                             <th width="5%">Gender</th>
-                                            <th width="10%">Age</th>
-                                            <th width="10%">Site</th>
+                                            <th width="5%">Age</th>
+                                            <th width="5%">Site</th>
                                             <th width="10%">Status</th>
                                             <?php if ($_GET['status'] == 4) { ?>
 
@@ -1415,6 +1492,9 @@ if ($user->isLoggedIn()) {
                                             $end_study = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
                                             $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
                                             $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
+
+                                            $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
+
 
 
                                             // print_r($termination);
@@ -1457,6 +1537,8 @@ if ($user->isLoggedIn()) {
                                                     <a href="#img<?= $client['id'] ?>" data-toggle="modal"><img src="<?= $img ?>" width="90" height="90" class="" /></a>
                                                 </td>
                                                 <td><?= $client['study_id'] ?></td>
+                                                <td><?= $enrollment_date ?></td>
+
                                                 <td> <?= $client['firstname'] . ' ' . $client['lastname'] ?></td>
 
                                                 <?php if ($type['cardiac'] == 1) { ?>
@@ -1582,7 +1664,7 @@ if ($user->isLoggedIn()) {
 
                                             <td>
                                                 <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
-                                                    <a href="#clientView<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
+                                                    <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">View</a>
                                                     <?php if ($user->data()->position == 1) { ?>
                                                         <a href="id.php?cid=<?= $client['id'] ?>" class="btn btn-warning">Patient ID</a>
                                                         <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
@@ -1913,6 +1995,30 @@ if ($user->isLoggedIn()) {
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                             $visits_status = $override->firstRow1('visit', 'status', 'id', 'client_id', $_GET['cid'], 'visit_code', 'EV')[0]['status'];
 
+                            // $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+                            $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+
+
                             ?>
                             <div class="row">
                                 <div class="col-md-2">
@@ -1927,15 +2033,17 @@ if ($user->isLoggedIn()) {
                                                 <a href="#"><img src="<?= $img ?>" width="300" class="img-thumbnail"></a>
                                             </div>
                                             <h5><?= 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] ?></h5>
-                                            <h4><strong style="font-size: medium">Screening ID: <?= $patient['participant_id'] ?></strong></h4>
+                                            <h4><strong style="font-size: medium">Category: <?= $cat ?></strong></h4>
                                             <h4><strong style="font-size: larger">Study ID: <?= $patient['study_id'] ?></strong></h4>
+                                            <h4><strong style="font-size: larger">Sex: <?= $gender ?></strong></h4>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-10">
                                     <div class="head clearfix">
                                         <div class="isw-grid"></div>
-                                        <h1>Schedule</h1>
+                                        <h1>Schedule <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+                                        </h1>
                                         <ul class="buttons">
                                             <li><a href="#" class="isw-download"></a></li>
                                             <li><a href="#" class="isw-attachment"></a></li>
@@ -1993,6 +2101,9 @@ if ($user->isLoggedIn()) {
                                                     } elseif ($visit['status'] == 1) {
                                                         $btnV = 'Edit';
                                                     }
+
+                                                    $visit_name = $visit['visit_name'];
+
                                                 ?>
                                                     <tr>
                                                         <td><?= $x ?></td>
@@ -2045,7 +2156,7 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row">
 
                                                                             <div class="row">
-                                                                                <div class="col-sm-3">
+                                                                                <div class="col-sm-6">
                                                                                     <div class="row-form clearfix">
                                                                                         <!-- select -->
                                                                                         <div class="form-group">
@@ -2058,10 +2169,10 @@ if ($user->isLoggedIn()) {
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
+                                                                                <!-- <div class="col-sm-3">
+                                                                                    <div class="row-form clearfix"> -->
+                                                                                <!-- select -->
+                                                                                <!-- <div class="form-group">
                                                                                             <label>Visit Name</label>
                                                                                             <select name="visit_name" style="width: 100%;" required>
                                                                                                 <option value="">Select</option>
@@ -2071,7 +2182,7 @@ if ($user->isLoggedIn()) {
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
+                                                                                </div> -->
 
                                                                                 <div class="col-sm-6">
                                                                                     <div class="row-form clearfix">
@@ -2091,6 +2202,7 @@ if ($user->isLoggedIn()) {
                                                                     <div class="modal-footer">
                                                                         <input type="hidden" name="id" value="<?= $visit['id'] ?>">
                                                                         <input type="hidden" name="vc" value="<?= $visit['visit_code'] ?>">
+                                                                        <input type="hidden" name="visit_name" value="<?= $visit['visit_name'] ?>">
                                                                         <input type="hidden" name="cid" value="<?= $visit['client_id'] ?>">
                                                                         <input type="submit" name="edit_visit" class="btn btn-warning" value="Save">
                                                                         <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -2655,7 +2767,7 @@ if ($user->isLoggedIn()) {
                         </div>
                     <?php } elseif ($_GET['id'] == 7) { ?>
                         <div class="col-md-2">
-                            <?php 
+                            <?php
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                             $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
                             $cat = '';
@@ -2843,27 +2955,27 @@ if ($user->isLoggedIn()) {
 
                                         <?php
                                         //  if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1) || $override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { 
-                                            ?>
-                                            <tr>
-                                                <td>6</td>
-                                                <?php if ($_GET['seq'] == 1) { ?>
-                                                    <td>Results at enrollment</td>
-                                                <?php } else { ?>
-                                                    <td>Results at Follow Up</td>
-                                                <?php } ?>
+                                        ?>
+                                        <tr>
+                                            <td>6</td>
+                                            <?php if ($_GET['seq'] == 1) { ?>
+                                                <td>Results at enrollment</td>
+                                            <?php } else { ?>
+                                                <td>Results at Follow Up</td>
+                                            <?php } ?>
 
-                                                <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                            <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
+                                                <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
+                                            <?php } else { ?>
+                                                <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
+                                            <?php } ?>
 
-                                            </tr>
+                                        </tr>
 
                                         <?php
-                                    //  }
-                                      ?>
+                                        //  }
+                                        ?>
 
                                         <tr>
                                             <td>7</td>

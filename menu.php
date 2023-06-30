@@ -148,6 +148,11 @@ if ($user->isLoggedIn()) {
                             <span class="text">Report 2 ( TABLE 2)</span>
                         </a>
                     </li>
+                    <li class="active">
+                        <a href="report1_2.php">
+                            <span class="text">Report 3 ( TABLE 3)</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         <?php } ?>

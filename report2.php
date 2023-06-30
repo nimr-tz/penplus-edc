@@ -59,7 +59,7 @@ $output = ' ';
                 <tr>
                     <th colspan="1">No.</th>
                     <th colspan="2">Date</th>
-                    <th colspan="2">Name</th>
+                    <th colspan="2">Study ID</th>
                     <th colspan="2">ELIGIBILTY</th>        
                     <th colspan="2">Reason</th>
                 </tr>
@@ -91,7 +91,7 @@ $output = ' ';
          <tr>
             <td colspan="1">' . $x . '</td>
             <td colspan="2">' . $client['clinic_date'] . '</td>
-            <td colspan="2">' . $client['firstname'] . '   -  ' . $client['lastname'] .  '</td>
+            <td colspan="2">' . $client['study_id'] .'</td>
             <td colspan="2">' . $eligible . '</td>
             <td colspan="2">' . $consent . '</td>
         </tr>

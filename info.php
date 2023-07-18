@@ -2432,7 +2432,7 @@ if ($user->isLoggedIn()) {
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
-                                                                                    <label>If other, Specify</label>
+                                                                                    <label>If other reason, Specify</label>
                                                                                     <input type="text" name="transfer_other" value="<?php if ($visit['transfer_other']) {
                                                                                                                                         print_r($visit['transfer_other']);
                                                                                                                                     }  ?>" />
@@ -2470,7 +2470,7 @@ if ($user->isLoggedIn()) {
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
-                                                                                    <label>If other, Specify</label>
+                                                                                    <label>If other cause, Specify</label>
                                                                                     <input type="text" name="death_other" value="<?php if ($visit['death_other']) {
                                                                                                                                         print_r($visit['death_other']);
                                                                                                                                     }  ?>" />

@@ -2058,13 +2058,13 @@ if ($user->isLoggedIn()) {
                             'new_diagns' => Input::get('new_diagns'),
                             'new_diagns_specify' => Input::get('new_diagns_specify'),
                             'diagns_complication' => Input::get('diagns_complication'),
-                            'ncd_diagns_diabetes' => Input::get('ncd_diagns_diabetes'),
-                            'ncd_diabetes_specify' => Input::get('ncd_diabetes_specify'),
-                            'new_diagns_diabetes' => Input::get('new_diagns_diabetes'),
-                            'new_diagns_specify' => Input::get('new_diagns_specify'),
-                            'ncd_diagns_sickle' => Input::get('ncd_diagns_sickle'),
-                            'ncd_sickle_specify' => Input::get('ncd_sickle_specify'),
-                            'diagns_complication_diabets' => Input::get('diagns_complication_diabets'),
+                            // 'ncd_diagns_diabetes' => Input::get('ncd_diagns_diabetes'),
+                            // 'ncd_diabetes_specify' => Input::get('ncd_diabetes_specify'),
+                            // 'new_diagns_diabetes' => Input::get('new_diagns_diabetes'),
+                            // 'new_diagns_specify' => Input::get('new_diagns_specify'),
+                            // 'ncd_diagns_sickle' => Input::get('ncd_diagns_sickle'),
+                            // 'ncd_sickle_specify' => Input::get('ncd_sickle_specify'),
+                            // 'diagns_complication_diabets' => Input::get('diagns_complication_diabets'),
                             'cmplctn_ckd' => Input::get('cmplctn_ckd'),
                             'cmplctn_depression' => Input::get('cmplctn_depression'),
                             'cmplctn_cardiovascular' => Input::get('cmplctn_cardiovascular'),
@@ -9505,7 +9505,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>New NCD diagnosis:?</label>
+                                                    <label>New NCD diagnosis?</label>
                                                     <select name="new_diagns" id="new_diagns" style="width: 100%;" onchange="checkQuestionValue1('new_diagns','new_diagns_specify')">
                                                         <option value="<?= $dgns_complctns_comorbdts['new_diagns'] ?>"><?php if ($dgns_complctns_comorbdts) {
                                                                                                                             if ($dgns_complctns_comorbdts['new_diagns'] == 1) {
@@ -9923,9 +9923,6 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
 
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">

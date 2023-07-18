@@ -2769,7 +2769,7 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-2">
                             <?php
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
 
                             if ($category['cardiac'] == 1) {

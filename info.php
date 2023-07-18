@@ -2295,7 +2295,7 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Type of diagnosis</label>
-                                                                                    <select name="diagnosis" id="diagnosis" style="width: 100%;" required>
+                                                                                    <select name="diagnosis" id="diagnosis" style="width: 100%;" onchange="checkQuestionValue96('diagnosis','diagnosis_other')" required>
                                                                                         <option value="<?= $visit['diagnosis'] ?>"><?php if ($visit) {
                                                                                                                                         if ($visit['diagnosis'] == 1) {
                                                                                                                                             echo 'Type 1 Diabetes';
@@ -2311,7 +2311,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                             echo 'Liver';
                                                                                                                                         } elseif ($visit['diagnosis'] == 7) {
                                                                                                                                             echo 'Kidney';
-                                                                                                                                        } elseif ($visit['diagnosis'] == 8) {
+                                                                                                                                        } elseif ($visit['diagnosis'] == 96) {
                                                                                                                                             echo 'Other';
                                                                                                                                         }
                                                                                                                                     } else {
@@ -2325,7 +2325,7 @@ if ($user->isLoggedIn()) {
                                                                                         <option value="5">Respiratory</option>
                                                                                         <option value="6">Liver</option>
                                                                                         <option value="7">Kidney</option>
-                                                                                        <option value="8">Other</option>
+                                                                                        <option value="96">Other</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>
@@ -2333,9 +2333,9 @@ if ($user->isLoggedIn()) {
                                                                     </div>
 
 
-                                                                    <div class="row">
+                                                                    <div class="row hidden" id="diagnosis_other">
 
-                                                                        <div class="col-sm-12" id="diagnosis_other">
+                                                                        <div class="col-sm-12">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
@@ -2371,7 +2371,7 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Outcome</label>
-                                                                                    <select name="outcome" id="outcome" style="width: 100%;" required>
+                                                                                    <select name="outcome" id="outcome" style="width: 100%;" onchange="checkQuestionValue96('outcome','outcome')" required>
                                                                                         <option value="<?= $visit['outcome'] ?>"><?php if ($visit) {
                                                                                                                                         if ($visit['outcome'] == 1) {
                                                                                                                                             echo 'On treatment';
@@ -2404,13 +2404,13 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Transfer Out To</label>
-                                                                                    <select name="transfer_out" id="transfer_out" style="width: 100%;">
+                                                                                    <select name="transfer_out" id="transfer_out" style="width: 100%;" onchange="checkQuestionValue96('transfer_out','transfer_other')">
                                                                                         <option value="<?= $visit['transfer_out'] ?>"><?php if ($visit) {
                                                                                                                                             if ($visit['transfer_out'] == 1) {
                                                                                                                                                 echo 'Other NCD clinic';
                                                                                                                                             } elseif ($visit['transfer_out'] == 2) {
                                                                                                                                                 echo 'Referral hospital';
-                                                                                                                                            } elseif ($visit['transfer_out'] == 3) {
+                                                                                                                                            } elseif ($visit['transfer_out'] == 96) {
                                                                                                                                                 echo 'Other';
                                                                                                                                             }
                                                                                                                                         } else {
@@ -2419,7 +2419,7 @@ if ($user->isLoggedIn()) {
                                                                                         </option>
                                                                                         <option value="1">Other NCD clinic</option>
                                                                                         <option value="2">Referral hospital</option>
-                                                                                        <option value="3">Other</option>
+                                                                                        <option value="96">Other</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>
@@ -2431,7 +2431,7 @@ if ($user->isLoggedIn()) {
                                                                     <div class="row">
 
 
-                                                                        <div class="col-sm-4" id="diagnosis_other">
+                                                                        <div class="col-sm-4 hidden" id="transfer_other">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
@@ -2448,13 +2448,13 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Cause of Death</label>
-                                                                                    <select name="cause_death" id="cause_death" style="width: 100%;">
+                                                                                    <select name="cause_death" id="cause_death" style="width: 100%;" onchange="checkQuestionValue96('cause_death','death_other')">
                                                                                         <option value="<?= $visit['cause_death'] ?>"><?php if ($visit) {
                                                                                                                                             if ($visit['cause_death'] == 1) {
                                                                                                                                                 echo 'NCD';
                                                                                                                                             } elseif ($visit['cause_death'] == 2) {
                                                                                                                                                 echo 'Unknown';
-                                                                                                                                            } elseif ($visit['cause_death'] == 3) {
+                                                                                                                                            } elseif ($visit['cause_death'] == 96) {
                                                                                                                                                 echo 'Other';
                                                                                                                                             }
                                                                                                                                         } else {
@@ -2463,13 +2463,13 @@ if ($user->isLoggedIn()) {
                                                                                         </option>
                                                                                         <option value="1">NCD</option>
                                                                                         <option value="2">Unknown</option>
-                                                                                        <option value="3">Other</option>
+                                                                                        <option value="96">Other</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
 
-                                                                        <div class="col-sm-4" id="diagnosis_other">
+                                                                        <div class="col-sm-4 hidden" id="death_other">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
@@ -3469,6 +3469,19 @@ if ($user->isLoggedIn()) {
         var questionValue = currentQuestionInput.value;
 
         if (questionValue === "1") {
+            elementToHide.classList.remove("hidden");
+        } else {
+            elementToHide.classList.add("hidden");
+        }
+    }
+
+    function checkQuestionValue96(currentQuestion, elementToHide) {
+        var currentQuestionInput = document.getElementById(currentQuestion);
+        var elementToHide = document.getElementById(elementToHide);
+
+        var questionValue = currentQuestionInput.value;
+
+        if (questionValue === "96") {
             elementToHide.classList.remove("hidden");
         } else {
             elementToHide.classList.add("hidden");

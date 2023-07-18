@@ -2332,27 +2332,24 @@ if ($user->isLoggedIn()) {
                                                                         </div>
                                                                     </div>
 
+                                                                    <div class="row">
 
-                                                                    <div class="row hidden" id="diagnosis_other">
+                                                                        <div class="row hidden" id="diagnosis_other">
 
-                                                                        <div class="col-sm-12">
-                                                                            <div class="row-form clearfix">
-                                                                                <!-- select -->
-                                                                                <div class="form-group">
-                                                                                    <label>If other, Specify</label>
-                                                                                    <input type="text" name="diagnosis_other" value="<?php if ($visit['diagnosis_other']) {
-                                                                                                                                            print_r($visit['diagnosis_other']);
-                                                                                                                                        }  ?>" />
+                                                                            <div class="col-sm-6">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>If other, Specify</label>
+                                                                                        <input type="text" name="diagnosis_other" value="<?php if ($visit['diagnosis_other']) {
+                                                                                                                                                print_r($visit['diagnosis_other']);
+                                                                                                                                            }  ?>" />
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
 
-
-
-                                                                    <div class="row">
-
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-6">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
@@ -2365,13 +2362,19 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+                                                                    </div>
+
+
+
+
+                                                                    <div class="row">
 
                                                                         <div class="col-sm-4">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Outcome</label>
-                                                                                    <select name="outcome" id="outcome" style="width: 100%;" onchange="checkQuestionValue96('outcome','outcome')" required>
+                                                                                    <select name="outcome" id="outcome" style="width: 100%;" onchange="checkQuestionValue45('outcome','transfer_out1','cause_death1')" required>
                                                                                         <option value="<?= $visit['outcome'] ?>"><?php if ($visit) {
                                                                                                                                         if ($visit['outcome'] == 1) {
                                                                                                                                             echo 'On treatment';
@@ -2399,7 +2402,7 @@ if ($user->isLoggedIn()) {
                                                                         </div>
 
 
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-4 hidden" id="transfer_out1">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
@@ -2424,13 +2427,7 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-
-
-
-                                                                    <div class="row">
-
-
+    
                                                                         <div class="col-sm-4 hidden" id="transfer_other">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
@@ -2443,7 +2440,7 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
 
-                                                                        <div class="col-sm-4" id="death">
+                                                                        <div class="col-sm-4 hidden" id="cause_death1">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
@@ -3485,6 +3482,25 @@ if ($user->isLoggedIn()) {
             elementToHide.classList.remove("hidden");
         } else {
             elementToHide.classList.add("hidden");
+        }
+    }
+
+    function checkQuestionValue45(currentQuestion, elementToHide1, elementToHide2) {
+        var currentQuestionInput = document.getElementById(currentQuestion);
+        var elementToHide1 = document.getElementById(elementToHide1);
+        var elementToHide2 = document.getElementById(elementToHide2);
+
+        var questionValue = currentQuestionInput.value;
+
+        if (questionValue === "4") {
+            elementToHide1.classList.remove("hidden");
+        } else if (questionValue === "5") {
+            elementToHide2.classList.remove("hidden");
+
+        } else {
+            elementToHide1.classList.add("hidden");
+            elementToHide2.classList.add("hidden");
+
         }
     }
 

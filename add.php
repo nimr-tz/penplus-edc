@@ -346,6 +346,11 @@ if ($user->isLoggedIn()) {
                     if ($demographic) {
                         $user->updateRecord('demographic', array(
                             'visit_date' => Input::get('visit_date'),
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
                             'household_size' => Input::get('household_size'),
                             'grade_age' => Input::get('grade_age'),
                             'school_attendance' => Input::get('school_attendance'),
@@ -364,7 +369,7 @@ if ($user->isLoggedIn()) {
                     } else {
                         $user->createRecord('demographic', array(
                             'visit_date' => Input::get('visit_date'),
-                            'study_id' => Input::get('sid'),
+                            'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
@@ -386,7 +391,7 @@ if ($user->isLoggedIn()) {
                         ));
                     }
                     $successMessage = 'Demographic added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -424,6 +429,11 @@ if ($user->isLoggedIn()) {
 
                         $user->updateRecord('main_diagnosis', array(
                             'visit_date' => Input::get('diagnosis_date'),
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
                             'cardiac' => Input::get('cardiac'),
                             'diabetes' => Input::get('diabetes'),
                             'sickle_cell' => Input::get('sickle_cell'),
@@ -463,7 +473,7 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Diagnosis added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                     // }
                 } catch (Exception $e) {
@@ -711,6 +721,11 @@ if ($user->isLoggedIn()) {
                     if ($vital) {
                         $user->updateRecord('vital', array(
                             'visit_date' => Input::get('visit_date'),
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
                             'height' => Input::get('height'),
                             'weight' => Input::get('weight'),
                             'bmi' => Input::get('bmi'),
@@ -747,7 +762,7 @@ if ($user->isLoggedIn()) {
                         ));
                     }
                     $successMessage = 'Vital added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -770,6 +785,11 @@ if ($user->isLoggedIn()) {
 
                             $user->updateRecord('history', array(
                                 'visit_date' => date('Y-m-d'),
+                                'study_id' => $_GET['sid'],
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
                                 'hypertension' => Input::get('hypertension'),
                                 'diabetes' => Input::get('diabetes'),
                                 'ckd' => Input::get('ckd'),
@@ -1013,6 +1033,11 @@ if ($user->isLoggedIn()) {
                     if ($symptoms) {
                         $user->updateRecord('symptoms', array(
                             'visit_date' => Input::get('visit_date'),
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -1103,7 +1128,7 @@ if ($user->isLoggedIn()) {
                     } else {
                         $user->createRecord('symptoms', array(
                             'visit_date' => Input::get('visit_date'),
-                            'study_id' => Input::get('sid'),
+                            'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
@@ -1170,7 +1195,7 @@ if ($user->isLoggedIn()) {
                         ));
                     }
                     $successMessage = 'Symptoms added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -1200,6 +1225,11 @@ if ($user->isLoggedIn()) {
                         if ($diagnosis) {
                             $user->updateRecord('diagnosis', array(
                                 'visit_date' => Input::get('diagnosis_date'),
+                                'study_id' => Input::get('sid'),
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
                                 'diagnosis_date' => Input::get('diagnosis_date'),
                                 'cardiac' => Input::get('cardiac')[$i],
                                 'diagnosis_date' => Input::get('diagnosis_date'),
@@ -1248,7 +1278,7 @@ if ($user->isLoggedIn()) {
                         }
                     }
                     $successMessage = 'Diagnosis added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -3442,11 +3472,12 @@ if ($user->isLoggedIn()) {
                                     </div>
                                     <div class="footer tar">
 
-                                <!-- <button onclick="history.go(-1);">Back </button> -->
+                                <button onclick="history.go(-1);">Back </button>
 
                                 <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
 
                                         <input type="hidden" name="sid" value="<?= $_GET['sid'] ?>">
+                                        <input type="hidden" name="vday" value="<?= $_GET['vday'] ?>">
                                         <input type="submit" name="add_demographic" value="Submit" class="btn btn-default">
                                     </div>
                                 <?php } ?>

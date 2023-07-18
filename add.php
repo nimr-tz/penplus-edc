@@ -1976,7 +1976,7 @@ if ($user->isLoggedIn()) {
                         $user->updateRecord('dgns_complctns_comorbdts', array(
                             'visit_date' => Input::get('diagns_date'),
                             'diagns_date' => Input::get('diagns_date'),
-                                                        'study_id' => $_GET['sid'],
+                            'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
@@ -2041,6 +2041,7 @@ if ($user->isLoggedIn()) {
                             ), $dgns_complctns_comorbdts['id']);
                         }
                     } else {
+                        print_r($_POST);
                         $user->createRecord('dgns_complctns_comorbdts', array(
                             'visit_date' => Input::get('diagns_date'),
                             'study_id' => $_GET['sid'],
@@ -2050,20 +2051,20 @@ if ($user->isLoggedIn()) {
                             'vid' => $_GET['vid'],
                             'diagns_date' => Input::get('diagns_date'),
                             'diagns_changed' => Input::get('diagns_changed'),
-                            // 'diagns_cardiac' => Input::get('diagns_cardiac'),
-                            // 'diagns_diabetes' => Input::get('diagns_diabetes'),
-                            // 'diagns_sickle' => Input::get('diagns_sickle'),
-                            // 'diagns_specify' => Input::get('diagns_specify'),
-                            // 'new_diagns' => Input::get('new_diagns'),
-                            // 'new_diagns_specify' => Input::get('new_diagns_specify'),
-                            // 'diagns_complication' => Input::get('diagns_complication'),
-                            // 'ncd_diagns_diabetes' => Input::get('ncd_diagns_diabetes'),
-                            // 'ncd_diabetes_specify' => Input::get('ncd_diabetes_specify'),
-                            // 'new_diagns_diabetes' => Input::get('new_diagns_diabetes'),
-                            // 'new_diagns_specify' => Input::get('new_diagns_specify'),
-                            // 'ncd_diagns_sickle' => Input::get('ncd_diagns_sickle'),
-                            // 'ncd_sickle_specify' => Input::get('ncd_sickle_specify'),
-                            // 'diagns_complication_diabets' => Input::get('diagns_complication_diabets'),
+                            'diagns_cardiac' => Input::get('diagns_cardiac'),
+                            'diagns_diabetes' => Input::get('diagns_diabetes'),
+                            'diagns_sickle' => Input::get('diagns_sickle'),
+                            'diagns_specify' => Input::get('diagns_specify'),
+                            'new_diagns' => Input::get('new_diagns'),
+                            'new_diagns_specify' => Input::get('new_diagns_specify'),
+                            'diagns_complication' => Input::get('diagns_complication'),
+                            'ncd_diagns_diabetes' => Input::get('ncd_diagns_diabetes'),
+                            'ncd_diabetes_specify' => Input::get('ncd_diabetes_specify'),
+                            'new_diagns_diabetes' => Input::get('new_diagns_diabetes'),
+                            'new_diagns_specify' => Input::get('new_diagns_specify'),
+                            'ncd_diagns_sickle' => Input::get('ncd_diagns_sickle'),
+                            'ncd_sickle_specify' => Input::get('ncd_sickle_specify'),
+                            'diagns_complication_diabets' => Input::get('diagns_complication_diabets'),
                             'cmplctn_ckd' => Input::get('cmplctn_ckd'),
                             'cmplctn_depression' => Input::get('cmplctn_depression'),
                             'cmplctn_cardiovascular' => Input::get('cmplctn_cardiovascular'),
@@ -9292,7 +9293,7 @@ if ($user->isLoggedIn()) {
                         <?php $dgns_complctns_comorbdts = $override->get3('dgns_complctns_comorbdts', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                           $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
 
                             if ($category['cardiac'] == 1) {
@@ -9320,14 +9321,12 @@ if ($user->isLoggedIn()) {
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Diagnosis, Complications, & Comorbidities</h1>
-                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
-
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
 
                                     <div class="row">
-
                                         <div class="col-sm-6">
                                             <div class="row-form clearfix">
                                                 <!-- select -->

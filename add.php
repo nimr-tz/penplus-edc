@@ -10616,12 +10616,13 @@ if ($user->isLoggedIn()) {
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
                                 <h1>Lab and Clinical Monitoring</h1>
-                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
-
+                            </div>
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
-
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
@@ -10721,44 +10722,43 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                            <div class="col-sm-4">
-                                                <div class="row-form clearfix">
-                                                    <!-- select -->
-                                                    <div class="form-group">
-                                                        <label>Cardiac surgery / intervention?:</label>
-                                                        <select name="cardiac_surgery" id="cardiac_surgery" style="width: 100%;" onchange="checkQuestionValue1('cardiac_surgery','cardiac_surgery_type')">
-                                                            <option value="<?= $lab_details['cardiac_surgery'] ?>"><?php if ($lab_details) {
-                                                                                                                        if ($lab_details['cardiac_surgery'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($lab_details['cardiac_surgery'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?>
-                                                            </option>
-                                                            <option value="1">Yes</option>
-                                                            <option value="2">No</option>
-                                                        </select>
-                                                    </div>
+                                        <div class="col-sm-4">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Cardiac surgery / intervention?:</label>
+                                                    <select name="cardiac_surgery" id="cardiac_surgery" style="width: 100%;" onchange="checkQuestionValue1('cardiac_surgery','cardiac_surgery_type')">
+                                                        <option value="<?= $lab_details['cardiac_surgery'] ?>"><?php if ($lab_details) {
+                                                                                                                    if ($lab_details['cardiac_surgery'] == 1) {
+                                                                                                                        echo 'Yes';
+                                                                                                                    } elseif ($lab_details['cardiac_surgery'] == 2) {
+                                                                                                                        echo 'No';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
+                                                        </option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="2">No</option>
+                                                    </select>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="col-sm-4 hidden" id="cardiac_surgery_type">
-                                                <div class="row-form clearfix">
-                                                    <!-- select -->
-                                                    <div class="form-group">
-                                                        <label>Type:</label>
-                                                        <input type="text" name="cardiac_surgery_type" value="<?php if ($lab_details['cardiac_surgery_type']) {
-                                                                                                                    print_r($lab_details['cardiac_surgery_type']);
-                                                                                                                }  ?>" />
-                                                    </div>
+                                        <div class="col-sm-4 hidden" id="cardiac_surgery_type">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Type:</label>
+                                                    <input type="text" name="cardiac_surgery_type" value="<?php if ($lab_details['cardiac_surgery_type']) {
+                                                                                                                print_r($lab_details['cardiac_surgery_type']);
+                                                                                                            }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row hidden" id="hide_chemistry_test">
+                                    <div class="hidden" id="hide_chemistry_test">
 
                                         <div class="head clearfix">
                                             <div class="isw-ok"></div>
@@ -11030,7 +11030,7 @@ if ($user->isLoggedIn()) {
                                         </div>
 
 
-                                        <div class="row hidden" id="hide_chemistry_test2">
+                                        <div class="hidden" id="hide_chemistry_test2">
 
                                             <div class="row">
                                                 <div class="col-sm-4">

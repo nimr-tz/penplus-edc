@@ -10071,7 +10071,7 @@ if ($user->isLoggedIn()) {
                         $risks = $override->get3('risks', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                           $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
 
                             if ($category['cardiac'] == 1) {

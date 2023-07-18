@@ -2695,14 +2695,14 @@ if ($user->isLoggedIn()) {
                                         </tr>
 
                                         <tr>
-                                            <td>11</td>
+                                            <td>12</td>
                                             <td>Hospitalization Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="hospitalization" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>15</td>
+                                            <td>13</td>
                                             <td>Hospitalization Details Data
                                             </td>
                                             <td>
@@ -2710,7 +2710,7 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>12</td>
+                                            <td>14</td>
                                             <td>Treatment Plan Data
                                             </td>
                                             <td>
@@ -2718,14 +2718,14 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>13</td>
+                                            <td>15</td>
                                             <td>Diagnosis, Complications, & Comorbidities Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="dgns_complctns_comorbdts" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>14</td>
+                                            <td>16</td>
                                             <td>RISK Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="risks" value="Download"></form>
@@ -2733,7 +2733,7 @@ if ($user->isLoggedIn()) {
                                         </tr>
 
                                         <tr>
-                                            <td>16</td>
+                                            <td>17</td>
                                             <td>Lab Details Data
                                             </td>
                                             <td>
@@ -2741,7 +2741,7 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>17</td>
+                                            <td>18</td>
                                             <td>Socioeconomic Status Data
                                             </td>
                                             <td>
@@ -2750,14 +2750,14 @@ if ($user->isLoggedIn()) {
                                         </tr>
 
                                         <tr>
-                                            <td>18</td>
+                                            <td>19</td>
                                             <td>Study IDs</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="study_id" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>19</td>
+                                            <td>20</td>
                                             <td>Sites List</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="site" value="Download"></form>
@@ -2765,7 +2765,7 @@ if ($user->isLoggedIn()) {
                                         </tr>
 
                                         <tr>
-                                            <td>19</td>
+                                            <td>21</td>
                                             <td>Visit Schedules Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="visit" value="Download"></form>

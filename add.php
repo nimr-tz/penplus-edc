@@ -497,7 +497,7 @@ if ($user->isLoggedIn()) {
                     if ($cardiac) {
                         $user->updateRecord('cardiac', array(
                             'diagnosis_date' => Input::get('diagnosis_date'),
-                                                        'study_id' => $_GET['sid'],
+                            'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
@@ -537,8 +537,8 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $cardiac['id']);
-                    }
-                    $user->createRecord('cardiac', array(
+                    }else{
+                                            $user->createRecord('cardiac', array(
                         'visit_date' => Input::get('diagnosis_date'),
                         'study_id' => $_GET['sid'],
                         'visit_code' => $_GET['vcode'],
@@ -581,6 +581,8 @@ if ($user->isLoggedIn()) {
                         'created_on' => date('Y-m-d'),
                         'site_id' => $user->data()->site_id,
                     ));
+                    }
+
                     $successMessage = 'Cardiac added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                 } catch (Exception $e) {
@@ -4661,58 +4663,59 @@ if ($user->isLoggedIn()) {
                                         </div>
 
                                         <div class="hidden" id="alcohol_hides">
-                                        <div class="col-sm-3">
-                                            <div class="row-form clearfix">
-                                                <div class="form-group">
-                                                    <label>Type of Alcohol consumption</label>
-                                                    <select name="alcohol_type" id="alcohol_type" style="width: 100%;" onchange="checkQuestionValue96('alcohol_type','alcohol_other')">
-                                                        <option value="<?= $history['alcohol_type'] ?>"><?php if ($history) {
-                                                                                                        if ($history['alcohol_type'] == 1) {
-                                                                                                            echo 'Regular beer';
-                                                                                                        } elseif ($history['alcohol_type'] == 2) {
-                                                                                                            echo 'Spirits';
-                                                                                                        } elseif ($history['alcohol_type'] == 3) {
-                                                                                                            echo 'Wine';
-                                                                                                        } elseif ($history['alcohol_type'] == 96) {
-                                                                                                            echo 'Other';
-                                                                                                        } 
-                                                                                                    } else {
-                                                                                                        echo 'Select';
-                                                                                                    } ?></option>
-                                                        <option value="1">Regular beer</option>
-                                                        <option value="2">Spirits</option>
-                                                        <option value="3">Wine</option>
-                                                        <option value="96">Other</option>
+                                            <div class="col-sm-3">
+                                                <div class="row-form clearfix">
+                                                    <div class="form-group">
+                                                        <label>Type of Alcohol consumption</label>
+                                                        <select name="alcohol_type" id="alcohol_type" style="width: 100%;" onchange="checkQuestionValue96('alcohol_type','alcohol_other')">
+                                                            <option value="<?= $history['alcohol_type'] ?>"><?php if ($history) {
+                                                                                                            if ($history['alcohol_type'] == 1) {
+                                                                                                                echo 'Regular beer';
+                                                                                                            } elseif ($history['alcohol_type'] == 2) {
+                                                                                                                echo 'Spirits';
+                                                                                                            } elseif ($history['alcohol_type'] == 3) {
+                                                                                                                echo 'Wine';
+                                                                                                            } elseif ($history['alcohol_type'] == 96) {
+                                                                                                                echo 'Other';
+                                                                                                            } 
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                            <option value="1">Regular beer</option>
+                                                            <option value="2">Spirits</option>
+                                                            <option value="3">Wine</option>
+                                                            <option value="96">Other</option>
 
-                                                    </select>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-3 hidden" id="alcohol_other">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Other Type of Alcohol</label>
-                                                    <input type="text" name="alcohol_other" value="<?php if ($history['alcohol_other']) {
-                                                                                                    print_r($history['alcohol_other']);
-                                                                                                }  ?>" />
+                                            <div class="col-sm-3 hidden" id="alcohol_other">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Other Type of Alcohol</label>
+                                                        <input type="text" name="alcohol_other" value="<?php if ($history['alcohol_other']) {
+                                                                                                        print_r($history['alcohol_other']);
+                                                                                                    }  ?>" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-sm-3" id="quantity">
-                                            <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Quantity (number of bottle)</label>
-                                                    <input type="text" name="quantity" value="<?php if ($history['quantity']) {
-                                                                                                    print_r($history['quantity']);
-                                                                                                }  ?>" />
+                                            <div class="col-sm-3" id="quantity">
+                                                <div class="row-form clearfix">
+                                                    <!-- select -->
+                                                    <div class="form-group">
+                                                        <label>Quantity (number of bottle)</label>
+                                                        <input type="text" name="quantity" value="<?php if ($history['quantity']) {
+                                                                                                        print_r($history['quantity']);
+                                                                                                    }  ?>" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                </div>
-                            </div>
+                                    </div>
+
 
 
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
@@ -5040,12 +5043,8 @@ if ($user->isLoggedIn()) {
                                         <input type="submit" name="add_history" value="Submit" class="btn btn-default">
                                     </div>
                                 <?php } ?>
-
-                                </form>
-                            </div>
-
+                            </form>
                         </div>
-
                     <?php } elseif ($_GET['id'] == 10) { ?>
                         <?php $symptoms = $override->get3('symptoms', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                           $patient = $override->get('clients', 'id', $_GET['cid'])[0];
@@ -5109,8 +5108,6 @@ if ($user->isLoggedIn()) {
                                         </div>
 
                                         <div class="row">
-
-
                                             <div class="col-sm-6">
                                                 <div class="row-form clearfix">
                                                     <div class="form-group">
@@ -5129,12 +5126,7 @@ if ($user->isLoggedIn()) {
                                                                                                             } ?></option>
                                                             <option value="1">Yes</option>
                                                             <option value="2">No</option>
-                                              <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
-
-                                    <div class="footer tar">
-                                        <input type="submit" name="add_history" value="Submit" class="btn btn-default">
-                                    </div>
-                                <?php } ?>                                              <option value="3">Unsure</option>
+                                                            <option value="3">Unsure</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -7662,7 +7654,7 @@ if ($user->isLoggedIn()) {
                     <?php } elseif ($_GET['id'] == 13) { ?>
                         <?php $hospitalization = $override->get3('hospitalization', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                           $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
 
                             if ($category['cardiac'] == 1) {
@@ -8433,7 +8425,7 @@ if ($user->isLoggedIn()) {
                         <?php
                         $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                           $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
 
                             if ($category['cardiac'] == 1) {
@@ -10423,7 +10415,7 @@ if ($user->isLoggedIn()) {
                         $hospitalization_details = $override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                           $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
 
                             if ($category['cardiac'] == 1) {
@@ -10596,7 +10588,7 @@ if ($user->isLoggedIn()) {
                         $lab_details = $override->get3('lab_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                           $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                            $category = $override->get('main_diagnosis', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
 
                             if ($category['cardiac'] == 1) {

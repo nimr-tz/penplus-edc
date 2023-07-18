@@ -775,6 +775,9 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('sickle_cell')) {
                 $data = $override->getData('sickle_cell');
                 $filename = 'Main diagnosis 3 ( Sickle Cell )';
+            } elseif (Input::get('results')) {
+                $data = $override->getData('results');
+                $filename = 'Results Data';
             } elseif (Input::get('hospitalization')) {
                 $data = $override->getData('hospitalization');
                 $filename = 'Hospitalization Data';
@@ -2683,12 +2686,27 @@ if ($user->isLoggedIn()) {
                                                 <form method="post"><input type="submit" name="sickle_cell" value="Download"></form>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>11</td>
+                                            <td>Results Data</td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="results" value="Download"></form>
+                                            </td>
+                                        </tr>
 
                                         <tr>
                                             <td>11</td>
                                             <td>Hospitalization Data</td>
                                             <td>
                                                 <form method="post"><input type="submit" name="hospitalization" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>15</td>
+                                            <td>Hospitalization Details Data
+                                            </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="hospitalization_details" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>
@@ -2713,14 +2731,7 @@ if ($user->isLoggedIn()) {
                                                 <form method="post"><input type="submit" name="risks" value="Download"></form>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>15</td>
-                                            <td>Hospitalization Details Data
-                                            </td>
-                                            <td>
-                                                <form method="post"><input type="submit" name="hospitalization_details" value="Download"></form>
-                                            </td>
-                                        </tr>
+
                                         <tr>
                                             <td>16</td>
                                             <td>Lab Details Data

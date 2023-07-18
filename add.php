@@ -2041,7 +2041,6 @@ if ($user->isLoggedIn()) {
                             ), $dgns_complctns_comorbdts['id']);
                         }
                     } else {
-                        print_r($_POST);
                         $user->createRecord('dgns_complctns_comorbdts', array(
                             'visit_date' => Input::get('diagns_date'),
                             'study_id' => $_GET['sid'],
@@ -10022,8 +10021,8 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Other</label>
-                                                    <select name="cmplctn_other" id="cmplctn_other" style="width: 100%;" onchange="checkQuestionValue96('cmplctn_other','complication_specify')">
+                                                    <label>Any Other Complication?</label>
+                                                    <select name="cmplctn_other" id="cmplctn_other" style="width: 100%;" onchange="checkQuestionValue1('cmplctn_other','complication_specify')">
                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_other'] ?>"><?php if ($dgns_complctns_comorbdts) {
                                                                                                                                 if ($dgns_complctns_comorbdts['cmplctn_other'] == 1) {
                                                                                                                                     echo 'Yes';
@@ -10042,7 +10041,7 @@ if ($user->isLoggedIn()) {
 
 
 
-                                        <div class="col-sm-8" id="complication_specify">
+                                        <div class="col-sm-8 hidden" id="complication_specify">
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">

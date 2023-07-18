@@ -3382,9 +3382,7 @@ if ($user->isLoggedIn()) {
                             <div class="block-fluid">
                                 <form id="validation" method="post">
 
-                                    <?php
-                                    if (!$override->get4('clients', 'id', $_GET['cid'], 'age')) {
-                                    ?>
+
 
                                         <div class="row">
                                             <div class="col-sm-4">
@@ -3399,6 +3397,13 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                                                                        </div>
+
+                                    <?php
+                                    if (!$override->get4('clients', 'id', $_GET['cid'], 'age')) {
+                                    ?>
+
+                                        <div class="row">
 
                                             <div class="col-sm-4">
                                                 <div class="row-form clearfix">

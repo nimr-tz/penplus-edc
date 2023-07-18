@@ -168,6 +168,16 @@ if ($user->isLoggedIn()) {
                             <span class="text">Report 6 ( SICKLE CELL )</span>
                         </a>
                     </li>
+                    <li class="active">
+                        <a href="report7.php">
+                            <span class="text">Report 7 ( Cardiomyopathy )</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="report8.php">
+                            <span class="text">Report 8 ( Rheumatic Heart Disease )</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         <?php } ?>

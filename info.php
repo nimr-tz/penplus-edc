@@ -755,7 +755,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('demographic');
                 $filename = 'Demographic Data';
             } elseif (Input::get('vital')) {
-                $data = $override->getData('site');
+                $data = $override->getData('vital');
                 $filename = 'Vitals Sign Data';
             } elseif (Input::get('main_diagnosis')) {
                 $data = $override->getData('main_diagnosis');

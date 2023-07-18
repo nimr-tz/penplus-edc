@@ -49,7 +49,7 @@ if ($user->isLoggedIn()) {
 
 
 
-$title = 'PENPLUS CARDIAC REPORT_' . date('Y-m-d');
+$title = 'PENPLUS Rheumatic Heart Disease REPORT_' . date('Y-m-d');
 
 $pdf = new Pdf();
 
@@ -93,21 +93,15 @@ if ($site_data) {
                             <tr>
                                 <th rowspan="2">No.</th>
                                 <th rowspan="2">SITE</th>
-                                <th colspan="12"> Cardiac </th>
+                                <th colspan="6"> Rheumatic Heart Disease </th>
                             </tr>
                             <tr>
-                                <th>Cardio myopathy</th>
-                                <th>Rheumatic Heart Disease</th>
-                                <th>Severe / Uncontrolled Hypertension</th>
-                                <th>Hyper tensive heart Disease</th>
-                                <th>Conge nital Disease</th>
-                                <th>Right heart failure </th>
-                                <th>Pericar dialc Disease</th>
-                                <th>Coronary Artery Disease</th>
-                                <th>Arrhy thmia</th>
-                                <th>Thrombo embolic</th>
-                                <th>Stroke </th>
-                                <th>Other </th>
+                                <th>Pure mitral stenosis</th>
+                                <th>Pure mitral regurgitation</th>
+                                <th>Mixed mitral valve disease (MS + MR)</th>
+                                <th>Isolated aortic valve disease (AVD)</th>
+                                <th>mixed mitral and aortic valve disease (MMAVD)</th>
+                                <th>Other</th>
                             </tr>
             ';
 
@@ -116,30 +110,20 @@ if ($site_data) {
     foreach ($site_data as $row) {
         $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
         $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
-        $cardiac1 = $override->countData2('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $row['id']);
-        $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'cardiomyopathy', 1);
-        $cardiac2 = $override->countData2('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $row['id']);
-        $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'heumatic', 1);
-        $cardiac3 = $override->countData2('cardiac', 'status', 1, 'severe_hypertension', 1, 'site_id', $row['id']);
-        $cardiac_Total3 = $override->countData('cardiac', 'status', 1, 'severe_hypertension', 1);
-        $cardiac4 = $override->countData2('cardiac', 'status', 1, 'hypertensive_heart', 1, 'site_id', $row['id']);
-        $cardiac_Total4 = $override->countData('cardiac', 'status', 1, 'hypertensive_heart', 1);
-        $cardiac5 = $override->countData2('cardiac', 'status', 1, 'congenital', 1, 'site_id', $row['id']);
-        $cardiac_Total5 = $override->countData('cardiac', 'status', 1, 'congenital', 1);
-        $cardiac6 = $override->countData2('cardiac', 'status', 1, 'heart_failure', 1, 'site_id', $row['id']);
-        $cardiac_Total6 = $override->countData('cardiac', 'status', 1, 'heart_failure', 1);
-        $cardiac7 = $override->countData2('cardiac', 'status', 1, 'pericardial', 1, 'site_id', $row['id']);
-        $cardiac_Total7 = $override->countData('cardiac', 'status', 1, 'pericardial', 1);
-        $cardiac8 = $override->countData2('cardiac', 'status', 1, 'coronary_artery', 1, 'site_id', $row['id']);
-        $cardiac_Total8 = $override->countData('cardiac', 'status', 1, 'coronary_artery', 1);
-        $cardiac9 = $override->countData2('cardiac', 'status', 1, 'arrhythmia', 1, 'site_id', $row['id']);
-        $cardiac_Total9 = $override->countData('cardiac', 'status', 1, 'arrhythmia', 1);
-        $cardiac10 = $override->countData2('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $row['id']);
-        $cardiac_Total10 = $override->countData('cardiac', 'status', 1, 'thromboembolic', 1);
-        $cardiac11 = $override->countData2('cardiac', 'status', 1, 'stroke', 1, 'site_id', $row['id']);
-        $cardiac_Total11 = $override->countData('cardiac', 'status', 1, 'stroke', 1);
-        $cardiac12 = $override->countData2('cardiac', 'status', 1, 'diagnosis_other', 1, 'site_id', $row['id']);
-        $cardiac_Total12 = $override->countData('cardiac', 'status', 1, 'diagnosis_other', 1);
+        $cardiac1 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 1, 'site_id', $row['id']);
+        $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 1);
+        $cardiac2 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 2, 'site_id', $row['id']);
+        $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 2);
+        $cardiac3 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 3, 'site_id', $row['id']);
+        $cardiac_Total3 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 3);
+        $cardiac4 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 4, 'site_id', $row['id']);
+        $cardiac_Total4 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 4);
+        $cardiac5 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 5, 'site_id', $row['id']);
+        $cardiac_Total5 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 5);
+        // $cardiac6 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 6, 'site_id', $row['id']);
+        // $cardiac_Total6 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 6);
+        $cardiac7 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 96, 'site_id', $row['id']);
+        $cardiac_Total7 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 96);
         // $diabetes_Total = $override->countData('cardiac', 'status', 1, 'diabetes', 1);
         // $end_study = $override->countData2('cardiac', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
         // $end_study_Total = $override->countData('cardiac', 'status', 1, 'end_study', 1);
@@ -153,13 +137,7 @@ if ($site_data) {
                     <td align="right">' . $cardiac3 . '</td>
                     <td align="right">' . $cardiac4 . '</td>
                     <td align="right">' . $cardiac5 . '</td>
-                    <td align="right">' . $cardiac6 . '</td>
                     <td align="right">' . $cardiac7 . '</td>
-                    <td align="right">' . $cardiac8 . '</td>
-                    <td align="right">' . $cardiac9 . '</td>
-                    <td align="right">' . $cardiac10 . '</td>
-                    <td align="right">' . $cardiac11 . '</td>
-                    <td align="right">' . $cardiac12 . '</td>
                 </tr>
             ';
 
@@ -174,14 +152,7 @@ if ($site_data) {
                     <td align="right"><b>' . $cardiac_Total3 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total4 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total5 . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total6 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total7 . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total8 . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total9 . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total10 . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total11 . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total12 . '</b></td>
-
                 </tr>  
 
     ';

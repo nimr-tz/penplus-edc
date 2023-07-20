@@ -1314,144 +1314,128 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_results')) {
             $validate = $validate->check($_POST, array(
-                // 'ecg_date' => array(
-                //     'required' => true,
-                // ),
+                'visit_date' => array(
+                    'required' => true,
+                ),
 
             ));
             if ($validate->passed()) {
                 try {
+                $results = $override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                if ($results) {
+                    $user->updateRecord('results', array(
+                        'visit_date' => Input::get('visit_date'),
+                        'ecg_performed' => Input::get('ecg_performed'),
+                        'echo_performed' => Input::get('echo_performed'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ), $results['id']);
 
-                    $results = $override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
-
-                    if ($results) {
-                        // if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1) || $override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
-
-                        //     if ($_GET['seq'] == 1) {
-                        //     $user->updateRecord('results', array(
-                        //         'visit_date' => Input::get('visit_date'),
-                        //         'ecg_date' => Input::get('ecg_date'),
-                        //         'ecg' => Input::get('ecg'),
-                        //         'ecg_performed' => Input::get('ecg_performed'),
-                        //         'ecg_other' => Input::get('ecg_other'),                               
-                        //         'patient_id' => $_GET['cid'],
-                        //         'staff_id' => $user->data()->id,
-                        //         'status' => 1,
-                        //         'created_on' => date('Y-m-d'),
-                        //         'site_id' => $user->data()->site_id,
-                        //     ), $results['id']);
-                        // }
-                        // }
-
-                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
-
-                            $user->updateRecord('results', array(
-                                'visit_date' => Input::get('visit_date'),
-                                                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
-                                'ecg_date' => Input::get('ecg_date'),
-                                'ecg' => Input::get('ecg'),
-                                'ecg_performed' => Input::get('ecg_performed'),
-                                'ecg_other' => Input::get('ecg_other'),
-                                'echo_performed' => Input::get('echo_performed'),
-                                'echo_date' => Input::get('echo_date'),
-                                'echo' => Input::get('echo'),
-                                'echo_other' => Input::get('echo_other'),
-                                'echo_specify' => Input::get('echo_specify'),
-                                'echo_other2' => Input::get('echo_other2'),
-                                'lv' => Input::get('lv'),
-                                'mitral' => Input::get('mitral'),
-                                'rv' => Input::get('rv'),
-                                'pericardial' => Input::get('pericardial'),
-                                'ivc' => Input::get('ivc'),
-                                'congenital_defect' => Input::get('congenital_defect'),
-                                'thrombus' => Input::get('thrombus'),   
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ), $results['id']);
-                        }
-
-                        if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
-                            $user->updateRecord('results', array(
-                                'visit_date' => Input::get('visit_date'),
-                                                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
-                                'ecg_date' => Input::get('ecg_date'),
-                                'ecg' => Input::get('ecg'),
-                                'ecg_performed' => Input::get('ecg_performed'),
-                                'ecg_other' => Input::get('ecg_other'),
-                                'echo_performed' => Input::get('echo_performed'),
-                                'echo_date' => Input::get('echo_date'),
-                                'echo' => Input::get('echo'),
-                                'echo_other' => Input::get('echo_other'),
-                                'echo_specify' => Input::get('echo_specify'),
-                                'echo_other2' => Input::get('echo_other2'),
-                                'lv' => Input::get('lv'),
-                                'mitral' => Input::get('mitral'),
-                                'rv' => Input::get('rv'),
-                                'pericardial' => Input::get('pericardial'),
-                                'ivc' => Input::get('ivc'),
-                                'scd_test' => Input::get('scd_test'),
-                                'scd_test_other' => Input::get('scd_test_other'),
-                                'confirmatory_test' => Input::get('confirmatory_test'),
-                                'confirmatory_test_type' => Input::get('confirmatory_test_type'),
-                                'scd_done' => Input::get('scd_done'),
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ), $results['id']);
-                        }
-                    } else {
-                        $user->createRecord('results', array(
-                            'visit_date' => Input::get('visit_date'),
+                    if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
+                        $user->updateRecord('results', array(
                             'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
-                            'ecg_performed' => Input::get('ecg_performed'),
                             'ecg_date' => Input::get('ecg_date'),
                             'ecg' => Input::get('ecg'),
                             'ecg_other' => Input::get('ecg_other'),
-                            'echo_performed' => Input::get('echo_performed'),
                             'echo_date' => Input::get('echo_date'),
                             'echo' => Input::get('echo'),
+                            'echo_other' => Input::get('echo_other'),
+                            'echo_specify' => Input::get('echo_specify'),
+                            'echo_other2' => Input::get('echo_other2'),
                             'lv' => Input::get('lv'),
                             'mitral' => Input::get('mitral'),
                             'rv' => Input::get('rv'),
                             'pericardial' => Input::get('pericardial'),
                             'ivc' => Input::get('ivc'),
-                             'congenital_defect' => Input::get('congenital_defect'),
-                            'thrombus' => Input::get('thrombus'),                            
-                            'echo_other' => Input::get('echo_other'),
-                            'echo_specify' => Input::get('echo_specify'),
-                            'echo_other2' => Input::get('echo_other2'),
-                            'scd_test' => Input::get('scd_test'),
-                            'scd_done' => Input::get('scd_done'),
-                            'scd_test_other' => Input::get('scd_test_other'),
-                            'confirmatory_test' => Input::get('confirmatory_test'),
-                            'confirmatory_test_type' => Input::get('confirmatory_test_type'),
+                            'congenital_defect' => Input::get('congenital_defect'),
+                            'thrombus' => Input::get('thrombus'),   
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
-                        ));
+                        ), $results['id']);
                     }
-                    $successMessage = 'Results added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
-                    die;
+
+                    if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
+                        $user->updateRecord('results', array(
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'ecg_date' => Input::get('ecg_date'),
+                            'ecg' => Input::get('ecg'),
+                            'ecg_other' => Input::get('ecg_other'),
+                            'echo_date' => Input::get('echo_date'),
+                            'echo' => Input::get('echo'),
+                            'echo_other' => Input::get('echo_other'),
+                            'echo_specify' => Input::get('echo_specify'),
+                            'echo_other2' => Input::get('echo_other2'),
+                            'lv' => Input::get('lv'),
+                            'mitral' => Input::get('mitral'),
+                            'rv' => Input::get('rv'),
+                            'pericardial' => Input::get('pericardial'),
+                            'ivc' => Input::get('ivc'),
+                            'scd_test' => Input::get('scd_test'),
+                            'scd_test_other' => Input::get('scd_test_other'),
+                            'confirmatory_test' => Input::get('confirmatory_test'),
+                            'confirmatory_test_type' => Input::get('confirmatory_test_type'),
+                            'scd_done' => Input::get('scd_done'),
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ), $results['id']);  
+                    }          
+                } else {
+                        $user->createRecord('results', array(
+                        'visit_date' => Input::get('visit_date'),
+                        'study_id' => $_GET['sid'],
+                        'visit_code' => $_GET['vcode'],
+                        'visit_day' => $_GET['vday'],
+                        'seq_no' => $_GET['seq'],
+                        'vid' => $_GET['vid'],
+                        'ecg_performed' => Input::get('ecg_performed'),
+                        'ecg_date' => Input::get('ecg_date'),
+                        'ecg' => Input::get('ecg'),
+                        'ecg_other' => Input::get('ecg_other'),
+                        'echo_performed' => Input::get('echo_performed'),
+                        'echo_date' => Input::get('echo_date'),
+                        'echo' => Input::get('echo'),
+                        'lv' => Input::get('lv'),
+                        'mitral' => Input::get('mitral'),
+                        'rv' => Input::get('rv'),
+                        'pericardial' => Input::get('pericardial'),
+                        'ivc' => Input::get('ivc'),
+                        'congenital_defect' => Input::get('congenital_defect'),
+                        'thrombus' => Input::get('thrombus'),                            
+                        'echo_other' => Input::get('echo_other'),
+                        'echo_specify' => Input::get('echo_specify'),
+                        'echo_other2' => Input::get('echo_other2'),
+                        'scd_test' => Input::get('scd_test'),
+                        'scd_done' => Input::get('scd_done'),
+                        'scd_test_other' => Input::get('scd_test_other'),
+                        'confirmatory_test' => Input::get('confirmatory_test'),
+                        'confirmatory_test_type' => Input::get('confirmatory_test_type'),
+                        'patient_id' => $_GET['cid'],
+                        'staff_id' => $user->data()->id,
+                        'status' => 1,
+                        'created_on' => date('Y-m-d'),
+                        'site_id' => $user->data()->site_id,
+                    ));
+                }            
+                $successMessage = 'Results added Successful';
+                Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                die;
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -7046,14 +7030,12 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="block-fluid">
                                 <form id="validation" method="post">
-                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
-
                                         <?php if ($_GET['seq'] == 1) { ?>
 
                                             <div class="head clearfix">
                                                 <div class="isw-ok"></div>
                                                 <h1>Results at enrollment</h1>
-                                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
 
                                             </div>
                                         <?php } else { ?>
@@ -7061,7 +7043,7 @@ if ($user->isLoggedIn()) {
                                             <div class="head clearfix">
                                                 <div class="isw-ok"></div>
                                                 <h1>Results at Follow Up </h1>
-                                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
 
                                             </div>
 
@@ -7069,6 +7051,23 @@ if ($user->isLoggedIn()) {
                                         <?php } ?>
 
                                         </br>
+
+
+                                        <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Visit Date</label>
+                                                    <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($results['visit_date']) {
+                                                                                                                                                            print_r($results['visit_date']);
+                                                                                                                                                        }  ?>" />
+                                                    <span>Example: 2010-12-01</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                         <div class="head clearfix">
                                             <div class="isw-ok"></div>
                                             <h1>ECG Results </h1>
@@ -7097,6 +7096,9 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
+
+
 
 
                                         <div class="hidden" id="ecg_performed1">
@@ -7162,6 +7164,8 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php } ?>
+
 
                                         </br>
                                         <div class="head clearfix">
@@ -7193,6 +7197,7 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
                                             <div class="hidden" id="echo_performed1">
                                             <div class="row">
@@ -7486,11 +7491,6 @@ if ($user->isLoggedIn()) {
 
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
-                                        <div class="head clearfix">
-                                            <div class="isw-ok"></div>
-                                            <h1>Results at enrollment</h1>
-                                        </div>
-
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
@@ -7517,7 +7517,6 @@ if ($user->isLoggedIn()) {
 
 
                                         <div class="hidden" id="scd_done_hide">
-
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->

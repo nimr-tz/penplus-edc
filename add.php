@@ -2696,7 +2696,7 @@ if ($user->isLoggedIn()) {
             display: none;
         }
     </style>
-    
+
     <!-- <script type="text/javascript" src="hospital.js"></script> -->
 
 </head>
@@ -12737,7 +12737,7 @@ if ($user->isLoggedIn()) {
                                                     <label>Other Specify</label>
                                                     <input type="text" name="spouse_edctn_other"  value="<?php if ($social_economic['spouse_edctn_other']) {
                                                                                                                                                         print_r($social_economic['spouse_edctn_other']);
-                                                                                                                                                    }  ?>" required />
+                                                                                                                                                    }  ?>" />
 
                                                 </div>
                                             </div>

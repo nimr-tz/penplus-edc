@@ -7046,14 +7046,12 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="block-fluid">
                                 <form id="validation" method="post">
-                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
-
                                         <?php if ($_GET['seq'] == 1) { ?>
 
                                             <div class="head clearfix">
                                                 <div class="isw-ok"></div>
                                                 <h1>Results at enrollment</h1>
-                                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
 
                                             </div>
                                         <?php } else { ?>
@@ -7061,7 +7059,7 @@ if ($user->isLoggedIn()) {
                                             <div class="head clearfix">
                                                 <div class="isw-ok"></div>
                                                 <h1>Results at Follow Up </h1>
-                                                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+                                                <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
 
                                             </div>
 
@@ -7097,6 +7095,9 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
+
+
 
 
                                         <div class="hidden" id="ecg_performed1">
@@ -7162,6 +7163,8 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php } ?>
+
 
                                         </br>
                                         <div class="head clearfix">
@@ -7193,6 +7196,7 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
+                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
                                             <div class="hidden" id="echo_performed1">
                                             <div class="row">
@@ -7486,11 +7490,6 @@ if ($user->isLoggedIn()) {
 
                                     <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
-                                        <div class="head clearfix">
-                                            <div class="isw-ok"></div>
-                                            <h1>Results at enrollment</h1>
-                                        </div>
-
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
@@ -7517,7 +7516,6 @@ if ($user->isLoggedIn()) {
 
 
                                         <div class="hidden" id="scd_done_hide">
-
                                             <div class="col-sm-3">
                                                 <div class="row-form clearfix">
                                                     <!-- select -->

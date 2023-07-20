@@ -1314,9 +1314,9 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_results')) {
             $validate = $validate->check($_POST, array(
-                // 'ecg_date' => array(
-                //     'required' => true,
-                // ),
+                'visit_date' => array(
+                    'required' => true,
+                ),
 
             ));
             if ($validate->passed()) {
@@ -7067,6 +7067,23 @@ if ($user->isLoggedIn()) {
                                         <?php } ?>
 
                                         </br>
+
+
+                                        <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row-form clearfix">
+                                                <!-- select -->
+                                                <div class="form-group">
+                                                    <label>Visit Date</label>
+                                                    <input class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" value="<?php if ($symptoms['visit_date']) {
+                                                                                                                                                            print_r($symptoms['visit_date']);
+                                                                                                                                                        }  ?>" />
+                                                    <span>Example: 2010-12-01</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                         <div class="head clearfix">
                                             <div class="isw-ok"></div>
                                             <h1>ECG Results </h1>

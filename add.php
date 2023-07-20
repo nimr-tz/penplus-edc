@@ -312,7 +312,6 @@ if ($user->isLoggedIn()) {
                         }
 
                         $successMessage = 'Client Added Successful';
-                        // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
                         Redirect::to('info.php?id=3&status=5');
                     }
                     }
@@ -362,7 +361,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $demographic['id']);
                     } else {
@@ -440,7 +438,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $main_diagnosis['id']);
                     } else {
@@ -534,7 +531,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $cardiac['id']);
                     }else{
@@ -628,7 +624,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $diabetic['id']);
                     } else {
@@ -693,7 +688,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $sickle_cell['id']);
                     } else {
@@ -752,7 +746,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $vital['id']);
                     } else {
@@ -833,7 +826,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $history['id']);
                         }
@@ -879,7 +871,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $history['id']);
                         }
@@ -927,7 +918,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $history['id']);
                         }
@@ -1067,7 +1057,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $symptoms['id']);
 
@@ -1272,7 +1261,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $diagnosis['id']);
                         } else {
@@ -1330,7 +1318,6 @@ if ($user->isLoggedIn()) {
                         'patient_id' => $_GET['cid'],
                         'staff_id' => $user->data()->id,
                         'status' => 1,
-                        'created_on' => date('Y-m-d'),
                         'site_id' => $user->data()->site_id,
                     ), $results['id']);
 
@@ -1359,7 +1346,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $results['id']);
                     }
@@ -1392,7 +1378,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $results['id']);  
                     }          
@@ -1473,7 +1458,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $hospitalization['id']);
                         }
@@ -1513,7 +1497,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $hospitalization['id']);
                         }
@@ -1548,7 +1531,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $hospitalization['id']);
                         }
@@ -1653,7 +1635,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $lab_details['id']);
                         }
@@ -1686,7 +1667,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $lab_details['id']);
                         }
@@ -1715,7 +1695,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $lab_details['id']);
                         }
@@ -1807,7 +1786,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $hospitalization_details['id']);
                     } else {
@@ -1908,7 +1886,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $risks['id']);
                     } else {
@@ -1978,7 +1955,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $dgns_complctns_comorbdts['id']);
 
@@ -2043,13 +2019,6 @@ if ($user->isLoggedIn()) {
                             'new_diagns' => Input::get('new_diagns'),
                             'new_diagns_specify' => Input::get('new_diagns_specify'),
                             'diagns_complication' => Input::get('diagns_complication'),
-                            // 'ncd_diagns_diabetes' => Input::get('ncd_diagns_diabetes'),
-                            // 'ncd_diabetes_specify' => Input::get('ncd_diabetes_specify'),
-                            // 'new_diagns_diabetes' => Input::get('new_diagns_diabetes'),
-                            // 'new_diagns_specify' => Input::get('new_diagns_specify'),
-                            // 'ncd_diagns_sickle' => Input::get('ncd_diagns_sickle'),
-                            // 'ncd_sickle_specify' => Input::get('ncd_sickle_specify'),
-                            // 'diagns_complication_diabets' => Input::get('diagns_complication_diabets'),
                             'cmplctn_ckd' => Input::get('cmplctn_ckd'),
                             'cmplctn_depression' => Input::get('cmplctn_depression'),
                             'cmplctn_cardiovascular' => Input::get('cmplctn_cardiovascular'),
@@ -2117,7 +2086,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $summary['id']);
                     } else {
@@ -2191,7 +2159,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
                         }
@@ -2228,7 +2195,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
                         }
@@ -2270,7 +2236,6 @@ if ($user->isLoggedIn()) {
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
-                                'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
                         }
@@ -2469,7 +2434,6 @@ if ($user->isLoggedIn()) {
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
-                            'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ), $social_economic['id']);
                     } else {

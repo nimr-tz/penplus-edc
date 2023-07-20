@@ -11006,9 +11006,9 @@ if ($user->isLoggedIn()) {
                                                         <label>Any Chemistry Test today?:</label>
                                                         <select name="chemistry_test2" id="chemistry_test2" style="width: 100%;" onchange="checkQuestionValue1('chemistry_test2','hide_chemistry_test2')">
                                                             <option value="<?= $lab_details['chemistry_test'] ?>"><?php if ($lab_details) {
-                                                                                                                        if ($lab_details['chemistry_test'] == 1) {
+                                                                                                                        if ($lab_details['chemistry_test2'] == 1) {
                                                                                                                             echo 'Yes';
-                                                                                                                        } elseif ($lab_details['chemistry_test'] == 2) {
+                                                                                                                        } elseif ($lab_details['chemistry_test2'] == 2) {
                                                                                                                             echo 'No';
                                                                                                                         } 
                                                                                                                     } else {

@@ -1629,14 +1629,15 @@ if ($user->isLoggedIn()) {
 
                             $user->updateRecord('lab_details', array(
                                 'visit_date' => Input::get('lab_date'),
-                                                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
+                                'study_id' => $_GET['sid'],
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
                                 'lab_date' => Input::get('lab_date'),
                                 'ncd_coping' => Input::get('ncd_coping'),
                                 'family_planning' => Input::get('family_planning'),
+                                'chemistry_test' => Input::get('chemistry_test'),
                                 'na' => Input::get('na'),
                                 'k' => Input::get('k'),
                                 'bun' => Input::get('bun'),
@@ -1661,11 +1662,11 @@ if ($user->isLoggedIn()) {
 
                             $user->updateRecord('lab_details', array(
                                 'visit_date' => Input::get('lab_date'),
-                                                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
+                                'study_id' => $_GET['sid'],
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
                                 'lab_date' => Input::get('lab_date'),
                                 'ncd_coping' => Input::get('ncd_coping'),
                                 'family_planning' => Input::get('family_planning'),
@@ -1677,7 +1678,7 @@ if ($user->isLoggedIn()) {
                                 'na_diabetes' => Input::get('na_diabetes'),
                                 'k_diabetes' => Input::get('k_diabetes'),
                                 'cre_diabetes' => Input::get('cre_diabetes'),
-                                                                'chemistry_test2' => Input::get('chemistry_test2'),
+                                'chemistry_test2' => Input::get('chemistry_test2'),
                                 'proteinuria' => Input::get('proteinuria'),
                                 'lipid_panel' => Input::get('lipid_panel'),
                                 'other_lab_diabetes' => Input::get('other_lab_diabetes'),
@@ -1694,11 +1695,11 @@ if ($user->isLoggedIn()) {
 
                             $user->updateRecord('lab_details', array(
                                 'visit_date' => Input::get('lab_date'),
-                                                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
+                                'study_id' => $_GET['sid'],
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
                                 'lab_date' => Input::get('lab_date'),
                                 'ncd_coping' => Input::get('ncd_coping'),
                                 'family_planning' => Input::get('family_planning'),
@@ -1710,7 +1711,7 @@ if ($user->isLoggedIn()) {
                                 'plt' => Input::get('plt'),
                                 'fe_studies' => Input::get('fe_studies'),
                                 'lfts' => Input::get('lfts'),
-                                 'hematology_test' => Input::get('hematology_test'),
+                                'hematology_test' => Input::get('hematology_test'),
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
@@ -1746,6 +1747,7 @@ if ($user->isLoggedIn()) {
                             'cataracts' => Input::get('cataracts'),
                             'retinopathy_screening' => Input::get('retinopathy_screening'),
                             'foot_exam_diabetes' => Input::get('foot_exam_diabetes'),
+                            'chemistry_test' => Input::get('chemistry_test'),
                             'chemistry_test2' => Input::get('chemistry_test2'),
                             'na_diabetes' => Input::get('na_diabetes'),
                             'k_diabetes' => Input::get('k_diabetes'),
@@ -11006,9 +11008,9 @@ if ($user->isLoggedIn()) {
                                                         <label>Any Chemistry Test today?:</label>
                                                         <select name="chemistry_test2" id="chemistry_test2" style="width: 100%;" onchange="checkQuestionValue1('chemistry_test2','hide_chemistry_test2')">
                                                             <option value="<?= $lab_details['chemistry_test'] ?>"><?php if ($lab_details) {
-                                                                                                                        if ($lab_details['chemistry_test'] == 1) {
+                                                                                                                        if ($lab_details['chemistry_test2'] == 1) {
                                                                                                                             echo 'Yes';
-                                                                                                                        } elseif ($lab_details['chemistry_test'] == 2) {
+                                                                                                                        } elseif ($lab_details['chemistry_test2'] == 2) {
                                                                                                                             echo 'No';
                                                                                                                         } 
                                                                                                                     } else {

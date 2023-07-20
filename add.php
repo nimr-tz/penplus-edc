@@ -2582,6 +2582,10 @@ if ($user->isLoggedIn()) {
     Redirect::to('index.php');
 }
 ?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -2692,7 +2696,7 @@ if ($user->isLoggedIn()) {
             display: none;
         }
     </style>
-
+    
     <!-- <script type="text/javascript" src="hospital.js"></script> -->
 
 </head>

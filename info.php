@@ -1325,7 +1325,8 @@ if ($user->isLoggedIn()) {
                                     </li>
                                 </ul>
                             </div>
-                            <?php if ($user->data()->power == 1) {
+                            <?php
+                            if ($user->data()->power == 1) {
                                 if ($_GET['sid'] != null) {
                                     $pagNum = 0;
                                     if ($_GET['status'] == 1) {
@@ -1973,7 +1974,7 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="pull-right">
                                 <div class="btn-group">
-                                    <a href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                    <a href="info.php?id=3&status=<?= $_GET['status'] ?>sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
                                                                                                                             echo $_GET['page'] - 1;
                                                                                                                         } else {
                                                                                                                             echo 1;
@@ -2427,7 +2428,7 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-    
+
                                                                         <div class="col-sm-4 hidden" id="transfer_other">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->

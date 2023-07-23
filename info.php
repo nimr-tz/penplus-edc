@@ -69,6 +69,7 @@ if ($user->isLoggedIn()) {
                         'phone_number' => Input::get('phone_number'),
                         'email_address' => Input::get('email_address'),
                         'accessLevel' => $accessLevel,
+                        'power' => Input::get('power'),
                         'user_id' => $user->data()->id,
                     ), Input::get('id'));
 
@@ -955,6 +956,14 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row-form clearfix">
                                                                             <div class="col-md-3">Phone Number:</div>
                                                                             <div class="col-md-9"><input value="<?= $staff['phone_number'] ?>" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span></div>
+                                                                        </div>
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Power:</div>
+                                                                            <div class="col-md-9"><input value="<?= $staff['power'] ?>" class="" type="text" name="power" id="power" /> </div>
+                                                                        </div>
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Access Level:</div>
+                                                                            <div class="col-md-9"><input value="<?= $staff['accessLevel'] ?>" class="" type="text" name="accessLevel" id="accessLevel" /></div>
                                                                         </div>
 
                                                                         <div class="row-form clearfix">

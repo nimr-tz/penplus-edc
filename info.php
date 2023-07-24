@@ -69,6 +69,7 @@ if ($user->isLoggedIn()) {
                         'phone_number' => Input::get('phone_number'),
                         'email_address' => Input::get('email_address'),
                         'accessLevel' => $accessLevel,
+                        'power' => Input::get('power'),
                         'user_id' => $user->data()->id,
                     ), Input::get('id'));
 
@@ -956,6 +957,14 @@ if ($user->isLoggedIn()) {
                                                                             <div class="col-md-3">Phone Number:</div>
                                                                             <div class="col-md-9"><input value="<?= $staff['phone_number'] ?>" class="" type="text" name="phone_number" id="phone" required /> <span>Example: 0700 000 111</span></div>
                                                                         </div>
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Power:</div>
+                                                                            <div class="col-md-9"><input value="<?= $staff['power'] ?>" class="" type="text" name="power" id="power" /> </div>
+                                                                        </div>
+                                                                        <div class="row-form clearfix">
+                                                                            <div class="col-md-3">Access Level:</div>
+                                                                            <div class="col-md-9"><input value="<?= $staff['accessLevel'] ?>" class="" type="text" name="accessLevel" id="accessLevel" /></div>
+                                                                        </div>
 
                                                                         <div class="row-form clearfix">
                                                                             <div class="col-md-3">E-mail Address:</div>
@@ -1325,7 +1334,8 @@ if ($user->isLoggedIn()) {
                                     </li>
                                 </ul>
                             </div>
-                            <?php if ($user->data()->power == 1) {
+                            <?php
+                            if ($user->data()->power == 1) {
                                 if ($_GET['sid'] != null) {
                                     $pagNum = 0;
                                     if ($_GET['status'] == 1) {
@@ -1973,7 +1983,7 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="pull-right">
                                 <div class="btn-group">
-                                    <a href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                    <a href="info.php?id=3&status=<?= $_GET['status'] ?>sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
                                                                                                                             echo $_GET['page'] - 1;
                                                                                                                         } else {
                                                                                                                             echo 1;
@@ -2427,7 +2437,7 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-    
+
                                                                         <div class="col-sm-4 hidden" id="transfer_other">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->

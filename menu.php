@@ -191,6 +191,16 @@ if ($user->isLoggedIn()) {
                 <ul>
 
                     <li>
+                        <a href="steps.php">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Steps</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="steps2.php">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Steps 2</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="add.php?id=2">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Position</span>
                         </a>

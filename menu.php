@@ -182,6 +182,98 @@ if ($user->isLoggedIn()) {
             </li>
         <?php } ?>
 
+        <!-- <li class="openable">
+            <a href="#"><span class="isw-tag"></span><span class="text">View Lab Reports</span></a>
+            <ul>
+                <li class="active">
+                    <a href="lab.php">
+                        <span class="text">Report 1 ( LAB ) </span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="lab2.php">
+                        <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
+                    </a>
+                </li>
+            </ul>
+        </li> -->
+
+        <li class="openable">
+            <a href="#"><span class="isw-tag"></span><span class="text">Lab Section</span></a>
+            <ul>
+                <!-- <li class="active">
+                    <a href="lab_home.php">
+                        <span class="text">Lab Home </span>
+                    </a>
+                </li> -->
+                <!-- <li class="active">
+                    <a href="add_lab.php">
+                        <span class="text">Add Lab Request </span>
+                    </a>
+                </li> -->
+                <li class="active">
+                    <a href="add_results.php">
+                        <span class="text">View Lab Results </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getNo('lab_requests') ?></span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="add_results.php?status=1">
+                        <span class="text">View Completed Lab Requests </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('lab_requests', 'status', 1) ?></span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="add_results.php?status=0">
+                        <span class="text">View Pending Lab Requests </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('lab_requests', 'status', 0) ?></span>
+                    </a>
+                </li>
+                <!-- <li class="active">
+                    <a href="checkbox.php">
+                        <span class="text">Lab Results Pending </span>
+                    </a>
+                </li> -->
+                <!-- <li class="active">
+                    <a href="lab_home.php">
+                        <span class="text">Add Category Name</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="lab_test_add.php">
+                        <span class="text">Add Test Name </span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="add_lab_test.php">
+                        <span class="text">Add Test Name 2</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="lab_home.php">
+                        <span class="text">Add Sample Type </span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="lab_home.php">
+                        <span class="text">Mange Category </span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="lab_home.php">
+                        <span class="text">Mange Test </span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="lab_home.php">
+                        <span class="text">Mange Sample</span>
+                    </a>
+                </li> -->
+            </ul>
+        </li>
+
 
         <?php if ($user->data()->position == 1) { ?>
 

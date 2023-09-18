@@ -311,11 +311,12 @@
                                             <td><?= $site_name['name'] ?></td>
                                             <td><?= $category['name'] ?> </td>
                                             <td><?= $test_name['name'] ?> </td>
-                                            <td> <input type="text" name="test_value[]" value="<?php if ($value['test_value']) {
+                                            <td>
+                                                <input type="text" name="test_value[]" value="<?php if ($value['test_value']) {
                                                                                                     print_r($value['test_value']);
                                                                                                 }  ?>" <?php if ($user->data()->position != 1) {
-                                                                                                                echo 'readonly';
-                                                                                                            } ?>>
+                                                                                                            echo 'readonly';
+                                                                                                        } ?>>
                                             </td>
                                             <td><?= $site_name[''] ?></td>
                                             <td><?= $site_name[''] ?></td>
@@ -334,12 +335,20 @@
 
 
                                         <tr>
-                                            <td class="text-center"><?php echo $i++; ?></td>
+                                            <td class="text-center"><?php echo $i++; ?>
+                                                <input type="hidden" name="id[]" value="<?= $value['id'] ?>">
+                                                <input type="checkbox" name="status[]" value="<?= $value['id'] ?>" <?php if ($value['status'] == 1) {
+                                                                                                                        echo 'checked';
+                                                                                                                    } ?>>
+
+                                            </td>
                                             <td class=""><?php echo date("Y-m-d H:i", strtotime($value['created_on'])) ?></td>
                                             <td class=""><?= $value['patient_id'] ?></td>
                                             <td class="">
                                                 <p class="m-0 truncate-1"><?= $test ?></p>
                                             </td>
+                                            <td><?= $patient_name['firstname'] . ' - ' . $patient_name['lastname'] ?></td>
+
                                             <td class="text-center">
                                                 <?php
                                                 switch ($row['status']) {

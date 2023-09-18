@@ -1,3 +1,46 @@
+<?php
+require_once 'php/core/init.php';
+$user = new User();
+$override = new OverideData();
+$email = new Email();
+$random = new Random();
+
+$successMessage = null;
+$pageError = null;
+$errorMessage = null;
+$numRec = 50;
+if ($user->isLoggedIn()) {
+    if (Input::exists('post')) {
+        $validate = new validate();
+        if (Input::get('edit_position')) {
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->updateRecord('position', array(
+                        'name' => Input::get('name'),
+                    ), Input::get('id'));
+                    $successMessage = 'Position Successful Updated';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }
+    }
+} else {
+    Redirect::to('index.php');
+}
+// $client = $override->get('client', 'id', $_GET['position'])[0];
+// $position = $override->get('position', 'id', $staff['position'])[0];
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'headBar.php'; ?>

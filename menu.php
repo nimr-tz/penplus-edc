@@ -211,22 +211,22 @@ if ($user->isLoggedIn()) {
                         <span class="text">Add Lab Request </span>
                     </a>
                 </li> -->
-                <li class="active">
-                    <a href="add_results.php">
+                <!-- <li class="active">
+                    <a href="add_results.php?status=1">
                         <span class="text">View Lab Results </span>
                         <span class="badge badge-secondary badge-pill"><?= $override->getNo('lab_requests') ?></span>
                     </a>
-                </li>
+                </li> -->
                 <li class="active">
                     <a href="add_results.php?status=1">
                         <span class="text">View Completed Lab Requests </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('lab_requests', 'status', 1) ?></span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->countData1('clients', 'status', 1, 'screened', 1, 'lab_status', 1) ?></span>
                     </a>
                 </li>
                 <li class="active">
                     <a href="add_results.php?status=0">
                         <span class="text">View Pending Lab Requests </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('lab_requests', 'status', 0) ?></span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->countData1('clients', 'status', 1, 'screened', 1, 'lab_status', 0) ?></span>
                     </a>
                 </li>
                 <!-- <li class="active">

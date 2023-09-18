@@ -1684,7 +1684,7 @@ if ($user->isLoggedIn()) {
                                                     <?php } ?>
 
                                                     <a href="add.php?id=4&cid=<?= $client['id'] ?>" class="btn btn-info">Edit Client</a>
-                                                    <a href="add_lab.php?cid=<?= $client['id'] ?>" class="btn btn-success">Add Lab Results</a>
+                                                    <a href="add_lab.php?cid=<?= $client['id'] ?>&status=0" class="btn btn-success">Add Lab Request</a>
 
 
                                                     <?php if ($screened) { ?>
@@ -1979,7 +1979,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            
+
                                         <?php $x++;
                                         } ?>
                                     </tbody>

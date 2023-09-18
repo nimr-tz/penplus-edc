@@ -157,6 +157,14 @@ if ($user->isLoggedIn()) {
                                             <th></th>
                                             <th>Name</th>
                                             <th>Site</th>
+                                            <th>Test Category</th>
+                                            <th>Test Name</th>
+                                            <th>Value</th>
+                                            <th>Units</th>
+                                            <th>Ranges</th>
+                                            <th>Sample Type</th>
+                                            <th>Blood Number</th>
+                                            <th>Price</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                             <th>Action</th>
@@ -174,9 +182,9 @@ if ($user->isLoggedIn()) {
                                             $site_name = $override->get('site', 'id', $value['site_id'])[0];
 
                                             $status = 'Pending';
-                                            // if ($value['lab_status'] == 1) {
-                                            //     $status = 'Done';
-                                            // }
+                                            if ($value['lab_status'] == 1) {
+                                                $status = 'Done';
+                                            }
 
 
                                         ?>
@@ -187,15 +195,22 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'checked';
                                                                                                                         } ?>>
                                                 </td>
-                                                <td><?= $value['firstname'] . ' - ' . $value['lastname'] ?></td>
+                                                <td><?= $patient_name['firstname'] . ' - ' . $patient_name['lastname'] ?></td>
                                                 <td><?= $site_name['name'] ?></td>
-
-                                                <?php if ($value['lab_status'] == 1) { ?>
-                                                    <td> <a href="#" class="btn btn-success">Done</a></td>
-                                                <?php } else { ?>
-                                                    <td> <a href="#" class="btn btn-warning">Pending</a></td>
-                                                <?php } ?>
-
+                                                <td><?= $category['name'] ?> </td>
+                                                <td><?= $test_name['name'] ?> </td>
+                                                <td> <input type="text" name="test_value[]" value="<?php if ($value['test_value']) {
+                                                                                                        print_r($value['test_value']);
+                                                                                                    }  ?>" <?php if ($user->data()->position != 1) {
+                                                                                                                echo 'readonly';
+                                                                                                            } ?>>
+                                                </td>
+                                                <td><?= $site_name[''] ?></td>
+                                                <td><?= $site_name[''] ?></td>
+                                                <td><?= $site_name[''] ?></td>
+                                                <td><?= $status ?></td>
+                                                <td><?= $site_name[''] ?></td>
+                                                <td><?= $site_name[''] ?></td>
                                                 <td>
                                                     <a href="view_lab_results.php?cid=<?= $value['id'] ?>" class="btn btn-info">view</a>
                                                 </td>

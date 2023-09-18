@@ -1684,6 +1684,8 @@ if ($user->isLoggedIn()) {
                                                     <?php } ?>
 
                                                     <a href="add.php?id=4&cid=<?= $client['id'] ?>" class="btn btn-info">Edit Client</a>
+                                                    <a href="add_lab.php?cid=<?= $client['id'] ?>" class="btn btn-success">Add Lab Results</a>
+
 
                                                     <?php if ($screened) { ?>
                                                         <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Screening</a>
@@ -1976,6 +1978,8 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            
                                         <?php $x++;
                                         } ?>
                                     </tbody>
@@ -3101,6 +3105,18 @@ if ($user->isLoggedIn()) {
 
                                             </tr>
                                         <?php } ?>
+
+                                        <tr>
+                                            <td>14</td>
+                                            <td>Lab Requests</td>
+                                            <?php if ($override->get3('lab_requests', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                <td><a href="add_lab.php?cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
+                                            <?php } else { ?>
+                                                <td><a href="add_lab.php?cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
+                                            <?php } ?>
+
+                                        </tr>
 
                                     </tbody>
                                 </table>

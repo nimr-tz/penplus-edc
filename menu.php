@@ -218,6 +218,24 @@ if ($user->isLoggedIn()) {
                     </a>
                 </li> -->
                 <li class="active">
+                    <a href="add_test_category.php">
+                        <span class="text">Manage Category Test </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->countData('category', 'status', 1, 'delete_flag', 0) ?></span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="add_test_sub_category.php">
+                        <span class="text">Manage Sub Category Test </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->countData('sub_category', 'status', 1, 'delete_flag', 0) ?></span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="add_test_list.php">
+                        <span class="text">Manage Test Name </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
+                    </a>
+                </li>
+                <li class="active">
                     <a href="add_results.php?status=1">
                         <span class="text">View Completed Lab Requests </span>
                         <span class="badge badge-secondary badge-pill"><?= $override->countData1('clients', 'status', 1, 'screened', 1, 'lab_status', 1) ?></span>

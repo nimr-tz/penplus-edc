@@ -4,852 +4,629 @@ $user = new User();
 $override = new OverideData();
 $email = new Email();
 $random = new Random();
-$validate = new validate();
+
 $successMessage = null;
 $pageError = null;
 $errorMessage = null;
+$numRec = 50;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
-        if (Input::get('add_request')) {
+        $validate = new validate();
+        if (Input::get('add_category')) {
             $validate = $validate->check($_POST, array(
-                // 'lab_date' => array(
+                // 'name' => array(
                 //     'required' => true,
                 // ),
-
             ));
             if ($validate->passed()) {
                 try {
-                    if ($_POST['haematology']) {
-                        $category = 1;
-                        foreach ($_POST['haematology'] as $value) {
-                            $haematology = $override->get3('lab_requests', 'category', 1, 'test_name', $value, 'patient_id', $_GET['cid'])[0];
-                            if ($haematology) {
-                                $user->updateRecord('lab_requests', array(
-                                    'visit_date' => Input::get('lab_date'),
-                                    'study_id' => $_GET['sid'],
-                                    'visit_code' => $_GET['vcode'],
-                                    'visit_day' => $_GET['vday'],
-                                    'seq_no' => $_GET['seq'],
-                                    'vid' => $_GET['vid'],
-                                    'lab_date' => Input::get('lab_date'),
-                                    'value' => Input::get('value'),
-                                    'category' => $category,
-                                    'test_name' => $value,
-                                    'test_value' => Input::get('test_value'),
-                                    'patient_id' => $_GET['cid'],
-                                    'staff_id' => $user->data()->id,
-                                    'status' => 0,
-                                    'site_id' => $user->data()->site_id,
-                                ), $haematology['id']);
-                            } else {
-                                $user->createRecord('lab_requests', array(
-                                    'visit_date' => Input::get('lab_date'),
-                                    'study_id' => $_GET['sid'],
-                                    'visit_code' => $_GET['vcode'],
-                                    'visit_day' => $_GET['vday'],
-                                    'seq_no' => $_GET['seq'],
-                                    'vid' => $_GET['vid'],
-                                    'lab_date' => Input::get('lab_date'),
-                                    'category' => $category,
-                                    'test_name' => $value,
-                                    'test_value' => Input::get('test_value'),
-                                    'patient_id' => $_GET['cid'],
-                                    'staff_id' => $user->data()->id,
-                                    'status' => 0,
-                                    'site_id' => $user->data()->site_id,
-                                ));
-                            }
-                        }
+                    $test_category = $override->get('category', 'name', Input::get('name'));
+                    if ($test_category) {
+                        $errorMessage = 'New Test Category Already Added';
+                    } else {
+                        $user->createRecord('category', array(
+                            'name' => Input::get('name'),
+                            'status' => Input::get('status'),
+                            'description' => Input::get('description'),
+                        ));
+                        $successMessage = 'New Test Category Added';
                     }
-
-                    $successMessage = 'Lab Request added Successful';
-                    // Redirect::to('add_results.php');
-                    Redirect::to('info.php?id=3&status=1');
-                    // http://localhost/penplus/info.php?id=3&status=1
-                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
-                    die;
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('update_category')) {
+            $validate = $validate->check($_POST, array(
+                // 'name' => array(
+                //     'required' => true,
+                // ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->updateRecord('category', array(
+                        'name' => Input::get('name'),
+                        'status' => Input::get('status'),
+                        'description' => Input::get('description'),
+                    ), Input::get('id'));
+                    $successMessage = 'New Test Category Updated';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('deactivate_category')) {
+            $user->updateRecord('category', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'Category Deleted Successful';
+        } elseif (Input::get('activate_category')) {
+            $user->updateRecord('category', array(
+                'status' => 1,
+            ), Input::get('id'));
+            $successMessage = 'Category Deleted Successful';
+        } elseif (Input::get('delete_category')) {
+            $user->deleteRecord('category', 'id', Input::get('id'));
+            $successMessage = 'Category Deleted Successful';
         }
     }
 } else {
     Redirect::to('index.php');
 }
+// $client = $override->get('client', 'id', $_GET['position'])[0];
+// $position = $override->get('position', 'id', $staff['position'])[0];
+
 ?>
-
-
 
 
 <!DOCTYPE html>
 <html lang="en">
+<?php include 'headBar.php'; ?>
 
-<head>
-    <title> Add - PenPLus </title>
-    <?php include "head.php"; ?>
-
-</head>
-
-<body>
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
-        <?php include 'topbar.php' ?>
-        <?php include 'menu.php' ?>
-        <div class="content">
-
-
-            <div class="breadLine">
-
-                <ul class="breadcrumb">
-                    <li><a href="#">Simple Admin</a> <span class="divider">></span></li>
-                    <li class="active">Add Info</li>
-                </ul>
-                <?php include 'pageInfo.php' ?>
-            </div>
-
-            <div class="workplace">
-                <?php if ($errorMessage) { ?>
-                    <div class="alert alert-danger">
-                        <h4>Error!</h4>
-                        <?= $errorMessage ?>
-                    </div>
-                <?php } elseif ($pageError) { ?>
-                    <div class="alert alert-danger">
-                        <h4>Error!</h4>
-                        <?php foreach ($pageError as $error) {
-                            echo $error . ' , ';
-                        } ?>
-                    </div>
-                <?php } elseif ($successMessage) { ?>
-                    <div class="alert alert-success">
-                        <h4>Success!</h4>
-                        <?= $successMessage ?>
-                    </div>
-                <?php } ?>
-                <div class="row">
-                    <?php
-                    // $lab_details = $override->get3('lab_requests', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
-
-                    $lab_details = $override->get('lab_requests', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
-
-                    $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                    $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
-                    $cat = '';
-
-                    if ($category['cardiac'] == 1) {
-                        $cat = 'Cardiac';
-                    } elseif ($category['diabetes'] == 1) {
-                        $cat = 'Diabetes';
-                    } elseif ($category['sickle_cell'] == 1) {
-                        $cat = 'Sickle cell';
-                    } else {
-                        $cat = 'Not Diagnosed';
-                    }
-
-
-                    if ($patient['gender'] == 1) {
-                        $gender = 'Male';
-                    } elseif ($patient['gender'] == 2) {
-                        $gender = 'Female';
-                    }
-
-
-
-                    $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
-                    ?>
-
-
-
-                    <div class="col-md-offset-1 col-md-8">
-                        <div class="head clearfix">
-                            <div class="isw-ok"></div>
-                            <h1>Lab Requests</h1>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Category Form</h1>
                         </div>
-                        <div class="head clearfix">
-                            <div class="isw-ok"></div>
-                            <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
-                        </div>
-                        <div class="block-fluid">
-                            <form id="validation" method="post">
-                                <h2>1. HAEMATOLOGY</h2>
-                                <div class="form-check">
-                                    <label>
-                                        <input type="checkbox" name="haematology[]" value="1"> <span class="label-text">Full Blood Picture</span>
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label>
-                                        <input type="checkbox" name="haematology[]" value="2"> <span class="label-text">Blood Grouping and Crossmatching</span>
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label>
-                                        <input type="checkbox" name="haematology[]" value="3"> <span class="label-text">Hb Level</span>
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label>
-                                        <input type="checkbox" name="haematology[]" value="4"> <span class="label-text">Sickling Test</span>
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label>
-                                        <input type="checkbox" name="haematology[]" value="5"> <span class="label-text">Peripheral Blood Smear</span>
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label>
-                                        <input type="checkbox" name="haematology[]" value="6"> <span class="label-text">ESR</span>
-                                    </label>
-                                </div>
-                                <div class="footer tar">
-                                    <input type="submit" name="add_request" value="Submit" class="btn btn-default">
-                                </div>
-
-                            </form>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                                <li class="breadcrumb-item active">Category Form</li>
+                            </ol>
                         </div>
                     </div>
+                </div><!-- /.container-fluid -->
+            </section>
 
+            <?php
+            $test_category = $override->get('category', 'delete_flag', 0);
+            $phone_number = $override->get('clients', 'id', $_GET['cid'])['0']['phone_number'];
+            $clinic_date = $override->get('clients', 'id', $_GET['cid'])['0']['clinic_date'];
+            $study_id = $override->get('clients', 'id', $_GET['cid'])['0']['study_id'];
+            ?>
 
-                    <div class="dr"><span></span></div>
+            <style>
+                .img-thumb-path {
+                    width: 100px;
+                    height: 80px;
+                    object-fit: scale-down;
+                    object-position: center center;
+                }
+            </style>
+
+            <!-- Main content -->
+            <div class="card card-outline card-primary rounded-0 shadow">
+                <div class="card-header">
+                    <h3 class="card-title">List of Category</h3>
+                    <div class="card-tools">
+                        <a class="btn btn-flat btn-sm btn-primary" href="#add_new_category" role="button" data-toggle="modal"><span class="fas fa-plus text-primary"></span>Add New Category</a>
+                    </div>
                 </div>
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="container-fluid">
+                            <table class="table table-bordered table-hover table-striped">
+                                <colgroup>
+                                    <col width="5%">
+                                    <col width="20%">
+                                    <col width="25%">
+                                    <col width="20%">
+                                    <col width="15%">
+                                    <col width="15%">
+                                </colgroup>
+                                <thead>
+                                    <tr class="bg-gradient-primary text-light">
+                                        <th>#</th>
+                                        <th>Date Created</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($test_category as $value) {
+                                    ?>
+                                        <tr>
+                                            <td class="text-center"><?php echo $i++; ?></td>
+                                            <td class=""><?php echo date("Y-m-d H:i", strtotime($row['date_created'])) ?></td>
+                                            <td class="">
+                                                <p class="m-0 truncate-1"><?php echo $value['name'] ?></p>
+                                            </td>
+                                            <td class="">
+                                                <p class="m-0 truncate-1"><?php echo $value['description'] ?></p>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php
+                                                switch ($value['status']) {
+                                                    case 0:
+                                                        echo '<span class="rounded-pill badge badge-danger col-6">Inactive</span>';
+                                                        break;
+                                                    case 1:
+                                                        echo '<span class="rounded-pill badge badge-primary col-6">Active</span>';
+                                                        break;
+                                                }
+                                                ?>
+                                            </td>
+                                            <td align="center">
+                                                <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                                    Action
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <a class="dropdown-item" href="#view<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-dark"></span> View</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
+                                                </div>
+                                            </td>
+                                        </tr>
 
+                                        <div class="modal fade" id="add_new_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Add New Category</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <div class="form-group">
+                                                                    <label for="name" class="control-label">Name</label>
+                                                                    <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="description" class="control-label">Description</label>
+                                                                    <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="status" class="control-label">Status</label>
+                                                                    <select name="status" class="form-control form-control-border" placeholder="Enter test Name" required>
+                                                                        <option value="">Select</option>
+                                                                        <option value="1">Active</option>
+                                                                        <option value="0">>Inactive</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="submit" name="add_category" value="Add New Category" class="btn btn-info">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="view<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>View Category</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <dl>
+                                                                        <dt class="text-muted">Category Name</dt>
+                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $value['name'] ?></dd>
+                                                                        <dt class="text-muted">Status</dt>
+                                                                        <dd class='pl-4 fs-4 fw-bold'>
+                                                                            <?php
+                                                                            switch ($value['status']) {
+                                                                                case '1':
+                                                                                    echo '<span class="px-4 badge badge-primary rounded-pill">Active</span>';
+                                                                                    break;
+                                                                                case '0':
+                                                                                    echo '<span class="px-4 badge badge-danger rounded-pill">Inactive</span>';
+                                                                                    break;
+                                                                            }
+                                                                            ?>
+                                                                        </dd>
+                                                                    </dl>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <small class="text-muted">Description</small>
+                                                                        <div><?php if ($value['description']) {
+                                                                                    echo $value['description'];
+                                                                                } else {
+                                                                                    echo 'N / A';
+                                                                                } ?></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="text-right">
+                                                                    <button class="btn btn-dark btn-sm btn-flat" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="update<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Update Category</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <div class="form-group">
+                                                                    <label for="name" class="control-label">Name</label>
+                                                                    <input type="text" name="name" id="name" class="form-control form-control-border" placeholder="Enter Category Name" value="<?php echo $value['name'] ?>" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="description" class="control-label">Description</label>
+                                                                    <textarea rows="3" name="description" id="description" class="form-control form-control-sm rounded-0"><?php echo $value['description'] ?></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="status" class="control-label">Status</label>
+                                                                    <select name="status" class="form-control form-control-border" required>
+                                                                        <option value="1" <?php if ($value['status'] == 1) {
+                                                                                                echo 'selected';
+                                                                                            } ?>>Active</option>
+                                                                        <option value="0" <?php if ($value['status'] == 0) {
+                                                                                                echo 'selected';
+                                                                                            } ?>>Inactive</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                            <input type="submit" name="update_category" value="Update Category" class="btn btn-info">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="activate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Activate Category</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <strong style="font-weight: bold;color: yellow">
+                                                                <p>Are you sure you want to deactivate this Category</p>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                            <input type="submit" name="activate_category" value="Activate" class="btn btn-yellow">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="deactivate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Deactivate Category</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <strong style="font-weight: bold;color: yellow">
+                                                                <p>Are you sure you want to deactivate this Category</p>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                            <input type="submit" name="deactivate_category" value="Deactivate" class="btn btn-yellow">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="delete<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Delete Category</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <strong style="font-weight: bold;color: red">
+                                                                <p>Are you sure you want to delete this Category</p>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                            <input type="submit" name="delete_category" value="Delete" class="btn btn-danger">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- /.content -->
+
+            <script>
+                $(document).ready(function() {
+                    $('#create_new').click(function() {
+                        uni_modal("Add New Test", "tests/manage_test.php")
+                    })
+                    $('.view_data').click(function() {
+                        uni_modal("Test Details", "tests/view_test.php?id=" + $(this).attr('data-id'))
+                    })
+                    $('.edit_data').click(function() {
+                        uni_modal("Update Test Details", "tests/manage_test.php?id=" + $(this).attr('data-id'))
+                    })
+                    $('.delete_data').click(function() {
+                        _conf("Are you sure to delete this Test permanently?", "delete_test", [$(this).attr('data-id')])
+                    })
+                    $('.table td, .table th').addClass('py-1 px-2 align-middle')
+                    $('.table').dataTable({
+                        columnDefs: [{
+                            orderable: false,
+                            targets: 5
+                        }],
+                    });
+                })
+
+                function delete_test($id) {
+                    start_loader();
+                    $.ajax({
+                        url: _base_url_ + "classes/Master.php?f=delete_test",
+                        method: "POST",
+                        data: {
+                            id: $id
+                        },
+                        dataType: "json",
+                        error: err => {
+                            console.log(err)
+                            alert_toast("An error occured.", 'error');
+                            end_loader();
+                        },
+                        success: function(resp) {
+                            if (typeof resp == 'object' && resp.status == 'success') {
+                                location.reload();
+                            } else {
+                                alert_toast("An error occured.", 'error');
+                                end_loader();
+                            }
+                        }
+                    })
+                }
+            </script>
         </div>
+        <!-- /.content-wrapper -->
+        <?php include 'footerBar.php'; ?>
+
+        <!-- /.control-sidebar -->
     </div>
+    <!-- ./wrapper -->
 
-
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="plugins/select2/js/select2.full.min.js"></script>
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+    <!-- InputMask -->
+    <script src="plugins/moment/moment.min.js"></script>
+    <script src="plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap color picker -->
+    <script src="plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Bootstrap Switch -->
+    <script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <!-- BS-Stepper -->
+    <script src="plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <!-- dropzonejs -->
+    <script src="plugins/dropzone/min/dropzone.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+    <!-- Page specific script -->
     <script>
-        <?php if ($user->data()->pswd == 0) { ?>
-            $(window).on('load', function() {
-                $("#change_password_n").modal({
-                    backdrop: 'static',
-                    keyboard: false
-                }, 'show');
+        $(function() {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+
+            //Datemask dd/mm/yyyy
+            $('#datemask').inputmask('dd/mm/yyyy', {
+                'placeholder': 'dd/mm/yyyy'
+            })
+            //Datemask2 mm/dd/yyyy
+            $('#datemask2').inputmask('mm/dd/yyyy', {
+                'placeholder': 'mm/dd/yyyy'
+            })
+            //Money Euro
+            $('[data-mask]').inputmask()
+
+            //Date picker
+            $('#reservationdate').datetimepicker({
+                format: 'L'
             });
-        <?php } ?>
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-        }
 
-        function checkQuestionValue1(currentQuestion, elementToHide) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide = document.getElementById(elementToHide);
-
-            var questionValue = currentQuestionInput.value;
-
-            if (questionValue === "1") {
-                elementToHide.classList.remove("hidden");
-            } else {
-                elementToHide.classList.add("hidden");
-            }
-        }
-
-        function checkQuestionValue21(currentQuestion, elementToHide) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide = document.getElementById(elementToHide);
-
-            var questionValue = currentQuestionInput.value;
-
-            if (questionValue === "2") {
-                elementToHide.classList.remove("hidden");
-            } else {
-                elementToHide.classList.add("hidden");
-            }
-        }
-
-        function checkQuestionValue2(currentQuestion, elementToHide1, elementToHide2) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide1 = document.getElementById(elementToHide1);
-            var elementToHide2 = document.getElementById(elementToHide2);
-
-            var questionValue = currentQuestionInput.value;
-
-            if (questionValue === "1") {
-                elementToHide1.classList.remove("hidden");
-            } else if (questionValue === "2") {
-                elementToHide2.classList.remove("hidden");
-
-            } else {
-                elementToHide1.classList.add("hidden");
-                elementToHide2.classList.add("hidden");
-
-            }
-        }
-
-        function check2QuestionValue2(currentQuestion, elementToHide1, elementToHide2) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide1 = document.getElementById(elementToHide1);
-            var elementToHide2 = document.getElementById(elementToHide2);
-
-            var questionValue = currentQuestionInput.value;
-
-            if (questionValue === "1") {
-                elementToHide1.classList.remove("hidden");
-                elementToHide2.classList.remove("hidden");
-            } else if (questionValue === "2") {
-                elementToHide1.classList.remove("hidden");
-            } else {
-                elementToHide1.classList.add("hidden");
-                elementToHide2.classList.add("hidden");
-
-            }
-        }
-
-        function checkNotQuestionValue3(currentQuestion, elementToHide1, elementToHide2) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide1 = document.getElementById(elementToHide1);
-            var elementToHide2 = document.getElementById(elementToHide2);
-
-            var questionValue = currentQuestionInput.value;
-
-            if (questionValue != "3") {
-                elementToHide1.classList.remove("hidden");
-                elementToHide2.classList.remove("hidden");
-
-            } else {
-                elementToHide1.classList.add("hidden");
-                elementToHide2.classList.add("hidden");
-            }
-        }
-
-        function checkNot1QuestionValue3(currentQuestion, elementToHide) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide = document.getElementById(elementToHide1);
-            var questionValue = currentQuestionInput.value;
-
-            if (questionValue != "3") {
-                elementToHide.classList.remove("hidden");
-            } else {
-                elementToHide.classList.add("hidden");
-            }
-        }
-
-        function checkNotQuestionValue5(currentQuestion, elementToHide) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide = document.getElementById(elementToHide);
-
-            var questionValue = currentQuestionInput.value;
-            if (questionValue != "5") {
-                elementToHide.classList.remove("hidden");
-            } else {
-                elementToHide.classList.add("hidden");
-            }
-        }
-
-        function checkNotQuestionValue4(currentQuestion, elementToHide) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide = document.getElementById(elementToHide);
-
-            var questionValue = currentQuestionInput.value;
-            if (questionValue != "4") {
-                elementToHide.classList.remove("hidden");
-            } else {
-                elementToHide.classList.add("hidden");
-            }
-        }
-
-        function checkQuestionValue96(currentQuestion, elementToHide) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide = document.getElementById(elementToHide);
-
-            var questionValue = currentQuestionInput.value;
-
-            if (questionValue === "96") {
-                elementToHide.classList.remove("hidden");
-            } else {
-                elementToHide.classList.add("hidden");
-            }
-        }
-
-        function checkQuestionValue3(currentQuestion, elementToHide1, elementToHide2) {
-            var currentQuestionInput = document.getElementById(currentQuestion);
-            var elementToHide1 = document.getElementById(elementToHide1);
-            var elementToHide2 = document.getElementById(elementToHide2);
-
-            var questionValue = currentQuestionInput.value;
-
-            if (questionValue === "1") {
-                elementToHide1.classList.remove("hidden");
-                elementToHide2.classList.remove("hidden");
-
-            } else {
-                elementToHide1.classList.add("hidden");
-                elementToHide2.classList.add("hidden");
-
-            }
-        }
-
-
-        function autocomplete(inp, arr) {
-            /*the autocomplete function takes two arguments,
-            the text field element and an array of possible autocompleted values:*/
-            var currentFocus;
-            /*execute a function when someone writes in the text field:*/
-            inp.addEventListener("input", function(e) {
-                var a, b, i, val = this.value;
-                /*close any already open lists of autocompleted values*/
-                closeAllLists();
-                if (!val) {
-                    return false;
-                }
-                currentFocus = -1;
-                /*create a DIV element that will contain the items (values):*/
-                a = document.createElement("DIV");
-                a.setAttribute("id", this.id + "autocomplete-list");
-                a.setAttribute("class", "autocomplete-items");
-                /*append the DIV element as a child of the autocomplete container:*/
-                this.parentNode.appendChild(a);
-                /*for each item in the array...*/
-                for (i = 0; i < arr.length; i++) {
-                    /*check if the item starts with the same letters as the text field value:*/
-                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                        /*create a DIV element for each matching element:*/
-                        b = document.createElement("DIV");
-                        /*make the matching letters bold:*/
-                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                        b.innerHTML += arr[i].substr(val.length);
-                        /*insert a input field that will hold the current array item's value:*/
-                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                        /*execute a function when someone clicks on the item value (DIV element):*/
-                        b.addEventListener("click", function(e) {
-                            /*insert the value for the autocomplete text field:*/
-                            inp.value = this.getElementsByTagName("input")[0].value;
-                            /*close the list of autocompleted values,
-                            (or any other open lists of autocompleted values:*/
-                            closeAllLists();
-                        });
-                        a.appendChild(b);
-                    }
-                }
-            });
-            /*execute a function presses a key on the keyboard:*/
-            inp.addEventListener("keydown", function(e) {
-                var x = document.getElementById(this.id + "autocomplete-list");
-                if (x) x = x.getElementsByTagName("div");
-                if (e.keyCode == 40) {
-                    /*If the arrow DOWN key is pressed,
-                    increase the currentFocus variable:*/
-                    currentFocus++;
-                    /*and and make the current item more visible:*/
-                    addActive(x);
-                } else if (e.keyCode == 38) { //up
-                    /*If the arrow UP key is pressed,
-                    decrease the currentFocus variable:*/
-                    currentFocus--;
-                    /*and and make the current item more visible:*/
-                    addActive(x);
-                } else if (e.keyCode == 13) {
-                    /*If the ENTER key is pressed, prevent the form from being submitted,*/
-                    e.preventDefault();
-                    if (currentFocus > -1) {
-                        /*and simulate a click on the "active" item:*/
-                        if (x) x[currentFocus].click();
-                    }
+            //Date and time picker
+            $('#reservationdatetime').datetimepicker({
+                icons: {
+                    time: 'far fa-clock'
                 }
             });
 
-            function addActive(x) {
-                /*a function to classify an item as "active":*/
-                if (!x) return false;
-                /*start by removing the "active" class on all items:*/
-                removeActive(x);
-                if (currentFocus >= x.length) currentFocus = 0;
-                if (currentFocus < 0) currentFocus = (x.length - 1);
-                /*add class "autocomplete-active":*/
-                x[currentFocus].classList.add("autocomplete-active");
-            }
-
-            function removeActive(x) {
-                /*a function to remove the "active" class from all autocomplete items:*/
-                for (var i = 0; i < x.length; i++) {
-                    x[i].classList.remove("autocomplete-active");
+            //Date range picker
+            $('#reservation').daterangepicker()
+            //Date range picker with time picker
+            $('#reservationtime').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: {
+                    format: 'MM/DD/YYYY hh:mm A'
                 }
-            }
-
-            function closeAllLists(elmnt) {
-                /*close all autocomplete lists in the document,
-                except the one passed as an argument:*/
-                var x = document.getElementsByClassName("autocomplete-items");
-                for (var i = 0; i < x.length; i++) {
-                    if (elmnt != x[i] && elmnt != inp) {
-                        x[i].parentNode.removeChild(x[i]);
-                    }
-                }
-            }
-            /*execute a function when someone clicks in the document:*/
-            document.addEventListener("click", function(e) {
-                closeAllLists(e.target);
-            });
-        }
-
-        function fetchData() {
-
-            /*An array containing all the country names in the world:*/
-            // var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
-            // var getUid = $(this).val();
-            fetch('fetch_medications.php')
-                .then(response => response.json())
-                .then(data => {
-                    // Process the data received from the PHP script
-                    // console.log(data);
-                    autocomplete(document.getElementById("myInput"), data);
-                })
-                .catch(error => {
-                    // Handle any errors that occurred during the fetch request
-                    console.error('Error:', error);
-                });
-
-            fetch('fetch_firstname.php')
-                .then(response => response.json())
-                .then(data => {
-                    // Process the data received from the PHP script
-                    // console.log(data);
-                    autocomplete(document.getElementById("firstname"), data);
-                })
-                .catch(error => {
-                    // Handle any errors that occurred during the fetch request
-                    console.error('Error:', error);
-                });
-
-            fetch('fetch_middlename.php')
-                .then(response => response.json())
-                .then(data => {
-                    // Process the data received from the PHP script
-                    // console.log(data);
-                    autocomplete(document.getElementById("middlename"), data);
-                })
-                .catch(error => {
-                    // Handle any errors that occurred during the fetch request
-                    console.error('Error:', error);
-                });
-
-
-            fetch('fetch_lastname.php')
-                .then(response => response.json())
-                .then(data => {
-                    // Process the data received from the PHP script
-                    autocomplete(document.getElementById("lastname"), data);
-                })
-                .catch(error => {
-                    // Handle any errors that occurred during the fetch request
-                    console.error('Error:', error);
-                });
-
-
-
-
-            $(document).ready(function() {
-
-                $("#add_crf6").click(function(e) {
-                    // if ($("#validation")[0].checkValidity()) {
-                    //   PREVENT PAGE TO REFRESH
-                    // e.preventDefault();
-
-
-
-                    // if($("#FDATE").val() == ''){
-                    //     $("#FDATEError").text('* Date is empty');
-                    // };
-                    // if($("#cDATE").val() == ''){
-                    //     $("#cDATEError").text('* Date is empty');
-                    // };
-                    // if($("#cpersid").val() == ''){
-                    //     $("#cpersidError").text('* NAME is empty');
-                    // };
-
-
-                    if ($("#renal_urea").val() == '') {
-                        $("#renal_ureaError").text('* Renal Urea is empty');
-                    };
-
-                    if ($("#renal_urea_units").val() == '') {
-                        $("#renal_urea_unitsError").text('* Renal Urea Units is empty');
-                    };
-
-                    // if ($("#password1").val() != $("#password2").val()) {
-                    //     $("#passError").text('* Passowrd do not match');
-                    //     //console.log("Not matched"); 
-                    //     $("#register-btn").val('Sign Up');
-                    // }
-                    // }
-                });
-
-                $('#weight, #height').on('input', function() {
-                    setTimeout(function() {
-                        var weight = $('#weight').val();
-                        var height = $('#height').val() / 100; // Convert cm to m
-                        var bmi = weight / (height * height);
-                        $('#bmi').text(bmi.toFixed(2));
-                    }, 1);
-                });
-
-                $("#one").on("input", null, null, function(e) {
-                    if ($("#one").val().length == 2) {
-                        setTimeout(function() {
-                            $("#two").focus();
-                        }, 1);
-                    }
-                });
-                $("#three").click(function() {
-                    $("#four").focus();
-                });
-                $("#five").on("input", null, null, function() {
-                    if ($("#five").val().length == 2) {
-                        $("#six").val("It works!");
-                    }
-                });
-
-
-                $('#fl_wait').hide();
-                $('#wait_ds').hide();
-                $('#region').change(function() {
-                    var getUid = $(this).val();
-                    $('#wait_ds').show();
-                    $.ajax({
-                        url: "process.php?cnt=region",
-                        method: "GET",
-                        data: {
-                            getUid: getUid
-                        },
-                        success: function(data) {
-                            $('#ds_data').html(data);
-                            $('#wait_ds').hide();
-                        }
-                    });
-                });
-                $('#wait_wd').hide();
-                $('#ds_data').change(function() {
-                    $('#wait_wd').hide();
-                    var getUid = $(this).val();
-                    $.ajax({
-                        url: "process.php?cnt=district",
-                        method: "GET",
-                        data: {
-                            getUid: getUid
-                        },
-                        success: function(data) {
-                            $('#wd_data').html(data);
-                            $('#wait_wd').hide();
-                        }
-                    });
-
-                });
-
-                $('#a_cc').change(function() {
-                    var getUid = $(this).val();
-                    $('#wait').show();
-                    $.ajax({
-                        url: "process.php?cnt=payAc",
-                        method: "GET",
-                        data: {
-                            getUid: getUid
-                        },
-                        success: function(data) {
-                            $('#cus_acc').html(data);
-                            $('#wait').hide();
-                        }
-                    });
-
-                });
-
-                $('#study_id').change(function() {
-                    var getUid = $(this).val();
-                    var type = $('#type').val();
-                    $('#fl_wait').show();
-                    $.ajax({
-                        url: "process.php?cnt=study",
-                        method: "GET",
-                        data: {
-                            getUid: getUid,
-                            type: type
-                        },
-
-                        success: function(data) {
-                            console.log(data);
-                            $('#s2_2').html(data);
-                            $('#fl_wait').hide();
-                        }
-                    });
-
-                });
-
-            });
-        }
-
-        // function fetchData() {
-        //     // Clear previous search results
-        //     // document.getElementById("searchResults").innerHTML = "";
-        //     // document.getElementById("myInput").innerHTML = "";
-
-
-        //     // Get the search input value
-        //     // var searchInput = document.getElementById("searchInput").value;
-        //     var searchInput = document.getElementById("myInput").value;
-
-
-        //     // Fetch data from the server
-        //     // fetch("search.php?query=" + searchInput)
-        //     fetch("fetch_medications.php")
-
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             // Process the fetched data
-        //             // data.forEach(result => {
-        //             //     // Create a list item for each result
-        //             //     var li = document.createElement("li");
-        //             //     li.textContent = result;
-        //             //     document.getElementById("searchResults").appendChild(li);
-        //             // });
-        //             // var searchInput = document.getElementById("myInput").value;
-
-        //             // console.log(data);
-        //         })
-        //         .catch(error => console.error(error));
-        // }
-
-
-        $('#weight, #height').on('input', function() {
-            setTimeout(function() {
-                var weight = $('#weight').val();
-                var height = $('#height').val() / 100; // Convert cm to m
-                var bmi = weight / (height * height);
-                $('#bmi').text(bmi.toFixed(2));
-            }, 1);
-        });
-
-        $(document).ready(function() {
-            $('#fl_wait').hide();
-            $('#wait_ds').hide();
-            $('#region').change(function() {
-                var getUid = $(this).val();
-                $('#wait_ds').show();
-                $.ajax({
-                    url: "process.php?cnt=region",
-                    method: "GET",
-                    data: {
-                        getUid: getUid
+            })
+            //Date range as a button
+            $('#daterange-btn').daterangepicker({
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
                     },
-                    success: function(data) {
-                        $('#ds_data').html(data);
-                        $('#wait_ds').hide();
-                    }
-                });
-            });
-            $('#wait_wd').hide();
-            $('#ds_data').change(function() {
-                $('#wait_wd').hide();
-                var getUid = $(this).val();
-                $.ajax({
-                    url: "process.php?cnt=district",
-                    method: "GET",
-                    data: {
-                        getUid: getUid
-                    },
-                    success: function(data) {
-                        $('#wd_data').html(data);
-                        $('#wait_wd').hide();
-                    }
-                });
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function(start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+                }
+            )
 
-            });
+            //Timepicker
+            $('#timepicker').datetimepicker({
+                format: 'LT'
+            })
 
-            $('#a_cc').change(function() {
-                var getUid = $(this).val();
-                $('#wait').show();
-                $.ajax({
-                    url: "process.php?cnt=payAc",
-                    method: "GET",
-                    data: {
-                        getUid: getUid
-                    },
-                    success: function(data) {
-                        $('#cus_acc').html(data);
-                        $('#wait').hide();
-                    }
-                });
+            //Bootstrap Duallistbox
+            $('.duallistbox').bootstrapDualListbox()
 
-            });
+            //Colorpicker
+            $('.my-colorpicker1').colorpicker()
+            //color picker with addon
+            $('.my-colorpicker2').colorpicker()
 
+            $('.my-colorpicker2').on('colorpickerChange', function(event) {
+                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+            })
 
-            $('#study_id').change(function() {
-                var getUid = $(this).val();
-                var type = $('#type').val();
-                $('#fl_wait').show();
-                $.ajax({
-                    url: "process.php?cnt=study",
-                    method: "GET",
-                    data: {
-                        getUid: getUid,
-                        type: type
-                    },
+            $("input[data-bootstrap-switch]").each(function() {
+                $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            })
 
-                    success: function(data) {
-                        console.log(data);
-                        $('#s2_2').html(data);
-                        $('#fl_wait').hide();
-                    }
-                });
+        })
+        // BS-Stepper Init
+        document.addEventListener('DOMContentLoaded', function() {
+            window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+        })
 
-            });
+        // DropzoneJS Demo Code Start
+        Dropzone.autoDiscover = false
 
-        });
+        // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+        var previewNode = document.querySelector("#template")
+        previewNode.id = ""
+        var previewTemplate = previewNode.parentNode.innerHTML
+        previewNode.parentNode.removeChild(previewNode)
 
-        // Add row chemotherapy
-        document.getElementById("add-medication").addEventListener("click", function() {
-            var table = document.getElementById("medication_list").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var medication_type = newRow.insertCell(0);
-            var medication_action = newRow.insertCell(1);
-            var medication_dose = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            medication_type.innerHTML = '<input class="autocomplete" type="text" name="medication_type[]" id="myInput" placeholder="Type medications name..." onkeyup="fetchData()">';
-            medication_action.innerHTML = '<select name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
-            medication_dose.innerHTML = '<input type="text" name="medication_dose[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-            // console.log(medication_type);
+        var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+            url: "/target-url", // Set the url
+            thumbnailWidth: 80,
+            thumbnailHeight: 80,
+            parallelUploads: 20,
+            previewTemplate: previewTemplate,
+            autoQueue: false, // Make sure the files aren't queued until manually added
+            previewsContainer: "#previews", // Define the container to display the previews
+            clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+        })
 
-        });
-
-        // Add row chemotherapy
-        document.getElementById("add-hospitalization-details").addEventListener("click", function() {
-            var table = document.getElementById("hospitalization_details_table").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var admission_date = newRow.insertCell(0);
-            var admission_reason = newRow.insertCell(1);
-            var discharge_diagnosis = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            admission_date.innerHTML = '<input type="text" name="admission_date[]"><span>(Example: 2010-12-01)</span>';
-            admission_reason.innerHTML = '<input type="text" name="admission_reason[]">';
-            discharge_diagnosis.innerHTML = '<input type="text" name="discharge_diagnosis[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
-
-
-        // Add row surgery
-        document.getElementById("add-sickle-cell-status").addEventListener("click", function() {
-            var table = document.getElementById("sickle_cell_table").getElementsByTagName("tbody")[0];
-            var newRow = table.insertRow(table.rows.length);
-            var age = newRow.insertCell(0);
-            var sex = newRow.insertCell(1);
-            var status = newRow.insertCell(2);
-            var actionCell = newRow.insertCell(3);
-            age.innerHTML = '<input type="text" name="age[]">';
-            sex.innerHTML = '<select name="sex[]" id="sex[]" style="width: 100%;"><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select>';
-            status.innerHTML = '<input type="text" name="sickle_status[]">';
-            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
-        });
-
-        // Remove row
-        document.addEventListener("click", function(e) {
-            if (e.target && e.target.classList.contains("remove-row")) {
-                var row = e.target.parentNode.parentNode;
-                row.parentNode.removeChild(row);
+        myDropzone.on("addedfile", function(file) {
+            // Hookup the start button
+            file.previewElement.querySelector(".start").onclick = function() {
+                myDropzone.enqueueFile(file)
             }
-        });
+        })
+
+        // Update the total progress bar
+        myDropzone.on("totaluploadprogress", function(progress) {
+            document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+        })
+
+        myDropzone.on("sending", function(file) {
+            // Show the total progress bar when upload starts
+            document.querySelector("#total-progress").style.opacity = "1"
+            // And disable the start button
+            file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+        })
+
+        // Hide the total progress bar when nothing's uploading anymore
+        myDropzone.on("queuecomplete", function(progress) {
+            document.querySelector("#total-progress").style.opacity = "0"
+        })
+
+        // Setup the buttons for all transfers
+        // The "add files" button doesn't need to be setup because the config
+        // `clickable` has already been specified.
+        document.querySelector("#actions .start").onclick = function() {
+            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+        }
+        document.querySelector("#actions .cancel").onclick = function() {
+            myDropzone.removeAllFiles(true)
+        }
+        // DropzoneJS Demo Code End
     </script>
 </body>
 

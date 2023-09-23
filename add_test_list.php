@@ -105,6 +105,39 @@ if ($user->isLoggedIn()) {
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
+                    <!-- <div class="container-fluid"> -->
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                <?php if ($errorMessage) { ?>
+                                    <div class="block">
+                                        <div class="alert alert-danger">
+                                            <b>Error!</b> <?= $errorMessage ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } elseif ($pageError) { ?>
+                                    <div class="block col-md-12">
+                                        <div class="alert alert-danger">
+                                            <b>Error!</b> <?php foreach ($pageError as $error) {
+                                                                echo $error . ' , ';
+                                                            } ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } elseif ($successMessage) { ?>
+                                    <div class="block">
+                                        <div class="alert alert-success">
+                                            <b>Success!</b> <?= $successMessage ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </h1>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <!-- /.container-fluid -->
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>List of Tests</h1>

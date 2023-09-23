@@ -224,12 +224,6 @@ if ($user->isLoggedIn()) {
                     </a>
                 </li>
 
-                <!-- <li class="active">
-                    <a href="appointments.php">
-                        <span class="text">View Lab Requests </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->getNo('appointment_list') ?></span>
-                    </a>
-                </li> -->
                 <li class="active">
                     <a href="appointments.php?status=1">
                         <span class="text">View Completed Lab Requests </span>
@@ -241,49 +235,7 @@ if ($user->isLoggedIn()) {
                         <span class="text">View Pending Lab Requests </span>
                         <span class="badge badge-secondary badge-pill"><?= $override->getCount('appointment_list', 'status', 0) ?></span>
                     </a>
-                </li>
-                <!-- <li class="active">
-                    <a href="checkbox.php">
-                        <span class="text">Lab Results Pending </span>
-                    </a>
-                </li> -->
-                <!-- <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Add Category Name</span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab_test_add.php">
-                        <span class="text">Add Test Name </span>
-                    </a>
-                </li>
-
-                <li class="active">
-                    <a href="add_lab_test.php">
-                        <span class="text">Add Test Name 2</span>
-                    </a>
-                </li>
-
-                <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Add Sample Type </span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Mange Category </span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Mange Test </span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Mange Sample</span>
-                    </a>
-                </li> -->
+                </li>               
             </ul>
         </li>
 

@@ -662,7 +662,7 @@ if ($user->isLoggedIn()) {
             if ($validate->passed()) {
                 try {
                     if (Input::get('name')) {
-                        if (Input::get('name') == 'user' || Input::get('name') == 'medications' || Input::get('name') == 'site' || Input::get('name') == 'schedule' || Input::get('name') == 'study_id') {
+                        if (Input::get('name') == 'user' || Input::get('name') == 'sub_category' || Input::get('name') == 'test_list' || Input::get('name') == 'category' || Input::get('name') == 'medications' || Input::get('name') == 'site' || Input::get('name') == 'schedule' || Input::get('name') == 'study_id') {
                             $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Cleared';
                         } else {
                             $clearData = $override->clearDataTable(Input::get('name'));

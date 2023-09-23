@@ -212,7 +212,7 @@ if ($user->isLoggedIn()) {
                                     foreach ($test_list as $value) {
 
                                         $category_name = $override->get('category', 'id', $value['category'])[0];
-                                        $sub_category_name = $override->get('sub_category', 'id', $value['category'])[0];
+                                        $sub_category_name = $override->get('sub_category', 'id', $value['sub_category'])[0];
 
                                     ?>
                                         <tr>

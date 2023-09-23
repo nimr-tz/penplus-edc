@@ -216,13 +216,14 @@ if ($user->isLoggedIn()) {
                             <span class="badge badge-secondary badge-pill"><?= $override->countData('sub_category', 'status', 1, 'delete_flag', 0) ?></span>
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="add_test_list.php">
-                            <span class="text">List of Tests </span>
-                            <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
-                        </a>
-                    </li>
                 <?php } ?>
+                <li class="active">
+                    <a href="add_test_list.php">
+                        <span class="text">List of Tests </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
+                    </a>
+                </li>
+
                 <!-- <li class="active">
                     <a href="appointments.php">
                         <span class="text">View Lab Requests </span>

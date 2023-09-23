@@ -81,7 +81,7 @@ if ($user->isLoggedIn()) {
                                 <tbody>
                                     <?php
                                     $i = 1;
-                                    foreach ($$override->getData("appointment_list") as $value) {
+                                    foreach ($override->getData("appointment_list") as $value) {
                                         $test_name = $override->get("test_list", "id", $value['test_id']);
                                         $client_name = $override->get("clients", "id", $value['client_id'])[0];
                                         $test_list = $override->SelectTests('test_list', 'id', 'test_id', 'appointment_test_list', 'appointment_id', $value['id']);
@@ -133,7 +133,7 @@ if ($user->isLoggedIn()) {
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu" role="menu">
-                                                    <a class="dropdown-item" href="view_appointment_list.php?id=<?= $value['id'] ?>&cid=<?= $client_name['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
+                                                    <a class="dropdown-item" href="view_appointment_list.php?appointment_id=<?= $value['id'] ?>&cid=<?= $client_name['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
                                                     <?php if ($row['status'] <= 1) : ?>
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item edit_data" href="javascript:void(0)" data-id="<?php echo $value['id'] ?>"><span class="fa fa-edit text-primary"></span> Edit</a>

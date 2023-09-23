@@ -64,6 +64,8 @@ if ($user->isLoggedIn()) {
                     'remarks' => 'Lab test requested',
                     'client_id' => $_GET['cid'],
                 ));
+
+                Redirect::to('info.php?id=' . $_GET['id'] . '&status=' . $_GET['status']);
             } else {
                 $errorMessage = 'Client already have a request.';
             }

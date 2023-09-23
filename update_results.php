@@ -11,28 +11,18 @@ $errorMessage = null;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         if (Input::get('add_resuts')) {
-            $validate = $validate->check($_POST, array(
-                // 'lab_date' => array(
-                //     'required' => true,
-                // ),
-
-            ));
+            $validate = $validate->check($_POST, array());
             if ($validate->passed()) {
                 try {
                     $i = 0;
-                    $checked_array = Input::get('status');
                     foreach (Input::get('id') as $id) {
                         $status = 0;
-                        // if (in_array($id, $checked_array)) {
-                        //     $status = 1;
-                        // }
                         if (Input::get('test_value')[$i]) {
                             $status = 1;
                         }
                         $user->updateRecord('appointment_test_list', array(
                             'test_value' => Input::get('test_value')[$i],
-                            // 'staff_id' => $user->data()->id,
-                            'status' => $status,
+                            'status' => 1,
                             'request_status' => 1,
                         ), $id);
                         $i++;
@@ -41,24 +31,27 @@ if ($user->isLoggedIn()) {
                     $user->updateRecord('appointment_list', array(
                         'status' => 1,
                         'request_status' => 1,
-                    ), Input::get('appointment_id'));
+                    ), $_GET['appointment_id']);
 
                     $date = date("Y-m-d\TH:i");
 
-                    $user->createRecord('history_list', array(
-                        'appointment_id' => Input::get('appointment_id'),
-                        'staff_id' => $user->data()->id,
-                        'status' => 1,
-                        'site_id' => $user->data()->site_id,
-                        'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                        'remarks' => 'Done',
-                        'client_id' => $_GET['cid'],
-                    ));
+                    $appointment_id = $override->getNews('history_list', 'client_id', $_GET['cid'], 'appointment_id', $_GET['appointment_id']);
+                    if (!$appointment_id) {
+                        $user->createRecord('history_list', array(
+                            'appointment_id' => $_GET['appointment_id'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'site_id' => $user->data()->site_id,
+                            'date_created' => date("Y-m-d\TH:i", strtotime($date)),
+                            'remarks' => Input::get('remarks'),
+                            'client_id' => $_GET['cid'],
+                        ));
+                    }
+
 
                     $id = 5;
                     $cid = 30;
-                    // Redirect::to('view_appointment_list.php?status=' . $_GET['status']);
-                    Redirect::to('view_appointment_list.php?id=' . $id . '&cid=' . $cid);
+                    Redirect::to('view_appointment_list.php?appointment_id=' . $_GET['appointment_id'] . '&cid=' . $_GET['cid']);
 
                     $successMessage = 'Lab Results added Successful';
                     die;
@@ -108,8 +101,10 @@ if ($user->isLoggedIn()) {
             </section>
 
             <?php
-            $appointment_list = $override->getData('appointment_list', 'client_id', $_GET['cid'])[0];
-            $clients = $override->getData('clients', 'id', $_GET['cid'])[0];
+            $appointment_list = $override->get('appointment_list', 'client_id', $_GET['cid'])[0];
+            $clients = $override->get('clients', 'id', $_GET['cid'])[0];
+            $history_list = $override->getNews('history_list', 'client_id', $_GET['cid'], 'appointment_id', $_GET['appointment_id'])[0];
+
 
             if ($clients['gender'] = 1) {
                 $gender = 'Male';
@@ -170,8 +165,12 @@ if ($user->isLoggedIn()) {
                             <?php } ?>
                         </tbody>
                     </table>
+                    <div class="form-group">
+                        <small class="mx-2">Remarks</small>
+                        <textarea name="remarks" id="remarks" rows="3" class="form-control form-control-sm rounded-0" required><?= $history_list['remarks'] ?></textarea>
+                    </div>
                     <div class="text-center">
-                        <input type="hidden" name="appointment_id" value="<?= $_GET['id'] ?>">
+                        <input type="hidden" name="appointment_id" value="<?= $_GET['appointment_id'] ?>">
                         <input type="submit" name="add_resuts" class="btn btn-success" value="Submit">
                     </div>
                 </form>

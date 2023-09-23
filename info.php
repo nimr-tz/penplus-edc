@@ -1684,7 +1684,7 @@ if ($user->isLoggedIn()) {
                                                     <?php } ?>
 
                                                     <a href="add.php?id=4&cid=<?= $client['id'] ?>" class="btn btn-info">Edit Client</a>
-                                                    <a href="add_lab.php?cid=<?= $client['id'] ?>&status=0" class="btn btn-success">Add Lab Request</a>
+                                                    <a href="add_lab.php?cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success">Add Lab Request</a>
 
 
                                                     <?php if ($screened) { ?>

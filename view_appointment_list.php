@@ -4,87 +4,10 @@ $user = new User();
 $override = new OverideData();
 $email = new Email();
 $random = new Random();
-
-$successMessage = null;
-$pageError = null;
-$errorMessage = null;
-$numRec = 50;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
-        if (Input::get('add_test')) {
-            $validate = $validate->check($_POST, array(
-                // 'name' => array(
-                //     'required' => true,
-                // ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $test_category = $override->get('test_list', 'name', Input::get('name'));
-                    if ($test_category) {
-                        $errorMessage = 'Test Already Added';
-                    } else {
-                        $user->createRecord('test_list', array(
-                            'category' => Input::get('category'),
-                            'sub_category' => Input::get('sub_category'),
-                            'name' => Input::get('name'),
-                            'status' => Input::get('status'),
-                            'description' => Input::get('description'),
-                            'units' => Input::get('units'),
-                            'minimum' => Input::get('minimum'),
-                            'maximum' => Input::get('maximum'),
-                            'cost' => Input::get('cost'),
-                            'delete_flag' => 0,
-                        ));
-                        $successMessage = 'New Test Added';
-                    }
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('update_test')) {
-            $validate = $validate->check($_POST, array(
-                // 'name' => array(
-                //     'required' => true,
-                // ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $user->updateRecord('test_list', array(
-                        'category' => Input::get('category'),
-                        'sub_category' => Input::get('sub_category'),
-                        'name' => Input::get('name'),
-                        'status' => Input::get('status'),
-                        'description' => Input::get('description'),
-                        'units' => Input::get('units'),
-                        'minimum' => Input::get('minimum'),
-                        'maximum' => Input::get('maximum'),
-                        'cost' => Input::get('cost'),
-                        'delete_flag' => 0,
-                    ), Input::get('id'));
-                    $successMessage = 'Test Updated';
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('deactivate_test')) {
-            $user->updateRecord('test_list', array(
-                'status' => 0,
-            ), Input::get('id'));
-            $successMessage = 'Test Deactivated Successful';
-        } elseif (Input::get('activate_test')) {
-            $user->updateRecord('test_list', array(
-                'status' => 1,
-            ), Input::get('id'));
-            $successMessage = 'Test Activated Successful';
-        } elseif (Input::get('delete_test')) {
-            $user->deleteRecord('test_list', 'id', Input::get('id'));
-            $successMessage = 'Test Deleted Successful';
-        }
+        
     }
 } else {
     Redirect::to('index.php');
@@ -120,15 +43,14 @@ if ($user->isLoggedIn()) {
             </section>
 
             <?php
-            $appointment_list = $override->getData('appointment_list', 'client_id', $_GET['cid'])[0];
-            $clients = $override->getData('clients', 'id', $_GET['cid'])[0];
+            $appointment_list = $override->get('appointment_list', 'client_id', $_GET['cid'])[0];
+            $clients = $override->get('clients', 'id', $_GET['cid'])[0];
 
             if ($clients['gender'] = 1) {
                 $gender = 'Male';
             } else {
                 $gender = 'Male';
             }
-
             ?>
 
             <style>
@@ -146,14 +68,10 @@ if ($user->isLoggedIn()) {
                     <div class="card-header">
                         <h4 class="card-title"><b>Booked Appointment Details</b></h4>
                         <div class="card-tools">
-                            <?php if ($appointment_list['status'] == 0) : ?>
-                                <button class="btn btn-danger bg-gradient-maroon btn-flat btn-sm" type="button" id="cancel_data"> Cancel Appointment</button>
-                            <?php endif; ?>
-                            <?php if ($appointment_list['status'] <= 1) : ?>
-                                <!-- <a class="btn btn-default bg-gradient-navy btn-flat btn-sm" href="#update_results" role="button" data-toggle="modal"> Update Status</a> -->
-                                <a class="btn btn-default bg-gradient-navy btn-flat btn-sm" href="update_results.php?id=<?= $appointment_list['id'] ?>&cid=<?= $_GET['cid'] ?>"> Update Status</a>
-                                <!-- <button class="btn btn-primary btn-flat btn-sm" type="button" id="edit_data"><i class="fa fa-edit"></i> Edit</button> -->
-                                <!-- <button class="btn btn-danger btn-flat btn-sm" type="button" id="delete_data"><i class="fa fa-trash"></i> Delete</button> -->
+                            <?php
+                            if ($user->data()->position == 1) :
+                            ?>
+                                <a class="btn btn-default bg-gradient-navy btn-flat btn-sm" href="update_results.php?appointment_id=<?= $appointment_list['id'] ?>&cid=<?= $_GET['cid'] ?>"> Update Status</a>
                             <?php endif; ?>
                             <a class="btn btn-default border btn-flat btn-sm" href="appointments.php"><i class="fa fa-angle-left"></i> Back</a>
                         </div>
@@ -178,6 +96,7 @@ if ($user->isLoggedIn()) {
                                 <div class="col-2 border bg-gradient-primary text-light">Status</div>
                                 <div class="col-4 border ">
                                     <?php
+
                                     switch ($appointment_list['status']) {
                                         case 0:
                                             echo '<span class="">Pending</span>';
@@ -255,7 +174,7 @@ if ($user->isLoggedIn()) {
                                 </table>
                             </fieldset>
                             <hr>
-                            <!-- <fieldset>
+                            <fieldset>
                                 <legend class="text-muted">Update History</legend>
                                 <table class="table table-striped table-bordered">
                                     <colgroup>
@@ -321,7 +240,7 @@ if ($user->isLoggedIn()) {
 
                                     </tbody>
                                 </table>
-                            </fieldset> -->
+                            </fieldset>
                         </div>
                     </div>
                 </div>

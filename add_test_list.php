@@ -107,12 +107,12 @@ if ($user->isLoggedIn()) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Test Form</h1>
+                            <h1>List of Tests</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Test Form</li>
+                                <li class="breadcrumb-item active">List of Tests</li>
                             </ol>
                         </div>
                     </div>
@@ -137,7 +137,12 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                     <h3 class="card-title">List of Test</h3>
                     <div class="card-tools">
-                        <a class="btn btn-flat btn-sm btn-primary" href="#add_new_list" role="button" data-toggle="modal"><span class="fas fa-plus text-default">&nbsp;&nbsp;</span>Add New Test</a>
+                        <a class="btn btn-default border btn-flat btn-sm" href="dashboard.php"><i class="fa fa-angle-left"></i> Back</a>
+                        <?php
+                        if ($user->data()->position == 1) {
+                        ?>
+                            <a class="btn btn-flat btn-sm btn-primary" href="#add_new_list" role="button" data-toggle="modal"><span class="fas fa-plus text-default">&nbsp;&nbsp;</span>Add New Test</a>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="card-body">
@@ -221,112 +226,92 @@ if ($user->isLoggedIn()) {
                                                 </button>
                                                 <div class="dropdown-menu" role="menu">
                                                     <a class="dropdown-item" href="#view<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-dark"></span> View</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
+                                                    <?php
+                                                    if ($user->data()->position == 1) {
+                                                    ?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
+                                                    <?php } ?>
                                                 </div>
                                             </td>
                                         </tr>
 
-                                        <div class="modal fade" id="add_new_list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="view<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <form method="post">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Add New Test</h4>
+                                                            <h4>View Test</h4>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="container-fluid">
                                                                 <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="status" class="control-label">Category</label>
-                                                                            <select name="category" id="category" class="form-control form-control-border" placeholder="Enter test Name" required>
-                                                                                <option value="">Select</option>
-                                                                                <?php foreach ($override->get('category', 'status', 1) as $value) { ?>
-                                                                                    <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
-                                                                                <?php } ?>
-                                                                            </select>
+                                                                    <dl>
+                                                                        <dt class="text-muted">Category</dt>
+                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $category_name['name'] ?></dd>
+                                                                        <dt class="text-muted">Sub Category</dt>
+                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $sub_category_name['name'] ?></dd>
+                                                                        <dt class="text-muted">Test Name</dt>
+                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $value['name'] ?></dd>
+                                                                        <dt class="text-muted">Units</dt>
+                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $value['units'] ?></dd>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <dt class="text-muted">Range ( Minimum )</dt>
+                                                                                <dd class='pl-4 fs-4 fw-bold'><?php echo $value['minimum'] ?></dd>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <dt class="text-muted">Range ( Maximum )</dt>
+                                                                                <dd class='pl-4 fs-4 fw-bold'><?php echo $value['maximum'] ?></dd>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="status" class="control-label">Sub Category</label>
-                                                                            <select name="sub_category" id="sub_category" class="form-control form-control-border" required>
-                                                                                <option value="">Select Sub Category</option>
-
-                                                                            </select>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <dt class="text-muted">Price</dt>
+                                                                                <dd class='pl-4 fs-4 fw-bold'><?php echo $value['cost'] ?></dd>
+                                                                                <span>TSHS</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <dt class="text-muted">Status</dt>
+                                                                                <dd class='pl-4 fs-4 fw-bold'>
+                                                                                    <?php
+                                                                                    switch ($value['status']) {
+                                                                                        case '1':
+                                                                                            echo '<span class="px-4 badge badge-primary rounded-pill">Active</span>';
+                                                                                            break;
+                                                                                        case '0':
+                                                                                            echo '<span class="px-4 badge badge-danger rounded-pill">Inactive</span>';
+                                                                                            break;
+                                                                                    }
+                                                                                    ?>
+                                                                                </dd>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </dl>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-md-9">
-                                                                        <div class="form-group">
-                                                                            <label for="name" class="control-label">Test Name</label>
-                                                                            <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <div class="form-group">
-                                                                            <label for="units" class="control-label">Units</label>
-                                                                            <input type="text" name="units" class="form-control form-control-border" placeholder="Enter Units" value="" required>
-                                                                        </div>
+                                                                    <div class="col-md-12">
+                                                                        <small class="text-muted">Description</small>
+                                                                        <div><?php if ($value['description']) {
+                                                                                    echo $value['description'];
+                                                                                } else {
+                                                                                    echo 'N / A';
+                                                                                } ?></div>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="description" class="control-label">Description</label>
-                                                                    <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
+                                                                <div class="text-right">
+                                                                    <button class="btn btn-dark btn-sm btn-flat" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
                                                                 </div>
-
-                                                                <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="minimum" class="control-label">Range ( Minimum )</label>
-                                                                            <input type="text" name="minimum" class="form-control form-control-border" placeholder="Enter Maximum Number" value="" required>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="maximum" class="control-label">Range ( Maximum )</label>
-                                                                            <input type="text" name="maximum" class="form-control form-control-border" placeholder="Enter Maximum Number" value="" required>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="status" class="control-label">Status</label>
-                                                                            <select name="status" class="form-control form-control-border" required>
-                                                                                <option value="">Select</option>
-                                                                                <option value="1">Active</option>
-                                                                                <option value="0">Inactive</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="cost" class="control-label">Price</label>
-                                                                            <input type="number" step="any" name="cost" id="cost" class="form-control form-control-border text-right" value="" required>
-                                                                            <span>TSHS</span>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="modal-footer">
-                                                                <input type="submit" name="add_test" value="Add New Test" class="btn btn-info">
-                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                             </div>
                                                         </div>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -435,29 +420,6 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-                                        <div class="modal fade" id="delete<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Delete Test</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <strong style="font-weight: bold;color: red">
-                                                                <p>Are you sure you want to delete Tes</p>
-                                                            </strong>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
-                                                            <input type="submit" name="delete_test" value="Delete" class="btn btn-danger">
-                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-
                                         <div class="modal fade" id="activate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <form method="post">
@@ -504,81 +466,6 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-
-                                        <div class="modal fade" id="view<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>View Test</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container-fluid">
-                                                                <div class="row">
-                                                                    <dl>
-                                                                        <dt class="text-muted">Category</dt>
-                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $category_name['name'] ?></dd>
-                                                                        <dt class="text-muted">Sub Category</dt>
-                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $sub_category_name['name'] ?></dd>
-                                                                        <dt class="text-muted">Test Name</dt>
-                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $value['name'] ?></dd>
-                                                                        <dt class="text-muted">Units</dt>
-                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $value['units'] ?></dd>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                <dt class="text-muted">Range ( Minimum )</dt>
-                                                                                <dd class='pl-4 fs-4 fw-bold'><?php echo $value['minimum'] ?></dd>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <dt class="text-muted">Range ( Maximum )</dt>
-                                                                                <dd class='pl-4 fs-4 fw-bold'><?php echo $value['maximum'] ?></dd>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                <dt class="text-muted">Price</dt>
-                                                                                <dd class='pl-4 fs-4 fw-bold'><?php echo $value['cost'] ?></dd>
-                                                                                <span>TSHS</span>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <dt class="text-muted">Status</dt>
-                                                                                <dd class='pl-4 fs-4 fw-bold'>
-                                                                                    <?php
-                                                                                    switch ($value['status']) {
-                                                                                        case '1':
-                                                                                            echo '<span class="px-4 badge badge-primary rounded-pill">Active</span>';
-                                                                                            break;
-                                                                                        case '0':
-                                                                                            echo '<span class="px-4 badge badge-danger rounded-pill">Inactive</span>';
-                                                                                            break;
-                                                                                    }
-                                                                                    ?>
-                                                                                </dd>
-                                                                            </div>
-                                                                        </div>
-                                                                    </dl>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <small class="text-muted">Description</small>
-                                                                        <div><?php if ($value['description']) {
-                                                                                    echo $value['description'];
-                                                                                } else {
-                                                                                    echo 'N / A';
-                                                                                } ?></div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-right">
-                                                                    <button class="btn btn-dark btn-sm btn-flat" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-
                                         <div class="modal fade" id="deactivate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <form method="post">
@@ -602,12 +489,129 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
-
-
+                                        <div class="modal fade" id="delete<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Delete Test</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <strong style="font-weight: bold;color: red">
+                                                                <p>Are you sure you want to delete Tes</p>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                            <input type="submit" name="delete_test" value="Delete" class="btn btn-danger">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
 
                                     <?php } ?>
                                 </tbody>
                             </table>
+                            <div class="modal fade" id="add_new_list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form method="post">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                <h4>Add New Test</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="status" class="control-label">Category</label>
+                                                                <select name="category" id="category" class="form-control form-control-border" placeholder="Enter test Name" required>
+                                                                    <option value="">Select</option>
+                                                                    <?php foreach ($override->get('category', 'status', 1) as $value) { ?>
+                                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="status" class="control-label">Sub Category</label>
+                                                                <select name="sub_category" id="sub_category" class="form-control form-control-border" required>
+                                                                    <option value="">Select Sub Category</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                            <div class="form-group">
+                                                                <label for="name" class="control-label">Test Name</label>
+                                                                <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="units" class="control-label">Units</label>
+                                                                <input type="text" name="units" class="form-control form-control-border" placeholder="Enter Units" value="" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="description" class="control-label">Description</label>
+                                                        <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="minimum" class="control-label">Range ( Minimum )</label>
+                                                                <input type="text" name="minimum" class="form-control form-control-border" placeholder="Enter Maximum Number" value="" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="maximum" class="control-label">Range ( Maximum )</label>
+                                                                <input type="text" name="maximum" class="form-control form-control-border" placeholder="Enter Maximum Number" value="" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="status" class="control-label">Status</label>
+                                                                <select name="status" class="form-control form-control-border" required>
+                                                                    <option value="">Select</option>
+                                                                    <option value="1">Active</option>
+                                                                    <option value="0">Inactive</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="cost" class="control-label">Price</label>
+                                                                <input type="number" step="any" name="cost" id="cost" class="form-control form-control-border text-right" value="" required>
+                                                                <span>TSHS</span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <input type="submit" name="add_test" value="Add New Test" class="btn btn-info">
+                                                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                </div>
+                                            </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

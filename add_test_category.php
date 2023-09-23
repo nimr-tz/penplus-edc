@@ -166,7 +166,8 @@ if ($user->isLoggedIn()) {
                         <?php
                         if ($user->data()->position == 1) {
                         ?>
-                            <a class="btn btn-flat btn-sm btn-primary" href="#add_new_category" role="button" data-toggle="modal"><span class="fas fa-plus text-primary"></span>Add New Category</a>
+
+                            <a class="btn btn-flat btn-sm btn-primary" href="#add_new_category" role="button" data-toggle="modal"><span class="fas fa-plus text-default">&nbsp;&nbsp;</span>Add New Category</a>
                         <?php } ?>
 
                     </div>
@@ -242,43 +243,6 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </td>
                                         </tr>
-
-                                        <div class="modal fade" id="add_new_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Add New Category</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container-fluid">
-                                                                <div class="form-group">
-                                                                    <label for="name" class="control-label">Name</label>
-                                                                    <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="description" class="control-label">Description</label>
-                                                                    <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="status" class="control-label">Status</label>
-                                                                    <select name="status" class="form-control form-control-border" placeholder="Enter test Name" required>
-                                                                        <option value="">Select</option>
-                                                                        <option value="1">Active</option>
-                                                                        <option value="0">>Inactive</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="submit" name="add_category" value="Add New Category" class="btn btn-info">
-                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
 
                                         <div class="modal fade" id="view<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
@@ -440,6 +404,43 @@ if ($user->isLoggedIn()) {
                                     <?php } ?>
                                 </tbody>
                             </table>
+
+                            <div class="modal fade" id="add_new_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form method="post">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                <h4>Add New Category</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container-fluid">
+                                                    <div class="form-group">
+                                                        <label for="name" class="control-label">Name</label>
+                                                        <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="description" class="control-label">Description</label>
+                                                        <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="status" class="control-label">Status</label>
+                                                        <select name="status" class="form-control form-control-border" placeholder="Enter test Name" required>
+                                                            <option value="">Select</option>
+                                                            <option value="1">Active</option>
+                                                            <option value="0">>Inactive</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" name="add_category" value="Add New Category" class="btn btn-info">
+                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

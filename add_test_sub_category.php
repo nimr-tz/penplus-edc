@@ -127,7 +127,12 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                     <h3 class="card-title">List of Sub Category</h3>
                     <div class="card-tools">
-                        <a class="btn btn-flat btn-sm btn-primary" href="#add_new_sub_category" role="button" data-toggle="modal"><span class="fas fa-plus text-primary"></span>Add New Sub Category</a>
+                        <a class="btn btn-default border btn-flat btn-sm" href="dashboard.php"><i class="fa fa-angle-left"></i> Back</a>
+                        <?php
+                        if ($user->data()->position == 1) {
+                        ?>
+                            <a class="btn btn-flat btn-sm btn-primary" href="#add_new_sub_category" role="button" data-toggle="modal"><span class="fas fa-plus text-default">&nbsp;&nbsp;</span>Add New Sub Category</a>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="card-body">
@@ -191,63 +196,22 @@ if ($user->isLoggedIn()) {
                                                 </button>
                                                 <div class="dropdown-menu" role="menu">
                                                     <a class="dropdown-item" href="#view<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-dark"></span> View</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
+                                                    <?php
+                                                    if ($user->data()->position == 1) {
+                                                    ?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
+                                                    <?php } ?>
                                                 </div>
                                             </td>
                                         </tr>
 
-                                        <div class="modal fade" id="add_new_sub_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Add New Sub Category</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container-fluid">
-                                                                <div class="form-group">
-                                                                    <label for="status" class="control-label">Category</label>
-                                                                    <select name="category" class="form-control form-control-border" placeholder="Enter test Name" required>
-                                                                        <option value="">Select</option>
-                                                                        <?php foreach ($override->get('category', 'status', 1) as $value) { ?>
-                                                                            <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="name" class="control-label">Sub Category</label>
-                                                                    <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="description" class="control-label">Description</label>
-                                                                    <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="status" class="control-label">Status</label>
-                                                                    <select name="status" class="form-control form-control-border" placeholder="Enter test Name" required>
-                                                                        <option value="">Select</option>
-                                                                        <option value="1">Active</option>
-                                                                        <option value="0">Inactive</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="submit" name="add_sub_category" value="Add New Sub Category" class="btn btn-info">
-                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                         <div class="modal fade" id="view<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <form method="post">
@@ -350,6 +314,29 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div>
 
+                                        <div class="modal fade" id="activate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Activate Sub Category</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <strong style="font-weight: bold;color: yellow">
+                                                                <p>Are you sure you want to deactivate this Sub Category</p>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                            <input type="submit" name="activate_sub_category" value="Activate" class="btn btn-yellow">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
 
                                         <div class="modal fade" id="deactivate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
@@ -367,29 +354,6 @@ if ($user->isLoggedIn()) {
                                                         <div class="modal-footer">
                                                             <input type="hidden" name="id" value="<?= $value['id'] ?>">
                                                             <input type="submit" name="deactivate_sub_category" value="Deactivate" class="btn btn-yellow">
-                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal fade" id="activate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Activate Sub Category</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <strong style="font-weight: bold;color: yellow">
-                                                                <p>Are you sure you want to deactivate this Sub Category</p>
-                                                            </strong>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
-                                                            <input type="submit" name="activate_sub_category" value="Activate" class="btn btn-yellow">
                                                             <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                         </div>
                                                     </div>
@@ -423,6 +387,52 @@ if ($user->isLoggedIn()) {
                                     <?php } ?>
                                 </tbody>
                             </table>
+
+                            <div class="modal fade" id="add_new_sub_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form method="post">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                <h4>Add New Sub Category</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container-fluid">
+                                                    <div class="form-group">
+                                                        <label for="status" class="control-label">Category</label>
+                                                        <select name="category" class="form-control form-control-border" placeholder="Enter test Name" required>
+                                                            <option value="">Select</option>
+                                                            <?php foreach ($override->get('category', 'status', 1) as $value) { ?>
+                                                                <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="name" class="control-label">Sub Category</label>
+                                                        <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="description" class="control-label">Description</label>
+                                                        <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="status" class="control-label">Status</label>
+                                                        <select name="status" class="form-control form-control-border" placeholder="Enter test Name" required>
+                                                            <option value="">Select</option>
+                                                            <option value="1">Active</option>
+                                                            <option value="0">Inactive</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" name="add_sub_category" value="Add New Sub Category" class="btn btn-info">
+                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -463,7 +473,7 @@ if ($user->isLoggedIn()) {
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
+    <!-- <script src="dist/js/demo.js"></script> -->
     <!-- Page specific script -->
     <script>
         $(function() {

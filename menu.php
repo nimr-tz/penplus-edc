@@ -201,25 +201,28 @@ if ($user->isLoggedIn()) {
         <li class="openable">
             <a href="#"><span class="isw-tag"></span><span class="text">Lab Section</span></a>
             <ul>
-
-                <li class="active">
-                    <a href="add_test_category.php">
-                        <span class="text">Manage Category Test </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->countData('category', 'status', 1, 'delete_flag', 0) ?></span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="add_test_sub_category.php">
-                        <span class="text">Manage Sub Category Test </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->countData('sub_category', 'status', 1, 'delete_flag', 0) ?></span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="add_test_list.php">
-                        <span class="text">Manage Test Name </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
-                    </a>
-                </li>
+                <?php
+                if ($user->data()->position == 1) {
+                ?>
+                    <li class="active">
+                        <a href="add_test_category.php">
+                            <span class="text">List of Category </span>
+                            <span class="badge badge-secondary badge-pill"><?= $override->countData('category', 'status', 1, 'delete_flag', 0) ?></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="add_test_sub_category.php">
+                            <span class="text">List of Sub Category </span>
+                            <span class="badge badge-secondary badge-pill"><?= $override->countData('sub_category', 'status', 1, 'delete_flag', 0) ?></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="add_test_list.php">
+                            <span class="text">List of Tests </span>
+                            <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
+                        </a>
+                    </li>
+                <?php } ?>
                 <!-- <li class="active">
                     <a href="appointments.php">
                         <span class="text">View Lab Requests </span>

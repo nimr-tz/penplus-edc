@@ -39,6 +39,7 @@ if ($user->isLoggedIn()) {
                             'rhd' => Input::get('rhd'),
                             'staff_id' => $user->data()->id,
                             'eligibility' => $eligibility,
+                            'remarks' => Input::get('remarks'),
                         ), $screening_id['id']);
 
                         // $visit = $override->getNews('visit', 'client_id', $_GET['cid'], 'seq_no', 0, 'visit_name', 'Screening')[0];
@@ -237,7 +238,9 @@ if ($user->isLoggedIn()) {
                             <?php
                             $screening = $override->get('screening', 'patient_id', $_GET['cid'])[0];
 
-                            if (!$screening['eligibility'] & $appointment_list['status'] == 1) {
+                            // if (!$screening['eligibility'] & $appointment_list['status'] == 1) {
+                                if ($appointment_list['status'] == 1) {
+
                             ?>
 
                                 <hr>
@@ -250,7 +253,7 @@ if ($user->isLoggedIn()) {
                                         </div>
                                         <!-- /.card-header -->
                                         <!-- form start -->
-                                        <form>
+                                        <form method="post">
                                             <!-- /.card-header -->
                                             <div class="card-body">
                                                 <div class="row">
@@ -267,7 +270,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label>DM ?</label>
+                                                            <label>Confirmed for Diabetes ?</label>
                                                             <select name="dm" class="form-control select2" style="width: 100%;" required>
                                                                 <!-- <option selected="selected">Alabama</option> -->
                                                                 <option value="<?= $screening['dm'] ?>"><?php if ($screening) {
@@ -286,7 +289,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label>RHD ?</label>
+                                                            <label>Confirmed for RHD ?</label>
                                                             <select name="rhd" class="form-control select2" style="width: 100%;" required>
                                                                 <option value="<?= $screening['rhd'] ?>"><?php if ($screening) {
                                                                                                                 if ($screening['rhd'] == 1) {
@@ -304,7 +307,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label>SCD ?</label>
+                                                            <label>Confirmed for SCD ?</label>
                                                             <select name="scd" class="form-control select2" style="width: 100%;" required>
                                                                 <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
                                                                                                                 if ($screening['scd'] == 1) {
@@ -319,6 +322,13 @@ if ($user->isLoggedIn()) {
                                                                 <option value="2">No</option>
                                                             </select>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <!-- textarea -->
+                                                    <div class="form-group">
+                                                        <label>Remarks By Doctor</label>
+                                                        <textarea class="form-control" rows="3" name="remarks" placeholder="Enter ..."><?= $screening['remarks'] ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>

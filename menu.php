@@ -201,22 +201,7 @@ if ($user->isLoggedIn()) {
         <li class="openable">
             <a href="#"><span class="isw-tag"></span><span class="text">Lab Section</span></a>
             <ul>
-                <!-- <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Lab Home </span>
-                    </a>
-                </li> -->
-                <!-- <li class="active">
-                    <a href="add_lab.php">
-                        <span class="text">Add Lab Request </span>
-                    </a>
-                </li> -->
-                <!-- <li class="active">
-                    <a href="add_results.php?status=1">
-                        <span class="text">View Lab Results </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->getNo('lab_requests') ?></span>
-                    </a>
-                </li> -->
+
                 <li class="active">
                     <a href="add_test_category.php">
                         <span class="text">Manage Category Test </span>
@@ -238,13 +223,13 @@ if ($user->isLoggedIn()) {
                 <li class="active">
                     <a href="add_results.php?status=1">
                         <span class="text">View Completed Lab Requests </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->countData1('clients', 'status', 1, 'screened', 1, 'lab_status', 1) ?></span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('appointment_list', 'status', 1) ?></span>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="add_results.php?status=0">
+                    <a href="appointments.php?status=0">
                         <span class="text">View Pending Lab Requests </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->countData1('clients', 'status', 1, 'screened', 1, 'lab_status', 0) ?></span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('appointment_list', 'status', 0) ?></span>
                     </a>
                 </li>
                 <!-- <li class="active">

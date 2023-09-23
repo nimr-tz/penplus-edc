@@ -108,45 +108,34 @@ if ($user->isLoggedIn()) {
                 <?php } ?>
                 <div class="row">
                     <?php
-                    // $lab_details = $override->get3('lab_requests', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
-                    $lab_requests = $override->get('lab_requests',  'status', 1)[0];
+                    // $cat = '';
+
+                    // if ($category['cardiac'] == 1) {
+                    //     $cat = 'Cardiac';
+                    // } elseif ($category['diabetes'] == 1) {
+                    //     $cat = 'Diabetes';
+                    // } elseif ($category['sickle_cell'] == 1) {
+                    //     $cat = 'Sickle cell';
+                    // } else {
+                    //     $cat = 'Not Diagnosed';
+                    // }
 
 
-                    $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                    // $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
-                    // $category = $override->get('category', 'id', $lab_requests['category'])[0];
-                    // $lab_tests = $override->get('lab_tests', 'id', $lab_requests['category'])[0];
-
-
-
-                    $cat = '';
-
-                    if ($category['cardiac'] == 1) {
-                        $cat = 'Cardiac';
-                    } elseif ($category['diabetes'] == 1) {
-                        $cat = 'Diabetes';
-                    } elseif ($category['sickle_cell'] == 1) {
-                        $cat = 'Sickle cell';
-                    } else {
-                        $cat = 'Not Diagnosed';
-                    }
-
-
-                    if ($patient['gender'] == 1) {
-                        $gender = 'Male';
-                    } elseif ($patient['gender'] == 2) {
-                        $gender = 'Female';
-                    }
+                    // if ($patient['gender'] == 1) {
+                    //     $gender = 'Male';
+                    // } elseif ($patient['gender'] == 2) {
+                    //     $gender = 'Female';
+                    // }
 
 
 
-                    $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+                    // $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
                     ?>
 
 
                     <div class="col-md-offset-1 col-md-8">
                         <div class="container">
-                            <h4>Lab Test Results</h4>
+                            <h4>Lab Test Pending Request</h4>
                             <hr>
 
                             <!-- <form method="post" action="checkbox-db.php"> -->
@@ -163,17 +152,17 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($override->get3('clients', 'status', 1, 'screened', 1, 'lab_status', $_GET['status']) as $value) {
+                                        <?php foreach ($override->get('appointment_list', 'status', $_GET['status']) as $value) {
 
-                                            $lab_requests = $override->get('lab_requests', 'id', $value['category'])[0];
+                                            // $appointment_list = $override->get('appointment_list', 'id', $value['category'])[0];
 
-                                            $category = $override->get('category', 'id', $value['category'])[0];
-                                            $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
-                                            $patient_name = $override->get('clients', 'id', $value['patient_id'])[0];
-                                            $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
+                                            // $category = $override->get('category', 'id', $value['category'])[0];
+                                            // $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
+                                            $patient_name = $override->get('clients', 'id', $value['client_id'])[0];
+                                            // $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
                                             $site_name = $override->get('site', 'id', $value['site_id'])[0];
 
-                                            $status = 'Pending';
+                                            // $status = 'Pending';
                                             // if ($value['lab_status'] == 1) {
                                             //     $status = 'Done';
                                             // }
@@ -187,7 +176,7 @@ if ($user->isLoggedIn()) {
                                                                                                                             echo 'checked';
                                                                                                                         } ?>>
                                                 </td>
-                                                <td><?= $value['firstname'] . ' - ' . $value['lastname'] ?></td>
+                                                <td><?= $patient_name['firstname'] . ' - ' . $patient_name['lastname'] ?></td>
                                                 <td><?= $site_name['name'] ?></td>
 
                                                 <?php if ($value['lab_status'] == 1) { ?>

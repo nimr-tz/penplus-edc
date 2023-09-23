@@ -5,109 +5,13 @@ $override = new OverideData();
 $email = new Email();
 $random = new Random();
 
-$successMessage = null;
-$pageError = null;
-$errorMessage = null;
-$numRec = 50;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
-        if (Input::get('add_test')) {
-
-            $client_request = $override->get('appointment_list', 'client_id', $_GET['cid']);
-            if (!$client_request) {
-                $i = 0;
-                $selected_test = Input::get('test_name');
-                $tests = implode(",", $selected_test);
-                $date = date("Y-m-d\TH:i");
-                $date_requested = date("Y-m-d", strtotime(Input::get('date_requested')));
-                $user->createRecord('appointment_list', array(
-                    'date_requested' => $date_requested,
-                    'schedule' => date("Y-m-d\TH:i", strtotime($date)),
-                    'code' => 111,
-                    'client_id' => $_GET['cid'],
-                    'test_id' => $tests,
-                    'prescription_path' => 'N/A',
-                    'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                    'date_updated' => date("Y-m-d\TH:i", strtotime($date)),
-                    'staff_id' => $user->data()->id,
-                    'status' => 0,
-                    'request_status' => 0,
-                    'site_id' => $user->data()->site_id,
-                ));
-
-
-
-                $appointment_list = $override->getlastRow('appointment_list', 'client_id', $_GET['cid'], 'id')[0];
-
-                foreach (Input::get('test_name') as $value) {
-                    $test = $override->getNews('test_list', 'status', 1, 'id', $value)[0];
-                    $user->createRecord('appointment_test_list', array(
-                        'appointment_id' => $appointment_list['id'],
-                        'date_requested' => $date_requested,
-                        'test_id' => $value,
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'status' => 0,
-                        'request_status' => 0,
-                        'site_id' => $user->data()->site_id,
-                        'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                        'created_on' => date("Y-m-d"),
-                    ));
-                }
-                $user->createRecord('history_list', array(
-                    'appointment_id' => $appointment_list['id'],
-                    'staff_id' => $user->data()->id,
-                    'status' => 0,
-                    'site_id' => $user->data()->site_id,
-                    'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                    'remarks' => 'Lab test requested',
-                    'client_id' => $_GET['cid'],
-                ));
-            } else {
-                $errorMessage = 'Client already have a request.';
-            }
-        } elseif (Input::get('update_category')) {
-            $validate = $validate->check($_POST, array(
-                // 'name' => array(
-                //     'required' => true,
-                // ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $user->updateRecord('category', array(
-                        'name' => Input::get('name'),
-                        'status' => Input::get('status'),
-                        'description' => Input::get('description'),
-                    ), Input::get('id'));
-                    $successMessage = 'New Test Category Updated';
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('deactivate_category')) {
-            $user->updateRecord('category', array(
-                'status' => 0,
-            ), Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
-        } elseif (Input::get('activate_category')) {
-            $user->updateRecord('category', array(
-                'status' => 1,
-            ), Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
-        } elseif (Input::get('delete_category')) {
-            $user->deleteRecord('category', 'id', Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
-        }
     }
 } else {
     Redirect::to('index.php');
 }
-// $client = $override->get('client', 'id', $_GET['position'])[0];
-// $position = $override->get('position', 'id', $staff['position'])[0];
-
 ?>
 
 
@@ -125,12 +29,12 @@ if ($user->isLoggedIn()) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Request Form</h1>
+                            <h1>List of Test Requests</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Request Form</li>
+                                <li class="breadcrumb-item active">List of Test Requests</li>
                             </ol>
                         </div>
                     </div>
@@ -145,53 +49,109 @@ if ($user->isLoggedIn()) {
                     object-position: center center;
                 }
             </style>
-
-            <div class="card card-primary">
+            <div class="card card-outline card-primary rounded-0 shadow">
                 <div class="card-header">
-                    <h3 class="card-title">Request New Tests</h3>
+                    <h3 class="card-title">List of Test Requests</h3>
+                    <div class="card-tools">
+                        <a href="javascript:void(0)" id="create_new" class="btn btn-flat btn-sm btn-primary"><span class="fas fa-plus"></span> Book New Test Request</a>
+                    </div>
                 </div>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form method="post">
-                    <div class="card-body">
-                        <!-- Date -->
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Date requested:</label>
-                                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                        <input type="text" name="date_requested" class="form-control datetimepicker-input" data-target="#reservationdate" value="" />
-                                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="container-fluid">
+                            <table class="table table-bordered table-hover table-striped">
+                                <colgroup>
+                                    <col width="5%">
+                                    <col width="20%">
+                                    <col width="15%">
+                                    <col width="30%">
+                                    <col width="15%">
+                                    <col width="15%">
+                                </colgroup>
+                                <thead>
+                                    <tr class="bg-gradient-primary text-light">
+                                        <th>#</th>
+                                        <th>Date Created</th>
+                                        <th>Client Name</th>
+                                        <th>Test</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($$override->getData("appointment_list") as $value) {
+                                        $test_name = $override->get("test_list", "id", $value['test_id']);
+                                        $client_name = $override->get("clients", "id", $value['client_id'])[0];
+                                        $test_list = $override->SelectTests('test_list', 'id', 'test_id', 'appointment_test_list', 'appointment_id', $value['id']);
+                                        $test_arr = array_column($test_list, 'name');
+                                        $test = implode(", ", $test_arr);
 
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label>Test Name</label>
-                                    <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;" name="test_name[]">
-                                        <?php
-                                        $tests = $override->get("test_list", "status", 1);
-                                        foreach ($tests as $test1) { ?>
-                                            <option value="<?= $test1['id'] ?>"><?= $test1['name'] ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- /.form-group -->
+                                        $test_arr_id = array_column($test_list, 'id');
+                                        $test_ids = implode(", ", $test_arr_id);
+                                        // print_r($test_ids)
+                                    ?>
+                                        <tr>
+                                            <td class="text-center"><?php echo $i++; ?></td>
+                                            <td class=""><?php echo date("Y-m-d H:i", strtotime($value['date_created'])) ?></td>
+                                            <td class=""><?= $client_name['firstname'] . ' - ' . $client_name['lastname'] ?></td>
+                                            <td class="">
+                                                <p class="m-0 truncate-1"><?= $test ?></p>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php
+                                                switch ($value['status']) {
+                                                    case 0:
+                                                        echo '<span class="rounded-pill badge badge-secondary ">Pending</span>';
+                                                        break;
+                                                    case 1:
+                                                        echo '<span class="rounded-pill badge badge-primary ">Done</span>';
+                                                        break;
+                                                    case 2:
+                                                        echo '<span class="rounded-pill badge badge-warning ">Sample Collected</span>';
+                                                        break;
+                                                    case 3:
+                                                        echo '<span class="rounded-pill badge badge-primary bg-teal ">Delivered to Lab</span>';
+                                                        break;
+                                                    case 4:
+                                                        echo '<span class="rounded-pill badge badge-success ">Approved</span>';
+
+                                                        break;
+                                                    case 5:
+                                                        echo '<span class="rounded-pill badge badge-danger ">Cancelled</span>';
+                                                        break;
+                                                    case 6:
+                                                        echo '<span class="rounded-pill badge-light badge border text-dark ">Report Uploaded</span>';
+                                                        break;
+                                                }
+                                                ?>
+                                            </td>
+                                            <td align="center">
+                                                <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                                    Action
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <a class="dropdown-item" href="view_appointment_list.php?id=<?= $value['id'] ?>&cid=<?= $client_name['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
+                                                    <?php if ($row['status'] <= 1) : ?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item edit_data" href="javascript:void(0)" data-id="<?php echo $value['id'] ?>"><span class="fa fa-edit text-primary"></span> Edit</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $value['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <!-- /.card-body -->
-
-                    <div class="card-footer">
-                        <input type="submit" name="add_test" value="Add New Test Request" class="btn btn-info">
-                    </div>
-                </form>
+                </div>
             </div>
-            <!-- /.card -->
+            <!-- /.content -->
+
         </div>
         <!-- /.content-wrapper -->
         <?php include 'footerBar.php'; ?>

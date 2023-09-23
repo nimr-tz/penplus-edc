@@ -7,11 +7,72 @@ $random = new Random();
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
+        if (Input::get('confirm_screening')) {
+            $validate = $validate->check($_POST, array(
+                // 'date_confirmed' => array(
+                //     'required' => true,
+                // ),
+                'dm' => array(
+                    'required' => true,
+                ),
+                'scd' => array(
+                    'required' => true,
+                ),
+                'rhd' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $eligibility = 0;
+                    if ((Input::get('dm') == 1 || Input::get('scd') == 1 || Input::get('rhd') == 1)) {
+                        $eligibility = 1;
+                    }
+
+                    $screening_id = $override->get('screening', 'patient_id', $_GET['cid'])[0];
+
+                    if ($override->get('screening', 'patient_id', $_GET['cid'])) {
+                        $user->updateRecord('screening', array(
+                            'date_confirmed' => Input::get('date_confirmed'),
+                            'dm' => Input::get('dm'),
+                            'scd' => Input::get('scd'),
+                            'rhd' => Input::get('rhd'),
+                            'staff_id' => $user->data()->id,
+                            'eligibility' => $eligibility,
+                        ), $screening_id['id']);
+
+                        // $visit = $override->getNews('visit', 'client_id', $_GET['cid'], 'seq_no', 0, 'visit_name', 'Screening')[0];
+
+                        // $user->updateRecord('visit', array(
+                        //     'expected_date' => Input::get('screening_date'),
+                        //     'visit_date' => Input::get('screening_date'),
+                        // ), $visit['id']);
+                    }
+
+                    $user->updateRecord('clients', array(
+                        'eligible' => $eligibility,
+                        // 'enrolled' => $eligibility,
+                        // 'screened' => 1,
+                    ), $_GET['cid']);
+
+                    $successMessage = 'Patient Successful Confirmed';
+
+                    // if ($eligibility) {
+                    //     Redirect::to('info.php?id=3&status=2');
+                    // } else {
+                    //     Redirect::to('info.php?id=3&status=' . $_GET['status']);
+                    // }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }
     }
 } else {
     Redirect::to('index.php');
 }
-
 ?>
 
 
@@ -172,6 +233,108 @@ if ($user->isLoggedIn()) {
                                     </tbody>
                                 </table>
                             </fieldset>
+
+                            <?php
+                            $screening = $override->get('screening', 'patient_id', $_GET['cid'])[0];
+
+                            if (!$screening['eligibility'] & $appointment_list['status'] == 1) {
+                            ?>
+
+                                <hr>
+                                <fieldset>
+                                    <legend class="text-muted">Doctor Confirmation</legend>
+                                    <!-- general form elements -->
+                                    <div class="card card-primary">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Doctor Confirmation</h3>
+                                        </div>
+                                        <!-- /.card-header -->
+                                        <!-- form start -->
+                                        <form>
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>Date Confirmed:</label>
+                                                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                                                <input type="text" name="date_confirmed" class="form-control datetimepicker-input" data-target="#reservationdate" value="<?= $screening['date_confirmed'] ?>" />
+                                                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>DM ?</label>
+                                                            <select name="dm" class="form-control select2" style="width: 100%;" required>
+                                                                <!-- <option selected="selected">Alabama</option> -->
+                                                                <option value="<?= $screening['dm'] ?>"><?php if ($screening) {
+                                                                                                            if ($screening['dm'] == 1) {
+                                                                                                                echo 'Yes';
+                                                                                                            } elseif ($screening['dm'] == 2) {
+                                                                                                                echo 'No';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'Select';
+                                                                                                        } ?></option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>RHD ?</label>
+                                                            <select name="rhd" class="form-control select2" style="width: 100%;" required>
+                                                                <option value="<?= $screening['rhd'] ?>"><?php if ($screening) {
+                                                                                                                if ($screening['rhd'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($screening['rhd'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>SCD ?</label>
+                                                            <select name="scd" class="form-control select2" style="width: 100%;" required>
+                                                                <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
+                                                                                                                if ($screening['scd'] == 1) {
+                                                                                                                    echo 'Yes';
+                                                                                                                } elseif ($screening['scd'] == 2) {
+                                                                                                                    echo 'No';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.card-body -->
+
+                                            <div class="card-footer">
+                                                <input type="submit" name="confirm_screening" value="Confirm" class="btn btn-info">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.card -->
+                                </fieldset>
+
+
+                            <?php } ?>
+
                             <hr>
                             <fieldset>
                                 <legend class="text-muted">Update History</legend>

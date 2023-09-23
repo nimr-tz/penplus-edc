@@ -238,8 +238,12 @@ if ($user->isLoggedIn()) {
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
                                                         <div class="dropdown-divider"></div>
+                                                                                                                                 <?php
+                                                            if ($user->data()->power == 1){
+
+                                                            ?>
                                                         <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
-                                                    <?php } ?>
+                                                    <?php }} ?>
                                                 </div>
                                             </td>
                                         </tr>

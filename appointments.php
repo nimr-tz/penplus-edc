@@ -193,9 +193,14 @@ if ($user->isLoggedIn()) {
                                                             <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item edit_data" href="javascript:void(0)" data-id="<?php echo $value['id'] ?>"><span class="fa fa-edit text-primary"></span> Edit</a>
                                                             <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-trash text-danger"></span> Delete</a>
+                                                            <?php
+                                                            if ($user->data()->power == 1) :
+
+                                                            ?>
+                                                                <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-trash text-danger"></span> Delete</a>
 
                                                     <?php endif;
+                                                        endif;
                                                     endif;
                                                     ?>
                                                 </div>

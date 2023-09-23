@@ -313,7 +313,7 @@ if ($user->isLoggedIn()) {
                         Redirect::to('info.php?id=3&status=2');
                     } else {
                         // Redirect::to('info.php?id=3&status=' . $_GET['status']);
-                        Redirect::to('add_lab.php?cid='. Input::get('id').'&status=1');                        
+                        Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1');
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -321,7 +321,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        }  elseif (Input::get('add_Enrollment')) {
+        } elseif (Input::get('add_Enrollment')) {
             $validate = $validate->check($_POST, array(
                 'visit_date' => array(
                     'required' => true,
@@ -672,6 +672,23 @@ if ($user->isLoggedIn()) {
                         $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Found!';
                     }
                     // die;
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('setSiteId')) {
+
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $setSiteId = $override->setSiteId('visit','site_id',Input::get('name'),1);
+                    $successMessage = 'Site ID Successfull';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -1756,7 +1773,7 @@ if ($user->isLoggedIn()) {
                                                                                 <label>Date of Screening</label>
                                                                                 <input class="validate[required,custom[date]]" type="text" name="screening_date" id="screening_date" value="<?php if ($screening['screening_date']) {
                                                                                                                                                                                                 print_r($screening['screening_date']);
-                                                                                                                                                                                            }  ?>" required/>
+                                                                                                                                                                                            }  ?>" required />
                                                                                 <span>Example: 2010-12-01</span>
                                                                             </div>
                                                                         </div>
@@ -3361,6 +3378,34 @@ if ($user->isLoggedIn()) {
 
                                     <div class="footer tar">
                                         <input type="submit" name="clear_data" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    <?php } elseif ($_GET['id'] == 11) { ?>
+
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>SetSiteId on Table</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Table Name:</div>
+                                        <div class="col-md-9">
+                                            <select name="name" id="name" style="width: 100%;" required>
+                                                <option value="">Select Value</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="setSiteId" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>

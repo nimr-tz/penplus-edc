@@ -235,7 +235,7 @@ if ($user->isLoggedIn()) {
                         <span class="text">View Pending Lab Requests </span>
                         <span class="badge badge-secondary badge-pill"><?= $override->getCount('appointment_list', 'status', 0) ?></span>
                     </a>
-                </li>               
+                </li>
             </ul>
         </li>
 
@@ -299,6 +299,11 @@ if ($user->isLoggedIn()) {
                     <li>
                         <a href="info.php?id=10">
                             <span class="glyphicon glyphicon-list"></span><span class="text">Clear Data on Table</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=11">
+                            <span class="glyphicon glyphicon-list"></span><span class="text">Set Site Id on Visit Table</span>
                         </a>
                     </li>
                 <?php } ?>

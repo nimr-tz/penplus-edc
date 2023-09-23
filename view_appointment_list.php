@@ -91,12 +91,12 @@ if ($user->isLoggedIn()) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Test Form</h1>
+                            <h1>Test Results Form</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Test Form</li>
+                                <li class="breadcrumb-item active">Test Results Form</li>
                             </ol>
                         </div>
                     </div>
@@ -127,12 +127,12 @@ if ($user->isLoggedIn()) {
             <div class="content py-5">
                 <div class="card card-outline card-primary rounded-0 shadow">
                     <div class="card-header">
-                        <h4 class="card-title"><b>Booked Appointment Details</b></h4>
+                        <h4 class="card-title"><b>Test Results Details</b></h4>
                         <div class="card-tools">
                             <?php
                             if ($user->data()->position == 1) :
                             ?>
-                                <a class="btn btn-default bg-gradient-navy btn-flat btn-sm" href="update_results.php?appointment_id=<?= $appointment_list['id'] ?>&cid=<?= $_GET['cid'] ?>&status=<?= $_GET['status'] ?>"> Update Status</a>
+                                <a class="btn btn-default bg-gradient-navy btn-flat btn-sm" href="update_results.php?appointment_id=<?= $appointment_list['id'] ?>&cid=<?= $_GET['cid'] ?>&status=<?= $_GET['status'] ?>"> Update Results</a>
                             <?php endif; ?>
                             <a class="btn btn-default border btn-flat btn-sm" href="appointments.php?status=<?= $_GET['status'] ?>"><i class="fa fa-angle-left"></i> Back</a>
                         </div>
@@ -239,8 +239,7 @@ if ($user->isLoggedIn()) {
                             $screening = $override->get('screening', 'patient_id', $_GET['cid'])[0];
 
                             // if (!$screening['eligibility'] & $appointment_list['status'] == 1) {
-                                if ($appointment_list['status'] == 1) {
-
+                            if ($appointment_list['status'] == 1) {
                             ?>
 
                                 <hr>
@@ -324,13 +323,17 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <hr>
+
+                                                <div class="col-sm-12">
                                                     <!-- textarea -->
                                                     <div class="form-group">
                                                         <label>Remarks By Doctor</label>
                                                         <textarea class="form-control" rows="3" name="remarks" placeholder="Enter ..."><?= $screening['remarks'] ?></textarea>
                                                     </div>
                                                 </div>
+                                                <hr>
+
                                             </div>
                                             <!-- /.card-body -->
 

@@ -93,6 +93,39 @@ if ($user->isLoggedIn()) {
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
+                    <!-- <div class="container-fluid"> -->
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                <?php if ($errorMessage) { ?>
+                                    <div class="block">
+                                        <div class="alert alert-danger">
+                                            <b>Error!</b> <?= $errorMessage ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } elseif ($pageError) { ?>
+                                    <div class="block col-md-12">
+                                        <div class="alert alert-danger">
+                                            <b>Error!</b> <?php foreach ($pageError as $error) {
+                                                                echo $error . ' , ';
+                                                            } ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } elseif ($successMessage) { ?>
+                                    <div class="block">
+                                        <div class="alert alert-success">
+                                            <b>Success!</b> <?= $successMessage ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </h1>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <!-- /.container-fluid -->
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Category Form</h1>
@@ -127,8 +160,15 @@ if ($user->isLoggedIn()) {
             <div class="card card-outline card-primary rounded-0 shadow">
                 <div class="card-header">
                     <h3 class="card-title">List of Category</h3>
+
                     <div class="card-tools">
-                        <a class="btn btn-flat btn-sm btn-primary" href="#add_new_category" role="button" data-toggle="modal"><span class="fas fa-plus text-primary"></span>Add New Category</a>
+                        <a class="btn btn-default border btn-flat btn-sm" href="dashboard.php"><i class="fa fa-angle-left"></i> Back</a>
+                        <?php
+                        if ($user->data()->position == 1) {
+                        ?>
+                            <a class="btn btn-flat btn-sm btn-primary" href="#add_new_category" role="button" data-toggle="modal"><span class="fas fa-plus text-primary"></span>Add New Category</a>
+                        <?php } ?>
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -186,14 +226,19 @@ if ($user->isLoggedIn()) {
                                                 </button>
                                                 <div class="dropdown-menu" role="menu">
                                                     <a class="dropdown-item" href="#view<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-dark"></span> View</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
+                                                    <?php
+                                                    if ($user->data()->position == 1) {
+                                                    ?>
+                                                        <div class="dropdown-divider"></div>
+
+                                                        <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
+                                                    <?php } ?>
                                                 </div>
                                             </td>
                                         </tr>
@@ -401,54 +446,6 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content -->
 
-            <script>
-                $(document).ready(function() {
-                    $('#create_new').click(function() {
-                        uni_modal("Add New Test", "tests/manage_test.php")
-                    })
-                    $('.view_data').click(function() {
-                        uni_modal("Test Details", "tests/view_test.php?id=" + $(this).attr('data-id'))
-                    })
-                    $('.edit_data').click(function() {
-                        uni_modal("Update Test Details", "tests/manage_test.php?id=" + $(this).attr('data-id'))
-                    })
-                    $('.delete_data').click(function() {
-                        _conf("Are you sure to delete this Test permanently?", "delete_test", [$(this).attr('data-id')])
-                    })
-                    $('.table td, .table th').addClass('py-1 px-2 align-middle')
-                    $('.table').dataTable({
-                        columnDefs: [{
-                            orderable: false,
-                            targets: 5
-                        }],
-                    });
-                })
-
-                function delete_test($id) {
-                    start_loader();
-                    $.ajax({
-                        url: _base_url_ + "classes/Master.php?f=delete_test",
-                        method: "POST",
-                        data: {
-                            id: $id
-                        },
-                        dataType: "json",
-                        error: err => {
-                            console.log(err)
-                            alert_toast("An error occured.", 'error');
-                            end_loader();
-                        },
-                        success: function(resp) {
-                            if (typeof resp == 'object' && resp.status == 'success') {
-                                location.reload();
-                            } else {
-                                alert_toast("An error occured.", 'error');
-                                end_loader();
-                            }
-                        }
-                    })
-                }
-            </script>
         </div>
         <!-- /.content-wrapper -->
         <?php include 'footerBar.php'; ?>
@@ -483,7 +480,7 @@ if ($user->isLoggedIn()) {
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
+    <!-- <script src="dist/js/demo.js"></script> -->
     <!-- Page specific script -->
     <script>
         $(function() {

@@ -5,9 +5,22 @@ $override = new OverideData();
 $email = new Email();
 $random = new Random();
 
+$successMessage = null;
+$pageError = null;
+$errorMessage = null;
+
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
+        if (Input::get('delete_appointment1')) {
+            $user->updateRecord('appointment_list', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'Test Deleted Successful';
+        } elseif (Input::get('delete_appointment')) {
+            $user->deleteRecord('appointment_list', 'id', Input::get('id'));
+            $successMessage = 'Request Test Deleted Successful';
+        }
     }
 } else {
     Redirect::to('index.php');
@@ -27,6 +40,39 @@ if ($user->isLoggedIn()) {
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
+                    <!-- <div class="container-fluid"> -->
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                <?php if ($errorMessage) { ?>
+                                    <div class="block">
+                                        <div class="alert alert-danger">
+                                            <b>Error!</b> <?= $errorMessage ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } elseif ($pageError) { ?>
+                                    <div class="block col-md-12">
+                                        <div class="alert alert-danger">
+                                            <b>Error!</b> <?php foreach ($pageError as $error) {
+                                                                echo $error . ' , ';
+                                                            } ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } elseif ($successMessage) { ?>
+                                    <div class="block">
+                                        <div class="alert alert-success">
+                                            <b>Success!</b> <?= $successMessage ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </h1>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <!-- /.container-fluid -->
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>List of Test Requests</h1>
@@ -53,7 +99,8 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                     <h3 class="card-title">List of Test Requests</h3>
                     <div class="card-tools">
-                        <a href="javascript:void(0)" id="create_new" class="btn btn-flat btn-sm btn-primary"><span class="fas fa-plus"></span> Book New Test Request</a>
+                        <a class="btn btn-default border btn-flat btn-sm" href="dashboard.php"><i class="fa fa-angle-left"></i> Back</a>
+                        <!-- <a href="javascript:void(0)" id="create_new" class="btn btn-flat btn-sm btn-primary"><span class="fas fa-plus"></span> Book New Test Request</a> -->
                     </div>
                 </div>
                 <div class="card-body">
@@ -71,7 +118,7 @@ if ($user->isLoggedIn()) {
                                 <thead>
                                     <tr class="bg-gradient-primary text-light">
                                         <th>#</th>
-                                        <th>Date Created</th>
+                                        <th>Date Requested</th>
                                         <th>Client Name</th>
                                         <th>Test</th>
                                         <th>Status</th>
@@ -81,7 +128,12 @@ if ($user->isLoggedIn()) {
                                 <tbody>
                                     <?php
                                     $i = 1;
-                                    foreach ($override->getData("appointment_list") as $value) {
+                                    if ($_GET['status'] == 1) {
+                                        $appointment_list = $override->get("appointment_list", 'status', 1);
+                                    } else {
+                                        $appointment_list = $override->get("appointment_list", 'status', 0);
+                                    }
+                                    foreach ($appointment_list as $value) {
                                         $test_name = $override->get("test_list", "id", $value['test_id']);
                                         $client_name = $override->get("clients", "id", $value['client_id'])[0];
                                         $test_list = $override->SelectTests('test_list', 'id', 'test_id', 'appointment_test_list', 'appointment_id', $value['id']);
@@ -133,16 +185,45 @@ if ($user->isLoggedIn()) {
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu" role="menu">
-                                                    <a class="dropdown-item" href="view_appointment_list.php?appointment_id=<?= $value['id'] ?>&cid=<?= $client_name['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
-                                                    <?php if ($row['status'] <= 1) : ?>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item edit_data" href="javascript:void(0)" data-id="<?php echo $value['id'] ?>"><span class="fa fa-edit text-primary"></span> Edit</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $value['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
-                                                    <?php endif; ?>
+                                                    <a class="dropdown-item" href="view_appointment_list.php?appointment_id=<?= $value['id'] ?>&cid=<?= $client_name['id'] ?>&status=<?= $_GET['status'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
+                                                    <?php if ($value['status'] < 1) :
+                                                        if ($user->data()->position == 1) :
+
+                                                    ?>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item edit_data" href="javascript:void(0)" data-id="<?php echo $value['id'] ?>"><span class="fa fa-edit text-primary"></span> Edit</a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-trash text-danger"></span> Delete</a>
+
+                                                    <?php endif;
+                                                    endif;
+                                                    ?>
                                                 </div>
                                             </td>
                                         </tr>
+
+                                        <div class="modal fade" id="delete<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Delete Test Request</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <strong style="font-weight: bold;color: red">
+                                                                <p>Are you sure you want to delete this Test Request</p>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                            <input type="submit" name="delete_appointment" value="Delete" class="btn btn-danger">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     <?php } ?>
                                 </tbody>
                             </table>

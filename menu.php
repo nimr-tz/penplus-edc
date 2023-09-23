@@ -220,8 +220,14 @@ if ($user->isLoggedIn()) {
                         <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
                     </a>
                 </li>
+                <!-- <li class="active">
+                    <a href="appointments.php">
+                        <span class="text">View Lab Requests </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getNo('appointment_list') ?></span>
+                    </a>
+                </li> -->
                 <li class="active">
-                    <a href="add_results.php?status=1">
+                    <a href="appointments.php?status=1">
                         <span class="text">View Completed Lab Requests </span>
                         <span class="badge badge-secondary badge-pill"><?= $override->getCount('appointment_list', 'status', 1) ?></span>
                     </a>

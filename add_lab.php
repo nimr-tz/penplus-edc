@@ -8,11 +8,12 @@ $random = new Random();
 $successMessage = null;
 $pageError = null;
 $errorMessage = null;
-$numRec = 50;
+
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
         if (Input::get('add_test')) {
+            $date_requested = date("Y-m-d", strtotime(Input::get('date_requested')));
 
             $client_request = $override->get('appointment_list', 'client_id', $_GET['cid']);
             if (!$client_request) {
@@ -20,7 +21,6 @@ if ($user->isLoggedIn()) {
                 $selected_test = Input::get('test_name');
                 $tests = implode(",", $selected_test);
                 $date = date("Y-m-d\TH:i");
-                $date_requested = date("Y-m-d", strtotime(Input::get('date_requested')));
                 $user->createRecord('appointment_list', array(
                     'date_requested' => $date_requested,
                     'schedule' => date("Y-m-d\TH:i", strtotime($date)),
@@ -65,7 +65,10 @@ if ($user->isLoggedIn()) {
                     'client_id' => $_GET['cid'],
                 ));
 
-                Redirect::to('info.php?id=' . $_GET['id'] . '&status=' . $_GET['status']);
+                // Redirect::to('info.php?id=' . $_GET['id'] . '&status=' . $_GET['status']);
+                Redirect::to('appointments.php?status=0');
+                // Redirect::to('view_appointment_list.php?appointment_id=' . $_GET['appointment_id'] . '&cid=' . $_GET['cid'] . '&status=' . $_GET['status']);
+
             } else {
                 $errorMessage = 'Client already have a request.';
             }
@@ -107,9 +110,6 @@ if ($user->isLoggedIn()) {
 } else {
     Redirect::to('index.php');
 }
-// $client = $override->get('client', 'id', $_GET['position'])[0];
-// $position = $override->get('position', 'id', $staff['position'])[0];
-
 ?>
 
 
@@ -125,6 +125,39 @@ if ($user->isLoggedIn()) {
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
+                    <!-- <div class="container-fluid"> -->
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                <?php if ($errorMessage) { ?>
+                                    <div class="block">
+                                        <div class="alert alert-danger">
+                                            <b>Error!</b> <?= $errorMessage ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } elseif ($pageError) { ?>
+                                    <div class="block col-md-12">
+                                        <div class="alert alert-danger">
+                                            <b>Error!</b> <?php foreach ($pageError as $error) {
+                                                                echo $error . ' , ';
+                                                            } ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } elseif ($successMessage) { ?>
+                                    <div class="block">
+                                        <div class="alert alert-success">
+                                            <b>Success!</b> <?= $successMessage ?>
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </h1>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <!-- /.container-fluid -->
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Request Form</h1>
@@ -189,6 +222,7 @@ if ($user->isLoggedIn()) {
                     <!-- /.card-body -->
 
                     <div class="card-footer">
+                        <a href="info.php?id=3&status=1" class="btn btn-danger">Back</a>
                         <input type="submit" name="add_test" value="Add New Test Request" class="btn btn-info">
                     </div>
                 </form>

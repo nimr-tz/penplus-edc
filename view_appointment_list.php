@@ -7,7 +7,6 @@ $random = new Random();
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
-        
     }
 } else {
     Redirect::to('index.php');
@@ -71,9 +70,9 @@ if ($user->isLoggedIn()) {
                             <?php
                             if ($user->data()->position == 1) :
                             ?>
-                                <a class="btn btn-default bg-gradient-navy btn-flat btn-sm" href="update_results.php?appointment_id=<?= $appointment_list['id'] ?>&cid=<?= $_GET['cid'] ?>"> Update Status</a>
+                                <a class="btn btn-default bg-gradient-navy btn-flat btn-sm" href="update_results.php?appointment_id=<?= $appointment_list['id'] ?>&cid=<?= $_GET['cid'] ?>&status=<?= $_GET['status'] ?>"> Update Status</a>
                             <?php endif; ?>
-                            <a class="btn btn-default border btn-flat btn-sm" href="appointments.php"><i class="fa fa-angle-left"></i> Back</a>
+                            <a class="btn btn-default border btn-flat btn-sm" href="appointments.php?status=<?= $_GET['status'] ?>"><i class="fa fa-angle-left"></i> Back</a>
                         </div>
                     </div>
                     <div class="card-body">

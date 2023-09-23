@@ -10,7 +10,7 @@ $pageError = null;
 $errorMessage = null;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
-        if (Input::get('add_resuts')) {
+        if (Input::get('add_results')) {
             $validate = $validate->check($_POST, array());
             if ($validate->passed()) {
                 try {
@@ -36,7 +36,16 @@ if ($user->isLoggedIn()) {
                     $date = date("Y-m-d\TH:i");
 
                     $appointment_id = $override->getNews('history_list', 'client_id', $_GET['cid'], 'appointment_id', $_GET['appointment_id']);
-                    if (!$appointment_id) {
+
+                    var_dump($appointment_id);
+                    if ($appointment_id) {
+                        $user->updateRecord('history_list', array(
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'date_created' => date("Y-m-d\TH:i", strtotime($date)),
+                            'remarks' => Input::get('remarks'),
+                        ), $appointment_id[0]['id']);
+                    } else {
                         $user->createRecord('history_list', array(
                             'appointment_id' => $_GET['appointment_id'],
                             'staff_id' => $user->data()->id,
@@ -48,11 +57,7 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-
-                    $id = 5;
-                    $cid = 30;
-                    Redirect::to('view_appointment_list.php?appointment_id=' . $_GET['appointment_id'] . '&cid=' . $_GET['cid']);
-
+                    Redirect::to('view_appointment_list.php?appointment_id=' . $_GET['appointment_id'] . '&cid=' . $_GET['cid'] . '&status=' . $_GET['status']);
                     $successMessage = 'Lab Results added Successful';
                     die;
                 } catch (Exception $e) {
@@ -171,7 +176,7 @@ if ($user->isLoggedIn()) {
                     </div>
                     <div class="text-center">
                         <input type="hidden" name="appointment_id" value="<?= $_GET['appointment_id'] ?>">
-                        <input type="submit" name="add_resuts" class="btn btn-success" value="Submit">
+                        <input type="submit" name="add_results" class="btn btn-success" value="Submit">
                     </div>
                 </form>
             </div>

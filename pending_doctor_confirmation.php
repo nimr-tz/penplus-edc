@@ -199,14 +199,14 @@ if ($user->isLoggedIn()) {
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu" role="menu">
-                                                    <?php if ($value['doctor_confirm'] == 0 && $test) {
+                                                    <?php if ($value['doctor_confirm'] == 0 && $test && $request) {
 
                                                     ?>
                                                         <a class="dropdown-item" href="view_appointment_list.php?appointment_id=<?= $value['id'] ?>&cid=<?= $client_name['id'] ?>&status=<?= $_GET['status'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
                                                         <div class="dropdown-divider"></div>
                                                     <?php }
                                                     ?>
-                                                    <?php if ($test) {
+                                                    <?php if (!$request) {
 
                                                     ?>
                                                         <a class="dropdown-item" href="add_lab.php?cid=<?= $client_name['id'] ?>&status=1"><span class="fa fa-eye text-dark"></span> Request Test</a>

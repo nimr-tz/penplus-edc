@@ -545,6 +545,7 @@ if ($user->isLoggedIn()) {
                         'seq_no' => $sq,
                         'reasons' => '',
                         'visit_status' => 0,
+                        'site_id' => $user->data()->site_id,
                     ));
 
                     $successMessage = 'Schedule Summary  Added Successful';
@@ -3070,7 +3071,7 @@ if ($user->isLoggedIn()) {
                                             </tr>
                                         <?php } ?>
 
-                                        <tr>
+                                        <!-- <tr>
                                             <td>14</td>
                                             <td>Lab Requests</td>
                                             <?php if ($override->get3('lab_requests', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
@@ -3080,7 +3081,7 @@ if ($user->isLoggedIn()) {
                                                 <td><a href="add_lab.php?cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
                                             <?php } ?>
 
-                                        </tr>
+                                        </tr> -->
 
                                     </tbody>
                                 </table>

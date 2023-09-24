@@ -358,5 +358,14 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
+
+    public function DoctorConfirm($table, $site_id, $value1, $value2)
+    {
+        $query = $this->_pdo->query("UPDATE $table SET $site_id='$value1' WHERE $value2");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    
 }
 

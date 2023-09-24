@@ -228,6 +228,13 @@ if ($user->isLoggedIn()) {
                 </li>
 
                 <li class="active">
+                    <a href="pending_doctor_confirmation.php?status=1">
+                        <span class="text">Pending Doctor Confirmations </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getCount1('screening', 'ncd', 2, 'doctor_confirm', 0) ?></span>
+                    </a>
+                </li>
+
+                <li class="active">
                     <a href="appointments.php?status=1">
                         <span class="text">View Completed Lab Requests </span>
                         <span class="badge badge-secondary badge-pill"><?= $override->getCount('appointment_list', 'status', 1) ?></span>
@@ -307,6 +314,11 @@ if ($user->isLoggedIn()) {
                     <li>
                         <a href="info.php?id=11">
                             <span class="glyphicon glyphicon-list"></span><span class="text">Set Site Id on Visit Table</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=12">
+                            <span class="glyphicon glyphicon-list"></span><span class="text">Set DoctorConfirm on Screening Table</span>
                         </a>
                     </li>
                 <?php } ?>

@@ -29,6 +29,11 @@ if ($user->isLoggedIn()) {
                         $eligibility = 1;
                     }
 
+                    $doctor_confirm = 0;
+                    if ((Input::get('dm') == 1 || Input::get('dm') == 2) && (Input::get('scd') == 1 || Input::get('scd') == 2) && (Input::get('rhd') == 1 || Input::get('rhd') == 2)) {
+                        $doctor_confirm = 1;
+                    }
+
                     $screening_id = $override->get('screening', 'patient_id', $_GET['cid'])[0];
 
                     if ($override->get('screening', 'patient_id', $_GET['cid'])) {
@@ -40,6 +45,7 @@ if ($user->isLoggedIn()) {
                             'staff_id' => $user->data()->id,
                             'eligibility' => $eligibility,
                             'remarks' => Input::get('remarks'),
+                            'doctor_confirm' => $doctor_confirm,
                         ), $screening_id['id']);
 
                         // $visit = $override->getNews('visit', 'client_id', $_GET['cid'], 'seq_no', 0, 'visit_name', 'Screening')[0];
@@ -219,18 +225,26 @@ if ($user->isLoggedIn()) {
                                     <tbody>
                                         <?php
                                         $i = 1;
-                                        foreach ($override->get('appointment_test_list', 'patient_id', $_GET['cid']) as $value) {
-                                            $test = $override->get("test_list", "id", $value['test_id'])[0];
+                                        $appointment_test_list = $override->get('appointment_test_list', 'patient_id', $_GET['cid']);
+                                        if ($appointment_test_list) {
+                                            foreach ($override->get('appointment_test_list', 'patient_id', $_GET['cid']) as $value) {
+                                                $test = $override->get("test_list", "id", $value['test_id'])[0];
                                         ?>
+                                                <tr>
+                                                    <td class="py-1 px-2 text-center"><?= $i++; ?></td>
+                                                    <td class="py-1 px-2"><?= $test['name'] ?></td>
+                                                    <td class="py-1 px-2"><?= $value['test_value'] ?></td>
+                                                    <td class="py-1 px-2"><?= $test['units'] ?></td>
+                                                    <td class="py-1 px-2"><?= $test['minimum'] . ' -' . $test['maximum']  ?></td>
+                                                    <td class="py-1 px-2 text-right"><?= number_format($test['cost'], 2) ?></td>
+                                                </tr>
+                                            <?php }
+                                        } else { ?>
                                             <tr>
-                                                <td class="py-1 px-2 text-center"><?= $i++; ?></td>
-                                                <td class="py-1 px-2"><?= $test['name'] ?></td>
-                                                <td class="py-1 px-2"><?= $value['test_value'] ?></td>
-                                                <td class="py-1 px-2"><?= $test['units'] ?></td>
-                                                <td class="py-1 px-2"><?= $test['minimum'] . ' -' . $test['maximum']  ?></td>
-                                                <td class="py-1 px-2 text-right"><?= number_format($test['cost'], 2) ?></td>
+                                                <th class="py-1 text-center" colspan="4">No Data</th>
                                             </tr>
-                                        <?php } ?>
+                                        <?php
+                                        } ?>
                                     </tbody>
                                 </table>
                             </fieldset>

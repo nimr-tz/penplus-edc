@@ -138,8 +138,11 @@ if ($user->isLoggedIn()) {
                             <?php
                             if ($user->data()->position == 1) :
                             ?>
+
                                 <a class="btn btn-default bg-gradient-navy btn-flat btn-sm" href="update_results.php?appointment_id=<?= $appointment_list['id'] ?>&cid=<?= $_GET['cid'] ?>&status=<?= $_GET['status'] ?>"> Update Results</a>
                             <?php endif; ?>
+                            <a class="btn btn-primary border btn-flat btn-sm" href="pending_doctor_confirmation.php?status=1"><i class="fa fa-angle-right"></i> Back To Pending</a>
+
                             <a class="btn btn-default border btn-flat btn-sm" href="appointments.php?status=<?= $_GET['status'] ?>"><i class="fa fa-angle-left"></i> Back</a>
                         </div>
                     </div>

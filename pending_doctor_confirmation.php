@@ -135,23 +135,25 @@ if ($user->isLoggedIn()) {
 
                                         $test_name = $override->get("test_list", "id", $value['test_id']);
                                         $client_name = $override->get("clients", "id", $value['patient_id'])[0];
-                                        $appointment_list = $override->getNews("appointment_list", 'status', 0, 'client_id', $client_name['id'])[0];
+                                        $appointment_list = $override->getNews("appointment_list", 'status', 1, 'client_id', $client_name['id'])[0];
 
                                         $test_list = $override->SelectTests('test_list', 'id', 'test_id', 'appointment_test_list', 'appointment_id', $appointment_list['id']);
                                         $test_arr = array_column($test_list, 'name');
                                         $test = implode(", ", $test_arr);
 
-                                        $test_arr_id = array_column($test_list, 'id');
-                                        $test_ids = implode(", ", $test_arr_id);
+                                        // print_r($test);
 
-                                        $doctor_confirm = 0;
-                                        if (Input::get('doctor_confirm') == 1) {
-                                            $doctor_confirm = 'Confirmed';
-                                        } elseif (Input::get('doctor_confirm') == 2) {
-                                            $doctor_confirm = 'Not Needed';
-                                        } else {
-                                            $doctor_confirm = 'Pending';
-                                        }
+                                        // $test_arr_id = array_column($test_list, 'id');
+                                        // $test_ids = implode(", ", $test_arr_id);
+
+                                        // $doctor_confirm = 0;
+                                        // if (Input::get('doctor_confirm') == 1) {
+                                        //     $doctor_confirm = 'Confirmed';
+                                        // } elseif (Input::get('doctor_confirm') == 2) {
+                                        //     $doctor_confirm = 'Not Needed';
+                                        // } else {
+                                        //     $doctor_confirm = 'Pending';
+                                        // }
 
                                         if ($test) {
                                             $test = $test;

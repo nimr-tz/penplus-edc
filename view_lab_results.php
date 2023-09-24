@@ -67,6 +67,15 @@ if ($user->isLoggedIn()) {
                 </div><!-- /.container-fluid -->
             </section>
 
+            <?php
+            $gender = $override->get('clients', 'id', $_GET['cid'])['0']['gender'];
+            $phone_number = $override->get('clients', 'id', $_GET['cid'])['0']['phone_number'];
+            $clinic_date = $override->get('clients', 'id', $_GET['cid'])['0']['clinic_date'];
+            $study_id = $override->get('clients', 'id', $_GET['cid'])['0']['study_id'];
+
+
+            ?>
+
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
@@ -89,19 +98,25 @@ if ($user->isLoggedIn()) {
                                 <div class="container-fluid" id="outprint">
                                     <div class="row">
                                         <div class="col-2 border bg-gradient-primary text-light">Appointment Code</div>
-                                        <div class="col-4 border"><?= isset($code) ? $code : "" ?></div>
+                                        <div class="col-4 border"><?= $study_id; ?></div>
                                         <div class="col-2 border bg-gradient-primary text-light">Schedule</div>
-                                        <div class="col-4 border"><?= isset($schedule) ? date("M d, Y h:i A", strtotime($schedule)) : "" ?></div>
+                                        <div class="col-4 border"><?= $clinic_date; ?></div>
                                         <div class="col-2 border bg-gradient-primary text-light">Patient Name</div>
-                                        <div class="col-10 border"><?= isset($fullname) ? $fullname : "" ?></div>
+                                        <div class="col-10 border"><?= $override->get('clients', 'id', $_GET['cid'])['0']['firstname'] . ' - ' . $override->get('clients', 'id', $_GET['cid'])['0']['middlename'] . ' - ' . $override->get('clients', 'id', $_GET['cid'])['0']['lastname'] ?></div>
                                         <div class="col-1 border bg-gradient-primary text-light">Gender</div>
-                                        <div class="col-3 border"><?= isset($gender) ? $gender : "" ?></div>
+                                        <div class="col-3 border"><?php if ($gender == 1) {
+                                                                        echo 'Male';
+                                                                    } elseif ($gender == 2) {
+                                                                        echo 'Female';
+                                                                    } else {
+                                                                        echo 'Missing';
+                                                                    } ?></div>
                                         <div class="col-1 border bg-gradient-primary text-light">Contact #</div>
-                                        <div class="col-3 border"><?= isset($contact) ? $contact : "" ?></div>
+                                        <div class="col-3 border"><?= $phone_number; ?></div>
                                         <div class="col-1 border bg-gradient-primary text-light">Email</div>
-                                        <div class="col-3 border"><?= isset($email) ? $email : "" ?></div>
+                                        <div class="col-3 border"><?= $phone_number; ?></div>
                                         <div class="col-2 border bg-gradient-primary text-light">Address</div>
-                                        <div class="col-10 border"><?= isset($address) ? $address : "" ?></div>
+                                        <div class="col-3 border"><?= $phone_number; ?></div>
                                         <div class="col-2 border bg-gradient-primary text-light">Status</div>
                                         <div class="col-4 border ">
                                             <?php
@@ -134,7 +149,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-4 border ">
                                             <?php
                                             if (isset($prescription_path)) {
-                                                echo "<a href='" . base_url . $prescription_path . "' target='_blank' download='" . (explode('?', str_replace("uploads/prescriptions/", '', $prescription_path))[0]) . "'>" . (explode('?', str_replace("uploads/prescriptions/", '', $prescription_path))[0]) . "</a>";
+                                                echo "<a href='" . $prescription_path . "' target='_blank' download='" . (explode('?', str_replace("uploads/prescriptions/", '', $prescription_path))[0]) . "'>" . (explode('?', str_replace("uploads/prescriptions/", '', $prescription_path))[0]) . "</a>";
                                             } else {
                                                 echo "N/A";
                                             }
@@ -143,8 +158,8 @@ if ($user->isLoggedIn()) {
                                         <?php if (isset($status) && $status == 6) : ?>
                                             <div class="col-2 border bg-gradient-primary text-light">Uploaded Report</div>
                                             <div class="col-10 border ">
-                                                <?php if (isset($code) && is_file(base_app . "uploads/reports/" . $code . ".pdf")) : ?>
-                                                    <a href='<?= base_url . "uploads/reports/" . $code . ".pdf" ?>' target='_blank' download='<?= $code . ".pdf" ?>'><?= $code . ".pdf" ?></a>
+                                                <?php if ("uploads/reports/" . $code . ".pdf") : ?>
+                                                    <a href='<?= "uploads/reports/" . $code . ".pdf" ?>' target='_blank' download='<?= $code . ".pdf" ?>'><?= $code . ".pdf" ?></a>
                                                 <?php else : ?>
                                                     N/A
                                                 <?php endif; ?>
@@ -163,38 +178,43 @@ if ($user->isLoggedIn()) {
                                             <thead>
                                                 <tr class="bg-gradient-primary text-light">
                                                     <th class="text-center">#</th>
-                                                    <th>Name</th>
+                                                    <th>Category Name</th>
+                                                    <th>Test Name</th>
                                                     <th>Value</th>
+                                                    <th>Units</th>
                                                     <th>Ranges</th>
                                                     <th>Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
 
-                                                <?php foreach ($override->get('lab_requests', 'patient_id', $_GET['cid']) as $value) {
+                                                <?php
+                                                $i = 1;
+                                                foreach ($override->get('lab_requests', 'patient_id', $_GET['cid']) as $value) {
 
-                                                    $category = $override->get('category', 'id', $value['category'])[0];
+                                                    $category_name = $override->get('category', 'id', $value['category'])[0];
                                                     $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
                                                     $patient_name = $override->get('clients', 'id', $value['patient_id'])[0];
                                                     $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
                                                     $site_name = $override->get('site', 'id', $value['site_id'])[0];
-
+                                                    $test_value = $override->get('lab_tests', 'id', $value['test_value'])[0];
+                                                    $test_units = $override->get('lab_tests', 'id', $value['test_value'])[0];
 
                                                     $status = 'Pending';
                                                     if ($value['status'] == 1) {
                                                         $status = 'Done';
                                                     }
-
-
                                                 ?>
                                                     <tr>
                                                         <td class="py-1 px-2 text-center"><?= $i++; ?></td>
-                                                        <td class="py-1 px-2"><?= $row['name'] ?></td>
-                                                        <td class="py-1 px-2"></td>
+                                                        <td class="py-1 px-2"><?= $category_name['name']; ?></td>
+                                                        <td class="py-1 px-2"><?= $test_name['name']; ?></td>
+                                                        <td class="py-1 px-2"><?= $value['test_value']; ?></td>
+                                                        <td class="py-1 px-2"><?= $test_units['test_units']; ?></td>
                                                         <td class="py-1 px-2"></td>
                                                         <td class="py-1 px-2 text-right"><?= number_format($row['cost'], 2) ?></td>
                                                     </tr>
-
+                                                <?php  } ?>
                                             </tbody>
                                         </table>
                                     </fieldset>
@@ -218,55 +238,55 @@ if ($user->isLoggedIn()) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $i = 1;
-                                                    if (isset($test_ids) && count($test_ids) > 0) :
-                                                        $history = $conn->query("SELECT* FROM `history_list` where appointment_id = '{$id}' order by unix_timestamp(date_created) asc");
-                                                        while ($row = $history->fetch_assoc()) :
+                                                $i = 1;
+                                                foreach ($override->get('lab_requests', 'patient_id', $_GET['cid']) as $value) {
+
+                                                    $category_name = $override->get('category', 'id', $value['category'])[0];
+                                                    $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
+                                                    $patient_name = $override->get('clients', 'id', $value['patient_id'])[0];
+                                                    $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
+                                                    $site_name = $override->get('site', 'id', $value['site_id'])[0];
+                                                    $test_value = $override->get('lab_tests', 'id', $value['test_value'])[0];
+                                                    $test_units = $override->get('lab_tests', 'id', $value['test_value'])[0];
+
+                                                    $status = 'Pending';
+                                                    if ($value['status'] == 1) {
+                                                        $status = 'Done';
+                                                    }
                                                 ?>
-                                                        <tr>
-                                                            <td class="py-1 px-2 text-center"><?= $i++; ?></td>
-                                                            <td class="py-1 px-2"><?= date("M d, Y H:i", strtotime($row['date_created'])) ?></td>
-                                                            <td class="py-1 px-2"><?= $row['remarks'] ?></td>
-                                                            <td class="py-1 px-2">
-                                                                <?php
-                                                                switch ($row['status']) {
-                                                                    case 0:
-                                                                        echo '<span class="">Pending</span>';
-                                                                        break;
-                                                                    case 1:
-                                                                        echo '<span class">Approved</span>';
-                                                                        break;
-                                                                    case 2:
-                                                                        echo '<span class">Sample Collected</span>';
-                                                                        break;
-                                                                    case 3:
-                                                                        echo '<span class="rounde">Delivered to Lab</span>';
-                                                                        break;
-                                                                    case 4:
-                                                                        echo '<span class">Done</span>';
-                                                                        break;
-                                                                    case 5:
-                                                                        echo '<span class">Cancelled</span>';
-                                                                        break;
-                                                                    case 6:
-                                                                        echo '<span class">Report Uploaded</span>';
-                                                                        break;
-                                                                }
-                                                                ?>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endwhile; ?>
-                                                    <?php if ($history->num_rows <= 0) : ?>
-                                                        <tr>
-                                                            <th class="py-1 text-center" colspan="4">No Data</th>
-                                                        </tr>
-                                                    <?php endif; ?>
-                                                <?php else : ?>
                                                     <tr>
-                                                        <th class="py-1 text-center" colspan="4">No Data</th>
+                                                        <td class="py-1 px-2 text-center"><?= $i++; ?></td>
+                                                        <td class="py-1 px-2"><?= date("M d, Y H:i", strtotime($row['date_created'])) ?></td>
+                                                        <td class="py-1 px-2"><?= $row['remarks'] ?></td>
+                                                        <td class="py-1 px-2">
+                                                            <?php
+                                                            switch ($row['status']) {
+                                                                case 0:
+                                                                    echo '<span class="">Pending</span>';
+                                                                    break;
+                                                                case 1:
+                                                                    echo '<span class">Approved</span>';
+                                                                    break;
+                                                                case 2:
+                                                                    echo '<span class">Sample Collected</span>';
+                                                                    break;
+                                                                case 3:
+                                                                    echo '<span class="rounde">Delivered to Lab</span>';
+                                                                    break;
+                                                                case 4:
+                                                                    echo '<span class">Done</span>';
+                                                                    break;
+                                                                case 5:
+                                                                    echo '<span class">Cancelled</span>';
+                                                                    break;
+                                                                case 6:
+                                                                    echo '<span class">Report Uploaded</span>';
+                                                                    break;
+                                                            }
+                                                            ?>
+                                                        </td>
                                                     </tr>
-                                            <?php endif;
-                                                } ?>
+                                                <?php } ?>
                                             </tbody>
                                         </table>
                                     </fieldset>

@@ -4,107 +4,73 @@ $user = new User();
 $override = new OverideData();
 $email = new Email();
 $random = new Random();
-
+$validate = new validate();
 $successMessage = null;
 $pageError = null;
 $errorMessage = null;
-
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
-        $validate = new validate();
-        if (Input::get('add_test')) {
-            $date_requested = date("Y-m-d", strtotime(Input::get('date_requested')));
-
-            $client_request = $override->get('appointment_list', 'client_id', $_GET['cid']);
-            if (!$client_request) {
-                $i = 0;
-                $selected_test = Input::get('test_name');
-                $tests = implode(",", $selected_test);
-                $date = date("Y-m-d\TH:i");
-                $user->createRecord('appointment_list', array(
-                    'date_requested' => $date_requested,
-                    'schedule' => date("Y-m-d\TH:i", strtotime($date)),
-                    'code' => 111,
-                    'client_id' => $_GET['cid'],
-                    'test_id' => $tests,
-                    'prescription_path' => 'N/A',
-                    'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                    'date_updated' => date("Y-m-d\TH:i", strtotime($date)),
-                    'staff_id' => $user->data()->id,
-                    'status' => 0,
-                    'request_status' => 0,
-                    'site_id' => $user->data()->site_id,
-                ));
-
-
-
-                $appointment_list = $override->getlastRow('appointment_list', 'client_id', $_GET['cid'], 'id')[0];
-
-                foreach (Input::get('test_name') as $value) {
-                    $test = $override->getNews('test_list', 'status', 1, 'id', $value)[0];
-                    $user->createRecord('appointment_test_list', array(
-                        'appointment_id' => $appointment_list['id'],
-                        'date_requested' => $date_requested,
-                        'test_id' => $value,
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'status' => 0,
-                        'request_status' => 0,
-                        'site_id' => $user->data()->site_id,
-                        'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                        'created_on' => date("Y-m-d"),
-                    ));
-                }
-                $user->createRecord('history_list', array(
-                    'appointment_id' => $appointment_list['id'],
-                    'staff_id' => $user->data()->id,
-                    'status' => 0,
-                    'site_id' => $user->data()->site_id,
-                    'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                    'remarks' => 'Lab test requested',
-                    'client_id' => $_GET['cid'],
-                ));
-
-                // Redirect::to('info.php?id=' . $_GET['id'] . '&status=' . $_GET['status']);
-                Redirect::to('appointments.php?status=0');
-                // Redirect::to('view_appointment_list.php?appointment_id=' . $_GET['appointment_id'] . '&cid=' . $_GET['cid'] . '&status=' . $_GET['status']);
-
-            } else {
-                $errorMessage = 'Client already have a request.';
-            }
-        } elseif (Input::get('update_category')) {
-            $validate = $validate->check($_POST, array(
-                // 'name' => array(
-                //     'required' => true,
-                // ),
-            ));
+        if (Input::get('add_results')) {
+            $validate = $validate->check($_POST, array());
             if ($validate->passed()) {
                 try {
-                    $user->updateRecord('category', array(
-                        'name' => Input::get('name'),
-                        'status' => Input::get('status'),
-                        'description' => Input::get('description'),
-                    ), Input::get('id'));
-                    $successMessage = 'New Test Category Updated';
+                    $i = 0;
+                    foreach (Input::get('id') as $id) {
+                        $status = 0;
+                        if (Input::get('test_value')[$i]) {
+                            $status = 1;
+                        }
+                        $user->updateRecord('appointment_test_list', array(
+                            'test_value' => Input::get('test_value')[$i],
+                            'status' => 1,
+                            'request_status' => 1,
+                        ), $id);
+                        $i++;
+                    }
+
+                    $user->updateRecord('appointment_list', array(
+                        'status' => 1,
+                        'request_status' => 1,
+                    ), $_GET['appointment_id']);
+
+                    $date = date("Y-m-d\TH:i");
+
+                    $appointment_id = $override->getNews('history_list', 'client_id', $_GET['cid'], 'appointment_id', $_GET['appointment_id']);
+
+                    var_dump($appointment_id);
+                    if ($appointment_id) {
+                        $user->updateRecord('history_list', array(
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'date_created' => date("Y-m-d\TH:i", strtotime($date)),
+                            'remarks' => Input::get('remarks'),
+                        ), $appointment_id[0]['id']);
+                    } else {
+                        $user->createRecord('history_list', array(
+                            'appointment_id' => $_GET['appointment_id'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'site_id' => $user->data()->site_id,
+                            'date_created' => date("Y-m-d\TH:i", strtotime($date)),
+                            'remarks' => Input::get('remarks'),
+                            'client_id' => $_GET['cid'],
+                        ));
+                    }
+
+                    Redirect::to('view_appointment_list.php?appointment_id=' . $_GET['appointment_id'] . '&cid=' . $_GET['cid'] . '&status=' . $_GET['status']);
+                    $successMessage = 'Lab Results added Successful';
+                    die;
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('deactivate_category')) {
-            $user->updateRecord('category', array(
+        } elseif (Input::get('delete_test_name')) {
+            $user->updateRecord('lab_requests', array(
                 'status' => 0,
             ), Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
-        } elseif (Input::get('activate_category')) {
-            $user->updateRecord('category', array(
-                'status' => 1,
-            ), Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
-        } elseif (Input::get('delete_category')) {
-            $user->deleteRecord('category', 'id', Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
+            $successMessage = 'Test Deleted Successful';
         }
     }
 } else {
@@ -125,52 +91,33 @@ if ($user->isLoggedIn()) {
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
-                    <!-- <div class="container-fluid"> -->
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <h1>
-                                <?php if ($errorMessage) { ?>
-                                    <div class="block">
-                                        <div class="alert alert-danger">
-                                            <b>Error!</b> <?= $errorMessage ?>
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        </div>
-                                    </div>
-                                <?php } elseif ($pageError) { ?>
-                                    <div class="block col-md-12">
-                                        <div class="alert alert-danger">
-                                            <b>Error!</b> <?php foreach ($pageError as $error) {
-                                                                echo $error . ' , ';
-                                                            } ?>
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        </div>
-                                    </div>
-                                <?php } elseif ($successMessage) { ?>
-                                    <div class="block">
-                                        <div class="alert alert-success">
-                                            <b>Success!</b> <?= $successMessage ?>
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </h1>
-                        </div>
-                    </div>
-                    <!-- </div> -->
-                    <!-- /.container-fluid -->
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Request Form</h1>
+                            <h1>Results Form</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Request Form</li>
+                                <li class="breadcrumb-item active">Results Form</li>
                             </ol>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
+
+            <?php
+            $appointment_list = $override->get('appointment_list', 'client_id', $_GET['cid'])[0];
+            $clients = $override->get('clients', 'id', $_GET['cid'])[0];
+            $history_list = $override->getNews('history_list', 'client_id', $_GET['cid'], 'appointment_id', $_GET['appointment_id'])[0];
+
+
+            if ($clients['gender'] = 1) {
+                $gender = 'Male';
+            } else {
+                $gender = 'Male';
+            }
+
+            ?>
 
             <style>
                 .img-thumb-path {
@@ -181,53 +128,60 @@ if ($user->isLoggedIn()) {
                 }
             </style>
 
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Request New Tests</h3>
-                </div>
-                <!-- /.card-header -->
-                <!-- form start -->
+            <!-- Main content -->
+            <div class="container">
+                <h4>Update Results Form</h4>
+                <hr>
+
+                <!-- <form method="post" action="checkbox-db.php"> -->
                 <form method="post">
-                    <div class="card-body">
-                        <!-- Date -->
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Date requested:</label>
-                                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                        <input type="text" name="date_requested" class="form-control datetimepicker-input" data-target="#reservationdate" value="" />
-                                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Lab Test</th>
+                                <th>value</th>
+                                <th>Units</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $i = 1;
+                            foreach ($override->get('appointment_test_list', 'patient_id', $_GET['cid']) as $value) {
+                                $test = $override->get("test_list", "id", $value['test_id'])[0];
+                            ?>
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="id[]" value="<?= $value['id'] ?>">
+                                        <input type="checkbox" name="status[]" value="1" <?php if ($value['status'] == 1) {
+                                                                                                echo 'checked';
+                                                                                            } ?>>
+                                    </td>
+                                    <td><?= $test['name'] ?> </td>
 
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label>Test Name</label>
-                                    <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;" name="test_name[]">
-                                        <?php
-                                        $tests = $override->get("test_list", "status", 1);
-                                        foreach ($tests as $test1) { ?>
-                                            <option value="<?= $test1['id'] ?>"><?= $test1['name'] ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- /.form-group -->
-                        </div>
+                                    <td><input type="number" name="test_value[]" class="form-control" value="<?php if ($value['test_value']) {
+                                                                                                                    print_r($value['test_value']);
+                                                                                                                }  ?>" <?php if ($user->data()->position != 1) {
+                                                                                                                            echo 'readonly';
+                                                                                                                        } ?>>
+                                    </td>
+                                    <td class="py-1 px-2"><?= $test['units'] ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <small class="mx-2">Remarks</small>
+                        <textarea name="remarks" id="remarks" rows="3" class="form-control form-control-sm rounded-0" required><?= $history_list['remarks'] ?></textarea>
                     </div>
-                    <!-- /.card-body -->
-
-                    <div class="card-footer">
-                        <a href="info.php?id=3&status=1" class="btn btn-danger">Back</a>
-                        <input type="submit" name="add_test" value="Add New Test Request" class="btn btn-info">
+                    <div class="text-center">
+                        <input type="hidden" name="appointment_id" value="<?= $_GET['appointment_id'] ?>">
+                        <input type="submit" name="add_results" class="btn btn-success" value="Submit">
                     </div>
                 </form>
             </div>
-            <!-- /.card -->
+            <!-- /.content -->
+
         </div>
         <!-- /.content-wrapper -->
         <?php include 'footerBar.php'; ?>
@@ -265,6 +219,47 @@ if ($user->isLoggedIn()) {
     <!-- <script src="dist/js/demo.js"></script> -->
     <!-- Page specific script -->
     <script>
+        $(document).ready(function() {
+            // $('#wait_ds').hide();
+            $('#category').change(function() {
+                var getUid = $(this).val();
+                // $('#wait_ds').show();
+                $.ajax({
+                    url: "process.php?content=category",
+                    method: "GET",
+                    data: {
+                        getUid: getUid
+                    },
+                    success: function(data) {
+                        $('#sub_category').html(data);
+                        // console.log(data);
+                        // $('#wait_ds').hide();
+                    }
+                });
+
+            });
+
+            $('#update_category').change(function() {
+                var getUid = $(this).val();
+                // $('#wait_ds').show();
+                $.ajax({
+                    url: "process.php?content=category",
+                    method: "GET",
+                    data: {
+                        getUid: getUid
+                    },
+                    success: function(data) {
+                        $('#update_sub_category').html(data);
+                        // console.log(data);
+                        // $('#wait_ds').hide();
+                    }
+                });
+
+            });
+        });
+
+
+
         $(function() {
             //Initialize Select2 Elements
             $('.select2').select2()

@@ -108,34 +108,45 @@ if ($user->isLoggedIn()) {
                 <?php } ?>
                 <div class="row">
                     <?php
-                    // $cat = '';
-
-                    // if ($category['cardiac'] == 1) {
-                    //     $cat = 'Cardiac';
-                    // } elseif ($category['diabetes'] == 1) {
-                    //     $cat = 'Diabetes';
-                    // } elseif ($category['sickle_cell'] == 1) {
-                    //     $cat = 'Sickle cell';
-                    // } else {
-                    //     $cat = 'Not Diagnosed';
-                    // }
+                    // $lab_details = $override->get3('lab_requests', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                    $lab_requests = $override->get('lab_requests',  'status', 1)[0];
 
 
-                    // if ($patient['gender'] == 1) {
-                    //     $gender = 'Male';
-                    // } elseif ($patient['gender'] == 2) {
-                    //     $gender = 'Female';
-                    // }
+                    $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                    // $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
+                    // $category = $override->get('category', 'id', $lab_requests['category'])[0];
+                    // $lab_tests = $override->get('lab_tests', 'id', $lab_requests['category'])[0];
 
 
 
-                    // $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+                    $cat = '';
+
+                    if ($category['cardiac'] == 1) {
+                        $cat = 'Cardiac';
+                    } elseif ($category['diabetes'] == 1) {
+                        $cat = 'Diabetes';
+                    } elseif ($category['sickle_cell'] == 1) {
+                        $cat = 'Sickle cell';
+                    } else {
+                        $cat = 'Not Diagnosed';
+                    }
+
+
+                    if ($patient['gender'] == 1) {
+                        $gender = 'Male';
+                    } elseif ($patient['gender'] == 2) {
+                        $gender = 'Female';
+                    }
+
+
+
+                    $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
                     ?>
 
 
                     <div class="col-md-offset-1 col-md-8">
                         <div class="container">
-                            <h4>Lab Test Pending Request</h4>
+                            <h4>Lab Test Results</h4>
                             <hr>
 
                             <!-- <form method="post" action="checkbox-db.php"> -->
@@ -146,26 +157,34 @@ if ($user->isLoggedIn()) {
                                             <th></th>
                                             <th>Name</th>
                                             <th>Site</th>
+                                            <th>Test Category</th>
+                                            <th>Test Name</th>
+                                            <th>Value</th>
+                                            <th>Units</th>
+                                            <th>Ranges</th>
+                                            <th>Sample Type</th>
+                                            <th>Blood Number</th>
+                                            <th>Price</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($override->get('appointment_list', 'status', $_GET['status']) as $value) {
+                                        <?php foreach ($override->get3('clients', 'status', 1, 'screened', 1, 'lab_status', $_GET['status']) as $value) {
 
-                                            // $appointment_list = $override->get('appointment_list', 'id', $value['category'])[0];
+                                            $lab_requests = $override->get('lab_requests', 'id', $value['category'])[0];
 
-                                            // $category = $override->get('category', 'id', $value['category'])[0];
-                                            // $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
-                                            $patient_name = $override->get('clients', 'id', $value['client_id'])[0];
-                                            // $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
+                                            $category = $override->get('category', 'id', $value['category'])[0];
+                                            $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
+                                            $patient_name = $override->get('clients', 'id', $value['patient_id'])[0];
+                                            $test_name = $override->get('lab_tests', 'id', $value['test_name'])[0];
                                             $site_name = $override->get('site', 'id', $value['site_id'])[0];
 
-                                            // $status = 'Pending';
-                                            // if ($value['lab_status'] == 1) {
-                                            //     $status = 'Done';
-                                            // }
+                                            $status = 'Pending';
+                                            if ($value['lab_status'] == 1) {
+                                                $status = 'Done';
+                                            }
 
 
                                         ?>
@@ -178,13 +197,20 @@ if ($user->isLoggedIn()) {
                                                 </td>
                                                 <td><?= $patient_name['firstname'] . ' - ' . $patient_name['lastname'] ?></td>
                                                 <td><?= $site_name['name'] ?></td>
-
-                                                <?php if ($value['lab_status'] == 1) { ?>
-                                                    <td> <a href="#" class="btn btn-success">Done</a></td>
-                                                <?php } else { ?>
-                                                    <td> <a href="#" class="btn btn-warning">Pending</a></td>
-                                                <?php } ?>
-
+                                                <td><?= $category['name'] ?> </td>
+                                                <td><?= $test_name['name'] ?> </td>
+                                                <td> <input type="text" name="test_value[]" value="<?php if ($value['test_value']) {
+                                                                                                        print_r($value['test_value']);
+                                                                                                    }  ?>" <?php if ($user->data()->position != 1) {
+                                                                                                                echo 'readonly';
+                                                                                                            } ?>>
+                                                </td>
+                                                <td><?= $site_name[''] ?></td>
+                                                <td><?= $site_name[''] ?></td>
+                                                <td><?= $site_name[''] ?></td>
+                                                <td><?= $status ?></td>
+                                                <td><?= $site_name[''] ?></td>
+                                                <td><?= $site_name[''] ?></td>
                                                 <td>
                                                     <a href="view_lab_results.php?cid=<?= $value['id'] ?>" class="btn btn-info">view</a>
                                                 </td>

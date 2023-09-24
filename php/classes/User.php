@@ -299,6 +299,24 @@ class User
             throw new Exception('There is problem updating');
         }
     }
+
+    public function setSiteId($table, $fields = array(), $id = null)
+    {
+        if (!$id && $this->isLoggedIn()) {
+            $id = $this->data()->id;
+        }
+        if (!$this->_db->update($table, $id, $fields)) {
+            throw new Exception('There is problem updating');
+        }
+    }
+
+    // public function setSiteI7d($table, $site_id, $value)
+    // {
+    //     $query = $this->_pdo->query("UPDATE $table SET $site_id=$value WHERE 1");
+    //     $num = $query->rowCount();
+    //     return $num;
+    // }
+
     public function deleteRecord($table, $field, $value)
     {
         if (!$this->_db->delete($table, array($field, '=', $value))) {

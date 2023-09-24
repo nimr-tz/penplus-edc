@@ -129,25 +129,27 @@ if ($user->isLoggedIn()) {
                     </li>
                 </ul>
             </li> -->
-        <?php if ($user->data()->position == 1) { ?>
-            <li class="active">
-                <a href="info.php?id=6">
-                    <span class="isw-download"></span><span class="text">Download Data</span>
-                </a>
-            </li>
-            <li class="openable">
-                <a href="#"><span class="isw-tag"></span><span class="text">View Reports</span></a>
-                <ul>
-                    <li class="active">
-                        <a href="report1.php">
-                            <span class="text">Report 1 ( SUMMARY ) </span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="report2.php">
-                            <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
-                        </a>
-                    </li>
+        <li class="active">
+            <a href="info.php?id=6">
+                <span class="isw-download"></span><span class="text">Download Data</span>
+            </a>
+        </li>
+        <li class="openable">
+            <a href="#"><span class="isw-tag"></span><span class="text">View Reports</span></a>
+            <ul>
+                <li class="active">
+                    <a href="reports.php">
+                        <span class="text">Report 1 ( SUMMARY ) </span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="logs.php">
+                        <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
+                    </a>
+                </li>
+                <?php if ($user->data()->position == 1) { ?>
+
                     <li class="active">
                         <a href="report1_2.php">
                             <span class="text">Report 3 ( SUMMARY 2)</span>
@@ -178,9 +180,10 @@ if ($user->isLoggedIn()) {
                             <span class="text">Report 8 ( Rheumatic Heart Disease )</span>
                         </a>
                     </li>
-                </ul>
-            </li>
-        <?php } ?>
+                <?php } ?>
+
+            </ul>
+        </li>
 
         <!-- <li class="openable">
             <a href="#"><span class="isw-tag"></span><span class="text">View Lab Reports</span></a>
@@ -201,76 +204,41 @@ if ($user->isLoggedIn()) {
         <li class="openable">
             <a href="#"><span class="isw-tag"></span><span class="text">Lab Section</span></a>
             <ul>
-                <!-- <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Lab Home </span>
-                    </a>
-                </li> -->
-                <!-- <li class="active">
-                    <a href="add_lab.php">
-                        <span class="text">Add Lab Request </span>
-                    </a>
-                </li> -->
+                <?php
+                if ($user->data()->position == 1) {
+                ?>
+                    <li class="active">
+                        <a href="add_test_category.php">
+                            <span class="text">List of Category </span>
+                            <span class="badge badge-secondary badge-pill"><?= $override->countData('category', 'status', 1, 'delete_flag', 0) ?></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="add_test_sub_category.php">
+                            <span class="text">List of Sub Category </span>
+                            <span class="badge badge-secondary badge-pill"><?= $override->countData('sub_category', 'status', 1, 'delete_flag', 0) ?></span>
+                        </a>
+                    </li>
+                <?php } ?>
                 <li class="active">
-                    <a href="add_results.php">
-                        <span class="text">View Lab Results </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->getNo('lab_requests') ?></span>
+                    <a href="add_test_list.php">
+                        <span class="text">List of Tests </span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
                     </a>
                 </li>
+
                 <li class="active">
-                    <a href="add_results.php?status=1">
+                    <a href="appointments.php?status=1">
                         <span class="text">View Completed Lab Requests </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('lab_requests', 'status', 1) ?></span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('appointment_list', 'status', 1) ?></span>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="add_results.php?status=0">
+                    <a href="appointments.php?status=0">
                         <span class="text">View Pending Lab Requests </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('lab_requests', 'status', 0) ?></span>
+                        <span class="badge badge-secondary badge-pill"><?= $override->getCount('appointment_list', 'status', 0) ?></span>
                     </a>
                 </li>
-                <!-- <li class="active">
-                    <a href="checkbox.php">
-                        <span class="text">Lab Results Pending </span>
-                    </a>
-                </li> -->
-                <!-- <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Add Category Name</span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab_test_add.php">
-                        <span class="text">Add Test Name </span>
-                    </a>
-                </li>
-
-                <li class="active">
-                    <a href="add_lab_test.php">
-                        <span class="text">Add Test Name 2</span>
-                    </a>
-                </li>
-
-                <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Add Sample Type </span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Mange Category </span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Mange Test </span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab_home.php">
-                        <span class="text">Mange Sample</span>
-                    </a>
-                </li> -->
             </ul>
         </li>
 
@@ -334,6 +302,11 @@ if ($user->isLoggedIn()) {
                     <li>
                         <a href="info.php?id=10">
                             <span class="glyphicon glyphicon-list"></span><span class="text">Clear Data on Table</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=11">
+                            <span class="glyphicon glyphicon-list"></span><span class="text">Set Site Id on Visit Table</span>
                         </a>
                     </li>
                 <?php } ?>

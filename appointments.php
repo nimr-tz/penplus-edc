@@ -12,99 +12,14 @@ $errorMessage = null;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
-        if (Input::get('add_test')) {
-            $date_requested = date("Y-m-d", strtotime(Input::get('date_requested')));
-
-            $client_request = $override->get('appointment_list', 'client_id', $_GET['cid']);
-            if (!$client_request) {
-                $i = 0;
-                $selected_test = Input::get('test_name');
-                $tests = implode(",", $selected_test);
-                $date = date("Y-m-d\TH:i");
-                $user->createRecord('appointment_list', array(
-                    'date_requested' => $date_requested,
-                    'schedule' => date("Y-m-d\TH:i", strtotime($date)),
-                    'code' => 111,
-                    'client_id' => $_GET['cid'],
-                    'test_id' => $tests,
-                    'prescription_path' => 'N/A',
-                    'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                    'date_updated' => date("Y-m-d\TH:i", strtotime($date)),
-                    'staff_id' => $user->data()->id,
-                    'status' => 0,
-                    'request_status' => 0,
-                    'site_id' => $user->data()->site_id,
-                ));
-
-
-
-                $appointment_list = $override->getlastRow('appointment_list', 'client_id', $_GET['cid'], 'id')[0];
-
-                foreach (Input::get('test_name') as $value) {
-                    $test = $override->getNews('test_list', 'status', 1, 'id', $value)[0];
-                    $user->createRecord('appointment_test_list', array(
-                        'appointment_id' => $appointment_list['id'],
-                        'date_requested' => $date_requested,
-                        'test_id' => $value,
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'status' => 0,
-                        'request_status' => 0,
-                        'site_id' => $user->data()->site_id,
-                        'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                        'created_on' => date("Y-m-d"),
-                    ));
-                }
-                $user->createRecord('history_list', array(
-                    'appointment_id' => $appointment_list['id'],
-                    'staff_id' => $user->data()->id,
-                    'status' => 0,
-                    'site_id' => $user->data()->site_id,
-                    'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                    'remarks' => 'Lab test requested',
-                    'client_id' => $_GET['cid'],
-                ));
-
-                // Redirect::to('info.php?id=' . $_GET['id'] . '&status=' . $_GET['status']);
-                Redirect::to('appointments.php?status=0');
-                // Redirect::to('view_appointment_list.php?appointment_id=' . $_GET['appointment_id'] . '&cid=' . $_GET['cid'] . '&status=' . $_GET['status']);
-
-            } else {
-                $errorMessage = 'Client already have a request.';
-            }
-        } elseif (Input::get('update_category')) {
-            $validate = $validate->check($_POST, array(
-                // 'name' => array(
-                //     'required' => true,
-                // ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $user->updateRecord('category', array(
-                        'name' => Input::get('name'),
-                        'status' => Input::get('status'),
-                        'description' => Input::get('description'),
-                    ), Input::get('id'));
-                    $successMessage = 'New Test Category Updated';
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('deactivate_category')) {
-            $user->updateRecord('category', array(
+        if (Input::get('delete_appointment1')) {
+            $user->updateRecord('appointment_list', array(
                 'status' => 0,
             ), Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
-        } elseif (Input::get('activate_category')) {
-            $user->updateRecord('category', array(
-                'status' => 1,
-            ), Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
-        } elseif (Input::get('delete_category')) {
-            $user->deleteRecord('category', 'id', Input::get('id'));
-            $successMessage = 'Category Deleted Successful';
+            $successMessage = 'Test Deleted Successful';
+        } elseif (Input::get('delete_appointment')) {
+            $user->deleteRecord('appointment_list', 'id', Input::get('id'));
+            $successMessage = 'Request Test Deleted Successful';
         }
     }
 } else {
@@ -160,12 +75,12 @@ if ($user->isLoggedIn()) {
                     <!-- /.container-fluid -->
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Request Form</h1>
+                            <h1>List of Test Requests</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Request Form</li>
+                                <li class="breadcrumb-item active">List of Test Requests</li>
                             </ol>
                         </div>
                     </div>
@@ -180,54 +95,149 @@ if ($user->isLoggedIn()) {
                     object-position: center center;
                 }
             </style>
-
-            <div class="card card-primary">
+            <div class="card card-outline card-primary rounded-0 shadow">
                 <div class="card-header">
-                    <h3 class="card-title">Request New Tests</h3>
+                    <h3 class="card-title">List of Test Requests</h3>
+                    <div class="card-tools">
+                        <a class="btn btn-default border btn-flat btn-sm" href="dashboard.php"><i class="fa fa-angle-left"></i> Back</a>
+                        <!-- <a href="javascript:void(0)" id="create_new" class="btn btn-flat btn-sm btn-primary"><span class="fas fa-plus"></span> Book New Test Request</a> -->
+                    </div>
                 </div>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form method="post">
-                    <div class="card-body">
-                        <!-- Date -->
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Date requested:</label>
-                                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                        <input type="text" name="date_requested" class="form-control datetimepicker-input" data-target="#reservationdate" value="" />
-                                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="container-fluid">
+                            <table class="table table-bordered table-hover table-striped">
+                                <colgroup>
+                                    <col width="5%">
+                                    <col width="20%">
+                                    <col width="15%">
+                                    <col width="30%">
+                                    <col width="15%">
+                                    <col width="15%">
+                                </colgroup>
+                                <thead>
+                                    <tr class="bg-gradient-primary text-light">
+                                        <th>#</th>
+                                        <th>Date Requested</th>
+                                        <th>Client Name</th>
+                                        <th>Test</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    if ($_GET['status'] == 1) {
+                                        $appointment_list = $override->get("appointment_list", 'status', 1);
+                                    } else {
+                                        $appointment_list = $override->get("appointment_list", 'status', 0);
+                                    }
+                                    foreach ($appointment_list as $value) {
+                                        $test_name = $override->get("test_list", "id", $value['test_id']);
+                                        $client_name = $override->get("clients", "id", $value['client_id'])[0];
+                                        $test_list = $override->SelectTests('test_list', 'id', 'test_id', 'appointment_test_list', 'appointment_id', $value['id']);
+                                        $test_arr = array_column($test_list, 'name');
+                                        $test = implode(", ", $test_arr);
 
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <label>Test Name</label>
-                                    <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;" name="test_name[]">
-                                        <?php
-                                        $tests = $override->get("test_list", "status", 1);
-                                        foreach ($tests as $test1) { ?>
-                                            <option value="<?= $test1['id'] ?>"><?= $test1['name'] ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- /.form-group -->
+                                        $test_arr_id = array_column($test_list, 'id');
+                                        $test_ids = implode(", ", $test_arr_id);
+                                        // print_r($test_ids)
+                                    ?>
+                                        <tr>
+                                            <td class="text-center"><?php echo $i++; ?></td>
+                                            <td class=""><?php echo date("Y-m-d H:i", strtotime($value['date_created'])) ?></td>
+                                            <td class=""><?= $client_name['firstname'] . ' - ' . $client_name['lastname'] ?></td>
+                                            <td class="">
+                                                <p class="m-0 truncate-1"><?= $test ?></p>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php
+                                                switch ($value['status']) {
+                                                    case 0:
+                                                        echo '<span class="rounded-pill badge badge-secondary ">Pending</span>';
+                                                        break;
+                                                    case 1:
+                                                        echo '<span class="rounded-pill badge badge-primary ">Done</span>';
+                                                        break;
+                                                    case 2:
+                                                        echo '<span class="rounded-pill badge badge-warning ">Sample Collected</span>';
+                                                        break;
+                                                    case 3:
+                                                        echo '<span class="rounded-pill badge badge-primary bg-teal ">Delivered to Lab</span>';
+                                                        break;
+                                                    case 4:
+                                                        echo '<span class="rounded-pill badge badge-success ">Approved</span>';
+
+                                                        break;
+                                                    case 5:
+                                                        echo '<span class="rounded-pill badge badge-danger ">Cancelled</span>';
+                                                        break;
+                                                    case 6:
+                                                        echo '<span class="rounded-pill badge-light badge border text-dark ">Report Uploaded</span>';
+                                                        break;
+                                                }
+                                                ?>
+                                            </td>
+                                            <td align="center">
+                                                <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                                    Action
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <a class="dropdown-item" href="view_appointment_list.php?appointment_id=<?= $value['id'] ?>&cid=<?= $client_name['id'] ?>&status=<?= $_GET['status'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
+                                                    <?php if ($value['status'] < 1) :
+                                                        if ($user->data()->position == 1) :
+
+                                                    ?>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item edit_data" href="javascript:void(0)" data-id="<?php echo $value['id'] ?>"><span class="fa fa-edit text-primary"></span> Edit</a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <?php
+                                                            if ($user->data()->power == 1) :
+
+                                                            ?>
+                                                                <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-trash text-danger"></span> Delete</a>
+
+                                                    <?php endif;
+                                                        endif;
+                                                    endif;
+                                                    ?>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <div class="modal fade" id="delete<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                            <h4>Delete Test Request</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <strong style="font-weight: bold;color: red">
+                                                                <p>Are you sure you want to delete this Test Request</p>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                            <input type="submit" name="delete_appointment" value="Delete" class="btn btn-danger">
+                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <!-- /.card-body -->
-
-                    <div class="card-footer">
-                        <a href="info.php?id=3&status=1" class="btn btn-danger">Back</a>
-                        <input type="submit" name="add_test" value="Add New Test Request" class="btn btn-info">
-                    </div>
-                </form>
+                </div>
             </div>
-            <!-- /.card -->
+            <!-- /.content -->
+
         </div>
         <!-- /.content-wrapper -->
         <?php include 'footerBar.php'; ?>

@@ -5,11 +5,14 @@ $override = new OverideData();
 $email = new Email();
 $random = new Random();
 
-
-
-
-if ($_GET['content'] == 'all_generic2') {
-    $all_generic = $override->get('generic', 'status', $_GET['getUid_status'],'name');
+if ($_GET['content'] == 'category') {
+    $sub_category = $override->get('sub_category', 'category', $_GET['getUid']); ?>
+    <option value="">Select</option>
+    <?php foreach ($sub_category as $value) { ?>
+        <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+    <?php }
+} elseif ($_GET['content'] == 'all_generic2') {
+    $all_generic = $override->get('generic', 'status', $_GET['getUid_status'], 'name');
     ?>
     <option value="">Select Brands</option>
     <?php foreach ($all_generic as $batch) { ?>

@@ -142,13 +142,14 @@ if ($user->isLoggedIn()) {
                         <span class="text">Report 1 ( SUMMARY ) </span>
                     </a>
                 </li>
+
+                <li class="active">
+                    <a href="logs.php">
+                        <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
+                    </a>
+                </li>
                 <?php if ($user->data()->position == 1) { ?>
 
-                    <li class="active">
-                        <a href="report2.php">
-                            <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
-                        </a>
-                    </li>
                     <li class="active">
                         <a href="report1_2.php">
                             <span class="text">Report 3 ( SUMMARY 2)</span>

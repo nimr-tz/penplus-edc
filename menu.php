@@ -129,20 +129,21 @@ if ($user->isLoggedIn()) {
                     </li>
                 </ul>
             </li> -->
-        <?php if ($user->data()->position == 1) { ?>
-            <li class="active">
-                <a href="info.php?id=6">
-                    <span class="isw-download"></span><span class="text">Download Data</span>
-                </a>
-            </li>
-            <li class="openable">
-                <a href="#"><span class="isw-tag"></span><span class="text">View Reports</span></a>
-                <ul>
-                    <li class="active">
-                        <a href="report1.php">
-                            <span class="text">Report 1 ( SUMMARY ) </span>
-                        </a>
-                    </li>
+        <li class="active">
+            <a href="info.php?id=6">
+                <span class="isw-download"></span><span class="text">Download Data</span>
+            </a>
+        </li>
+        <li class="openable">
+            <a href="#"><span class="isw-tag"></span><span class="text">View Reports</span></a>
+            <ul>
+                <li class="active">
+                    <a href="reports.php">
+                        <span class="text">Report 1 ( SUMMARY ) </span>
+                    </a>
+                </li>
+                <?php if ($user->data()->position == 1) { ?>
+
                     <li class="active">
                         <a href="report2.php">
                             <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
@@ -178,9 +179,10 @@ if ($user->isLoggedIn()) {
                             <span class="text">Report 8 ( Rheumatic Heart Disease )</span>
                         </a>
                     </li>
-                </ul>
-            </li>
-        <?php } ?>
+                <?php } ?>
+
+            </ul>
+        </li>
 
         <!-- <li class="openable">
             <a href="#"><span class="isw-tag"></span><span class="text">View Lab Reports</span></a>

@@ -27,31 +27,31 @@
           <!-- Sidebar Menu -->
           <nav class="mt-4">
             <ul class="nav nav-pills nav-sidebar flex-column text-sm nav-compact nav-flat nav-child-indent nav-collapse-hide-child" data-widget="treeview" role="menu" data-accordion="false">
-              <!-- <li class="nav-item dropdown">
+              <li class="nav-item dropdown">
                 <a href="./" class="nav-link nav-home">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>
                     Dashboard
                   </p>
                 </a>
-              </li> -->
+              </li>
 
-              <!-- <li class="nav-item dropdown">
+              <li class="nav-item dropdown">
                 <a href="page=appointments" class="nav-link nav-appointments">
                   <i class="nav-icon fas fa-calendar"></i>
                   <p>
                     Appointment List
                   </p>
                 </a>
-              </li> -->
-              <!-- <li class="nav-item dropdown">
+              </li>
+              <li class="nav-item dropdown">
                 <a href="page=reports" class="nav-link nav-reports">
                   <i class="nav-icon fas fa-file-medical-alt"></i>
                   <p>
                     Test Results
                   </p>
                 </a>
-              </li> -->
+              </li>
             </ul>
           </nav>
           <!-- /.sidebar-menu -->

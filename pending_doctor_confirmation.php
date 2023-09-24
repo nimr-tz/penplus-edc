@@ -120,7 +120,8 @@ if ($user->isLoggedIn()) {
                                         <th>#</th>
                                         <th>Date Screened</th>
                                         <th>Client Name</th>
-                                        <th>Test</th>
+                                        <th>Test Request</th>
+                                        <th>Test Name</th>
                                         <th>Confirmation Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -154,6 +155,11 @@ if ($user->isLoggedIn()) {
                                         // } else {
                                         //     $doctor_confirm = 'Pending';
                                         // }
+                                        $test_request = 'Not Done';
+                                        $request = $override->get("appointment_list", 'client_id', $client_name['id']);
+                                        if ($request) {
+                                            $test_request = 'Done';
+                                        }
 
                                         if ($test) {
                                             $test = $test;
@@ -166,8 +172,12 @@ if ($user->isLoggedIn()) {
                                             <td class=""><?php echo date("Y-m-d H:i", strtotime($value['date_created'])) ?></td>
                                             <td class=""><?= $client_name['firstname'] . ' - ' . $client_name['lastname'] ?></td>
                                             <td class="">
+                                                <p class="m-0 truncate-1"><?= $test_request ?></p>
+                                            </td>
+                                            <td class="">
                                                 <p class="m-0 truncate-1"><?= $test ?></p>
                                             </td>
+
                                             <td class="text-center">
                                                 <?php
                                                 switch ($value['doctor_confirm']) {

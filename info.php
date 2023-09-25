@@ -249,6 +249,13 @@ if ($user->isLoggedIn()) {
                         $eligibility = 1;
                     }
 
+                    $doctor_confirm = 0;
+                    if ((Input::get('consent') == 1 && Input::get('residence') == 1)) {
+                        if (Input::get('ncd') == 1) {
+                            $doctor_confirm = 2;
+                        }
+                    }
+
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
                             'screening_date' => Input::get('screening_date'),
@@ -260,6 +267,7 @@ if ($user->isLoggedIn()) {
                             'patient_id' => Input::get('id'),
                             'staff_id' => $user->data()->id,
                             'eligibility' => $eligibility,
+                            'doctor_confirm' => $doctor_confirm,
                             'status' => 1,
                         ), Input::get('scrrening_id'));
 
@@ -282,6 +290,7 @@ if ($user->isLoggedIn()) {
                             'staff_id' => $user->data()->id,
                             'eligibility' => $eligibility,
                             'status' => 1,
+                            'doctor_confirm' => $doctor_confirm,
                         ));
 
                         $user->createRecord('visit', array(
@@ -536,6 +545,7 @@ if ($user->isLoggedIn()) {
                         'seq_no' => $sq,
                         'reasons' => '',
                         'visit_status' => 0,
+                        'site_id' => $user->data()->site_id,
                     ));
 
                     $successMessage = 'Schedule Summary  Added Successful';
@@ -687,7 +697,7 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $setSiteId = $override->setSiteId('visit','site_id',Input::get('name'),1);
+                    $setSiteId = $override->setSiteId('visit', 'site_id', Input::get('name'), 1);
                     $successMessage = 'Site ID Successfull';
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -737,6 +747,23 @@ if ($user->isLoggedIn()) {
                             $successMessage = 'Medications Successful Added';
                         }
                     }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('DoctorConfirm')) {
+
+            $validate = $validate->check($_POST, array(
+                // 'name' => array(
+                //     'required' => true,
+                // ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $setSiteId = $override->DoctorConfirm('screening', 'doctor_confirm', Input::get('name'), 1);
+                    $successMessage = 'Doctor Confirm Successfull Updated';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -3044,7 +3071,7 @@ if ($user->isLoggedIn()) {
                                             </tr>
                                         <?php } ?>
 
-                                        <tr>
+                                        <!-- <tr>
                                             <td>14</td>
                                             <td>Lab Requests</td>
                                             <?php if ($override->get3('lab_requests', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
@@ -3054,7 +3081,7 @@ if ($user->isLoggedIn()) {
                                                 <td><a href="add_lab.php?cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
                                             <?php } ?>
 
-                                        </tr>
+                                        </tr> -->
 
                                     </tbody>
                                 </table>
@@ -3406,6 +3433,36 @@ if ($user->isLoggedIn()) {
 
                                     <div class="footer tar">
                                         <input type="submit" name="setSiteId" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    <?php } elseif ($_GET['id'] == 12) { ?>
+
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>DoctorConfirm on Table</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Table Name:</div>
+                                        <div class="col-md-9">
+                                            <select name="name" id="name" style="width: 100%;" required>
+                                                <option value="">Select Value</option>
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="DoctorConfirm" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>

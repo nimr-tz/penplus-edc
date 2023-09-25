@@ -37,7 +37,7 @@ if ($user->isLoggedIn()) {
 
                     $appointment_id = $override->getNews('history_list', 'client_id', $_GET['cid'], 'appointment_id', $_GET['appointment_id']);
 
-                    var_dump($appointment_id);
+                    // var_dump($appointment_id);
                     if ($appointment_id) {
                         $user->updateRecord('history_list', array(
                             'staff_id' => $user->data()->id,

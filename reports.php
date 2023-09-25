@@ -90,6 +90,7 @@ if ($user->isLoggedIn()) {
                                         <th>Cardiac</th>
                                         <th>Diabetes</th>
                                         <th>Sickle cell</th>
+                                        <th>Other Diagnosis</th>
                                         <th>Eligible</th>
                                         <th>Enrolled</th>
                                         <th>End</th>
@@ -127,13 +128,16 @@ if ($user->isLoggedIn()) {
                                                 <p class="m-0 truncate-1"><?php echo $screened ?></p>
                                             </td>
                                             <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $sickle_cell ?></p>
-                                            </td>
-                                            <td class="">
                                                 <p class="m-0 truncate-1"><?php echo $cardiac ?></p>
                                             </td>
                                             <td class="">
                                                 <p class="m-0 truncate-1"><?php echo $diabetes ?></p>
+                                            </td>
+                                            <td class="">
+                                                <p class="m-0 truncate-1"><?php echo $sickle_cell ?></p>
+                                            </td>
+                                            <td class="">
+                                                <p class="m-0 truncate-1"><?php echo $other ?></p>
                                             </td>
                                             <td class="">
                                                 <p class="m-0 truncate-1"><?php echo $eligible ?></p>
@@ -159,13 +163,16 @@ if ($user->isLoggedIn()) {
                                             <p class="m-0 truncate-1"><?php echo $screened_Total ?></p>
                                         </td>
                                         <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $sickle_cell_Total ?></p>
-                                        </td>
-                                        <td class="">
                                             <p class="m-0 truncate-1"><?php echo $cardiac_Total ?></p>
                                         </td>
                                         <td class="">
                                             <p class="m-0 truncate-1"><?php echo $diabetes_Total ?></p>
+                                        </td>
+                                        <td class="">
+                                            <p class="m-0 truncate-1"><?php echo $sickle_cell_Total ?></p>
+                                        </td>
+                                        <td class="">
+                                            <p class="m-0 truncate-1"><?php echo $other_Total ?></p>
                                         </td>
                                         <td class="">
                                             <p class="m-0 truncate-1"><?php echo $eligible_Total ?></p>

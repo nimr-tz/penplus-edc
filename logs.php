@@ -102,7 +102,7 @@ if ($user->isLoggedIn()) {
                                 <tbody>
 
                                     <?php
-                                    $x = 1;
+                                    $i = 1;
                                     foreach ($clients as $client) {
                                         if ($client['eligible'] == 1) {
                                             $eligible = 'ELIGIBLE';
@@ -122,7 +122,7 @@ if ($user->isLoggedIn()) {
 
                                     ?>
                                         <tr>
-                                            <td class="text-center"><?php echo $i++; ?></td>
+                                            <td class="text-center"><?php echo $i; ?></td>
                                             <td class=""><?php echo $client['clinic_date'] ?></td>
                                             <td class="">
                                                 <p class="m-0 truncate-1"><?php echo $client['study_id'] ?></p>
@@ -134,9 +134,9 @@ if ($user->isLoggedIn()) {
                                                 <p class="m-0 truncate-1"><?php echo $consent ?></p>
                                             </td>
                                         </tr>
-
-
-                                    <?php } ?>
+                                    <?php
+                                        $i++;
+                                        } ?>
                                 </tbody>
                             </table>
                         </div>

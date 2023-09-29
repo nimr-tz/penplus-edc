@@ -118,37 +118,28 @@ if ($user->isLoggedIn()) {
 
             </ul>
         </li>
-        <!-- 
+        <?php if ($user->data()->position == 1) { ?>
+
+            <li class="active">
+                <a href="info.php?id=6">
+                    <span class="isw-download"></span><span class="text">Download Data</span>
+                </a>
+            </li>
+
             <li class="openable">
-                <a href="#"><span class="isw-documents"></span><span class="text">Reports</span></a>
+                <a href="#"><span class="isw-tag"></span><span class="text">View Reports</span></a>
                 <ul>
-                    <li>
-                        <a href="report.php?id=1">
-                            <span class="glyphicon glyphicon-search"></span><span class="text">Search Reports</span>
+                    <li class="active">
+                        <a href="reports.php">
+                            <span class="text">Report 1 ( SUMMARY ) </span>
                         </a>
                     </li>
-                </ul>
-            </li> -->
-        <li class="active">
-            <a href="info.php?id=6">
-                <span class="isw-download"></span><span class="text">Download Data</span>
-            </a>
-        </li>
-        <li class="openable">
-            <a href="#"><span class="isw-tag"></span><span class="text">View Reports</span></a>
-            <ul>
-                <li class="active">
-                    <a href="reports.php">
-                        <span class="text">Report 1 ( SUMMARY ) </span>
-                    </a>
-                </li>
 
-                <li class="active">
-                    <a href="logs.php">
-                        <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
-                    </a>
-                </li>
-                <?php if ($user->data()->position == 1) { ?>
+                    <li class="active">
+                        <a href="logs.php">
+                            <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
+                        </a>
+                    </li>
 
                     <li class="active">
                         <a href="report1_2.php">
@@ -180,26 +171,10 @@ if ($user->isLoggedIn()) {
                             <span class="text">Report 8 ( Rheumatic Heart Disease )</span>
                         </a>
                     </li>
-                <?php } ?>
 
-            </ul>
-        </li>
-
-        <!-- <li class="openable">
-            <a href="#"><span class="isw-tag"></span><span class="text">View Lab Reports</span></a>
-            <ul>
-                <li class="active">
-                    <a href="lab.php">
-                        <span class="text">Report 1 ( LAB ) </span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="lab2.php">
-                        <span class="text">Report 2 ( ENROLLMENT LOGS )</span>
-                    </a>
-                </li>
-            </ul>
-        </li> -->
+                </ul>
+            </li>
+        <?php } ?>
 
         <li class="openable">
             <a href="#"><span class="isw-tag"></span><span class="text">Lab Section</span></a>
@@ -219,13 +194,14 @@ if ($user->isLoggedIn()) {
                             <span class="badge badge-secondary badge-pill"><?= $override->countData('sub_category', 'status', 1, 'delete_flag', 0) ?></span>
                         </a>
                     </li>
+
+                    <li class="active">
+                        <a href="add_test_list.php">
+                            <span class="text">List of Tests </span>
+                            <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
+                        </a>
+                    </li>
                 <?php } ?>
-                <li class="active">
-                    <a href="add_test_list.php">
-                        <span class="text">List of Tests </span>
-                        <span class="badge badge-secondary badge-pill"><?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?></span>
-                    </a>
-                </li>
 
                 <li class="active">
                     <a href="pending_doctor_confirmation.php?status=1">

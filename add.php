@@ -14179,7 +14179,7 @@ $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: '
                     console.error('Error:', error);
                 });
 
-                        fetch('fetch_firstname.php')
+        fetch('fetch_firstname.php')
             .then(response => response.json())
             .then(data => {
                 // Process the data received from the PHP script

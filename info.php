@@ -3469,6 +3469,36 @@ if ($user->isLoggedIn()) {
                             </div>
 
                         </div>
+                    <?php } elseif ($_GET['id'] == 13) { ?>
+
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>DoctorConfirm on Table</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Table Name:</div>
+                                        <div class="col-md-9">
+                                            <select name="name" id="name" style="width: 100%;" required>
+                                                <option value="">Select Value</option>
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="DoctorConfirm" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
                     <?php } ?>
                 </div>
 

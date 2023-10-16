@@ -6823,7 +6823,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Other specify( If heumatic Heart Disease )</label>
+                                                        <label>Other specify( If Pericardial Disease )</label>
                                                         <textarea name="pericardial_other" rows="4"><?php if ($diagnosis['pericardial_other']) {
                                                                                                         print_r($diagnosis['pericardial_other']);
                                                                                                     }  ?>
@@ -6864,7 +6864,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Other specify( If heumatic Heart Disease )</label>
+                                                        <label>Other specify( If Arrhythmia )</label>
                                                         <textarea name="arrhythmia_other" rows="4"><?php if ($diagnosis['arrhythmia_other']) {
                                                                                                         print_r($diagnosis['arrhythmia_other']);
                                                                                                     }  ?>
@@ -13412,10 +13412,9 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Other Diagnosis:</label>
-                                                    <input type="text" name="diagnosis_other"  value="<?php if ($diabetic['visit_date']) {
-                                                                                                                                                                    print_r($diabetic['visit_date']);
+                                                    <input type="text" name="diagnosis_other"  value="<?php if ($diabetic['diagnosis_other']) {
+                                                                                                                                                                    print_r($diabetic['diagnosis_other']);
                                                                                                                                                                 }  ?>"  />
-                                                    <span>Example: 2023-01-01</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -13748,7 +13747,7 @@ if ($user->isLoggedIn()) {
 
 
                     <?php } elseif ($_GET['id'] == 27) { ?>
-                      <?php
+                    <?php
 $hospitalization_details = $override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
 $patient = $override->get('clients', 'id', $_GET['cid'])[0];

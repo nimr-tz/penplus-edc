@@ -17,6 +17,7 @@ if ($user->isLoggedIn()) {
         $all = $override->getCount('clients', 'site_id', $user->data()->site_id);
         $deleted = $override->countData('clients', 'status', 0, 'site_id', $user->data()->site_id);
     }
+
 } else {
     Redirect::to('index.php');
 }
@@ -123,6 +124,12 @@ if ($user->isLoggedIn()) {
             <li class="active">
                 <a href="info.php?id=6">
                     <span class="isw-download"></span><span class="text">Download Data</span>
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="dictionary.php">
+                    <span class="isw-download"></span><span class="text">Download Data Dictionary</span>
                 </a>
             </li>
 

@@ -23,7 +23,7 @@ if ($user->isLoggedIn()) {
         $eligible = $override->countData1('clients', 'site_id', $user->data()->site_id, 'status', 1, 'eligible', 1);
         $enrolled = $override->countData1('clients', 'site_id', $user->data()->site_id, 'status', 1, 'enrolled', 1);
         $end = $override->countData1('clients', 'site_id', $user->data()->site_id, 'status', 0, 'enrolled', 1);
-    }
+    } 
 } else {
     Redirect::to('index.php');
 }
@@ -53,8 +53,8 @@ if ($user->isLoggedIn()) {
                 <?php include 'pageInfo.php' ?>
             </div>
 
-            <div class="workplace">   
-            <?php include 'header.php' ?>          
+            <div class="workplace">
+                <?php include 'header.php' ?>
 
                 <div class="dr"><span></span></div>
                 <div class="row">
@@ -105,7 +105,7 @@ if ($user->isLoggedIn()) {
                                         <tr>
                                             <!-- <th><input type="checkbox" name="checkall" /></th> -->
                                             <td width="5">#</td>
-                                        <th width="20">Picture</th>
+                                            <th width="20">Picture</th>
                                             <th width="10%">Study ID</th>
                                             <th width="20%">Name</th>
                                             <th width="10%">Gender</th>
@@ -114,7 +114,7 @@ if ($user->isLoggedIn()) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $x = 1;        
+                                        <?php $x = 1;
                                         foreach ($visits as $visit) {
                                             $client = $override->get('clients', 'id', $visit['client_id'])[0] ?>
                                             <tr>
@@ -162,7 +162,8 @@ if ($user->isLoggedIn()) {
                                         <?php $x++;
                                         } ?>
                                     </tbody>
-                                </table>
+                                </table>                             
+
                             </div>
                         </div>
                     </div>

@@ -2593,6 +2593,10 @@ if ($user->isLoggedIn()) {
     <title> Add - PenPLus </title>
     <?php include "head.php"; ?>
 
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
     <style>
         #medication_table {
             border-collapse: collapse;
@@ -6819,7 +6823,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Other specify( If heumatic Heart Disease )</label>
+                                                        <label>Other specify( If Pericardial Disease )</label>
                                                         <textarea name="pericardial_other" rows="4"><?php if ($diagnosis['pericardial_other']) {
                                                                                                         print_r($diagnosis['pericardial_other']);
                                                                                                     }  ?>
@@ -6860,7 +6864,7 @@ if ($user->isLoggedIn()) {
                                                 <div class="row-form clearfix">
                                                     <!-- select -->
                                                     <div class="form-group">
-                                                        <label>Other specify( If heumatic Heart Disease )</label>
+                                                        <label>Other specify( If Arrhythmia )</label>
                                                         <textarea name="arrhythmia_other" rows="4"><?php if ($diagnosis['arrhythmia_other']) {
                                                                                                         print_r($diagnosis['arrhythmia_other']);
                                                                                                     }  ?>
@@ -13408,10 +13412,9 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <div class="form-group">
                                                     <label>Other Diagnosis:</label>
-                                                    <input type="text" name="diagnosis_other"  value="<?php if ($diabetic['visit_date']) {
-                                                                                                                                                                    print_r($diabetic['visit_date']);
+                                                    <input type="text" name="diagnosis_other"  value="<?php if ($diabetic['diagnosis_other']) {
+                                                                                                                                                                    print_r($diabetic['diagnosis_other']);
                                                                                                                                                                 }  ?>"  />
-                                                    <span>Example: 2023-01-01</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -13744,7 +13747,98 @@ if ($user->isLoggedIn()) {
 
 
                     <?php } elseif ($_GET['id'] == 27) { ?>
+                    <?php
+$hospitalization_details = $override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
+$patient = $override->get('clients', 'id', $_GET['cid'])[0];
+$category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
+$cat = '';
+
+if ($category['cardiac'] == 1) {
+    $cat = 'Cardiac';
+} elseif ($category['diabetes'] == 1) {
+    $cat = 'Diabetes';
+} elseif ($category['sickle_cell'] == 1) {
+    $cat = 'Sickle cell';
+} else {
+    $cat = 'Not Diagnosed';
+}
+
+
+if ($patient['gender'] == 1) {
+    $gender = 'Male';
+} elseif ($patient['gender'] == 2) {
+    $gender = 'Female';
+}
+
+
+
+$name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+?>
+<div class="col-md-offset-1 col-md-8">
+    <div class="head clearfix">
+        <div class="isw-ok"></div>
+        <h1>Hospitalizazions Details</h1>
+        <h4><strong style="font-size: larger"><?= $name ?></strong></h4>
+
+    </div>
+    <div class="block-fluid">
+        <form id="validation" method="post">
+            <div class="row-form clearfix">
+                <table id="myTable" class=" table order-list">
+                    <thead>
+                        <tr>
+                            <th> Admission Date </th>
+                            <th> Admission Reason </th>
+                            <th> Discharge Diagnosis </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($override->get('hospitalization_table', 'patient_id', $_GET['cid']) as $hospitalization_table) { ?>
+
+                            <tr>
+                                <td class="col-sm-4">
+                                    <input type="text" class="form-control" name="admission_date[]" id="admission_date[]" placeholder="Type admission_date..." value="<?php if ($hospitalization_table['admission_date']) {
+                                                                                                                                                                            print_r($hospitalization_table['admission_date']);
+                                                                                                                                                                        }  ?>">
+                                </td>
+                                <td class="col-sm-4">
+                                    <input type="text" class="form-control" name="admission_reason[]" id="admission_reason[]" placeholder="Type admission_reason..." value="<?php if ($hospitalization_table['admission_reason']) {
+                                                                                                                                                                                print_r($hospitalization_table['admission_reason']);
+                                                                                                                                                                            }  ?>">
+                                </td>
+                                <td class="col-sm-3">
+                                    <input type="text" class="form-control" name="discharge_diagnosis[]" value='<?php if ($hospitalization_table['discharge_diagnosis']) {
+                                                                                                                    print_r($hospitalization_table['discharge_diagnosis']);
+                                                                                                                }  ?>'>
+                                </td>
+                                <td class="col-sm-2"><a class="deleteRow"></a>
+
+                                </td>
+                            </tr>
+                        <?php } ?>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" style="text-align: left;">
+                                <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
+                            </td>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                <div class="footer tar">
+                    <input type="submit" name="add_hospitalization_details" value="Submit" class="btn btn-default">
+                </div>
+            <?php } ?>
+        </form>
+    </div>
+</div>
                     <?php } ?> <div class="dr"><span></span></div>
                 </div>
 
@@ -13754,6 +13848,56 @@ if ($user->isLoggedIn()) {
 
 
     <script>
+        $(document).ready(function() {
+        var counter = 0;
+
+        $("#addrow").on("click", function() {
+            var newRow = $("<tr>");
+            var cols = "";
+
+            cols += '<td><input type="text" class="form-control" name="test_name' + counter + '"/></td>';
+            cols += '<td><input type="text" class="form-control" name="client_id' + counter + '"/></td>';
+            cols += '<td><input type="text" class="form-control" name="results' + counter + '"/></td>';
+
+            cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+            newRow.append(cols);
+            $("table.order-list").append(newRow);
+            counter++;
+        });
+
+
+
+        $("table.order-list").on("click", ".ibtnDel", function(event) {
+            $(this).closest("tr").remove();
+            counter -= 1
+        });
+
+
+    });
+
+
+
+    function calculateRow(row) {
+        var price = +row.find('input[test_name^="price"]').val();
+
+    }
+
+    function calculateGrandTotal() {
+        var grandTotal = 0;
+        $("table.order-list").find('input[test_name^="price"]').each(function() {
+            grandTotal += +$(this).val();
+        });
+        $("#grandtotal").text(grandTotal.toFixed(2));
+    }
+
+
+
+
+
+
+
+
+
         <?php if ($user->data()->pswd == 0) { ?>
             $(window).on('load', function() {
                 $("#change_password_n").modal({
@@ -14034,7 +14178,7 @@ if ($user->isLoggedIn()) {
                     console.error('Error:', error);
                 });
 
-                        fetch('fetch_firstname.php')
+        fetch('fetch_firstname.php')
             .then(response => response.json())
             .then(data => {
                 // Process the data received from the PHP script

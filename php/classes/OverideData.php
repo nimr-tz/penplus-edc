@@ -308,6 +308,22 @@ class OverideData
         return $num;
     }
 
+    public function AllColmuns($table)
+    {
+        $query = $this->_pdo->query("SHOW COLUMNS FROM $table");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function AllColmunsComments($table)
+    {
+        $query = $this->_pdo->query("SELECT COLUMN_NAME, COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table'");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+
     public function AllDatabasesCount()
     {
         $query = $this->_pdo->query("SHOW DATABASES");

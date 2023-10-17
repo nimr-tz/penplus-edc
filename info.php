@@ -776,13 +776,13 @@ if ($user->isLoggedIn()) {
             $data = null;
             $filename = null;
             if (Input::get('clients')) {
-                $data = $override->getData('clients');
+                $data = $override->get('clients','status',1);
                 $filename = 'Registartion Data';
             } elseif (Input::get('screening')) {
-                $data = $override->getData('screening');
+                $data = $override->get('screening', 'status', 1);
                 $filename = 'screening Data';
             } elseif (Input::get('demographic')) {
-                $data = $override->getData('demographic');
+                $data = $override->get('demographic', 'status', 1);
                 $filename = 'Demographic Data';
             } elseif (Input::get('vital')) {
                 $data = $override->getData('vital');
@@ -802,6 +802,9 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('diabetic')) {
                 $data = $override->getData('diabetic');
                 $filename = 'Main diagnosis 3 ( Diabetic )';
+            } elseif (Input::get('sickle_cell_list')) {
+                $data = $override->get('sickle_cell_status_table','status',1);
+                $filename = 'sickle cell status Data';
             } elseif (Input::get('sickle_cell')) {
                 $data = $override->getData('sickle_cell');
                 $filename = 'Main diagnosis 3 ( Sickle Cell )';
@@ -814,6 +817,9 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('treatment_plan')) {
                 $data = $override->getData('treatment_plan');
                 $filename = 'Treatment Plan Data';
+            } elseif (Input::get('treatment_list')) {
+                $data = $override->get('medication_treatments', 'status', 1);
+                $filename = 'Treatment Medication List Data';
             } elseif (Input::get('dgns_complctns_comorbdts')) {
                 $data = $override->getData('dgns_complctns_comorbdts');
                 $filename = 'Diagnosis, Complications, & Comorbidities Data';
@@ -823,6 +829,9 @@ if ($user->isLoggedIn()) {
             } elseif (Input::get('hospitalization_details')) {
                 $data = $override->getData('hospitalization_details');
                 $filename = 'Hospitalization Details Data';
+            } elseif (Input::get('hospitalization_list')) {
+                $data = $override->get('hospitalization_table','status',1);
+                $filename = 'hospitalization List Data';
             } elseif (Input::get('lab_details')) {
                 $data = $override->getData('lab_details');
                 $filename = 'Lab Details Data';
@@ -2683,6 +2692,13 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td>10</td>
+                                            <td>Sickle cell status list Data </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="sickle_cell_list" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>11</td>
                                             <td>Results Data</td>
                                             <td>
@@ -2706,11 +2722,27 @@ if ($user->isLoggedIn()) {
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td>13</td>
+                                            <td>Hospitalization Patient List Data
+                                            </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="hospitalization_list" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>14</td>
                                             <td>Treatment Plan Data
                                             </td>
                                             <td>
                                                 <form method="post"><input type="submit" name="treatment_plan" value="Download"></form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>14</td>
+                                            <td>Treatment Medications List Data
+                                            </td>
+                                            <td>
+                                                <form method="post"><input type="submit" name="treatment_list" value="Download"></form>
                                             </td>
                                         </tr>
                                         <tr>

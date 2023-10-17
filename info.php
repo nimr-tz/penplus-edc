@@ -776,13 +776,13 @@ if ($user->isLoggedIn()) {
             $data = null;
             $filename = null;
             if (Input::get('clients')) {
-                $data = $override->getData('clients');
+                $data = $override->get('clients','status',1);
                 $filename = 'Registartion Data';
             } elseif (Input::get('screening')) {
-                $data = $override->getData('screening');
+                $data = $override->get('screening', 'status', 1);
                 $filename = 'screening Data';
             } elseif (Input::get('demographic')) {
-                $data = $override->getData('demographic');
+                $data = $override->get('demographic', 'status', 1);
                 $filename = 'Demographic Data';
             } elseif (Input::get('vital')) {
                 $data = $override->getData('vital');
@@ -803,7 +803,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('diabetic');
                 $filename = 'Main diagnosis 3 ( Diabetic )';
             } elseif (Input::get('sickle_cell_list')) {
-                $data = $override->getData('sickle_cell_status_table');
+                $data = $override->get('sickle_cell_status_table','status',1);
                 $filename = 'sickle cell status Data';
             } elseif (Input::get('sickle_cell')) {
                 $data = $override->getData('sickle_cell');
@@ -818,7 +818,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('treatment_plan');
                 $filename = 'Treatment Plan Data';
             } elseif (Input::get('treatment_list')) {
-                $data = $override->getData('medication_treatments');
+                $data = $override->get('medication_treatments', 'status', 1);
                 $filename = 'Treatment Medication List Data';
             } elseif (Input::get('dgns_complctns_comorbdts')) {
                 $data = $override->getData('dgns_complctns_comorbdts');
@@ -830,7 +830,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('hospitalization_details');
                 $filename = 'Hospitalization Details Data';
             } elseif (Input::get('hospitalization_list')) {
-                $data = $override->getData('hospitalization_table');
+                $data = $override->get('hospitalization_table','status',1);
                 $filename = 'hospitalization List Data';
             } elseif (Input::get('lab_details')) {
                 $data = $override->getData('lab_details');

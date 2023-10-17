@@ -2688,10 +2688,11 @@ if ($user->isLoggedIn()) {
     <title> Add - PenPLus </title>
     <?php include "head.php"; ?>
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+
+    <!------ Include the above in your HEAD tag ---------->
     <style>
         #medication_table {
             border-collapse: collapse;
@@ -5007,7 +5008,7 @@ if ($user->isLoggedIn()) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php foreach ($override->get('sickle_cell_status_table', 'patient_id', $_GET['cid']) as $sickle_cell_status_table) { ?>
+                                                    <?php foreach ($override->getNews('sickle_cell_status_table', 'patient_id', $_GET['cid'],'status',1) as $sickle_cell_status_table) { ?>
 
                                                         <tr>
                                                             <td>
@@ -8602,7 +8603,7 @@ if ($user->isLoggedIn()) {
                                                 <!-- <div class="autocomplete" style="width:300px;">
                                                     <input id="myInput" type="text" name="myCountry" onkeyup="fetchData()" placeholder="Add name..">
                                                 </div> -->
-                                                <?php foreach ($override->get('medication_treatments', 'patient_id', $_GET['cid']) as $treatment) { ?>
+                                                <?php foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'],'status',1) as $treatment) { ?>
 
                                                     <tr>
                                                         <!-- <div class="autocomplete" style="width:300px;">
@@ -10641,7 +10642,7 @@ if ($user->isLoggedIn()) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($override->get('hospitalization_table', 'patient_id', $_GET['cid']) as $hospitalization_table) { ?>
+                                                <?php foreach ($override->getNews('hospitalization_table', 'patient_id', $_GET['cid'],'status',1) as $hospitalization_table) { ?>
 
                                                     <tr>
                                                         <td class="col-sm-4">

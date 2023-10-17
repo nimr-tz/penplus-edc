@@ -2658,8 +2658,20 @@ if ($user->isLoggedIn()) {
             $user->updateRecord('medication_treatments', array(
                 'status' => 0,
             ), Input::get('id'));
-            $successMessage = 'User Medication Successful';
+            $successMessage = 'User Medication Successful Deleted';
+        } elseif (Input::get('delete_admin')) {
+            $user->updateRecord('hospitalization_table', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'Hospitalization details Successful Deleted';
+        } elseif (Input::get('delete_sickle')) {
+            $user->updateRecord('sickle_cell_status_table', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'sickle cell status details Successful Deleted';
         }
+
+        
     }
 } else {
     Redirect::to('index.php');
@@ -5024,8 +5036,33 @@ if ($user->isLoggedIn()) {
                                                                                                                         print_r($sickle_cell_status_table['sickle_status']);
                                                                                                                     }  ?>'>
                                                             </td>
-                                                        <td><input type="button" class="ibtnDel3 btn btn-md btn-danger"  value="Delete"></td>
-                                                        </tr>
+                                                        <td>
+                                                        <input type="button" class="ibtnDel3 btn btn-md btn-warning"  value="Remove">
+                                                        <a href="#delete_sickle<?= $sickle_cell_status_table['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                    </td>
+                                                 </tr>
+                                                    <div class="modal fade" id="delete_sickle<?= $sickle_cell_status_table['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete this ickle cell status details </h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this sickle cell status  details ?</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $sickle_cell_status_table['id'] ?>">
+                                                                        <input type="submit" name="delete_sickle" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
 
                                                     <?php } ?>
                                                 </tbody>
@@ -10622,15 +10659,40 @@ if ($user->isLoggedIn()) {
                                                                                                                                             print_r($hospitalization_table['discharge_diagnosis']);
                                                                                                                                         }  ?>'>
                                                         </td>
-                                                        <td><input type="button" class="ibtnDel btn btn-md btn-danger"  value="Delete"></td>
-                                                        <!-- <td class="col-sm-2"><a class="deleteRow"></a>
-
-                                                        </td> -->
+                                                        <td>
+                                                            <input type="button" class="ibtnDel btn btn-md btn-warning"  value="Remove">
+                                                        </td>
+                                                        <td>
+                                                         <a href="#delete_admission<?= $hospitalization_table['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                        </td>
                                                     </tr>
+
+                                                    <div class="modal fade" id="delete_admission<?= $hospitalization_table['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete this ospitalization details </h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this hospitalization details ?</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
+                                                                        <input type="submit" name="delete_admin" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 <?php } ?>
                                             </tbody>
                                         </table>
-                                          <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
+                                        <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
                                     </div>
                                  </div>
 

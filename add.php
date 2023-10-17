@@ -2654,6 +2654,11 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('delete_med')) {
+            $user->updateRecord('medication_treatments', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'User Medication Successful';
         }
     }
 } else {
@@ -8599,8 +8604,33 @@ if ($user->isLoggedIn()) {
                                                                                                                     print_r($treatment['medication_dose']);
                                                                                                                 }  ?>'>
                                                         </td>
-                                                        <td><input type="button" class="ibtnDel2 btn btn-md btn-danger"  value="Delete"></td>
+                                                        <td>
+                                                        <input type="button" class="ibtnDel2 btn btn-md btn-warning"  value="Remove">
+                                                        <a href="#delete<?= $treatment['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                    </td>
                                                     </tr>
+                                                    <div class="modal fade" id="delete<?= $treatment['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <form method="post">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                    <h4>Delete this Medication</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <strong style="font-weight: bold;color: red">
+                                                                        <p>Are you sure you want to delete this Medication ?</p>
+                                                                    </strong>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
+                                                                    <input type="submit" name="delete_med" value="Delete" class="btn btn-danger">
+                                                                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                 </div>
 
                                                 <?php } ?>
                                             </tbody>

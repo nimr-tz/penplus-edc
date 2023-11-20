@@ -3714,19 +3714,9 @@ if ($user->isLoggedIn()) {
                                                     <label>Ht (cm)<?php if ($_GET['seq'] > 1) {
                                                                         echo '( unchangeable )';
                                                                     } ?></label>
-                                                    <input type="text" name="height" id="height" value="<?php if ($_GET['seq'] > 1) {
-                                                                                                            if ($override->get5('clients', 'id', $_GET['cid'], 'age', 25)) {
-                                                                                                                print_r($height);
-                                                                                                            } else {
-                                                                                                                print_r($vital['height']);
-                                                                                                            }
-                                                                                                        } elseif ($vital['height']) {
+                                                    <input type="text" name="height" id="height" value="<?php if ($vital['height']) {
                                                                                                             print_r($vital['height']);
-                                                                                                        }  ?>" <?php if ($_GET['seq'] > 1) {
-                                                                                                                    if ($override->get5('clients', 'id', $_GET['cid'], 'age', 25)) {
-                                                                                                                        echo 'readonly';
-                                                                                                                    }
-                                                                                                                } ?> />
+                                                                                                        }  ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -13951,7 +13941,7 @@ if ($user->isLoggedIn()) {
             var newRow = $("<tr>");
             var cols = "";
 
-            cols += '<td><input class="autocomplete form-control" type="text" name="medication_type[]" id="myInput" placeholder="Type medications name..." onkeyup="fetchData()"</td>';
+            cols += '<td><input class="autocomplete form-control" type="text" name="medication_type[]" id="myInput" placeholder="Type medications name..." onkeyup="fetchData1()"</td>';
             cols += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
             cols += '<td><input type="text" class="form-control" name="medication_dose[]"></td>';
 
@@ -13960,7 +13950,29 @@ if ($user->isLoggedIn()) {
             $("table.order-list").append(newRow);
             counter++;
 
-            // console.log(cols);
+
+        function fetchData1() {
+
+            /*An array containing all the country names in the world:*/
+            // var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
+            // var getUid = $(this).val();
+            fetch('fetch_medications.php')
+                .then(response => response.json())
+                .then(data => {
+                    // Process the data received from the PHP script
+                    // console.log(data);
+                    autocomplete(document.getElementById(myInput), data);
+                })
+                .catch(error => {
+                    // Handle any errors that occurred during the fetch request
+                    console.error('Error:', error);
+                });
+            }
+
+
+
+
+
         });
 
 

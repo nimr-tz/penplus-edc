@@ -3711,9 +3711,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row-form clearfix">
                                                 <!-- select -->
                                                 <div class="form-group">
-                                                    <label>Ht (cm)<?php if ($_GET['seq'] > 1) {
-                                                                        echo '( unchangeable )';
-                                                                    } ?></label>
+                                                    <label>Ht (cm)</label>
                                                     <input type="text" name="height" id="height" value="<?php if ($vital['height']) {
                                                                                                             print_r($vital['height']);
                                                                                                         }  ?>" />

@@ -308,6 +308,7 @@ if ($user->isLoggedIn()) {
                                 'seq_no' => -1,
                                 'reasons' => '',
                                 'visit_status' => 1,
+                                'site_id' => $user->data()->site_id,
                             ));
                         }
 

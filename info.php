@@ -291,6 +291,7 @@ if ($user->isLoggedIn()) {
                             'eligibility' => $eligibility,
                             'status' => 1,
                             'doctor_confirm' => $doctor_confirm,
+                            'site_id' => $user->data()->site_id,
                         ));
 
                         $user->createRecord('visit', array(
@@ -307,6 +308,7 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'reasons' => '',
                             'visit_status' => 1,
+                            'site_id' => $user->data()->site_id,
                         ));
                     }
 
@@ -384,6 +386,7 @@ if ($user->isLoggedIn()) {
                         'seq_no' => 1,
                         'reasons' => Input::get('reasons'),
                         'visit_status' => 1,
+                        'site_id' => $user->data()->site_id,
                     ));
 
                     if (!$client_study['study_id']) {

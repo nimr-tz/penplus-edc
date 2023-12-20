@@ -304,6 +304,11 @@ if ($user->isLoggedIn()) {
                         </a>
                     </li>
                     <li>
+                        <a href="info.php?id=15">
+                            <span class="glyphicon glyphicon-list"></span><span class="text">Delete Data on Table with date</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="info.php?id=12">
                             <span class="glyphicon glyphicon-list"></span><span class="text">Set DoctorConfirm on Screening Table</span>
                         </a>

@@ -291,6 +291,7 @@ if ($user->isLoggedIn()) {
                             'eligibility' => $eligibility,
                             'status' => 1,
                             'doctor_confirm' => $doctor_confirm,
+                            'site_id' => $user->data()->site_id,
                         ));
 
                         $user->createRecord('visit', array(
@@ -307,6 +308,7 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'reasons' => '',
                             'visit_status' => 1,
+                            'site_id' => $user->data()->site_id,
                         ));
                     }
 
@@ -384,6 +386,7 @@ if ($user->isLoggedIn()) {
                         'seq_no' => 1,
                         'reasons' => Input::get('reasons'),
                         'visit_status' => 1,
+                        'site_id' => $user->data()->site_id,
                     ));
 
                     if (!$client_study['study_id']) {
@@ -731,6 +734,43 @@ if ($user->isLoggedIn()) {
                             // $clearData = $override->deleteDataTable(Input::get('name'), Input::get('site'));
                             $deleteData = $user->deleteRecord(Input::get('name'), 'site_id', Input::get('site'));
                             $successMessage = 'Data on Table ' . '"' . Input::get('name') . 'On site "' . '"' . $site_id . '"'  . ' Deleted Successfull';
+                        }
+                    } else {
+                        $errorMessage = 'Data on Table ' . '"' . Input::get('name') . '"' . '  can not be Found!';
+                    }
+                    // die;
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('delete_data2')) {
+
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+                'date2' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    if (Input::get('name')) {
+                        $site_id = '';
+                        if (Input::get('site') == '1') {
+                            $site_id = 'KNODOA';
+                        } elseif (Input::get('site') == '2') {
+                            $site_id = 'KARATU';
+                        }
+
+                        if (Input::get('name') == 'user' || Input::get('name') == 'sub_category' || Input::get('name') == 'test_list' || Input::get('name') == 'category' || Input::get('name') == 'medications' || Input::get('name') == 'site' || Input::get('name') == 'schedule' || Input::get('name') == 'study_id') {
+                            $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Deleted';
+                        } else {
+                            // $clearData = $override->deleteDataTable(Input::get('name'), Input::get('site'));
+                            $deleteData = $user->deleteRecord(Input::get('name'), 'created_on', Input::get('date2'));
+                            $successMessage = 'Data on Table ' . '"' . Input::get('name') . ' On site "' . '"' . $site_id . '"'  . ' On date "' . '"' .  Input::get('date2') . '"'  . ' Deleted Successfull';
                         }
                     } else {
                         $errorMessage = 'Data on Table ' . '"' . Input::get('name') . '"' . '  can not be Found!';
@@ -3605,6 +3645,45 @@ if ($user->isLoggedIn()) {
 
                                     <div class="footer tar">
                                         <input type="submit" name="delete_data" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    <?php } elseif ($_GET['id'] == 15) { ?>
+
+                        <?php
+                        $AllTables = $override->AllTables();
+                        ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Delete Data on Table</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Table Name:</div>
+                                        <div class="col-md-9">
+                                            <select name="name" id="name" style="width: 100%;" required>
+                                                <option value="">Select Table Name</option>
+                                                <?php foreach ($AllTables as $tables) { ?>
+                                                    <option value="<?= $tables['Tables_in_penplus'] ?>"><?= $tables['Tables_in_penplus'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Date Created:</div>
+                                        <div class="col-md-9">
+                                            <input value="" class="validate[required]" type="text" name="date2" id="date2" />
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="delete_data2" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>

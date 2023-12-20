@@ -705,6 +705,43 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('delete_data')) {
+
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+                'site' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    if (Input::get('name')) {
+                        $site_id = '';
+                        if (Input::get('site') == '1') {
+                            $site_id = 'KNODOA';
+                        } elseif (Input::get('site') == '2') {
+                            $site_id = 'KARATU';
+                        }
+
+                        if (Input::get('name') == 'user' || Input::get('name') == 'sub_category' || Input::get('name') == 'test_list' || Input::get('name') == 'category' || Input::get('name') == 'medications' || Input::get('name') == 'site' || Input::get('name') == 'schedule' || Input::get('name') == 'study_id') {
+                            $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Deleted';
+                        } else {
+                            // $clearData = $override->deleteDataTable(Input::get('name'), Input::get('site'));
+                            $deleteData = $user->deleteRecord(Input::get('name'), 'site_id', Input::get('site'));
+                            $successMessage = 'Data on Table ' . '"' . Input::get('name') . 'On site "' . '"' . $site_id . '"'  . ' Deleted Successfull';
+                        }
+                    } else {
+                        $errorMessage = 'Data on Table ' . '"' . Input::get('name') . '"' . '  can not be Found!';
+                    }
+                    // die;
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         } elseif (Input::get('add_medications')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
@@ -776,7 +813,7 @@ if ($user->isLoggedIn()) {
             $data = null;
             $filename = null;
             if (Input::get('clients')) {
-                $data = $override->get('clients','status',1);
+                $data = $override->get('clients', 'status', 1);
                 $filename = 'Registartion Data';
             } elseif (Input::get('screening')) {
                 $data = $override->get('screening', 'status', 1);
@@ -803,7 +840,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('diabetic');
                 $filename = 'Main diagnosis 3 ( Diabetic )';
             } elseif (Input::get('sickle_cell_list')) {
-                $data = $override->get('sickle_cell_status_table','status',1);
+                $data = $override->get('sickle_cell_status_table', 'status', 1);
                 $filename = 'sickle cell status Data';
             } elseif (Input::get('sickle_cell')) {
                 $data = $override->getData('sickle_cell');
@@ -830,7 +867,7 @@ if ($user->isLoggedIn()) {
                 $data = $override->getData('hospitalization_details');
                 $filename = 'Hospitalization Details Data';
             } elseif (Input::get('hospitalization_list')) {
-                $data = $override->get('hospitalization_table','status',1);
+                $data = $override->get('hospitalization_table', 'status', 1);
                 $filename = 'hospitalization List Data';
             } elseif (Input::get('lab_details')) {
                 $data = $override->getData('lab_details');
@@ -3524,6 +3561,50 @@ if ($user->isLoggedIn()) {
 
                                     <div class="footer tar">
                                         <input type="submit" name="DoctorConfirm" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    <?php } elseif ($_GET['id'] == 14) { ?>
+
+                        <?php
+                        $AllTables = $override->AllTables();
+                        ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Delete Data on Table</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Table Name:</div>
+                                        <div class="col-md-9">
+                                            <select name="name" id="name" style="width: 100%;" required>
+                                                <option value="">Select Table Name</option>
+                                                <?php foreach ($AllTables as $tables) { ?>
+                                                    <option value="<?= $tables['Tables_in_penplus'] ?>"><?= $tables['Tables_in_penplus'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Site Name:</div>
+                                        <div class="col-md-9">
+                                            <select name="site" id="site" style="width: 100%;" required>
+                                                <option value="">Select Site Name</option>
+                                                <?php foreach ($override->getData('site') as $sites) { ?>
+                                                    <option value="<?= $sites['id'] ?>"><?= $sites['name'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="delete_data" value="Submit" class="btn btn-default">
                                     </div>
 
                                 </form>

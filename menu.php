@@ -17,7 +17,6 @@ if ($user->isLoggedIn()) {
         $all = $override->getCount('clients', 'site_id', $user->data()->site_id);
         $deleted = $override->countData('clients', 'status', 0, 'site_id', $user->data()->site_id);
     }
-
 } else {
     Redirect::to('index.php');
 }
@@ -297,6 +296,11 @@ if ($user->isLoggedIn()) {
                     <li>
                         <a href="info.php?id=11">
                             <span class="glyphicon glyphicon-list"></span><span class="text">Set Site Id on Visit Table</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=14">
+                            <span class="glyphicon glyphicon-list"></span><span class="text">Delete Data on Table</span>
                         </a>
                     </li>
                     <li>

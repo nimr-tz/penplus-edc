@@ -286,6 +286,13 @@ class OverideData
         return $result;
     }
 
+    public function deleteDataTable($table,$site)
+    {
+        $query = $this->_pdo->query("DELETE FROM `$table` WHERE 'site_id' = '$site'");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     // public function clearDataTable($table)
     // {
     //     $query = $this->_pdo->query("TRUNCATE TABLE `$table`");

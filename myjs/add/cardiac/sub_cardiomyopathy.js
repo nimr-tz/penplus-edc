@@ -2,7 +2,7 @@ const sub_cardiomyopathy = document.getElementById("sub_cardiomyopathy");
 const cardiomyopathy_other = document.getElementById("cardiomyopathy_other");
 
 function showElement() {
-  if (sub_cardiomyopathy.value === "1") {
+  if (sub_cardiomyopathy.value === "96") {
     cardiomyopathy_other.style.display = "block";
   } else {
     cardiomyopathy_other.style.display = "none";

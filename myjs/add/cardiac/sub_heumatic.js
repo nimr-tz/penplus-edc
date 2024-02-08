@@ -2,7 +2,7 @@ const sub_heumatic = document.getElementById("sub_heumatic");
 const heumatic_other = document.getElementById("heumatic_other");
 
 function showElement() {
-  if (sub_heumatic.value === "1") {
+  if (sub_heumatic.value === "96") {
     heumatic_other.style.display = "block";
   } else {
     heumatic_other.style.display = "none";

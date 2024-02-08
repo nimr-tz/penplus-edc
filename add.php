@@ -7925,7 +7925,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4" id="thromboembolic_other1">
+                                                <div class="col-sm-4" id="thromboembolic_other">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -7954,7 +7954,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Any Other diagnosis? </label>
-                                                            <select name="diagnosis_other" id="diagnosis_other" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('diagnosis_other','diagnosis_specify1')">
+                                                            <select name="diagnosis_other" id="diagnosis_other2" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('diagnosis_other','diagnosis_specify1')">
                                                                 <option value="<?= $diagnosis['diagnosis_other'] ?>"><?php if ($diagnosis) {
                                                                                                                             if ($diagnosis['diagnosis_other'] == 1) {
                                                                                                                                 echo 'Yes';
@@ -7971,7 +7971,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-8" id="diagnosis_specify1">
+                                                <div class="col-sm-8" id="diagnosis_specify2">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">

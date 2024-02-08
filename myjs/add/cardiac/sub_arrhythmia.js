@@ -1,26 +1,26 @@
-const cardiomyopathy = document.getElementById("cardiomyopathy");
+const sub_arrhythmia = document.getElementById("sub_arrhythmia");
 const arrhythmia_other = document.getElementById("arrhythmia_other");
 
 function showElement() {
-  if (cardiomyopathy.value === "1") {
+  if (sub_arrhythmia.value === "96") {
     arrhythmia_other.style.display = "block";
   } else {
     arrhythmia_other.style.display = "none";
   }
 
   // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", cardiomyopathy.value);
+  localStorage.setItem("selectedValue", sub_arrhythmia.value);
 }
 
 // Check if there's a previously selected value in localStorage
-const cardiomyopathyValue = localStorage.getItem("selectedValue");
+const sub_arrhythmiaValue = localStorage.getItem("selectedValue");
 
-if (cardiomyopathyValue) {
-  cardiomyopathy.value = cardiomyopathyValue;
+if (sub_arrhythmiaValue) {
+  sub_arrhythmia.value = sub_arrhythmiaValue;
 }
 
 // Show element if Option 2 is selected
 showElement();
 
 // Listen for changes in the dropdown
-cardiomyopathy.addEventListener("change", showElement);
+sub_arrhythmia.addEventListener("change", showElement);

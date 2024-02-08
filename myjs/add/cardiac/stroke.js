@@ -2,7 +2,7 @@ const stroke = document.getElementById("stroke");
 const sub_stroke = document.getElementById("sub_stroke");
 
 function showElement() {
-  if (stroke.value === "96") {
+  if (stroke.value === "1") {
     sub_stroke.style.display = "block";
   } else {
     sub_stroke.style.display = "none";

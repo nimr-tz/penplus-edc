@@ -1,11 +1,11 @@
 const cardiomyopathy = document.getElementById("cardiomyopathy");
-const sub_cardiomyopathy1 = document.getElementById("sub_cardiomyopathy1");
+const arrhythmia_other = document.getElementById("arrhythmia_other");
 
 function showElement() {
   if (cardiomyopathy.value === "1") {
-    sub_cardiomyopathy1.style.display = "block";
+    arrhythmia_other.style.display = "block";
   } else {
-    sub_cardiomyopathy1.style.display = "none";
+    arrhythmia_other.style.display = "none";
   }
 
   // Save the selected value in localStorage

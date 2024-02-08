@@ -3885,7 +3885,6 @@ if ($user->isLoggedIn()) {
                                         </div><!-- /.container-fluid -->
                                     </section>
                                     <!-- /.card-header -->
-                                    <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row">
@@ -13203,7 +13202,7 @@ if ($user->isLoggedIn()) {
     <script src="myjs/add/clients.js"></script>
 
     <!-- demographic Js -->
-    <script src="myjs/add/demographic.js"></script>
+    <script src="myjs/add/demographic/demographic.js"></script>
 
 
     <!-- Vital Signs Js -->

@@ -1,26 +1,26 @@
-const hypertension1 = document.getElementById("hypertension1");
-const hypertension_date1 = document.getElementById("hypertension_date1");
+const hypertension6 = document.getElementById("hypertension6");
+const hypertension_date6 = document.getElementById("hypertension_date6");
 
 function showElement() {
-  if (hypertension1.value === "96") {
-    hypertension_date1.style.display = "block";
+  if (hypertension6.value === "1") {
+    hypertension_date6.style.display = "block";
   } else {
-    hypertension_date1.style.display = "none";
+    hypertension_date6.style.display = "none";
   }
 
   // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", hypertension1.value);
+  localStorage.setItem("selectedValue", hypertension6.value);
 }
 
 // Check if there's a previously selected value in localStorage
-const hypertension1Value = localStorage.getItem("selectedValue");
+const hypertension6Value = localStorage.getItem("selectedValue");
 
-if (hypertension1Value) {
-  hypertension1.value = hypertension1Value;
+if (hypertension6Value) {
+  hypertension6.value = hypertension6Value;
 }
 
 // Show element if Option 2 is selected
 showElement();
 
 // Listen for changes in the dropdown
-hypertension1.addEventListener("change", showElement);
+hypertension6.addEventListener("change", showElement);

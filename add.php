@@ -8202,7 +8202,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Hypertension:</label>
-                                                            <select name="hypertension" id="hypertension1" class="form-control"  style="width: 100%;" onchange="checkQuestionValue1('hypertension','hypertension_date')">
+                                                            <select name="hypertension" id="hypertension6" class="form-control"  style="width: 100%;" onchange="checkQuestionValue1('hypertension','hypertension_date')">
                                                                 <option value="<?= $diabetic['hypertension'] ?>"><?php if ($diabetic) {
                                                                                                                         if ($diabetic['hypertension'] == 1) {
                                                                                                                             echo 'Yes';
@@ -8222,7 +8222,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4" id="hypertension_date1">
+                                                <div class="col-sm-4" id="hypertension_date6">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Hypertension Date:</label>
@@ -8345,74 +8345,73 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
-                                    <div class="row-form clearfix">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="row-form clearfix">
-                                                    <!-- select -->
-                                                    <div class="form-group">
-                                                        <label>Main diagnosis?:</label>
-                                                        <select name="diagnosis" id="diagnosis" style="width: 100%;" onchange="checkQuestionValue2('diagnosis','diagnosis_date','diagnosis_other')" required>
-                                                            <option value="<?= $sickle_cell['diagnosis'] ?>"><?php if ($sickle_cell) {
-                                                                                                                    if ($sickle_cell['diagnosis'] == 1) {
-                                                                                                                        echo 'Sickle Cell Disease';
-                                                                                                                    } elseif ($sickle_cell['diagnosis'] == 2) {
-                                                                                                                        echo 'Other Hemoglobinopathy';
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    echo 'Select';
-                                                                                                                } ?>
-                                                            </option>
-                                                            <option value="1">Sickle Cell Disease</option>
-                                                            <option value="2">Other Hemoglobinopathy</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-4 hidden" id="diagnosis_other">
-                                                <div class="row-form clearfix">
-                                                    <!-- select -->
-                                                    <div class="form-group">
-                                                        <label>Other ( Specify ):</label>
-                                                        <input type="text" name="diagnosis_other" value="<?php if ($sickle_cell['diagnosis_other']) {
-                                                                                                                print_r($sickle_cell['diagnosis_other']);
-                                                                                                            }  ?>" />
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-4 hidden" id="diagnosis_date">
-                                                <div class="row-form clearfix">
-                                                    <!-- select -->
-                                                    <div class="form-group">
-                                                        <label>Diagnosis Date:</label>
-                                                        <input type="text" name="diagnosis_date" value="<?php if ($sickle_cell['visit_date']) {
-                                                                                                            print_r($sickle_cell['visit_date']);
-                                                                                                        }  ?>" />
-                                                        <span>Example: 2023-01-01</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-8">
                                             <div class="row-form clearfix">
-                                                <!-- select -->
-                                                <div class="form-group">
-                                                    <label>Comments</label>
-                                                    <textarea textarea name="comments" rows="4">
-                                                        <?php if ($sickle_cell['comments']) {
-                                                            print_r($sickle_cell['comments']);
-                                                        }  ?>
-                                                        </textarea>
+                                                <div class="row">
+                                                    <div class="col-sm-4" id="diagnosis_date">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>Diagnosis Date:</label>
+                                                                <input type="date" name="diagnosis_date" class="form-control" value="<?php if ($sickle_cell['visit_date']) {
+                                                                                                                    print_r($sickle_cell['visit_date']);
+                                                                                                                }  ?>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>Main diagnosis?:</label>
+                                                                <select name="diagnosis" id="diagnosis5" class="form-control" style="width: 100%;" onchange="checkQuestionValue2('diagnosis','diagnosis_date','diagnosis_other')" required>
+                                                                    <option value="<?= $sickle_cell['diagnosis'] ?>"><?php if ($sickle_cell) {
+                                                                                                                            if ($sickle_cell['diagnosis'] == 1) {
+                                                                                                                                echo 'Sickle Cell Disease';
+                                                                                                                            } elseif ($sickle_cell['diagnosis'] == 2) {
+                                                                                                                                echo 'Other Hemoglobinopathy';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?>
+                                                                    </option>
+                                                                    <option value="1">Sickle Cell Disease</option>
+                                                                    <option value="2">Other Hemoglobinopathy</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4" id="diagnosis_other5">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>Other ( Specify ):</label>
+                                                                <input type="text" name="diagnosis_other" class="form-control" value="<?php if ($sickle_cell['diagnosis_other']) {
+                                                                                                                        print_r($sickle_cell['diagnosis_other']);
+                                                                                                                    }  ?>" />
+
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                    
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Comments</label>
+                                                            <textarea class="form-control" textarea name="comments" rows="3">
+                                                                <?php if ($sickle_cell['comments']) {
+                                                                    print_r($sickle_cell['comments']);
+                                                                }  ?>
+                                                                </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
@@ -13336,6 +13335,18 @@ if ($user->isLoggedIn()) {
     <script src="myjs/add/cardiac/sub_pericardial.js"></script>
     <script src="myjs/add/cardiac/sub_thromboembolic.js"></script>
     <script src="myjs/add/cardiac/thromboembolic.js"></script>
+
+    <!-- DIABETIC Js -->
+
+    <script src="myjs/add/diabetic/diagnosis_other.js"></script>
+    <script src="myjs/add/diabetic/hypertension.js"></script>
+
+    <!-- SICKLE CELL Js -->
+
+    <script src="myjs/add/sickle_cell/diagnosis.js"></script>
+
+
+    
 
 
 

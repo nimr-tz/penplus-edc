@@ -2818,6 +2818,101 @@ if ($user->isLoggedIn()) {
                     }
                 }
             }
+        }elseif (Input::get('add_Schedule')) {
+            $validate = $validate->check($_POST, array(
+                'expected_date' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                $client_study = $override->getNews('clients', 'id', $_GET['cid'], 'status', 1)[0];
+                $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
+                $screening_id = $override->getNews('screening', 'patient_id', $_GET['cid'], 'status', 1)[0];
+                $visit_id = $override->get('visit', 'client_id', $_GET['cid'])[0];
+                $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
+                $expected_date = $override->getNews('visit', 'expected_date', Input::get('expected_date'), 'client_id', $_GET['cid'])[0];
+
+                $sq = $last_visit['seq_no'] + 1;
+                $visit_day = 'Day ' . $sq;
+
+                if (!$client_study['study_id']) {
+                    $study_id = $std_id['study_id'];
+                } else {
+                    $study_id = $client_study['study_id'];
+                }
+
+                if (Input::get('visit_name') == 'Registration Visit') {
+                    $visit_code = 'RV';
+                } elseif (Input::get('visit_name') == 'Screening Visit') {
+                    $visit_code = 'SV';
+                } elseif (Input::get('visit_name') == 'Enrollment Visit') {
+                    $visit_code = 'EV';
+                } elseif (Input::get('visit_name') == 'Follow Up Visit') {
+                    $visit_code = 'FV';
+                } elseif (Input::get('visit_name') == 'Study Termination Visit') {
+                    $visit_code = 'TV';
+                } elseif (Input::get('visit_name') == 'Unschedule Visit') {
+                    $visit_code = 'UV';
+                }
+
+                $summary = $override->getNews('visit', 'client_id', $_GET['cid'], 'seq_no', $_GET['seq_no']);
+
+                if (Input::get('summary')) {
+                    $user->updateRecord('visit', array(
+                        // 'visit_name' => Input::get('visit_name'),
+                        // 'visit_code' => $visit_code,
+                        // 'visit_day' => $visit_day,
+                        'expected_date' => Input::get('expected_date'),
+                        'visit_date' => Input::get('summary_date'),
+                        'summary_date' => Input::get('summary_date'),
+                        'comments' => Input::get('comments'),
+                        'diagnosis' => Input::get('diagnosis'),
+                        'diagnosis_other' => Input::get('diagnosis_other'),
+                        'outcome' => Input::get('outcome'),
+                        'transfer_out' => Input::get('transfer_out'),
+                        'transfer_other' => Input::get('transfer_other'),
+                        'cause_death' => Input::get('cause_death'),
+                        'death_other' => Input::get('death_other'),
+                        'next_notes' => Input::get('next_notes'),
+                        'reasons' => Input::get('reasons'),
+                    ), Input::get('id'));
+
+                    $successMessage = 'Schedule Summary  Updated Successful';
+                } else {
+                    $user->createRecord('visit', array(
+                        'study_id' => $study_id,
+                        'visit_name' => Input::get('visit_name'),
+                        'visit_code' => $visit_code,
+                        'visit_day' => $visit_day,
+                        'expected_date' => Input::get('expected_date'),
+                        'visit_date' => '',
+
+                        'summary_date' => Input::get('summary_date'),
+                        'comments' => Input::get('comments'),
+                        'diagnosis' => Input::get('diagnosis'),
+                        'diagnosis_other' => Input::get('diagnosis_other'),
+                        'outcome' => Input::get('outcome'),
+                        'transfer_out' => Input::get('transfer_out'),
+                        'transfer_other' => Input::get('transfer_other'),
+                        'cause_death' => Input::get('cause_death'),
+                        'death_other' => Input::get('death_other'),
+                        'next_notes' => Input::get('next_notes'),
+
+                        'visit_window' => 0,
+                        'status' => 0,
+                        'client_id' => $_GET['cid'],
+                        'created_on' => date('Y-m-d'),
+                        'seq_no' => $sq,
+                        'reasons' => '',
+                        'visit_status' => 0,
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+                    $successMessage = 'Schedule Summary  Added Successful';
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         }
     }
 } else {
@@ -13150,6 +13245,371 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 22) { ?>
+             <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Visit Summary</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
+                                    <li class="breadcrumb-item active">Visit Summary</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <?php
+                            $sickle_cell = $override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                            $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+                            $name = 'Patient ID: ' . $patient['study_id'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+                            ?>
+                            <!-- right column -->
+                            <div class="col-md-12">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Date</h3>
+                                    </div>
+                                    <!-- Content Header (Page header) -->
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb">
+                                                        <li class="breadcrumb-item"><a href="#">Patient ID:</a></li>
+                                                        <li class="breadcrumb-item active"><?= $patient['study_id']; ?></li>
+                                                    </ol>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb">
+                                                        <li class="breadcrumb-item"><a href="#">Age:</a></li>
+                                                        <li class="breadcrumb-item active"><?= $patient['age']; ?></li>
+                                                    </ol>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item"><a href="#">Gender</a></li>
+                                                        <li class="breadcrumb-item active"><?= $gender; ?></li>
+                                                    </ol>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item"><a href="#">Type</a></li>
+                                                        <li class="breadcrumb-item active"><?= $cat; ?></li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.container-fluid -->
+                                    </section>
+                                    <!-- /.card-header -->
+                                    <?php
+                                    $visits_date = $override->firstRow('visit', 'visit_date', 'id', 'client_id', $client['id'])[0];
+                                    $visits = $override->getlastRow('visit', 'client_id', $client['id'], 'id')[0];
+                                    $summary = $override->get3('visit', 'client_id', $client['id'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                                    ?>
+
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off"> 
+                                        <div class="card-body">                                                 
+                                            <div class="row">
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Summary Date</label>
+                                                            <input class="form-control" type="date" name="summary_date" id="summary_date" value="<?php if ($visit['summary_date']) {
+                                                                                                                                                                                        print_r($visit['summary_date']);
+                                                                                                                                                                                    }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-43">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Visit Name</label>
+                                                            <select class="form-control" name="visit_name" style="width: 100%;" required>
+                                                                <option value="">Select</option>
+                                                                <?php foreach ($override->getData2('schedule', 'status', 4) as $study) { ?>
+                                                                    <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>                                            
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Type of diagnosis</label>
+                                                            <select class="form-control" name="diagnosis" id="diagnosis_summary" style="width: 100%;" onchange="checkQuestionValue96('diagnosis','diagnosis_other')" required>
+                                                                <option value="<?= $visit['diagnosis'] ?>"><?php if ($visit) {
+                                                                                                                if ($visit['diagnosis'] == 1) {
+                                                                                                                    echo 'Type 1 Diabetes';
+                                                                                                                } elseif ($visit['diagnosis'] == 2) {
+                                                                                                                    echo 'Type 2 Diabetes';
+                                                                                                                } elseif ($visit['diagnosis'] == 3) {
+                                                                                                                    echo 'Cardiac';
+                                                                                                                } elseif ($visit['diagnosis'] == 4) {
+                                                                                                                    echo 'Sickle Cell Disease ';
+                                                                                                                } elseif ($visit['diagnosis'] == 5) {
+                                                                                                                    echo 'Respiratory';
+                                                                                                                } elseif ($visit['diagnosis'] == 6) {
+                                                                                                                    echo 'Liver';
+                                                                                                                } elseif ($visit['diagnosis'] == 7) {
+                                                                                                                    echo 'Kidney';
+                                                                                                                } elseif ($visit['diagnosis'] == 96) {
+                                                                                                                    echo 'Other';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?>
+                                                                </option>
+                                                                <option value="1">Type 1 Diabetes</option>
+                                                                <option value="2">Type 2 Diabetes </option>
+                                                                <option value="3">Cardiac</option>
+                                                                <option value="4">Sickle Cell Disease </option>
+                                                                <option value="5">Respiratory</option>
+                                                                <option value="6">Liver</option>
+                                                                <option value="7">Kidney</option>
+                                                                <option value="96">Other</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3" id="diagnosis_summary_other">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>If other, Specify</label>
+                                                            <textarea class="form-control" name="diagnosis_other" rows="3" style="width: 145%;">
+                                                                <?php if ($visit['diagnosis_other']) {
+                                                                    print_r($visit['diagnosis_other']);
+                                                                }  ?>
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+
+                                            <div class="row">                                               
+
+                                                <div class="col-sm-12">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Comments</label>
+                                                            <textarea class="form-control" name="comments" rows="3">
+                                                                <?php if ($visit['comments']) {
+                                                                    print_r($visit['comments']);
+                                                                }  ?>
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Outcome</label>
+                                                            <select class="form-control" name="outcome" id="outcome" style="width: 100%;" onchange="checkQuestionValue45('outcome','transfer_out1','cause_death1')" required>
+                                                                <option value="<?= $visit['outcome'] ?>"><?php if ($visit) {
+                                                                                                                if ($visit['outcome'] == 1) {
+                                                                                                                    echo 'On treatment';
+                                                                                                                } elseif ($visit['outcome'] == 2) {
+                                                                                                                    echo 'Default';
+                                                                                                                } elseif ($visit['outcome'] == 3) {
+                                                                                                                    echo 'Stop Treatment';
+                                                                                                                } elseif ($visit['outcome'] == 4) {
+                                                                                                                    echo 'Transfer Out';
+                                                                                                                } elseif ($visit['outcome'] == 5) {
+                                                                                                                    echo 'Death';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?>
+                                                                </option>
+                                                                <option value="1">On treatment</option>
+                                                                <option value="2">Default</option>
+                                                                <option value="3">Stop Treatment</option>
+                                                                <option value="4">Transfer Out</option>
+                                                                <option value="5">Death</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-sm-4" id="transfer_out1">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Transfer Out To</label>
+                                                            <select class="form-control" name="transfer_out" id="transfer_out" style="width: 100%;" onchange="checkQuestionValue96('transfer_out','transfer_other')">
+                                                                <option value="<?= $visit['transfer_out'] ?>"><?php if ($visit) {
+                                                                                                                    if ($visit['transfer_out'] == 1) {
+                                                                                                                        echo 'Other NCD clinic';
+                                                                                                                    } elseif ($visit['transfer_out'] == 2) {
+                                                                                                                        echo 'Referral hospital';
+                                                                                                                    } elseif ($visit['transfer_out'] == 96) {
+                                                                                                                        echo 'Other';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
+                                                                </option>
+                                                                <option value="1">Other NCD clinic</option>
+                                                                <option value="2">Referral hospital</option>
+                                                                <option value="96">Other</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4" id="transfer_other1">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>If other reason, Specify</label>
+                                                            <input class="form-control" type="text" name="transfer_other" value="<?php if ($visit['transfer_other']) {
+                                                                                                                                        print_r($visit['transfer_other']);
+                                                                                                                                    }  ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4" id="cause_death1">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Cause of Death</label>
+                                                            <select class="form-control" name="cause_death" id="cause_death" style="width: 100%;" onchange="checkQuestionValue96('cause_death','death_other')">
+                                                                <option value="<?= $visit['cause_death'] ?>"><?php if ($visit) {
+                                                                                                                    if ($visit['cause_death'] == 1) {
+                                                                                                                        echo 'NCD';
+                                                                                                                    } elseif ($visit['cause_death'] == 2) {
+                                                                                                                        echo 'Unknown';
+                                                                                                                    } elseif ($visit['cause_death'] == 96) {
+                                                                                                                        echo 'Other';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
+                                                                </option>
+                                                                <option value="1">NCD</option>
+                                                                <option value="2">Unknown</option>
+                                                                <option value="96">Other</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4" id="death_other1">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>If other cause, Specify</label>
+                                                            <input class="form-control" type="text" name="death_other" value="<?php if ($visit['death_other']) {
+                                                                                                                                    print_r($visit['death_other']);
+                                                                                                                                }  ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Notes for Next Appointment</label>
+                                                            <input class="form-control" type="text" name="next_notes" id="next_notes" value="<?php if ($visit['next_notes']) {
+                                                                                                                                                    print_r($visit['next_notes']);
+                                                                                                                                                }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6" id="diagnosis_other">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Next Appointment Date</label>
+                                                            <input class="validate[required,custom[date]] form-control" type="text" name="expected_date" id="expected_date" value="<?php if ($visit['expected_date']) {
+                                                                                                                                                                                        print_r($visit['expected_date']);
+                                                                                                                                                                                    }  ?>" required />
+                                                            <span>Example: 2023-01-01</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                         
+
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
+                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                                        <input type="hidden" name="id" value="<?= $visit['id'] ?>">
+                                                        <input type="hidden" name="seq_no" value="<?= $visit['seq_no'] ?>">
+                                                        <input type="hidden" name="summary" value="<?= $summary ?>">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <input type="submit" name="add_Schedule" class="btn btn-primary" value="Save changes">
+
+
+                                                <input type="submit" name="add_scd" value="Submit" class="btn btn-primary">
+                                            <?php } ?>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 23) { ?>
         <?php } elseif ($_GET['id'] == 24) { ?>
         <?php } elseif ($_GET['id'] == 25) { ?>
@@ -13344,17 +13804,12 @@ if ($user->isLoggedIn()) {
 
     <script src="myjs/add/sickle_cell/diagnosis.js"></script>
 
+    <!-- SUMMARY Js -->
 
-    
-
-
-
-
-
-
-
-
-
+    <script src="myjs/add/summary/cause_death.js"></script>
+    <script src="myjs/add/summary/diagnosis_summary.js"></script>
+    <script src="myjs/add/summary/outcome.js"></script>
+    <script src="myjs/add/summary/transfer_out.js"></script>
 
 
 

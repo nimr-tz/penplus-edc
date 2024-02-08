@@ -2521,6 +2521,23 @@ if ($user->isLoggedIn()) {
 
                                                 </tr>
                                             <?php } ?>
+                                            <tr>
+                                                <td>14</td>
+                                                <td>Next Visit Summary</td>
+                                                <td>
+                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                    <span class="badge badge-info right">
+                                                        <?= $override->countData('lab_details', 'status', 1, 'site_id', $user->data()->site_id) ?>
+                                                    </span>
+                                                </td>
+                                                <?php if ($override->get3('lab_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                    <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-success"> Change </a> </td>
+                                                <?php } else { ?>
+                                                    <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                <?php } ?>
+
+                                            </tr>
                                             </tbody>
                                             <tfoot>
                                                 <th>#</th>

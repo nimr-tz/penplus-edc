@@ -12907,8 +12907,31 @@ if ($user->isLoggedIn()) {
     <script src="myjs/add/lab_details/hematology_test.js"></script>
     <script src="myjs/add/lab_details/lab_Other.js"></script>
     <script src="myjs/add/lab_details/other_lab_diabetes.js"></script>
-    <script src="myjs/add/lab_details"></script>
-    <script src="myjs/add/lab_details"></script>
+
+    <!-- CARDIACS Js -->
+
+    <script src="myjs/add/cardiac/arrhythmia.js"></script>
+    <script src="myjs/add/cardiac/cardiomyopathy.js"></script>
+    <script src="myjs/add/cardiac/congenital.js"></script>
+    <script src="myjs/add/cardiac/diagnosis_other.js"></script>
+    <script src="myjs/add/cardiac/heart_failure.js"></script>
+    <script src="myjs/add/cardiac/heumatic.js"></script>
+    <script src="myjs/add/cardiac/pericardial.js"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac"></script>
+
+
+
 
 
 

@@ -7686,12 +7686,12 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-4" id="sub_heart_failure">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>If Right Heart Failure</label>
-                                                            <select name="sub_heart_failure" id="sub_heart_failure" class="form-control" style="width: 100%;">
+                                                            <select name="sub_heart_failure"  class="form-control" style="width: 100%;">
                                                                 <option value="<?= $diagnosis['sub_heart_failure'] ?>"><?php if ($diagnosis) {
                                                                                                                             if ($diagnosis['heart_failure'] == 1) {
                                                                                                                                 echo 'Chronic Lung Disease';
@@ -8020,7 +8020,240 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 13) { ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Main diagnosis ( Diabetic )</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
+                                    <li class="breadcrumb-item active">Main diagnosis ( Diabetic )</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
 
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <?php
+                            $diabetic = $override->get3('diabetic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
+                            $patient = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
+                            $cat = '';
+
+                            if ($category['cardiac'] == 1) {
+                                $cat = 'Cardiac';
+                            } elseif ($category['diabetes'] == 1) {
+                                $cat = 'Diabetes';
+                            } elseif ($category['sickle_cell'] == 1) {
+                                $cat = 'Sickle cell';
+                            } else {
+                                $cat = 'Not Diagnosed';
+                            }
+
+
+                            if ($patient['gender'] == 1) {
+                                $gender = 'Male';
+                            } elseif ($patient['gender'] == 2) {
+                                $gender = 'Female';
+                            }
+
+                            $name = 'Patient ID: ' . $patient['study_id'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+                            ?>
+                            <!-- right column -->
+                            <div class="col-md-12">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Date</h3>
+                                    </div>
+                                    <!-- Content Header (Page header) -->
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb">
+                                                        <li class="breadcrumb-item"><a href="#">Patient ID:</a></li>
+                                                        <li class="breadcrumb-item active"><?= $patient['study_id']; ?></li>
+                                                    </ol>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb">
+                                                        <li class="breadcrumb-item"><a href="#">Age:</a></li>
+                                                        <li class="breadcrumb-item active"><?= $patient['age']; ?></li>
+                                                    </ol>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item"><a href="#">Gender</a></li>
+                                                        <li class="breadcrumb-item active"><?= $gender; ?></li>
+                                                    </ol>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item"><a href="#">Type</a></li>
+                                                        <li class="breadcrumb-item active"><?= $cat; ?></li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.container-fluid -->
+                                    </section>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Diagnosis Date:</label>
+                                                            <input class="form-control" type="date" name="diagnosis_date"  value="<?php if ($diabetic['visit_date']) {
+                                                                                                                                                                            print_r($diabetic['visit_date']);
+                                                                                                                                                                        }  ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Main diagnosis</label>
+                                                            <select name="diagnosis" id="diagnosis" class="form-control" style="width: 100%;"  onchange="checkQuestionValue96('diagnosis','diagnosis_other_hide')" required>
+                                                                <option value="<?= $diabetic['diagnosis'] ?>"><?php if ($diabetic) {
+                                                                                                                    if ($diabetic['diagnosis'] == 1) {
+                                                                                                                        echo 'Type 1 DM';
+                                                                                                                    } elseif ($diabetic['diagnosis'] == 2) {
+                                                                                                                        echo 'Type 2 DM';
+                                                                                                                    } elseif ($diabetic['diagnosis'] == 3) {
+                                                                                                                        echo 'Gestational DM';
+                                                                                                                    } elseif ($diabetic['diagnosis'] == 4) {
+                                                                                                                        echo 'DM not yet specified';
+                                                                                                                    } elseif ($diabetic['diagnosis'] == 96) {
+                                                                                                                        echo 'Other';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
+                                                                </option>
+                                                                <option value="1">Type 1 DM</option>
+                                                                <option value="2">Type 2 DM</option>
+                                                                <option value="3">Gestational DM</option>
+                                                                <option value="4">DM not yet specified</option>
+                                                                <option value="96">Other</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Other Diagnosis</label>
+                                                            <textarea name="comments" class="form-control"  rows="3"><?php if ($diabetic['diagnosis_other']) {
+                                                                                                    print_r($diabetic['diagnosis_other']);
+                                                                                                }  ?></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                                                                          
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Presentation with any of the following?:</label>
+                                                            <select name="symptoms" class="form-control"  style="width: 100%;" required>
+                                                                <option value="<?= $diabetic['symptoms'] ?>"><?php if ($diabetic) {
+                                                                                                                    if ($diabetic['symptoms'] == 1) {
+                                                                                                                        echo 'DKA with coma';
+                                                                                                                    } elseif ($diabetic['symptoms'] == 2) {
+                                                                                                                        echo 'DKA without coma';
+                                                                                                                    } elseif ($diabetic['symptoms'] == 3) {
+                                                                                                                        echo 'Ketosis';
+                                                                                                                    } elseif ($diabetic['symptoms'] == 4) {
+                                                                                                                        echo 'Hyperglycemia';
+                                                                                                                    } elseif ($diabetic['symptoms'] == 5) {
+                                                                                                                        echo 'By Screening';
+                                                                                                                    }elseif ($diabetic['symptoms'] == 6) {
+                                                                                                                        echo 'None';
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo 'Select';
+                                                                                                                } ?>
+                                                                </option>
+                                                                <option value="1">DKA with coma</option>
+                                                                <option value="2">DKA without coma</option>
+                                                                <option value="3">Ketosis</option>
+                                                                <option value="4">Hyperglycemia</option>
+                                                                <option value="5">By Screening</option>
+                                                                <option value="6">None</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Hypertension:</label>
+                                                            <select name="hypertension" id="hypertension" class="form-control"  style="width: 100%;" onchange="checkQuestionValue1('hypertension','hypertension_date')">
+                                                                <option value="<?= $diabetic['hypertension'] ?>"><?php if ($diabetic) {
+                                                                                                                        if ($diabetic['hypertension'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($diabetic['hypertension'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        } elseif ($diabetic['hypertension'] == 2) {
+                                                                                                                            echo 'Unknown';
+                                                                                                                        }
+                                                                                                                                                                                        } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                                </option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                                <option value="3">Unknown</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4" id="hypertension_date">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Hypertension Date:</label>
+                                                            <input  type="date" name="hypertension_date"  class="form-control"  value="<?php if ($diabetic['hypertension_date']) {
+                                                                                                                                                                                    print_r($diabetic['hypertension_date']);
+                                                                                                                                                                                }  ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
+                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+
+                                                <input type="submit" name="add_cardiac" value="Submit" class="btn btn-primary">
+                                            <?php } ?>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 14) { ?>
 
 

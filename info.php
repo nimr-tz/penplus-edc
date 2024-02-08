@@ -1123,25 +1123,41 @@ if ($user->isLoggedIn()) {
                                     }
                                 } ?>
                                 <div class="card">
-                                    <div class="card-header">
-                                        <?php
-                                        if ($_GET['status'] == 1) { ?>
-                                            <h3 class="card-title">List of Screened Clients</h3>
-                                        <?php
-                                        } elseif ($_GET['status'] == 2) { ?>
-                                            <h3 class="card-title">List of Eligible Clients</h3>
-                                        <?php
-                                        } elseif ($_GET['status'] == 3) { ?>
-                                            <h3 class="card-title">List of Enrolled Clients</h3>
-                                        <?php
-                                        } elseif ($_GET['status'] == 4) { ?>
-                                            <h3 class="card-title">List of Terminated Clients</h3>
-                                        <?php
-                                        } elseif ($_GET['status'] == 5) { ?>
-                                            <h3 class="card-title">List of Registered Clients</h3>
-                                        <?php
-                                        } ?>
-                                    </div>
+
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-6">
+                                                    <div class="card-header">
+                                                        <?php
+                                                        if ($_GET['status'] == 1) { ?>
+                                                            <h3 class="card-title">List of Screened Clients</h3>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 2) { ?>
+                                                            <h3 class="card-title">List of Eligible Clients</h3>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 3) { ?>
+                                                            <h3 class="card-title">List of Enrolled Clients</h3>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 4) { ?>
+                                                            <h3 class="card-title">List of Terminated Clients</h3>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 5) { ?>
+                                                            <h3 class="card-title">List of Registered Clients</h3>
+                                                        <?php
+                                                        } ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item"><a href="index1.php">
+                                                                < Back</a>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.container-fluid -->
+                                    </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <table id="example1" class="table table-bordered table-striped">
@@ -1151,7 +1167,10 @@ if ($user->isLoggedIn()) {
                                                     <th>Type</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
-                                                    <th>Summary</th>
+                                                    <?php if ($_GET['status'] == 3) { ?>
+
+                                                        <th>Summary</th>
+                                                    <?php } ?>
 
                                                     <?php
                                                     if ($_GET['status'] == 1) { ?>
@@ -1344,7 +1363,7 @@ if ($user->isLoggedIn()) {
                                                     <?php } ?>
                                                     <?php if ($_GET['status'] == 3) { ?>
                                                         <?php if ($enrollment == 1) { ?>
-                                                            <a href="info.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-warning">Study Crf</a>
+                                                            <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
 
                                                     <?php }
                                                     } ?>
@@ -1548,7 +1567,11 @@ if ($user->isLoggedIn()) {
                                                     <th>Type</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
-                                                    <th>Summary</th>
+                                                    <?php if ($_GET['status'] == 3) { ?>
+
+                                                        <th>Summary</th>
+                                                    <?php } ?>
+
                                                     <?php
                                                     if ($_GET['status'] == 1) { ?>
                                                         <th>Screening / Enrollments / Forms</th>
@@ -1577,12 +1600,12 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1>DataTables</h1>
+                                <h1>Participant Schedules</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active">DataTables</li>
+                                    <li class="breadcrumb-item active">Participant Schedules</li>
                                 </ol>
                             </div>
                         </div>
@@ -1625,8 +1648,36 @@ if ($user->isLoggedIn()) {
 
                                         ?>
 
-                                        <h1>Schedule for Study ID: <?= $patient['study_id'] ?><h4><?= $name ?></h4>
 
+                                        <div class="row mb-2">
+                                            <div class="col-sm-6">
+                                                <h1>Study ID: <?= $patient['study_id'] ?><h4><?= $name ?></h4>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <ol class="breadcrumb float-sm-right">
+                                                    <li class="breadcrumb-item"><a href="info.php?id=3&status=<?= $_GET['status'] ?>">
+                                                            < Back</a>
+                                                    </li>
+                                                    <li class="breadcrumb-item"><a href="#">
+                                                            <?php if ($visit['seq_no'] >= 1) {
+                                                                $summary = '';
+                                                            ?>
+                                                                <?php
+                                                                //  if ($visit['visit_status']) {
+                                                                ?>
+                                                                <a href="#addSchedule<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update</a>
+                                                            <?php } else {
+                                                                $summary = 1;
+                                                            ?>
+                                                                <a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&status=<?= $_GET['status'] ?>&btn=Add">Add Next Visit Summary</a>
+                                                            <?php
+                                                                //  }
+                                                            } ?>
+                                                        </a>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -1639,7 +1690,6 @@ if ($user->isLoggedIn()) {
                                                     <th>Visit Date</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
-                                                    <th>Next Appointment Summary</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1695,11 +1745,11 @@ if ($user->isLoggedIn()) {
 
                                                                     <?php if ($demographic && $vital && $history && $symptoms && $diagnosis && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $social_economic) { ?>
 
-                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
+                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-info"> Edit Study Forms </a>
 
 
                                                                     <?php } else { ?>
-                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
 
                                                             <?php }
                                                                 }
@@ -1712,18 +1762,18 @@ if ($user->isLoggedIn()) {
 
                                                                     <?php if ($vital && $symptoms && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details) { ?>
 
-                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
+                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
 
 
                                                                     <?php } else { ?>
-                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
 
                                                             <?php }
                                                                 }
                                                             } ?>
 
                                                         </td>
-                                                        <td>
+                                                        <!-- <td>
                                                             <?php if ($visit['seq_no'] >= 1) {
                                                                 $summary = '';
                                                             ?>
@@ -1737,7 +1787,7 @@ if ($user->isLoggedIn()) {
                                                             <?php }
                                                             } ?>
 
-                                                        </td>
+                                                        </td> -->
                                                     </tr>
 
                                                     <div class="modal fade" id="editVisit<?= $visit['id'] ?>">
@@ -2105,7 +2155,6 @@ if ($user->isLoggedIn()) {
                                                     <th>Visit Date</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
-                                                    <th>Next Appointment Summary</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -2132,12 +2181,12 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1>DataTables</h1>
+                                <h1>Participants Study CRF's</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active">DataTables</li>
+                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
+                                    <li class="breadcrumb-item active">Participants Study CRF's</li>
                                 </ol>
                             </div>
                         </div>
@@ -2180,8 +2229,18 @@ if ($user->isLoggedIn()) {
 
                                         ?>
 
-                                        <h1>Study CRF (Enrollment) for ID: <?= $patient['study_id'] ?><h4><?= $name ?></h4>
-
+                                        <div class="row mb-2">
+                                            <div class="col-sm-6">
+                                                <h1>Study ID: <?= $patient['study_id'] ?><h4><?= $name ?></h4>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <ol class="breadcrumb float-sm-right">
+                                                    <li class="breadcrumb-item"><a href="info.php?id=4&cid=<?= $_GET['cid'] ?>&status=<?= $_GET['status'] ?>">
+                                                            < Back</a>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">

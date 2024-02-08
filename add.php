@@ -12917,18 +12917,15 @@ if ($user->isLoggedIn()) {
     <script src="myjs/add/cardiac/heart_failure.js"></script>
     <script src="myjs/add/cardiac/heumatic.js"></script>
     <script src="myjs/add/cardiac/pericardial.js"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
-    <script src="myjs/add/cardiac"></script>
+    <script src="myjs/add/cardiac/stroke.js"></script>
+    <script src="myjs/add/cardiac/sub_arrhythmia.js"></script>
+    <script src="myjs/add/cardiac/sub_cardiomyopathy.js"></script>
+    <script src="myjs/add/cardiac/sub_congenital.js"></script>
+    <script src="myjs/add/cardiac/sub_heumatic.js"></script>
+    <script src="myjs/add/cardiac/sub_pericardial.js"></script>
+    <script src="myjs/add/cardiac/sub_thromboembolic.js"></script>
+    <script src="myjs/add/cardiac/thromboembolic.js"></script>
+
 
 
 

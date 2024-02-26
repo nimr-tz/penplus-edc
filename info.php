@@ -30,56 +30,6 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('edit_staff')) {
-            $validate = new validate();
-            $validate = $validate->check($_POST, array(
-                'firstname' => array(
-                    'required' => true,
-                ),
-                'lastname' => array(
-                    'required' => true,
-                ),
-                'position' => array(
-                    'required' => true,
-                ),
-                'phone_number' => array(
-                    'required' => true,
-                ),
-                'email_address' => array(),
-            ));
-            if ($validate->passed()) {
-                $salt = $random->get_rand_alphanumeric(32);
-                $password = '12345678';
-                switch (Input::get('position')) {
-                    case 1:
-                        $accessLevel = 1;
-                        break;
-                    case 2:
-                        $accessLevel = 2;
-                        break;
-                    case 3:
-                        $accessLevel = 3;
-                        break;
-                }
-                try {
-                    $user->updateRecord('user', array(
-                        'firstname' => Input::get('firstname'),
-                        'lastname' => Input::get('lastname'),
-                        'position' => Input::get('position'),
-                        'phone_number' => Input::get('phone_number'),
-                        'email_address' => Input::get('email_address'),
-                        'accessLevel' => $accessLevel,
-                        'power' => Input::get('power'),
-                        'user_id' => $user->data()->id,
-                    ), Input::get('id'));
-
-                    $successMessage = 'Account Updated Successful';
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
         } elseif (Input::get('reset_pass')) {
             $salt = $random->get_rand_alphanumeric(32);
             $password = '12345678';
@@ -88,6 +38,11 @@ if ($user->isLoggedIn()) {
                 'salt' => $salt,
             ), Input::get('id'));
             $successMessage = 'Password Reset Successful';
+        } elseif (Input::get('lock_account')) {
+            $user->updateRecord('user', array(
+                'count' => 4,
+            ), Input::get('id'));
+            $successMessage = 'Account locked Successful';
         } elseif (Input::get('unlock_account')) {
             $user->updateRecord('user', array(
                 'count' => 0,
@@ -96,6 +51,11 @@ if ($user->isLoggedIn()) {
         } elseif (Input::get('delete_staff')) {
             $user->updateRecord('user', array(
                 'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'User Deleted Successful';
+        } elseif (Input::get('restore_staff')) {
+            $user->updateRecord('user', array(
+                'status' => 1,
             ), Input::get('id'));
             $successMessage = 'User Deleted Successful';
         } elseif (Input::get('delete_client')) {
@@ -964,7 +924,7 @@ if ($user->isLoggedIn()) {
                                         $data = $override->getDataStaff1('user', 'status', 0, 'power', 0, 'count', 4, 'id');
                                     }
                                     ?>
-                                    List of Staff 
+                                    List of Staff
                                 </h1>
                             </div>
                             <div class="col-sm-6">

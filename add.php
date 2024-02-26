@@ -10,7 +10,7 @@ $pageError = null;
 $errorMessage = null;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
-               if (Input::get('add_user')) {
+        if (Input::get('add_user')) {
             $staff = $override->getNews('user', 'status', 1, 'id', $_GET['staff_id']);
             if ($staff) {
                 $validate = $validate->check($_POST, array(

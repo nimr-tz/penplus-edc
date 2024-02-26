@@ -301,7 +301,7 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    Eligible  up to <?= date('Y-m-d'); ?>
+                    Eligible up to <?= date('Y-m-d'); ?>
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
@@ -470,6 +470,11 @@ if ($user->isLoggedIn()) {
   <script src="dist/js/pages/dashboard1_1.js"></script>
   <script src="dist/js/pages/dashboard1_2.js"></script>
   <script src="dist/js/pages/dashboard1_3.js"></script>
+  <script src="dist/js/pages/dashboard1_4.js"></script>
+  <script src="dist/js/pages/dashboard1_5.js"></script>
+  <script src="dist/js/pages/dashboard1_6.js"></script>
+
+
 
 
 

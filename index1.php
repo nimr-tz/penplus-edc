@@ -226,7 +226,7 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    Registration to <?= date('Y-m-d'); ?>
+                    Registration up to <?= date('Y-m-d'); ?>
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
@@ -264,7 +264,7 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    Screening to <?= date('Y-m-d'); ?>
+                    Screening up to <?= date('Y-m-d'); ?>
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
@@ -301,7 +301,7 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    Eligible to <?= date('Y-m-d'); ?>
+                    Eligible  up to <?= date('Y-m-d'); ?>
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
@@ -339,7 +339,7 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    Enrolled to <?= date('Y-m-d'); ?>
+                    Enrolled up to <?= date('Y-m-d'); ?>
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
@@ -361,6 +361,43 @@ if ($user->isLoggedIn()) {
                     </div>
                     <div class="chart tab-pane" id="enrolled_pie" style="position: relative; height: 300px;">
                       <canvas id="enrolled2" height="300" style="height: 300px;"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </section>
+            <!-- right col -->
+            <!-- right col (We are only adding the ID to make the widgets sortable)-->
+            <section class="col-lg-6 connectedSortable">
+              <!-- Custom tabs (Charts with tabs)-->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-chart-pie mr-1"></i>
+                    Terminated up to <?= date('Y-m-d'); ?>
+                  </h3>
+                  <div class="card-tools">
+                    <ul class="nav nav-pills ml-auto">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="#end_bar" data-toggle="tab">Bar</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#end_pie" data-toggle="tab">Donut</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="tab-content p-0">
+                    <!-- Morris chart - Sales -->
+                    <div class="chart tab-pane active" id="end_bar" style="position: relative; height: 300px;">
+                      <canvas id="end" height="300" style="height: 300px;"></canvas>
+                    </div>
+                    <div class="chart tab-pane" id="end_pie" style="position: relative; height: 300px;">
+                      <canvas id="end2" height="300" style="height: 300px;"></canvas>
                     </div>
                   </div>
                 </div>
@@ -407,7 +444,7 @@ if ($user->isLoggedIn()) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-  
+
   <!-- Sparkline -->
   <script src="plugins/sparklines/sparkline.js"></script>
   <!-- JQVMap -->

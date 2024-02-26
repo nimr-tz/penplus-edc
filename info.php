@@ -1413,10 +1413,16 @@ if ($user->isLoggedIn()) {
                                         } elseif ($_GET['status'] == 5) {
                                             $clients = $override->getDataDesc1('clients', 'status', 1, 'id');
                                         } elseif ($_GET['status'] == 6) {
-                                            $clients = $override->getDataDesc2('clients', 'status', 1, 'screened', 0,
+                                            $clients = $override->getDataDesc2(
+                                                'clients',
+                                                'status',
+                                                1,
+                                                'screened',
+                                                0,
                                                 'id'
                                             );
-                                        } elseif ($_GET['status'] == 7
+                                        } elseif (
+                                            $_GET['status'] == 7
                                         ) {
                                             $clients = $override->getDataDesc('clients', 'id');
                                         } elseif ($_GET['status'] == 8) {
@@ -1443,41 +1449,85 @@ if ($user->isLoggedIn()) {
                                         $clients = $override->getDataDesc2('clients', 'status', 0, 'site_id', $user->data()->site_id,  'id');
                                     }
                                 }
-                                 ?>
+                                ?>
                                 <div class="card">
 
                                     <section class="content-header">
                                         <div class="container-fluid">
                                             <div class="row mb-2">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-3">
                                                     <div class="card-header">
                                                         <?php
                                                         if ($_GET['status'] == 1) { ?>
-                                                            <h3 class="card-title">List of Screened Clients</h3>
+                                                            <h3 class="card-title">List of Screened Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $screened; ?></span>
                                                         <?php
                                                         } elseif ($_GET['status'] == 2) { ?>
-                                                            <h3 class="card-title">List of Eligible Clients</h3>
+                                                            <h3 class="card-title">List of Eligible Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $eligible; ?></span>
                                                         <?php
                                                         } elseif ($_GET['status'] == 3) { ?>
-                                                            <h3 class="card-title">List of Enrolled Clients</h3>
+                                                            <h3 class="card-title">List of Enrolled Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $enrolled; ?></span>
                                                         <?php
                                                         } elseif ($_GET['status'] == 4) { ?>
-                                                            <h3 class="card-title">List of Terminated Clients</h3>
+                                                            <h3 class="card-title">List of Terminated Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $end; ?></span>
                                                         <?php
                                                         } elseif ($_GET['status'] == 5) { ?>
-                                                            <h3 class="card-title">List of Registered Clients</h3>
+                                                            <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $registered; ?></span>
                                                         <?php
-                                                        } ?>
+                                                        } elseif ($_GET['status'] == 7) { ?>
+                                                            <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $registered; ?></span>
+                                                        <?php } ?>
                                                     </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <?php
+                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                                    ?>
+                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
+                                                                                <option value="">Select Site</option>
+                                                                                <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
+                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                                                <?php } ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <input type="submit" name="search_by_site1" value="Search by Site" class="btn btn-primary">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <ol class="breadcrumb float-sm-right">
-                                                        <li class="breadcrumb-item"><a href="index1.php">
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
                                                                 < Back</a>
+                                                        </li>
+                                                        &nbsp;
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                Go Home > </a>
                                                         </li>
                                                     </ol>
                                                 </div>
                                             </div>
+                                            <hr>
                                         </div><!-- /.container-fluid -->
                                     </section>
                                     <!-- /.card-header -->

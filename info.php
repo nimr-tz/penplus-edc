@@ -760,6 +760,21 @@ if ($user->isLoggedIn()) {
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = Input::get('name') . ' - ' . 'Medications Deleted Successful';
+        } elseif (Input::get('search_by_site1')) {
+            $validate = $validate->check($_POST, array(
+                'site_id' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                if (Input::get('status')) {
+                    $url = 'info.php?id=3&status=' . Input::get('status') . '&site_id=' . Input::get('site_id');
+                } else {
+                    $url = 'info.php?id=' . $_GET['id'] . '&site_id=' . Input::get('site_id');
+                }
+                Redirect::to($url);
+                $pageError = $validate->errors();
+            }
         }
 
 

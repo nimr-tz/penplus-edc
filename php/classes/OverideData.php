@@ -490,4 +490,77 @@ class OverideData
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+
+
+    public function getDataPoints()
+    {
+        $query = $this->_pdo->query("SELECT * FROM descriptionlabels INNER JOIN datapoints ON descriptionlabels.id = datapoints.descriptionlabelid");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataRegister()
+    {
+        $query = $this->_pdo->query("SELECT MONTHNAME(date_registered) as monthname, SUM(status) as amount FROM clients GROUP BY monthname");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataRegister1()
+    {
+        $query = $this->_pdo->query("SELECT MONTHNAME(date_registered) , site_id, COUNT(*) as count FROM clients GROUP BY date_registered, site_id");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataRegister2()
+    {
+        $query = $this->_pdo->query("SELECT DATE_FORMAT(registration_date, '%Y-%m') AS month, gender, COUNT(*) AS count FROM registration_data GROUP BY month, gender");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataRegister3($where, $value)
+    {
+        $query = $this->_pdo->query("SELECT MONTHNAME(date_registered) AS monthname, site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' GROUP BY monthname, site_id");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataRegister4($where, $value, $where1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT MONTHNAME(date_registered) AS monthname, site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' AND $where1 = '$value1' GROUP BY monthname, site_id");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function getDataStaff($table, $where, $id, $where2, $id2, $where3, $id3, $name)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 < '$id3' ORDER BY $name ASC");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataStaffCount($table, $where, $id, $where2, $id2, $where3, $id3, $name)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 < '$id3' ORDER BY $name ASC");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getDataStaff1($table, $where, $id, $where2, $id2, $where3, $id3, $name)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 >= '$id3' ORDER BY $name ASC");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataStaff1Count($table, $where, $id, $where2, $id2, $where3, $id3, $name)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 >= '$id3' ORDER BY $name ASC");
+        $num = $query->rowCount();
+        return $num;
+    }
 }

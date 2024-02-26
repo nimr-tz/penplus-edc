@@ -17,6 +17,80 @@ if ($user->isLoggedIn()) {
         $all = $override->getCount('clients', 'site_id', $user->data()->site_id);
         $deleted = $override->countData('clients', 'status', 0, 'site_id', $user->data()->site_id);
     }
+
+
+    if (Input::exists('post')) {
+
+        if (Input::get('search_by_site')) {
+            $validate = new validate();
+            $validate = $validate->check($_POST, array(
+                'site_id' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+
+                $url = 'index1.php?&site_id=' . Input::get('site_id');
+                Redirect::to($url);
+                $pageError = $validate->errors();
+            }
+        }
+    }
+
+
+    $staff_all = $override->getNo('user');
+    $staff_active = $override->getDataStaffCount('user', 'status', 1, 'power', 0, 'count', 4, 'id');
+    $staff_inactive = $override->getDataStaffCount('user', 'status', 0, 'power', 0, 'count', 4, 'id');
+    $staff_lock_active = $override->getDataStaff1Count('user', 'status', 1, 'power', 0, 'count', 4, 'id');
+    $staff_lock_inactive = $override->getDataStaff1Count('user', 'status', 0, 'power', 0, 'count', 4, 'id');
+
+
+
+    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+        if ($_GET['site_id'] != null) {
+            // $kap = $override->getCount1('kap', 'status', 1, 'site_id', $_GET['site_id']);
+            // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
+            // $results = $override->getCount1('results', 'status', 1, 'site_id', $_GET['site_id']);
+            // $classification = $override->getCount1('classification', 'status', 1, 'site_id', $_GET['site_id']);
+            // $outcome = $override->getCount1('outcome', 'status', 1, 'site_id', $_GET['site_id']);
+            // $economic = $override->getCount1('economic', 'status', 1, 'site_id', $_GET['site_id']);
+            $visit = $override->getCount1('visit', 'status', 1, 'site_id', $_GET['site_id']);
+
+            // $registered = $override->getCount1('clients', 'status', 1, 'site_id', $_GET['site_id']);
+            // $screened = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
+            // $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
+            // $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
+            $end = $override->getCount1('clients', 'status', 0, 'site_id', $_GET['site_id']);
+        } else {
+            // $kap = $override->getCount('kap', 'status', 1);
+            // $history = $override->getCount('history', 'status', 1);
+            // $results = $override->getCount('results', 'status', 1);
+            // $classification = $override->getCount('classification', 'status', 1);
+            // $outcome = $override->getCount('outcome', 'status', 1);
+            // $economic = $override->getCount('economic', 'status', 1);
+            $visit = $override->getCount('visit', 'status', 1);
+
+            // $registered = $override->getCount('clients', 'status', 1);
+            // $screened = $override->getCount('history', 'status', 1);
+            // $eligible = $override->getCount('history', 'eligible', 1);
+            // $enrolled = $override->getCount('history', 'eligible', 1);
+            $end = $override->getCount('clients', 'status', 0);
+        }
+    } else {
+        // $kap = $override->getCount1('kap', 'status', 1, 'site_id', $user->data()->site_id);
+        // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
+        // $results = $override->getCount1('results', 'status', 1, 'site_id', $user->data()->site_id);
+        // $classification = $override->getCount1('classification', 'status', 1, 'site_id', $user->data()->site_id);
+        // $outcome = $override->getCount1('outcome', 'status', 1, 'site_id', $user->data()->site_id);
+        // $economic = $override->getCount1('economic', 'status', 1, 'site_id', $user->data()->site_id);
+        $visit = $override->getCount1('visit', 'status', 1, 'site_id', $user->data()->site_id);
+
+        // $registered = $override->getCount1('clients', 'status', 1, 'site_id', $user->data()->site_id);
+        // $screened = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
+        // $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
+        // $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
+        $end = $override->getCount1('clients', 'status', 0, 'site_id', $user->data()->site_id);
+    }
 } else {
     Redirect::to('index.php');
 }
@@ -88,6 +162,59 @@ if ($user->isLoggedIn()) {
                         </li>
                     </ul>
                 </li>
+                <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                ?>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <span class="badge badge-info right"><?= $staff_all; ?></span>
+                            <p>
+                                Staff <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="add.php?id=1" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        Register
+                                        <span class="right badge badge-danger">New Staff</span>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=1&status=1" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $staff_active; ?></span>
+                                    <p>Active</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=1&status=2" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $staff_inactive; ?></span>
+                                    <p>Inactive</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=1&status=3" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $staff_lock_active; ?></span>
+                                    <p>Locked And Active</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=1&status=4" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $staff_lock_inactive; ?></span>
+                                    <p>Locked And Inactive</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
                 <li class="nav-item">
                     <a href="add.php?id=4" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>

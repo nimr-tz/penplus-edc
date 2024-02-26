@@ -216,6 +216,35 @@ if ($user->isLoggedIn()) {
                     </li>
                 <?php } ?>
                 <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <span class="badge badge-info right"><?= $registered; ?></span>
+                        <p>
+                            Registration <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="add.php?id=4" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Register
+                                    <span class="right badge badge-danger">New Client</span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="info.php?id=3&status=5" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <span class="badge badge-info right"><?= $registered; ?></span>
+                                <p>Registered</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <!-- <li class="nav-item">
                     <a href="add.php?id=4" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -223,19 +252,19 @@ if ($user->isLoggedIn()) {
                             <span class="right badge badge-danger">New Client</span>
                         </p>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                    <a href="info.php?id=3&status=5" class="nav-link">
+                    <!-- <a href="info.php?id=3&status=5" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Total registered
                             <i class="fas fa-angle-left right"></i>
                             <span class="badge badge-info right"><?= $registered ?></span>
                         </p>
-                    </a>
+                    </a> -->
                     <ul class="nav nav-treeview">
                         <?php foreach ($override->getData('site') as $site) { ?>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="info.php?id=3&status=5&site_id=<?= $site['id']; ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p><?= $site['name'] ?></p>
@@ -243,7 +272,7 @@ if ($user->isLoggedIn()) {
                                         <?= $override->countData('clients', 'status', 1, 'site_id', $site['id']) ?>
                                     </span>
                                 </a>
-                            </li>
+                            </li> -->
                         <?php } ?>
                         <!-- <li class="nav-item">
                             <a href="pages/layout/boxed.html" class="nav-link">

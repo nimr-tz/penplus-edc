@@ -52,7 +52,7 @@ $(function () {
 
   // SETUP BLOCK
 
-  fetch("process2.php")
+  fetch("process1.php")
     .then((response) => response.json())
     .then((data) => {
       const monthname = Object.keys(data);
@@ -62,7 +62,6 @@ $(function () {
       const mbagala = monthname.map((monthname) => data[monthname]["4"]);
       const magomeni = monthname.map((monthname) => data[monthname]["5"]);
 
-
         var ticksStyle = {
           fontColor: "#495057",
           fontStyle: "bold",
@@ -71,7 +70,7 @@ $(function () {
       /* Chart.js Charts */
       // registration
       var salesChartCanvas = document
-        .getElementById("screening")
+        .getElementById("registration")
         .getContext("2d");
       // $('#revenue-chart').get(0).getContext('2d');
 
@@ -118,8 +117,8 @@ $(function () {
           },
           {
             label: "Mbagala Rangi Tatu Hospital",
-            // backgroundColor: "rgba(210, 214, 222, 1)",
-            backgroundColor: "yellow",
+            backgroundColor: "rgba(210, 214, 222, 1)",
+            // backgroundColor: "yellow",
             borderColor: "rgba(210, 214, 222, 1)",
             pointRadius: false,
             pointColor: "rgba(210, 214, 222, 1)",
@@ -146,6 +145,10 @@ $(function () {
       var salesChartOptions = {
         maintainAspectRatio: false,
         responsive: true,
+        title: {
+          display: true,
+          text: "data",
+        },
         legend: {
           display: false,
         },
@@ -170,9 +173,21 @@ $(function () {
                 },
                 ticksStyle
               ),
+
+              // ticks: {
+              //   beginAtZero: true,
+              //   stepSize: 1,
+              //   // fontColor: "#8f9092",
+              //   // suggestedMax: 60,
+              // },
             },
           ],
         },
+        // plugins: {
+        //   labels: {
+        //     render: "value",
+        //   },
+        // },
       };
 
       // This will get the first returned node in the jQuery collection.
@@ -182,6 +197,34 @@ $(function () {
         type: "bar",
         data: salesChartData,
         options: salesChartOptions,
+      });
+
+      // Donut Chart
+      var pieChartCanvas = $("#registration2").get(0).getContext("2d");
+      var pieData = {
+        labels: monthname,
+        datasets: [
+          {
+            data: amana,
+            backgroundColor: ["#f56954", "#00a65a", "#f39c12"],
+          },
+        ],
+      };
+      var pieOptions = {
+        legend: {
+          display: false,
+        },
+        maintainAspectRatio: false,
+        responsive: true,
+      };
+      // Create pie or douhnut chart
+      // You can switch between pie and douhnut using the method below.
+      // eslint-disable-next-line no-unused-vars
+      var pieChart = new Chart(pieChartCanvas, {
+        // lgtm[js/unused-local-variable]
+        type: "doughnut",
+        data: pieData,
+        options: pieOptions,
       });
     });
 });

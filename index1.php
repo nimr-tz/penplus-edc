@@ -118,6 +118,7 @@ if ($user->isLoggedIn()) {
                         <div class="form-group">
                           <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
                             <option value="">Select Site</option>
+                            <!-- <option value="3">All</option> -->
                             <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
                               <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
                             <?php } ?>
@@ -225,138 +226,151 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    TOTAL ENROLLMENT as of <?= date('Y-m-d') ?>
+                    Registration to <?= date('Y-m-d'); ?>
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
-                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Bar</a>
+                        <a class="nav-link active" href="#registration_bar" data-toggle="tab">Bar</a>
                       </li>
-                      <!-- <li class="nav-item">
-                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                      </li> -->
+                      <li class="nav-item">
+                        <a class="nav-link" href="#registration_donat" data-toggle="tab">Donut</a>
+                      </li>
                     </ul>
                   </div>
-                </div><!-- /.card-header -->
+                </div>
+                <!-- /.card-header -->
                 <div class="card-body">
                   <div class="tab-content p-0">
                     <!-- Morris chart - Sales -->
-                    <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+                    <div class="chart tab-pane active" id="registration_bar" style="position: relative; height: 300px;">
+                      <canvas id="registration" height="300" style="height: 300px;"></canvas>
                     </div>
-                    <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                      <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                    <div class="chart tab-pane" id="registration_donat" style="position: relative; height: 300px;">
+                      <canvas id="registration2" height="300" style="height: 300px;"></canvas>
                     </div>
                   </div>
-                </div><!-- /.card-body -->
+                </div>
+                <!-- /.card-body -->
               </div>
               <!-- /.card -->
 
-              <!-- Map card -->
+            </section>
+            <!-- /.Left col -->
+            <!-- right col (We are only adding the ID to make the widgets sortable)-->
+            <section class="col-lg-6 connectedSortable">
+              <!-- Custom tabs (Charts with tabs)-->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    TOTAL ENROLLMENT as of <?= date('Y-m-d') ?>
+                    Screening to <?= date('Y-m-d'); ?>
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
-                        <a class="nav-link active" href="#revenue-chart2" data-toggle="tab">Bar</a>
+                        <a class="nav-link active" href="#screening1" data-toggle="tab">Bar</a>
                       </li>
-                      <!-- <li class="nav-item">
-                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                      </li> -->
+                      <li class="nav-item">
+                        <a class="nav-link" href="#screening2" data-toggle="tab">Donut</a>
+                      </li>
                     </ul>
                   </div>
-                </div><!-- /.card-header -->
+                </div>
+                <!-- /.card-header -->
                 <div class="card-body">
                   <div class="tab-content p-0">
                     <!-- Morris chart - Sales -->
-                    <div class="chart tab-pane active" id="revenue-chart2" style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas2" height="300" style="height: 300px;"></canvas>
+                    <div class="chart tab-pane active" id="screening1" style="position: relative; height: 300px;">
+                      <canvas id="screening" height="300" style="height: 300px;"></canvas>
                     </div>
-                    <div class="chart tab-pane" id="sales-chart2" style="position: relative; height: 300px;">
-                      <canvas id="sales-chart-canvas2" height="300" style="height: 300px;"></canvas>
+                    <div class="chart tab-pane" id="screening2" style="position: relative; height: 300px;">
+                      <canvas id="screening2" height="300" style="height: 300px;"></canvas>
                     </div>
                   </div>
-                </div><!-- /.card-body -->
+                </div>
+                <!-- /.card-body -->
               </div>
               <!-- /.card -->
             </section>
-            <!-- /.Left col -->
+            <!-- right col -->
+            <!-- Left col -->
+            <section class="col-lg-6 connectedSortable">
+              <!-- Custom tabs (Charts with tabs)-->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-chart-pie mr-1"></i>
+                    Eligible to <?= date('Y-m-d'); ?>
+                  </h3>
+                  <div class="card-tools">
+                    <ul class="nav nav-pills ml-auto">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="#eligible_bar" data-toggle="tab">Bar</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#eligible_pie" data-toggle="tab">Donut</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="tab-content p-0">
+                    <!-- Morris chart - Sales -->
+                    <div class="chart tab-pane active" id="eligible_bar" style="position: relative; height: 300px;">
+                      <canvas id="eligible" height="300" style="height: 300px;"></canvas>
+                    </div>
+                    <div class="chart tab-pane" id="eligible_pie" style="position: relative; height: 300px;">
+                      <canvas id="eligible2" height="300" style="height: 300px;"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
 
+            </section>
+            <!-- /.Left col -->
             <!-- right col (We are only adding the ID to make the widgets sortable)-->
             <section class="col-lg-6 connectedSortable">
-              <!-- solid sales graph -->
+              <!-- Custom tabs (Charts with tabs)-->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-chart-pie mr-1"></i>
-                    TOTAL ENROLLMENT as of <?= date('Y-m-d') ?>
+                    Enrolled to <?= date('Y-m-d'); ?>
                   </h3>
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
-                        <a class="nav-link active" href="#revenue-chart1" data-toggle="tab">Bar</a>
+                        <a class="nav-link active" href="#enrolled_bar" data-toggle="tab">Bar</a>
                       </li>
-                      <!-- <li class="nav-item">
-                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                      </li> -->
-                    </ul>
-                  </div>
-                </div><!-- /.card-header -->
-                <div class="card-body">
-                  <div class="tab-content p-0">
-                    <!-- Morris chart - Sales -->
-                    <div class="chart tab-pane active" id="revenue-chart1" style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas1" height="300" style="height: 300px;"></canvas>
-                    </div>
-                    <div class="chart tab-pane" id="sales-chart1" style="position: relative; height: 300px;">
-                      <canvas id="sales-chart-canvas1" height="300" style="height: 300px;"></canvas>
-                    </div>
-                  </div>
-                </div><!-- /.card-body -->
-              </div>
-              <!-- /.card -->
-
-              <!-- solid sales graph -->
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">
-                    <i class="fas fa-chart-pie mr-1"></i>
-                    TOTAL ENROLLMENT as of <?= date('Y-m-d') ?>
-                  </h3>
-                  <div class="card-tools">
-                    <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
-                        <a class="nav-link active" href="#revenue-chart1" data-toggle="tab">Bar</a>
+                        <a class="nav-link" href="#enrolled_pie" data-toggle="tab">Donut</a>
                       </li>
-                      <!-- <li class="nav-item">
-                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                      </li> -->
                     </ul>
                   </div>
-                </div><!-- /.card-header -->
+                </div>
+                <!-- /.card-header -->
                 <div class="card-body">
                   <div class="tab-content p-0">
                     <!-- Morris chart - Sales -->
-                    <div class="chart tab-pane active" id="revenue-chart1" style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas1" height="300" style="height: 300px;"></canvas>
+                    <div class="chart tab-pane active" id="enrolled_bar" style="position: relative; height: 300px;">
+                      <canvas id="enrolled" height="300" style="height: 300px;"></canvas>
                     </div>
-                    <div class="chart tab-pane" id="sales-chart1" style="position: relative; height: 300px;">
-                      <canvas id="sales-chart-canvas1" height="300" style="height: 300px;"></canvas>
+                    <div class="chart tab-pane" id="enrolled_pie" style="position: relative; height: 300px;">
+                      <canvas id="enrolled2" height="300" style="height: 300px;"></canvas>
                     </div>
                   </div>
-                </div><!-- /.card-body -->
+                </div>
+                <!-- /.card-body -->
               </div>
               <!-- /.card -->
-
             </section>
             <!-- right col -->
           </div>
           <!-- /.row (main row) -->
-
         </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
@@ -387,6 +401,13 @@ if ($user->isLoggedIn()) {
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- ChartJS -->
   <script src="plugins/chart.js/Chart.min.js"></script>
+
+
+  <!-- MY LINKS TO CHAARTS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+  
   <!-- Sparkline -->
   <script src="plugins/sparklines/sparkline.js"></script>
   <!-- JQVMap -->
@@ -409,7 +430,7 @@ if ($user->isLoggedIn()) {
   <!-- <script src="dist/js/demo.js"></script> -->
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <!-- <script src="dist/js/pages/dashboard.js"></script> -->
-  <script src="dist/js/pages/dashboard1.js"></script>
+  <script src="dist/js/pages/dashboard1_1.js"></script>
   <script src="dist/js/pages/dashboard1_2.js"></script>
   <script src="dist/js/pages/dashboard1_3.js"></script>
 

@@ -10,44 +10,6 @@
 $(function () {
   ("use strict");
 
-  // $(document).ready(function () {
-  // var getUid = $(this).attr("update-data");
-
-  $.ajax({
-    url: "process1.php?content=diseases",
-    type: "GET",
-    data: {
-      getUid: 1,
-    },
-    dataType: "json",
-    success: function (data) {
-      createChart(data);
-    },
-    error: function (error) {
-      console.error("Error fetching data:", error);
-    },
-  });
-
-
-
-  // });
-
-  // $(document).on("click", ".update", function () {
-  //   var getUid = $(this).attr("update-data");
-  //   $.ajax({
-  //     url: "process.php?content=update_generic_name",
-  //     method: "GET",
-  //     data: {
-  //       getUid: getUid,
-  //     },
-  //     dataType: "json",
-  //     success: function (data) {
-  //       $("#update_generic_id").val(data.update_generic_id);
-  //       // $('#fl_wait').hide();
-  //     },
-  //   });
-  // });
-
   // Make the dashboard widgets sortable Using jquery UI
   $(".connectedSortable").sortable({
     placeholder: "sort-highlight",
@@ -57,14 +19,6 @@ $(function () {
     zIndex: 999999,
   });
   $(".connectedSortable .card-header").css("cursor", "move");
-
-  // jQuery UI sortable for the todo list
-  $(".todo-list").sortable({
-    placeholder: "sort-highlight",
-    handle: ".handle",
-    forcePlaceholderSize: true,
-    zIndex: 999999,
-  });
 
   // bootstrap WYSIHTML5 - text editor
   $(".textarea").summernote();
@@ -96,252 +50,138 @@ $(function () {
     }
   );
 
-  /* jQueryKnob */
-  $(".knob").knob();
+  // SETUP BLOCK
 
-  // jvectormap data
-  var visitorsData = {
-    US: 398, // USA
-    SA: 400, // Saudi Arabia
-    CA: 1000, // Canada
-    DE: 500, // Germany
-    FR: 760, // France
-    CN: 300, // China
-    AU: 700, // Australia
-    BR: 600, // Brazil
-    IN: 800, // India
-    GB: 320, // Great Britain
-    RU: 3000, // Russia
-  };
-  // World map by jvectormap
-  $("#world-map").vectorMap({
-    map: "usa_en",
-    backgroundColor: "transparent",
-    regionStyle: {
-      initial: {
-        fill: "rgba(255, 255, 255, 0.7)",
-        "fill-opacity": 1,
-        stroke: "rgba(0,0,0,.2)",
-        "stroke-width": 1,
-        "stroke-opacity": 1,
-      },
-    },
-    series: {
-      regions: [
-        {
-          values: visitorsData,
-          scale: ["#ffffff", "#0154ad"],
-          normalizeFunction: "polynomial",
-        },
-      ],
-    },
-    onRegionLabelShow: function (e, el, code) {
-      if (typeof visitorsData[code] !== "undefined") {
-        el.html(el.html() + ": " + visitorsData[code] + " new visitors");
-      }
-    },
-  });
+  fetch("process3.php")
+    .then((response) => response.json())
+    .then((data) => {
+      const monthname = Object.keys(data);
+      const amana = monthname.map((monthname) => data[monthname]["1"]);
+      const mwananyamala = monthname.map((monthname) => data[monthname]["2"]);
+      const temeke = monthname.map((monthname) => data[monthname]["3"]);
+      const mbagala = monthname.map((monthname) => data[monthname]["4"]);
+      const magomeni = monthname.map((monthname) => data[monthname]["5"]);
 
-  // Sparkline charts
-  var sparkline1 = new Sparkline($("#sparkline-1")[0], {
-    width: 80,
-    height: 50,
-    lineColor: "#92c1dc",
-    endColor: "#ebf4f9",
-  });
-  var sparkline2 = new Sparkline($("#sparkline-2")[0], {
-    width: 80,
-    height: 50,
-    lineColor: "#92c1dc",
-    endColor: "#ebf4f9",
-  });
-  var sparkline3 = new Sparkline($("#sparkline-3")[0], {
-    width: 80,
-    height: 50,
-    lineColor: "#92c1dc",
-    endColor: "#ebf4f9",
-  });
 
-  sparkline1.draw([1000, 1200, 920, 927, 931, 1027, 819, 930, 1021]);
-  sparkline2.draw([515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921]);
-  sparkline3.draw([15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21]);
+        var ticksStyle = {
+          fontColor: "#495057",
+          fontStyle: "bold",
+        };
 
-  // The Calender
-  $("#calendar").datetimepicker({
-    format: "L",
-    inline: true,
-  });
+      /* Chart.js Charts */
+      // registration
+      var salesChartCanvas = document
+        .getElementById("eligible")
+        .getContext("2d");
+      // $('#revenue-chart').get(0).getContext('2d');
 
-  // SLIMSCROLL FOR CHAT WIDGET
-  $("#chat-box").overlayScrollbars({
-    height: "250px",
-  });
+      // var ctx = document.getElementById("registration").getContext("2d");
 
-  function createChart(data) {
-    var date = new Date();
-    var current_date =
-      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    /* Chart.js Charts */
-    // Sales chart
-    var salesChartCanvas = document
-      .getElementById("revenue-chart-canvas2")
-      .getContext("2d");
-    // $('#revenue-chart').get(0).getContext('2d');
-
-    var salesChartData = {
-      labels: data.map((obj) => obj.monthname),
-      datasets: [
-        {
-          label: [],
-          backgroundColor: "rgba(60,141,188,0.9)",
-          borderColor: "rgba(60,141,188,0.8)",
-          pointRadius: false,
-          pointColor: "#3b8bba",
-          pointStrokeColor: "rgba(60,141,188,1)",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "rgba(60,141,188,1)",
-          data: data.map((obj) => obj.amount),
-        },
-      ],
-    };
-
-    var salesChartOptions = {
-      maintainAspectRatio: false,
-      responsive: true,
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [
+      var salesChartData = {
+        labels: monthname,
+        datasets: [
           {
-            gridLines: {
-              display: false,
-            },
+            label: "Amana RRH",
+            // backgroundColor: "rgba(60,141,188,0.9)",
+            backgroundColor: "pink",
+            borderColor: "rgba(60,141,188,0.8)",
+            pointRadius: false,
+            pointColor: "#3b8bba",
+            pointStrokeColor: "rgba(60,141,188,1)",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(60,141,188,1)",
+            data: amana,
+          },
+          {
+            label: "Mwananyamala RRH",
+            // backgroundColor: "rgba(210, 214, 222, 1)",
+            backgroundColor: "blue",
+            borderColor: "rgba(210, 214, 222, 1)",
+            pointRadius: false,
+            pointColor: "rgba(210, 214, 222, 1)",
+            pointStrokeColor: "#c1c7d1",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: mwananyamala,
+          },
+          {
+            label: "Temeke RRH",
+            // backgroundColor: "rgba(210, 214, 222, 1)",
+            backgroundColor: "green",
+            borderColor: "rgba(210, 214, 222, 1)",
+            pointRadius: false,
+            pointColor: "rgba(210, 214, 222, 1)",
+            pointStrokeColor: "#c1c7d1",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: temeke,
+          },
+          {
+            label: "Mbagala Rangi Tatu Hospital",
+            // backgroundColor: "rgba(210, 214, 222, 1)",
+            backgroundColor: "yellow",
+            borderColor: "rgba(210, 214, 222, 1)",
+            pointRadius: false,
+            pointColor: "rgba(210, 214, 222, 1)",
+            pointStrokeColor: "#c1c7d1",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: mbagala,
+          },
+          {
+            label: "Magomeni Hospital",
+            // backgroundColor: "rgba(210, 214, 222, 1)",
+            backgroundColor: "orange",
+            borderColor: "rgba(210, 214, 222, 1)",
+            pointRadius: false,
+            pointColor: "rgba(210, 214, 222, 1)",
+            pointStrokeColor: "#c1c7d1",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: magomeni,
           },
         ],
-        yAxes: [
-          {
-            gridLines: {
-              display: false,
-            },
-          },
-        ],
-      },
-    };
+      };
 
-    // This will get the first returned node in the jQuery collection.
-    // eslint-disable-next-line no-unused-vars
-    var salesChart = new Chart(salesChartCanvas, {
-      // lgtm[js/unused-local-variable]
-      type: "bar",
-      data: salesChartData,
-      options: salesChartOptions,
+      var salesChartOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+        legend: {
+          display: false,
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+              ticks: $.extend(
+                {
+                  beginAtZero: true,
+                  stepSize: 1,
+                  suggestedMax: 10,
+                },
+                ticksStyle
+              ),
+            },
+          ],
+        },
+      };
+
+      // This will get the first returned node in the jQuery collection.
+      // eslint-disable-next-line no-unused-vars
+      var salesChart = new Chart(salesChartCanvas, {
+        // lgtm[js/unused-local-variable]
+        type: "bar",
+        data: salesChartData,
+        options: salesChartOptions,
+      });
     });
-
-    // Donut Chart
-    var pieChartCanvas = $("#sales-chart-canvas2").get(0).getContext("2d");
-    var pieData = {
-      labels: ["Instore Sales", "Download Sales", "Mail-Order Sales"],
-      datasets: [
-        {
-          data: [30, 12, 20],
-          backgroundColor: ["#f56954", "#00a65a", "#f39c12"],
-        },
-      ],
-    };
-    var pieOptions = {
-      legend: {
-        display: false,
-      },
-      maintainAspectRatio: false,
-      responsive: true,
-    };
-    // Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    // eslint-disable-next-line no-unused-vars
-    var pieChart = new Chart(pieChartCanvas, {
-      // lgtm[js/unused-local-variable]
-      type: "doughnut",
-      data: pieData,
-      options: pieOptions,
-    });
-
-    // Sales graph chart
-    var salesGraphChartCanvas = $("#line-chart").get(0).getContext("2d");
-    // $('#revenue-chart').get(0).getContext('2d');
-
-    var salesGraphChartData = {
-      labels: [
-        "2011 Q1",
-        "2011 Q2",
-        "2011 Q3",
-        "2011 Q4",
-        "2012 Q1",
-        "2012 Q2",
-        "2012 Q3",
-        "2012 Q4",
-        "2013 Q1",
-        "2013 Q2",
-      ],
-      datasets: [
-        {
-          label: "Digital Goods",
-          fill: false,
-          borderWidth: 2,
-          lineTension: 0,
-          spanGaps: true,
-          borderColor: "#efefef",
-          pointRadius: 3,
-          pointHoverRadius: 7,
-          pointColor: "#efefef",
-          pointBackgroundColor: "#efefef",
-          data: [2666, 2778, 4912, 3767, 6810, 5670, 4820, 15073, 10687, 8432],
-        },
-      ],
-    };
-
-    var salesGraphChartOptions = {
-      maintainAspectRatio: false,
-      responsive: true,
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [
-          {
-            ticks: {
-              fontColor: "#efefef",
-            },
-            gridLines: {
-              display: false,
-              color: "#efefef",
-              drawBorder: false,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              stepSize: 5000,
-              fontColor: "#efefef",
-            },
-            gridLines: {
-              display: true,
-              color: "#efefef",
-              drawBorder: false,
-            },
-          },
-        ],
-      },
-    };
-
-    // This will get the first returned node in the jQuery collection.
-    // eslint-disable-next-line no-unused-vars
-    var salesGraphChart = new Chart(salesGraphChartCanvas, {
-      // lgtm[js/unused-local-variable]
-      type: "line",
-      data: salesGraphChartData,
-      options: salesGraphChartOptions,
-    });
-  }
 });

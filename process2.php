@@ -6,8 +6,21 @@ $email = new Email();
 $random = new Random();
 header('Content-Type: application/json');
 
-$output = array();
-$all_generic = $override->getCount1('clients','status',1, 'site_id', $user->data()->site_id);
 
-print_r($all_generic);
-// echo json_encode($all_generic);
+$data = array();
+
+$result = $override->getDataRegister4('status', 1, 'screened', 1);
+
+foreach ($result as $value) {
+    $monthname = $value['monthname'];
+    $site_id = $value['site_id'];
+    $count = $value['count'];
+
+    if (!isset($data[$monthname])) {
+        $data[$monthname] = array('1' => 0, '2' => 0, '3' => 0, '4' => 0, '5' => 0);
+    }
+
+    $data[$monthname][$site_id] = $count;
+}
+
+echo json_encode($data);

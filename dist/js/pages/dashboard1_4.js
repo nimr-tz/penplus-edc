@@ -52,7 +52,7 @@ $(function () {
 
   // SETUP BLOCK
 
-  fetch("process2.php")
+  fetch("process4.php")
     .then((response) => response.json())
     .then((data) => {
       const monthname = Object.keys(data);
@@ -71,7 +71,7 @@ $(function () {
       /* Chart.js Charts */
       // registration
       var salesChartCanvas = document
-        .getElementById("screening")
+        .getElementById("enrolled")
         .getContext("2d");
       // $('#revenue-chart').get(0).getContext('2d');
 

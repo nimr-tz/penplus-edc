@@ -535,12 +535,10 @@ if ($user->isLoggedIn()) {
                     <!-- /.col -->
                     <div class="col-md-4">
                       <ul class="chart-legend clearfix">
-                        <li><i class="far fa-circle text-danger"></i> Chrome</li>
-                        <li><i class="far fa-circle text-success"></i> IE</li>
-                        <li><i class="far fa-circle text-warning"></i> FireFox</li>
-                        <li><i class="far fa-circle text-info"></i> Safari</li>
-                        <li><i class="far fa-circle text-primary"></i> Opera</li>
-                        <li><i class="far fa-circle text-secondary"></i> Navigator</li>
+                        <li><i class="far fa-circle text-danger"></i> cardiac</li>
+                        <li><i class="far fa-circle text-success"></i> diabetes</li>
+                        <li><i class="far fa-circle text-warning"></i> sickle_cell</li>
+                        <li><i class="far fa-circle text-info"></i> other</li>
                       </ul>
                     </div>
                     <!-- /.col -->

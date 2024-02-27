@@ -126,17 +126,26 @@ $(function () {
       var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
       var pieData = {
         labels: [
-          'Chrome',
-          'IE',
-          'FireFox',
-          'Safari',
-          'Opera',
-          'Navigator'
+          'cardiac',
+          'diabetes',
+          'sickle_cell',
+          'other',
         ],
+        // labels: [
+        //   'Chrome',
+        //   'IE',
+        //   'FireFox',
+        //   'Safari',
+        //   'Opera',
+        //   'Navigator'
+        // ],
         datasets: [
           {
-            data: [700, 500, 400, 600, 300, 100],
-            backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+            // data: [700, 500, 400, 600, 300, 100],
+            // backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+            data: [cardiac, diabetes, sickle_cell, other],
+            // backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+            backgroundColor: ['#00c0ef','#00a65a','#f39c12',  '#f56954']
           }
         ]
       }

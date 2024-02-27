@@ -10726,7 +10726,7 @@ if ($user->isLoggedIn()) {
                                                                 <td>
                                                                     <input type="hidden" name="medication_id[]" value="<?= $treatment['id'] ?>">
                                                                     <input type="hidden" name="seq_no[]" value="<?= $treatment['seq_no'] ?>">
-                                                                    <select name="medication_type[]" id="medication_type[]" class="form-control select2" style="width: 100%;" required <?php if($treatment['seq_no'] != $_GET['seq']){ ?> readonly <?php } ?>>
+                                                                    <select name="medication_type[]" id="medication_type[]" class="form-control select2" style="width: 100%;" required <?php if($treatment['seq_no'] != $_GET['seq']){ ?> disabled <?php } ?>>
                                                                         <?php if (!$medications) { ?>
                                                                             <option value="">Select Medication</option>
                                                                         <?php } else { ?>
@@ -10738,7 +10738,7 @@ if ($user->isLoggedIn()) {
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <select name="medication_action[]" class="form-control" id="medication_action[]" style="width: 80%;" required <?php if($treatment['seq_no'] != $_GET['seq']){ ?> readonly <?php } ?>>
+                                                                    <select name="medication_action[]" class="form-control" id="medication_action[]" style="width: 80%;" required <?php if($treatment['seq_no'] != $_GET['seq']){ ?> disabled <?php } ?>>
                                                                         <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
                                                                                                                                     if ($treatment['medication_action'] == 1) {
                                                                                                                                         echo 'Continue';

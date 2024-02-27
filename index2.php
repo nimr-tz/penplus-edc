@@ -704,7 +704,12 @@ if ($user->isLoggedIn()) {
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="dist/js/pages/dashboard2.js"></script>
+    <!-- <script src="dist/js/pages/dashboard2.js"></script> -->
+    <script src="dist/js/pages/dashboard2_1.js"></script>
+    <script src="dist/js/pages/dashboard2_2.js"></script>
+    <script src="dist/js/pages/dashboard2_3.js"></script>
+    <script src="dist/js/pages/dashboard2_4.js"></script>
+
 </body>
 
 </html>

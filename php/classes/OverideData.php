@@ -536,6 +536,13 @@ class OverideData
     }
 
 
+    public function getDataRegister5($where, $value, $where1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT MONTHNAME(clinic_date) AS monthname, site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' AND $where1 = '$value1' GROUP BY monthname, site_id");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function getDataStaff($table, $where, $id, $where2, $id2, $where3, $id3, $name)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 < '$id3' ORDER BY $name ASC");

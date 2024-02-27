@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
     .img-thumb-path {
         width: 100px;
         height: 80px;
@@ -152,4 +152,4 @@
             }
         })
     }
-</script>
+</script> -->

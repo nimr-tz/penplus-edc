@@ -10722,12 +10722,11 @@ if ($user->isLoggedIn()) {
                                                             $batches = $override->getNews('batch', 'status', 1, 'id', $_GET['batch_id'])[0];
                                                             // print_r($treatment['seq_no']);
                                                         ?>
-
                                                             <tr>
                                                                 <td>
                                                                     <input type="hidden" name="medication_id[]" value="<?= $treatment['id'] ?>">
                                                                     <input type="hidden" name="seq_no[]" value="<?= $treatment['seq_no'] ?>">
-                                                                    <select name="medication_type[]" id="medication_type[]" class="form-control select2" style="width: 100%;" required>
+                                                                    <select name="medication_type[]" id="medication_type[]" class="form-control select2" style="width: 100%;" required <?php if($treatment['seq_no'] != $_GET['seq']){ ?> readonly <?php } ?>>
                                                                         <?php if (!$medications) { ?>
                                                                             <option value="">Select Medication</option>
                                                                         <?php } else { ?>
@@ -10739,7 +10738,7 @@ if ($user->isLoggedIn()) {
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <select name="medication_action[]" class="form-control" id="medication_action[]" style="width: 80%;" required>
+                                                                    <select name="medication_action[]" class="form-control" id="medication_action[]" style="width: 80%;" required <?php if($treatment['seq_no'] != $_GET['seq']){ ?> readonly <?php } ?>>
                                                                         <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
                                                                                                                                     if ($treatment['medication_action'] == 1) {
                                                                                                                                         echo 'Continue';
@@ -10763,12 +10762,12 @@ if ($user->isLoggedIn()) {
                                                                 <td>
                                                                     <input type="text" class="form-control" name="medication_dose[]" style="width: 80%;" value='<?php if ($treatment['medication_dose']) {
                                                                                                                                                                     print_r($treatment['medication_dose']);
-                                                                                                                                                                }  ?>'>
+                                                                                                                                                                }  ?>' <?php if($treatment['seq_no'] != $_GET['seq']){ ?> readonly <?php } ?>>
                                                                 </td>
                                                                 <td>
                                                                     <input type="text" class="form-control" name="medication_units[]" style="width: 80%;" value='<?php if ($treatment['medication_units']) {
                                                                                                                                                                         print_r($treatment['medication_units']);
-                                                                                                                                                                    }  ?>'>
+                                                                                                                                                                    }  ?>' <?php if($treatment['seq_no'] != $_GET['seq']){ ?> readonly <?php } ?>>
                                                                 </td>
 
                                                                 <td>

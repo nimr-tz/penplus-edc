@@ -2414,27 +2414,30 @@ if ($user->isLoggedIn()) {
                     }
 
                     $i = 0;
+                    print_r(Input::get('seq_no'));
                     foreach (Input::get('medication_type') as $searchValue) {
-                        $medication_id = $override->get3('medication_treatments', 'medication_type', $searchValue, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq']);
-                        if ($medication_id) {
+                        $medication_name = $override->get6('medication_treatments', 'medication_type', $searchValue,'status',1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq']);
+                        if ($medication_name) {
                             $user->updateRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
-                                'medication_type' => $searchValue,
+                                'medication_type' => Input::get('medication_type')[$i],
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
-                            ), $medication_id[0]['id']);
+                            ), $medication_name[0]['id']);
                         } else {
+                            if ($_GET['seq'] == Input::get('seq_no')[$i]) {
+
                             $user->createRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
-                                'medication_type' => $searchValue,
+                                'medication_type' => Input::get('medication_type')[$i],
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
                                 'patient_id' => $_GET['cid'],
@@ -2444,6 +2447,7 @@ if ($user->isLoggedIn()) {
                                 'site_id' => $user->data()->site_id,
                             ));
                         }
+                    }
                         $i++;
                     }
 
@@ -10701,7 +10705,6 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <div class="row-form clearfix">
-
                                                 <table id="medication_list" class="table order-list">
                                                     <thead>
                                                         <tr>
@@ -10717,13 +10720,16 @@ if ($user->isLoggedIn()) {
                                                         foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
                                                             $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
                                                             $batches = $override->getNews('batch', 'status', 1, 'id', $_GET['batch_id'])[0];
+                                                            // print_r($treatment['seq_no']);
                                                         ?>
 
                                                             <tr>
                                                                 <td>
+                                                                    <input type="hidden" name="medication_id[]" value="<?= $treatment['id'] ?>">
+                                                                    <input type="hidden" name="seq_no[]" value="<?= $treatment['seq_no'] ?>">
                                                                     <select name="medication_type[]" id="medication_type[]" class="form-control select2" style="width: 100%;" required>
                                                                         <?php if (!$medications) { ?>
-                                                                            <option value="">Select Medication Name</option>
+                                                                            <option value="">Select Medication</option>
                                                                         <?php } else { ?>
                                                                             <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name'] ?></option>
                                                                         <?php } ?>
@@ -10766,7 +10772,7 @@ if ($user->isLoggedIn()) {
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="button" class="ibtnDel2 btn btn-md btn-warning"  value="Remove">
+                                                                    <input type="button" class="ibtnDel1 btn btn-md btn-warning"  value="Remove">
 
                                                                     <a href="#delete_med<?= $treatment['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                                 </td>
@@ -14263,9 +14269,11 @@ if ($user->isLoggedIn()) {
             var medication_dose = row.insertCell(2);
             var medication_units = row.insertCell(3);
             var actionCell = row.insertCell(4);
+            var seq_no = row.insertCell(5);
             // var actionCell = row.insertCell(5);
 
             // Assuming the data is passed from PHP
+            seq_no.innerHTML = '<input type="hidden" name="seq_no[]" value="<?= $_GET['seq'] ?>">';
             medication_type.innerHTML = '<select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select>';
             medication_action.innerHTML = '<select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
             medication_dose.innerHTML = '<input class="form-control" type="text" name="medication_dose[]" required>';
@@ -14280,6 +14288,11 @@ if ($user->isLoggedIn()) {
                 var row = e.target.parentNode.parentNode;
                 row.parentNode.removeChild(row);
             }
+        });
+
+        $("table.order-list").on("click", ".ibtnDel1", function(event) {
+            $(this).closest("tr").remove();
+            counter -= 1
         });
     </script>
 

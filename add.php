@@ -2427,6 +2427,7 @@ if ($user->isLoggedIn()) {
                                 'medication_type' => Input::get('medication_type')[$i],
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
+                                'units' => Input::get('medication_units')[$i],
                             ), $medication_name[0]['id']);
                         } else {
                             if ($_GET['seq'] == Input::get('seq_no')[$i]) {
@@ -2440,6 +2441,7 @@ if ($user->isLoggedIn()) {
                                 'medication_type' => Input::get('medication_type')[$i],
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
+                                'units' => Input::get('medication_units')[$i],
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
@@ -10765,8 +10767,8 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 }  ?>' <?php if($treatment['seq_no'] != $_GET['seq']){ ?> readonly <?php } ?>>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" name="medication_units[]" style="width: 80%;" value='<?php if ($treatment['medication_units']) {
-                                                                                                                                                                        print_r($treatment['medication_units']);
+                                                                    <input type="text" class="form-control" name="medication_units[]" style="width: 80%;" value='<?php if ($treatment['units']) {
+                                                                                                                                                                        print_r($treatment['units']);
                                                                                                                                                                     }  ?>' <?php if($treatment['seq_no'] != $_GET['seq']){ ?> readonly <?php } ?>>
                                                                 </td>
 

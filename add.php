@@ -2427,7 +2427,7 @@ if ($user->isLoggedIn()) {
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
                             ), $medication_id[0]['id']);
-                        } elseif (Input::get('medication') == 'Add') {
+                        } else {
                             $user->createRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
@@ -2448,8 +2448,8 @@ if ($user->isLoggedIn()) {
                     }
 
                     $successMessage = 'Treatment plan added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
-                    die;
+                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    // die;
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -10700,8 +10700,6 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-
-
                                             <div class="row-form clearfix">
 
                                                 <table id="medication_list" class="table order-list">
@@ -10766,7 +10764,10 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                         print_r($treatment['medication_units']);
                                                                                                                                                                     }  ?>'>
                                                                 </td>
+
                                                                 <td>
+                                                                    <input type="button" class="ibtnDel2 btn btn-md btn-warning"  value="Remove">
+
                                                                     <a href="#delete_med<?= $treatment['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                                 </td>
                                                             </tr>
@@ -11517,9 +11518,6 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-
-
-
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="row-form clearfix">
@@ -11535,7 +11533,6 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
@@ -14265,14 +14262,16 @@ if ($user->isLoggedIn()) {
             var medication_action = row.insertCell(1);
             var medication_dose = row.insertCell(2);
             var medication_units = row.insertCell(3);
-
+            var actionCell = row.insertCell(4);
+            // var actionCell = row.insertCell(5);
 
             // Assuming the data is passed from PHP
-            medication_type.innerHTML = '<select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;"><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select>';
-            medication_action.innerHTML = '<select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
-            medication_dose.innerHTML = '<input class="form-control" type="text" name="medication_dose[]">';
-            medication_units.innerHTML = '<input class="form-control"  type="text" name="medication_units[]">';
-
+            medication_type.innerHTML = '<select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select>';
+            medication_action.innerHTML = '<select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
+            medication_dose.innerHTML = '<input class="form-control" type="text" name="medication_dose[]" required>';
+            medication_units.innerHTML = '<input class="form-control"  type="text" name="medication_units[]" required>';
+            actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+            // actionCell2.innerHTML = '<button type="button" class="remove-row">Delete</button>';
         }
 
         // Remove row

@@ -536,9 +536,9 @@ class OverideData
     }
 
 
-    public function getDataRegister5($where, $value, $where1, $value1)
+    public function getDataRegister5($where, $value)
     {
-        $query = $this->_pdo->query("SELECT MONTHNAME(clinic_date) AS monthname, site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' AND $where1 = '$value1' GROUP BY monthname, site_id");
+        $query = $this->_pdo->query("SELECT MONTHNAME(clinic_date) AS monthname, dignosis_type as dignosis_type, COUNT(*) AS count FROM clients WHERE $where = '$value' GROUP BY monthname, dignosis_type");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

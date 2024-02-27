@@ -21,11 +21,10 @@ $(function () {
 
       console.log(data)
       const monthname = Object.keys(data);
-      const amana = monthname.map((monthname) => data[monthname]["1"]);
-      const mwananyamala = monthname.map((monthname) => data[monthname]["2"]);
-      const temeke = monthname.map((monthname) => data[monthname]["3"]);
-      const mbagala = monthname.map((monthname) => data[monthname]["4"]);
-      const magomeni = monthname.map((monthname) => data[monthname]["5"]);
+      const cardiac = monthname.map((monthname) => data[monthname]["1"]);
+      const diabetes = monthname.map((monthname) => data[monthname]["2"]);
+      const sickle_cell = monthname.map((monthname) => data[monthname]["3"]);
+      const other = monthname.map((monthname) => data[monthname]["4"]);
 
       var ticksStyle = {
         fontColor: "#495057",
@@ -39,26 +38,50 @@ $(function () {
         labels: monthname,
         datasets: [
           {
-            label: 'Digital Goods',
-            backgroundColor: 'rgba(60,141,188,0.9)',
+            label: 'Cardiac',
+            // backgroundColor: 'rgba(60,141,188,0.9)',
+            backgroundColor: "blue",
             borderColor: 'rgba(60,141,188,0.8)',
             pointRadius: false,
             pointColor: '#3b8bba',
             pointStrokeColor: 'rgba(60,141,188,1)',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(60,141,188,1)',
-            data: amana,
+            data: cardiac,
           },
           {
-            label: 'Electronics',
-            backgroundColor: 'rgba(210, 214, 222, 1)',
+            label: 'Diabetes',
+            // backgroundColor: 'rgba(210, 214, 222, 1)',
+            backgroundColor: "yellow",
             borderColor: 'rgba(210, 214, 222, 1)',
             pointRadius: false,
             pointColor: 'rgba(210, 214, 222, 1)',
             pointStrokeColor: '#c1c7d1',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(220,220,220,1)',
-            data: mwananyamala,
+            data: diabetes,
+          },   {
+            label: 'Sickle Cell',
+            // backgroundColor: 'rgba(80,141,188,0.9)',
+            backgroundColor: "green",
+            borderColor: 'rgba(60,141,188,0.8)',
+            pointRadius: false,
+            pointColor: '#3b8bba',
+            pointStrokeColor: 'rgba(60,141,188,1)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data: sickle_cell,
+          },   {
+            label: 'Other',
+            // backgroundColor: 'rgba(50,141,188,0.9)',
+            backgroundColor: "red",
+            borderColor: 'rgba(60,141,188,0.8)',
+            pointRadius: false,
+            pointColor: '#3b8bba',
+            pointStrokeColor: 'rgba(60,141,188,1)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data: other,
           }
         ]
       }

@@ -177,7 +177,7 @@ if ($user->isLoggedIn()) {
                   <div class="row">
                     <div class="col-md-8">
                       <p class="text-center">
-                        <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                        <!-- <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong> -->
                       </p>
 
                       <div class="chart">
@@ -205,7 +205,7 @@ if ($user->isLoggedIn()) {
                         Diabates
                         <span class="float-right"><b><?= $override->countData('clients', 'status', 1, 'diabetes', 1) ?></b>/100</span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-danger" style="width: 75%"></div>
+                          <div class="progress-bar bg-warning" style="width: 75%"></div>
                         </div>
                       </div>
 
@@ -223,7 +223,7 @@ if ($user->isLoggedIn()) {
                         Other Disease
                         <span class="float-right"><b><?= $override->countData6('clients', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0) ?></b>/500</span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-warning" style="width: 50%"></div>
+                          <div class="progress-bar bg-danger" style="width: 50%"></div>
                         </div>
                       </div>
                       <!-- /.progress-group -->
@@ -236,38 +236,38 @@ if ($user->isLoggedIn()) {
                 <div class="card-footer">
                   <div class="row">
                     <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
+                      <!-- <div class="description-block border-right">
                         <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
                         <h5 class="description-header">$35,210.43</h5>
                         <span class="description-text">TOTAL REVENUE</span>
-                      </div>
+                      </div> -->
                       <!-- /.description-block -->
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
+                      <!-- <div class="description-block border-right">
                         <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
                         <h5 class="description-header">$10,390.90</h5>
                         <span class="description-text">TOTAL COST</span>
-                      </div>
+                      </div> -->
                       <!-- /.description-block -->
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-3 col-6">
-                      <div class="description-block border-right">
+                      <!-- <div class="description-block border-right">
                         <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
                         <h5 class="description-header">$24,813.53</h5>
                         <span class="description-text">TOTAL PROFIT</span>
-                      </div>
+                      </div> -->
                       <!-- /.description-block -->
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-3 col-6">
-                      <div class="description-block">
+                      <!-- <div class="description-block">
                         <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
                         <h5 class="description-header">1200</h5>
                         <span class="description-text">GOAL COMPLETIONS</span>
-                      </div>
+                      </div> -->
                       <!-- /.description-block -->
                     </div>
                   </div>
@@ -286,11 +286,11 @@ if ($user->isLoggedIn()) {
             <!-- Left col -->
             <div class="col-md-8">
               <!-- /.card -->
-              <div class="row">
-                <div class="col-md-12">
+              <!-- <div class="row">
+                <div class="col-md-12"> -->
                   <!-- USERS LIST -->
-                  <div class="card">
-                    <div class="card-header">
+                  <!-- <div class="card"> -->
+                    <!-- <div class="card-header">
                       <h3 class="card-title">Latest Members</h3>
 
                       <div class="card-tools">
@@ -302,9 +302,9 @@ if ($user->isLoggedIn()) {
                           <i class="fas fa-times"></i>
                         </button>
                       </div>
-                    </div>
+                    </div> -->
                     <!-- /.card-header -->
-                    <div class="card-body p-0">
+                    <!-- <div class="card-body p-0">
                       <ul class="users-list clearfix">
                         <li>
                           <img src="dist/img/user1-128x128.jpg" alt="User Image">
@@ -346,19 +346,19 @@ if ($user->isLoggedIn()) {
                           <a class="users-list-name" href="#">Nadia</a>
                           <span class="users-list-date">15 Jan</span>
                         </li>
-                      </ul>
+                      </ul> -->
                       <!-- /.users-list -->
-                    </div>
+                    <!-- </div> -->
                     <!-- /.card-body -->
-                    <div class="card-footer text-center">
+                    <!-- <div class="card-footer text-center">
                       <a href="javascript:">View All Users</a>
-                    </div>
+                    </div> -->
                     <!-- /.card-footer -->
-                  </div>
+                  <!-- </div> -->
                   <!--/.card -->
-                </div>
+                <!-- </div> -->
                 <!-- /.col -->
-              </div>
+              <!-- </div> -->
               <!-- /.row -->
 
               <!-- TABLE: LATEST ORDERS -->
@@ -700,6 +700,9 @@ if ($user->isLoggedIn()) {
     <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
     <!-- ChartJS -->
     <script src="plugins/chart.js/Chart.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->

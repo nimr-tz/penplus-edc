@@ -2162,7 +2162,7 @@ if ($user->isLoggedIn()) {
                     $screening_id = $override->getNews('screening', 'patient_id', $_GET['cid'], 'status', 1)[0];
                     $visit_id = $override->get('visit', 'client_id', $_GET['cid'])[0];
                     $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
-                    $expected_date = $override->getNews('visit', 'expected_date', Input::get('expected_date'), 'client_id', $_GET['cid'])[0];
+                    $expected_date = $override->getNews('visit', 'expected_date', Input::get('next_appointment_date'), 'client_id', $_GET['cid'])[0];
 
                     $sq = $last_visit['seq_no'] + 1;
                     $visit_day = 'Day ' . $sq;
@@ -2173,21 +2173,21 @@ if ($user->isLoggedIn()) {
                         $study_id = $client_study['study_id'];
                     }
 
-                    if (Input::get('visit_name') == 'Registration Visit') {
-                        $visit_code = 'RV';
-                    } elseif (Input::get('visit_name') == 'Screening Visit') {
-                        $visit_code = 'SV';
-                    } elseif (Input::get('visit_name') == 'Enrollment Visit') {
-                        $visit_code = 'EV';
-                    } elseif (Input::get('visit_name') == 'Follow Up Visit') {
-                        $visit_code = 'FV';
-                    } elseif (Input::get('visit_name') == 'Study Termination Visit') {
-                        $visit_code = 'TV';
-                    } elseif (Input::get('visit_name') == 'Unschedule Visit') {
-                        $visit_code = 'UV';
+                    if (Input::get('visit_type') == 1) {
+                        $visit_name = 'Registration Visit';
+                    } elseif (Input::get('visit_name') == 2) {
+                        $visit_name = 'Screening Visit';
+                    } elseif (Input::get('visit_name') == 3) {
+                        $visit_name = 'Enrollment Visit';
+                    } elseif (Input::get('visit_name') == 4) {
+                        $visit_name = 'Follow Up Visit';
+                    } elseif (Input::get('visit_name') == 5) {
+                        $visit_name = 'Study Termination Visit';
+                    } elseif (Input::get('visit_name') == 6) {
+                        $visit_name = 'Unschedule Visit';
                     }
 
-                    $summary = $override->get3('summary', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode']);
+                    $summary = $override->get3('summary', 'status',1,'patient_id', $_GET['cid'], 'seq_no', $_GET['seq']);
                     if ($summary) {
                         $user->updateRecord('summary', array(
                             'visit_date' => Input::get('summary_date'),
@@ -2197,6 +2197,7 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
+                            'visit_type' => Input::get('visit_type'),
                             'comments' => Input::get('comments'),
                             'diagnosis' => Input::get('diagnosis'),
                             'diagnosis_other' => Input::get('diagnosis_other'),
@@ -2207,7 +2208,7 @@ if ($user->isLoggedIn()) {
                             'death_other' => Input::get('death_other'),
                             'remarks' => Input::get('remarks'),                            
                             'next_appointment_notes' => Input::get('next_appointment_notes'),
-                            'next_appointment' => Input::get('next_appointment'),
+                            'next_appointment_date' => Input::get('next_appointment_date'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -2222,9 +2223,10 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
-                            'comments' => Input::get('comments'),
+                            'visit_type' => Input::get('visit_type'),
                             'diagnosis' => Input::get('diagnosis'),
                             'diagnosis_other' => Input::get('diagnosis_other'),
+                            'comments' => Input::get('comments'),
                             'outcome' => Input::get('outcome'),
                             'transfer_out' => Input::get('transfer_out'),
                             'transfer_other' => Input::get('transfer_other'),
@@ -2232,7 +2234,7 @@ if ($user->isLoggedIn()) {
                             'death_other' => Input::get('death_other'),
                             'remarks' => Input::get('remarks'),                            
                             'next_appointment_notes' => Input::get('next_appointment_notes'),
-                            'next_appointment' => Input::get('next_appointment'),
+                            'next_appointment_date' => Input::get('next_appointment_date'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -2240,7 +2242,42 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ));
                     }
-                    $successMessage = 'Visit Summary  details added Successful';
+
+                if ($expected_date['expected_date'] == Input::get('next_appointment_date')) {
+                    $errorMessage = 'Next Date already exists';
+                } else {
+                    $user->createRecord('visit', array(
+                        'study_id' => $_GET['sid'],
+                        'visit_name' => $visit_name,
+                        'visit_code' => $visit_code,
+                        'visit_day' => $visit_day,
+                        'expected_date' => Input::get('next_appointment_date'),
+                        'visit_date' => '',
+
+                        'summary_date' => Input::get('summary_date'),
+                        'comments' => Input::get('comments'),
+                        'diagnosis' => Input::get('diagnosis'),
+                        'diagnosis_other' => Input::get('diagnosis_other'),
+                        'outcome' => Input::get('outcome'),
+                        'transfer_out' => Input::get('transfer_out'),
+                        'transfer_other' => Input::get('transfer_other'),
+                        'cause_death' => Input::get('cause_death'),
+                        'death_other' => Input::get('death_other'),
+                        'next_notes' => Input::get('next_appointment_notes'),
+
+                        'visit_window' => 0,
+                        'status' => 0,
+                        'client_id' => $_GET['cid'],
+                        'created_on' => date('Y-m-d'),
+                        'seq_no' => $sq,
+                        'reasons' => '',
+                        'visit_status' => 0,
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+                    $successMessage = 'Schedule Summary  Added Successful';
+                }
+
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                 } catch (Exception $e) {
@@ -2927,7 +2964,7 @@ if ($user->isLoggedIn()) {
                     }
                 }
             }
-        }elseif (Input::get('add_Schedule')) {
+        }elseif (Input::get('add_Schedule0')) {
             $validate = $validate->check($_POST, array(
                 'summary_date' => array(
                     'required' => true,
@@ -3030,6 +3067,82 @@ if ($user->isLoggedIn()) {
                         'site_id' => $user->data()->site_id,
                     ));
 
+                    $user->createRecord('visit', array(
+                        'study_id' => $study_id,
+                        'visit_name' => Input::get('visit_name'),
+                        'visit_code' => $visit_code,
+                        'visit_day' => $visit_day,
+                        'expected_date' => Input::get('expected_date'),
+                        'visit_date' => '',
+
+                        'summary_date' => Input::get('summary_date'),
+                        'comments' => Input::get('comments'),
+                        'diagnosis' => Input::get('diagnosis'),
+                        'diagnosis_other' => Input::get('diagnosis_other'),
+                        'outcome' => Input::get('outcome'),
+                        'transfer_out' => Input::get('transfer_out'),
+                        'transfer_other' => Input::get('transfer_other'),
+                        'cause_death' => Input::get('cause_death'),
+                        'death_other' => Input::get('death_other'),
+                        'next_notes' => Input::get('next_notes'),
+
+                        'visit_window' => 0,
+                        'status' => 0,
+                        'client_id' => $_GET['cid'],
+                        'created_on' => date('Y-m-d'),
+                        'seq_no' => $sq,
+                        'reasons' => '',
+                        'visit_status' => 0,
+                        'site_id' => $user->data()->site_id,
+                    ));
+
+                    $successMessage = 'Schedule Summary  Added Successful';
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }elseif (Input::get('add_Schedule1')) {
+            $validate = $validate->check($_POST, array(
+                'expected_date' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                $client_study = $override->getNews('clients', 'id', $_GET['cid'], 'status', 1)[0];
+                $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
+                $screening_id = $override->getNews('screening', 'patient_id', $_GET['cid'], 'status', 1)[0];
+                $visit_id = $override->get('visit', 'client_id', $_GET['cid'])[0];
+                $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
+                $expected_date = $override->getNews('visit', 'expected_date', Input::get('expected_date'), 'client_id', $_GET['cid'])[0];
+
+                $sq = $last_visit['seq_no'] + 1;
+                $visit_day = 'Day ' . $sq;
+
+                if (!$client_study['study_id']) {
+                    $study_id = $std_id['study_id'];
+                } else {
+                    $study_id = $client_study['study_id'];
+                }
+
+                if (Input::get('visit_name') == 'Registration Visit') {
+                    $visit_code = 'RV';
+                } elseif (Input::get('visit_name') == 'Screening Visit') {
+                    $visit_code = 'SV';
+                } elseif (Input::get('visit_name') == 'Enrollment Visit') {
+                    $visit_code = 'EV';
+                } elseif (Input::get('visit_name') == 'Follow Up Visit') {
+                    $visit_code = 'FV';
+                } elseif (Input::get('visit_name') == 'Study Termination Visit') {
+                    $visit_code = 'TV';
+                } elseif (Input::get('visit_name') == 'Unschedule Visit') {
+                    $visit_code = 'UV';
+                }
+
+                $summary = $override->get3('visit', 'client_id', $_GET['cid'], 'seq_no', $sq, 'visit_code', $visit_code)[0];
+
+                if ($expected_date['expected_date'] == Input::get('expected_date')) {
+                    $errorMessage = 'Next Date already exists';
+                } else {
                     $user->createRecord('visit', array(
                         'study_id' => $study_id,
                         'visit_name' => Input::get('visit_name'),
@@ -13586,12 +13699,10 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row">
                             <?php
-                            // $visits_date = $override->firstRow('visit', 'visit_date', 'id', 'client_id', $client['id'])[0];
-                            // $visits = $override->getlastRow('visit', 'client_id', $client['id'], 'id')[0];
-                            // $summary = $override->get3('visit', 'client_id', $client['id'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                             $summary = $override->get3('summary', 'patient_id', $_GET['cid'],  'status', 1,'seq_no', $_GET['seq'])[0];
-                            $schedule = $override->getNews('schedule', 'status', 4, 'code', $_GET['vcode']);
+                            $schedule = $override->get('schedule', 'id', $summary['visit_type'])[0];
 
+                            
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                             $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
@@ -13670,25 +13781,24 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
+                                                    <label>Visit Name</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Visit Name</label>
-                                                            <select class="form-control" name="visit_name" style="width: 100%;" required>
-                                                                <?php if (!$summary['visit_code']) { ?>
-                                                                    <option value="">Select Visit</option>
-                                                                <?php } else { ?>
-                                                                    <option value="<?= $schedule[0]['code'] ?>"><?= $schedule[0]['name'] ?></option>
-                                                                <?php } ?>
-                                                                <?php foreach ($override->getData2('schedule', 'status', 4) as $study) { ?>
-                                                                    <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
-                                                                <?php } ?>                                                             
-                                                            </select>
+                                                            <?php foreach ($override->get('schedule', 'status', 4) as $visit_type) { ?>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="visit_type" id="visit_type<?= $visit_type['id']; ?>" value="<?= $visit_type['id']; ?>" <?php if ($schedule['id'] == $visit_type['id']) {
+                                                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                                                        } ?>>
+                                                                    <label class="form-check-label"><?= $visit_type['name']; ?></label>
+                                                                </div>
+                                                            <?php } ?>
                                                         </div>
                                                     </div>
-                                                </div>  
+                                                </div>
+                                    
                                                 <div class="col-sm-3">
-                                                    <label>Type of diagnosis</label>
+                                                    <label>Type of diagnosis</label>relation
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
@@ -13742,8 +13852,8 @@ if ($user->isLoggedIn()) {
                                                                 <label class="form-check-label">Other</label>
                                                             </div>
                                                             <textarea class="form-control" id="diagnosis_summary_other" name="diagnosis_other" rows="2">
-                                                                <?php if ($summary['comments']) {
-                                                                    print_r($summary['comments']);
+                                                                <?php if ($summary['diagnosis_other']) {
+                                                                    print_r($summary['diagnosis_other']);
                                                                 }  ?>
                                                             </textarea>
                                                         </div>
@@ -13879,8 +13989,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Remarks / Comments / Reason </label>
                                                             <textarea class="form-control" name="remarks" rows="3">
-                                                                <?php if ($summary['comments']) {
-                                                                    print_r($summary['comments']);
+                                                                <?php if ($summary['remarks']) {
+                                                                    print_r($summary['remarks']);
                                                                 }  ?>
                                                             </textarea>
                                                         </div>
@@ -13892,7 +14002,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Notes for Next Appointment</label>
-                                                            <textarea class="form-control" name="next_notes" rows="3">
+                                                            <textarea class="form-control" name="next_appointment_notes" rows="3">
                                                                 <?php if ($summary['next_appointment_notes']) {
                                                                     print_r($summary['next_appointment_notes']);
                                                                 }  ?>
@@ -13906,8 +14016,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Next Appointment Date</label>
-                                                            <input class="form-control" type="date" name="expected_date" value="<?php if ($summary['next_appointment']) {
-                                                                                                                                        print_r($summary['next_appointment']);
+                                                            <input class="form-control" type="date" name="next_appointment_date" value="<?php if ($summary['next_appointment_date']) {
+                                                                                                                                        print_r($summary['next_appointment_date']);
                                                                                                                                     }  ?>" />
                                                         </div>
                                                     </div>

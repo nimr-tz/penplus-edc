@@ -13765,99 +13765,111 @@ if ($user->isLoggedIn()) {
                                             <hr>
                                             <div class="row">
                                                 <div class="col-sm-3">
+                                                    <label>Outcome</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Outcome</label>
-                                                            <select class="form-control" name="outcome" id="outcome" style="width: 100%;" equired>
-                                                                <option value="<?= $summary['outcome'] ?>"><?php if ($summary) {
-                                                                                                                if ($summary['outcome'] == 1) {
-                                                                                                                    echo 'On treatment';
-                                                                                                                } elseif ($summary['outcome'] == 2) {
-                                                                                                                    echo 'Default';
-                                                                                                                } elseif ($summary['outcome'] == 3) {
-                                                                                                                    echo 'Stop Treatment';
-                                                                                                                } elseif ($summary['outcome'] == 4) {
-                                                                                                                    echo 'Transfer Out';
-                                                                                                                } elseif ($summary['outcome'] == 5) {
-                                                                                                                    echo 'Death';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?>
-                                                                </option>
-                                                                <option value="1">On treatment</option>
-                                                                <option value="2">Default</option>
-                                                                <option value="3">Stop Treatment</option>
-                                                                <option value="4">Transfer Out</option>
-                                                                <option value="5">Death</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="outcome" id="outcome1" value="1" <?php if ($summary['outcome'] == 1) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">On treatment</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="outcome" id="outcome2" value="2" <?php if ($summary['outcome'] == 2) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Default</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="outcome" id="outcome3" value="3" <?php if ($summary['outcome'] == 3) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Stop Treatment</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="outcome" id="outcome4" value="4" <?php if ($summary['outcome'] == 4) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Transfer Out</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="outcome" id="outcome5" value="5" <?php if ($summary['outcome'] == 5) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Death</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                                
+                                                <div class="col-sm-3" id="transfer_out">
+                                                    <label>Transfer Out To</label>
+                                                    <!-- radio -->
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transfer_out" id="transfer_out1" value="1" <?php if ($summary['transfer_out'] == 1) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Other NCD clinic</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transfer_out" id="transfer_out2" value="2" <?php if ($summary['transfer_out'] == 2) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Referral hospital</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transfer_out" id="transfer_out96" value="96" <?php if ($summary['transfer_out'] == 96) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">If other reason, Specify</label>
+                                                            </div>
+                                                            <textarea class="form-control" id="transfer_other" name="transfer_other" rows="2">
+                                                                <?php if ($summary['transfer_other']) {
+                                                                    print_r($summary['transfer_other']);
+                                                                }  ?>
+                                                            </textarea>                                                            
                                                         </div>
                                                     </div>
                                                 </div>
 
-
-                                                <div class="col-sm-3" id="transfer_out1">
+                                                <div class="col-sm-3" id="cause_death">
+                                                    <label>Cause of Death</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Transfer Out To</label>
-                                                            <select class="form-control" name="transfer_out" id="transfer_out" style="width: 100%;">
-                                                                <option value="<?= $summary['transfer_out'] ?>"><?php if ($summary) {
-                                                                                                                    if ($summary['transfer_out'] == 1) {
-                                                                                                                        echo 'Other NCD clinic';
-                                                                                                                    } elseif ($summary['transfer_out'] == 2) {
-                                                                                                                        echo 'Referral hospital';
-                                                                                                                    } elseif ($summary['transfer_out'] == 96) {
-                                                                                                                        echo 'Other';
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    echo 'Select';
-                                                                                                                } ?>
-                                                                </option>
-                                                                <option value="1">Other NCD clinic</option>
-                                                                <option value="2">Referral hospital</option>
-                                                                <option value="96">If other reason, Specify</option>
-                                                            </select>
-                                                        </div>
-                                                        <textarea class="form-control" id="transfer_other1" name="transfer_other" rows="2">
-                                                                <?php if ($summary['transfer_other']) {
-                                                                    print_r($summary['transfer_other']);
-                                                                }  ?>
-                                                        </textarea>
-                                                    </div>
-                                                </div>                                                
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cause_death" id="cause_death1" value="1" <?php if ($summary['cause_death'] == 1) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">NCD</label>
+                                                            </div>
 
-                                                <div class="col-sm-3" id="cause_death1">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Cause of Death</label>
-                                                            <select class="form-control" name="cause_death" id="cause_death" style="width: 100%;">
-                                                                <option value="<?= $summary['cause_death'] ?>"><?php if ($summary) {
-                                                                                                                    if ($summary['cause_death'] == 1) {
-                                                                                                                        echo 'NCD';
-                                                                                                                    } elseif ($summary['cause_death'] == 2) {
-                                                                                                                        echo 'Unknown';
-                                                                                                                    } elseif ($summary['cause_death'] == 96) {
-                                                                                                                        echo 'Other';
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    echo 'Select';
-                                                                                                                } ?>
-                                                                </option>
-                                                                <option value="1">NCD</option>
-                                                                <option value="2">Unknown</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
-                                                        </div>
-                                                        <textarea class="form-control" id="death_other1" name="death_other" rows="2">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cause_death" id="cause_death2" value="2" <?php if ($summary['cause_death'] == 2) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Unknown</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cause_death" id="cause_death96" value="96" <?php if ($summary['cause_death'] == 96) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">If other reason, Specify</label>
+                                                            </div>
+                                                            <textarea class="form-control" id="death_other" name="death_other" rows="2">
                                                                 <?php if ($summary['death_other']) {
                                                                     print_r($summary['death_other']);
                                                                 }  ?>
-                                                        </textarea>
+                                                            </textarea>                                                            
+                                                        </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>                                             
+                                                                                           
 
 
                                                 <div class="col-sm-3">

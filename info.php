@@ -329,8 +329,6 @@ if ($user->isLoggedIn()) {
 
                 if ($visit) {
                     $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
-
-                    // $errorMessage = 'Visit with the same Date ana Name already exists for this Client';
                 } else {
                     $user->createRecord('visit', array(
                         'study_id' => $study_id,
@@ -532,7 +530,7 @@ if ($user->isLoggedIn()) {
                     $user->updateRecord('visit', array(
                         'visit_date' => Input::get('visit_date'),
                         'status' => 1,
-                        'visit_status' => 0,
+                        'visit_status' => Input::get('visit_status'),
                         'reasons' => Input::get('reasons'),
                     ), Input::get('id'));
 
@@ -879,7 +877,6 @@ if ($user->isLoggedIn()) {
         $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
         $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
     }
-
 } else {
     Redirect::to('index.php');
 }
@@ -1778,7 +1775,7 @@ if ($user->isLoggedIn()) {
                                                             <form method="post">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title">Default Modal</h4>
+                                                                        <h4 class="modal-title">SCREENING FORM</h4>
                                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
@@ -1789,12 +1786,12 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row">
                                                                             <div class="col-sm-6">
                                                                                 <div class="row-form clearfix">
+                                                                                    <!-- select -->
                                                                                     <div class="form-group">
                                                                                         <label>Date of Screening</label>
-                                                                                        <input class="validate[required,custom[date]] form-control" type="text" name="screening_date" id="screening_date" value="<?php if ($screening['screening_date']) {
-                                                                                                                                                                                                                        print_r($screening['screening_date']);
-                                                                                                                                                                                                                    }  ?>" required />
-                                                                                        <span>Example: 2010-12-01</span>
+                                                                                        <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="screening_date" name="screening_date" id="screening_date" style="width: 100%;" value="<?php if ($screening['screening_date']) {
+                                                                                                                                                                                                                                                            print_r($screening['screening_date']);
+                                                                                                                                                                                                                                                        }  ?>" required />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1820,14 +1817,14 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <div class="col-sm-4" id="conset_date">
+                                                                            <div class="col-sm-4">
                                                                                 <div class="row-form clearfix">
+                                                                                    <!-- select -->
                                                                                     <div class="form-group">
                                                                                         <label>Date of Conset</label>
-                                                                                        <input class="form-control" type="text" name="conset_date" value="<?php if ($screening['conset_date']) {
-                                                                                                                                                                print_r($screening['conset_date']);
-                                                                                                                                                            }  ?>" required />
-                                                                                        <span>Example: 2010-12-01</span>
+                                                                                        <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="conset_date" name="conset_date" id="conset_date" style="width: 100%;" value="<?php if ($screening['conset_date']) {
+                                                                                                                                                                                                                                                    print_r($screening['conset_date']);
+                                                                                                                                                                                                                                                }  ?>" required />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1904,19 +1901,17 @@ if ($user->isLoggedIn()) {
                                                                     <?php
                                                                     $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
                                                                     $visits_reason = $override->firstRow1('visit', 'reasons', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
-
-                                                                    // $visits = $override->getlastRow('visit', 'client_id', $client['id'], 'id')[0];
                                                                     ?>
                                                                     <div class="modal-body">
                                                                         <div class="row">
                                                                             <div class="col-sm-4">
                                                                                 <div class="row-form clearfix">
+                                                                                    <!-- select -->
                                                                                     <div class="form-group">
                                                                                         <label>Date of Enrollment</label>
-                                                                                        <input class="validate[required,custom[date]] form-control" type="text" name="visit_date" id="visit_date" value="<?php if ($visits_date['visit_date']) {
-                                                                                                                                                                                                                print_r($visits_date['visit_date']);
-                                                                                                                                                                                                            }  ?>" required />
-                                                                                        <span>Example: 2010-12-01</span>
+                                                                                        <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($screening['visit_date']) {
+                                                                                                                                                                                                                                                print_r($screening['visit_date']);
+                                                                                                                                                                                                                                            }  ?>" required />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1925,7 +1920,7 @@ if ($user->isLoggedIn()) {
                                                                                 <div class="row-form clearfix">
                                                                                     <div class="form-group">
                                                                                         <label>Notes / Remarks / Comments</label>
-                                                                                        <textarea class="form-control" name="reasons" rows="4">
+                                                                                        <textarea class="form-control" name="reasons" rows="3">
                                                                                  <?php
                                                                                     if ($visits_reason['reasons']) {
                                                                                         print_r($visits_reason['reasons']);
@@ -2199,42 +2194,49 @@ if ($user->isLoggedIn()) {
                                                                         <div class="row">
 
                                                                             <div class="row">
+
                                                                                 <div class="col-sm-6">
                                                                                     <div class="row-form clearfix">
                                                                                         <!-- select -->
                                                                                         <div class="form-group">
-                                                                                            <label>Visit Date</label>
-                                                                                            <input value="<?php if ($visit['status'] != 0) {
-                                                                                                                echo $visit['visit_date'];
-                                                                                                            } ?>" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" />
-                                                                                            <span>Example: 2010-12-01</span>
+                                                                                            <label>Date of Visit:</label>
+                                                                                            <input class="form-control" max="<?= date('Y-m-d'); ?>" type="date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($visit['visit_date']) {
+                                                                                                                                                                                                                                    print_r($visit['visit_date']);
+                                                                                                                                                                                                                                }  ?>" required />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-3">
+                                                                                    <div class="row-form clearfix">
+                                                                                        <div class="form-group">
+                                                                                            <label>Visit Status</label>
+                                                                                            <select id="visit_status" name="visit_status" class="form-control" required>
+                                                                                                <option value="<?= $visit['visit_status'] ?>">
+                                                                                                    <?php if ($visit['visit_status'] == 1) {
+                                                                                                        echo 'Attended';
+                                                                                                    } elseif($visit['visit_status'] == 2) {
+                                                                                                        echo 'Missed';
+                                                                                                    } else {
+                                                                                                        echo 'Select';
+                                                                                                    } ?>
+                                                                                                </option>
+                                                                                                <option value="1">Atended</option>
+                                                                                                <option value="2">Missed</option>
+                                                                                            </select>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <!-- <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix"> -->
-                                                                                <!-- select -->
-                                                                                <!-- <div class="form-group">
-                                                                                            <label>Visit Name</label>
-                                                                                            <select name="visit_name" style="width: 100%;" required>
-                                                                                                <option value="">Select</option>
-                                                                                                <?php foreach ($override->getData('schedule') as $study) { ?>
-                                                                                                    <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
-                                                                                                <?php } ?>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div> -->
-
-                                                                                <div class="col-sm-6">
+                                                                                <div class="col-sm-3">
+                                                                                    <label>Notes / Remarks /Comments</label>
                                                                                     <div class="row-form clearfix">
                                                                                         <!-- select -->
                                                                                         <div class="form-group">
-                                                                                            <label>Notes / Remarks /Comments</label>
-                                                                                            <textarea name="reasons" rows="4"><?php if ($visit['status'] != 0) {
-                                                                                                                                    echo $visit['reasons'];
-                                                                                                                                } ?></textarea>
+                                                                                            <textarea class="form-control" name="reasons" id="reasons" rows="3" placeholder="Type reasons here...">
+                                                                                                <?php if ($visit['reasons']) {
+                                                                                                    print_r($visit['reasons']);
+                                                                                                }  ?>
+                                                                                            </textarea>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

@@ -3635,19 +3635,14 @@ if ($user->isLoggedIn()) {
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
-                                                        <!-- Date -->
+                                                        <!-- select -->
                                                         <div class="form-group">
                                                             <label>Registration Date:</label>
-                                                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                                                <input type="text" name="clinic_date" id="clinic_date" class="validate[required,custom[date]] form-control datetimepicker-input" data-target="#reservationdate" value="<?php if ($client['clinic_date']) {
-                                                                                                                                                                                                                                            print_r($client['clinic_date']);
-                                                                                                                                                                                                                                        }  ?>" />
-                                                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                                </div>
-                                                            </div>
+                                                            <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="clinic_date" name="clinic_date" id="clinic_date" style="width: 100%;" value="<?php if ($client['clinic_date']) {
+                                                                                                                                                                                    print_r($client['clinic_date']);
+                                                                                                                                                                                }  ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3688,20 +3683,16 @@ if ($user->isLoggedIn()) {
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
-                                                        <!-- Date -->
+                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Date of Birth:</label>
-                                                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                                                <input type="text" name="dob" id="dob" class="validate[required,custom[date]] form-control datetimepicker-input" data-target="#reservationdate" value="<?php if ($client['dob']) {
-                                                                                                                                                                                                                            print_r($client['dob']);
-                                                                                                                                                                                                                        }  ?>" />
-                                                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                                </div>
-                                                            </div>
+                                                            <label>Date of birth:</label>
+                                                            <input class="form-control" max="<?= date('Y-m-d'); ?>" type="date" name="dob" id="dob" style="width: 100%;" value="<?php if ($client['dob']) {
+                                                                                                                                                                                    print_r($client['dob']);
+                                                                                                                                                                                }  ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">

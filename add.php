@@ -2202,7 +2202,10 @@ if ($user->isLoggedIn()) {
                             'diagnosis_other' => Input::get('diagnosis_other'),
                             'outcome' => Input::get('outcome'),
                             'transfer_out' => Input::get('transfer_out'),
+                            'transfer_other' => Input::get('transfer_other'),
                             'cause_death' => Input::get('cause_death'),
+                            'death_other' => Input::get('death_other'),
+                            'remarks' => Input::get('remarks'),                            
                             'next_appointment_notes' => Input::get('next_appointment_notes'),
                             'next_appointment' => Input::get('next_appointment'),
                             'patient_id' => $_GET['cid'],
@@ -2219,17 +2222,17 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
-                            'summary_date' => Input::get('summary_date'),
+                            'comments' => Input::get('comments'),
                             'diagnosis' => Input::get('diagnosis'),
                             'diagnosis_other' => Input::get('diagnosis_other'),
-                            'comments' => Input::get('comments'),
                             'outcome' => Input::get('outcome'),
                             'transfer_out' => Input::get('transfer_out'),
                             'transfer_other' => Input::get('transfer_other'),
                             'cause_death' => Input::get('cause_death'),
                             'death_other' => Input::get('death_other'),
-                            'next_appointment_notes' => Input::get('next_notes'),
-                            'next_appointment' => Input::get('expected_date'),
+                            'remarks' => Input::get('remarks'),                            
+                            'next_appointment_notes' => Input::get('next_appointment_notes'),
+                            'next_appointment' => Input::get('next_appointment'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
@@ -13875,7 +13878,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Remarks / Comments / Reason </label>
-                                                            <textarea class="form-control" name="comments" rows="3">
+                                                            <textarea class="form-control" name="remarks" rows="3">
                                                                 <?php if ($summary['comments']) {
                                                                     print_r($summary['comments']);
                                                                 }  ?>

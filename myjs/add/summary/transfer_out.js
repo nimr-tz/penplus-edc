@@ -14,7 +14,7 @@ function toggleElementVisibility() {
 
 transfer_out1.addEventListener("change", toggleElementVisibility);
 transfer_out2.addEventListener("change", toggleElementVisibility);
-transfer_out96.addEventListener("change", toggleElementVisibility);
+transfer_out961.addEventListener("change", toggleElementVisibility);
 
 // Initial check
 toggleElementVisibility();

@@ -1,28 +1,32 @@
-// const diagnosis_summary = document.getElementById("diagnosis_summary");
-// const diagnosis_summary_other = document.getElementById(
-//   "diagnosis_summary_other"
-// );
+const diagnosis_summary1 = document.getElementById("diagnosis_summary1");
+const diagnosis_summary2 = document.getElementById("diagnosis_summary2");
+const diagnosis_summary3 = document.getElementById("diagnosis_summary3");
+const diagnosis_summary4 = document.getElementById("diagnosis_summary4");
+const diagnosis_summary5 = document.getElementById("diagnosis_summary5");
+const diagnosis_summary6 = document.getElementById("diagnosis_summary6");
+const diagnosis_summary7 = document.getElementById("diagnosis_summary7");
+const diagnosis_summary96 = document.getElementById("diagnosis_summary96");
 
-// function showElement() {
-//   if (diagnosis_summary.value === "96") {
-//     diagnosis_summary_other.style.display = "block";
-//   } else {
-//     diagnosis_summary_other.style.display = "none";
-//   }
+const diagnosis_summary_other = document.getElementById(
+  "diagnosis_summary_other"
+);
 
-//   // Save the selected value in localStorage
-//   localStorage.setItem("selectedValue", diagnosis_summary.value);
-// }
+function toggleElementVisibility() {
+  if (diagnosis_summary96.checked) {
+    diagnosis_summary_other.style.display = "block";
+  } else {
+    diagnosis_summary_other.style.display = "none";
+  }
+}
 
-// // Check if there's a previously selected value in localStorage
-// const diagnosis_summaryValue = localStorage.getItem("selectedValue");
+diagnosis_summary1.addEventListener("change", toggleElementVisibility);
+diagnosis_summary2.addEventListener("change", toggleElementVisibility);
+diagnosis_summary3.addEventListener("change", toggleElementVisibility);
+diagnosis_summary4.addEventListener("change", toggleElementVisibility);
+diagnosis_summary5.addEventListener("change", toggleElementVisibility);
+diagnosis_summary6.addEventListener("change", toggleElementVisibility);
+diagnosis_summary7.addEventListener("change", toggleElementVisibility);
+diagnosis_summary96.addEventListener("change", toggleElementVisibility);
 
-// if (diagnosis_summaryValue) {
-//   diagnosis_summary.value = diagnosis_summaryValue;
-// }
-
-// // Show element if Option 2 is selected
-// showElement();
-
-// // Listen for changes in the dropdown
-// diagnosis_summary.addEventListener("change", showElement);
+// Initial check
+toggleElementVisibility();

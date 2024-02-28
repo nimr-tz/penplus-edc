@@ -1,26 +1,20 @@
-const transfer_out = document.getElementById("transfer_out");
-const transfer_other1 = document.getElementById("transfer_other1");
+const transfer_out1 = document.getElementById("transfer_out1");
+const transfer_out2 = document.getElementById("transfer_out2");
+const transfer_out961 = document.getElementById("transfer_out96");
 
-function showElement() {
-  if (transfer_out.value === "96") {
-    transfer_other1.style.display = "block";
+const transfer_other = document.getElementById("transfer_other");
+
+function toggleElementVisibility() {
+  if (transfer_out961.checked) {
+    transfer_other.style.display = "block";
   } else {
-    transfer_other1.style.display = "none";
+    transfer_other.style.display = "none";
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", transfer_out.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const transfer_outValue = localStorage.getItem("selectedValue");
+transfer_out1.addEventListener("change", toggleElementVisibility);
+transfer_out2.addEventListener("change", toggleElementVisibility);
+transfer_out96.addEventListener("change", toggleElementVisibility);
 
-if (transfer_outValue) {
-  transfer_out.value = transfer_outValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-transfer_out.addEventListener("change", showElement);
+// Initial check
+toggleElementVisibility();

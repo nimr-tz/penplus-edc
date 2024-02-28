@@ -1,26 +1,20 @@
-const cause_death = document.getElementById("cause_death");
-const death_other1 = document.getElementById("death_other1");
+const cause_death1 = document.getElementById("cause_death1");
+const cause_death2 = document.getElementById("cause_death2");
+const cause_death96 = document.getElementById("cause_death96");
 
-function showElement() {
-  if (cause_death.value === "96") {
-    death_other1.style.display = "block";
+const death_other = document.getElementById("death_other");
+
+function toggleElementVisibility() {
+  if (cause_death96.checked) {
+    death_other.style.display = "block";
   } else {
-    death_other1.style.display = "none";
+    death_other.style.display = "none";
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", cause_death.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const cause_deathValue = localStorage.getItem("selectedValue");
+cause_death1.addEventListener("change", toggleElementVisibility);
+cause_death2.addEventListener("change", toggleElementVisibility);
+cause_death96.addEventListener("change", toggleElementVisibility);
 
-if (cause_deathValue) {
-  cause_death.value = cause_deathValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-cause_death.addEventListener("change", showElement);
+// Initial check
+toggleElementVisibility();

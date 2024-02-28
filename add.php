@@ -13828,7 +13828,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">If other reason, Specify</label>
                                                             </div>
-                                                            <textarea class="form-control" id="transfer_other" name="transfer_other" rows="2">
+                                                            <textarea class="form-control" id="transfer_other" name="transfer_other" rows="3">
                                                                 <?php if ($summary['transfer_other']) {
                                                                     print_r($summary['transfer_other']);
                                                                 }  ?>
@@ -13861,23 +13861,35 @@ if ($user->isLoggedIn()) {
                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">If other reason, Specify</label>
                                                             </div>
-                                                            <textarea class="form-control" id="death_other" name="death_other" rows="2">
+                                                            <textarea class="form-control" id="death_other" name="death_other" rows="3">
                                                                 <?php if ($summary['death_other']) {
                                                                     print_r($summary['death_other']);
                                                                 }  ?>
                                                             </textarea>                                                            
                                                         </div>
                                                     </div>
-                                                </div>                                             
+                                                </div>
+                                                
+                                                <div class="col-sm-6" id="comments">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Remarks / Comments / Reason </label>
+                                                            <textarea class="form-control" name="comments" rows="3">
+                                                                <?php if ($summary['comments']) {
+                                                                    print_r($summary['comments']);
+                                                                }  ?>
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                                                            
-
-
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-3" id="next_notes">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Notes for Next Appointment</label>
-                                                            <textarea class="form-control" id="next_notes" name="next_notes" rows="2">
+                                                            <textarea class="form-control" name="next_notes" rows="3">
                                                                 <?php if ($summary['next_appointment_notes']) {
                                                                     print_r($summary['next_appointment_notes']);
                                                                 }  ?>
@@ -13892,8 +13904,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Next Appointment Date</label>
                                                             <input class="form-control" type="date" name="expected_date" value="<?php if ($summary['next_appointment']) {
-                                                                                                                                                                                        print_r($summary['next_appointment']);
-                                                                                                                                                                                    }  ?>" required />
+                                                                                                                                        print_r($summary['next_appointment']);
+                                                                                                                                    }  ?>" />
                                                         </div>
                                                     </div>
                                                 </div>

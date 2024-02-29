@@ -521,6 +521,7 @@ if ($user->isLoggedIn()) {
                         'cardiac' => Input::get('cardiac'),
                         'diabetes' => Input::get('diabetes'),
                         'sickle_cell' => Input::get('sickle_cell'),
+                        'dignosis_type' => $dignosis_type
                     ), $_GET['cid']);
 
 

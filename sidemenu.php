@@ -359,14 +359,14 @@ if ($user->isLoggedIn()) {
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="info.php?id=3&status=5" class="nav-link">
+                    <!-- <a href="info.php?id=3&status=5" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Tests
                             <i class="fas fa-angle-left right"></i>
                             <span class="badge badge-info right"><?= $override->getCount('test_list', 'status', 1) ?></span>
                         </p>
-                    </a>
+                    </a> -->
                     <ul class="nav nav-treeview">
                         <?php foreach ($override->getData('site') as $test_list) { ?>
                             <li class="nav-item">
@@ -382,14 +382,14 @@ if ($user->isLoggedIn()) {
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="info.php?id=3&status=5" class="nav-link">
+                    <!-- <a href="info.php?id=3&status=5" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Log book
                             <i class="fas fa-angle-left right"></i>
                             <span class="badge badge-info right"><?= $override->getCount('test_list', 'status', 1) ?></span>
                         </p>
-                    </a>
+                    </a> -->
                     <ul class="nav nav-treeview">
                         <?php foreach ($override->getData('site') as $log_book) { ?>
                             <li class="nav-item">

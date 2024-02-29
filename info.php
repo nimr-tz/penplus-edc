@@ -1264,7 +1264,7 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <?php                             
+                                <?php                           
 
 
                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
@@ -2822,9 +2822,9 @@ if ($user->isLoggedIn()) {
                                                     </td>
                                                     <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                        <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                        <td><a href="add.php?id=23&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
                                                     <?php } else { ?>
-                                                        <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <td><a href="add.php?id=23&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
                                                     <?php } ?>
 
                                                 </tr>
@@ -2844,7 +2844,6 @@ if ($user->isLoggedIn()) {
                                                 <?php } else { ?>
                                                     <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
                                                 <?php } ?>
-
                                             </tr>
                                             </tbody>
                                             <tfoot>
@@ -3414,9 +3413,7 @@ if ($user->isLoggedIn()) {
         <?php } elseif ($_GET['id'] == 13) { ?>
         <?php } elseif ($_GET['id'] == 14) { ?>
         <?php } elseif ($_GET['id'] == 15) { ?>
-
-
-        <?php  } ?>
+        <?php } ?>
     </div>
     <!-- /.col -->
     </div>

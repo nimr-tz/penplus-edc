@@ -464,17 +464,6 @@ if ($user->isLoggedIn()) {
                     //     $errorMessage = 'Patient Diagnosed with more than one Disease';
                     // } else {
 
-
-                    if ((Input::get('cardiac') == 1 && Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
-                        || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
-                        || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
-                        || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
-                    ) {
-                        $errorMessage = 'Patient Diagnosed with more than one Disease';
-                    } else {
-                        
-                    }
-
                     if ($main_diagnosis) {
 
                         $user->updateRecord('main_diagnosis', array(
@@ -511,6 +500,20 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                    }
+
+                    $dignosis_type = '';
+
+                    if (Input::get('cardiac') == 1){
+                        $dignosis_type = 1;
+                    } else if(Input::get('diabetes') == 1){
+                        $dignosis_type = 2;
+                    }else if(Input::get('sickle_cell') == 1){
+                        $dignosis_type = 3;
+                    }else if(Input::get('cardiac') == 0 && Input::get('diabetes') == 0 && Input::get('sickle_cell') == 0){
+                        $dignosis_type = 96;
+                    }else{
+                        $dignosis_type = 0;
                     }
 
 

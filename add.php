@@ -13912,14 +13912,14 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 23) { ?>
-                        <!-- Content Wrapper. Contains page content -->
+            <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1>Next Visit Summary</h1>
+                                <h1>Social Economics</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
@@ -13927,7 +13927,7 @@ if ($user->isLoggedIn()) {
                                     < Back</a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">Next Visit Summary</li>
+                                    <li class="breadcrumb-item active">Social Economics</li>
                                 </ol>
                             </div>
                         </div>

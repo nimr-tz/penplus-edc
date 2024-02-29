@@ -1611,7 +1611,7 @@ if ($user->isLoggedIn()) {
                                                 ?>
                                                     <tr>
                                                         <td><?= $client['study_id'] ?></td>
-                                                        <td><?= $client['firstname'] ?></td>
+                                                        <td><?= $client['firstname'] .' - '. $client['lastname'] ?></td>
 
                                                         <?php if ($type['cardiac'] == 1) { ?>
                                                             <td>

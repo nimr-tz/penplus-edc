@@ -2491,41 +2491,21 @@ if ($user->isLoggedIn()) {
 
                     $i = 0;
                     foreach (Input::get('medication_type') as $searchValue) {
-
                         $medication_name = $override->get3('medication_treatments', 'medication_type', $searchValue,'status',1, 'patient_id', $_GET['cid']);
                         if ($medication_name) {
                             if ($medication_name[0]['seq_no'] == $_GET['seq']) {
-                            $user->updateRecord('medication_treatments', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'medication_type' => Input::get('medication_type')[$i],
-                                'medication_action' => Input::get('medication_action')[$i],
-                                'medication_dose' => Input::get('medication_dose')[$i],
-                                'units' => Input::get('medication_units')[$i],
-                            ), $medication_name[0]['id']);
-                        }
-                    //     else {
-                    //         $user->createRecord('medication_treatments', array(
-                    //             'study_id' => $_GET['sid'],
-                    //             'visit_code' => $_GET['vcode'],
-                    //             'visit_day' => $_GET['vday'],
-                    //             'seq_no' => $_GET['seq'],
-                    //             'vid' => $_GET['vid'],
-                    //             'medication_type' => Input::get('medication_type')[$i],
-                    //             'medication_action' => Input::get('medication_action')[$i],
-                    //             'medication_dose' => Input::get('medication_dose')[$i],
-                    //             'units' => Input::get('medication_units')[$i],
-                    //             'patient_id' => $_GET['cid'],
-                    //             'staff_id' => $user->data()->id,
-                    //             'status' => 1,
-                    //             'created_on' => date('Y-m-d'),
-                    //             'site_id' => $user->data()->site_id,
-                    //         ));
-                    //  }
-                                                   
+                                $user->updateRecord('medication_treatments', array(
+                                    'study_id' => $_GET['sid'],
+                                    'visit_code' => $_GET['vcode'],
+                                    'visit_day' => $_GET['vday'],
+                                    'seq_no' => $_GET['seq'],
+                                    'vid' => $_GET['vid'],
+                                    'medication_type' => Input::get('medication_type')[$i],
+                                    'medication_action' => Input::get('medication_action')[$i],
+                                    'medication_dose' => Input::get('medication_dose')[$i],
+                                    'units' => Input::get('medication_units')[$i],
+                                ), $medication_name[0]['id']);
+                            }                                                   
                         } else {
                             $user->createRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
@@ -2543,7 +2523,7 @@ if ($user->isLoggedIn()) {
                                 'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
                             ));
-                     }
+                        }
                         $i++;
                     }
 

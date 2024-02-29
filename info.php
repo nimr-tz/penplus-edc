@@ -1554,6 +1554,7 @@ if ($user->isLoggedIn()) {
                                             <thead>
                                                 <tr>
                                                     <th>Patient ID</th>
+                                                    <th>Patient Name</th>
                                                     <th>Type</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -1610,6 +1611,8 @@ if ($user->isLoggedIn()) {
                                                 ?>
                                                     <tr>
                                                         <td><?= $client['study_id'] ?></td>
+                                                        <td><?= $client['firstname'] ?></td>
+
                                                         <?php if ($type['cardiac'] == 1) { ?>
                                                             <td>
                                                                 <a href="#" class="btn btn-default">Cardiac</a>
@@ -1952,6 +1955,7 @@ if ($user->isLoggedIn()) {
                                             <tfoot>
                                                 <tr>
                                                     <th>Patient ID</th>
+                                                    <th>Patient Name</th>
                                                     <th>Type</th>
                                                     <th>Status</th>
                                                     <th>Action</th>

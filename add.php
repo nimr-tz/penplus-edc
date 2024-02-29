@@ -464,6 +464,17 @@ if ($user->isLoggedIn()) {
                     //     $errorMessage = 'Patient Diagnosed with more than one Disease';
                     // } else {
 
+
+                    if ((Input::get('cardiac') == 1 && Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
+                        || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
+                        || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
+                        || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
+                    ) {
+                        $errorMessage = 'Patient Diagnosed with more than one Disease';
+                    } else {
+                        
+                    }
+
                     if ($main_diagnosis) {
 
                         $user->updateRecord('main_diagnosis', array(

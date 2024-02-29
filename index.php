@@ -1,11 +1,16 @@
 <?php
 require_once 'php/core/init.php';
 $user = new User();
-$override = new OverideData();$usr=null;
-$email = new Email();$st=null;
+$override = new OverideData();
+$usr = null;
+$email = new Email();
+$st = null;
 $random = new Random();
-$pageError = null;$successMessage = null;$errorM = false;$errorMessage = null;
-if(!$user->isLoggedIn()) {
+$pageError = null;
+$successMessage = null;
+$errorM = false;
+$errorMessage = null;
+if (!$user->isLoggedIn()) {
     if (Input::exists('post')) {
         if (Token::check(Input::get('token'))) {
             $validate = new validate();
@@ -14,34 +19,35 @@ if(!$user->isLoggedIn()) {
                 'password' => array('required' => true)
             ));
             if ($validate->passed()) {
-                $st=$override->get('user','username',Input::get('username'));
-                if($st){
-                    if($st[0]['count'] >3){
+                $st = $override->get('user', 'username', Input::get('username'));
+                if ($st) {
+                    if ($st[0]['count'] > 3) {
                         $errorMessage = 'You Account have been deactivated,Someone was trying to access it with wrong credentials. Please contact your system administrator';
-                    }
-                    else{
+                    } else {
                         $login = $user->loginUser(Input::get('username'), Input::get('password'), 'user');
                         if ($login) {
-                            $lastLogin = $override->get('user','id',$user->data()->id);
-                            if($lastLogin[0]['last_login'] == date('Y-m-d')){}else{
+                            $lastLogin = $override->get('user', 'id', $user->data()->id);
+                            if ($lastLogin[0]['last_login'] == date('Y-m-d')) {
+                            } else {
                                 try {
                                     $user->updateRecord('user', array(
                                         'last_login' => date('Y-m-d H:i:s'),
                                         'count' => 0,
                                     ), $user->data()->id);
-                                } catch (Exception $e) {}
+                                } catch (Exception $e) {
+                                }
                             }
                             try {
                                 $user->updateRecord('user', array(
                                     'count' => 0,
                                 ), $user->data()->id);
-                            } catch (Exception $e) {}
+                            } catch (Exception $e) {
+                            }
 
-                            Redirect::to('dashboard.php');
-                        }
-                        else {
-                            $usr=$override->get('user','username',Input::get('username'));
-                            if($usr && $usr[0]['count'] < 3){
+                            Redirect::to('index1.php');
+                        } else {
+                            $usr = $override->get('user', 'username', Input::get('username'));
+                            if ($usr && $usr[0]['count'] < 3) {
                                 try {
                                     $user->updateRecord('user', array(
                                         'count' => $usr[0]['count'] + 1,
@@ -49,20 +55,19 @@ if(!$user->isLoggedIn()) {
                                 } catch (Exception $e) {
                                 }
                                 $errorMessage = 'Wrong username or password';
-                            }
-                            else{
+                            } else {
                                 try {
                                     $user->updateRecord('user', array(
                                         'count' => $usr[0]['count'] + 1,
                                     ), $usr[0]['id']);
                                 } catch (Exception $e) {
                                 }
-                                $email->deactivation($usr[0]['email_address'],$usr[0]['lastname'],'Account Deactivated');
+                                $email->deactivation($usr[0]['email_address'], $usr[0]['lastname'], 'Account Deactivated');
                                 $errorMessage = 'You Account have been deactivated,Someone was trying to access it with wrong credentials. Please contact your system administrator';
                             }
                         }
                     }
-                }else{
+                } else {
                     $errorMessage = 'Invalid username, Please check your credentials and try again';
                 }
             } else {
@@ -70,105 +75,127 @@ if(!$user->isLoggedIn()) {
             }
         }
     }
-}else{
-    Redirect::to('dashboard.php');
+} else {
+    Redirect::to('index1.php');
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title> Login - PenPlus </title>
-    <?php include 'head.php'?>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Penplus Database | Log in</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
-<body>
 
-<div class="loginBlock" id="login" style="display: block;">
-    <h1>Welcome. Please Sign In</h1>
-    <div class="dr"><span></span></div>
-    <?php if($errorMessage){?>
-        <div class="alert alert-danger">
-            <h4>Error!</h4>
-            <?=$errorMessage?>
+<?php if ($errorMessage) { ?>
+    <div class="alert alert-danger">
+        <h4>Error!</h4>
+        <?= $errorMessage ?>
+    </div>
+<?php } elseif ($pageError) { ?>
+    <div class="alert alert-danger">
+        <h4>Error!</h4>
+        <?php foreach ($pageError as $error) {
+            echo $error . ' , ';
+        } ?>
+    </div>
+<?php } elseif ($successMessage) { ?>
+    <div class="alert alert-success">
+        <h4>Success!</h4>
+        <?= $successMessage ?>
+    </div>
+<?php } ?>
+
+<body class="hold-transition login-page">
+
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="#"><b>Penplus</b>Database</a>
         </div>
-    <?php }elseif($pageError){?>
-        <div class="alert alert-danger">
-            <h4>Error!</h4>
-            <?php foreach($pageError as $error){echo $error.' , ';}?>
-        </div>
-    <?php }elseif($successMessage){?>
-        <div class="alert alert-success">
-            <h4>Success!</h4>
-            <?=$successMessage?>
-        </div>
-    <?php }?>
-    <div class="loginForm">
-        <form class="form-horizontal" method="post" id="validation">
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-                    <input type="text" name="username" id="inputEmail" placeholder="Username" class="form-control validate[required]"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                    <input type="password" name="password" id="inputPassword" placeholder="Password" class="form-control validate[required]"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="form-group" style="margin-top: 5px;">
-                        <label class="checkbox"><input type="checkbox"> Remember me</label>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+
+                <form method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" name="username" id="username" placeholder="Username" class="form-control validate[required]" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <input type="hidden" name="token" value="<?=Token::generate();?>">
-                    <input type="submit" value="Sign in" class="btn btn-default btn-block">
-                </div>
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" id="password" placeholder="Password" class="form-control validate[required]" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember">
+                                <label for="remember">
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div> -->
+                        <!-- /.col -->
+                        <!-- <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div> -->
+                        <div class="col-4">
+                            <input type="hidden" name="token" value="<?= Token::generate(); ?>">
+                            <input type="submit" value="Sign in" class="btn btn-primary btn-block">
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                <!-- <div class="social-auth-links text-center mb-3">
+                    <p>- OR -</p>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                    </a>
+                </div> -->
+                <!-- /.social-auth-links -->
+
+                <!-- <p class="mb-1">
+                    <a href="forgot-password.html">I forgot my password</a>
+                </p>
+                <p class="mb-0">
+                    <a href="register.html" class="text-center">Register a new membership</a>
+                </p> -->
             </div>
-        </form>
-        <div class="dr"><span></span></div>
-        <div class="controls">
-            <div class="row">
-                <div class="col-md-6">
-                    <button class="btn btn-link btn-block" onClick="loginBlock('#forgot');">Forgot password?</button>
-                </div>
-            </div>
+            <!-- /.login-card-body -->
         </div>
     </div>
-</div>
+    <!-- /.login-box -->
 
-<div class="loginBlock" id="forgot">
-    <h1>Forgot your password?</h1>
-    <div class="dr"><span></span></div>
-    <div class="loginForm">
-        <form class="form-horizontal" method="post">
-            <p>This form help you return your password. Please, enter your password, and send request</p>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-                    <input type="text" placeholder="Your email" class="form-control"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
-                    <button type="submit" class="btn btn-default btn-block">Send request</button>
-                </div>
-            </div>
-        </form>
-        <div class="dr"><span></span></div>
-        <div class="controls">
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-link" onClick="loginBlock('#login');">&laquo; Back</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
 </body>
 
 </html>

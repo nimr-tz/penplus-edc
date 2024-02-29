@@ -4,6 +4,16 @@ $user = new User();
 $override = new OverideData();
 $email = new Email();
 $random = new Random();
+header('Content-Type: application/json');
+
+
+$output = array();
+$all_generic = $override->getcolumns('clients', 'id', 'clinic_date', 'firstname', 'age');
+foreach ($all_generic as $name) {
+    $output[] = $name;
+}
+echo json_encode($output);
+
 
 if ($_GET['content'] == 'category') {
     $sub_category = $override->get('sub_category', 'category', $_GET['getUid']); ?>

@@ -14006,24 +14006,13 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off"> 
-                                        <div class="card-body"> 
-                                            
+                                        <div class="card-body">                             
                                         
+                                           <hr>                                                                                      
 
 
 
-
-
-
-
-
-                                            <hr>   
-                                            
-                                            
-
-
-
- <div class="row">
+                                    <div class="row">
                                         <div class="col-sm-4">
                                             <div class="row-form clearfix">
                                                 <!-- select -->

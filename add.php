@@ -2644,6 +2644,7 @@ if ($user->isLoggedIn()) {
                             'earn_individual' => Input::get('earn_individual'),
                             'earn_household' => Input::get('earn_household'),
                             'main_transport' => Input::get('main_transport'),
+                                                        'main_transport_other' => Input::get('main_transport_other'),
                             'time_from_home' => Input::get('time_from_home'),
                             'leave_children' => Input::get('leave_children'),
                             'looking_children' => Input::get('looking_children'),
@@ -2738,6 +2739,7 @@ if ($user->isLoggedIn()) {
                             'earn_individual' => Input::get('earn_individual'),
                             'earn_household' => Input::get('earn_household'),
                             'main_transport' => Input::get('main_transport'),
+                            'main_transport_other' => Input::get('main_transport_other'),
                             'time_from_home' => Input::get('time_from_home'),
                             'leave_children' => Input::get('leave_children'),
                             'looking_children' => Input::get('looking_children'),
@@ -13841,9 +13843,9 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>How many people are in your household?</label>
-                                                            <input type="text" class="form-control" name="household_people" id="household_head_other" value="<?php if ($social_economic['household_head_other']) {
-                                                                                                                                                                    print_r($social_economic['household_head_other']);
-                                                                                                                                                                }  ?>" />
+                                                            <input type="text" class="form-control" name="household_people" id="household_people" value="<?php if ($social_economic['household_people']) {
+                                                                                                                                                                print_r($social_economic['household_people']);
+                                                                                                                                                            }  ?>" />
                                                             <span>( ENTER NUMBERS )</span>
 
                                                         </div>
@@ -14466,7 +14468,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="main_income_based" id="main_icome_based1" value="1" <?php if ($social_economic['main_icome_based'] == 1) {
+                                                                <input class="form-check-input" type="radio" name="main_icome_based" id="main_icome_based1" value="1" <?php if ($social_economic['main_icome_based'] == 1) {
                                                                                                                                                                             echo 'checked';
                                                                                                                                                                         } ?>>
                                                                 <label class="form-check-label">Monthly salary</label>
@@ -14550,15 +14552,65 @@ if ($user->isLoggedIn()) {
                                                 </div>
 
                                                 <div class="col-sm-3">
+                                                    <label>What was the main form of transport that
+                                                        you used to get here today ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>What was the main form of transport that
-                                                                you used to get here today?</label>
-                                                            <input class="form-control" type="text" name="main_transport" id="main_transport" value="<?php if ($social_economic['main_transport']) {
-                                                                                                                                                            print_r($social_economic['main_transport']);
-                                                                                                                                                        }  ?>" />
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_transport" id="main_transport1" value="1" <?php if ($social_economic['main_transport'] == 1) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Walk</label>
+                                                            </div>
 
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_transport" id="main_transport2" value="2" <?php if ($social_economic['main_transport'] == 2) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Taxi</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_transport" id="main_transport3" value="3" <?php if ($social_economic['main_transport'] == 3) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Bodaboda Motorcycle</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_transport" id="main_transport4" value="4" <?php if ($social_economic['main_transport'] == 4) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Bodaboda Bicycle</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_transport" id="main_transport5" value="5" <?php if ($social_economic['main_transport'] == 5) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">My own car</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_transport" id="main_transport6" value="6" <?php if ($social_economic['main_transport'] == 6) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">My own bicycle</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_transport" id="main_transport7" value="7" <?php if ($social_economic['main_transport'] == 7) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Commuter bus/Daladala</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_transport" id="main_transport96" value="96" <?php if ($social_economic['main_transport'] == 96) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="main_transport_other" id="main_transport_other" rows="3" placeholder="Type other transport here.... ">
+                                                                <?php if ($social_economic['main_transport_other']) {
+                                                                    print_r($social_economic['main_transport_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -15319,7 +15371,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                         <span>IF no, skip next question</span>
                                                     </div>
-                                                </div>                                                
+                                                </div>
 
                                                 <div class="col-sm-3">
                                                     <label>Type of Toilet facility ?</label>

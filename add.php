@@ -14597,139 +14597,169 @@ if ($user->isLoggedIn()) {
                                                 </div>
 
                                                 <div class="col-sm-3">
+                                                    <label>Did you leave young children (aged less
+                                                        than about 6 years) at home to come here
+                                                        today ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Did you leave young children (aged less
-                                                                than about 6 years) at home to come here
-                                                                today?</label>
-                                                            <select class="form-control" name="leave_children" id="leave_children" style="width: 100%;" onchange="checkQuestionValue1('leave_children','looking_children1')">
-                                                                <option value="<?= $social_economic['leave_children'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['leave_children'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($social_economic['leave_children'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="leave_children" id="leave_children1" value="1" <?php if ($social_economic['leave_children'] == 1) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="leave_children" id="leave_children2" value="2" <?php if ($social_economic['leave_children'] == 2) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>
                                                             <span>IF no, skip next question</span>
 
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-3" id="looking_children1">
+                                                <div class="col-sm-3">
+                                                    <label>If yes, who is looking after them ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label> If yes, who is looking after them?</label>
-                                                            <select class="form-control" name="looking_children" id="looking_children" style="width: 100%;" onchange="checkQuestionValue96('looking_children','looking_children_other')">
-                                                                <option value="<?= $social_economic['looking_children'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['looking_children'] == 1) {
-                                                                                                                                    echo 'Adult relatives/Household members';
-                                                                                                                                } elseif ($social_economic['looking_children'] == 2) {
-                                                                                                                                    echo 'Other older children';
-                                                                                                                                } elseif ($social_economic['looking_children'] == 3) {
-                                                                                                                                    echo 'Neighbour';
-                                                                                                                                } elseif ($social_economic['looking_children'] == 4) {
-                                                                                                                                    echo 'Maid';
-                                                                                                                                } elseif ($social_economic['looking_children'] == 96) {
-                                                                                                                                    echo 'Other';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Adult relatives/Household members</option>
-                                                                <option value="2">Other older children</option>
-                                                                <option value="3">Neighbouro</option>
-                                                                <option value="4">Maid</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="looking_children" id="looking_children1" value="1" <?php if ($social_economic['looking_children'] == 1) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Adult relatives/Household members</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="looking_children" id="looking_children2" value="2" <?php if ($social_economic['looking_children'] == 2) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Other older children</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="looking_children" id="looking_children3" value="3" <?php if ($social_economic['looking_children'] == 3) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Neighbour</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="looking_children" id="looking_children4" value="4" <?php if ($social_economic['looking_children'] == 4) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Maid</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="looking_children" id="looking_children96" value="96" <?php if ($social_economic['looking_children'] == 96) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="looking_children_other" id="looking_children_other" rows="4" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['looking_children_other']) {
+                                                                    print_r($social_economic['looking_children_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <textarea class="form-control" id="looking_children_other" name="looking_children_other" rows="3">
-                                                            <?php if ($social_economic['looking_children_other']) {
-                                                                print_r($social_economic['looking_children_other']);
-                                                            }  ?>
-                                                        </textarea>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-3">
+                                                    <label>What type of work does the person
+                                                        looking after the children do for their main
+                                                        occupation? </label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>What type of work does the person
-                                                                looking after the children do for their main
-                                                                occupation??:</label>
-                                                            <select class="form-control" name="occupation_looking_child" id="occupation_looking_child" style="width: 100%;" onchange="checkQuestionValue96('occupation_looking_child','occupation_looking_child_other')">
-                                                                <option value="<?= $social_economic['occupation_looking_child'] ?>"><?php if ($social_economic) {
-                                                                                                                                        if ($social_economic['occupation_looking_child'] == 1) {
-                                                                                                                                            echo 'Employed';
-                                                                                                                                        } elseif ($social_economic['occupation_looking_child'] == 2) {
-                                                                                                                                            echo 'Self employed';
-                                                                                                                                        } elseif ($social_economic['occupation_looking_child'] == 3) {
-                                                                                                                                            echo 'Unemployed';
-                                                                                                                                        } elseif ($social_economic['occupation_looking_child'] == 4) {
-                                                                                                                                            echo 'Farmer';
-                                                                                                                                        } elseif ($social_economic['occupation_looking_child'] == 5) {
-                                                                                                                                            echo 'Fisher';
-                                                                                                                                        } elseif ($social_economic['occupation_looking_child'] == 6) {
-                                                                                                                                            echo 'Student';
-                                                                                                                                        } elseif ($social_economic['occupation_looking_child'] == 7) {
-                                                                                                                                            echo 'Housewife';
-                                                                                                                                        } elseif ($social_economic['occupation_looking_child'] == 96) {
-                                                                                                                                            echo 'Other';
-                                                                                                                                        } elseif ($social_economic['occupation_looking_child'] == 9) {
-                                                                                                                                            echo 'Don’t know';
-                                                                                                                                        }
-                                                                                                                                    } else {
-                                                                                                                                        echo 'Select';
-                                                                                                                                    } ?></option>
-                                                                <option value="1">Employed</option>
-                                                                <option value="2">Self employed</option>
-                                                                <option value="3">Unemployed</option>
-                                                                <option value="4">Farmer</option>
-                                                                <option value="5">Fisher</option>
-                                                                <option value="6">Student</option>
-                                                                <option value="7">Housewife</option>
-                                                                <option value="96">Other</option>
-                                                                <option value="9">Don’t know</option>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child1" value="1" <?php if ($social_economic['occupation_looking_child'] == 1) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Employed</label>
+                                                            </div>
 
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child2" value="2" <?php if ($social_economic['occupation_looking_child'] == 2) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Self employed</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child3" value="3" <?php if ($social_economic['occupation_looking_child'] == 3) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Unemployed</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child4" value="4" <?php if ($social_economic['occupation_looking_child'] == 4) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Farmer</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child5" value="5" <?php if ($social_economic['occupation_looking_child'] == 5) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Fisher</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child6" value="6" <?php if ($social_economic['occupation_looking_child'] == 6) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Student</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child7" value="7" <?php if ($social_economic['occupation_looking_child'] == 7) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Housewife</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child99" value="99" <?php if ($social_economic['occupation_looking_child'] == 99) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Don’t know</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation_looking_child" id="occupation_looking_child96" value="96" <?php if ($social_economic['occupation_looking_child'] == 96) {
+                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="occupation_looking_child_other" id="occupation_looking_child_other" rows="3" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['occupation_looking_child_other']) {
+                                                                    print_r($social_economic['occupation_looking_child_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <textarea class="form-control" id="occupation_looking_child_other" name="occupation_looking_child_other" rows="4">
-                                                        <?php if ($social_economic['occupation_looking_child_other']) {
-                                                            print_r($social_economic['occupation_looking_child_other']);
-                                                        }  ?>
-                                                        </textarea>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-2">
+                                                    <label>Did anyone accompany you today ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Did anyone accompany you today?</label>
-                                                            <select class="form-control" name="accompany" id="accompany" style="width: 100%;" onchange="checkQuestionValue1('accompany','accompany_occupation1')">
-                                                                <option value="<?= $social_economic['accompany'] ?>"><?php if ($social_economic) {
-                                                                                                                            if ($social_economic['accompany'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($social_economic['accompany'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany" id="accompany1" value="1" <?php if ($social_economic['accompany'] == 1) {
+                                                                                                                                                            echo 'checked';
+                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany" id="accompany2" value="2" <?php if ($social_economic['accompany'] == 2) {
+                                                                                                                                                            echo 'checked';
+                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>
                                                             <span>IF no, skip next question</span>
 
                                                         </div>
@@ -14737,55 +14767,74 @@ if ($user->isLoggedIn()) {
                                                 </div>
 
                                                 <div class="col-sm-3">
+                                                    <label>What is the main occupation of the person
+                                                        you came with today ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>What is the main occupation of the person
-                                                                you came with today?:</label>
-                                                            <select class="form-control" name="accompany_occupation" id="accompany_occupation" style="width: 100%;" onchange="checkQuestionValue96('accompany_occupation','accompany_occupation_other')">
-                                                                <option value="<?= $social_economic['accompany_occupation'] ?>"><?php if ($social_economic) {
-                                                                                                                                    if ($social_economic['accompany_occupation'] == 1) {
-                                                                                                                                        echo 'Employed';
-                                                                                                                                    } elseif ($social_economic['accompany_occupation'] == 2) {
-                                                                                                                                        echo 'Self employed';
-                                                                                                                                    } elseif ($social_economic['accompany_occupation'] == 3) {
-                                                                                                                                        echo 'Unemployed';
-                                                                                                                                    } elseif ($social_economic['accompany_occupation'] == 4) {
-                                                                                                                                        echo 'Farmer';
-                                                                                                                                    } elseif ($social_economic['accompany_occupation'] == 5) {
-                                                                                                                                        echo 'Fisher';
-                                                                                                                                    } elseif ($social_economic['accompany_occupation'] == 6) {
-                                                                                                                                        echo 'Student';
-                                                                                                                                    } elseif ($social_economic['accompany_occupation'] == 7) {
-                                                                                                                                        echo 'Housewife';
-                                                                                                                                    } elseif ($social_economic['accompany_occupation'] == 96) {
-                                                                                                                                        echo 'Other';
-                                                                                                                                    } elseif ($social_economic['accompany_occupation'] == 9) {
-                                                                                                                                        echo 'Don’t know';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                <option value="1">Employed</option>
-                                                                <option value="2">Self employed</option>
-                                                                <option value="3">Unemployed</option>
-                                                                <option value="4">Farmer</option>
-                                                                <option value="5">Fisher</option>
-                                                                <option value="6">Student</option>
-                                                                <option value="7">Housewife</option>
-                                                                <option value="96">Other</option>
-                                                                <option value="9">Don’t know</option>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation1" value="1" <?php if ($social_economic['accompany_occupation'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Employed</label>
+                                                            </div>
 
-                                                            </select>
-                                                        </div>
-                                                        <textarea class="form-control" id="accompany_occupation_other" name="accompany_occupation_other" rows="3">
-                                                            <?php if ($social_economic['accompany_occupation_other']) {
-                                                                print_r($social_economic['accompany_occupation_other']);
-                                                            }  ?>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation2" value="2" <?php if ($social_economic['accompany_occupation'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Self employed</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation3" value="3" <?php if ($social_economic['accompany_occupation'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Unemployed</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation4" value="4" <?php if ($social_economic['accompany_occupation'] == 4) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Farmer</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation5" value="5" <?php if ($social_economic['accompany_occupation'] == 5) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Fisher</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation6" value="6" <?php if ($social_economic['accompany_occupation'] == 6) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Student</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation7" value="7" <?php if ($social_economic['accompany_occupation'] == 7) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Housewife</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation99" value="99" <?php if ($social_economic['accompany_occupation'] == 99) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Don’t know</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="accompany_occupation" id="accompany_occupation96" value="96" <?php if ($social_economic['accompany_occupation'] == 96) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="accompany_occupation_other" id="accompany_occupation_other" rows="4" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['accompany_occupation_other']) {
+                                                                    print_r($social_economic['accompany_occupation_other']);
+                                                                }  ?>
                                                             </textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
-
 
                                                 <div class="col-sm-2">
                                                     <div class="row-form clearfix">
@@ -14828,150 +14877,182 @@ if ($user->isLoggedIn()) {
 
                                             <div class="row">
                                                 <div class="col-sm-3">
+                                                    <label>The patient ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>The patient?</label>
-                                                            <select class="form-control" name="patient_education" id="patient_education" style="width: 100%;" onchange="checkQuestionValue96('patient_education','patient_education_other')">
-                                                                <option value="<?= $social_economic['patient_education'] ?>"><?php if ($social_economic) {
-                                                                                                                                    if ($social_economic['patient_education'] == 1) {
-                                                                                                                                        echo 'Not attended/illiterate ';
-                                                                                                                                    } elseif ($social_economic['patient_education'] == 2) {
-                                                                                                                                        echo 'Primaryr';
-                                                                                                                                    } elseif ($social_economic['patient_education'] == 3) {
-                                                                                                                                        echo 'Secondary';
-                                                                                                                                    } elseif ($social_economic['patient_education'] == 4) {
-                                                                                                                                        echo 'Graduate/certificate';
-                                                                                                                                    } elseif ($social_economic['patient_education'] == 96) {
-                                                                                                                                        echo 'Other';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                <option value="1">Not attended/illiterate </option>
-                                                                <option value="2">Primary</option>
-                                                                <option value="3">Secondary</option>
-                                                                <option value="4">Graduate/certificate</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
-                                                        </div>
-                                                        <textarea class="form-control" id="patient_education_other" name="patient_education_other" rows="3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="patient_education" id="patient_education1" value="1" <?php if ($social_economic['patient_education'] == 1) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Not attended/illiterate</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="patient_education" id="patient_education2" value="2" <?php if ($social_economic['patient_education'] == 2) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Primaryr</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="patient_education" id="patient_education3" value="3" <?php if ($social_economic['patient_education'] == 3) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Secondary</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="patient_education" id="patient_education4" value="4" <?php if ($social_economic['patient_education'] == 4) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Graduate/certificate</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="patient_education" id="patient_education96" value="96" <?php if ($social_economic['patient_education'] == 96) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="patient_education_other" id="patient_education_other" rows="4" placeholder="Type other here.... ">
                                                                 <?php if ($social_economic['patient_education_other']) {
                                                                     print_r($social_economic['patient_education_other']);
                                                                 }  ?>
-                                                        </textarea>
+                                                            </textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-3">
+                                                    <label>TPrimary income earner ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Primary income earner?:</label>
-                                                            <select class="form-control" name="primary_earner_edctn" id="primary_earner_edctn" style="width: 100%;" onchange="checkQuestionValue96('primary_earner_edctn','earner_edctn_other')">
-                                                                <option value="<?= $social_economic['primary_earner_edctn'] ?>"><?php if ($social_economic) {
-                                                                                                                                    if ($social_economic['primary_earner_edctn'] == 1) {
-                                                                                                                                        echo 'Not attended/illiterate ';
-                                                                                                                                    } elseif ($social_economic['primary_earner_edctn'] == 2) {
-                                                                                                                                        echo 'Primaryr';
-                                                                                                                                    } elseif ($social_economic['primary_earner_edctn'] == 3) {
-                                                                                                                                        echo 'Secondary';
-                                                                                                                                    } elseif ($social_economic['primary_earner_edctn'] == 4) {
-                                                                                                                                        echo 'Graduate/certificate';
-                                                                                                                                    } elseif ($social_economic['primary_earner_edctn'] == 96) {
-                                                                                                                                        echo 'Other';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                <option value="1">Not attended/illiterate </option>
-                                                                <option value="2">Primary</option>
-                                                                <option value="3">Secondary</option>
-                                                                <option value="4">Graduate/certificate</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
-                                                        </div>
-                                                        <textarea class="form-control" id="earner_edctn_other" name="earner_edctn_other" rows="3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_earner_edctn" id="primary_earner_edctn1" value="1" <?php if ($social_economic['primary_earner_edctn'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Not attended/illiterate</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_earner_edctn" id="primary_earner_edctn2" value="2" <?php if ($social_economic['primary_earner_edctn'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Primaryr</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_earner_edctn" id="primary_earner_edctn3" value="3" <?php if ($social_economic['primary_earner_edctn'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Secondary</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_earner_edctn" id="primary_earner_edctn4" value="4" <?php if ($social_economic['primary_earner_edctn'] == 4) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Graduate/certificate</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_earner_edctn" id="primary_earner_edctn96" value="96" <?php if ($social_economic['primary_earner_edctn'] == 96) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="earner_edctn_other" id="earner_edctn_other" rows="4" placeholder="Type other here.... ">
                                                                 <?php if ($social_economic['earner_edctn_other']) {
                                                                     print_r($social_economic['earner_edctn_other']);
                                                                 }  ?>
-                                                        </textarea>
+                                                            </textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-3">
+                                                    <label>Head of household ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Head of household?:</label>
-                                                            <select class="form-control" name="household_education" id="household_education" style="width: 100%;" onchange="checkQuestionValue96('household_education','household_education_other')">
-                                                                <option value="<?= $social_economic['household_education'] ?>"><?php if ($social_economic) {
-                                                                                                                                    if ($social_economic['household_education'] == 1) {
-                                                                                                                                        echo 'Not attended/illiterate ';
-                                                                                                                                    } elseif ($social_economic['household_education'] == 2) {
-                                                                                                                                        echo 'Primaryr';
-                                                                                                                                    } elseif ($social_economic['household_education'] == 3) {
-                                                                                                                                        echo 'Secondary';
-                                                                                                                                    } elseif ($social_economic['household_education'] == 4) {
-                                                                                                                                        echo 'Graduate/certificate';
-                                                                                                                                    } elseif ($social_economic['household_education'] == 96) {
-                                                                                                                                        echo 'Other';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                <option value="1">Not attended/illiterate </option>
-                                                                <option value="2">Primary</option>
-                                                                <option value="3">Secondary</option>
-                                                                <option value="4">Graduate/certificate</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
-                                                            <span>primary income earner = head of household.</span>
-                                                        </div>
-                                                        <textarea class="form-control" id="household_education_other" name="household_education_other" rows="3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_education" id="household_education1" value="1" <?php if ($social_economic['household_education'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Not attended/illiterate</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_education" id="household_education2" value="2" <?php if ($social_economic['household_education'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Primaryr</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_education" id="household_education3" value="3" <?php if ($social_economic['household_education'] == 3) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Secondary</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_education" id="household_education4" value="4" <?php if ($social_economic['household_education'] == 4) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Graduate/certificate</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_education" id="household_education96" value="96" <?php if ($social_economic['household_education'] == 96) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="household_education_other" id="household_education_other" rows="4" placeholder="Type other here.... ">
                                                                 <?php if ($social_economic['household_education_other']) {
                                                                     print_r($social_economic['household_education_other']);
                                                                 }  ?>
-                                                        </textarea>
+                                                            </textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-
-
                                                 <div class="col-sm-3">
+                                                    <label>Spouse of the head of household ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Spouse of the head of household?:</label>
-                                                            <select class="form-control" name="spouse_edctn" id="spouse_edctn" style="width: 100%;" onchange="checkQuestionValue96('spouse_edctn','spouse_edctn_other')">
-                                                                <option value="<?= $social_economic['spouse_edctn'] ?>"><?php if ($social_economic) {
-                                                                                                                            if ($social_economic['spouse_edctn'] == 1) {
-                                                                                                                                echo 'Not attended/illiterate ';
-                                                                                                                            } elseif ($social_economic['spouse_edctn'] == 2) {
-                                                                                                                                echo 'Primaryr';
-                                                                                                                            } elseif ($social_economic['spouse_edctn'] == 3) {
-                                                                                                                                echo 'Secondary';
-                                                                                                                            } elseif ($social_economic['spouse_edctn'] == 4) {
-                                                                                                                                echo 'Graduate/certificate';
-                                                                                                                            } elseif ($social_economic['spouse_edctn'] == 96) {
-                                                                                                                                echo 'Other';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                <option value="1">Not attended/illiterate </option>
-                                                                <option value="2">Primary</option>
-                                                                <option value="3">Secondary</option>
-                                                                <option value="4">Graduate/certificate</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
-                                                            <span>If more than one spouse, choose highest level of education.</span>
-                                                        </div>
-                                                        <textarea class="form-control" id="spouse_edctn_other" name="spouse_edctn_other" rows="3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="spouse_edctn" id="spouse_edctn1" value="1" <?php if ($social_economic['spouse_edctn'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Not attended/illiterate</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="spouse_edctn" id="spouse_edctn2" value="2" <?php if ($social_economic['spouse_edctn'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Primaryr</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="spouse_edctn" id="spouse_edctn3" value="3" <?php if ($social_economic['spouse_edctn'] == 3) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Secondary</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="spouse_edctn" id="spouse_edctn4" value="4" <?php if ($social_economic['spouse_edctn'] == 4) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Graduate/certificate</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="spouse_edctn" id="spouse_edctn96" value="96" <?php if ($social_economic['spouse_edctn'] == 96) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="spouse_edctn_other" id="spouse_edctn_other" rows="4" placeholder="Type other here.... ">
                                                                 <?php if ($social_economic['spouse_edctn_other']) {
                                                                     print_r($social_economic['spouse_edctn_other']);
                                                                 }  ?>
-                                                        </textarea>
+                                                            </textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

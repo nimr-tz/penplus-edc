@@ -15188,160 +15188,218 @@ if ($user->isLoggedIn()) {
 
                                             <div class="row">
                                                 <div class="col-sm-3">
+                                                    <label>Water Access ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Water Access:?</label>
-                                                            <select class="form-control" name="water_access" id="water_access" style="width: 100%;" onchange="checkQuestionValue1('water_access','water_source1')">
-                                                                <option value="<?= $social_economic['water_access'] ?>"><?php if ($social_economic) {
-                                                                                                                            if ($social_economic['water_access'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($social_economic['water_access'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                            <span>IF no, skip next question</span>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_access" id="water_access1" value="1" <?php if ($social_economic['water_access'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Flush to pit latrine</label>
+                                                            </div>
 
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_access" id="water_access2" value="2" <?php if ($social_economic['water_access'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Flush to somewhere else</label>
+                                                            </div>
                                                         </div>
+                                                        <span>IF no, skip next question</span>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3" id="water_source1">
+
+                                                <div class="col-sm-3">
+                                                    <label>Drinking water source ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Drinking water source:?</label>
-                                                            <select class="form-control" name="water_source" id="water_source" style="width: 100%;" onchange="checkQuestionValue96('water_source','water_source_other')">
-                                                                <option value="<?= $social_economic['water_source'] ?>"><?php if ($social_economic) {
-                                                                                                                            if ($social_economic['water_source'] == 1) {
-                                                                                                                                echo 'Piped into dwelling';
-                                                                                                                            } elseif ($social_economic['water_source'] == 2) {
-                                                                                                                                echo 'Piped to neighbor ';
-                                                                                                                            } elseif ($social_economic['water_source'] == 3) {
-                                                                                                                                echo 'Tube well or borehole';
-                                                                                                                            } elseif ($social_economic['water_source'] == 4) {
-                                                                                                                                echo 'Unprotected well';
-                                                                                                                            } elseif ($social_economic['water_source'] == 5) {
-                                                                                                                                echo 'Unprotected spring';
-                                                                                                                            } elseif ($social_economic['water_source'] == 6) {
-                                                                                                                                echo 'Surface water';
-                                                                                                                            } elseif ($social_economic['water_source'] == 7) {
-                                                                                                                                echo 'Piped to yard/plot';
-                                                                                                                            } elseif ($social_economic['water_source'] == 8) {
-                                                                                                                                echo 'Public tap or standpipe ';
-                                                                                                                            } elseif ($social_economic['water_source'] == 9) {
-                                                                                                                                echo 'Protected well';
-                                                                                                                            } elseif ($social_economic['water_source'] == 10) {
-                                                                                                                                echo 'Protected spring';
-                                                                                                                            } elseif ($social_economic['water_source'] == 11) {
-                                                                                                                                echo 'Rainwater';
-                                                                                                                            } elseif ($social_economic['water_source'] == 96) {
-                                                                                                                                echo 'Other';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                <option value="1">Piped into dwelling</option>
-                                                                <option value="2">Piped to neighbor</option>
-                                                                <option value="3">Tube well or borehole</option>
-                                                                <option value="4">Unprotected well </option>
-                                                                <option value="5">Unprotected spring</option>
-                                                                <option value="6">Surface water</option>
-                                                                <option value="7">Piped to yard/plot</option>
-                                                                <option value="8">Public tap or standpipe</option>
-                                                                <option value="9">Protected well</option>
-                                                                <option value="10">Protected spring</option>
-                                                                <option value="11">Rainwater</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
-                                                        </div>
-                                                        <textarea class="form-control" id="water_source_other" name="water_source_other" rows="3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source1" value="1" <?php if ($social_economic['water_source'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Piped into dwelling</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source2" value="2" <?php if ($social_economic['water_source'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Piped to neighbor</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source3" value="3" <?php if ($social_economic['water_source'] == 3) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Tube well or borehole</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source4" value="4" <?php if ($social_economic['water_source'] == 4) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Unprotected well</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source5" value="5" <?php if ($social_economic['water_source'] == 5) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Unprotected spring</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source6" value="6" <?php if ($social_economic['water_source'] == 6) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Surface water</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source7" value="7" <?php if ($social_economic['water_source'] == 7) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Piped to yard/plot</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source8" value="8" <?php if ($social_economic['water_source'] == 8) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Public tap or standpipe</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source9" value="9" <?php if ($social_economic['water_source'] == 9) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Protected well</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source10" value="10" <?php if ($social_economic['water_source'] == 10) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Protected spring</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source11" value="11" <?php if ($social_economic['water_source'] == 11) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Rainwater</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="water_source" id="water_source96" value="96" <?php if ($social_economic['water_source'] == 96) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="water_source_other" id="water_source_other" rows="4" placeholder="Type other here.... ">
                                                                 <?php if ($social_economic['water_source_other']) {
                                                                     print_r($social_economic['water_source_other']);
                                                                 }  ?>
                                                             </textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
-
 
                                                 <div class="col-sm-3">
+                                                    <label>Toilet Access ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Toilet Access:?</label>
-                                                            <select class="form-control" name="toilet_access" id="toilet_access" style="width: 100%;" onchange="checkQuestionValue1('toilet_access','toilet_facility1')">
-                                                                <option value="<?= $social_economic['toilet_access'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['toilet_access'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($social_economic['toilet_access'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                            <span>IF no, skip next question</span>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_access" id="toilet_access1" value="1" <?php if ($social_economic['toilet_access'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Flush to pit latrine</label>
+                                                            </div>
 
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_access" id="toilet_access2" value="2" <?php if ($social_economic['toilet_access'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Flush to somewhere else</label>
+                                                            </div>
                                                         </div>
+                                                        <span>IF no, skip next question</span>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-3" id="toilet_facility1">
+                                                </div>                                                
+
+                                                <div class="col-sm-3">
+                                                    <label>Type of Toilet facility ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Type of Toilet facility?</label>
-                                                            <select class="form-control" name="toilet_facility" id="toilet_facility" style="width: 100%;" onchange="checkQuestionValue96('toilet_facility','toilet_access_other')">
-                                                                <option value="<?= $social_economic['toilet_facility'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['toilet_facility'] == 1) {
-                                                                                                                                    echo 'Flush to pit latrine';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 2) {
-                                                                                                                                    echo 'Flush to somewhere else';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 3) {
-                                                                                                                                    echo 'Flush, don’t know where';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 4) {
-                                                                                                                                    echo 'Ventilated improved pit latrine';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 5) {
-                                                                                                                                    echo 'Pit latrine with slab';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 6) {
-                                                                                                                                    echo 'Pit latrine without slab/open pit';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 7) {
-                                                                                                                                    echo 'Composting toilet ';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 8) {
-                                                                                                                                    echo 'Hanging toilet';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 9) {
-                                                                                                                                    echo 'Bucket toilet';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 10) {
-                                                                                                                                    echo 'No facilities';
-                                                                                                                                } elseif ($social_economic['toilet_facility'] == 96) {
-                                                                                                                                    echo 'Other';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Flush to pit latrine</option>
-                                                                <option value="2">Flush to somewhere else</option>
-                                                                <option value="3">Flush, don’t know where</option>
-                                                                <option value="4">Ventilated improved pit latrine</option>
-                                                                <option value="5">Pit latrine with slab</option>
-                                                                <option value="6">Pit latrine without slab/open pit</option>
-                                                                <option value="7">Composting toilet </option>
-                                                                <option value="8">Hanging toilet</option>
-                                                                <option value="9">Bucket toilet</option>
-                                                                <option value="10">No facilities</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility1" value="1" <?php if ($social_economic['toilet_facility'] == 1) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Flush to pit latrine</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility2" value="2" <?php if ($social_economic['toilet_facility'] == 2) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Flush to somewhere else</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility3" value="3" <?php if ($social_economic['toilet_facility'] == 3) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Flush, don’t know where</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility4" value="4" <?php if ($social_economic['toilet_facility'] == 4) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Ventilated improved pit latrine</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility5" value="5" <?php if ($social_economic['toilet_facility'] == 5) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Pit latrine with slab</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility6" value="6" <?php if ($social_economic['toilet_facility'] == 6) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Pit latrine without slab/open pit</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility7" value="7" <?php if ($social_economic['toilet_facility'] == 7) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Composting toilet</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility8" value="8" <?php if ($social_economic['toilet_facility'] == 8) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Hanging toilet</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility9" value="9" <?php if ($social_economic['toilet_facility'] == 9) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Bucket toilet</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility10" value="10" <?php if ($social_economic['toilet_facility'] == 10) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">No facilities</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="toilet_facility" id="toilet_facility96" value="96" <?php if ($social_economic['toilet_facility'] == 96) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="toilet_access_other" id="toilet_access_other" rows="5" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['toilet_access_other']) {
+                                                                    print_r($social_economic['toilet_access_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <textarea class="form-control" id="toilet_access_other" name="toilet_access_other" rows="3">
-                                                        <?php if ($social_economic['toilet_access_other']) {
-                                                            print_r($social_economic['toilet_access_other']);
-                                                        }  ?>
-                                                        </textarea>
                                                     </div>
                                                 </div>
                                             </div>

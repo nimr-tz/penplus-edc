@@ -1265,8 +1265,6 @@ if ($user->isLoggedIn()) {
                         <div class="row">
                             <div class="col-12">
                                 <?php
-
-
                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                     if ($_GET['site_id'] != null) {
                                         if ($_GET['status'] == 1) {
@@ -1337,7 +1335,6 @@ if ($user->isLoggedIn()) {
                                 }
                                 ?>
                                 <div class="card">
-
                                     <section class="content-header">
                                         <div class="container-fluid">
                                             <div class="row mb-2">
@@ -1370,10 +1367,10 @@ if ($user->isLoggedIn()) {
                                                         <?php } ?>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
+                                                <?php
+                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                                ?>
+                                                    <div class="col-sm-3">
                                                         <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                                             <div class="row">
                                                                 <div class="col-sm-6">
@@ -1397,8 +1394,8 @@ if ($user->isLoggedIn()) {
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                    <?php } ?>
-                                                </div>
+                                                    </div>
+                                                <?php } ?>
                                                 <div class="col-sm-6">
                                                     <ol class="breadcrumb float-sm-right">
                                                         <li class="breadcrumb-item">
@@ -1414,7 +1411,8 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                             <hr>
-                                        </div><!-- /.container-fluid -->
+                                        </div>
+                                        <!-- /.container-fluid -->
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -3454,6 +3452,9 @@ if ($user->isLoggedIn()) {
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
+
+
+
     <!-- Page specific script -->
     <script>
         $(function() {

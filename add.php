@@ -13886,39 +13886,53 @@ if ($user->isLoggedIn()) {
                                                 </div>
 
                                                 <div class="col-sm-3">
+                                                    <label>Who is the primary income earner in the household ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Who is the primary income earner in the household ?:</label>
-                                                            <select class="form-control" name="primary_income_earner" id="primary_income_earner" style="width: 100%;" onchange="checkQuestionValue96('primary_income_earner','primary_income_earner_other')">
-                                                                <option value="<?= $social_economic['primary_income_earner'] ?>"><?php if ($social_economic) {
-                                                                                                                                        if ($social_economic['primary_income_earner'] == 1) {
-                                                                                                                                            echo 'Patient';
-                                                                                                                                        } elseif ($social_economic['primary_income_earner'] == 2) {
-                                                                                                                                            echo 'Wife / Mother';
-                                                                                                                                        } elseif ($social_economic['primary_income_earner'] == 3) {
-                                                                                                                                            echo 'Husband / father';
-                                                                                                                                        } elseif ($social_economic['primary_income_earner'] == 4) {
-                                                                                                                                            echo 'Extended family';
-                                                                                                                                        } elseif ($social_economic['primary_income_earner'] == 5) {
-                                                                                                                                            echo 'Son / Daughter';
-                                                                                                                                        } elseif ($social_economic['primary_income_earner'] == 96) {
-                                                                                                                                            echo 'Other';
-                                                                                                                                        }
-                                                                                                                                    } else {
-                                                                                                                                        echo 'Select';
-                                                                                                                                    } ?></option>
-                                                                <option value="1">Patient</option>
-                                                                <option value="2">Wife / Mother</option>
-                                                                <option value="3">Husband / father</option>
-                                                                <option value="4">Extended family</option>
-                                                                <option value="5">Son / Daughter</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_income_earner" id="primary_income_earner1" value="1" <?php if ($social_economic['primary_income_earner'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Patient</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_income_earner" id="primary_income_earner2" value="2" <?php if ($social_economic['primary_income_earner'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Wife / Mother</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_income_earner" id="primary_income_earner3" value="3" <?php if ($social_economic['primary_income_earner'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Husband / father</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_income_earner" id="primary_income_earner4" value="4" <?php if ($social_economic['primary_income_earner'] == 4) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Extended family</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_income_earner" id="primary_income_earner5" value="5" <?php if ($social_economic['primary_income_earner'] == 5) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Son / Daughter</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="primary_income_earner" id="primary_income_earner96" value="96" <?php if ($social_economic['primary_income_earner'] == 96) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="primary_income_earner_other" id="primary_income_earner_other" rows="3" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['primary_income_earner_other']) {
+                                                                    print_r($social_economic['primary_income_earner_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <input type="text" class="form-control" id="primary_income_earner_other" name="primary_income_earner_other" value="<?php if ($social_economic['primary_income_earner_other']) {
-                                                                                                                                                                                print_r($social_economic['primary_income_earner_other']);
-                                                                                                                                                                            }  ?>" />
                                                     </div>
                                                 </div>
 

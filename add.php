@@ -13595,8 +13595,8 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row">
                             <?php
-                            $summary = $override->get3('summary', 'patient_id', $_GET['cid'],  'status', 1, 'seq_no', $_GET['seq'])[0];
-                            $schedule = $override->get('schedule', 'id', $summary['visit_type'])[0];
+                            $social_economic = $override->get3('social_economic', 'patient_id', $_GET['cid'],  'status', 1, 'seq_no', $_GET['seq'])[0];
+                            // $schedule = $override->get('schedule', 'id', $summary['visit_type'])[0];
 
 
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
@@ -13684,7 +13684,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Distance to clinic:</label>
                                                             <input type="text" class="form-control" name="distance_km" id="distance_km" value="<?php if ($social_economic['distance_km']) {
                                                                                                                                                     print_r($social_economic['distance_km']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required />
                                                             <span>( km )</span>
 
                                                         </div>
@@ -13697,53 +13697,72 @@ if ($user->isLoggedIn()) {
                                                             <label>Distance to clinic:</label>
                                                             <input type="text" class="form-control" name="distance_minutes" id="distance_minutes" value="<?php if ($social_economic['distance_minutes']) {
                                                                                                                                                                 print_r($social_economic['distance_minutes']);
-                                                                                                                                                            }  ?>" />
+                                                                                                                                                            }  ?>" required />
                                                             <span>( minutes )</span>
 
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="col-sm-3">
+                                                    <label>Mode of transportation to clinic</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Mode of transportation to clinic:</label>
-                                                            <select class="form-control" name="transport_mode" id="transport_mode" style="width: 100%;" onchange="checkQuestionValue96('transport_mode','transport_mode_other')">
-                                                                <option value="<?= $social_economic['transport_mode'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['transport_mode'] == 1) {
-                                                                                                                                    echo 'Walk';
-                                                                                                                                } elseif ($social_economic['transport_mode'] == 2) {
-                                                                                                                                    echo 'Taxi';
-                                                                                                                                } elseif ($social_economic['transport_mode'] == 3) {
-                                                                                                                                    echo 'Bodaboda Motorcycle';
-                                                                                                                                } elseif ($social_economic['transport_mode'] == 4) {
-                                                                                                                                    echo 'Bodaboda Bicycle';
-                                                                                                                                } elseif ($social_economic['transport_mode'] == 5) {
-                                                                                                                                    echo 'My own car';
-                                                                                                                                } elseif ($social_economic['transport_mode'] == 6) {
-                                                                                                                                    echo 'My own bicycle';
-                                                                                                                                } elseif ($social_economic['transport_mode'] == 7) {
-                                                                                                                                    echo 'Commuter bus/Daladala';
-                                                                                                                                } elseif ($social_economic['transport_mode'] == 96) {
-                                                                                                                                    echo 'Other';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Walk</option>
-                                                                <option value="2">Taxi</option>
-                                                                <option value="3">Bodaboda Motorcycle</option>
-                                                                <option value="4">Bodaboda Bicycle</option>
-                                                                <option value="5">My own car</option>
-                                                                <option value="6">My own bicycle</option>
-                                                                <option value="7">Commuter bus/Daladala</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transport_mode" id="transport_mode1" value="1" <?php if ($social_economic['transport_mode'] == 1) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Walk</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transport_mode" id="transport_mode2" value="2" <?php if ($social_economic['transport_mode'] == 2) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Taxi</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transport_mode" id="transport_mode3" value="3" <?php if ($social_economic['transport_mode'] == 3) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Bodaboda Motorcycle</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transport_mode" id="transport_mode4" value="4" <?php if ($social_economic['transport_mode'] == 4) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Bodaboda Bicycle</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transport_mode" id="transport_mode5" value="5" <?php if ($social_economic['transport_mode'] == 5) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">My own car</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transport_mode" id="transport_mode6" value="6" <?php if ($social_economic['transport_mode'] == 6) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">My own bicycle</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transport_mode" id="transport_mode7" value="7" <?php if ($social_economic['transport_mode'] == 7) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Commuter bus/Daladala</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="transport_mode" id="transport_mode96" value="96" <?php if ($social_economic['transport_mode'] == 96) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="transport_mode_other" id="transport_mode_other" rows="3" placeholder="Type other transport here.... ">
+                                                                <?php if ($social_economic['transport_mode_other']) {
+                                                                    print_r($social_economic['transport_mode_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <input type="text" class="form-control" id="transport_mode_other" name="transport_mode_other" value="<?php if ($social_economic['transport_mode_other']) {
-                                                                                                                                                                    print_r($social_economic['transport_mode_other']);
-                                                                                                                                                                }  ?>" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -13765,33 +13784,41 @@ if ($user->isLoggedIn()) {
                                                 </div>
 
                                                 <div class="col-sm-3">
+                                                    <label>Who is the head of your household?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Who is the head of your household?:</label>
-                                                            <select class="form-control" name="household_head" id="household_head" style="width: 100%;" onchange="checkQuestionValue96('household_head','household_head_other')">
-                                                                <option value="<?= $social_economic['household_head'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['household_head'] == 1) {
-                                                                                                                                    echo 'Yourself';
-                                                                                                                                } elseif ($social_economic['household_head'] == 2) {
-                                                                                                                                    echo 'Your spouse/partner';
-                                                                                                                                } elseif ($social_economic['household_head'] == 3) {
-                                                                                                                                    echo 'Your father or mother';
-                                                                                                                                } elseif ($social_economic['household_head'] == 96) {
-                                                                                                                                    echo 'Other';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Yourself</option>
-                                                                <option value="2">Your spouse/partner</option>
-                                                                <option value="3">Your father or mother</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_head" id="household_head1" value="1" <?php if ($social_economic['household_head'] == 1) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Yourself</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_head" id="household_head2" value="2" <?php if ($social_economic['household_head'] == 2) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Your spouse/partner</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_head" id="household_head3" value="3" <?php if ($social_economic['household_head'] == 3) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Your father or mother</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="household_head" id="household_head96" value="96" <?php if ($social_economic['household_head'] == 96) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="household_head_other" id="household_head_other" rows="3" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['household_head_other']) {
+                                                                    print_r($social_economic['household_head_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <input type="text" class="form-control" id="household_head_other" name="household_head_other" value="<?php if ($social_economic['household_head_other']) {
-                                                                                                                                                                    print_r($social_economic['household_head_other']);
-                                                                                                                                                                }  ?>" />
                                                     </div>
                                                 </div>
 
@@ -14698,7 +14725,7 @@ if ($user->isLoggedIn()) {
                                                                 <?php if ($social_economic['patient_education_other']) {
                                                                     print_r($social_economic['patient_education_other']);
                                                                 }  ?>
-                                                        </textarea>                                                       
+                                                        </textarea>
                                                     </div>
                                                 </div>
 
@@ -15355,8 +15382,6 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <hr>
-
-
                                         </div>
 
                                         <!-- /.card-body -->
@@ -15576,6 +15601,41 @@ if ($user->isLoggedIn()) {
     <!-- SICKLE CELL Js -->
 
     <script src="myjs/add/sickle_cell/diagnosis.js"></script>
+
+    <!-- SUMMARY Js -->
+
+    <script src="myjs/add/economics/transport_mode.js"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+    <script src="myjs/add/economics"></script>
+
 
     <!-- SUMMARY Js -->
 

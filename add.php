@@ -15067,104 +15067,124 @@ if ($user->isLoggedIn()) {
 
                                             <div class="row">
                                                 <div class="col-sm-4">
+                                                    <label>Main material of the floor</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Main material of the floor::</label>
-                                                            <select class="form-control" name="material_floor" id="material_floor" style="width: 100%;" onchange="checkQuestionValue96('material_floor','material_floor_other')">
-                                                                <option value="<?= $social_economic['material_floor'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['material_floor'] == 1) {
-                                                                                                                                    echo 'Earth/ sand/dung ';
-                                                                                                                                } elseif ($social_economic['material_floor'] == 2) {
-                                                                                                                                    echo 'Concrete cement';
-                                                                                                                                } elseif ($social_economic['material_floor'] == 96) {
-                                                                                                                                    echo 'Other';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Earth/ sand/dung</option>
-                                                                <option value="2">Concrete cement</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
-                                                        </div>
-                                                        <textarea class="form-control" id="material_floor_other" name="material_floor_other" rows="4">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="material_floor" id="material_floor1" value="1" <?php if ($social_economic['material_floor'] == 1) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Earth/ sand/dung</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="material_floor" id="material_floor2" value="2" <?php if ($social_economic['material_floor'] == 2) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Concrete cement</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="material_floor" id="material_floor96" value="96" <?php if ($social_economic['material_floor'] == 96) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="material_floor_other" id="material_floor_other" rows="4" placeholder="Type other here.... ">
                                                                 <?php if ($social_economic['material_floor_other']) {
                                                                     print_r($social_economic['material_floor_other']);
                                                                 }  ?>
                                                             </textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-4">
+                                                    <label>Main material of the Roof</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Main material of the Roof:</label>
-                                                            <select class="form-control" name="material_roof" id="material_roof" style="width: 100%;" onchange="checkQuestionValue96('material_roof','material_roof_other')">
-                                                                <option value="<?= $social_economic['material_roof'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['material_roof'] == 1) {
-                                                                                                                                    echo 'Thatch/ palm ';
-                                                                                                                                } elseif ($social_economic['material_roof'] == 96) {
-                                                                                                                                    echo 'Other';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Thatch/ palm</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="material_roof" id="material_roof1" value="1" <?php if ($social_economic['material_roof'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Thatch/ palm</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="material_roof" id="material_roof96" value="96" <?php if ($social_economic['material_roof'] == 96) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="material_roof_other" id="material_roof_other" rows="5" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['material_roof_other']) {
+                                                                    print_r($social_economic['material_roof_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <textarea class="form-control" id="material_roof_other" name="material_roof_other" rows="3">
-                                                        <?php if ($social_economic['material_roof_other']) {
-                                                            print_r($social_economic['material_roof_other']);
-                                                        }  ?>
-                                                        </textarea>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-4">
+                                                    <label>Main type of cooking fuel</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Main type of cooking fuel:</label>
-                                                            <select class="form-control" name="cooking_fuel" id="cooking_fuel" style="width: 100%;" onchange="checkQuestionValue96('cooking_fuel','cooking_fuel_other')">
-                                                                <option value="<?= $social_economic['cooking_fuel'] ?>"><?php if ($social_economic) {
-                                                                                                                            if ($social_economic['cooking_fuel'] == 1) {
-                                                                                                                                echo 'Electricity ';
-                                                                                                                            } elseif ($social_economic['cooking_fuel'] == 2) {
-                                                                                                                                echo 'LPG/ natural gas/ biogas';
-                                                                                                                            } elseif ($social_economic['cooking_fuel'] == 3) {
-                                                                                                                                echo 'Kerosene ';
-                                                                                                                            } elseif ($social_economic['cooking_fuel'] == 4) {
-                                                                                                                                echo 'coal/lignite/ charcoal';
-                                                                                                                            } elseif ($social_economic['cooking_fuel'] == 5) {
-                                                                                                                                echo 'wood/ straw/shrub/grass/agricultural crop animal dung ';
-                                                                                                                            } elseif ($social_economic['cooking_fuel'] == 6) {
-                                                                                                                                echo 'no food cooked';
-                                                                                                                            } elseif ($social_economic['cooking_fuel'] == 96) {
-                                                                                                                                echo 'Other';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                <option value="1">Electricity</option>
-                                                                <option value="2">LPG/ natural gas/ biogas</option>
-                                                                <option value="3">Kerosene </option>
-                                                                <option value="4">coal/lignite/ charcoal</option>
-                                                                <option value="5">wood/ straw/shrub/grass/agricultural crop animal dung</option>
-                                                                <option value="6">no food cooked</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cooking_fuel" id="cooking_fuel1" value="1" <?php if ($social_economic['cooking_fuel'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Electricity</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cooking_fuel" id="cooking_fuel2" value="2" <?php if ($social_economic['cooking_fuel'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">LPG/ natural gas/ biogas</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cooking_fuel" id="cooking_fuel3" value="3" <?php if ($social_economic['cooking_fuel'] == 3) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Kerosene</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cooking_fuel" id="cooking_fuel4" value="4" <?php if ($social_economic['cooking_fuel'] == 4) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">coal/lignite/ charcoal</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cooking_fuel" id="cooking_fuel5" value="5" <?php if ($social_economic['cooking_fuel'] == 5) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Wood/ straw/shrub/grass/agricultural crop animal dung</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cooking_fuel" id="cooking_fuel6" value="6" <?php if ($social_economic['cooking_fuel'] == 6) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">No food cooked</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cooking_fuel" id="cooking_fuel96" value="96" <?php if ($social_economic['cooking_fuel'] == 96) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                <label class="form-check-label">Other (specify)</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="cooking_fuel_other" id="cooking_fuel_other" rows="4" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['cooking_fuel_other']) {
+                                                                    print_r($social_economic['cooking_fuel_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <textarea class="form-control" id="cooking_fuel_other" name="cooking_fuel_other" rows="4">
-                                                        <?php if ($social_economic['cooking_fuel_other']) {
-                                                            print_r($social_economic['cooking_fuel_other']);
-                                                        }  ?>
-                                                        </textarea>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <hr>
+
 
                                             <div class="row">
                                                 <div class="col-sm-3">

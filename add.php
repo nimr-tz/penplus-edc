@@ -14461,41 +14461,59 @@ if ($user->isLoggedIn()) {
 
                                             <div class="row">
                                                 <div class="col-sm-3">
+                                                    <label>What is your main income based on ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>What is your main income based on?:</label>
-                                                            <select class="form-control" name="main_icome_based" id="main_icome_based" style="width: 100%;" onchange="checkQuestionValue96('main_icome_based','main_icome_other')">
-                                                                <option value="<?= $social_economic['main_icome_based'] ?>"><?php if ($social_economic) {
-                                                                                                                                if ($social_economic['main_icome_based'] == 1) {
-                                                                                                                                    echo 'Monthly salary';
-                                                                                                                                } elseif ($social_economic['main_icome_based'] == 2) {
-                                                                                                                                    echo 'Daily wage';
-                                                                                                                                } elseif ($social_economic['main_icome_based'] == 3) {
-                                                                                                                                    echo 'Business/firm earnings';
-                                                                                                                                } elseif ($social_economic['main_icome_based'] == 4) {
-                                                                                                                                    echo 'Sale of farm produce';
-                                                                                                                                } elseif ($social_economic['main_icome_based'] == 5) {
-                                                                                                                                    echo 'Have no income';
-                                                                                                                                } elseif ($social_economic['main_icome_based'] == 96) {
-                                                                                                                                    echo 'Other';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Monthly salary</option>
-                                                                <option value="2">Daily wage</option>
-                                                                <option value="3">Business/firm earnings</option>
-                                                                <option value="4">Sale of farm produce</option>
-                                                                <option value="5">Have no income</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_income_based" id="main_icome_based1" value="1" <?php if ($social_economic['main_icome_based'] == 1) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Monthly salary</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_icome_based" id="main_icome_based2" value="2" <?php if ($social_economic['main_icome_based'] == 2) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Daily wage</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_icome_based" id="main_icome_based3" value="3" <?php if ($social_economic['main_icome_based'] == 3) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Business/firm earnings</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_icome_based" id="main_icome_based4" value="4" <?php if ($social_economic['main_icome_based'] == 4) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Sale of farm produce</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_icome_based" id="main_icome_based5" value="5" <?php if ($social_economic['main_icome_based'] == 5) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Have no income</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_icome_based" id="main_icome_based6" value="6" <?php if ($social_economic['main_icome_based'] == 6) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Inkind payment</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="main_icome_based" id="main_icome_based96" value="96" <?php if ($social_economic['main_icome_based'] == 96) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="main_icome_other" id="main_icome_based" rows="4" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['main_icome_other']) {
+                                                                    print_r($social_economic['main_icome_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <textarea class="form-control" id="main_icome_other" name="main_icome_other" rows="3">
-                                                        <?php if ($social_economic['main_icome_other']) {
-                                                            print_r($social_economic['main_icome_other']);
-                                                        }  ?>
-                                                        </textarea>
                                                     </div>
                                                 </div>
 

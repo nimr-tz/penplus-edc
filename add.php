@@ -13917,8 +13917,8 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="primary_income_earner" id="primary_income_earner5" value="5" <?php if ($social_economic['primary_income_earner'] == 5) {
-                                                                                                                                                                                        echo 'checked';
-                                                                                                                                                                                    } ?>>
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
                                                                 <label class="form-check-label">Son / Daughter</label>
                                                             </div>
                                                             <div class="form-check">
@@ -13927,7 +13927,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                                     } ?>>
                                                                 <label class="form-check-label">Other</label>
                                                             </div>
-                                                            <textarea class="form-control" name="primary_income_earner_other" id="primary_income_earner_other" rows="3" placeholder="Type other here.... ">
+                                                            <textarea class="form-control" name="primary_income_earner_other" id="primary_income_earner_other" rows="5" placeholder="Type other here.... ">
                                                                 <?php if ($social_economic['primary_income_earner_other']) {
                                                                     print_r($social_economic['primary_income_earner_other']);
                                                                 }  ?>
@@ -13937,48 +13937,71 @@ if ($user->isLoggedIn()) {
                                                 </div>
 
                                                 <div class="col-sm-3">
+                                                    <label>Is the patients currently formally employed ?</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Is the patients currently formally employed?:</label>
-                                                            <select class="form-control" name="formally_employed" id="formally_employed" style="width: 100%;" onchange="checkQuestionValue96('formally_employed','formally_employed_other')">
-                                                                <option value="<?= $social_economic['formally_employed'] ?>"><?php if ($social_economic) {
-                                                                                                                                    if ($social_economic['formally_employed'] == 1) {
-                                                                                                                                        echo 'Yes, formal work ';
-                                                                                                                                    } elseif ($social_economic['formally_employed'] == 2) {
-                                                                                                                                        echo 'No, informal work';
-                                                                                                                                    } elseif ($social_economic['formally_employed'] == 3) {
-                                                                                                                                        echo 'Housework';
-                                                                                                                                    } elseif ($social_economic['formally_employed'] == 4) {
-                                                                                                                                        echo 'Retired';
-                                                                                                                                    } elseif ($social_economic['formally_employed'] == 5) {
-                                                                                                                                        echo 'On sick leave';
-                                                                                                                                    } elseif ($social_economic['formally_employed'] == 6) {
-                                                                                                                                        echo 'School, university';
-                                                                                                                                    } elseif ($social_economic['formally_employed'] == 7) {
-                                                                                                                                        echo 'Not working';
-                                                                                                                                    } elseif ($social_economic['formally_employed'] == 8) {
-                                                                                                                                        echo 'Combination (specify)';
-                                                                                                                                    } elseif ($social_economic['formally_employed'] == 96) {
-                                                                                                                                        echo 'Other (specify)';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                <option value="1">Yes, formal work </option>
-                                                                <option value="2">No, informal work</option>
-                                                                <option value="3">Housework</option>
-                                                                <option value="4">Retired</option>
-                                                                <option value="5">On sick leave</option>
-                                                                <option value="6">School, university</option>
-                                                                <option value="7">Not working</option>
-                                                                <option value="8">Combination (specify)</option>
-                                                                <option value="96">Other (specify)</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed1" value="1" <?php if ($social_economic['formally_employed'] == 1) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Yes, formal work</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed2" value="2" <?php if ($social_economic['formally_employed'] == 2) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">No, informal work</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed3" value="3" <?php if ($social_economic['formally_employed'] == 3) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Housework</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed4" value="4" <?php if ($social_economic['formally_employed'] == 4) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Retired</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed5" value="5" <?php if ($social_economic['formally_employed'] == 5) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">On sick leave</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed6" value="6" <?php if ($social_economic['formally_employed'] == 6) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">School, university</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed7" value="7" <?php if ($social_economic['formally_employed'] == 7) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Not working</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed8" value="8" <?php if ($social_economic['formally_employed'] == 8) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Combination (specify)</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="formally_employed" id="formally_employed96" value="96" <?php if ($social_economic['formally_employed'] == 96) {
+                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                        } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>
+                                                            <textarea class="form-control" name="formally_employed_other" id="formally_employed_other" rows="3" placeholder="Type other here.... ">
+                                                                <?php if ($social_economic['formally_employed_other']) {
+                                                                    print_r($social_economic['formally_employed_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
-                                                        <input type="text" class="form-control" id="formally_employed_other" name="formally_employed_other" value="<?php if ($social_economic['formally_employed_other']) {
-                                                                                                                                                                        print_r($social_economic['formally_employed_other']);
-                                                                                                                                                                    }  ?>" />
                                                     </div>
                                                 </div>
 

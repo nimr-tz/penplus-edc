@@ -3506,14 +3506,9 @@ if ($user->isLoggedIn()) {
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Registration Date:</label>
-                                                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                                                <input type="text" name="clinic_date" id="clinic_date" class="validate[required,custom[date]] form-control datetimepicker-input" data-target="#reservationdate" value="<?php if ($client['clinic_date']) {
+                                                            <input type="date" name="clinic_date" id="clinic_date" class="form-control" value="<?php if ($client['clinic_date']) {
                                                                                                                                                                                                                                             print_r($client['clinic_date']);
                                                                                                                                                                                                                                         }  ?>" />
-                                                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3557,14 +3552,9 @@ if ($user->isLoggedIn()) {
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Date of Birth:</label>
-                                                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                                                <input type="text" name="dob" id="dob" class="validate[required,custom[date]] form-control datetimepicker-input" data-target="#reservationdate" value="<?php if ($client['dob']) {
+<input type="date" name="dob" id="dob" class="form-control" value="<?php if ($client['dob']) {
                                                                                                                                                                                                                             print_r($client['dob']);
                                                                                                                                                                                                                         }  ?>" />
-                                                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

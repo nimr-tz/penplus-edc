@@ -2489,11 +2489,13 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
+                    print_r(Input::get('medication_id'));
+
                     $i = 0;
                     foreach (Input::get('medication_type') as $searchValue) {
-                        $medication_name = $override->get3('medication_treatments', 'medication_type', $searchValue, 'status', 1, 'patient_id', $_GET['cid']);
-                        if ($medication_name) {
-                            if ($medication_name[0]['seq_no'] == $_GET['seq']) {
+                        $medication_id = $override->get3('medication_treatments', 'id', Input::get('medication_id')[$i], 'status', 1, 'patient_id', $_GET['cid']);
+                        if (Input::get('medication_id')[$i]) {
+                            // if ($medication_id[0]['seq_no'] == $_GET['seq']) {
                                 $user->updateRecord('medication_treatments', array(
                                     'study_id' => $_GET['sid'],
                                     'visit_code' => $_GET['vcode'],
@@ -2502,9 +2504,11 @@ if ($user->isLoggedIn()) {
                                     'vid' => $_GET['vid'],
                                     'medication_type' => Input::get('medication_type')[$i],
                                     'medication_action' => Input::get('medication_action')[$i],
+                                    'medication_dose' => Input::get('medication_dose')[$i],
                                     'units' => Input::get('medication_units')[$i],
-                                ), $medication_name[0]['id']);
-                            }
+                                    'units' => Input::get('medication_units')[$i],
+                                ), Input::get('medication_id')[$i]);
+                            // }
                         } else {
                             $user->createRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
@@ -2514,6 +2518,8 @@ if ($user->isLoggedIn()) {
                                 'vid' => $_GET['vid'],
                                 'medication_type' => Input::get('medication_type')[$i],
                                 'medication_action' => Input::get('medication_action')[$i],
+                                'medication_dose' => Input::get('medication_dose')[$i],
+                                'units' => Input::get('medication_units')[$i],
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
@@ -2525,15 +2531,15 @@ if ($user->isLoggedIn()) {
                     }
 
                     for ($i = 0; $i < count(Input::get('medication_dose')); $i++) {
-                        if (Input::get('seq_no')[$i] == $_GET['seq']) {
-                            $user->updateRecord('medication_treatments', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'units' => Input::get('medication_units')[$i],
-                            ), Input::get('medication_id')[$i]);
+                        // if (Input::get('seq_no')[$i] == $_GET['seq']) {
+                        //     $user->updateRecord('medication_treatments', array(
+                        //         'study_id' => $_GET['sid'],
+                        //         'visit_code' => $_GET['vcode'],
+                        //         'visit_day' => $_GET['vday'],
+                        //         'seq_no' => $_GET['seq'],
+                        //         'vid' => $_GET['vid'],
+                        //         'units' => Input::get('medication_units')[$i],
+                        //     ), Input::get('medication_id')[$i]);
                             // }  else {
                             // $user->createRecord('medication_treatments', array(
                             //     'study_id' => $_GET['sid'],
@@ -2548,20 +2554,20 @@ if ($user->isLoggedIn()) {
                             //     'created_on' => date('Y-m-d'),
                             //     'site_id' => $user->data()->site_id,
                             // ));
-                        }
+                        // }
                     }
 
 
                     for ($i = 0; $i < count(Input::get('medication_units')); $i++) {
-                        if (Input::get('seq_no')[$i] == $_GET['seq']) {
-                            $user->updateRecord('medication_treatments', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'units' => Input::get('medication_units')[$i],
-                            ), Input::get('medication_id')[$i]);
+                        // if (Input::get('seq_no')[$i] == $_GET['seq']) {
+                        //     $user->updateRecord('medication_treatments', array(
+                        //         'study_id' => $_GET['sid'],
+                        //         'visit_code' => $_GET['vcode'],
+                        //         'visit_day' => $_GET['vday'],
+                        //         'seq_no' => $_GET['seq'],
+                        //         'vid' => $_GET['vid'],
+                        //         'units' => Input::get('medication_units')[$i],
+                        //     ), Input::get('medication_id')[$i]);
                             // }  else {
                             // $user->createRecord('medication_treatments', array(
                             //     'study_id' => $_GET['sid'],
@@ -2576,11 +2582,11 @@ if ($user->isLoggedIn()) {
                             //     'created_on' => date('Y-m-d'),
                             //     'site_id' => $user->data()->site_id,
                             // ));
-                        }
+                        // }
                     }
 
                     $successMessage = 'Treatment plan added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     // die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -3844,6 +3850,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Demographic Form</li>
                                 </ol>
@@ -4155,6 +4163,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Vital Signs Form</li>
                                 </ol>
@@ -4376,6 +4386,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Pateint Category Form</li>
                                 </ol>
@@ -4590,6 +4602,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Patient Hitory & Complication</li>
                                 </ol>
@@ -5960,6 +5974,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">History, Symtom & Exam</li>
                                 </ol>
@@ -7294,6 +7310,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Main diagnosis ( Cardiac )</li>
                                 </ol>
@@ -8071,6 +8089,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Main diagnosis ( Diabetic )</li>
                                 </ol>
@@ -8306,6 +8326,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Main diagnosis ( Sickle Cell )</li>
                                 </ol>
@@ -8486,6 +8508,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Results</li>
                                 </ol>
@@ -9164,6 +9188,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Hospitalizations , School and Management at Home</li>
                                 </ol>
@@ -9975,6 +10001,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Hospitalizazions Details</li>
                                 </ol>
@@ -10237,6 +10265,9 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                     <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
+                                    </li>&nbsp;&nbsp;
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">TREATMMENT PLAN</li>
                                 </ol>
@@ -11214,6 +11245,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Diagnosis, Complications, & Comorbidities</li>
                                 </ol>
@@ -12060,6 +12093,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">RISKS</li>
                                 </ol>
@@ -12441,6 +12476,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                            < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Lab and Clinical Monitoring</li>
                                 </ol>
@@ -13204,9 +13241,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>">
+                                                                      <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
                                             < Back</a>
-                                    </li>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Next Visit Summary</li>
                                 </ol>
@@ -13581,9 +13617,8 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>">
+                                                                        <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
                                             < Back</a>
-                                    </li>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Social Economics</li>
                                 </ol>
@@ -16147,6 +16182,7 @@ if ($user->isLoggedIn()) {
             var actionCell = row.insertCell(5);
             var seq_no = row.insertCell(6);
             var actionCell = row.insertCell(7);
+            var medication_id = row.insertCell(8);
 
             // Assuming the data is passed from PHP
             vday.innerHTML = '<button type="button" class="btn btn-info"><?= $_GET['vday']; ?></button>';
@@ -16155,6 +16191,7 @@ if ($user->isLoggedIn()) {
             medication_action.innerHTML = '<select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
             medication_dose.innerHTML = '<input class="form-control" type="text" name="medication_dose[]" value="" required>';
             medication_units.innerHTML = '<input class="form-control"  type="text" name="medication_units[]" value="" required>';
+            medication_id.innerHTML = '<input class="form-control"  type="hidden" name="medication_id[]" value="" required>';
             actionCell.innerHTML = '<button type="button" class="ibtnDel1">Remove</button>';
             // actionCell2.innerHTML = '<button type="button" class="remove-row">Delete</button>';
         }

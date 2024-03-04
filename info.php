@@ -2893,7 +2893,7 @@ if ($user->isLoggedIn()) {
                                     <div class="card-header">
                                         <?php
                                         $patient = $override->get('clients', 'id', $_GET['cid'])[0];
-                                        $visits_status = $override->firstRow1('visit', 'status', 'id', 'client_id', $_GET['cid'], 'visit_code', 'EV')[0]['status'];
+                                        // $visits_status = $override->firstRow1('visit', 'status', 'id', 'client_id', $_GET['cid'], 'visit_code', 'EV')[0]['status'];
 
                                         // $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                                         $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
@@ -2949,7 +2949,7 @@ if ($user->isLoggedIn()) {
                                                     $forms = $override->getNewsAsc0('forms', 'status', 1, 'id', $value['forms'])[0];
                                                     if ($batch_sum) {
                                                         $batch_sum = $batch_sum;
-                                                    } elseif ($visit['status'] == 1) {
+                                                    } else {
                                                         $batch_sum = 0;
                                                     }
 
@@ -2961,7 +2961,7 @@ if ($user->isLoggedIn()) {
                                                         <td>
                                                             <?php if ($value['expire_date'] > date('Y-m-d')) { ?>
                                                                 <a href="#editVisit<?= $value['id'] ?>" role="button" class="btn btn-success" data-toggle="modal">Valid</a>
-                                                            <?php } elseif ($visit['status'] == 0) { ?>
+                                                            <?php } else { ?>
                                                                 <a href="#editVisit<?= $value['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Expired</a>
                                                             <?php } ?>
                                                         </td>

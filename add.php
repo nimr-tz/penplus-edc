@@ -2489,8 +2489,8 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    print_r(Input::get('medication_id'));
-
+                    print_r(count(Input::get('medication_type')));
+                    // print_r(count(Input::get('medication_type')));
                     for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
                         if (Input::get('medication_id')[$i]) {
                             if (Input::get('seq_no')[$i] == $_GET['seq']) {
@@ -3552,7 +3552,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Date of Birth:</label>
-<input type="date" name="dob" id="dob" class="form-control" value="<?php if ($client['dob']) {
+                                                                <input type="date" name="dob" id="dob" class="form-control" value="<?php if ($client['dob']) {
                                                                                                                                                                                                                             print_r($client['dob']);
                                                                                                                                                                                                                         }  ?>" />
                                                         </div>

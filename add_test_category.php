@@ -92,380 +92,380 @@ include 'headBar.php';
 ?>
 
 <!-- <body class="sidebar-mini layout-fixed control-sidebar-slide-open layout-navbar-fixed sidebar-mini-md sidebar-mini-xs" data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed="" style="height: auto;"> -->
-    <div class="wrapper">
-        <?php require_once('inc/topBarNav.php') ?>
-        <?php require_once('inc/navigation.php') ?>
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
+<div class="wrapper">
+    <?php require_once('inc/topBarNav.php') ?>
+    <?php require_once('inc/navigation.php') ?>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <!-- <div class="container-fluid"> -->
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            <?php if ($errorMessage) { ?>
+                                <div class="block">
+                                    <div class="alert alert-danger">
+                                        <b>Error!</b> <?= $errorMessage ?>
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    </div>
+                                </div>
+                            <?php } elseif ($pageError) { ?>
+                                <div class="block col-md-12">
+                                    <div class="alert alert-danger">
+                                        <b>Error!</b> <?php foreach ($pageError as $error) {
+                                                            echo $error . ' , ';
+                                                        } ?>
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    </div>
+                                </div>
+                            <?php } elseif ($successMessage) { ?>
+                                <div class="block">
+                                    <div class="alert alert-success">
+                                        <b>Success!</b> <?= $successMessage ?>
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </h1>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <!-- /.container-fluid -->
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Category Form</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
+                            <li class="breadcrumb-item active">Category Form</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <?php
+        $test_category = $override->get('category', 'delete_flag', 0);
+        $phone_number = $override->get('clients', 'id', $_GET['cid'])['0']['phone_number'];
+        $clinic_date = $override->get('clients', 'id', $_GET['cid'])['0']['clinic_date'];
+        $study_id = $override->get('clients', 'id', $_GET['cid'])['0']['study_id'];
+        ?>
+
+        <style>
+            .img-thumb-path {
+                width: 100px;
+                height: 80px;
+                object-fit: scale-down;
+                object-position: center center;
+            }
+        </style>
+
+        <!-- Main content -->
+        <div class="card card-outline card-primary rounded-0 shadow">
+            <div class="card-header">
+                <h3 class="card-title">List of Category</h3>
+
+                <div class="card-tools">
+                    <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
+                    <?php
+                    if ($user->data()->position == 1) {
+                    ?>
+
+                        <a class="btn btn-flat btn-sm btn-primary" href="#add_new_category" role="button" data-toggle="modal"><span class="fas fa-plus text-default">&nbsp;&nbsp;</span>Add New Category</a>
+                    <?php } ?>
+
+                </div>
+            </div>
+            <div class="card-body">
                 <div class="container-fluid">
-                    <!-- <div class="container-fluid"> -->
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <h1>
-                                <?php if ($errorMessage) { ?>
-                                    <div class="block">
-                                        <div class="alert alert-danger">
-                                            <b>Error!</b> <?= $errorMessage ?>
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <div class="container-fluid">
+                        <table class="table table-bordered table-hover table-striped">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="20%">
+                                <col width="25%">
+                                <col width="20%">
+                                <col width="15%">
+                                <col width="15%">
+                            </colgroup>
+                            <thead>
+                                <tr class="bg-gradient-primary text-light">
+                                    <th>#</th>
+                                    <th>Date Created</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $i = 1;
+                                foreach ($test_category as $value) {
+                                ?>
+                                    <tr>
+                                        <td class="text-center"><?php echo $i++; ?></td>
+                                        <td class=""><?php echo date("Y-m-d H:i", strtotime($row['date_created'])) ?></td>
+                                        <td class="">
+                                            <p class="m-0 truncate-1"><?php echo $value['name'] ?></p>
+                                        </td>
+                                        <td class="">
+                                            <p class="m-0 truncate-1"><?php echo $value['description'] ?></p>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php
+                                            switch ($value['status']) {
+                                                case 0:
+                                                    echo '<span class="rounded-pill badge badge-danger col-6">Inactive</span>';
+                                                    break;
+                                                case 1:
+                                                    echo '<span class="rounded-pill badge badge-primary col-6">Active</span>';
+                                                    break;
+                                            }
+                                            ?>
+                                        </td>
+                                        <td align="center">
+                                            <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                                Action
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a class="dropdown-item" href="#view<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-dark"></span> View</a>
+                                                <?php
+                                                if ($user->data()->position == 1) {
+                                                ?>
+                                                    <div class="dropdown-divider"></div>
+
+                                                    <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <?php
+                                                    if ($user->data()->power == 1) {
+
+                                                    ?>
+                                                        <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
+                                                <?php }
+                                                } ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <div class="modal fade" id="view<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>View Category</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container-fluid">
+                                                            <div class="row">
+                                                                <dl>
+                                                                    <dt class="text-muted">Category Name</dt>
+                                                                    <dd class='pl-4 fs-4 fw-bold'><?php echo $value['name'] ?></dd>
+                                                                    <dt class="text-muted">Status</dt>
+                                                                    <dd class='pl-4 fs-4 fw-bold'>
+                                                                        <?php
+                                                                        switch ($value['status']) {
+                                                                            case '1':
+                                                                                echo '<span class="px-4 badge badge-primary rounded-pill">Active</span>';
+                                                                                break;
+                                                                            case '0':
+                                                                                echo '<span class="px-4 badge badge-danger rounded-pill">Inactive</span>';
+                                                                                break;
+                                                                        }
+                                                                        ?>
+                                                                    </dd>
+                                                                </dl>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <small class="text-muted">Description</small>
+                                                                    <div><?php if ($value['description']) {
+                                                                                echo $value['description'];
+                                                                            } else {
+                                                                                echo 'N / A';
+                                                                            } ?></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <button class="btn btn-dark btn-sm btn-flat" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                <?php } elseif ($pageError) { ?>
-                                    <div class="block col-md-12">
-                                        <div class="alert alert-danger">
-                                            <b>Error!</b> <?php foreach ($pageError as $error) {
-                                                                echo $error . ' , ';
-                                                            } ?>
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                                    <div class="modal fade" id="update<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Update Category</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container-fluid">
+                                                            <div class="form-group">
+                                                                <label for="name" class="control-label">Name</label>
+                                                                <input type="text" name="name" id="name" class="form-control form-control-border" placeholder="Enter Category Name" value="<?php echo $value['name'] ?>" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="description" class="control-label">Description</label>
+                                                                <textarea rows="3" name="description" id="description" class="form-control form-control-sm rounded-0"><?php echo $value['description'] ?></textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="status" class="control-label">Status</label>
+                                                                <select name="status" class="form-control form-control-border" required>
+                                                                    <option value="1" <?php if ($value['status'] == 1) {
+                                                                                            echo 'selected';
+                                                                                        } ?>>Active</option>
+                                                                    <option value="0" <?php if ($value['status'] == 0) {
+                                                                                            echo 'selected';
+                                                                                        } ?>>Inactive</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                        <input type="submit" name="update_category" value="Update Category" class="btn btn-info">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                <?php } elseif ($successMessage) { ?>
-                                    <div class="block">
-                                        <div class="alert alert-success">
-                                            <b>Success!</b> <?= $successMessage ?>
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                                    <div class="modal fade" id="activate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Activate Category</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <strong style="font-weight: bold;color: yellow">
+                                                            <p>Are you sure you want to deactivate this Category</p>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                        <input type="submit" name="activate_category" value="Activate" class="btn btn-yellow">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="deactivate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Deactivate Category</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <strong style="font-weight: bold;color: yellow">
+                                                            <p>Are you sure you want to deactivate this Category</p>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                        <input type="submit" name="deactivate_category" value="Deactivate" class="btn btn-yellow">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="delete<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Delete Category</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <strong style="font-weight: bold;color: red">
+                                                            <p>Are you sure you want to delete this Category</p>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                        <input type="submit" name="delete_category" value="Delete" class="btn btn-danger">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 <?php } ?>
-                            </h1>
-                        </div>
-                    </div>
-                    <!-- </div> -->
-                    <!-- /.container-fluid -->
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Category Form</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Category Form</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div><!-- /.container-fluid -->
-            </section>
+                            </tbody>
+                        </table>
 
-            <?php
-            $test_category = $override->get('category', 'delete_flag', 0);
-            $phone_number = $override->get('clients', 'id', $_GET['cid'])['0']['phone_number'];
-            $clinic_date = $override->get('clients', 'id', $_GET['cid'])['0']['clinic_date'];
-            $study_id = $override->get('clients', 'id', $_GET['cid'])['0']['study_id'];
-            ?>
-
-            <style>
-                .img-thumb-path {
-                    width: 100px;
-                    height: 80px;
-                    object-fit: scale-down;
-                    object-position: center center;
-                }
-            </style>
-
-            <!-- Main content -->
-            <div class="card card-outline card-primary rounded-0 shadow">
-                <div class="card-header">
-                    <h3 class="card-title">List of Category</h3>
-
-                    <div class="card-tools">
-                        <a class="btn btn-default border btn-flat btn-sm" href="dashboard.php"><i class="fa fa-angle-left"></i> Back</a>
-                        <?php
-                        if ($user->data()->position == 1) {
-                        ?>
-
-                            <a class="btn btn-flat btn-sm btn-primary" href="#add_new_category" role="button" data-toggle="modal"><span class="fas fa-plus text-default">&nbsp;&nbsp;</span>Add New Category</a>
-                        <?php } ?>
-
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="container-fluid">
-                        <div class="container-fluid">
-                            <table class="table table-bordered table-hover table-striped">
-                                <colgroup>
-                                    <col width="5%">
-                                    <col width="20%">
-                                    <col width="25%">
-                                    <col width="20%">
-                                    <col width="15%">
-                                    <col width="15%">
-                                </colgroup>
-                                <thead>
-                                    <tr class="bg-gradient-primary text-light">
-                                        <th>#</th>
-                                        <th>Date Created</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $i = 1;
-                                    foreach ($test_category as $value) {
-                                    ?>
-                                        <tr>
-                                            <td class="text-center"><?php echo $i++; ?></td>
-                                            <td class=""><?php echo date("Y-m-d H:i", strtotime($row['date_created'])) ?></td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $value['name'] ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $value['description'] ?></p>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php
-                                                switch ($value['status']) {
-                                                    case 0:
-                                                        echo '<span class="rounded-pill badge badge-danger col-6">Inactive</span>';
-                                                        break;
-                                                    case 1:
-                                                        echo '<span class="rounded-pill badge badge-primary col-6">Active</span>';
-                                                        break;
-                                                }
-                                                ?>
-                                            </td>
-                                            <td align="center">
-                                                <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                                    Action
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <div class="dropdown-menu" role="menu">
-                                                    <a class="dropdown-item" href="#view<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-dark"></span> View</a>
-                                                    <?php
-                                                    if ($user->data()->position == 1) {
-                                                    ?>
-                                                        <div class="dropdown-divider"></div>
-
-                                                        <a class="dropdown-item" href="#update<?= $value['id'] ?>" role="button" data-toggle="modal"><span class=" fa fa-edit text-primary"></span> Edit</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="#activate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-secondary"></span> Activate</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="#deactivate<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-warning"></span> Deactivate</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <?php
-                                                        if ($user->data()->power == 1) {
-
-                                                        ?>
-                                                            <a class="dropdown-item" href="#delete<?= $value['id'] ?>" role="button" data-toggle="modal"><span class="fa fa-eye text-danger"></span> Delete</a>
-                                                    <?php }
-                                                    } ?>
+                        <div class="modal fade" id="add_new_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <form method="post">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4>Add New Category</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container-fluid">
+                                                <div class="form-group">
+                                                    <label for="name" class="control-label">Name</label>
+                                                    <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
                                                 </div>
-                                            </td>
-                                        </tr>
-
-                                        <div class="modal fade" id="view<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>View Category</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container-fluid">
-                                                                <div class="row">
-                                                                    <dl>
-                                                                        <dt class="text-muted">Category Name</dt>
-                                                                        <dd class='pl-4 fs-4 fw-bold'><?php echo $value['name'] ?></dd>
-                                                                        <dt class="text-muted">Status</dt>
-                                                                        <dd class='pl-4 fs-4 fw-bold'>
-                                                                            <?php
-                                                                            switch ($value['status']) {
-                                                                                case '1':
-                                                                                    echo '<span class="px-4 badge badge-primary rounded-pill">Active</span>';
-                                                                                    break;
-                                                                                case '0':
-                                                                                    echo '<span class="px-4 badge badge-danger rounded-pill">Inactive</span>';
-                                                                                    break;
-                                                                            }
-                                                                            ?>
-                                                                        </dd>
-                                                                    </dl>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <small class="text-muted">Description</small>
-                                                                        <div><?php if ($value['description']) {
-                                                                                    echo $value['description'];
-                                                                                } else {
-                                                                                    echo 'N / A';
-                                                                                } ?></div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-right">
-                                                                    <button class="btn btn-dark btn-sm btn-flat" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal fade" id="update<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Update Category</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container-fluid">
-                                                                <div class="form-group">
-                                                                    <label for="name" class="control-label">Name</label>
-                                                                    <input type="text" name="name" id="name" class="form-control form-control-border" placeholder="Enter Category Name" value="<?php echo $value['name'] ?>" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="description" class="control-label">Description</label>
-                                                                    <textarea rows="3" name="description" id="description" class="form-control form-control-sm rounded-0"><?php echo $value['description'] ?></textarea>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="status" class="control-label">Status</label>
-                                                                    <select name="status" class="form-control form-control-border" required>
-                                                                        <option value="1" <?php if ($value['status'] == 1) {
-                                                                                                echo 'selected';
-                                                                                            } ?>>Active</option>
-                                                                        <option value="0" <?php if ($value['status'] == 0) {
-                                                                                                echo 'selected';
-                                                                                            } ?>>Inactive</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
-                                                            <input type="submit" name="update_category" value="Update Category" class="btn btn-info">
-                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal fade" id="activate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Activate Category</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <strong style="font-weight: bold;color: yellow">
-                                                                <p>Are you sure you want to deactivate this Category</p>
-                                                            </strong>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
-                                                            <input type="submit" name="activate_category" value="Activate" class="btn btn-yellow">
-                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="modal fade" id="deactivate<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Deactivate Category</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <strong style="font-weight: bold;color: yellow">
-                                                                <p>Are you sure you want to deactivate this Category</p>
-                                                            </strong>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
-                                                            <input type="submit" name="deactivate_category" value="Deactivate" class="btn btn-yellow">
-                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="modal fade" id="delete<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                            <h4>Delete Category</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <strong style="font-weight: bold;color: red">
-                                                                <p>Are you sure you want to delete this Category</p>
-                                                            </strong>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
-                                                            <input type="submit" name="delete_category" value="Delete" class="btn btn-danger">
-                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-
-                            <div class="modal fade" id="add_new_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <form method="post">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="add" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                <h4>Add New Category</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="container-fluid">
-                                                    <div class="form-group">
-                                                        <label for="name" class="control-label">Name</label>
-                                                        <input type="text" name="name" class="form-control form-control-border" placeholder="Enter Test Name" value="" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="description" class="control-label">Description</label>
-                                                        <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="status" class="control-label">Status</label>
-                                                        <select name="status" class="form-control form-control-border" placeholder="Enter test Name" required>
-                                                            <option value="">Select</option>
-                                                            <option value="1">Active</option>
-                                                            <option value="0">>Inactive</option>
-                                                        </select>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label for="description" class="control-label">Description</label>
+                                                    <textarea rows="3" name="description" class="form-control form-control-sm rounded-0"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="status" class="control-label">Status</label>
+                                                    <select name="status" class="form-control form-control-border" placeholder="Enter test Name" required>
+                                                        <option value="">Select</option>
+                                                        <option value="1">Active</option>
+                                                        <option value="0">>Inactive</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer">
-                                                <input type="submit" name="add_category" value="Add New Category" class="btn btn-info">
-                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                            </div>
                                         </div>
-                                    </form>
-                                </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" name="add_category" value="Add New Category" class="btn btn-info">
+                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.content -->
         </div>
+        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-    <?php include 'footerBar.php'; ?>
+</div>
+<!-- /.content-wrapper -->
+<?php include 'footerBar.php'; ?>
 
-    <!-- /.control-sidebar -->
-    <!-- </div> -->
-    <!-- ./wrapper -->
+<!-- /.control-sidebar -->
+<!-- </div> -->
+<!-- ./wrapper -->
 <!-- </body> -->
 
 </html>

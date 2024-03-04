@@ -405,6 +405,100 @@ if ($user->isLoggedIn()) {
                     </ul>
                 </li>
 
+                <?php
+                if ($user->data()->position == 1 || $user->data()->position == 1) {
+                ?>
+
+                    <li class="nav-item">
+                        <a href="info.php?id=8" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Lab Section <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="add_test_category.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right">
+                                        <?= $override->countData('category', 'status', 1, 'delete_flag', 0) ?>
+                                    </span>
+                                    <p>List of Category </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="add_test_sub_category.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right">
+                                        <?= $override->countData('sub_category', 'status', 1, 'delete_flag', 0) ?>
+                                    </span>
+                                    <p>List of Sub Category </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="add_test_list.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right">
+                                        <?= $override->countData('test_list', 'status', 1, 'delete_flag', 0) ?>
+                                    </span>
+                                    <p>List of Tests
+                                        <span class="badge badge-info right"></span>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pending_doctor_confirmation.php?status=1" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right">
+                                        <?= $override->getCount1('screening', 'ncd', 2, 'doctor_confirm', 0) ?>
+                                    </span>
+                                    <p>Pending Doctor Confirmations
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="appointments.php?status=1" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right">
+                                        <?= $override->getCount('appointment_list', 'status', 1) ?> </span>
+                                    <p>View Completed Lab Requests</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="appointments.php?status=0" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right">
+                                        <?= $override->getCount('appointment_list', 'status', 1) ?> </span>
+                                    <p>View Pending Lab Requests </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
+
+                <li class="nav-item">
+                    <!-- <a href="info.php?id=3&status=5" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Log book
+                            <i class="fas fa-angle-left right"></i>
+                            <span class="badge badge-info right"><?= $override->getCount('test_list', 'status', 1) ?></span>
+                        </p>
+                    </a> -->
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="info.php?id=3&status=5&site_id=<?= $log_book['id']; ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?= $log_book['name'] ?></p>
+                                <span class="badge badge-info right">
+                                    <?= $override->getCount('test_list', 'status', 1) ?>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

@@ -1264,9 +1264,7 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <?php                             
-
-
+                                <?php
                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                     if ($_GET['site_id'] != null) {
                                         if ($_GET['status'] == 1) {
@@ -1337,7 +1335,6 @@ if ($user->isLoggedIn()) {
                                 }
                                 ?>
                                 <div class="card">
-
                                     <section class="content-header">
                                         <div class="container-fluid">
                                             <div class="row mb-2">
@@ -1370,10 +1367,10 @@ if ($user->isLoggedIn()) {
                                                         <?php } ?>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
+                                                <?php
+                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                                ?>
+                                                    <div class="col-sm-3">
                                                         <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                                             <div class="row">
                                                                 <div class="col-sm-6">
@@ -1397,8 +1394,8 @@ if ($user->isLoggedIn()) {
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                    <?php } ?>
-                                                </div>
+                                                    </div>
+                                                <?php } ?>
                                                 <div class="col-sm-6">
                                                     <ol class="breadcrumb float-sm-right">
                                                         <li class="breadcrumb-item">
@@ -1414,7 +1411,8 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                             <hr>
-                                        </div><!-- /.container-fluid -->
+                                        </div>
+                                        <!-- /.container-fluid -->
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -1438,7 +1436,8 @@ if ($user->isLoggedIn()) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $x = 1;
+                                                <?php
+                                                $x = 1;
                                                 foreach ($clients as $client) {
                                                     $screening = $override->get('screening', 'patient_id', $client['id'])[0];
                                                     $visit = $override->getCount('visit', 'client_id', $client['id']);
@@ -1448,10 +1447,6 @@ if ($user->isLoggedIn()) {
                                                     $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
 
                                                     $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
-
-
-
-                                                    // print_r($termination);
 
                                                     $screened = 0;
                                                     $eligibility = 0;
@@ -1474,12 +1469,10 @@ if ($user->isLoggedIn()) {
                                                             $enrollment = 1;
                                                         }
                                                     }
-
-
                                                 ?>
                                                     <tr>
                                                         <td><?= $client['study_id'] ?></td>
-                                                        <td><?= $client['firstname'] .' - '. $client['lastname'] ?></td>
+                                                        <td><?= $client['firstname'] . ' - ' . $client['lastname'] ?></td>
 
                                                         <?php if ($type['cardiac'] == 1) { ?>
                                                             <td>
@@ -1603,22 +1596,25 @@ if ($user->isLoggedIn()) {
 
 
                                                         <?php if ($screened) { ?>
-                                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addScreening<?= $client['id'] ?>">
-                                                                Edit Screening </button>
-                                                            <!-- <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Screening</a> -->
+                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
+                                                                Edit Screening
+                                                            </a>
                                                         <?php } else {  ?>
-                                                            <!-- <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Screening</a> -->
-                                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#addScreening<?= $client['id'] ?>">
-                                                                Add Screening </button>
+                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
+                                                                Add Screening
+                                                            </a>
                                                     <?php }
                                                         } ?>
 
                                                     <?php if ($_GET['status'] == 2) { ?>
                                                         <?php if ($enrollment == 1) { ?>
-                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Edit Enrollment</a>
+                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
+                                                                Edit Enrollment
+                                                            </a>
                                                         <?php } else {  ?>
-                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Add Enrollment</a>
-
+                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
+                                                                Add Enrollment
+                                                            </a>
                                                         <?php }
                                                         ?>
                                                     <?php } ?>
@@ -1640,7 +1636,6 @@ if ($user->isLoggedIn()) {
                                                     </td>
 
                                                     </tr>
-
                                                     <div class="modal fade" id="addScreening<?= $client['id'] ?>">
                                                         <div class="modal-dialog">
                                                             <form method="post">
@@ -2822,9 +2817,9 @@ if ($user->isLoggedIn()) {
                                                     </td>
                                                     <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                        <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                        <td><a href="add.php?id=23&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
                                                     <?php } else { ?>
-                                                        <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <td><a href="add.php?id=23&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
                                                     <?php } ?>
 
                                                 </tr>
@@ -2844,7 +2839,6 @@ if ($user->isLoggedIn()) {
                                                 <?php } else { ?>
                                                     <td><a href="add.php?id=22&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
                                                 <?php } ?>
-
                                             </tr>
                                             </tbody>
                                             <tfoot>
@@ -3414,9 +3408,7 @@ if ($user->isLoggedIn()) {
         <?php } elseif ($_GET['id'] == 13) { ?>
         <?php } elseif ($_GET['id'] == 14) { ?>
         <?php } elseif ($_GET['id'] == 15) { ?>
-
-
-        <?php  } ?>
+        <?php } ?>
     </div>
     <!-- /.col -->
     </div>
@@ -3460,6 +3452,9 @@ if ($user->isLoggedIn()) {
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
+
+
+
     <!-- Page specific script -->
     <script>
         $(function() {

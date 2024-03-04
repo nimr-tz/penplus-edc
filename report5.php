@@ -69,13 +69,6 @@ if ($site_data) {
                     </td>
                 </tr>
 
-
-                <tr>
-                    <td colspan="28" align="center" style="font-size: 18px">
-                        <b>TABLE 4 </b>
-                    </td>
-                </tr>
-
                 <tr>
                     <td colspan="28" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
@@ -99,7 +92,7 @@ if ($site_data) {
                             <tr>
                                 <th>Type 1 DM</th>
                                 <th>Type 2 DM</th>
-                                <th>Gestatioanl DM</th>
+                                <th>Gestational DM</th>
                                 <th>DM Not yet specified </th>
                                 <th>Other </th>
                             </tr>

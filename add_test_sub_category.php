@@ -101,7 +101,7 @@ if ($user->isLoggedIn()) {
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                                <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                 <li class="breadcrumb-item active">Sub Category Form</li>
                             </ol>
                         </div>
@@ -127,7 +127,7 @@ if ($user->isLoggedIn()) {
                 <div class="card-header">
                     <h3 class="card-title">List of Sub Category</h3>
                     <div class="card-tools">
-                        <a class="btn btn-default border btn-flat btn-sm" href="dashboard.php"><i class="fa fa-angle-left"></i> Back</a>
+                        <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
                         <?php
                         if ($user->data()->position == 1) {
                         ?>

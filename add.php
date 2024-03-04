@@ -10706,7 +10706,7 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <div class="row-form clearfix">
-                                                <table id="medication_list" class="table order-list">
+                                                <table id="medication_table" class="table order-list">
                                                     <thead>
                                                         <tr>
                                                             <th> Visit Day </th>
@@ -16502,7 +16502,7 @@ if ($user->isLoggedIn()) {
 
 
         function add_Medication() {
-            var table = document.getElementById("medication_list");
+            var table = document.getElementById("medication_table");
             var row = table.insertRow();
             var vday = row.insertCell(0);
             var medication_type = row.insertCell(1);

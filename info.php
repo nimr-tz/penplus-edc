@@ -1419,6 +1419,7 @@ if ($user->isLoggedIn()) {
                                         <table id="example1" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
+                                                    <th>Registered Date</th>
                                                     <th>Patient ID</th>
                                                     <th>Patient Name</th>
                                                     <th>Type</th>
@@ -1471,6 +1472,7 @@ if ($user->isLoggedIn()) {
                                                     }
                                                 ?>
                                                     <tr>
+                                                        <td><?= $client['clinic_date'] ?></td>
                                                         <td><?= $client['study_id'] ?></td>
                                                         <td><?= $client['firstname'] . ' - ' . $client['lastname'] ?></td>
 
@@ -1817,6 +1819,7 @@ if ($user->isLoggedIn()) {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                    <th>Registered Date</th>
                                                     <th>Patient ID</th>
                                                     <th>Patient Name</th>
                                                     <th>Type</th>

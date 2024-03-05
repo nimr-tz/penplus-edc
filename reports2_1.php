@@ -181,42 +181,9 @@ if ($site_data) {
                     <td align="right"><b>' . $cardiac_Total10 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total11 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total12 . '</b></td>
-
                 </tr>  
 
     ';
-
-    $output .= '
-            </table>    
-                <tr>
-                    <td colspan="14" align="center" style="font-size: 18px">
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <p align="right">----' . $user->data()->firstname . ' ' . $user->data()->lastname . '-----<br />Prepared By</p>
-                        <br />
-                        <br />
-                        <br />
-                    </td>
-
-                    <td colspan="14" align="center" style="font-size: 18px">
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <p align="right">-----' . date('Y-m-d') . '-------<br />Date Prepared</p>
-                        <br />
-                        <br />
-                        <br />
-                    </td>
-                </tr>
-        </table>    
-';
 }
 
 // $output = '<html><body><h1>Hello, dompdf!' . $row . '</h1></body></html>';

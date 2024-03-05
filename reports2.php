@@ -72,34 +72,32 @@ if ($user->isLoggedIn()) {
                     <h3 class="card-title">PENPLUS RECRUITMENTS STATUS AS OF <?= date('Y-m-d') ?></h3>
                     <div class="card-tools">
                         <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
-                        <a class="btn btn-flat btn-sm btn-primary" href="reports_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
+                        <a class="btn btn-flat btn-sm btn-primary" href="reports2_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="container-fluid">
                         <div class="container-fluid">
                             <table class="table table-bordered table-hover table-striped">
-                                <colgroup>
-                                    <col width="5%">
-                                    <col width="20%">
-                                    <col width="25%">
-                                    <col width="20%">
-                                    <col width="15%">
-                                    <col width="15%">
-                                </colgroup>
                                 <thead>
-                                    <tr class="bg-gradient-primary text-light">
-                                        <th>#</th>
-                                        <th>Site</th>
-                                        <th>Registered</th>
-                                        <th>Screened</th>
-                                        <th>Cardiac</th>
-                                        <th>Diabetes</th>
-                                        <th>Sickle cell</th>
-                                        <th>Other Diagnosis</th>
-                                        <th>Eligible</th>
-                                        <th>Enrolled</th>
-                                        <th>End</th>
+                                    <tr>
+                                        <th rowspan="2">No.</th>
+                                        <th rowspan="2">SITE</th>
+                                        <th colspan="12"> Cardiac </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Cardio myopathy</th>
+                                        <th>Rheumatic Heart Disease</th>
+                                        <th>Severe / Uncontrolled Hypertension</th>
+                                        <th>Hyper tensive heart Disease</th>
+                                        <th>Conge nital Disease</th>
+                                        <th>Right heart failure </th>
+                                        <th>Pericar dialc Disease</th>
+                                        <th>Coronary Artery Disease</th>
+                                        <th>Arrhy thmia</th>
+                                        <th>Thrombo embolic</th>
+                                        <th>Stroke </th>
+                                        <th>Other </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -107,89 +105,69 @@ if ($user->isLoggedIn()) {
                                     <?php
                                     $i = 1;
                                     foreach ($site_data as $row) {
-                                        $registered = $override->countData('clients', 'status', 1, 'site_id', $row['id']);
-                                        $registered_Total = $override->getCount('clients', 'status', 1);
-                                        $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $row['id']);
-                                        $screened_Total = $override->countData('clients', 'status', 1, 'screened', 1);
-                                        $sickle_cell = $override->countData2('clients', 'status', 1, 'sickle_cell', 1, 'site_id', $row['id']);
-                                        $sickle_cell_Total = $override->countData('clients', 'status', 1, 'sickle_cell', 1);
-                                        $cardiac = $override->countData2('clients', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
-                                        $cardiac_Total = $override->countData('clients', 'status', 1, 'cardiac', 1);
-                                        $diabetes = $override->countData2('clients', 'status', 1, 'diabetes', 1, 'site_id', $row['id']);
-                                        $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
-                                        $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $row['id']);
-                                        $eligible_Total = $override->countData('clients', 'status', 1, 'eligible', 1);
                                         $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
                                         $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
-                                        $end_study = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
-                                        $end_study_Total = $override->countData('clients', 'status', 1, 'end_study', 1);
+                                        $cardiac1 = $override->countData2('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $row['id']);
+                                        $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'cardiomyopathy', 1);
+                                        $cardiac2 = $override->countData2('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $row['id']);
+                                        $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'heumatic', 1);
+                                        $cardiac3 = $override->countData2('cardiac', 'status', 1, 'severe_hypertension', 1, 'site_id', $row['id']);
+                                        $cardiac_Total3 = $override->countData('cardiac', 'status', 1, 'severe_hypertension', 1);
+                                        $cardiac4 = $override->countData2('cardiac', 'status', 1, 'hypertensive_heart', 1, 'site_id', $row['id']);
+                                        $cardiac_Total4 = $override->countData('cardiac', 'status', 1, 'hypertensive_heart', 1);
+                                        $cardiac5 = $override->countData2('cardiac', 'status', 1, 'congenital', 1, 'site_id', $row['id']);
+                                        $cardiac_Total5 = $override->countData('cardiac', 'status', 1, 'congenital', 1);
+                                        $cardiac6 = $override->countData2('cardiac', 'status', 1, 'heart_failure', 1, 'site_id', $row['id']);
+                                        $cardiac_Total6 = $override->countData('cardiac', 'status', 1, 'heart_failure', 1);
+                                        $cardiac7 = $override->countData2('cardiac', 'status', 1, 'pericardial', 1, 'site_id', $row['id']);
+                                        $cardiac_Total7 = $override->countData('cardiac', 'status', 1, 'pericardial', 1);
+                                        $cardiac8 = $override->countData2('cardiac', 'status', 1, 'coronary_artery', 1, 'site_id', $row['id']);
+                                        $cardiac_Total8 = $override->countData('cardiac', 'status', 1, 'coronary_artery', 1);
+                                        $cardiac9 = $override->countData2('cardiac', 'status', 1, 'arrhythmia', 1, 'site_id', $row['id']);
+                                        $cardiac_Total9 = $override->countData('cardiac', 'status', 1, 'arrhythmia', 1);
+                                        $cardiac10 = $override->countData2('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $row['id']);
+                                        $cardiac_Total10 = $override->countData('cardiac', 'status', 1, 'thromboembolic', 1);
+                                        $cardiac11 = $override->countData2('cardiac', 'status', 1, 'stroke', 1, 'site_id', $row['id']);
+                                        $cardiac_Total11 = $override->countData('cardiac', 'status', 1, 'stroke', 1);
+                                        $cardiac12 = $override->countData2('cardiac', 'status', 1, 'diagnosis_other', 1, 'site_id', $row['id']);
+                                        $cardiac_Total12 = $override->countData('cardiac', 'status', 1, 'diagnosis_other', 1);
                                     ?>
                                         <tr>
-                                            <td class="text-center"><?php echo $i++; ?></td>
-                                            <td class=""><?php echo $row['name'] ?></td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $registered ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $screened ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $cardiac ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $diabetes ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $sickle_cell ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $other ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $eligible ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $enrolled ?></p>
-                                            </td>
-
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $end_study ?></p>
-                                            </td>
+                                            <td><?= $i ?></td>
+                                            <td><?= $row['name'] ?></td>
+                                            <td align="right"><?= $cardiac1 ?></td>
+                                            <td align="right"><?= $cardiac2 ?></td>
+                                            <td align="right"><?= $cardiac3 ?></td>
+                                            <td align="right"><?= $cardiac4 ?></td>
+                                            <td align="right"><?= $cardiac5 ?></td>
+                                            <td align="right"><?= $cardiac6 ?></td>
+                                            <td align="right"><?= $cardiac7 ?></td>
+                                            <td align="right"><?= $cardiac8 ?></td>
+                                            <td align="right"><?= $cardiac9 ?></td>
+                                            <td align="right"><?= $cardiac10 ?></td>
+                                            <td align="right"><?= $cardiac11 ?></td>
+                                            <td align="right"><?= $cardiac12 ?></td>
                                         </tr>
 
 
-                                    <?php } ?>
-                                    <tr>
-                                        <td class="text-center"></td>
-                                        <td class="">TOTAL</td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $registered_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $screened_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $cardiac_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $diabetes_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $sickle_cell_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $other_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $eligible_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $enrolled_Total ?></p>
-                                        </td>
+                                    <?php
+                                        $i++;
+                                    } ?>
 
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $end_study_Total ?></p>
-                                        </td>
+                                    <tr>
+                                        <td align="right" colspan="2"><b>Total</b></td>
+                                        <td align="right"><b><?= $cardiac_Total1 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total2 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total3 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total4 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total5 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total6 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total7 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total8 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total9 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total10 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total11 ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total12 ?></b></td>
                                     </tr>
                                 </tbody>
                             </table>

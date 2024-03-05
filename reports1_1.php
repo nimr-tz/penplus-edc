@@ -8,26 +8,9 @@ $random = new Random();
 
 if ($user->isLoggedIn()) {
     try {
-        // switch (Input::get('report')) {
-        //     case 1:
-        //         $data = $override->searchBtnDate3('batch', 'create_on', $_GET['start'], 'create_on', $_GET['end'], 'use_group', $_GET['group']);
-        //         $data_count = $override->getCountReport('batch', 'create_on', $_GET['start'], 'create_on', $_GET['end'], 'use_group', $_GET['group']);
-        //         break;
-        //     case 2:
-        //         $data = $override->searchBtnDate3('check_records', 'create_on', $_GET['start'], 'create_on', $_GET['end'], 'use_group', $_GET['group']);
-        //         $data_count = $override->getCountReport('check_records', 'create_on', $_GET['start'], 'create_on', $_GET['end'], 'use_group', $_GET['group']);
-        //         break;
-        //     case 3:
-        //         $data = $override->searchBtnDate3('batch_records', 'create_on', $_GET['start'], 'create_on', $_GET['end'], 'use_group', $_GET['group']);
-        //         $data_count = $override->getCountReport('batch_records', 'create_on', $_GET['start'], 'create_on', $_GET['end'], 'use_group', $_GET['group']);
-        //         break;
-        // }
-
         $site_data = $override->getData('site');
         $Total = $override->getCount('clients', 'status', 1);
         $data_enrolled = $override->getCount1('clients', 'status', 1, 'enrolled', 1);
-        // $name = $override->get('user', 'status', 1, 'screened', $user->data()->id);
-        // $data_count = $override->getCount2('clients', 'status', 1, 'screened',1, 'site_id', $ussite_dataer->data()->site_id);
 
         $successMessage = 'Report Successful Created';
     } catch (Exception $e) {
@@ -37,28 +20,15 @@ if ($user->isLoggedIn()) {
     Redirect::to('index.php');
 }
 
-// if ($_GET['group'] == 1) {
-//     $title = 'Medicines';
-// } elseif ($_GET['group'] == 2) {
-//     $title = 'Medical Equipments';
-// } elseif ($_GET['group'] == 3) {
-//     $title = 'Accessories';
-// } elseif ($_GET['group'] == 4) {
-//     $title = 'Supplies';
-// }
-
-
 
 $title = 'PENPLUS SUMMARY REPORT_' . date('Y-m-d');
 
 $pdf = new Pdf();
 
-// $title = 'NIMREGENIN SUMMARY REPORT_'. date('Y-m-d');
 $file_name = $title . '.pdf';
 
 $output = ' ';
 
-// if ($_GET['group'] == 2) {
 if ($site_data) {
 
     $output .= '
@@ -66,13 +36,6 @@ if ($site_data) {
                 <tr>
                     <td colspan="17" align="center" style="font-size: 18px">
                         <b>DATE  ' . date('Y-m-d') . '</b>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td colspan="17" align="center" style="font-size: 18px">
-                        <b>TABLE 3 </b>
                     </td>
                 </tr>
 
@@ -122,10 +85,6 @@ if ($site_data) {
         $sickle_cell_Total2 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 96);
         $sickle_cell = $override->countData2('clients', 'status', 1, 'sickle_cell', 1, 'site_id', $row['id']);
         $sickle_cell_Total = $override->countData('clients', 'status', 1, 'sickle_cell', 1);
-        // $cardiac1 = $override->countData2('cardiac', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
-        // $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'cardiac', 1);
-        // $cardiac2 = $override->countData2('cardiac', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
-        // $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'cardiac', 1);
         $cardiac = $override->countData2('clients', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
         $cardiac_Total = $override->countData('clients', 'status', 1, 'cardiac', 1);
         $diabetes1 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
@@ -178,38 +137,6 @@ if ($site_data) {
 
     '
     ;
-
-    $output .= '
-            </table>    
-                <tr>
-                    <td colspan="8" align="center" style="font-size: 18px">
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <p align="right">----'.$user->data()->firstname. ' '.$user->data()->lastname.'-----<br />Prepared By</p>
-                        <br />
-                        <br />
-                        <br />
-                    </td>
-
-                    <td colspan="9" align="center" style="font-size: 18px">
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <p align="right">-----'.date('Y-m-d').'-------<br />Date Prepared</p>
-                        <br />
-                        <br />
-                        <br />
-                    </td>
-                </tr>
-        </table>    
-';
 }
 
 // $output = '<html><body><h1>Hello, dompdf!' . $row . '</h1></body></html>';

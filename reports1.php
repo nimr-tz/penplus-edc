@@ -72,7 +72,7 @@ if ($user->isLoggedIn()) {
                     <h3 class="card-title">PENPLUS RECRUITMENTS STATUS AS OF <?= date('Y-m-d') ?></h3>
                     <div class="card-tools">
                         <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
-                        <a class="btn btn-flat btn-sm btn-primary" href="reports_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
+                        <a class="btn btn-flat btn-sm btn-primary" href="reports1_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -88,7 +88,7 @@ if ($user->isLoggedIn()) {
                                     <col width="15%">
                                 </colgroup>
                                 <thead>
-                                    <tr class="bg-gradient-primary text-light">
+                                    <!-- <tr class="bg-gradient-primary text-light">
                                         <th>#</th>
                                         <th>Site</th>
                                         <th>Registered</th>
@@ -100,6 +100,23 @@ if ($user->isLoggedIn()) {
                                         <th>Eligible</th>
                                         <th>Enrolled</th>
                                         <th>End</th>
+                                    </tr> -->
+                                    <tr>
+                                        <th rowspan="2">No.</th>
+                                        <th rowspan="2">SITE</th>
+                                        <th rowspan="2">REGISTERED</th>
+                                        <th rowspan="2">SCREENED.</th>
+                                        <th rowspan="2">ELIGIBLE</th>
+                                        <th colspan="5"> Category ( INCLUSION )</th>
+                                        <th rowspan="2">ENROLLED</th>
+                                        <th rowspan="2">END</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Cardiac</th>
+                                        <th>Diabetes(Type 1)</th>
+                                        <th>Diabetes(Type 2)</th>
+                                        <th>Sickle cell </th>
+                                        <th>Sickle cell( Other ) </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,10 +128,18 @@ if ($user->isLoggedIn()) {
                                         $registered_Total = $override->getCount('clients', 'status', 1);
                                         $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $row['id']);
                                         $screened_Total = $override->countData('clients', 'status', 1, 'screened', 1);
+                                        $sickle_cell1 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
+                                        $sickle_cell_Total1 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 1);
+                                        $sickle_cell2 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 96, 'site_id', $row['id']);
+                                        $sickle_cell_Total2 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 96);
                                         $sickle_cell = $override->countData2('clients', 'status', 1, 'sickle_cell', 1, 'site_id', $row['id']);
                                         $sickle_cell_Total = $override->countData('clients', 'status', 1, 'sickle_cell', 1);
                                         $cardiac = $override->countData2('clients', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
                                         $cardiac_Total = $override->countData('clients', 'status', 1, 'cardiac', 1);
+                                        $diabetes1 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
+                                        $diabetes_Total1 = $override->countData('diabetic', 'status', 1, 'diagnosis', 1);
+                                        $diabetes2 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 2, 'site_id', $row['id']);
+                                        $diabetes_Total2 = $override->countData('diabetic', 'status', 1, 'diagnosis', 2);
                                         $diabetes = $override->countData2('clients', 'status', 1, 'diabetes', 1, 'site_id', $row['id']);
                                         $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
                                         $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $row['id']);
@@ -124,8 +149,8 @@ if ($user->isLoggedIn()) {
                                         $end_study = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
                                         $end_study_Total = $override->countData('clients', 'status', 1, 'end_study', 1);
                                     ?>
-                                        <tr>
-                                            <td class="text-center"><?php echo $i++; ?></td>
+                                        <!-- <tr>
+                                            <td class="text-center"><?php echo $i; ?></td>
                                             <td class=""><?php echo $row['name'] ?></td>
                                             <td class="">
                                                 <p class="m-0 truncate-1"><?php echo $registered ?></p>
@@ -155,11 +180,43 @@ if ($user->isLoggedIn()) {
                                             <td class="">
                                                 <p class="m-0 truncate-1"><?php echo $end_study ?></p>
                                             </td>
+                                        </tr> -->
+
+                                        <tr>
+                                            <td><?= $i; ?></td>
+                                            <td><?= $row['name'] ?></td>
+                                            <td align="right"><?= $registered ?></td>
+                                            <td align="right"><?= $screened ?></td>
+                                            <td align="right"><?= $eligible ?></td>
+                                            <td align="right"><?= $cardiac ?></td>
+                                            <td align="right"><?= $diabetes1 ?></td>
+                                            <td align="right"><?= $diabetes2 ?></td>
+                                            <td align="right"><?= $sickle_cell1 ?></td>
+                                            <td align="right"><?= $sickle_cell2 ?></td>
+                                            <td align="right"><?= $enrolled ?></td>
+                                            <td align="right"><?= $end_study ?></td>
                                         </tr>
 
 
-                                    <?php } ?>
+                                    <?php
+                                        $i++;
+                                    } ?>
+
                                     <tr>
+                                        <td align="right" colspan="2"><b>Total</b></td>
+                                        <td align="right"><b><?= $registered_Total ?></b></td>
+                                        <td align="right"><b><?= $screened_Total ?></b></td>
+                                        <td align="right"><b><?= $eligible_Total ?></b></td>
+                                        <td align="right"><b><?= $cardiac_Total ?></b></td>
+                                        <td align="right"><b><?= $diabetes_Total1 ?></b></td>
+                                        <td align="right"><b><?= $diabetes_Total2 ?></b></td>
+                                        <td align="right"><b><?= $sickle_cell_Total1 ?></b></td>
+                                        <td align="right"><b><?= $sickle_cell_Total2 ?></b></td>
+                                        <td align="right"><b><?= $enrolled_Total ?></b></td>
+                                        <td align="right"><b><?= $end_study_Total ?></b></td>
+                                    </tr>
+
+                                    <!-- <tr>
                                         <td class="text-center"></td>
                                         <td class="">TOTAL</td>
                                         <td class="">
@@ -190,7 +247,7 @@ if ($user->isLoggedIn()) {
                                         <td class="">
                                             <p class="m-0 truncate-1"><?php echo $end_study_Total ?></p>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>

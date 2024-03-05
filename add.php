@@ -2489,8 +2489,8 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    print_r(Input::get('medication_id'));
-
+                    print_r(count(Input::get('medication_type')));
+                    // print_r(count(Input::get('medication_type')));
                     for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
                         if (Input::get('medication_id')[$i]) {
                             if (Input::get('seq_no')[$i] == $_GET['seq']) {
@@ -3552,7 +3552,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Date of Birth:</label>
-<input type="date" name="dob" id="dob" class="form-control" value="<?php if ($client['dob']) {
+                                                                <input type="date" name="dob" id="dob" class="form-control" value="<?php if ($client['dob']) {
                                                                                                                                                                                                                             print_r($client['dob']);
                                                                                                                                                                                                                         }  ?>" />
                                                         </div>
@@ -10706,7 +10706,7 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <div class="row-form clearfix">
-                                                <table id="medication_list" class="table order-list">
+                                                <table id="medication_table" class="table order-list">
                                                     <thead>
                                                         <tr>
                                                             <th> Visit Day </th>
@@ -16502,7 +16502,7 @@ if ($user->isLoggedIn()) {
 
 
         function add_Medication() {
-            var table = document.getElementById("medication_list");
+            var table = document.getElementById("medication_table");
             var row = table.insertRow();
             var vday = row.insertCell(0);
             var medication_type = row.insertCell(1);

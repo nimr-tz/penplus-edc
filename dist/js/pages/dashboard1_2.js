@@ -52,7 +52,7 @@ $(function () {
 
   // SETUP BLOCK
 
-  fetch("process2_1.php")
+  fetch("process2.php")
     .then((response) => response.json())
     .then((data) => {
       const monthname = Object.keys(data);

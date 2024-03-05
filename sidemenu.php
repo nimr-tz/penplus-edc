@@ -523,7 +523,7 @@ if ($user->isLoggedIn()) {
                                     <p>Diseases Summary </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="reports.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Overall summary </p>
@@ -547,7 +547,7 @@ if ($user->isLoggedIn()) {
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Overall summary </p>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
                 <?php } ?>

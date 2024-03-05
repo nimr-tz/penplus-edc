@@ -590,6 +590,12 @@ if ($user->isLoggedIn()) {
                                     <p> Thromboembolic </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="reports13.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Other Diagnosis </p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 <?php } ?>

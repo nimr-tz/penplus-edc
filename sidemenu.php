@@ -653,6 +653,140 @@ if ($user->isLoggedIn()) {
                         </ul>
                     </li>
                 <?php } ?>
+
+                <?php
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Data <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="info.php?id=5&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $registered; ?></span>
+                                    <p>CLients</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=6&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $kap; ?></span>
+                                    <p>Screening</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=7&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Demographic</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=7&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Demographic</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=7&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Demographic</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=7&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Demographic</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=7&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Demographic</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=8&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $results; ?></span>
+                                    <p>Results</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=9&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $classification; ?></span>
+                                    <p>Classification</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=10&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <p>Outcome</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=11&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $economic; ?></span>
+                                    <p>Economics</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=12&status=16" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $visit; ?></span>
+                                    <p>Visits</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Clear Data <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="info.php?id=14" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List of Tables</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li> -->
+                    <li class="nav-item">
+                        <!-- <a href="info.php?id=15" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Unset Study ID <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a> -->
+                        <!-- <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="info.php?id=15" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List of Tables</p>
+                                </a>
+                            </li>
+                        </ul> -->
+                    </li>
+                <?php } ?>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

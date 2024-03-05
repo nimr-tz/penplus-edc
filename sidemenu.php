@@ -48,14 +48,12 @@ if ($user->isLoggedIn()) {
 
     if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
         if ($_GET['site_id'] != null) {
-            // $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
-            // $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
-
-
             $diseases = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1, 'site_id', $_GET['site_id']);
             $cardiac = $override->countData1('main_diagnosis', 'status', 1, 'cardiac', 1, 'site_id', $_GET['site_id']);
             $diabetes = $override->countData1('main_diagnosis', 'status', 1, 'diabetes', 1, 'site_id', $_GET['site_id']);
             $sickle_cell = $override->countData1('main_diagnosis', 'status', 1, 'sickle_cell', 1, 'site_id', $_GET['site_id']);
+            $other_diagnosis = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0, 'site_id', $_GET['site_id']);
+
 
             $cardiomyopathy = $override->countData1('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $_GET['site_id']);
             $heumatic = $override->countData1('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $_GET['site_id']);
@@ -67,6 +65,7 @@ if ($user->isLoggedIn()) {
             $thromboembolic = $override->countData1('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $_GET['site_id']);
 
 
+
             // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
             // $results = $override->getCount1('results', 'status', 1, 'site_id', $_GET['site_id']);
             // $classification = $override->getCount1('classification', 'status', 1, 'site_id', $_GET['site_id']);
@@ -75,15 +74,17 @@ if ($user->isLoggedIn()) {
             $visit = $override->getCount1('visit', 'status', 1, 'site_id', $_GET['site_id']);
 
             $registered = $override->getCount1('clients', 'status', 1, 'site_id', $_GET['site_id']);
-            // $screened = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
-            // $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
-            // $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
-            $end = $override->getCount1('clients', 'status', 0, 'site_id', $_GET['site_id']);
+            $screened = $override->countData1('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
+            $eligible = $override->countData1('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
+            $enrolled = $override->countData1('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
+            $end = $override->countData1('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
         } else {
             $diseases = $override->countData5('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1);
             $cardiac = $override->countData('main_diagnosis', 'status', 1, 'cardiac', 1);
             $diabetes = $override->countData('main_diagnosis', 'status', 1, 'diabetes', 1);
             $sickle_cell = $override->countData('main_diagnosis', 'status', 1, 'sickle_cell', 1);
+            $other_diagnosis = $override->countData5('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0);
+
 
             $cardiomyopathy = $override->countData('cardiac', 'status', 1, 'cardiomyopathy', 1);
             $heumatic = $override->countData('cardiac', 'status', 1, 'heumatic', 1);
@@ -95,6 +96,7 @@ if ($user->isLoggedIn()) {
             $thromboembolic = $override->countData('cardiac', 'status', 1, 'thromboembolic', 1);
 
 
+
             // $kap = $override->getCount('kap', 'status', 1);
             // $history = $override->getCount('history', 'status', 1);
             // $results = $override->getCount('results', 'status', 1);
@@ -104,16 +106,18 @@ if ($user->isLoggedIn()) {
             $visit = $override->getCount('visit', 'status', 1);
 
             $registered = $override->getCount('clients', 'status', 1);
-            // $screened = $override->getCount('history', 'status', 1);
-            // $eligible = $override->getCount('history', 'eligible', 1);
-            // $enrolled = $override->getCount('history', 'eligible', 1);
-            $end = $override->getCount('clients', 'status', 0);
+            $screened = $override->countData('clients', 'status', 1, 'screened', 1);
+            $eligible = $override->countData('clients', 'status', 1, 'eligible', 1);
+            $enrolled = $override->countData('clients', 'status', 1, 'enrolled', 1);
+            $end = $override->countData('clients', 'status', 1, 'end_study', 1);
         }
     } else {
         $diseases = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1, 'site_id', $user->data()->site_id);
         $cardiac = $override->countData1('main_diagnosis', 'status', 1, 'cardiac', 1, 'site_id', $user->data()->site_id);
         $diabetes = $override->countData1('main_diagnosis', 'status', 1, 'diabetes', 1, 'site_id', $user->data()->site_id);
         $sickle_cell = $override->countData1('main_diagnosis', 'status', 1, 'sickle_cell', 1, 'site_id', $user->data()->site_id);
+        $other_diagnosis = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0, 'site_id', $user->data()->site_id);
+
 
         $cardiomyopathy = $override->countData1('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $user->data()->site_id);
         $heumatic = $override->countData1('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $user->data()->site_id);
@@ -123,7 +127,6 @@ if ($user->isLoggedIn()) {
         $stroke = $override->countData1('cardiac', 'status', 1, 'stroke', 1, 'site_id', $user->data()->site_id);
         $arrhythmia = $override->countData1('cardiac', 'status', 1, 'arrhythmia', 1, 'site_id', $user->data()->site_id);
         $thromboembolic = $override->countData1('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $user->data()->site_id);
-        // other_diagnosis
 
         // $kap = $override->getCount1('kap', 'status', 1, 'site_id', $user->data()->site_id);
         // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
@@ -134,10 +137,10 @@ if ($user->isLoggedIn()) {
         $visit = $override->getCount1('visit', 'status', 1, 'site_id', $user->data()->site_id);
 
         $registered = $override->getCount1('clients', 'status', 1, 'site_id', $user->data()->site_id);
-        // $screened = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
-        // $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
-        // $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
-        $end = $override->getCount1('clients', 'status', 0, 'site_id', $user->data()->site_id);
+        $screened = $override->countData1('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
+        $eligible = $override->countData1('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id);
+        $enrolled = $override->countData1('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
+        $end = $override->countData1('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
     }
 } else {
     Redirect::to('index.php');
@@ -499,35 +502,35 @@ if ($user->isLoggedIn()) {
                                     <li class="nav-item">
                                         <a href="reports.php" class="nav-link">
                                             <i class="fas fa-circle nav-icon"></i>
-                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <span class="badge badge-info right"><?= $registered ?></span>
                                             <p>Registered</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="reports.php" class="nav-link">
                                             <i class="fas fa-circle nav-icon"></i>
-                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <span class="badge badge-info right"><?= $screened ?></span>
                                             <p>Screened</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="reports.php" class="nav-link">
                                             <i class="fas fa-circle nav-icon"></i>
-                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <span class="badge badge-info right"><?= $eligible ?></span>
                                             <p>Eligible</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="reports.php" class="nav-link">
                                             <i class="fas fa-circle nav-icon"></i>
-                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <span class="badge badge-info right"><?= $enrolled ?></span>
                                             <p>Enrolled</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="reports.php" class="nav-link">
                                             <i class="fas fa-circle nav-icon"></i>
-                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <span class="badge badge-info right"><?= $end ?></span>
                                             <p>Termintaed</p>
                                         </a>
                                     </li>

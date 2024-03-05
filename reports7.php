@@ -20,7 +20,6 @@ if ($user->isLoggedIn()) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'headBar.php'; ?>

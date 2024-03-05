@@ -514,22 +514,22 @@ if ($user->isLoggedIn()) {
                             <li class="nav-item">
                                 <a href="reports.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall summary </p>
+                                    <p>Overall </p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="reports1.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Diseases Summary </p>
-                                </a>
-                            </li>
-                            <!-- <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall summary </p>
+                                    <p>All Diseases </p>
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="reports2.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Cardiac </p>
+                                </a>
+                            </li>
+                            <!--  <li class="nav-item">
                                 <a href="reports.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Overall summary </p>

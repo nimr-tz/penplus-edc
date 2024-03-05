@@ -27,6 +27,12 @@ if ($user->isLoggedIn()) {
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
+        <!-- Navbar -->
+        <?php include 'navbar.php'; ?>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <?php include 'sidemenu.php'; ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

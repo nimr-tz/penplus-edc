@@ -27,6 +27,12 @@ if ($user->isLoggedIn()) {
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
+        <!-- Navbar -->
+        <?php include 'navbar.php'; ?>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <?php include 'sidemenu.php'; ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -128,7 +134,7 @@ if ($user->isLoggedIn()) {
                                     ?>
                                         <tr>
                                             <td><?= $i ?></td>
-                                            <td><?=  $row['name'] ?></td>
+                                            <td><?= $row['name'] ?></td>
                                             <td align="right"><?= $cardiac1 ?></td>
                                             <td align="right"><?= $cardiac2 ?></td>
                                             <td align="right"><?= $cardiac3 ?></td>

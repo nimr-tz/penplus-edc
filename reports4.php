@@ -72,7 +72,7 @@ if ($user->isLoggedIn()) {
                     <h3 class="card-title">PENPLUS RECRUITMENTS STATUS AS OF <?= date('Y-m-d') ?></h3>
                     <div class="card-tools">
                         <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
-                        <a class="btn btn-flat btn-sm btn-primary" href="reports3_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
+                        <a class="btn btn-flat btn-sm btn-primary" href="reports4_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -84,14 +84,11 @@ if ($user->isLoggedIn()) {
                                         <th rowspan="2">No.</th>
                                         <th rowspan="2">SITE</th>
                                         <th rowspan="2">ENROLLED</th>
-                                        <th colspan="5" align="center"> Diabtes </th>
+                                        <th colspan="2"> Diabtes </th>
                                     </tr>
                                     <tr>
-                                        <th>Type 1 DM</th>
-                                        <th>Type 2 DM</th>
-                                        <th>Gestational DM</th>
-                                        <th>DM Not yet specified </th>
-                                        <th>Other </th>
+                                        <th>Sickle Cell Disease</th>
+                                        <th>Other Hemoglobinopathy</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -101,16 +98,10 @@ if ($user->isLoggedIn()) {
                                     foreach ($site_data as $row) {
                                         $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
                                         $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
-                                        $diabetes1 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
-                                        $diabetes_Total1 = $override->countData('diabetic', 'status', 1, 'diagnosis', 1);
-                                        $diabetes2 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 2, 'site_id', $row['id']);
-                                        $diabetes_Total2 = $override->countData('diabetic', 'status', 1, 'diagnosis', 2);
-                                        $diabetes3 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 3, 'site_id', $row['id']);
-                                        $diabetes_Total3 = $override->countData('diabetic', 'status', 1, 'diagnosis', 3);
-                                        $diabetes4 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 4, 'site_id', $row['id']);
-                                        $diabetes_Total4 = $override->countData('diabetic', 'status', 1, 'diagnosis', 4);
-                                        $diabetes5 = $override->countData2('diabetic', 'status', 1, 'diagnosis', 96, 'site_id', $row['id']);
-                                        $diabetes_Total5 = $override->countData('diabetic', 'status', 1, 'diagnosis', 96);
+                                        $sickle_cell1 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
+                                        $sickle_cell_Total1 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 1);
+                                        $sickle_cell2 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 96, 'site_id', $row['id']);
+                                        $sickle_cell_Total2 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 96);
                                         $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
                                         $end_study = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
                                         $end_study_Total = $override->countData('clients', 'status', 1, 'end_study', 1);
@@ -119,11 +110,8 @@ if ($user->isLoggedIn()) {
                                             <td><?= $i ?></td>
                                             <td><?= $row['name'] ?></td>
                                             <td align="right"><?= $enrolled ?></td>
-                                            <td align="right"><?= $diabetes1 ?></td>
-                                            <td align="right"><?= $diabetes2 ?></td>
-                                            <td align="right"><?= $diabetes3 ?></td>
-                                            <td align="right"><?= $diabetes4 ?></td>
-                                            <td align="right"><?= $diabetes5 ?></td>
+                                            <td align="right"><?= $sickle_cell1 ?></td>
+                                            <td align="right"><?= $sickle_cell2 ?></td>                                           
                                         </tr>
 
 
@@ -134,11 +122,8 @@ if ($user->isLoggedIn()) {
                                     <tr>
                                         <td align="right" colspan="2"><b>Total</b></td>
                                         <td align="right"><b><?= $enrolled_Total ?></b></td>
-                                        <td align="right"><b><?= $diabetes_Total1 ?></b></td>
-                                        <td align="right"><b><?= $diabetes_Total2 ?></b></td>
-                                        <td align="right"><b><?= $diabetes_Total3 ?></b></td>
-                                        <td align="right"><b><?= $diabetes_Total4 ?></b></td>
-                                        <td align="right"><b><?= $diabetes_Total5 ?></b></td>
+                                        <td align="right"><b><?= $sickle_cell_Total1 ?></b></td>
+                                        <td align="right"><b><?= $sickle_cell_Total2 ?></b></td>
                                     </tr>
                                 </tbody>
                             </table>

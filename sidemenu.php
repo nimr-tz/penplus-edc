@@ -536,10 +536,10 @@ if ($user->isLoggedIn()) {
                                 </a>
                             </li>
 
-                            <!--   <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
+                              <li class="nav-item">
+                                <a href="reports4.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall summary </p>
+                                    <p>Sickle Cell </p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -547,7 +547,7 @@ if ($user->isLoggedIn()) {
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Overall summary </p>
                                 </a>
-                            </li> -->
+                            </li>
                         </ul>
                     </li>
                 <?php } ?>

@@ -406,7 +406,7 @@ if ($user->isLoggedIn()) {
                 </li>
 
                 <?php
-                if ($user->data()->position == 1 || $user->data()->position == 1) {
+                if ($user->data()->position == 1 || $user->data()->position == 2) {
                 ?>
 
                     <li class="nav-item">
@@ -498,6 +498,59 @@ if ($user->isLoggedIn()) {
                         </li>
                     </ul>
                 </li>
+
+                <?php
+                if ($user->data()->position == 1 || $user->data()->position == 2) {
+                ?>
+
+                    <li class="nav-item">
+                        <a href="info.php?id=8" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Summary Reports <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="reports.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Overall summary </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports1.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Diseases Summary </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Overall summary </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Overall summary </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="reports.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Overall summary </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Overall summary </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
 
             </ul>
         </nav>

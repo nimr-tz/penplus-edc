@@ -529,14 +529,14 @@ if ($user->isLoggedIn()) {
                                     <p>Cardiac </p>
                                 </a>
                             </li>
-                            <!--  <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
+                            <li class="nav-item">
+                                <a href="reports3.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall summary </p>
+                                    <p>Diabetes </p>
                                 </a>
                             </li>
 
-                            <li class="nav-item">
+                            <!--   <li class="nav-item">
                                 <a href="reports.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Overall summary </p>

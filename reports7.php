@@ -72,7 +72,7 @@ if ($user->isLoggedIn()) {
                     <h3 class="card-title">PENPLUS RECRUITMENTS STATUS AS OF <?= date('Y-m-d') ?></h3>
                     <div class="card-tools">
                         <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
-                        <a class="btn btn-flat btn-sm btn-primary" href="reports6_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
+                        <a class="btn btn-flat btn-sm btn-primary" href="reports7_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -84,14 +84,14 @@ if ($user->isLoggedIn()) {
                                         <th rowspan="2">No.</th>
                                         <th rowspan="2">SITE</th>
                                         <th rowspan="2">ENROLLED</th>
-                                        <th colspan="6"> Rheumatic Heart Disease </th>
+                                        <th colspan="6"> Congenital heart Disease </th>
                                     </tr>
                                     <tr>
-                                        <th>Pure mitral stenosis</th>
-                                        <th>Pure mitral regurgitation</th>
-                                        <th>Mixed mitral valve disease (MS + MR)</th>
-                                        <th>Isolated aortic valve disease (AVD)</th>
-                                        <th>mixed mitral and aortic valve disease (MMAVD)</th>
+                                        <th>ASD</th>
+                                        <th>VSD</th>
+                                        <th>PDA</th>
+                                        <th>Coarctation of aota</th>
+                                        <th>Tetralogy of Fallot</th>
                                         <th>Other</th>
                                     </tr>
                                 </thead>
@@ -102,20 +102,18 @@ if ($user->isLoggedIn()) {
                                     foreach ($site_data as $row) {
                                         $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
                                         $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
-                                        $cardiac1 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 1, 'site_id', $row['id']);
-                                        $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 1);
-                                        $cardiac2 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 2, 'site_id', $row['id']);
-                                        $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 2);
-                                        $cardiac3 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 3, 'site_id', $row['id']);
-                                        $cardiac_Total3 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 3);
-                                        $cardiac4 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 4, 'site_id', $row['id']);
-                                        $cardiac_Total4 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 4);
-                                        $cardiac5 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 5, 'site_id', $row['id']);
-                                        $cardiac_Total5 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 5);
-                                        // $cardiac6 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 6, 'site_id', $row['id']);
-                                        // $cardiac_Total6 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 6);
-                                        $cardiac7 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 96, 'site_id', $row['id']);
-                                        $cardiac_Total7 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 96);
+                                        $cardiac1 = $override->countData2('cardiac', 'status', 1, 'sub_congenital', 1, 'site_id', $row['id']);
+                                        $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'sub_congenital', 1);
+                                        $cardiac2 = $override->countData2('cardiac', 'status', 1, 'sub_congenital', 2, 'site_id', $row['id']);
+                                        $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'sub_congenital', 2);
+                                        $cardiac3 = $override->countData2('cardiac', 'status', 1, 'sub_congenital', 3, 'site_id', $row['id']);
+                                        $cardiac_Total3 = $override->countData('cardiac', 'status', 1, 'sub_congenital', 3);
+                                        $cardiac4 = $override->countData2('cardiac', 'status', 1, 'sub_congenital', 4, 'site_id', $row['id']);
+                                        $cardiac_Total4 = $override->countData('cardiac', 'status', 1, 'sub_congenital', 4);
+                                        $cardiac5 = $override->countData2('cardiac', 'status', 1, 'sub_congenital', 5, 'site_id', $row['id']);
+                                        $cardiac_Total5 = $override->countData('cardiac', 'status', 1, 'sub_congenital', 5);
+                                        $cardiac7 = $override->countData2('cardiac', 'status', 1, 'sub_congenital', 96, 'site_id', $row['id']);
+                                        $cardiac_Total7 = $override->countData('cardiac', 'status', 1, 'sub_congenital', 96);
                                         // $diabetes_Total = $override->countData('cardiac', 'status', 1, 'diabetes', 1);
                                         // $end_study = $override->countData2('cardiac', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
                                         // $end_study_Total = $override->countData('cardiac', 'status', 1, 'end_study', 1);
@@ -129,11 +127,8 @@ if ($user->isLoggedIn()) {
                                             <td align="right"><?= $cardiac3 ?></td>
                                             <td align="right"><?= $cardiac4 ?></td>
                                             <td align="right"><?= $cardiac5 ?></td>
-                                            <td align="right"><?= $cardiac6 ?></td>
                                             <td align="right"><?= $cardiac7 ?></td>
                                         </tr>
-
-
                                     <?php
                                         $i++;
                                     } ?>
@@ -146,7 +141,6 @@ if ($user->isLoggedIn()) {
                                         <td align="right"><b><?= $cardiac_Total3 ?></b></td>
                                         <td align="right"><b><?= $cardiac_Total4 ?></b></td>
                                         <td align="right"><b><?= $cardiac_Total5 ?></b></td>
-                                        <td align="right"><b><?= $cardiac_Total6 ?></b></td>
                                         <td align="right"><b><?= $cardiac_Total7 ?></b></td>
                                     </tr>
                                 </tbody>

@@ -48,7 +48,25 @@ if ($user->isLoggedIn()) {
 
     if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
         if ($_GET['site_id'] != null) {
-            // $kap = $override->getCount1('kap', 'status', 1, 'site_id', $_GET['site_id']);
+            // $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
+            // $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
+
+
+            $diseases = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1, 'site_id', $_GET['site_id']);
+            $cardiac = $override->countData1('main_diagnosis', 'status', 1, 'cardiac', 1, 'site_id', $_GET['site_id']);
+            $diabetes = $override->countData1('main_diagnosis', 'status', 1, 'diabetes', 1, 'site_id', $_GET['site_id']);
+            $sickle_cell = $override->countData1('main_diagnosis', 'status', 1, 'sickle_cell', 1, 'site_id', $_GET['site_id']);
+
+            $cardiomyopathy = $override->countData1('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $_GET['site_id']);
+            $heumatic = $override->countData1('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $_GET['site_id']);
+            $congenital = $override->countData1('cardiac', 'status', 1, 'congenital', 1, 'site_id', $_GET['site_id']);
+            $heart_failure = $override->countData1('cardiac', 'status', 1, 'heart_failure', 1, 'site_id', $_GET['site_id']);
+            $pericardial = $override->countData1('cardiac', 'status', 1, 'pericardial', 1, 'site_id', $_GET['site_id']);
+            $stroke = $override->countData1('cardiac', 'status', 1, 'stroke', 1, 'site_id', $_GET['site_id']);
+            $arrhythmia = $override->countData1('cardiac', 'status', 1, 'arrhythmia', 1, 'site_id', $_GET['site_id']);
+            $thromboembolic = $override->countData1('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $_GET['site_id']);
+
+
             // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
             // $results = $override->getCount1('results', 'status', 1, 'site_id', $_GET['site_id']);
             // $classification = $override->getCount1('classification', 'status', 1, 'site_id', $_GET['site_id']);
@@ -62,6 +80,21 @@ if ($user->isLoggedIn()) {
             // $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
             $end = $override->getCount1('clients', 'status', 0, 'site_id', $_GET['site_id']);
         } else {
+            $diseases = $override->countData5('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1);
+            $cardiac = $override->countData('main_diagnosis', 'status', 1, 'cardiac', 1);
+            $diabetes = $override->countData('main_diagnosis', 'status', 1, 'diabetes', 1);
+            $sickle_cell = $override->countData('main_diagnosis', 'status', 1, 'sickle_cell', 1);
+
+            $cardiomyopathy = $override->countData('cardiac', 'status', 1, 'cardiomyopathy', 1);
+            $heumatic = $override->countData('cardiac', 'status', 1, 'heumatic', 1);
+            $congenital = $override->countData('cardiac', 'status', 1, 'congenital', 1);
+            $heart_failure = $override->countData('cardiac', 'status', 1, 'heart_failure', 1);
+            $pericardial = $override->countData('cardiac', 'status', 1, 'pericardial', 1);
+            $stroke = $override->countData('cardiac', 'status', 1, 'stroke', 1);
+            $arrhythmia = $override->countData('cardiac', 'status', 1, 'arrhythmia', 1);
+            $thromboembolic = $override->countData('cardiac', 'status', 1, 'thromboembolic', 1);
+
+
             // $kap = $override->getCount('kap', 'status', 1);
             // $history = $override->getCount('history', 'status', 1);
             // $results = $override->getCount('results', 'status', 1);
@@ -77,6 +110,21 @@ if ($user->isLoggedIn()) {
             $end = $override->getCount('clients', 'status', 0);
         }
     } else {
+        $diseases = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1, 'site_id', $user->data()->site_id);
+        $cardiac = $override->countData1('main_diagnosis', 'status', 1, 'cardiac', 1, 'site_id', $user->data()->site_id);
+        $diabetes = $override->countData1('main_diagnosis', 'status', 1, 'diabetes', 1, 'site_id', $user->data()->site_id);
+        $sickle_cell = $override->countData1('main_diagnosis', 'status', 1, 'sickle_cell', 1, 'site_id', $user->data()->site_id);
+
+        $cardiomyopathy = $override->countData1('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $user->data()->site_id);
+        $heumatic = $override->countData1('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $user->data()->site_id);
+        $congenital = $override->countData1('cardiac', 'status', 1, 'congenital', 1, 'site_id', $user->data()->site_id);
+        $heart_failure = $override->countData1('cardiac', 'status', 1, 'heart_failure', 1, 'site_id', $user->data()->site_id);
+        $pericardial = $override->countData1('cardiac', 'status', 1, 'pericardial', 1, 'site_id', $user->data()->site_id);
+        $stroke = $override->countData1('cardiac', 'status', 1, 'stroke', 1, 'site_id', $user->data()->site_id);
+        $arrhythmia = $override->countData1('cardiac', 'status', 1, 'arrhythmia', 1, 'site_id', $user->data()->site_id);
+        $thromboembolic = $override->countData1('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $user->data()->site_id);
+        // other_diagnosis
+
         // $kap = $override->getCount1('kap', 'status', 1, 'site_id', $user->data()->site_id);
         // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
         // $results = $override->getCount1('results', 'status', 1, 'site_id', $user->data()->site_id);
@@ -112,7 +160,7 @@ if ($user->isLoggedIn()) {
                 <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block"><?= $user->data()->firstname ?></a>
+                <a href="#" class="d-block"><?= $user->data()->firstname . ' - ' . $user->data()->lastname ?></a>
             </div>
         </div>
 
@@ -240,76 +288,6 @@ if ($user->isLoggedIn()) {
                                 <p>Registered</p>
                             </a>
                         </li>
-                    </ul>
-                </li>
-
-
-                <!-- <li class="nav-item">
-                    <a href="add.php?id=4" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Register
-                            <span class="right badge badge-danger">New Client</span>
-                        </p>
-                    </a>
-                </li> -->
-                <li class="nav-item">
-                    <!-- <a href="info.php?id=3&status=5" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Total registered
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right"><?= $registered ?></span>
-                        </p>
-                    </a> -->
-                    <ul class="nav nav-treeview">
-                        <?php foreach ($override->getData('site') as $site) { ?>
-                            <!-- <li class="nav-item">
-                                <a href="info.php?id=3&status=5&site_id=<?= $site['id']; ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p><?= $site['name'] ?></p>
-                                    <span class="badge badge-info right">
-                                        <?= $override->countData('clients', 'status', 1, 'site_id', $site['id']) ?>
-                                    </span>
-                                </a>
-                            </li> -->
-                        <?php } ?>
-                        <!-- <li class="nav-item">
-                            <a href="pages/layout/boxed.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Boxed</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Sidebar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-sidebar-custom.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Sidebar <small>+ Custom Area</small></p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Navbar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-footer.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Footer</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Collapsed Sidebar</p>
-                            </a>
-                        </li> -->
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -499,77 +477,9 @@ if ($user->isLoggedIn()) {
                     </ul>
                 </li>
 
-                <!-- <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-circle nav-icon"></i>
-                        <p>Level 1</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-circle"></i>
-                        <p>
-                            Level 1
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Level 2</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    Level 2
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Level 2</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-circle nav-icon"></i>
-                        <p>Level 1</p>
-                    </a>
-                </li> -->
-
                 <?php
                 if ($user->data()->position == 1 || $user->data()->position == 2) {
                 ?>
-
-                    <!-- <li class="nav-header">MULTI LEVEL EXAMPLE</li> -->
                     <li class="nav-item">
                         <a href="info.php?id=8" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
@@ -579,244 +489,166 @@ if ($user->isLoggedIn()) {
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
-                                    <i class="fas fa-circle nav-icon"></i>
-                                    <p>Overall</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports1.php" class="nav-link">
-                                    <i class="fas fa-circle nav-icon"></i>
-                                    <p>All Diseases </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
+                                <a href="info.php?id=8" class="nav-link">
+                                    <i class="nav-icon fas fa-copy"></i>
                                     <p>
-                                        Cardiac
-                                        <i class="right fas fa-angle-left"></i>
+                                        Recruitments Reports <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="reports2.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>All</p>
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <p>Registered</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="reports5.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Cardiomyopathy</p>
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <p>Screened</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="reports6.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p> Rheumatic Heart disease </p>
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <p>Eligible</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="reports7.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Congenital heart disease</p>
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <p>Enrolled</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="reports8.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Right Heart Failure</p>
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <p>Termintaed</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="info.php?id=8" class="nav-link">
+                                    <i class="nav-icon fas fa-copy"></i>
+                                    <p>
+                                        Diseases Reports <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="reports1.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $diseases ?></span>
+                                            <p>All Diseases </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="reports9.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Pericardial disease</p>
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fas fa-circle"></i>
+                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <p>
+                                                Cardiac
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="reports2.php" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $cardiac ?></span>
+                                                    <p>All Cardiac</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports5.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $cardiomyopathy ?></span>
+                                                    <p>Cardiomyopathy</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports6.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $heumatic ?></span>
+                                                    <p> Rheumatic Heart disease </p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports7.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $congenital ?></span>
+                                                    <p>Congenital heart disease</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports8.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $heart_failure ?></span>
+                                                    <p>Right Heart Failure</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports9.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $pericardial ?></span>
+                                                    <p>Pericardial disease</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports10.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $stroke ?></span>
+                                                    <p>Stroke</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports11.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $arrhythmia ?></span>
+                                                    <p>Arrhythmia</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports12.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $thromboembolic ?></span>
+                                                    <p>Thromboembolic</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports3.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $diabetes ?></span>
+                                            <p>Diabetes</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="reports10.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Stroke</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="reports11.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Arrhythmia</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="reports12.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Thromboembolic</p>
+                                        <a href="reports4.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $sickle_cell ?></span>
+                                            <p>Sickle Cell</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="reports13.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $other_diagnosis ?></span>
                                             <p>Other Diagnosis</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Diabetes
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="reports3.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>All</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="reports5.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Diabetes(Type 1)</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="reports6.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p> Diabetes(Type 2) </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Sickle Cell
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="reports4.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>All</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="reports5.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Diabetes(Type 1)</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="reports6.php" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p> Diabetes(Type 2) </p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
-
-                    <!-- <li class="nav-item">
-                        <a href="info.php?id=8" class="nav-link">
-                            <i class="nav-icon fas fa-copy"></i>
-                            <p>
-                                Summary Reports <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports1.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>All Diseases </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports2.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Cardiac </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports3.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Diabetes </p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="reports4.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Sickle Cell </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports5.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Cardiomyopathy </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports6.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Rheumatic Heart disease </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports7.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Congenital heart disease</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports8.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Right Heart Failure </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports9.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Pericardial disease </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports10.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Stroke </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports11.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Arrhythmia </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports12.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Thromboembolic </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports13.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Other Diagnosis </p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li> -->
                 <?php } ?>
             </ul>
         </nav>

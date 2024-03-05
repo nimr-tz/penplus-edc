@@ -69,13 +69,6 @@ if ($site_data) {
                     </td>
                 </tr>
 
-
-                <tr>
-                    <td colspan="28" align="center" style="font-size: 18px">
-                        <b>TABLE 4 </b>
-                    </td>
-                </tr>
-
                 <tr>
                     <td colspan="28" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>

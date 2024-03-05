@@ -68,14 +68,6 @@ if ($site_data) {
                         <b>DATE  ' . date('Y-m-d') . '</b>
                     </td>
                 </tr>
-
-
-                <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
-                        <b>TABLE 4 </b>
-                    </td>
-                </tr>
-
                 <tr>
                     <td colspan="12" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
@@ -93,6 +85,7 @@ if ($site_data) {
                             <tr>
                                 <th rowspan="2">No.</th>
                                 <th rowspan="2">SITE</th>
+                                <th rowspan="2">ENROLLED</th>
                                 <th colspan="8"> Cardiomyopathy </th>
                             </tr>
                             <tr>
@@ -136,6 +129,7 @@ if ($site_data) {
                 <tr>
                     <td>' . $x . '</td>
                     <td>' . $row['name']  . '</td>
+                    <td align="right">' . $enrolled . '</td>
                     <td align="right">' . $cardiac1 . '</td>
                     <td align="right">' . $cardiac2 . '</td>
                     <td align="right">' . $cardiac3 . '</td>
@@ -153,6 +147,7 @@ if ($site_data) {
     $output .= '
                 <tr>
                     <td align="right" colspan="2"><b>Total</b></td>
+                    <td align="right"><b>' . $enrolled_Total . '</b></td>
                     <td align="right"><b>' . $cardiac_Total1 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total2 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total3 . '</b></td>
@@ -164,38 +159,6 @@ if ($site_data) {
                 </tr>  
 
     ';
-
-    $output .= '
-            </table>    
-                <tr>
-                    <td colspan="6" align="center" style="font-size: 18px">
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <p align="right">----' . $user->data()->firstname . ' ' . $user->data()->lastname . '-----<br />Prepared By</p>
-                        <br />
-                        <br />
-                        <br />
-                    </td>
-
-                    <td colspan="6" align="center" style="font-size: 18px">
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <p align="right">-----' . date('Y-m-d') . '-------<br />Date Prepared</p>
-                        <br />
-                        <br />
-                        <br />
-                    </td>
-                </tr>
-        </table>    
-';
 }
 
 // $output = '<html><body><h1>Hello, dompdf!' . $row . '</h1></body></html>';

@@ -536,16 +536,16 @@ if ($user->isLoggedIn()) {
                                 </a>
                             </li>
 
-                              <li class="nav-item">
+                            <li class="nav-item">
                                 <a href="reports4.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Sickle Cell </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
+                                <a href="reports5.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall summary </p>
+                                    <p>Cardiomyopathy </p>
                                 </a>
                             </li>
                         </ul>

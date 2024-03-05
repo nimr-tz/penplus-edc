@@ -551,7 +551,43 @@ if ($user->isLoggedIn()) {
                             <li class="nav-item">
                                 <a href="reports6.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p> Rheumatic Heart Disease                                    </p>
+                                    <p> Rheumatic Heart disease </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports7.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Congenital heart disease</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports8.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Right Heart Failure </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports9.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Pericardial disease </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports10.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Stroke </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports11.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Arrhythmia </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="reports12.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Thromboembolic </p>
                                 </a>
                             </li>
                         </ul>

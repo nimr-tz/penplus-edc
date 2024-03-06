@@ -2487,10 +2487,23 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    print_r(count(Input::get('medication_type')));
-                    if (Input::get('medication_id')[$i]) {
-                        if (Input::get('seq_no')[$i] == $_GET['seq']) {
-                            $user->updateRecord('medication_treatments', array(
+                    if (Input::get('btn') == 'Update') {
+                        $user->updateRecord('medication_treatments', array(
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'medication_type' => Input::get('medication_type'),
+                            'medication_action' => Input::get('medication_action'),
+                            'medication_dose' => Input::get('medication_dose'),
+                            'units' => Input::get('medication_units'),
+                            'units' => Input::get('medication_units'),
+                        ), Input::get('id'));
+                    } else {
+                        $i = 0;
+                        foreach (Input::get('medication_type') as $searchValue) {
+                            $user->createRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
@@ -2500,26 +2513,14 @@ if ($user->isLoggedIn()) {
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
                                 'units' => Input::get('medication_units')[$i],
-                                'units' => Input::get('medication_units')[$i],
-                            ), Input::get('medication_id')[$i]);
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ));
+                            $i++;
                         }
-                    } else {
-                        $user->createRecord('medication_treatments', array(
-                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
-                            'medication_type' => Input::get('medication_type')[$i],
-                            'medication_action' => Input::get('medication_action')[$i],
-                            'medication_dose' => Input::get('medication_dose')[$i],
-                            'units' => Input::get('medication_units')[$i],
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ));
                     }                   
 
                     // print_r(count(Input::get('medication_type')));
@@ -10739,7 +10740,6 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <div class="row-form clearfix">
-
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="card">
@@ -10752,37 +10752,44 @@ if ($user->isLoggedIn()) {
                                                                 <table id="medication_table" class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th style="width: 10px">#</th>
-                                                                            <th> Visit Day </th>
-                                                                            <th> Medication name </th>
-                                                                            <th> Action </th>
-                                                                            <th style="width: 40px"> Dose </th>
-                                                                            <th style="width: 40px"> Units </th>
-                                                                            <th style="width: 40px"></th>
+                                                                            <th style="width: 5px">#</th>
+                                                                            <th style="width: 10px"> Visit Day </th>
+                                                                            <th style="width: 30px"> Medication name </th>
+                                                                            <th style="width: 20px"> Action </th>
+                                                                            <th style="width: 5px"> Dose </th>
+                                                                            <th style="width: 10px"> Units </th>
+                                                                            <th style="width: 20px"></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    <?php
+                                                                    <?php $x = 1;
                                                                         foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
                                                                             $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
                                                                             $batches = $override->getNews('batch', 'status', 1, 'id', $_GET['batch_id'])[0];
                                                                         ?>
                                                                         <tr>
-                                                                            <td>1.</td>
+                                                                            <td><?= $x; ?></td>
                                                                             <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td>
-                                                                                <div class="progress progress-xs">
-                                                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                                                                </div>
+                                                                            <td><?= $treatment['visit_day'] ?></td>
+                                                                            <td><?= $treatment['visit_day'] ?></td>
+                                                                            <td><?= $treatment['visit_day'] ?></td>
+                                                                            <td><?= $treatment['visit_day'] ?></td>
+                                                                             <td>
+                                                                                <span class="badge bg-info">
+                                                                                    <a href="#update_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Update</a>
+                                                                                </span>
+
+                                                                                <span class="badge bg-warning">
+                                                                                    <a href="#remove_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Remove</a>
+                                                                                </span>
+
+                                                                                <span class="badge bg-danger">
+                                                                                    <a href="#delete_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Delete</a>
+                                                                                </span>
                                                                             </td>
-                                                                            <td><span class="badge bg-danger">55%</span></td>
-                                                                            <td><span class="badge bg-danger">55%</span></td>
-                                                                            <td><span class="badge bg-danger">55%</span></td>
-                                                                            <td><span class="badge bg-danger">55%</span></td>
                                                                             <!-- <input type="button" class="ibtnDel1 btn btn-md btn-warning" value="Remove"> -->
-                                                                            <!-- <a href="#delete_med<?= $treatment['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a> -->
                                                                         </tr>
-                                                                        <div class="modal fade" id="addScreening<?= $client['id'] ?>">
+                                                                        <div class="modal fade" id="update_med<?= $treatment['id'] ?>">
                                                                             <div class="modal-dialog">
                                                                                 <form method="post">
                                                                                     <div class="modal-content">
@@ -10901,7 +10908,7 @@ if ($user->isLoggedIn()) {
                                                                                 </form>
                                                                             </div>
                                                                         </div>
-                                                                    <?php } ?>
+                                                                    <?php $x++; } ?>
                                                                     </tbody>
                                                                 </table>
                                                                 <input type="button" class="btn btn-lg btn-block" onclick="add_Medication()" value="Add New Medication" />

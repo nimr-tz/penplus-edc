@@ -770,6 +770,11 @@ if ($user->isLoggedIn()) {
                 Redirect::to($url);
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('increase_batch')) {
+            $user->updateRecord('batch', array(
+                'amount' => Input::get('amount'),
+            ), Input::get('id'));
+            $successMessage = Input::get('name') . ' - ' . 'Batch Increased Successful';
         }
 
 
@@ -3123,7 +3128,7 @@ if ($user->isLoggedIn()) {
                                             <tbody>
                                                 <?php $x = 1;
                                                 foreach ($override->getNews('batch', 'status', 1, 'medication_id', $_GET['medication_id']) as $value) {
-
+                                                    $name = $override->get('medications', 'status', 1, 'id', $value['medication_id'])[0];
                                                     $batch_sum = $override->getSumD2('batch', 'amount', 'status', 1, 'medication_id', $value['id'])[0]['SUM(amount)'];
                                                     $forms = $override->get('forms', 'status', 1, 'id', $value['forms'])[0];
                                                     if ($batch_sum) {
@@ -3134,7 +3139,7 @@ if ($user->isLoggedIn()) {
 
                                                 ?>
                                                     <tr>
-                                                        <td><?= $value['name'] ?></td>
+                                                        <td><?= $name['name'] ?></td>
                                                         <td><?= $value['serial_name'] ?></td>
                                                         <td><?= $value['amount'] ?></td>
                                                         <td><?= $value['expire_date'] ?></td>
@@ -3146,78 +3151,68 @@ if ($user->isLoggedIn()) {
                                                             <?php } ?>
                                                         </td>
                                                         <td>
-                                                            <a href="#editVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update</a>
-                                                            <a href="info.php?id=9&generic_id=<?= $value['id'] ?>" role="button" class="btn btn-success">View</a>
+                                                            <a href="#editVisit<?= $value['id'] ?>" role="button" class="btn btn-success" data-toggle="modal">Update</a>
+                                                            <a href="#increase<?= $value['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Increase Batch</a>
+                                                            <a href="#editVisit<?= $value['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Decrease Batch</a>
+                                                            <a href="info.php?id=9&generic_id=<?= $value['id'] ?>" role="button" class="btn btn-deafult">View</a>
                                                         </td>
 
                                                     </tr>
 
-                                                    <div class="modal fade" id="editVisit<?= $visit['id'] ?>">
+                                                    <div class="modal fade" id="increase<?= $value['id'] ?>">
                                                         <div class="modal-dialog">
                                                             <form method="post">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title">Default Modal</h4>
+                                                                        <h4 class="modal-title">Increase ( <?= $name['name']; ?>) Batch / Serial</h4>
                                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                     </div>
-                                                                    <?php $screening = $override->get('screening', 'patient_id', $client['id'])[0];
-                                                                    ?>
                                                                     <div class="modal-body">
                                                                         <div class="row">
-
-                                                                            <div class="row">
-                                                                                <div class="col-sm-6">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Visit Date</label>
-                                                                                            <input value="<?php if ($visit['status'] != 0) {
-                                                                                                                echo $visit['visit_date'];
-                                                                                                            } ?>" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" />
-                                                                                            <span>Example: 2010-12-01</span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <!-- <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix"> -->
-                                                                                <!-- select -->
-                                                                                <!-- <div class="form-group">
-                                                                                            <label>Visit Name</label>
-                                                                                            <select name="visit_name" style="width: 100%;" required>
-                                                                                                <option value="">Select</option>
-                                                                                                <?php foreach ($override->getData('schedule') as $study) { ?>
-                                                                                                    <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
-                                                                                                <?php } ?>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div> -->
-
-                                                                                <div class="col-sm-6">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Notes / Remarks /Comments</label>
-                                                                                            <textarea name="reasons" rows="4"><?php if ($visit['status'] != 0) {
-                                                                                                                                    echo $visit['reasons'];
-                                                                                                                                } ?></textarea>
-                                                                                        </div>
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date</label>
+                                                                                        <input class="form-control" value="<?php if ($value['date']) {
+                                                                                                                                echo $value['date'];
+                                                                                                                            } ?>" type="date" name="date" id="date" />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="dr"><span></span></div>
+
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Amount</label>
+                                                                                        <input class="form-control" value="<?php if ($value['amount']) {
+                                                                                                                                echo $value['amount'];
+                                                                                                                            } ?>" type="number" min="0" name="amount" id="amount" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Price</label>
+                                                                                        <input class="form-control" value="<?php if ($value['price'] != 0) {
+                                                                                                                                echo $value['price'];
+                                                                                                                            } ?>" type="number" min="0" name="price" id="price" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
+                                                                        <div class="dr"><span></span></div>
                                                                     </div>
                                                                     <div class="modal-footer justify-content-between">
-                                                                        <input type="hidden" name="id" value="<?= $visit['id'] ?>">
-                                                                        <input type="hidden" name="vc" value="<?= $visit['visit_code'] ?>">
-                                                                        <input type="hidden" name="visit_name" value="<?= $visit['visit_name'] ?>">
-                                                                        <input type="hidden" name="cid" value="<?= $visit['client_id'] ?>">
+                                                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                                        <input type="hidden" name="name" value="<?= $name['name']; ?>">
                                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                        <input type="submit" name="edit_visit" class="btn btn-primary" value="Save changes">
+                                                                        <input type="submit" name="increase_batch" class="btn btn-primary" value="Save changes">
                                                                     </div>
                                                                 </div>
                                                                 <!-- /.modal-content -->
@@ -3728,5 +3723,7 @@ if ($user->isLoggedIn()) {
         // autocomplete(document.getElementById("myInput"), countries);
     </script>
 </body>
+
+</html>
 
 </html>

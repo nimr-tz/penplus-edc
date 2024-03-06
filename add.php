@@ -2501,8 +2501,7 @@ if ($user->isLoggedIn()) {
                             'units' => Input::get('medication_units'),
                         ), Input::get('id'));
                     } else {
-                        $i = 0;
-                        foreach (Input::get('medication_type') as $searchValue) {
+                        for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
                             $user->createRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
@@ -2518,8 +2517,7 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
-                            ));
-                            $i++;
+                            ));                            
                         }
                     }                   
 
@@ -10744,7 +10742,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="col-md-12">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <h3 class="card-title">Bordered Table</h3>
+                                                                <h3 class="card-title">Medication Lists</h3>
                                                             </div>
                                                             <!-- /.card-header -->
                                                             <div class="card-body">
@@ -10762,26 +10760,33 @@ if ($user->isLoggedIn()) {
                                                                             <th></th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody>
+                                                                    <tbody id="tbody">
                                                                     <?php $x = 1;
                                                                         foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
                                                                             $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
                                                                             $batches = $override->getNews('batch', 'status', 1, 'id', $_GET['batch_id'])[0];
+
+                                                                            if($treatment['medication_action'] == 1){
+                                                                                $medication_action = 'Continue';
+                                                                            }elseif($treatment['medication_action'] == 2){
+                                                                                $medication_action = 'Start';
+                                                                            }elseif($treatment['medication_action'] == 3){
+                                                                                $medication_action = 'Stop';
+                                                                            }elseif($treatment['medication_action'] == 4){
+                                                                                $medication_action = 'Not Eligible';
+                                                                            }                                                                                                                                            
+                                                                            
                                                                         ?>
                                                                         <tr>
                                                                             <td><?= $x; ?></td>
                                                                             <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td><?= $treatment['visit_day'] ?></td>
+                                                                            <td><?= $medications[0]['name'] ?></td>
+                                                                            <td><?= $medication_action ?></td>
+                                                                            <td><?= $treatment['medication_dose'] ?></td>
+                                                                            <td><?= $treatment['units'] ?></td>
                                                                              <td>
                                                                                 <span class="badge bg-info">
                                                                                     <a href="#update_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Update</a>
-                                                                                </span>
-
-                                                                                <span class="badge bg-warning">
-                                                                                    <a href="#remove_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Remove</a>
                                                                                 </span>
 
                                                                                 <span class="badge bg-danger">
@@ -10790,7 +10795,7 @@ if ($user->isLoggedIn()) {
                                                                             </td>
                                                                             <!-- <input type="button" class="ibtnDel1 btn btn-md btn-warning" value="Remove"> -->
                                                                         </tr>
-                                                                        <div class="modal fade" id="update_med<?= $treatment['id'] ?>">
+                                                                        <!-- <div class="modal fade" id="update_med<?= $treatment['id'] ?>">
                                                                             <div class="modal-dialog">
                                                                                 <form method="post">
                                                                                     <div class="modal-content">
@@ -10808,7 +10813,7 @@ if ($user->isLoggedIn()) {
                                                                                                     <div class="row-form clearfix">
                                                                                                         <div class="form-group">
                                                                                                             <label>Medication name</label>
-                                                                                                            <select name="medication_type" id="medication_type" class="form-control select2" style="width: 100%;" required readonly>
+                                                                                                            <select name="medication_type" id="medication_type" class="form-control select2" style="width: 100%;" required>
                                                                                                                 <?php if (!$medications) { ?>
                                                                                                                     <option value="">Select Medication</option>
                                                                                                                 <?php } else { ?>
@@ -10825,7 +10830,7 @@ if ($user->isLoggedIn()) {
                                                                                                     <div class="row-form clearfix">
                                                                                                         <div class="form-group">
                                                                                                             <label>Action</label>
-                                                                                                            <select name="medication_action" class="form-control" id="medication_action" style="width: 80%;" required readonly>
+                                                                                                            <select name="medication_action" class="form-control" id="medication_action" style="width: 80%;" required>
                                                                                                                 <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
                                                                                                                                                                             if ($treatment['medication_action'] == 1) {
                                                                                                                                                                                 echo 'Continue';
@@ -10852,7 +10857,6 @@ if ($user->isLoggedIn()) {
                                                                                             <div class="row">
                                                                                                 <div class="col-sm-4">
                                                                                                     <div class="row-form clearfix">
-                                                                                                        <!-- select -->
                                                                                                         <div class="form-group">
                                                                                                             <label>DOSE</label>
                                                                                                             <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
@@ -10864,7 +10868,6 @@ if ($user->isLoggedIn()) {
 
                                                                                                 <div class="col-sm-4">
                                                                                                     <div class="row-form clearfix">
-                                                                                                        <!-- select -->
                                                                                                         <div class="form-group">
                                                                                                             <label>UNITS</label>
                                                                                                             <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['medication_units']) {
@@ -10881,11 +10884,9 @@ if ($user->isLoggedIn()) {
                                                                                             <input type="submit" name="add_medication" class="btn btn-primary" value="Save changes">
                                                                                         </div>
                                                                                     </div>
-                                                                                    <!-- /.modal-content -->
                                                                                 </form>
                                                                             </div>
-                                                                            <!-- /.modal-dialog -->
-                                                                        </div>
+                                                                        </div> -->
                                                                         <!-- /.modal -->
                                                                         <div class="modal fade" id="delete_med<?= $treatment['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                                             <div class="modal-dialog">
@@ -16621,30 +16622,30 @@ if ($user->isLoggedIn()) {
         }
         // DropzoneJS Demo Code End
 
-        function add_Medication() {
-            var table = document.getElementById("medication_table");
-            var row = table.insertRow();
-            var vday = row.insertCell(0);
-            var medication_type = row.insertCell(1);
-            var medication_action = row.insertCell(2);
-            var medication_dose = row.insertCell(3);
-            var medication_units = row.insertCell(4);
-            var actionCell = row.insertCell(5);
-            var seq_no = row.insertCell(6);
-            var actionCell = row.insertCell(7);
-            var medication_id = row.insertCell(8);
+        // function add_Medication() {
+        //     var table = document.getElementById("medication_table");
+        //     var row = table.insertRow();
+        //     var vday = row.insertCell(0);
+        //     var medication_type = row.insertCell(1);
+        //     var medication_action = row.insertCell(2);
+        //     var medication_dose = row.insertCell(3);
+        //     var medication_units = row.insertCell(4);
+        //     var actionCell = row.insertCell(5);
+        //     var seq_no = row.insertCell(6);
+        //     var actionCell = row.insertCell(7);
+        //     var medication_id = row.insertCell(8);
 
-            // Assuming the data is passed from PHP
-            vday.innerHTML = '<button type="button" class="btn btn-info"><?= $_GET['vday']; ?></button>';
-            seq_no.innerHTML = '<input type="hidden" name="seq_no[]" value="<?= $_GET['seq'] ?>">';
-            medication_type.innerHTML = '<select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select>';
-            medication_action.innerHTML = '<select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
-            medication_dose.innerHTML = '<input class="form-control" type="text" name="medication_dose[]" value="" required>';
-            medication_units.innerHTML = '<input class="form-control"  type="text" name="medication_units[]" value="" required>';
-            medication_id.innerHTML = '<input class="form-control"  type="hidden" name="medication_id[]" value="" required>';
-            actionCell.innerHTML = '<button type="button" class="ibtnDel1">Remove</button>';
-            // actionCell2.innerHTML = '<button type="button" class="remove-row">Delete</button>';
-        }
+        //     // Assuming the data is passed from PHP
+        //     vday.innerHTML = '<button type="button" class="btn btn-info"><?= $_GET['vday']; ?></button>';
+        //     seq_no.innerHTML = '<input type="hidden" name="seq_no[]" value="<?= $_GET['seq'] ?>">';
+        //     medication_type.innerHTML = '<select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;"><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select>';
+        //     medication_action.innerHTML = '<select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
+        //     medication_dose.innerHTML = '<input class="form-control" type="text" name="medication_dose[]" value="">';
+        //     medication_units.innerHTML = '<input class="form-control"  type="text" name="medication_units[]" value="">';
+        //     medication_id.innerHTML = '<input class="form-control"  type="hidden" name="medication_id[]" value="">';
+        //     actionCell.innerHTML = '<button type="button" class="ibtnDel1">Remove</button>';
+        //     // actionCell2.innerHTML = '<button type="button" class="remove-row">Delete</button>';
+        // }
 
         // Remove row
         // document.addEventListener("click", function(e) {
@@ -16654,10 +16655,35 @@ if ($user->isLoggedIn()) {
         //     }
         // });
 
-        $("table.order-list").on("click", ".ibtnDel1", function(event) {
-            $(this).closest("tr").remove();
-            counter -= 1
-        });
+        // $("table.order-list").on("click", ".ibtnDel1", function(event) {
+        //     $(this).closest("tr").remove();
+        //     counter -= 1
+        // });
+
+        var items = 0;
+
+        function add_Medication() {
+            items++;
+
+            var html = "<tr>";
+            html += "<td>" + items + "</td>";
+            html += "<td><?= $_GET['vday']; ?></td>";
+            html += '<td><select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select></td>';
+            html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
+            html += '<td><input class="form-control" type="text" name="medication_dose[]" value="" required></td>';
+            html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
+            html += "<td><button type='button' onclick='deleteRow(this);'>Remove</button></td>"
+            html += "</tr>";
+
+            var row = document.getElementById("tbody").insertRow();
+            row.innerHTML = html;
+        }
+
+        function deleteRow(button) {
+        items--
+        button.parentElement.parentElement.remove();
+        // first parentElement will be td and second will be tr.
+    }
     </script>
 </body>
 

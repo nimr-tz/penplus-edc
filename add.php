@@ -15897,14 +15897,14 @@ if ($user->isLoggedIn()) {
                                                                 <input class="form-check-input" type="radio" name="water_access" id="water_access1" value="1" <?php if ($social_economic['water_access'] == 1) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                <label class="form-check-label">Flush to pit latrine</label>
+                                                                <label class="form-check-label">Yes</label>
                                                             </div>
 
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="water_access" id="water_access2" value="2" <?php if ($social_economic['water_access'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                <label class="form-check-label">Flush to somewhere else</label>
+                                                                <label class="form-check-label">No</label>
                                                             </div>
                                                         </div>
                                                         <span>IF no, skip next question</span>
@@ -16008,14 +16008,14 @@ if ($user->isLoggedIn()) {
                                                                 <input class="form-check-input" type="radio" name="toilet_access" id="toilet_access1" value="1" <?php if ($social_economic['toilet_access'] == 1) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                <label class="form-check-label">Flush to pit latrine</label>
+                                                                <label class="form-check-label">Yes</label>
                                                             </div>
 
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="toilet_access" id="toilet_access2" value="2" <?php if ($social_economic['toilet_access'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                <label class="form-check-label">Flush to somewhere else</label>
+                                                                <label class="form-check-label">No</label>
                                                             </div>
                                                         </div>
                                                         <span>IF no, skip next question</span>

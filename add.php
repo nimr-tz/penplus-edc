@@ -10752,13 +10752,14 @@ if ($user->isLoggedIn()) {
                                                                 <table id="medication_table" class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th style="width: 5px">#</th>
-                                                                            <th style="width: 10px"> Visit Day </th>
-                                                                            <th style="width: 30px"> Medication name </th>
-                                                                            <th style="width: 20px"> Action </th>
-                                                                            <th style="width: 5px"> Dose </th>
-                                                                            <th style="width: 10px"> Units </th>
-                                                                            <th style="width: 20px"></th>
+                                                                            <!-- <th style="width: 5px">#</th> -->
+                                                                            <th>#</th>
+                                                                            <th> Visit Day </th>
+                                                                            <th> Medication name </th>
+                                                                            <th> Action </th>
+                                                                            <th> Dose </th>
+                                                                            <th> Units </th>
+                                                                            <th></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>

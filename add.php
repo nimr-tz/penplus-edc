@@ -2828,7 +2828,7 @@ if ($user->isLoggedIn()) {
                     }
 
                     Redirect::to('info.php?id=8');
-                    // Redirect::to('info.php?id=8&status=' . $_GET['status']);
+                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -2880,7 +2880,7 @@ if ($user->isLoggedIn()) {
                         }
                     }
 
-                    // Redirect::to('info.php?id=9');
+                    Redirect::to('info.php?id=10');
 
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -4029,7 +4029,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Batch / Serial Number:</label>
                                                             <input class="form-control" type="text" name="serial_name" id="serial_name" value="<?php if ($batches['serial_name']) {
                                                                                                                                                     print_r($batches['serial_name']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4041,7 +4041,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Amount</label>
                                                             <input class="form-control" type="number" min="0" max="10000" name="amount" id="amount" value="<?php if ($batches['amount']) {
                                                                                                                                                                 print_r($batches['amount']);
-                                                                                                                                                            }  ?>" />
+                                                                                                                                                            }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4056,7 +4056,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Expire Date:</label>
                                                             <input class="form-control" type="date" name="expire_date" id="expire_date" value="<?php if ($batches['expire_date']) {
                                                                                                                                                     print_r($batches['expire_date']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4070,7 +4070,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Price</label>
                                                             <input class="form-control" type="number" min="0" max="10000000000000" name="price" id="price" value="<?php if ($batches['price']) {
                                                                                                                                                                         print_r($batches['price']);
-                                                                                                                                                                    }  ?>" />
+                                                                                                                                                                    }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>

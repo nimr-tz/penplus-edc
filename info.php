@@ -2900,6 +2900,9 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="add.php?id=5&btn=Add">
+                                            < Go Back</a>
+                                    </li>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Medications</li>
                                 </ol>
@@ -2943,15 +2946,6 @@ if ($user->isLoggedIn()) {
                                         $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
 
                                         ?>
-
-                                        <div class="col-sm-6">
-                                            <ol class="breadcrumb float-sm-right">
-                                                <li class="breadcrumb-item">
-                                                    <a href='index1.php' class="btn btn-default">Back</a>
-                                                    </a>
-                                                </li>
-                                            </ol>
-                                        </div>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -3271,6 +3265,9 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="add.php?id=6&btn=Add">
+                                            < Go Back</a>
+                                    </li>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Medications Batch</li>
                                 </ol>
@@ -3314,15 +3311,6 @@ if ($user->isLoggedIn()) {
                                         $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
 
                                         ?>
-
-                                        <div class="col-sm-6">
-                                            <ol class="breadcrumb float-sm-right">
-                                                <li class="breadcrumb-item"><a href="index1.php">
-                                                        <a href='info.php?id=8' class="btn btn-default">Back</a>
-                                                    </a>
-                                                </li>
-                                            </ol>
-                                        </div>
                                     </div>
 
                                     <!-- /.card-header -->
@@ -3436,25 +3424,15 @@ if ($user->isLoggedIn()) {
         <?php } elseif ($_GET['id'] == 14) { ?>
         <?php } elseif ($_GET['id'] == 15) { ?>
         <?php } ?>
-    </div>
-    <!-- /.col -->
-    </div>
-    <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 
-    <?php include 'footer.php'; ?>
+        <?php include 'footer.php'; ?>
 
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 

@@ -2487,7 +2487,7 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    if (Input::get('btn') == 'Update') {
+                    if (Input::get('update_medication')) {
                         $user->updateRecord('medication_treatments', array(
                             'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
@@ -2607,6 +2607,22 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        }elseif (Input::get('update_medication')) {
+            $user->updateRecord('medication_treatments', array(
+                'study_id' => $_GET['sid'],
+                'visit_code' => $_GET['vcode'],
+                'visit_day' => $_GET['vday'],
+                'seq_no' => $_GET['seq'],
+                'vid' => $_GET['vid'],
+                'medication_type' => Input::get('medication_type'),
+                'medication_action' => Input::get('medication_action'),
+                'medication_dose' => Input::get('medication_dose'),
+                'units' => Input::get('medication_units'),
+                'units' => Input::get('medication_units'),
+            ), Input::get('id'));
+
+            $successMessage = 'Medication Updated Successful';
+
         } elseif (Input::get('add_social_economic')) {
             $validate = $validate->check($_POST, array(
                 'social_economic_date' => array(
@@ -10795,18 +10811,16 @@ if ($user->isLoggedIn()) {
                                                                             </td>
                                                                             <!-- <input type="button" class="ibtnDel1 btn btn-md btn-warning" value="Remove"> -->
                                                                         </tr>
-                                                                        <!-- <div class="modal fade" id="update_med<?= $treatment['id'] ?>">
+                                                                        <div class="modal fade" id="update_med<?= $treatment['id'] ?>">
                                                                             <div class="modal-dialog">
                                                                                 <form method="post">
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header">
-                                                                                            <h4 class="modal-title">SCREENING FORM</h4>
+                                                                                            <h4 class="modal-title">Medication Form</h4>
                                                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                                 <span aria-hidden="true">&times;</span>
                                                                                             </button>
                                                                                         </div>
-                                                                                        <?php $screening = $override->get('screening', 'patient_id', $client['id'])[0];
-                                                                                        ?>
                                                                                         <div class="modal-body">
                                                                                             <div class="row">
                                                                                                 <div class="col-sm-6">
@@ -10859,7 +10873,7 @@ if ($user->isLoggedIn()) {
                                                                                                     <div class="row-form clearfix">
                                                                                                         <div class="form-group">
                                                                                                             <label>DOSE</label>
-                                                                                                            <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
+                                                                                                            <input class="form-control" type="text" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
                                                                                                                                                                                                                                                                         print_r($treatment['medication_dose']);
                                                                                                                                                                                                                                                                     }  ?>" required />
                                                                                                         </div>
@@ -10870,8 +10884,8 @@ if ($user->isLoggedIn()) {
                                                                                                     <div class="row-form clearfix">
                                                                                                         <div class="form-group">
                                                                                                             <label>UNITS</label>
-                                                                                                            <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['medication_units']) {
-                                                                                                                                                                                                                                                                        print_r($treatment['medication_units']);
+                                                                                                            <input class="form-control" type="text" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['units']) {
+                                                                                                                                                                                                                                                                        print_r($treatment['units']);
                                                                                                                                                                                                                                                                     }  ?>" required />
                                                                                                         </div>
                                                                                                     </div>
@@ -10881,12 +10895,12 @@ if ($user->isLoggedIn()) {
                                                                                         <div class="modal-footer justify-content-between">
                                                                                             <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
                                                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                                            <input type="submit" name="add_medication" class="btn btn-primary" value="Save changes">
+                                                                                            <input type="submit" name="update_medication" class="btn btn-primary" value="Save changes">
                                                                                         </div>
                                                                                     </div>
                                                                                 </form>
                                                                             </div>
-                                                                        </div> -->
+                                                                        </div>
                                                                         <!-- /.modal -->
                                                                         <div class="modal fade" id="delete_med<?= $treatment['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                                             <div class="modal-dialog">

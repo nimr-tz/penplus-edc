@@ -2327,11 +2327,9 @@ if ($user->isLoggedIn()) {
                 'visit_date' => array(
                     'required' => true,
                 ),
-
             ));
             if ($validate->passed()) {
                 try {
-
                     $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                     if ($treatment_plan) {
@@ -2490,25 +2488,9 @@ if ($user->isLoggedIn()) {
                     }
 
                     print_r(count(Input::get('medication_type')));
-                    // print_r(count(Input::get('medication_type')));
-                    for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
-                        if (Input::get('medication_id')[$i]) {
-                            if (Input::get('seq_no')[$i] == $_GET['seq']) {
-                                $user->updateRecord('medication_treatments', array(
-                                    'study_id' => $_GET['sid'],
-                                    'visit_code' => $_GET['vcode'],
-                                    'visit_day' => $_GET['vday'],
-                                    'seq_no' => $_GET['seq'],
-                                    'vid' => $_GET['vid'],
-                                    'medication_type' => Input::get('medication_type')[$i],
-                                    'medication_action' => Input::get('medication_action')[$i],
-                                    'medication_dose' => Input::get('medication_dose')[$i],
-                                    'units' => Input::get('medication_units')[$i],
-                                    'units' => Input::get('medication_units')[$i],
-                                ), Input::get('medication_id')[$i]);
-                            }
-                        } else {
-                            $user->createRecord('medication_treatments', array(
+                    if (Input::get('medication_id')[$i]) {
+                        if (Input::get('seq_no')[$i] == $_GET['seq']) {
+                            $user->updateRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
@@ -2518,14 +2500,65 @@ if ($user->isLoggedIn()) {
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
                                 'units' => Input::get('medication_units')[$i],
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ));
-                        }                   
-                    }
+                                'units' => Input::get('medication_units')[$i],
+                            ), Input::get('medication_id')[$i]);
+                        }
+                    } else {
+                        $user->createRecord('medication_treatments', array(
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'medication_type' => Input::get('medication_type')[$i],
+                            'medication_action' => Input::get('medication_action')[$i],
+                            'medication_dose' => Input::get('medication_dose')[$i],
+                            'units' => Input::get('medication_units')[$i],
+                            'patient_id' => $_GET['cid'],
+                            'staff_id' => $user->data()->id,
+                            'status' => 1,
+                            'created_on' => date('Y-m-d'),
+                            'site_id' => $user->data()->site_id,
+                        ));
+                    }                   
+
+                    // print_r(count(Input::get('medication_type')));
+                    // // print_r(count(Input::get('medication_type')));
+                    // for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
+                    //     if (Input::get('medication_id')[$i]) {
+                    //         if (Input::get('seq_no')[$i] == $_GET['seq']) {
+                    //             $user->updateRecord('medication_treatments', array(
+                    //                 'study_id' => $_GET['sid'],
+                    //                 'visit_code' => $_GET['vcode'],
+                    //                 'visit_day' => $_GET['vday'],
+                    //                 'seq_no' => $_GET['seq'],
+                    //                 'vid' => $_GET['vid'],
+                    //                 'medication_type' => Input::get('medication_type')[$i],
+                    //                 'medication_action' => Input::get('medication_action')[$i],
+                    //                 'medication_dose' => Input::get('medication_dose')[$i],
+                    //                 'units' => Input::get('medication_units')[$i],
+                    //                 'units' => Input::get('medication_units')[$i],
+                    //             ), Input::get('medication_id')[$i]);
+                    //         }
+                    //     } else {
+                    //         $user->createRecord('medication_treatments', array(
+                    //             'study_id' => $_GET['sid'],
+                    //             'visit_code' => $_GET['vcode'],
+                    //             'visit_day' => $_GET['vday'],
+                    //             'seq_no' => $_GET['seq'],
+                    //             'vid' => $_GET['vid'],
+                    //             'medication_type' => Input::get('medication_type')[$i],
+                    //             'medication_action' => Input::get('medication_action')[$i],
+                    //             'medication_dose' => Input::get('medication_dose')[$i],
+                    //             'units' => Input::get('medication_units')[$i],
+                    //             'patient_id' => $_GET['cid'],
+                    //             'staff_id' => $user->data()->id,
+                    //             'status' => 1,
+                    //             'created_on' => date('Y-m-d'),
+                    //             'site_id' => $user->data()->site_id,
+                    //         ));
+                    //     }                   
+                    // }
 
                     // $i = 0;
                     // foreach (Input::get('medication_type') as $searchValue) {
@@ -10706,108 +10739,189 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <div class="row-form clearfix">
-                                                <table id="medication_table" class="table order-list">
-                                                    <thead>
-                                                        <tr>
-                                                            <th> Visit Day </th>
-                                                            <th> Medication name </th>
-                                                            <th> Action </th>
-                                                            <th width="10%"> Dose </th>
-                                                            <th width="10%"> Units </th>
-                                                            <th width="20%"></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
-                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
-                                                            $batches = $override->getNews('batch', 'status', 1, 'id', $_GET['batch_id'])[0];
-                                                            // print_r($treatment['seq_no']);
-                                                        ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <a href="#" class="btn btn-info"><?= $treatment['visit_day'] ?></a>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="hidden" name="medication_id[]" value="<?= $treatment['id'] ?>">
-                                                                    <input type="hidden" name="seq_no[]" value="<?= $treatment['seq_no'] ?>">
-                                                                    <select name="medication_type[]" id="medication_type[]" class="form-control select2" style="width: 100%;" required <?php if ($treatment['seq_no'] != $_GET['seq']) { ?> disabled <?php } ?>>
-                                                                        <?php if (!$medications) { ?>
-                                                                            <option value="">Select Medication</option>
-                                                                        <?php } else { ?>
-                                                                            <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name'] ?></option>
-                                                                        <?php } ?>
-                                                                        <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
-                                                                            <option value="<?= $medication['id'] ?>"><?= $medication['name'] ?></option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <select name="medication_action[]" class="form-control" id="medication_action[]" style="width: 80%;" required <?php if ($treatment['seq_no'] != $_GET['seq']) { ?> disabled <?php } ?>>
-                                                                        <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
-                                                                                                                                    if ($treatment['medication_action'] == 1) {
-                                                                                                                                        echo 'Continue';
-                                                                                                                                    } elseif ($treatment['medication_action'] == 2) {
-                                                                                                                                        echo 'Start';
-                                                                                                                                    } elseif ($treatment['medication_action'] == 3) {
-                                                                                                                                        echo 'Stop';
-                                                                                                                                    } elseif ($treatment['medication_action'] == 4) {
-                                                                                                                                        echo 'Not Eligible';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?>
-                                                                        </option>
-                                                                        <option value="1">Continue</option>
-                                                                        <option value="2">Start</option>
-                                                                        <option value="3">Stop</option>
-                                                                        <option value="4">Not Eligible</option>
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="medication_dose[]" style="width: 80%;" value='<?php if ($treatment['medication_dose']) {
-                                                                                                                                                                    print_r($treatment['medication_dose']);
-                                                                                                                                                                }  ?>' required <?php if ($treatment['seq_no'] != $_GET['seq']) { ?> readonly <?php } ?>>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="medication_units[]" style="width: 80%;" value='<?php if ($treatment['units']) {
-                                                                                                                                                                        print_r($treatment['units']);
-                                                                                                                                                                    }  ?>' required <?php if ($treatment['seq_no'] != $_GET['seq']) { ?> readonly <?php } ?>>
-                                                                </td>
 
-                                                                <td>
-                                                                    <input type="button" class="ibtnDel1 btn btn-md btn-warning" value="Remove">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h3 class="card-title">Bordered Table</h3>
+                                                            </div>
+                                                            <!-- /.card-header -->
+                                                            <div class="card-body">
+                                                                <!-- <table id="medication_table" class="table order-list"> -->
+                                                                <table id="medication_table" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="width: 10px">#</th>
+                                                                            <th> Visit Day </th>
+                                                                            <th> Medication name </th>
+                                                                            <th> Action </th>
+                                                                            <th style="width: 40px"> Dose </th>
+                                                                            <th style="width: 40px"> Units </th>
+                                                                            <th style="width: 40px"></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <?php
+                                                                        foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
+                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
+                                                                            $batches = $override->getNews('batch', 'status', 1, 'id', $_GET['batch_id'])[0];
+                                                                        ?>
+                                                                        <tr>
+                                                                            <td>1.</td>
+                                                                            <td><?= $treatment['visit_day'] ?></td>
+                                                                            <td>
+                                                                                <div class="progress progress-xs">
+                                                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td><span class="badge bg-danger">55%</span></td>
+                                                                            <td><span class="badge bg-danger">55%</span></td>
+                                                                            <td><span class="badge bg-danger">55%</span></td>
+                                                                            <td><span class="badge bg-danger">55%</span></td>
+                                                                            <!-- <input type="button" class="ibtnDel1 btn btn-md btn-warning" value="Remove"> -->
+                                                                            <!-- <a href="#delete_med<?= $treatment['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a> -->
+                                                                        </tr>
+                                                                        <div class="modal fade" id="addScreening<?= $client['id'] ?>">
+                                                                            <div class="modal-dialog">
+                                                                                <form method="post">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h4 class="modal-title">SCREENING FORM</h4>
+                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <?php $screening = $override->get('screening', 'patient_id', $client['id'])[0];
+                                                                                        ?>
+                                                                                        <div class="modal-body">
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-6">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Medication name</label>
+                                                                                                            <select name="medication_type" id="medication_type" class="form-control select2" style="width: 100%;" required readonly>
+                                                                                                                <?php if (!$medications) { ?>
+                                                                                                                    <option value="">Select Medication</option>
+                                                                                                                <?php } else { ?>
+                                                                                                                    <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name'] ?></option>
+                                                                                                                <?php } ?>
+                                                                                                                <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
+                                                                                                                    <option value="<?= $medication['id'] ?>"><?= $medication['name'] ?></option>
+                                                                                                                <?php } ?>
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-sm-6">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Action</label>
+                                                                                                            <select name="medication_action" class="form-control" id="medication_action" style="width: 80%;" required readonly>
+                                                                                                                <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
+                                                                                                                                                                            if ($treatment['medication_action'] == 1) {
+                                                                                                                                                                                echo 'Continue';
+                                                                                                                                                                            } elseif ($treatment['medication_action'] == 2) {
+                                                                                                                                                                                echo 'Start';
+                                                                                                                                                                            } elseif ($treatment['medication_action'] == 3) {
+                                                                                                                                                                                echo 'Stop';
+                                                                                                                                                                            } elseif ($treatment['medication_action'] == 4) {
+                                                                                                                                                                                echo 'Not Eligible';
+                                                                                                                                                                            }
+                                                                                                                                                                        } else {
+                                                                                                                                                                            echo 'Select';
+                                                                                                                                                                        } ?>
+                                                                                                                </option>
+                                                                                                                <option value="1">Continue</option>
+                                                                                                                <option value="2">Start</option>
+                                                                                                                <option value="3">Stop</option>
+                                                                                                                <option value="4">Not Eligible</option>
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <!-- select -->
+                                                                                                        <div class="form-group">
+                                                                                                            <label>DOSE</label>
+                                                                                                            <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
+                                                                                                                                                                                                                                                                        print_r($treatment['medication_dose']);
+                                                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
 
-                                                                    <a href="#delete_med<?= $treatment['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
-                                                                </td>
-                                                            </tr>
-                                                            <div class="modal fade" id="delete_med<?= $treatment['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <form method="post">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                                                <h4>Delete this Medication</h4>
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <!-- select -->
+                                                                                                        <div class="form-group">
+                                                                                                            <label>UNITS</label>
+                                                                                                            <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['medication_units']) {
+                                                                                                                                                                                                                                                                        print_r($treatment['medication_units']);
+                                                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="modal-footer justify-content-between">
+                                                                                            <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
+                                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                                            <input type="submit" name="add_medication" class="btn btn-primary" value="Save changes">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- /.modal-content -->
+                                                                                </form>
                                                                             </div>
-                                                                            <div class="modal-body">
-                                                                                <strong style="font-weight: bold;color: red">
-                                                                                    <p>Are you sure you want to delete this Medication ?</p>
-                                                                                </strong>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
-                                                                                <input type="submit" name="delete_med" value="Delete" class="btn btn-danger">
-                                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                            <!-- /.modal-dialog -->
+                                                                        </div>
+                                                                        <!-- /.modal -->
+                                                                        <div class="modal fade" id="delete_med<?= $treatment['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <form method="post">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                                            <h4>Delete this Medication</h4>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <strong style="font-weight: bold;color: red">
+                                                                                                <p>Are you sure you want to delete this Medication ?</p>
+                                                                                            </strong>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
+                                                                                            <input type="submit" name="delete_med" value="Delete" class="btn btn-danger">
+                                                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
-                                                                    </form>
-                                                                </div>
+                                                                    <?php } ?>
+                                                                    </tbody>
+                                                                </table>
+                                                                <input type="button" class="btn btn-lg btn-block" onclick="add_Medication()" value="Add New Medication" />
                                                             </div>
-
-                                                        <?php } ?>
-                                                    </tbody>
-                                                </table>
-                                                <input type="button" class="btn btn-lg btn-block" onclick="add_Medication()" value="Add New Medication" />
+                                                            <!-- /.card-body -->
+                                                            <div class="card-footer clearfix">
+                                                                <ul class="pagination pagination-sm m-0 float-right">
+                                                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.card -->
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <!-- /.row -->
                                             </div>
 
 
@@ -16498,8 +16612,6 @@ if ($user->isLoggedIn()) {
             myDropzone.removeAllFiles(true)
         }
         // DropzoneJS Demo Code End
-
-
 
         function add_Medication() {
             var table = document.getElementById("medication_table");

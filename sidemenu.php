@@ -48,7 +48,24 @@ if ($user->isLoggedIn()) {
 
     if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
         if ($_GET['site_id'] != null) {
-            // $kap = $override->getCount1('kap', 'status', 1, 'site_id', $_GET['site_id']);
+            $diseases = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1, 'site_id', $_GET['site_id']);
+            $cardiac = $override->countData1('main_diagnosis', 'status', 1, 'cardiac', 1, 'site_id', $_GET['site_id']);
+            $diabetes = $override->countData1('main_diagnosis', 'status', 1, 'diabetes', 1, 'site_id', $_GET['site_id']);
+            $sickle_cell = $override->countData1('main_diagnosis', 'status', 1, 'sickle_cell', 1, 'site_id', $_GET['site_id']);
+            $other_diagnosis = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0, 'site_id', $_GET['site_id']);
+
+
+            $cardiomyopathy = $override->countData1('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $_GET['site_id']);
+            $heumatic = $override->countData1('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $_GET['site_id']);
+            $congenital = $override->countData1('cardiac', 'status', 1, 'congenital', 1, 'site_id', $_GET['site_id']);
+            $heart_failure = $override->countData1('cardiac', 'status', 1, 'heart_failure', 1, 'site_id', $_GET['site_id']);
+            $pericardial = $override->countData1('cardiac', 'status', 1, 'pericardial', 1, 'site_id', $_GET['site_id']);
+            $stroke = $override->countData1('cardiac', 'status', 1, 'stroke', 1, 'site_id', $_GET['site_id']);
+            $arrhythmia = $override->countData1('cardiac', 'status', 1, 'arrhythmia', 1, 'site_id', $_GET['site_id']);
+            $thromboembolic = $override->countData1('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $_GET['site_id']);
+
+
+
             // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
             // $results = $override->getCount1('results', 'status', 1, 'site_id', $_GET['site_id']);
             // $classification = $override->getCount1('classification', 'status', 1, 'site_id', $_GET['site_id']);
@@ -57,11 +74,29 @@ if ($user->isLoggedIn()) {
             $visit = $override->getCount1('visit', 'status', 1, 'site_id', $_GET['site_id']);
 
             $registered = $override->getCount1('clients', 'status', 1, 'site_id', $_GET['site_id']);
-            // $screened = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
-            // $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
-            // $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
-            $end = $override->getCount1('clients', 'status', 0, 'site_id', $_GET['site_id']);
+            $screened = $override->countData1('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
+            $eligible = $override->countData1('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
+            $enrolled = $override->countData1('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
+            $end = $override->countData1('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
         } else {
+            $diseases = $override->countData5('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1);
+            $cardiac = $override->countData('main_diagnosis', 'status', 1, 'cardiac', 1);
+            $diabetes = $override->countData('main_diagnosis', 'status', 1, 'diabetes', 1);
+            $sickle_cell = $override->countData('main_diagnosis', 'status', 1, 'sickle_cell', 1);
+            $other_diagnosis = $override->countData5('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0);
+
+
+            $cardiomyopathy = $override->countData('cardiac', 'status', 1, 'cardiomyopathy', 1);
+            $heumatic = $override->countData('cardiac', 'status', 1, 'heumatic', 1);
+            $congenital = $override->countData('cardiac', 'status', 1, 'congenital', 1);
+            $heart_failure = $override->countData('cardiac', 'status', 1, 'heart_failure', 1);
+            $pericardial = $override->countData('cardiac', 'status', 1, 'pericardial', 1);
+            $stroke = $override->countData('cardiac', 'status', 1, 'stroke', 1);
+            $arrhythmia = $override->countData('cardiac', 'status', 1, 'arrhythmia', 1);
+            $thromboembolic = $override->countData('cardiac', 'status', 1, 'thromboembolic', 1);
+
+
+
             // $kap = $override->getCount('kap', 'status', 1);
             // $history = $override->getCount('history', 'status', 1);
             // $results = $override->getCount('results', 'status', 1);
@@ -71,12 +106,28 @@ if ($user->isLoggedIn()) {
             $visit = $override->getCount('visit', 'status', 1);
 
             $registered = $override->getCount('clients', 'status', 1);
-            // $screened = $override->getCount('history', 'status', 1);
-            // $eligible = $override->getCount('history', 'eligible', 1);
-            // $enrolled = $override->getCount('history', 'eligible', 1);
-            $end = $override->getCount('clients', 'status', 0);
+            $screened = $override->countData('clients', 'status', 1, 'screened', 1);
+            $eligible = $override->countData('clients', 'status', 1, 'eligible', 1);
+            $enrolled = $override->countData('clients', 'status', 1, 'enrolled', 1);
+            $end = $override->countData('clients', 'status', 1, 'end_study', 1);
         }
     } else {
+        $diseases = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1, 'site_id', $user->data()->site_id);
+        $cardiac = $override->countData1('main_diagnosis', 'status', 1, 'cardiac', 1, 'site_id', $user->data()->site_id);
+        $diabetes = $override->countData1('main_diagnosis', 'status', 1, 'diabetes', 1, 'site_id', $user->data()->site_id);
+        $sickle_cell = $override->countData1('main_diagnosis', 'status', 1, 'sickle_cell', 1, 'site_id', $user->data()->site_id);
+        $other_diagnosis = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0, 'site_id', $user->data()->site_id);
+
+
+        $cardiomyopathy = $override->countData1('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $user->data()->site_id);
+        $heumatic = $override->countData1('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $user->data()->site_id);
+        $congenital = $override->countData1('cardiac', 'status', 1, 'congenital', 1, 'site_id', $user->data()->site_id);
+        $heart_failure = $override->countData1('cardiac', 'status', 1, 'heart_failure', 1, 'site_id', $user->data()->site_id);
+        $pericardial = $override->countData1('cardiac', 'status', 1, 'pericardial', 1, 'site_id', $user->data()->site_id);
+        $stroke = $override->countData1('cardiac', 'status', 1, 'stroke', 1, 'site_id', $user->data()->site_id);
+        $arrhythmia = $override->countData1('cardiac', 'status', 1, 'arrhythmia', 1, 'site_id', $user->data()->site_id);
+        $thromboembolic = $override->countData1('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $user->data()->site_id);
+
         // $kap = $override->getCount1('kap', 'status', 1, 'site_id', $user->data()->site_id);
         // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
         // $results = $override->getCount1('results', 'status', 1, 'site_id', $user->data()->site_id);
@@ -86,10 +137,10 @@ if ($user->isLoggedIn()) {
         $visit = $override->getCount1('visit', 'status', 1, 'site_id', $user->data()->site_id);
 
         $registered = $override->getCount1('clients', 'status', 1, 'site_id', $user->data()->site_id);
-        // $screened = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
-        // $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
-        // $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
-        $end = $override->getCount1('clients', 'status', 0, 'site_id', $user->data()->site_id);
+        $screened = $override->countData1('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
+        $eligible = $override->countData1('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id);
+        $enrolled = $override->countData1('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
+        $end = $override->countData1('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
     }
 } else {
     Redirect::to('index.php');
@@ -112,7 +163,7 @@ if ($user->isLoggedIn()) {
                 <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block"><?= $user->data()->firstname ?></a>
+                <a href="#" class="d-block"><?= $user->data()->firstname . ' - ' . $user->data()->lastname ?></a>
             </div>
         </div>
 
@@ -240,76 +291,6 @@ if ($user->isLoggedIn()) {
                                 <p>Registered</p>
                             </a>
                         </li>
-                    </ul>
-                </li>
-
-
-                <!-- <li class="nav-item">
-                    <a href="add.php?id=4" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Register
-                            <span class="right badge badge-danger">New Client</span>
-                        </p>
-                    </a>
-                </li> -->
-                <li class="nav-item">
-                    <!-- <a href="info.php?id=3&status=5" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Total registered
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right"><?= $registered ?></span>
-                        </p>
-                    </a> -->
-                    <ul class="nav nav-treeview">
-                        <?php foreach ($override->getData('site') as $site) { ?>
-                            <!-- <li class="nav-item">
-                                <a href="info.php?id=3&status=5&site_id=<?= $site['id']; ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p><?= $site['name'] ?></p>
-                                    <span class="badge badge-info right">
-                                        <?= $override->countData('clients', 'status', 1, 'site_id', $site['id']) ?>
-                                    </span>
-                                </a>
-                            </li> -->
-                        <?php } ?>
-                        <!-- <li class="nav-item">
-                            <a href="pages/layout/boxed.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Boxed</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Sidebar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-sidebar-custom.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Sidebar <small>+ Custom Area</small></p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Navbar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/fixed-footer.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Footer</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Collapsed Sidebar</p>
-                            </a>
-                        </li> -->
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -502,7 +483,6 @@ if ($user->isLoggedIn()) {
                 <?php
                 if ($user->data()->position == 1 || $user->data()->position == 2) {
                 ?>
-
                     <li class="nav-item">
                         <a href="info.php?id=8" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
@@ -512,46 +492,371 @@ if ($user->isLoggedIn()) {
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall </p>
+                                <a href="info.php?id=8" class="nav-link">
+                                    <i class="nav-icon fas fa-copy"></i>
+                                    <p>
+                                        Recruitments Reports <i class="fas fa-angle-left right"></i>
+                                    </p>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports1.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>All Diseases </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="reports2.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Cardiac </p>
-                                </a>
-                            </li>
-                            <!--  <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall summary </p>
-                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $registered ?></span>
+                                            <p>Registered</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $screened ?></span>
+                                            <p>Screened</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $eligible ?></span>
+                                            <p>Eligible</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $enrolled ?></span>
+                                            <p>Enrolled</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $end ?></span>
+                                            <p>Termintaed</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall summary </p>
+                                <a href="info.php?id=8" class="nav-link">
+                                    <i class="nav-icon fas fa-copy"></i>
+                                    <p>
+                                        Diseases Reports <i class="fas fa-angle-left right"></i>
+                                    </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="reports1.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $diseases ?></span>
+                                            <p>All Diseases </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fas fa-circle"></i>
+                                            <span class="badge badge-info right"><?= $cardiac ?></span>
+                                            <p>
+                                                Cardiac
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="reports2.php" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $cardiac ?></span>
+                                                    <p>All Cardiac</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports5.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $cardiomyopathy ?></span>
+                                                    <p>Cardiomyopathy</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports6.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $heumatic ?></span>
+                                                    <p> Rheumatic Heart disease </p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports7.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $congenital ?></span>
+                                                    <p>Congenital heart disease</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports8.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $heart_failure ?></span>
+                                                    <p>Right Heart Failure</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports9.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $pericardial ?></span>
+                                                    <p>Pericardial disease</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports10.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $stroke ?></span>
+                                                    <p>Stroke</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports11.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $arrhythmia ?></span>
+                                                    <p>Arrhythmia</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="reports12.php" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <span class="badge badge-info right"><?= $thromboembolic ?></span>
+                                                    <p>Thromboembolic</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports3.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $diabetes ?></span>
+                                            <p>Diabetes</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports4.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $sickle_cell ?></span>
+                                            <p>Sickle Cell</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports13.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $other_diagnosis ?></span>
+                                            <p>Other Diagnosis</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="reports.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Overall summary </p>
-                                </a>
-                            </li> -->
                         </ul>
                     </li>
                 <?php } ?>
 
+                <?php
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Data <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $registered; ?></span>
+                                    <p>Registration</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $screened; ?></span>
+                                    <p>Screening</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Vital Sign</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Patient Categories</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Patient & Family History & Complication</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Symtom & Exam</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Main diagnosis 1 ( Cardiac )</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Main diagnosis 2 ( Diabetes )</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Main diagnosis 3 ( Sickle Cell )</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $results; ?></span>
+                                    <p>Siblings</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $results; ?></span>
+                                    <p>Results</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $results; ?></span>
+                                    <p>Hospitalization</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $classification; ?></span>
+                                    <p>Hospitalization Details </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <p>Admission</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $economic; ?></span>
+                                    <p>Treatment Plan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <p>Medications</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <p>Diagnosis, Complications, & Comorbidities</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <p>RISK</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <p>Lab Details</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <p>Socioeconomic Status </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <p>Study IDs</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $visit; ?></span>
+                                    <p>Visits</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Clear Data <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="info.php?id=14" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List of Tables</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li> -->
+                    <li class="nav-item">
+                        <!-- <a href="info.php?id=15" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Unset Study ID <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a> -->
+                        <!-- <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="info.php?id=15" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List of Tables</p>
+                                </a>
+                            </li>
+                        </ul> -->
+                    </li>
+                <?php } ?>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

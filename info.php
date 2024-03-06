@@ -59,7 +59,7 @@ if ($user->isLoggedIn()) {
             $user->updateRecord('clients', array(
                 'status' => 0,
             ), Input::get('id'));
-            $successMessage = 'User Deleted Successful';
+            $successMessage = 'Client Deleted Successful';
         } elseif (Input::get('edit_study')) {
             $validate = $validate->check($_POST, array(
                 'name' => array(
@@ -1586,9 +1586,6 @@ if ($user->isLoggedIn()) {
                                                     <td>
                                                         <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
                                                             <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">View / Update</a>
-                                                            <?php if ($user->data()->power == 1) { ?>
-                                                                <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
-                                                            <?php } ?>
                                                     </td>
 
                                                     <td>
@@ -1631,6 +1628,13 @@ if ($user->isLoggedIn()) {
                                                                 <a href="summary.php?cid=<?= $client['id'] ?>" role="button" class="btn btn-primary">Patient Summary</a>
 
                                                         <?php }
+                                                        } ?>
+
+                                                        <?php if ($_GET['status'] == 5) { ?>
+                                                            <?php if ($user->data()->power == 1) { ?>
+                                                                <a href="#delete_client<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                        <?php
+                                                            }
                                                         } ?>
                                                     </td>
 
@@ -1811,6 +1815,29 @@ if ($user->isLoggedIn()) {
                                                         <!-- /.modal-dialog -->
                                                     </div>
                                                     <!-- /.modal -->
+
+                                                    <div class="modal fade" id="delete_client<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete Client</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this Client ?</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                        <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 <?php $x++;
                                                 } ?>
                                             </tbody>

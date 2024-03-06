@@ -49,7 +49,7 @@ if ($user->isLoggedIn()) {
 
 
 
-$title = 'PENPLUS Cardiomyopathy REPORT_' . date('Y-m-d');
+$title = 'PENPLUS Rheumatic Heart Disease REPORT_' . date('Y-m-d');
 
 $pdf = new Pdf();
 
@@ -64,45 +64,36 @@ if ($site_data) {
     $output .= '
             <table width="100%" border="1" cellpadding="5" cellspacing="0">
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="28" align="center" style="font-size: 18px">
                         <b>DATE  ' . date('Y-m-d') . '</b>
                     </td>
                 </tr>
 
-
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
-                        <b>TABLE 4 </b>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="28" align="center" style="font-size: 18px">
                         <b>' . $title . '</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="12" align="center" style="font-size: 18px">
+                    <td colspan="28" align="center" style="font-size: 18px">
                         <b> Total Enrolled( ' . $data_enrolled . ' )</b>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="12">                        
+                    <td colspan="28">                        
                         <br />
                         <table width="100%" border="1" cellpadding="5" cellspacing="0">
                             <tr>
                                 <th rowspan="2">No.</th>
                                 <th rowspan="2">SITE</th>
-                                <th colspan="8"> Cardiomyopathy </th>
+                                <th colspan="6"> Rheumatic Heart Disease </th>
                             </tr>
                             <tr>
-                                <th>Ischemic</th>
-                                <th>Alcohol-related</th>
-                                <th>Peripartum</th>
-                                <th>Arrhythmia-related</th>
-                                <th>HIV-related</th>
-                                <th>Chemotherapy-related </th>
-                                <th>Viral</th>
+                                <th>Pure mitral stenosis</th>
+                                <th>Pure mitral regurgitation</th>
+                                <th>Mixed mitral valve disease (MS + MR)</th>
+                                <th>Isolated aortic valve disease (AVD)</th>
+                                <th>mixed mitral and aortic valve disease (MMAVD)</th>
                                 <th>Other</th>
                             </tr>
             ';
@@ -112,22 +103,20 @@ if ($site_data) {
     foreach ($site_data as $row) {
         $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
         $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
-        $cardiac1 = $override->countData2('cardiac', 'status', 1, 'sub_cardiomyopathy', 1, 'site_id', $row['id']);
-        $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'sub_cardiomyopathy', 1);
-        $cardiac2 = $override->countData2('cardiac', 'status', 1, 'sub_cardiomyopathy', 2, 'site_id', $row['id']);
-        $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'sub_cardiomyopathy', 2);
-        $cardiac3 = $override->countData2('cardiac', 'status', 1, 'sub_cardiomyopathy', 3, 'site_id', $row['id']);
-        $cardiac_Total3 = $override->countData('cardiac', 'status', 1, 'sub_cardiomyopathy', 3);
-        $cardiac4 = $override->countData2('cardiac', 'status', 1, 'sub_cardiomyopathy', 4, 'site_id', $row['id']);
-        $cardiac_Total4 = $override->countData('cardiac', 'status', 1, 'sub_cardiomyopathy', 4);
-        $cardiac5 = $override->countData2('cardiac', 'status', 1, 'sub_cardiomyopathy', 5, 'site_id', $row['id']);
-        $cardiac_Total5 = $override->countData('cardiac', 'status', 1, 'sub_cardiomyopathy', 5);
-        $cardiac6 = $override->countData2('cardiac', 'status', 1, 'sub_cardiomyopathy', 6, 'site_id', $row['id']);
-        $cardiac_Total6 = $override->countData('cardiac', 'status', 1, 'sub_cardiomyopathy', 6);
-        $cardiac7 = $override->countData2('cardiac', 'status', 1, 'sub_cardiomyopathy', 7, 'site_id', $row['id']);
-        $cardiac_Total7 = $override->countData('cardiac', 'status', 1, 'sub_cardiomyopathy', 7);
-        $cardiac8 = $override->countData2('cardiac', 'status', 1, 'sub_cardiomyopathy', 96, 'site_id', $row['id']);
-        $cardiac_Total8 = $override->countData('cardiac', 'status', 1, 'sub_cardiomyopathy', 96);
+        $cardiac1 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 1, 'site_id', $row['id']);
+        $cardiac_Total1 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 1);
+        $cardiac2 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 2, 'site_id', $row['id']);
+        $cardiac_Total2 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 2);
+        $cardiac3 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 3, 'site_id', $row['id']);
+        $cardiac_Total3 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 3);
+        $cardiac4 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 4, 'site_id', $row['id']);
+        $cardiac_Total4 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 4);
+        $cardiac5 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 5, 'site_id', $row['id']);
+        $cardiac_Total5 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 5);
+        // $cardiac6 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 6, 'site_id', $row['id']);
+        // $cardiac_Total6 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 6);
+        $cardiac7 = $override->countData2('cardiac', 'status', 1, 'sub_heumatic', 96, 'site_id', $row['id']);
+        $cardiac_Total7 = $override->countData('cardiac', 'status', 1, 'sub_heumatic', 96);
         // $diabetes_Total = $override->countData('cardiac', 'status', 1, 'diabetes', 1);
         // $end_study = $override->countData2('cardiac', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
         // $end_study_Total = $override->countData('cardiac', 'status', 1, 'end_study', 1);
@@ -141,9 +130,7 @@ if ($site_data) {
                     <td align="right">' . $cardiac3 . '</td>
                     <td align="right">' . $cardiac4 . '</td>
                     <td align="right">' . $cardiac5 . '</td>
-                    <td align="right">' . $cardiac6 . '</td>
                     <td align="right">' . $cardiac7 . '</td>
-                    <td align="right">' . $cardiac8 . '</td>
                 </tr>
             ';
 
@@ -158,9 +145,7 @@ if ($site_data) {
                     <td align="right"><b>' . $cardiac_Total3 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total4 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total5 . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total6 . '</b></td>
                     <td align="right"><b>' . $cardiac_Total7 . '</b></td>
-                    <td align="right"><b>' . $cardiac_Total8 . '</b></td>
                 </tr>  
 
     ';
@@ -168,7 +153,7 @@ if ($site_data) {
     $output .= '
             </table>    
                 <tr>
-                    <td colspan="6" align="center" style="font-size: 18px">
+                    <td colspan="14" align="center" style="font-size: 18px">
                         <br />
                         <br />
                         <br />
@@ -181,7 +166,7 @@ if ($site_data) {
                         <br />
                     </td>
 
-                    <td colspan="6" align="center" style="font-size: 18px">
+                    <td colspan="14" align="center" style="font-size: 18px">
                         <br />
                         <br />
                         <br />

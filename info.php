@@ -1586,9 +1586,6 @@ if ($user->isLoggedIn()) {
                                                     <td>
                                                         <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
                                                             <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">View / Update</a>
-                                                            <?php if ($user->data()->power == 1) { ?>
-                                                                <a href="#delete<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
-                                                            <?php } ?>
                                                     </td>
 
                                                     <td>

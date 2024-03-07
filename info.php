@@ -2004,27 +2004,6 @@ if ($user->isLoggedIn()) {
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- <div class="pull-right">
-                                    <div class="btn-group">
-                                        <a href="info.php?id=3&status=<?= $_GET['status'] ?>sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
-                                                                                                                                echo $_GET['page'] - 1;
-                                                                                                                            } else {
-                                                                                                                                echo 1;
-                                                                                                                            } ?>" class="btn btn-default">
-                                            < </a>
-                                                <?php for ($i = 1; $i <= $pages; $i++) { ?>
-                                                    <a href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?= $i ?>" class="btn btn-default <?php if ($i == $_GET['page']) {
-                                                                                                                                                                            echo 'active';
-                                                                                                                                                                        } ?>"><?= $i ?></a>
-                                                <?php } ?>
-                                                <a href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
-                                                                                                                                        echo $_GET['page'] + 1;
-                                                                                                                                    } else {
-                                                                                                                                        echo $i - 1;
-                                                                                                                                    } ?>" class="btn btn-default"> > </a>
-                                    </div>
-                                </div> -->
-
                                 <!-- /.card-body -->
                                 <div class="card-footer clearfix">
                                     <ul class="pagination pagination-sm m-0 float-right">
@@ -2034,33 +2013,26 @@ if ($user->isLoggedIn()) {
                                                                                                                                                 } else {
                                                                                                                                                     echo 1;
                                                                                                                                                 } ?>">&laquo;
-                                                < </a>
+                                            </a>
                                         </li>
                                         <?php for ($i = 1; $i <= $pages; $i++) { ?>
-                                            <li class="page-item"><a class="page-link <?php if ($i == $_GET['page']) {
-                                                                                            echo 'active';
-                                                                                        } ?>" href="<?php if ($i == $_GET['page']) {
-                                                                                                        echo 'active';
-                                                                                                    } ?>"><?= $i ?></a></li>
-
+                                            <li class="page-item">
+                                                <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                        echo 'active';
+                                                                    } ?>" href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                </a>
+                                            </li>
                                         <?php } ?>
-                                        <li class="page-item"><a class="page-link" href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
-                                                                                                                                                                        echo $_GET['page'] + 1;
-                                                                                                                                                                    } else {
-                                                                                                                                                                        echo $i - 1;
-                                                                                                                                                                    } ?>">&raquo; > </a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                    echo $_GET['page'] + 1;
+                                                                                                                                                } else {
+                                                                                                                                                    echo $i - 1;
+                                                                                                                                                } ?>">&raquo;
+                                            </a>
+                                        </li>
                                     </ul>
-                                </div>
-
-                                <!-- <div class="card-footer clearfix">
-                                    <ul class="pagination pagination-sm m-0 float-right">
-                                        <li class="page-item"><a class="page-link" href="">&laquo;</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                    </ul>
-                                </div> -->
+                                </div>                                
                             </div>
                             <!-- /.card -->
                         </div>

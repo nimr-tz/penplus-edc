@@ -771,10 +771,100 @@ if ($user->isLoggedIn()) {
                 $pageError = $validate->errors();
             }
         } elseif (Input::get('increase_batch')) {
-            $user->updateRecord('batch', array(
-                'amount' => Input::get('amount'),
-            ), Input::get('id'));
-            $successMessage = Input::get('name') . ' - ' . 'Batch Increased Successful';
+            $validate = $validate->check($_POST, array(
+                'date' => array(
+                    'required' => true,
+                ),
+                'cost' => array(
+                    'required' => true,
+                ),
+                'price' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('id'))[0];
+                    $amount = $batch['amount'] + Input::get('received');
+                    $price = $batch['price'] + Input::get('cost');
+
+                    $user->updateRecord('batch', array(
+                        'amount' => $amount,
+                        'price' => $price,
+                    ), Input::get('id'));
+
+                    $user->createRecord('batch_records', array(
+                        'date' => Input::get('date'),
+                        'batch_id' => $batch['id'],
+                        'medication_id' => $batch['medication_id'],
+                        'serial_name' => $batch['serial_name'],
+                        'received' => Input::get('received'),
+                        'removed' => 0,
+                        'amount' => $amount,
+                        'expire_date' => $batch['expire_date'],
+                        'remarks' => Input::get('remarks'),
+                        'cost' => Input::get('cost'),
+                        'price' => $price,
+                        'status' => 1,
+                        'create_on' => date('Y-m-d H:i:s'),
+                        'site_id' =>  $user->data()->site_id,
+                        'staff_id' => $user->data()->id,
+                    ));
+
+                    $successMessage = 'Medication name : ' . Input::get('name') . ' : Batch : ' . Input::get('serial_name') . ' - ' . Input::get('removed') . ' Increased Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('decrease_batch')) {
+            $validate = $validate->check($_POST, array(
+                'date' => array(
+                    'required' => true,
+                ),
+                'removed' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('id'))[0];
+                    if (Input::get('removed') <= $batch['amount']) {
+                        $amount = $batch['amount'] - Input::get('removed');
+
+                        $user->updateRecord('batch', array(
+                            'amount' => $amount,
+                        ), Input::get('id'));
+
+                        $user->createRecord('batch_records', array(
+                            'date' => Input::get('date'),
+                            'batch_id' => $batch['id'],
+                            'medication_id' => $batch['medication_id'],
+                            'serial_name' => $batch['serial_name'],
+                            'received' => 0,
+                            'removed' => Input::get('removed'),
+                            'amount' => $amount,
+                            'expire_date' => $batch['expire_date'],
+                            'remarks' => Input::get('remarks'),
+                            'cost' => 0,
+                            'price' => $batch['price'],
+                            'status' => 1,
+                            'create_on' => date('Y-m-d H:i:s'),
+                            'site_id' =>  $user->data()->site_id,
+                            'staff_id' => $user->data()->id,
+                        ));
+
+                        $successMessage ='Medication name : '. Input::get('name') . ' : Batch : '. Input::get('serial_name') .' - '. Input::get('removed') .' Decreased Successful';
+                    } else {
+                        $errorMessage = 'Batch to remove exceeds the available Amount';
+                    }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         }
 
 
@@ -3151,9 +3241,9 @@ if ($user->isLoggedIn()) {
                                                             <?php } ?>
                                                         </td>
                                                         <td>
-                                                            <a href="#editVisit<?= $value['id'] ?>" role="button" class="btn btn-success" data-toggle="modal">Update</a>
+                                                            <!-- <a href="#editVisit<?= $value['id'] ?>" role="button" class="btn btn-success" data-toggle="modal">Update</a> -->
                                                             <a href="#increase<?= $value['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Increase Batch</a>
-                                                            <a href="#editVisit<?= $value['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Decrease Batch</a>
+                                                            <a href="#decrease<?= $value['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Decrease Batch</a>
                                                             <a href="info.php?id=9&generic_id=<?= $value['id'] ?>" role="button" class="btn btn-deafult">View</a>
                                                         </td>
 
@@ -3164,7 +3254,7 @@ if ($user->isLoggedIn()) {
                                                             <form method="post">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title">Increase ( <?= $name['name']; ?>) Batch / Serial</h4>
+                                                                        <h4 class="modal-title">Increase ( <?= $name['name']; ?>) :- Batch / Serial ( <?= $value['serial_name']; ?>) </h4>
                                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
@@ -3175,10 +3265,8 @@ if ($user->isLoggedIn()) {
                                                                                 <div class="row-form clearfix">
                                                                                     <!-- select -->
                                                                                     <div class="form-group">
-                                                                                        <label>Date</label>
-                                                                                        <input class="form-control" value="<?php if ($value['date']) {
-                                                                                                                                echo $value['date'];
-                                                                                                                            } ?>" type="date" name="date" id="date" />
+                                                                                        <label>Date Received</label>
+                                                                                        <input class="form-control" value="" type="date" name="date" id="date" required />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -3187,10 +3275,10 @@ if ($user->isLoggedIn()) {
                                                                                 <div class="row-form clearfix">
                                                                                     <!-- select -->
                                                                                     <div class="form-group">
-                                                                                        <label>Amount</label>
+                                                                                        <label>Available Amount</label>
                                                                                         <input class="form-control" value="<?php if ($value['amount']) {
                                                                                                                                 echo $value['amount'];
-                                                                                                                            } ?>" type="number" min="0" name="amount" id="amount" />
+                                                                                                                            } ?>" type="number" min="0" name="amount" id="amount" readonly />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -3198,10 +3286,31 @@ if ($user->isLoggedIn()) {
                                                                                 <div class="row-form clearfix">
                                                                                     <!-- select -->
                                                                                     <div class="form-group">
-                                                                                        <label>Price</label>
-                                                                                        <input class="form-control" value="<?php if ($value['price'] != 0) {
+                                                                                        <label>Received Amount</label>
+                                                                                        <input class="form-control" value="" type="number" min="0" name="received" id="received" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Total Price ( TSHS )</label>
+                                                                                        <input class="form-control" value="<?php if ($value['price']) {
                                                                                                                                 echo $value['price'];
-                                                                                                                            } ?>" type="number" min="0" name="price" id="price" />
+                                                                                                                            } ?>" type="number" min="0" name="price" id="price" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>New Price ( TSHS )</label>
+                                                                                        <input class="form-control" value="" type="number" min="0" name="cost" id="cost" required />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -3211,8 +3320,69 @@ if ($user->isLoggedIn()) {
                                                                     <div class="modal-footer justify-content-between">
                                                                         <input type="hidden" name="id" value="<?= $value['id'] ?>">
                                                                         <input type="hidden" name="name" value="<?= $name['name']; ?>">
+                                                                        <input type="hidden" name="serial_name" value="<?= $name['serial_name']; ?>">
                                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                         <input type="submit" name="increase_batch" class="btn btn-primary" value="Save changes">
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.modal-content -->
+                                                            </form>
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+                                                    <!-- /.modal -->
+
+                                                    <div class="modal fade" id="decrease<?= $value['id'] ?>">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Decrease ( <?= $name['name']; ?>) :- Batch / Serial ( <?= $value['serial_name']; ?>) </h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date Removed</label>
+                                                                                        <input class="form-control" value="" type="date" name="date" id="date" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Available Amount</label>
+                                                                                        <input class="form-control" value="<?php if ($value['amount']) {
+                                                                                                                                echo $value['amount'];
+                                                                                                                            } ?>" type="number" min="0" name="amount" id="amount" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Remove Amount</label>
+                                                                                        <input class="form-control" value="" type="number" min="0" name="removed" id="removed" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="dr"><span></span></div>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                                        <input type="hidden" name="name" value="<?= $name['name']; ?>">
+                                                                        <input type="hidden" name="serial_name" value="<?= $name['serial_name']; ?>">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        <input type="submit" name="decrease_batch" class="btn btn-primary" value="Save changes">
                                                                     </div>
                                                                 </div>
                                                                 <!-- /.modal-content -->

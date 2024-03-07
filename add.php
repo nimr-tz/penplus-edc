@@ -2876,6 +2876,26 @@ if ($user->isLoggedIn()) {
                                 'update_id' => $user->data()->id,
                             ));
 
+                            $batch = $override->lastRow('batch', 'id')[0];
+
+                            $user->createRecord('batch_records', array(
+                                'date' => Input::get('date'),
+                                'batch_id' => $batch['id'],
+                                'medication_id' => Input::get('medication_id'),
+                                'serial_name' => Input::get('serial_name'),
+                                'received' => Input::get('amount'),
+                                'removed' => 0,
+                                'amount' => Input::get('amount'),
+                                'expire_date' => Input::get('expire_date'),
+                                'remarks' => Input::get('remarks'),
+                                'cost' => Input::get('price'),
+                                'price' => Input::get('price'),
+                                'status' => 1,
+                                'create_on' => date('Y-m-d H:i:s'),
+                                'site_id' =>  $user->data()->site_id,
+                                'staff_id' => $user->data()->id,
+                            ));
+
                             $successMessage = 'Medications Successful Added';
                         }
                     }

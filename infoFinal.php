@@ -1389,113 +1389,52 @@ if ($user->isLoggedIn()) {
                                             $page = ($_GET['page'] * $numRec) - $numRec;
                                         }
 
+
                                         if ($_GET['status'] == 1) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['sid'], $page, $numRec);
+                                            $clients = $override->getDataDesc3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id'], 'id');
                                         } elseif ($_GET['status'] == 2) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['sid'], $page, $numRec);
+                                            $clients = $override->getDataDesc3('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id'], 'id');
                                         } elseif ($_GET['status'] == 3) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['sid'], $page, $numRec);
+                                            $clients = $override->getDataDesc3('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], 'id');
                                         } elseif ($_GET['status'] == 4) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['sid'], $page, $numRec);
+                                            $clients = $override->getDataDesc3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id'], 'id');
                                         } elseif ($_GET['status'] == 5) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['sid'], $page, $numRec);
+                                            $clients = $override->getDataDesc2('clients', 'status', 1, 'site_id', $_GET['site_id'],  'id');
                                         } elseif ($_GET['status'] == 6) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $_GET['sid'], $page, $numRec);
+                                            $clients = $override->getDataDesc3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id'], 'id');
                                         } elseif ($_GET['status'] == 7) {
-                                            $clients = $override->getWithLimit('clients', 'site_id', $_GET['sid'], $page, $numRec);
+                                            $clients = $override->getDataDesc1('clients', 'site_id', $_GET['site_id'], 'id');
                                         } elseif ($_GET['status'] == 8) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $_GET['sid'], $page, $numRec);
+                                            $clients = $override->getDataDesc2('clients', 'status', 0, 'site_id', $_GET['site_id'],  'id');
                                         }
-
-
-                                        // if ($_GET['status'] == 1) {
-                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id'], 'id');
-                                        // } elseif ($_GET['status'] == 2) {
-                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id'], 'id');
-                                        // } elseif ($_GET['status'] == 3) {
-                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], 'id');
-                                        // } elseif ($_GET['status'] == 4) {
-                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id'], 'id');
-                                        // } elseif ($_GET['status'] == 5) {
-                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'site_id', $_GET['site_id'],  'id');
-                                        // } elseif ($_GET['status'] == 6) {
-                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id'], 'id');
-                                        // } elseif ($_GET['status'] == 7) {
-                                        //     $clients = $override->getDataDesc1('clients', 'site_id', $_GET['site_id'], 'id');
-                                        // } elseif ($_GET['status'] == 8) {
-                                        //     $clients = $override->getDataDesc2('clients', 'status', 0, 'site_id', $_GET['site_id'],  'id');
-                                        // }
                                     } else {
 
-                                        $pagNum = 0;
                                         if ($_GET['status'] == 1) {
-                                            $pagNum = $override->getCount1('clients', 'status', 1, 'screened', 1);
+                                            $clients = $override->getDataDesc2('clients', 'status', 1, 'screened', 1, 'id');
                                         } elseif ($_GET['status'] == 2) {
-                                            $pagNum = $override->getCount1('clients', 'status', 1, 'eligible', 1);
+                                            $clients = $override->getDataDesc2('clients', 'status', 1, 'eligible', 1, 'id');
                                         } elseif ($_GET['status'] == 3) {
-                                            $pagNum = $override->getCount1('clients', 'status', 1, 'enrolled', 1);
+                                            $clients = $override->getDataDesc2('clients', 'status', 1, 'enrolled', 1, 'id');
                                         } elseif ($_GET['status'] == 4) {
-                                            $pagNum = $override->getCount1('clients', 'status', 1, 'end_study', 1);
+                                            $clients = $override->getDataDesc2('clients', 'status', 1, 'end_study', 1, 'id');
                                         } elseif ($_GET['status'] == 5) {
-                                            $pagNum = $override->getCount('clients', 'status', 1);
+                                            $clients = $override->getDataDesc1('clients', 'status', 1, 'id');
                                         } elseif ($_GET['status'] == 6) {
-                                            $pagNum = $override->getCount1('clients', 'status', 1, 'screened', 0);
-                                        } elseif ($_GET['status'] == 7) {
-                                            $clients = $override->getNo('clients');
+                                            $clients = $override->getDataDesc2(
+                                                'clients',
+                                                'status',
+                                                1,
+                                                'screened',
+                                                0,
+                                                'id'
+                                            );
+                                        } elseif (
+                                            $_GET['status'] == 7
+                                        ) {
+                                            $clients = $override->getDataDesc('clients', 'id');
                                         } elseif ($_GET['status'] == 8) {
-                                            $pagNum = $override->getCount('clients', 'status', 0);
+                                            $clients = $override->getDataDesc1('clients', 'status', 0, 'id');
                                         }
-                                        $pages = ceil($pagNum / $numRec);
-                                        if (!$_GET['page'] || $_GET['page'] == 1) {
-                                            $page = 0;
-                                        } else {
-                                            $page = ($_GET['page'] * $numRec) - $numRec;
-                                        }
-
-                                        if ($_GET['status'] == 1) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 1, $page, $numRec);
-                                        } elseif ($_GET['status'] == 2) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'eligible', 1, $page, $numRec);
-                                        } elseif ($_GET['status'] == 3) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'enrolled', 1, $page, $numRec);
-                                        } elseif ($_GET['status'] == 4) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'end_study', 1, $page, $numRec);
-                                        } elseif ($_GET['status'] == 5) {
-                                            $clients = $override->getWithLimit('clients', 'status', 1, $page, $numRec);
-                                        } elseif ($_GET['status'] == 6) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 0, $page, $numRec);
-                                        } elseif ($_GET['status'] == 7) {
-                                            $clients = $override->getDataLimit('clients', $page, $numRec);
-                                        } elseif ($_GET['status'] == 8) {
-                                            $clients = $override->getWithLimit('clients', 'status', 0, $page, $numRec);
-                                        }
-
-                                        // if ($_GET['status'] == 1) {
-                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'screened', 1, 'id');
-                                        // } elseif ($_GET['status'] == 2) {
-                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'eligible', 1, 'id');
-                                        // } elseif ($_GET['status'] == 3) {
-                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'enrolled', 1, 'id');
-                                        // } elseif ($_GET['status'] == 4) {
-                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'end_study', 1, 'id');
-                                        // } elseif ($_GET['status'] == 5) {
-                                        //     $clients = $override->getDataDesc1('clients', 'status', 1, 'id');
-                                        // } elseif ($_GET['status'] == 6) {
-                                        //     $clients = $override->getDataDesc2(
-                                        //         'clients',
-                                        //         'status',
-                                        //         1,
-                                        //         'screened',
-                                        //         0,
-                                        //         'id'
-                                        //     );
-                                        // } elseif (
-                                        //     $_GET['status'] == 7
-                                        // ) {
-                                        //     $clients = $override->getDataDesc('clients', 'id');
-                                        // } elseif ($_GET['status'] == 8) {
-                                        //     $clients = $override->getDataDesc1('clients', 'status', 0, 'id');
-                                        // }
                                     }
                                 } else {
 

@@ -11042,10 +11042,9 @@ if ($user->isLoggedIn()) {
                                                                 <table id="medication_table" class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
-                                                                            <!-- <th style="width: 5px">#</th> -->
                                                                             <th>#</th>
-                                                                            <th> Date </th>
                                                                             <th> Visit Day </th>
+                                                                            <th> Date </th>
                                                                             <th> Start Date </th>
                                                                             <th> Medication name - ( batch ) : ( amount )</th>
                                                                             <th> Dose </th>
@@ -11060,7 +11059,6 @@ if ($user->isLoggedIn()) {
                                                                         foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
                                                                             $batches = $override->getNews('batch', 'status', 1, 'id', $treatment['batch_id']);
                                                                             $medications = $override->getNews('medications', 'status', 1, 'id', $batches[0]['medication_id']);
-
 
                                                                             if($treatment['medication_action'] == 1){
                                                                                 $medication_action = 'Continue';

@@ -2425,6 +2425,7 @@ if ($user->isLoggedIn()) {
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
                             'start_date' => Input::get('start_date'),
+                            'batch_id' => Input::get('batch_id'),
                             'medication_type' => Input::get('medication_type'),
                             'medication_action' => Input::get('medication_action'),
                             'medication_dose' => Input::get('medication_dose'),
@@ -2432,7 +2433,7 @@ if ($user->isLoggedIn()) {
                             'end_date' => Input::get('end_date'),
                         ), Input::get('id'));
                     } else {
-                        for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
+                        for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
                             $user->createRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
@@ -2440,6 +2441,7 @@ if ($user->isLoggedIn()) {
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
                                 'start_date' => Input::get('start_date')[$i],
+                                'batch_id' => Input::get('batch_id')[$i],
                                 'medication_type' => Input::get('medication_type')[$i],
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
@@ -2472,7 +2474,8 @@ if ($user->isLoggedIn()) {
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
                 'start_date' => Input::get('start_date'),
-                'medication_type' => Input::get('medication_type'),
+                'batch_id' => Input::get('batch_id'),
+                'medication_type' => 1,
                 'medication_action' => Input::get('medication_action'),
                 'medication_dose' => Input::get('medication_dose'),
                 'units' => Input::get('medication_units'),
@@ -10923,8 +10926,9 @@ if ($user->isLoggedIn()) {
                                                                     <tbody id="tbody">
                                                                     <?php $x = 1;
                                                                         foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
-                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
-                                                                            $batches = $override->getNews('batch', 'status', 1, 'id', $_GET['batch_id'])[0];
+                                                                            $batches = $override->getNews('batch', 'status', 1, 'id', $treatment['batch_id']);
+                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $batches[0]['medication_id']);
+
 
                                                                             if($treatment['medication_action'] == 1){
                                                                                 $medication_action = 'Continue';
@@ -10934,14 +10938,14 @@ if ($user->isLoggedIn()) {
                                                                                 $medication_action = 'Stop';
                                                                             }elseif($treatment['medication_action'] == 4){
                                                                                 $medication_action = 'Not Eligible';
-                                                                            }                                                                                                                                            
-                                                                            
+                                                                            }                                                                                                                                         
+                           
                                                                         ?>
                                                                         <tr>
                                                                             <td><?= $x; ?></td>
                                                                             <td><?= $treatment['visit_day'] ?></td>
                                                                             <td><?= $treatment['start_date'] ?></td>
-                                                                            <td><?= $medications[0]['name'] ?></td>
+                                                                            <td><?= $medications[0]['name'] .' - ( '.$batches[0]['serial_name'].' ) '; ?></td>
                                                                             <td><?= $treatment['medication_dose'] ?></td>
                                                                             <td><?= $treatment['units'] ?></td>
                                                                             <td><?= $medication_action ?></td>
@@ -10983,14 +10987,12 @@ if ($user->isLoggedIn()) {
                                                                                                     <div class="row-form clearfix">
                                                                                                         <div class="form-group">
                                                                                                             <label>Medication name</label>
-                                                                                                            <select name="medication_type" id="medication_type" class="form-control select2" style="width: 100%;" required>
-                                                                                                                <?php if (!$medications) { ?>
-                                                                                                                    <option value="">Select Medication</option>
-                                                                                                                <?php } else { ?>
-                                                                                                                    <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name'] ?></option>
+                                                                                                            <select name="batch_id" id="batch_id" class="form-control select2" style="width: 100%;" required>
+                                                                                                                <?php if ($batches) { ?>
+                                                                                                                    <option value="<?= $batches[0]['id'] ?>"><?= $medications[0]['name'] .' - ( '.$batches[0]['serial_name'].' ) '; ?></option>
                                                                                                                 <?php } ?>
-                                                                                                                <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
-                                                                                                                    <option value="<?= $medication['id'] ?>"><?= $medication['name'] ?></option>
+                                                                                                                <?php foreach ($override->get('batch', 'status', 1) as $batch) { ?>
+                                                                                                                    <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' ) '; ?></option>
                                                                                                                 <?php } ?>
                                                                                                             </select>
                                                                                                         </div>
@@ -16850,7 +16852,7 @@ if ($user->isLoggedIn()) {
             html += "<td>" + items + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
             html += '<td><input class="form-control"  type="date" name="start_date[]" value=""></td>';
-            html += '<td><select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select></td>';
+            html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' ) '; ?></option> <?php } ?></select></td>';
             html += '<td><input class="form-control" type="text" name="medication_dose[]" value="" required></td>';
             html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
             html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';

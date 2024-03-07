@@ -2434,32 +2434,63 @@ if ($user->isLoggedIn()) {
                         ), Input::get('id'));
                     } else {
                         for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
-                            $medication_type = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i]);
-                            $user->createRecord('medication_treatments', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'start_date' => Input::get('start_date')[$i],
-                                'batch_id' => Input::get('batch_id')[$i],
-                                'medication_type' => $medication_type[$i],
-                                'medication_action' => Input::get('medication_action')[$i],
-                                'medication_dose' => Input::get('medication_dose')[$i],
-                                'units' => Input::get('medication_units')[$i],
-                                'end_date' => Input::get('end_date')[$i],
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ));                            
+                            $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
+                            if (Input::get('medication_dose')[$i] <= $batch['amount']) {
+                                    $user->createRecord('medication_treatments', array(
+                                        'study_id' => $_GET['sid'],
+                                        'visit_code' => $_GET['vcode'],
+                                        'visit_day' => $_GET['vday'],
+                                        'seq_no' => $_GET['seq'],
+                                        'vid' => $_GET['vid'],
+                                        'start_date' => Input::get('start_date')[$i],
+                                        'batch_id' => Input::get('batch_id')[$i],
+                                        'medication_type' => $batch['medication_id'],
+                                        'medication_action' => Input::get('medication_action')[$i],
+                                        'medication_dose' => Input::get('medication_dose')[$i],
+                                        'units' => Input::get('medication_units')[$i],
+                                        'end_date' => Input::get('end_date')[$i],
+                                        'patient_id' => $_GET['cid'],
+                                        'staff_id' => $user->data()->id,
+                                        'status' => 1,
+                                        'created_on' => date('Y-m-d'),
+                                        'site_id' => $user->data()->site_id,
+                                    ));                                      
+                                    
+
+                                $amount = $batch['amount'] - Input::get('medication_dose')[$i];
+
+                                $user->updateRecord('batch', array(
+                                    'amount' => $amount,
+                                ), Input::get('batch_id')[$i]);
+
+                                $user->createRecord('batch_records', array(
+                                    'date' => Input::get('date'),
+                                    'batch_id' => Input::get('batch_id')[$i],
+                                    'medication_id' => $batch['medication_id'],
+                                    'serial_name' => $batch['serial_name'],
+                                    'received' => 0,
+                                    'removed' => Input::get('medication_dose')[$i],
+                                    'amount' => $amount,
+                                    'expire_date' => $batch['expire_date'],
+                                    'remarks' => $batch['remarks'],
+                                    'cost' => 0,
+                                    'price' => $batch['price'],
+                                    'status' => 1,
+                                    'create_on' => date('Y-m-d H:i:s'),
+                                    'site_id' =>  $user->data()->site_id,
+                                    'staff_id' => $user->data()->id,
+                                ));
+
+                                $successMessage ='Medication name : '. Input::get('name') . ' : Batch : '. Input::get('serial_name') .' - '. Input::get('removed') .' Decreased Successful';
+                            } else {
+                                $errorMessage = 'Batch to remove exceeds the available Amount';
+                            }
                         }
                     }                 
 
                     
                     $successMessage = 'Treatment plan added Successful';
-                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     // die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2801,6 +2832,7 @@ if ($user->isLoggedIn()) {
                 try {
                     if ($_GET['btn'] == 'Update') {
                         $user->updateRecord('medications', array(
+                            'date' => Input::get('date'),
                             'name' => Input::get('name'),
                             'use_group' => Input::get('groups'),
                             'forms' => Input::get('forms'),
@@ -2818,6 +2850,7 @@ if ($user->isLoggedIn()) {
                             $errorMessage = 'Medications Already  Available Please Update instead!';
                         } else {
                             $user->createRecord('medications', array(
+                                'date' => Input::get('date'),
                                 'name' => Input::get('name'),
                                 'use_group' => Input::get('groups'),
                                 'forms' => Input::get('forms'),
@@ -2849,6 +2882,7 @@ if ($user->isLoggedIn()) {
                 try {
                     if ($_GET['btn'] == 'Update') {
                         $user->updateRecord('batch', array(
+                            'date' => Input::get('date'),
                             'medication_id' => Input::get('medication_id'),
                             'serial_name' => Input::get('serial_name'),
                             'amount' => Input::get('amount'),
@@ -2866,6 +2900,7 @@ if ($user->isLoggedIn()) {
                             $errorMessage = 'Batch / Serial Name Already  Available Please Update instead!';
                         } else {
                             $user->createRecord('batch', array(
+                                'date' => Input::get('date'),
                                 'medication_id' => Input::get('medication_id'),
                                 'serial_name' => Input::get('serial_name'),
                                 'amount' => Input::get('amount'),
@@ -3824,11 +3859,22 @@ if ($user->isLoggedIn()) {
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row">
+                                                   <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Date:</label>
+                                                            <input class="form-control" type="date" name="date" id="date" value="<?php if ($medication['date']) {
+                                                                                                                                                    print_r($medication['date']);
+                                                                                                                                                }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm-4">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="name">Name</label>
-                                                            <input type="text" class="form-control" placeholder="Enter email" id="name" name="name" value="<?php if ($medication['name']) {
+                                                            <input type="text" class="form-control" placeholder="Enter Medication Name" id="name" name="name" value="<?php if ($medication['name']) {
                                                                                                                                                                 print_r($medication['name']);
                                                                                                                                                             }  ?>" required />
                                                         </div>
@@ -3872,7 +3918,8 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
@@ -3890,9 +3937,8 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4">
+
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Cardiac</label>
@@ -3914,7 +3960,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Diabetes</label>
@@ -3935,7 +3981,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Sickle Cell</label>
@@ -4028,7 +4074,18 @@ if ($user->isLoggedIn()) {
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Date:</label>
+                                                            <input class="form-control" type="date" name="date" id="date" value="<?php if ($batches['date']) {
+                                                                                                                                                    print_r($batches['date']);
+                                                                                                                                                }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="medication_id">Medication Name</label>
@@ -4046,7 +4103,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -4058,7 +4115,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -10946,7 +11003,7 @@ if ($user->isLoggedIn()) {
                                                                             <td><?= $x; ?></td>
                                                                             <td><?= $treatment['visit_day'] ?></td>
                                                                             <td><?= $treatment['start_date'] ?></td>
-                                                                            <td><?= $medications[0]['name'] .' - ( '.$batches[0]['serial_name'].' ) '; ?></td>
+                                                                            <td><?= $medications[0]['name'] .' - ( '.$batches[0]['serial_name'].' ) ( '. $batches[0]['amount'] .' )'; ?></td>
                                                                             <td><?= $treatment['medication_dose'] ?></td>
                                                                             <td><?= $treatment['units'] ?></td>
                                                                             <td><?= $medication_action ?></td>
@@ -10993,7 +11050,7 @@ if ($user->isLoggedIn()) {
                                                                                                                     <option value="<?= $batches[0]['id'] ?>"><?= $medications[0]['name'] .' - ( '.$batches[0]['serial_name'].' ) '; ?></option>
                                                                                                                 <?php } ?>
                                                                                                                 <?php foreach ($override->get('batch', 'status', 1) as $batch) { ?>
-                                                                                                                    <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' ) '; ?></option>
+                                                                                                                    <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' )  :  ( '. $batches[0]['amount'] .' )'; ?></option>
                                                                                                                 <?php } ?>
                                                                                                             </select>
                                                                                                         </div>
@@ -16854,7 +16911,7 @@ if ($user->isLoggedIn()) {
             html += "<td>" + items + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
             html += '<td><input class="form-control"  type="date" name="start_date[]" value=""></td>';
-            html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' ) '; ?></option> <?php } ?></select></td>';
+            html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' ) : ( '. $batches[0]['amount'] .' )'; ?></option> <?php } ?></select></td>';
             html += '<td><input class="form-control" type="text" name="medication_dose[]" value="" required></td>';
             html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
             html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';

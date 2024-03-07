@@ -1875,7 +1875,7 @@ if ($user->isLoggedIn()) {
                                                 <?php
                                                 $x = 1;
                                                 foreach ($clients as $value) {
-                                                    $sites = $override->getNews('sites', 'status', 1, 'id', $value['site_id'])[0];
+                                                    $sites = $override->getNews('site', 'status', 1, 'id', $value['site_id'])[0];
                                                 ?>
                                                     <tr>
                                                         <td class="table-user">

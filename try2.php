@@ -9,7 +9,7 @@ $successMessage = null;
 $pageError = null;
 $errorMessage = null;
 
-$numRec = 15;
+$numRec = 50;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
@@ -1359,26 +1359,26 @@ if ($user->isLoggedIn()) {
                 <section class="content">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 <?php
                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                     if ($_GET['site_id'] != null) {
 
                                         $pagNum = 0;
                                         if ($_GET['status'] == 1) {
-                                            $pagNum = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
+                                            $pagNum = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['sid']);
                                         } elseif ($_GET['status'] == 2) {
-                                            $pagNum = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
+                                            $pagNum = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['sid']);
                                         } elseif ($_GET['status'] == 3) {
-                                            $pagNum = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
+                                            $pagNum = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['sid']);
                                         } elseif ($_GET['status'] == 4) {
-                                            $pagNum = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
+                                            $pagNum = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['sid']);
                                         } elseif ($_GET['status'] == 5) {
-                                            $pagNum = $override->countData('clients', 'status', 1, 'site_id', $_GET['site_id']);
+                                            $pagNum = $override->countData('clients', 'status', 1, 'site_id', $_GET['sid']);
                                         } elseif ($_GET['status'] == 6) {
-                                            $pagNum = $override->countData2('clients', 'status', 1, 'screened', 0, 'site_id', $_GET['site_id']);
+                                            $pagNum = $override->countData2('clients', 'status', 1, 'screened', 0, 'site_id', $_GET['sid']);
                                         } elseif ($_GET['status'] == 7) {
-                                            $pagNum = $override->getCount('clients', 'site_id', $_GET['site_id']);
+                                            $pagNum = $override->getCount('clients', 'site_id', $_GET['sid']);
                                         } elseif ($_GET['status'] == 8) {
                                             $pagNum = $override->countData('clients', 'status', 0, 'site_id', $_GET['sid']);
                                         }
@@ -1392,20 +1392,39 @@ if ($user->isLoggedIn()) {
                                         if ($_GET['status'] == 1) {
                                             $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['sid'], $page, $numRec);
                                         } elseif ($_GET['status'] == 2) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['sid'], $page, $numRec);
                                         } elseif ($_GET['status'] == 3) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['sid'], $page, $numRec);
                                         } elseif ($_GET['status'] == 4) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['sid'], $page, $numRec);
                                         } elseif ($_GET['status'] == 5) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['sid'], $page, $numRec);
                                         } elseif ($_GET['status'] == 6) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $_GET['sid'], $page, $numRec);
                                         } elseif ($_GET['status'] == 7) {
-                                            $clients = $override->getWithLimit('clients', 'site_id', $_GET['site_id'], $page, $numRec);
+                                            $clients = $override->getWithLimit('clients', 'site_id', $_GET['sid'], $page, $numRec);
                                         } elseif ($_GET['status'] == 8) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $_GET['sid'], $page, $numRec);
                                         }
+
+
+                                        // if ($_GET['status'] == 1) {
+                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id'], 'id');
+                                        // } elseif ($_GET['status'] == 2) {
+                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id'], 'id');
+                                        // } elseif ($_GET['status'] == 3) {
+                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], 'id');
+                                        // } elseif ($_GET['status'] == 4) {
+                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id'], 'id');
+                                        // } elseif ($_GET['status'] == 5) {
+                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'site_id', $_GET['site_id'],  'id');
+                                        // } elseif ($_GET['status'] == 6) {
+                                        //     $clients = $override->getDataDesc3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id'], 'id');
+                                        // } elseif ($_GET['status'] == 7) {
+                                        //     $clients = $override->getDataDesc1('clients', 'site_id', $_GET['site_id'], 'id');
+                                        // } elseif ($_GET['status'] == 8) {
+                                        //     $clients = $override->getDataDesc2('clients', 'status', 0, 'site_id', $_GET['site_id'],  'id');
+                                        // }
                                     } else {
 
                                         $pagNum = 0;
@@ -1450,6 +1469,33 @@ if ($user->isLoggedIn()) {
                                         } elseif ($_GET['status'] == 8) {
                                             $clients = $override->getWithLimit('clients', 'status', 0, $page, $numRec);
                                         }
+
+                                        // if ($_GET['status'] == 1) {
+                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'screened', 1, 'id');
+                                        // } elseif ($_GET['status'] == 2) {
+                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'eligible', 1, 'id');
+                                        // } elseif ($_GET['status'] == 3) {
+                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'enrolled', 1, 'id');
+                                        // } elseif ($_GET['status'] == 4) {
+                                        //     $clients = $override->getDataDesc2('clients', 'status', 1, 'end_study', 1, 'id');
+                                        // } elseif ($_GET['status'] == 5) {
+                                        //     $clients = $override->getDataDesc1('clients', 'status', 1, 'id');
+                                        // } elseif ($_GET['status'] == 6) {
+                                        //     $clients = $override->getDataDesc2(
+                                        //         'clients',
+                                        //         'status',
+                                        //         1,
+                                        //         'screened',
+                                        //         0,
+                                        //         'id'
+                                        //     );
+                                        // } elseif (
+                                        //     $_GET['status'] == 7
+                                        // ) {
+                                        //     $clients = $override->getDataDesc('clients', 'id');
+                                        // } elseif ($_GET['status'] == 8) {
+                                        //     $clients = $override->getDataDesc1('clients', 'status', 0, 'id');
+                                        // }
                                     }
                                 } else {
                                     $pagNum = 0;
@@ -1493,557 +1539,587 @@ if ($user->isLoggedIn()) {
                                     } elseif ($_GET['status'] == 8) {
                                         $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec);
                                     }
+
+                                    // if ($_GET['status'] == 1) {
+                                    //     $clients = $override->getDataDesc3('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id, 'id');
+                                    // } elseif ($_GET['status'] == 2) {
+                                    //     $clients = $override->getDataDesc3('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id, 'id');
+                                    // } elseif ($_GET['status'] == 3) {
+                                    //     $clients = $override->getDataDesc3('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id, 'id');
+                                    // } elseif ($_GET['status'] == 4) {
+                                    //     $clients = $override->getDataDesc3('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id, 'id');
+                                    // } elseif ($_GET['status'] == 5) {
+                                    //     $clients = $override->getDataDesc2('clients', 'status', 1, 'site_id', $user->data()->site_id,  'id');
+                                    // } elseif ($_GET['status'] == 6) {
+                                    //     $clients = $override->getDataDesc3('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id, 'id');
+                                    // } elseif ($_GET['status'] == 7) {
+                                    //     $clients = $override->getDataDesc1('clients', 'site_id', $user->data()->site_id, 'id');
+                                    // } elseif ($_GET['status'] == 8) {
+                                    //     $clients = $override->getDataDesc2('clients', 'status', 0, 'site_id', $user->data()->site_id,  'id');
+                                    // }
                                 }
                                 ?>
-                                <hr>
-
                                 <div class="card">
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12">
-                                            <div class="card-header">
-                                                <?php
-                                                if ($_GET['status'] == 1) { ?>
-                                                    <h3 class="card-title">List of Screened Clients</h3> &nbsp;&nbsp;
-                                                    <span class="badge badge-info right"><?= $screened; ?></span>
-                                                <?php
-                                                } elseif ($_GET['status'] == 2) { ?>
-                                                    <h3 class="card-title">List of Eligible Clients</h3> &nbsp;&nbsp;
-                                                    <span class="badge badge-info right"><?= $eligible; ?></span>
-                                                <?php
-                                                } elseif ($_GET['status'] == 3) { ?>
-                                                    <h3 class="card-title">List of Enrolled Clients</h3> &nbsp;&nbsp;
-                                                    <span class="badge badge-info right"><?= $enrolled; ?></span>
-                                                <?php
-                                                } elseif ($_GET['status'] == 4) { ?>
-                                                    <h3 class="card-title">List of Terminated Clients</h3> &nbsp;&nbsp;
-                                                    <span class="badge badge-info right"><?= $end; ?></span>
-                                                <?php
-                                                } elseif ($_GET['status'] == 5) { ?>
-                                                    <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
-                                                    <span class="badge badge-info right"><?= $registered; ?></span>
-                                                <?php
-                                                } elseif ($_GET['status'] == 7) { ?>
-                                                    <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
-                                                    <span class="badge badge-info right"><?= $registered; ?></span>
-                                                <?php } ?>
-                                                <div class="card-tools">
-                                                    <ul class="pagination pagination-sm float-right">
-                                                        <li class="page-item"><a class="page-link" href="index1.php">&laquo; Back</a></li>
-                                                        <li class="page-item"><a class="page-link" href="index1.php">&raquo; Home</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <?php
-                                            if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                            ?>
-                                                <div class="col-sm-6 align-content-center">
-                                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
-                                                                            <option value="">Select Site</option>
-                                                                            <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
-                                                                                <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <input type="submit" name="search_by_site1" value="Search by Site" class="btn btn-primary">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="card-tools">
-                                                    <div class="input-group input-group-sm float-right" style="width: 350px;">
-                                                        <input type="text" name="search" id="search" class="form-control float-right" placeholder="Search here names">
-
-                                                        <div class="input-group-append">
-                                                            <button type="submit" class="btn btn-default">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
-                                                        </div>
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-3">
+                                                    <div class="card-header">
+                                                        <?php
+                                                        if ($_GET['status'] == 1) { ?>
+                                                            <h3 class="card-title">List of Screened Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $screened; ?></span>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 2) { ?>
+                                                            <h3 class="card-title">List of Eligible Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $eligible; ?></span>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 3) { ?>
+                                                            <h3 class="card-title">List of Enrolled Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $enrolled; ?></span>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 4) { ?>
+                                                            <h3 class="card-title">List of Terminated Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $end; ?></span>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 5) { ?>
+                                                            <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $registered; ?></span>
+                                                        <?php
+                                                        } elseif ($_GET['status'] == 7) { ?>
+                                                            <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
+                                                            <span class="badge badge-info right"><?= $registered; ?></span>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
-                                            <?php } ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table id="search-results" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Registered Date</th>
-                                                <th>Patient ID</th>
-                                                <th>Patient Name</th>
-                                                <th>Type</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                                <?php if ($_GET['status'] == 3) { ?>
-
-                                                    <th>Summary</th>
-                                                <?php } ?>
-
                                                 <?php
-                                                if ($_GET['status'] == 1) { ?>
-                                                    <th>Screening / Enrollments / Forms</th>
+                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                                ?>
+                                                    <div class="col-sm-3">
+                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
+                                                                                <option value="">Select Site</option>
+                                                                                <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
+                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                                                <?php } ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <input type="submit" name="search_by_site1" value="Search by Site" class="btn btn-primary">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 <?php } ?>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $x = 1;
-                                            foreach ($clients as $client) {
-                                                $screening = $override->get('screening', 'patient_id', $client['id'])[0];
-                                                $visit = $override->getCount('visit', 'client_id', $client['id']);
-                                                $visits = $override->get('visit', 'client_id', $client['id'])[0];
-                                                $end_study = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
-                                                $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
-                                                $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
-
-                                                $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
-
-                                                $screened = 0;
-                                                $eligibility = 0;
-                                                $enrollment = 0;
-
-                                                if ($client) {
-                                                    if ($client['screened']) {
-                                                        $screened = 1;
-                                                    }
-                                                }
-
-                                                if ($client) {
-                                                    if ($client['eligible']) {
-                                                        $eligibility = 1;
-                                                    }
-                                                }
-
-                                                if ($client) {
-                                                    if ($client['enrolled']) {
-                                                        $enrollment = 1;
-                                                    }
-                                                }
-                                            ?>
+                                                <div class="col-sm-6">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                < Back</a>
+                                                        </li>
+                                                        &nbsp;
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                Go Home > </a>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <!-- /.container-fluid -->
+                                    </section>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td><?= $client['clinic_date'] ?></td>
-                                                    <td><?= $client['study_id'] ?></td>
-                                                    <td><?= $client['firstname'] . ' - ' . $client['lastname'] ?></td>
-
-                                                    <?php if ($type['cardiac'] == 1) { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-default">Cardiac</a>
-                                                        </td>
-                                                    <?php } elseif ($type['diabetes'] == 1) { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-info">Diabtes</a>
-                                                        </td>
-                                                    <?php } elseif ($type['sickle_cell'] == 1) { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-success">Sickle Cell</a>
-                                                        </td>
-                                                    <?php } else { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-warning">Not Diagnosised</a>
-                                                        </td>
-                                                    <?php
-                                                    } ?>
-
-                                                    <?php if ($_GET['status'] == 1) { ?>
-
-                                                        <?php if ($client['eligible'] == 1) { ?>
-                                                            <td>
-                                                                <a href="#" class="btn btn-success">Eligible</a>
-                                                            </td>
-                                                        <?php } else { ?>
-                                                            <td>
-                                                                <a href="#" class="btn btn-danger">Not Eligible</a>
-                                                            </td>
-                                                    <?php }
-                                                    } ?>
-
-                                                    <?php if ($_GET['status'] == 2) { ?>
-
-                                                        <?php if ($client['enrolled'] == 1) { ?>
-                                                            <td>
-                                                                <a href="#" class="btn btn-success">Enrolled</a>
-                                                            </td>
-                                                        <?php } else { ?>
-                                                            <td>
-                                                                <a href="#" class="btn btn-danger">Not Enrolled</a>
-                                                            </td>
-                                                    <?php }
-                                                    } ?>
-
+                                                    <th>Registered Date</th>
+                                                    <th>Patient ID</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Type</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
                                                     <?php if ($_GET['status'] == 3) { ?>
 
-                                                        <?php if ($client['enrolled'] == 1) { ?>
+                                                        <th>Summary</th>
+                                                    <?php } ?>
+
+                                                    <?php
+                                                    if ($_GET['status'] == 1) { ?>
+                                                        <th>Screening / Enrollments / Forms</th>
+                                                    <?php } ?>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $x = 1;
+                                                foreach ($clients as $client) {
+                                                    $screening = $override->get('screening', 'patient_id', $client['id'])[0];
+                                                    $visit = $override->getCount('visit', 'client_id', $client['id']);
+                                                    $visits = $override->get('visit', 'client_id', $client['id'])[0];
+                                                    $end_study = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
+                                                    $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
+                                                    $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
+
+                                                    $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
+
+                                                    $screened = 0;
+                                                    $eligibility = 0;
+                                                    $enrollment = 0;
+
+                                                    if ($client) {
+                                                        if ($client['screened']) {
+                                                            $screened = 1;
+                                                        }
+                                                    }
+
+                                                    if ($client) {
+                                                        if ($client['eligible']) {
+                                                            $eligibility = 1;
+                                                        }
+                                                    }
+
+                                                    if ($client) {
+                                                        if ($client['enrolled']) {
+                                                            $enrollment = 1;
+                                                        }
+                                                    }
+                                                ?>
+                                                    <tr>
+                                                        <td><?= $client['clinic_date'] ?></td>
+                                                        <td><?= $client['study_id'] ?></td>
+                                                        <td><?= $client['firstname'] . ' - ' . $client['lastname'] ?></td>
+
+                                                        <?php if ($type['cardiac'] == 1) { ?>
                                                             <td>
-                                                                <a href="#" class="btn btn-success">Enrolled</a>
+                                                                <a href="#" class="btn btn-default">Cardiac</a>
+                                                            </td>
+                                                        <?php } elseif ($type['diabetes'] == 1) { ?>
+                                                            <td>
+                                                                <a href="#" class="btn btn-info">Diabtes</a>
+                                                            </td>
+                                                        <?php } elseif ($type['sickle_cell'] == 1) { ?>
+                                                            <td>
+                                                                <a href="#" class="btn btn-success">Sickle Cell</a>
                                                             </td>
                                                         <?php } else { ?>
                                                             <td>
-                                                                <a href="#" class="btn btn-danger">Not Enrolled</a>
+                                                                <a href="#" class="btn btn-warning">Not Diagnosised</a>
                                                             </td>
-                                                    <?php }
-                                                    } ?>
+                                                        <?php
+                                                        } ?>
 
+                                                        <?php if ($_GET['status'] == 1) { ?>
 
+                                                            <?php if ($client['eligible'] == 1) { ?>
+                                                                <td>
+                                                                    <a href="#" class="btn btn-success">Eligible</a>
+                                                                </td>
+                                                            <?php } else { ?>
+                                                                <td>
+                                                                    <a href="#" class="btn btn-danger">Not Eligible</a>
+                                                                </td>
+                                                        <?php }
+                                                        } ?>
 
-                                                    <?php if ($_GET['status'] == 4) { ?>
-                                                        <td>
-                                                            <?php if ($client['end_study'] == 1) { ?>
-                                                                <a href="#" class="btn btn-danger">END</a>
-                                                        </td>
+                                                        <?php if ($_GET['status'] == 2) { ?>
 
-                                                        <td>
-                                                            <?php if ($termination == 1) { ?>
-                                                                <a href="#" class="btn btn-info">On Treatment</a>
-                                                            <?php } elseif ($termination == '2') { ?>
+                                                            <?php if ($client['enrolled'] == 1) { ?>
+                                                                <td>
+                                                                    <a href="#" class="btn btn-success">Enrolled</a>
+                                                                </td>
+                                                            <?php } else { ?>
+                                                                <td>
+                                                                    <a href="#" class="btn btn-danger">Not Enrolled</a>
+                                                                </td>
+                                                        <?php }
+                                                        } ?>
 
-                                                                <a href="#" class="btn btn-info">Default</a>
-                                                            <?php
-                                                                } elseif ($termination == 3) { ?>
-                                                                <a href="#" class="btn btn-info">Stop treatment</a>
-                                                            <?php
-                                                                } elseif ($termination == 4) { ?>
-                                                                <a href="#" class="btn btn-info">Trnasfer Out</a>
-                                                            <?php
-                                                                } elseif ($termination == 5) { ?>
-                                                                <a href="#" class="btn btn-info">Death</a>
-                                                            <?php
-                                                                } else { ?>
-                                                                <a href="#" class="btn btn-info">Other</a>
-                                                            <?php
-                                                                } ?>
-                                                        </td>
+                                                        <?php if ($_GET['status'] == 3) { ?>
 
-
-                                                    <?php } else { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-success">ACTIVE</a>
-                                                        </td>
-                                                <?php }
+                                                            <?php if ($client['enrolled'] == 1) { ?>
+                                                                <td>
+                                                                    <a href="#" class="btn btn-success">Enrolled</a>
+                                                                </td>
+                                                            <?php } else { ?>
+                                                                <td>
+                                                                    <a href="#" class="btn btn-danger">Not Enrolled</a>
+                                                                </td>
+                                                        <?php }
                                                         } ?>
 
 
-                                                <?php if ($_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
 
-                                                    <?php if ($client['screened'] == 1) { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-success">SCREENED</a>
-                                                        </td>
-                                                    <?php } else { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-danger">NOT SCREENED</a>
-                                                        </td>
-                                                <?php }
-                                                } ?>
+                                                        <?php if ($_GET['status'] == 4) { ?>
+                                                            <td>
+                                                                <?php if ($client['end_study'] == 1) { ?>
+                                                                    <a href="#" class="btn btn-danger">END</a>
+                                                            </td>
 
-                                                <td>
-                                                    <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
-                                                        <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">View / Update</a>
-                                                </td>
+                                                            <td>
+                                                                <?php if ($termination == 1) { ?>
+                                                                    <a href="#" class="btn btn-info">On Treatment</a>
+                                                                <?php } elseif ($termination == '2') { ?>
 
-                                                <td>
+                                                                    <a href="#" class="btn btn-info">Default</a>
+                                                                <?php
+                                                                    } elseif ($termination == 3) { ?>
+                                                                    <a href="#" class="btn btn-info">Stop treatment</a>
+                                                                <?php
+                                                                    } elseif ($termination == 4) { ?>
+                                                                    <a href="#" class="btn btn-info">Trnasfer Out</a>
+                                                                <?php
+                                                                    } elseif ($termination == 5) { ?>
+                                                                    <a href="#" class="btn btn-info">Death</a>
+                                                                <?php
+                                                                    } else { ?>
+                                                                    <a href="#" class="btn btn-info">Other</a>
+                                                                <?php
+                                                                    } ?>
+                                                            </td>
 
 
-                                                    <?php if ($screened) { ?>
-                                                        <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
-                                                            Edit Screening
-                                                        </a>
-                                                    <?php } else {  ?>
-                                                        <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
-                                                            Add Screening
-                                                        </a>
-                                                <?php }
+                                                        <?php } else { ?>
+                                                            <td>
+                                                                <a href="#" class="btn btn-success">ACTIVE</a>
+                                                            </td>
+                                                    <?php }
+                                                            } ?>
+
+
+                                                    <?php if ($_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
+
+                                                        <?php if ($client['screened'] == 1) { ?>
+                                                            <td>
+                                                                <a href="#" class="btn btn-success">SCREENED</a>
+                                                            </td>
+                                                        <?php } else { ?>
+                                                            <td>
+                                                                <a href="#" class="btn btn-danger">NOT SCREENED</a>
+                                                            </td>
+                                                    <?php }
                                                     } ?>
 
-                                                <?php if ($_GET['status'] == 2) { ?>
-                                                    <?php if ($enrollment == 1) { ?>
-                                                        <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
-                                                            Edit Enrollment
-                                                        </a>
-                                                    <?php } else {  ?>
-                                                        <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
-                                                            Add Enrollment
-                                                        </a>
+                                                    <td>
+                                                        <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
+                                                            <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">View / Update</a>
+                                                    </td>
+
+                                                    <td>
+
+
+                                                        <?php if ($screened) { ?>
+                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
+                                                                Edit Screening
+                                                            </a>
+                                                        <?php } else {  ?>
+                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
+                                                                Add Screening
+                                                            </a>
                                                     <?php }
-                                                    ?>
-                                                <?php } ?>
-                                                <?php if ($_GET['status'] == 3) { ?>
-                                                    <?php if ($enrollment == 1) { ?>
-                                                        <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
+                                                        } ?>
 
-                                                <?php }
-                                                } ?>
-                                                </td>
-
-                                                <td>
+                                                    <?php if ($_GET['status'] == 2) { ?>
+                                                        <?php if ($enrollment == 1) { ?>
+                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
+                                                                Edit Enrollment
+                                                            </a>
+                                                        <?php } else {  ?>
+                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
+                                                                Add Enrollment
+                                                            </a>
+                                                        <?php }
+                                                        ?>
+                                                    <?php } ?>
                                                     <?php if ($_GET['status'] == 3) { ?>
                                                         <?php if ($enrollment == 1) { ?>
-                                                            <a href="summary.php?cid=<?= $client['id'] ?>" role="button" class="btn btn-primary">Patient Summary</a>
+                                                            <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
 
                                                     <?php }
                                                     } ?>
+                                                    </td>
 
-                                                    <?php if ($_GET['status'] == 5) { ?>
-                                                        <?php if ($user->data()->power == 1) { ?>
-                                                            <a href="#delete_client<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
-                                                    <?php
-                                                        }
-                                                    } ?>
-                                                </td>
-                                                <td><span class="badge bg-danger">55%</span></td>
-                                                </tr>
-                                                <div class="modal fade" id="addScreening<?= $client['id'] ?>">
-                                                    <div class="modal-dialog">
-                                                        <form method="post">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">SCREENING FORM</h4>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <?php $screening = $override->get('screening', 'patient_id', $client['id'])[0];
-                                                                ?>
-                                                                <div class="modal-body">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-6">
-                                                                            <div class="row-form clearfix">
-                                                                                <!-- select -->
-                                                                                <div class="form-group">
-                                                                                    <label>Date of Screening</label>
-                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="screening_date" name="screening_date" id="screening_date" style="width: 100%;" value="<?php if ($screening['screening_date']) {
-                                                                                                                                                                                                                                                        print_r($screening['screening_date']);
-                                                                                                                                                                                                                                                    }  ?>" required />
+                                                    <td>
+                                                        <?php if ($_GET['status'] == 3) { ?>
+                                                            <?php if ($enrollment == 1) { ?>
+                                                                <a href="summary.php?cid=<?= $client['id'] ?>" role="button" class="btn btn-primary">Patient Summary</a>
+
+                                                        <?php }
+                                                        } ?>
+
+                                                        <?php if ($_GET['status'] == 5) { ?>
+                                                            <?php if ($user->data()->power == 1) { ?>
+                                                                <a href="#delete_client<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                        <?php
+                                                            }
+                                                        } ?>
+                                                    </td>
+
+                                                    </tr>
+                                                    <div class="modal fade" id="addScreening<?= $client['id'] ?>">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">SCREENING FORM</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <?php $screening = $override->get('screening', 'patient_id', $client['id'])[0];
+                                                                    ?>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Screening</label>
+                                                                                        <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="screening_date" name="screening_date" id="screening_date" style="width: 100%;" value="<?php if ($screening['screening_date']) {
+                                                                                                                                                                                                                                                            print_r($screening['screening_date']);
+                                                                                                                                                                                                                                                        }  ?>" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <div class="row-form clearfix">
+                                                                                    <div class="form-group">
+                                                                                        <label>Consenting individuals?</label>
+                                                                                        <select class="form-control" name="consent" id="consent" style="width: 100%;" onchange="checkQuestionValue1('consent','conset_date')" required>
+                                                                                            <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
+                                                                                                                                                if ($screening['consent'] == 1) {
+                                                                                                                                                    echo 'Yes';
+                                                                                                                                                } elseif ($screening['consent'] == 2) {
+                                                                                                                                                    echo 'No';
+                                                                                                                                                }
+                                                                                                                                            } else {
+                                                                                                                                                echo 'Select';
+                                                                                                                                            } ?></option>
+                                                                                            <option value="1">Yes</option>
+                                                                                            <option value="2">No</option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-6">
-                                                                            <div class="row-form clearfix">
-                                                                                <div class="form-group">
-                                                                                    <label>Consenting individuals?</label>
-                                                                                    <select class="form-control" name="consent" id="consent" style="width: 100%;" onchange="checkQuestionValue1('consent','conset_date')" required>
-                                                                                        <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
-                                                                                                                                            if ($screening['consent'] == 1) {
+                                                                        <div class="row">
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Conset</label>
+                                                                                        <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="conset_date" name="conset_date" id="conset_date" style="width: 100%;" value="<?php if ($screening['conset_date']) {
+                                                                                                                                                                                                                                                    print_r($screening['conset_date']);
+                                                                                                                                                                                                                                                }  ?>" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <div class="form-group">
+                                                                                        <label>Permanent resident?</label>
+                                                                                        <select class="form-control" name="residence" style="width: 100%;" required>
+                                                                                            <option value="<?= $screening['residence'] ?>"><?php if ($screening) {
+                                                                                                                                                if ($screening['residence'] == 1) {
+                                                                                                                                                    echo 'Yes';
+                                                                                                                                                } elseif ($screening['residence'] == 2) {
+                                                                                                                                                    echo 'No';
+                                                                                                                                                }
+                                                                                                                                            } else {
+                                                                                                                                                echo 'Select';
+                                                                                                                                            } ?></option>
+                                                                                            <option value="1">Yes</option>
+                                                                                            <option value="2">No</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <div class="form-group">
+                                                                                        <label>Known NCD?</label>
+                                                                                        <select class="form-control" name="ncd" style="width: 100%;" required>
+                                                                                            <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
+                                                                                                                                            if ($screening['ncd'] == 1) {
                                                                                                                                                 echo 'Yes';
-                                                                                                                                            } elseif ($screening['consent'] == 2) {
+                                                                                                                                            } elseif ($screening['ncd'] == 2) {
                                                                                                                                                 echo 'No';
                                                                                                                                             }
                                                                                                                                         } else {
                                                                                                                                             echo 'Select';
                                                                                                                                         } ?></option>
-                                                                                        <option value="1">Yes</option>
-                                                                                        <option value="2">No</option>
-                                                                                    </select>
+                                                                                            <option value="1">Yes</option>
+                                                                                            <option value="2">No</option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
+
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
-                                                                            <div class="row-form clearfix">
-                                                                                <!-- select -->
-                                                                                <div class="form-group">
-                                                                                    <label>Date of Conset</label>
-                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="conset_date" name="conset_date" id="conset_date" style="width: 100%;" value="<?php if ($screening['conset_date']) {
-                                                                                                                                                                                                                                                print_r($screening['conset_date']);
-                                                                                                                                                                                                                                            }  ?>" required />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-sm-4">
-                                                                            <div class="row-form clearfix">
-                                                                                <div class="form-group">
-                                                                                    <label>Permanent resident?</label>
-                                                                                    <select class="form-control" name="residence" style="width: 100%;" required>
-                                                                                        <option value="<?= $screening['residence'] ?>"><?php if ($screening) {
-                                                                                                                                            if ($screening['residence'] == 1) {
-                                                                                                                                                echo 'Yes';
-                                                                                                                                            } elseif ($screening['residence'] == 2) {
-                                                                                                                                                echo 'No';
-                                                                                                                                            }
-                                                                                                                                        } else {
-                                                                                                                                            echo 'Select';
-                                                                                                                                        } ?></option>
-                                                                                        <option value="1">Yes</option>
-                                                                                        <option value="2">No</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-sm-4">
-                                                                            <div class="row-form clearfix">
-                                                                                <div class="form-group">
-                                                                                    <label>Known NCD?</label>
-                                                                                    <select class="form-control" name="ncd" style="width: 100%;" required>
-                                                                                        <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
-                                                                                                                                        if ($screening['ncd'] == 1) {
-                                                                                                                                            echo 'Yes';
-                                                                                                                                        } elseif ($screening['ncd'] == 2) {
-                                                                                                                                            echo 'No';
-                                                                                                                                        }
-                                                                                                                                    } else {
-                                                                                                                                        echo 'Select';
-                                                                                                                                    } ?></option>
-                                                                                        <option value="1">Yes</option>
-                                                                                        <option value="2">No</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                        <input type="hidden" name="screening_id" value="<?= $screening['id'] ?>">
+                                                                        <input type="hidden" name="gender" value="<?= $client['gender'] ?>">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        <input type="submit" name="add_screening" class="btn btn-primary" value="Save changes">
                                                                     </div>
                                                                 </div>
-                                                                <div class="modal-footer justify-content-between">
-                                                                    <input type="hidden" name="id" value="<?= $client['id'] ?>">
-                                                                    <input type="hidden" name="screening_id" value="<?= $screening['id'] ?>">
-                                                                    <input type="hidden" name="gender" value="<?= $client['gender'] ?>">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                    <input type="submit" name="add_screening" class="btn btn-primary" value="Save changes">
-                                                                </div>
-                                                            </div>
-                                                            <!-- /.modal-content -->
-                                                        </form>
+                                                                <!-- /.modal-content -->
+                                                            </form>
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
                                                     </div>
-                                                    <!-- /.modal-dialog -->
-                                                </div>
-                                                <!-- /.modal -->
+                                                    <!-- /.modal -->
 
-                                                <div class="modal fade" id="addEnrollment<?= $client['id'] ?>">
-                                                    <div class="modal-dialog">
-                                                        <form method="post">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Visit</h4>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <?php
-                                                                $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
-                                                                $visits_reason = $override->firstRow1('visit', 'reasons', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
-                                                                ?>
-                                                                <div class="modal-body">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
-                                                                            <div class="row-form clearfix">
-                                                                                <!-- select -->
-                                                                                <div class="form-group">
-                                                                                    <label>Date of Enrollment</label>
-                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($screening['visit_date']) {
-                                                                                                                                                                                                                                            print_r($screening['visit_date']);
-                                                                                                                                                                                                                                        }  ?>" required />
+                                                    <div class="modal fade" id="addEnrollment<?= $client['id'] ?>">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Visit</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <?php
+                                                                    $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
+                                                                    $visits_reason = $override->firstRow1('visit', 'reasons', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
+                                                                    ?>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date of Enrollment</label>
+                                                                                        <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($screening['visit_date']) {
+                                                                                                                                                                                                                                                print_r($screening['visit_date']);
+                                                                                                                                                                                                                                            }  ?>" required />
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
 
-                                                                        <div class="col-sm-8">
-                                                                            <div class="row-form clearfix">
-                                                                                <div class="form-group">
-                                                                                    <label>Notes / Remarks / Comments</label>
-                                                                                    <textarea class="form-control" name="reasons" rows="3">
+                                                                            <div class="col-sm-8">
+                                                                                <div class="row-form clearfix">
+                                                                                    <div class="form-group">
+                                                                                        <label>Notes / Remarks / Comments</label>
+                                                                                        <textarea class="form-control" name="reasons" rows="3">
                                                                                  <?php
                                                                                     if ($visits_reason['reasons']) {
                                                                                         print_r($visits_reason['reasons']);
                                                                                     } ?>
                                                                                 </textarea>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
 
-                                                                        <div class="dr"><span></span></div>
+                                                                            <div class="dr"><span></span></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                        <input type="hidden" name="visit_name" value="Enrollment Visit">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        <input type="submit" name="add_Enrollment" class="btn btn-primary" value="Save changes">
                                                                     </div>
                                                                 </div>
-                                                                <div class="modal-footer justify-content-between">
-                                                                    <input type="hidden" name="id" value="<?= $client['id'] ?>">
-                                                                    <input type="hidden" name="visit_name" value="Enrollment Visit">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                    <input type="submit" name="add_Enrollment" class="btn btn-primary" value="Save changes">
-                                                                </div>
-                                                            </div>
-                                                            <!-- /.modal-content -->
-                                                        </form>
+                                                                <!-- /.modal-content -->
+                                                            </form>
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
                                                     </div>
-                                                    <!-- /.modal-dialog -->
-                                                </div>
-                                                <!-- /.modal -->
+                                                    <!-- /.modal -->
 
-                                                <div class="modal fade" id="delete_client<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <form method="post">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                                    <h4>Delete Client</h4>
+                                                    <div class="modal fade" id="delete_client<?= $client['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete Client</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this Client ?</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $client['id'] ?>">
+                                                                        <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="modal-body">
-                                                                    <strong style="font-weight: bold;color: red">
-                                                                        <p>Are you sure you want to delete this Client ?</p>
-                                                                    </strong>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <input type="hidden" name="id" value="<?= $client['id'] ?>">
-                                                                    <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
-                                                                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
+                                                            </form>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            <?php $x++;
-                                            } ?>
-                                        </tbody>
-                                    </table>
+                                                <?php $x++;
+                                                } ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Registered Date</th>
+                                                    <th>Patient ID</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Type</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                    <?php if ($_GET['status'] == 3) { ?>
+
+                                                        <th>Summary</th>
+                                                    <?php } ?>
+
+                                                    <?php
+                                                    if ($_GET['status'] == 1) { ?>
+                                                        <th>Screening / Enrollments / Forms</th>
+                                                    <?php } ?>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="pull-right">
+                                        <div class="btn-group">
+                                            <a href="info.php?id=3&status=<?= $_GET['status'] ?>sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                    echo $_GET['page'] - 1;
+                                                                                                                                } else {
+                                                                                                                                    echo 1;
+                                                                                                                                } ?>" class="btn btn-default">
+                                                < </a>
+                                                    <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                        <a href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?= $i ?>" class="btn btn-default <?php if ($i == $_GET['page']) {
+                                                                                                                                                                                echo 'active';
+                                                                                                                                                                            } ?>"><?= $i ?></a>
+                                                    <?php } ?>
+                                                    <a href="info.php?id=3&status=<?= $_GET['status'] ?>&sid=<?= $_GET['sid'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                            echo $_GET['page'] + 1;
+                                                                                                                                        } else {
+                                                                                                                                            echo $i - 1;
+                                                                                                                                        } ?>" class="btn btn-default"> > </a>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
                                 </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer clearfix">
-                                    <ul class="pagination pagination-sm m-0 float-right">
-                                        <li class="page-item">
-                                            <a class="page-link" href="info.php?id=3&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
-                                                                                                                                                            echo $_GET['page'] - 1;
-                                                                                                                                                        } else {
-                                                                                                                                                            echo 1;
-                                                                                                                                                        } ?>">&laquo;
-                                            </a>
-                                        </li>
-                                        <?php for ($i = 1; $i <= $pages; $i++) { ?>
-                                            <li class="page-item">
-                                                <a class="page-link <?php if ($i == $_GET['page']) {
-                                                                        echo 'active';
-                                                                    } ?>" href="info.php?id=3&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
-                                                </a>
-                                            </li>
-                                        <?php } ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="info.php?id=3&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
-                                                                                                                                                            echo $_GET['page'] + 1;
-                                                                                                                                                        } else {
-                                                                                                                                                            echo $i - 1;
-                                                                                                                                                        } ?>">&raquo;
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <!-- /.card -->
                             </div>
-                            <!-- /.col -->
+                            <!--/.col (right) -->
                         </div>
                         <!-- /.row -->
-                    </div>
-                    <!-- /.container-fluid -->
+                    </div><!-- /.container-fluid -->
                 </section>
                 <!-- /.content -->
             </div>
@@ -3755,23 +3831,6 @@ if ($user->isLoggedIn()) {
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
-
-        $(document).ready(function() {
-            $('#search').keyup(function() {
-                var searchTerm = $(this).val();
-                $.ajax({
-                    url: 'fetch_details.php?content=fetchDetails',
-                    type: 'GET',
-                    data: {
-                        search: searchTerm
-                    },
-                    success: function(response) {
-                        console.log(response)
-                        $('#search-results').html(response);
-                    }
-                });
-            });
-        });
 
         $(document).ready(function() {
             $("#myInput11").on("keyup", function() {

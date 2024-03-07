@@ -838,9 +838,9 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_history')) {
             $validate = $validate->check($_POST, array(
-                // 'visit_date' => array(
-                //     'required' => true,
-                // ),
+                'visit_date' => array(
+                    'required' => true,
+                ),
             ));
             if ($validate->passed()) {
                 try {
@@ -850,7 +850,7 @@ if ($user->isLoggedIn()) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
 
                             $user->updateRecord('history', array(
-                                'visit_date' => date('Y-m-d'),
+                                'visit_date' => Input::get('visit_date'),
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
@@ -889,7 +889,7 @@ if ($user->isLoggedIn()) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
 
                             $user->updateRecord('history', array(
-                                'visit_date' => date('Y-m-d'),
+                                'visit_date' => Input::get('visit_date'),
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
@@ -935,7 +935,7 @@ if ($user->isLoggedIn()) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
 
                             $user->updateRecord('history', array(
-                                'visit_date' => date('Y-m-d'),
+                                'visit_date' => Input::get('visit_date'),
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
@@ -980,7 +980,7 @@ if ($user->isLoggedIn()) {
                         }
                     } else {
                         $user->createRecord('history', array(
-                            'visit_date' => date('Y-m-d'),
+                            'visit_date' => Input::get('visit_date'),
                             'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
@@ -1060,6 +1060,7 @@ if ($user->isLoggedIn()) {
                             'vid' => $_GET['vid'],
                             'age' => Input::get('age'),
                             'sex' => Input::get('sex'),
+                            'visit_date' => Input::get('visit_date'),
                             'sickle_status' => Input::get('sickle_status'),
                             'other' => Input::get('other'),
                         ),  Input::get('id'));
@@ -1073,6 +1074,7 @@ if ($user->isLoggedIn()) {
                                 'vid' => $_GET['vid'],
                                 'age' => Input::get('age')[$i],
                                 'sex' => Input::get('sex')[$i],
+                                'visit_date' => Input::get('visit_date'),
                                 'sickle_status' => Input::get('sickle_status')[$i],
                                 'other' => Input::get('other')[$i],
                                 'patient_id' => $_GET['cid'],
@@ -5041,6 +5043,17 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
+                                            <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Date of birth:</label>
+                                                            <input class="form-control" max="<?= date('Y-m-d'); ?>" type="date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($history['visit_date']) {
+                                                                                                                                                                                    print_r($history['visit_date']);
+                                                                                                                                                                                }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 

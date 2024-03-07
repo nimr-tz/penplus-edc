@@ -1434,7 +1434,12 @@ if ($user->isLoggedIn()) {
                                         }
 
                                         if ($_GET['status'] == 1) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients','status', 1, 'screened', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname','study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 2) {
                                             $clients = $override->getWithLimit1('clients', 'status', 1, 'eligible', 1, $page, $numRec);
                                         } elseif ($_GET['status'] == 3) {
@@ -1563,13 +1568,19 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                                 <div class="card-tools">
                                                     <div class="input-group input-group-sm float-right" style="width: 350px;">
-                                                        <input type="text" name="search" id="search" class="form-control float-right" placeholder="Search here names">
+                                                        <form method="get" action="#">
 
-                                                        <div class="input-group-append">
-                                                            <button type="submit" class="btn btn-default">
+                                                            <input type=" text" name="search_name" id="search_name" class="form-control float-right" placeholder="Search here names">
+                                                            <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+                                                            <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
+                                                            <input type="submit" value="search_details">
+
+                                                            <!-- <div class="input-group-append">
+                                                                <input type="submit" class="btn btn-default">
                                                                 <i class="fas fa-search"></i>
-                                                            </button>
-                                                        </div>
+                                                                </button>
+                                                            </div> -->
+                                                        </form>
                                                     </div>
                                                 </div>
                                             <?php } ?>
@@ -3765,6 +3776,7 @@ if ($user->isLoggedIn()) {
                     data: {
                         search: searchTerm
                     },
+                    // dataType: "json",
                     success: function(response) {
                         console.log(response)
                         $('#search-results').html(response);

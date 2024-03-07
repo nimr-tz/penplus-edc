@@ -2488,12 +2488,17 @@ if ($user->isLoggedIn()) {
                                 $errorMessage = 'Dose asigned : ' . Input::get('medication_dose')[$i] . ' exceed the The available  Medication : '. $medication['name'] . ' : Batch : '. $batch['serial_name'] .' Available '. $batch['amount'];
                             }
                         }
-                    }           
-
+                    } 
                     
-                    $successMessage = 'Treatment plan added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$successMessage);
-                    // die;
+                    if($successMessage){
+                        $msg1 = 1;
+                        $msg = $successMessage;
+                    }elseif($errorMessage){
+                        $msg1 = 2;
+                        $msg = $errorMessage;
+                    }
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$msg.'&msg1='.$msg1);
+                    die;
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }

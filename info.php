@@ -1008,31 +1008,25 @@ if ($user->isLoggedIn()) {
 
         <!-- Main Sidebar Container -->
         <?php include 'sidemenu.php'; ?>
+
         <?php if ($errorMessage) { ?>
-
-            <?php if ($errorMessage) { ?>
-                <div class="alert alert-danger text-center">
-                    <h4>Error!</h4>
-                    <?= $errorMessage ?>
-                </div>
-            <?php } elseif ($pageError) { ?>
-            <?php } elseif ($pageError) { ?>
-
-                <div class="alert alert-danger text-center">
-                    <h4>Error!</h4>
-                    <?php foreach ($pageError as $error) {
-                        echo $error . ' , ';
-                    } ?>
-                </div>
-            <?php } elseif ($successMessage) { ?>
-            <?php } elseif ($successMessage) { ?>
-
-                <div class="alert alert-success text-center">
-                    <h4>Success!</h4>
-                    <?= $successMessage ?>
-                </div>
-        <?php }
-        } ?>
+            <div class="alert alert-danger text-center">
+                <h4>Error!</h4>
+                <?= $errorMessage ?>
+            </div>
+        <?php } elseif ($pageError) { ?>
+            <div class="alert alert-danger text-center">
+                <h4>Error!</h4>
+                <?php foreach ($pageError as $error) {
+                    echo $error . ' , ';
+                } ?>
+            </div>
+        <?php } elseif ($successMessage) { ?>
+            <div class="alert alert-success text-center">
+                <h4>Success!</h4>
+                <?= $successMessage ?>
+            </div>
+        <?php } ?>
 
 
         <?php if ($_GET['id'] == 1 && ($user->data()->position == 1 || $user->data()->position == 2 || $user->data()->position == 3)) { ?>
@@ -2574,6 +2568,24 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
+                                <?php if ($_GET['msg1'] == 2) { ?>
+                                    <div class="alert alert-danger text-center">
+                                        <h4>Error!</h4>
+                                        <?= $_GET['msg'] ?>
+                                    </div>
+                                <?php } elseif ($pageError) { ?>
+                                    <div class="alert alert-danger text-center">
+                                        <h4>Error!</h4>
+                                        <?php foreach ($pageError as $error) {
+                                            echo $error . ' , ';
+                                        } ?>
+                                    </div>
+                                <?php } elseif ($_GET['msg1'] == 1) { ?>
+                                    <div class="alert alert-success text-center">
+                                        <h4>Success!</h4>
+                                        <?= $_GET['msg'] ?>
+                                    </div>
+                                <?php } ?>
                                 <div class="card">
                                     <div class="card-header">
                                         <?php

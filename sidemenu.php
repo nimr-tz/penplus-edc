@@ -305,7 +305,7 @@ if ($user->isLoggedIn()) {
                         <li class="nav-item">
                             <a href="add.php?id=5&btn=Add" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Add New Medication</p>
+                                <p>Add New Name</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -317,7 +317,7 @@ if ($user->isLoggedIn()) {
                         <li class="nav-item">
                             <a href="info.php?id=8" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Medication list
+                                <p>List of Names
                                     <span class="badge badge-info right"><?= $override->getCount('medications', 'status', 1) ?></span>
                                 </p>
                             </a>
@@ -325,7 +325,7 @@ if ($user->isLoggedIn()) {
                         <li class="nav-item">
                             <a href="info.php?id=10" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Batch / Serial list
+                                <p>List of Batches
                                     <span class="badge badge-info right"><?= $override->getCount('batch', 'status', 1) ?></span>
                                 </p>
                             </a>

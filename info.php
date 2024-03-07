@@ -1398,13 +1398,23 @@ if ($user->isLoggedIn()) {
                                         } elseif ($_GET['status'] == 4) {
                                             $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                                         } elseif ($_GET['status'] == 5) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 6) {
                                             $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $_GET['site_id'], $page, $numRec);
                                         } elseif ($_GET['status'] == 7) {
                                             $clients = $override->getWithLimit('clients', 'site_id', $_GET['site_id'], $page, $numRec);
                                         } elseif ($_GET['status'] == 8) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 0, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         }
                                     } else {
 
@@ -1436,7 +1446,7 @@ if ($user->isLoggedIn()) {
                                         if ($_GET['status'] == 1) {
                                             if ($_GET['search_name']) {
                                                 $searchTerm = $_GET['search_name'];
-                                                $clients = $override->getWithLimit1Search('clients','status', 1, 'screened', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname','study_id');
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'screened', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
                                             } else {
                                                 $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 1, $page, $numRec);
                                             }
@@ -1510,13 +1520,23 @@ if ($user->isLoggedIn()) {
                                     } elseif ($_GET['status'] == 4) {
                                         $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id, $page, $numRec);
                                     } elseif ($_GET['status'] == 5) {
-                                        $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit1Search('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     } elseif ($_GET['status'] == 6) {
                                         $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $user->data()->site_id, $page, $numRec);
                                     } elseif ($_GET['status'] == 7) {
                                         $clients = $override->getWithLimit('clients', 'site_id', $user->data()->site_id, $page, $numRec);
                                     } elseif ($_GET['status'] == 8) {
-                                        $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit1Search('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     }
                                 }
                                 ?>
@@ -1586,25 +1606,36 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="card-tools">
-                                                    <div class="input-group input-group-sm float-right" style="width: 350px;">
-                                                        <form method="get" action="#">
-
-                                                            <input type=" text" name="search_name" id="search_name" class="form-control float-right" placeholder="Search here names">
-                                                            <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
-                                                            <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
-                                                            <input type="submit" value="search_details">
-
-                                                            <!-- <div class="input-group-append">
-                                                                <input type="submit" class="btn btn-default">
-                                                                <i class="fas fa-search"></i>
-                                                                </button>
-                                                            </div> -->
-                                                        </form>
-                                                    </div>
-                                                </div>
                                             <?php } ?>
 
+                                            <div class="card-tools">
+                                                <div class="input-group input-group-sm float-right" style="width: 350px;">
+                                                    <form method="get">
+                                                        <!-- <div class="form-inline"> -->
+                                                            <!-- <div class=" input-group-append"> -->
+                                                            <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+                                                            <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
+                                                            <input type="text" name="search_name" id="search_name" class="form-control float-right" placeholder="Search here Names or Study ID">
+                                                            <!-- </div> -->
+                                                            <!-- <div class=" input-group-append"> -->
+                                                                <input type="submit" value="Search" class="btn btn-default"><i class="fas fa-search"></i>
+                                                            <!-- </div> -->
+                                                        <!-- </div> -->
+
+
+                                                        <!-- <div class="form-inline">
+                                                            <div class="input-group" data-widget="sidebar-search">
+                                                                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                                                                <div class="input-group-append">
+                                                                    <button class="btn btn-sidebar">
+                                                                        <i class="fas fa-search fa-fw"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

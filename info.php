@@ -1441,15 +1441,35 @@ if ($user->isLoggedIn()) {
                                                 $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 1, $page, $numRec);
                                             }
                                         } elseif ($_GET['status'] == 2) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'eligible', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'eligible', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'eligible', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 3) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'enrolled', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'enrolled', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'enrolled', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 4) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'end_study', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'end_study', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'end_study', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 5) {
                                             $clients = $override->getWithLimit('clients', 'status', 1, $page, $numRec);
                                         } elseif ($_GET['status'] == 6) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 0, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'screened', 0, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 0, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 7) {
                                             $clients = $override->getDataLimit('clients', $page, $numRec);
                                         } elseif ($_GET['status'] == 8) {

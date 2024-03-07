@@ -2511,10 +2511,14 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('update_medication')) {
 
+            print_r($_POST);
+
             $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
-            $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('batch_id'))[0];
+            $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
             $treatments = $override->getNews('medication_treatments', 'status', 1, 'id', Input::get('id'))[0];
 
+            $extra = 0;
+            $amount = 0;
             $removed = 0;
             $received = 0;
 
@@ -2523,12 +2527,12 @@ if ($user->isLoggedIn()) {
                     if (Input::get('medication_dose') == $treatments['medication_dose']) {
                         $amount = $treatments['medication_dose'];
                     }elseif(Input::get('medication_dose') <= $treatments['medication_dose']){
-                        $extra = $treatments['medication_dose'] - Input::get('medication_dose');
-                        $amount = $batch['amount'] + $extra;
+                        $extra = floatval($treatments['medication_dose']) - floatval(Input::get('medication_dose'));
+                        $amount = floatval($batch['amount']) + floatval($extra);
                         $received = $extra;
                     }elseif(nput::get('medication_dose') >= $treatments['medication_dose']){
-                        $extra = Input::get('medication_dose') - $treatments['medication_dose'];
-                        $amount = $batch['amount'] - $extra;
+                        $extra = floatval(Input::get('medication_dose')) - floatval($treatments['medication_dose']);
+                        $amount = floatval($batch['amount']) - floatval($extra);
                         $removed = $extra;
                     }
 
@@ -2546,7 +2550,7 @@ if ($user->isLoggedIn()) {
                     'date' => Input::get('date'),
                     'start_date' => Input::get('start_date'),
                     'batch_id' => Input::get('batch_id'),
-                    'medication_type' => Input::get('medication_type'),
+                    'medication_type' => Input::get('medication_id'),
                     'medication_action' => Input::get('medication_action'),
                     'medication_dose' => Input::get('medication_dose'),
                     'units' => Input::get('medication_units'),
@@ -11205,6 +11209,7 @@ if ($user->isLoggedIn()) {
                                                                                         </div>
                                                                                         <div class="modal-footer justify-content-between">
                                                                                             <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
+                                                                                            <input type="hidden" name="batch_id" value="<?= $treatment['batch_id'] ?>">
                                                                                             <input type="hidden" name="medication_id" value="<?= $medications[0]['id'] ?>">
                                                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                                             <input type="submit" name="update_medication" class="btn btn-primary" value="Save changes">

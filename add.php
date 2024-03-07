@@ -2434,6 +2434,7 @@ if ($user->isLoggedIn()) {
                         ), Input::get('id'));
                     } else {
                         for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
+                            $medication_type = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i]);
                             $user->createRecord('medication_treatments', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
@@ -2442,7 +2443,7 @@ if ($user->isLoggedIn()) {
                                 'vid' => $_GET['vid'],
                                 'start_date' => Input::get('start_date')[$i],
                                 'batch_id' => Input::get('batch_id')[$i],
-                                'medication_type' => Input::get('medication_type')[$i],
+                                'medication_type' => $medication_type[$i],
                                 'medication_action' => Input::get('medication_action')[$i],
                                 'medication_dose' => Input::get('medication_dose')[$i],
                                 'units' => Input::get('medication_units')[$i],
@@ -2458,7 +2459,7 @@ if ($user->isLoggedIn()) {
 
                     
                     $successMessage = 'Treatment plan added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     // die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2475,7 +2476,7 @@ if ($user->isLoggedIn()) {
                 'vid' => $_GET['vid'],
                 'start_date' => Input::get('start_date'),
                 'batch_id' => Input::get('batch_id'),
-                'medication_type' => 1,
+                'medication_type' => Input::get('medication_type'),
                 'medication_action' => Input::get('medication_action'),
                 'medication_dose' => Input::get('medication_dose'),
                 'units' => Input::get('medication_units'),
@@ -11062,6 +11063,7 @@ if ($user->isLoggedIn()) {
                                                                                         </div>
                                                                                         <div class="modal-footer justify-content-between">
                                                                                             <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
+                                                                                            <input type="hidden" name="medication_id" value="<?= $medications[0]['id'] ?>">
                                                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                                             <input type="submit" name="update_medication" class="btn btn-primary" value="Save changes">
                                                                                         </div>

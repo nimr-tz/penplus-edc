@@ -16911,7 +16911,7 @@ if ($user->isLoggedIn()) {
             html += "<td>" + items + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
             html += '<td><input class="form-control"  type="date" name="start_date[]" value=""></td>';
-            html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' ) : ( '. $batches[0]['amount'] .' )'; ?></option> <?php } ?></select></td>';
+            html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' ) : ( '. $batch['amount'] .' )'; ?></option> <?php } ?></select></td>';
             html += '<td><input class="form-control" type="text" name="medication_dose[]" value="" required></td>';
             html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
             html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';

@@ -838,9 +838,9 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_history')) {
             $validate = $validate->check($_POST, array(
-                // 'visit_date' => array(
-                //     'required' => true,
-                // ),
+                'visit_date' => array(
+                    'required' => true,
+                ),
             ));
             if ($validate->passed()) {
                 try {
@@ -850,7 +850,7 @@ if ($user->isLoggedIn()) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
 
                             $user->updateRecord('history', array(
-                                'visit_date' => date('Y-m-d'),
+                                'visit_date' => Input::get('visit_date'),
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
@@ -889,7 +889,7 @@ if ($user->isLoggedIn()) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
 
                             $user->updateRecord('history', array(
-                                'visit_date' => date('Y-m-d'),
+                                'visit_date' => Input::get('visit_date'),
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
@@ -935,7 +935,7 @@ if ($user->isLoggedIn()) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
 
                             $user->updateRecord('history', array(
-                                'visit_date' => date('Y-m-d'),
+                                'visit_date' => Input::get('visit_date'),
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
@@ -980,7 +980,7 @@ if ($user->isLoggedIn()) {
                         }
                     } else {
                         $user->createRecord('history', array(
-                            'visit_date' => date('Y-m-d'),
+                            'visit_date' => Input::get('visit_date'),
                             'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
@@ -1051,39 +1051,40 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    $i = 0;
-                    foreach (Input::get('age') as $searchValue) {
-                        $sickle_cell_status_id = $override->get3('sickle_cell_status_table', 'age', $searchValue, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq']);
-                        if ($sickle_cell_status_id) {
-                            $user->updateRecord('sickle_cell_status_table', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'age' => $searchValue,
-                                'sex' => Input::get('sex')[$i],
-                                'sickle_status' => Input::get('sickle_status')[$i],
-                            ), $sickle_cell_status_id[0]['id']);
-                        } else {
+                     if (Input::get('update_siblings')) {
+                        $user->updateRecord('sickle_cell_status_table', array(
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'age' => Input::get('age'),
+                            'sex' => Input::get('sex'),
+                            'visit_date' => Input::get('visit_date'),
+                            'sickle_status' => Input::get('sickle_status'),
+                            'other' => Input::get('other'),
+                        ),  Input::get('id'));
+                    } else {
+                        for ($i = 0; $i < count(Input::get('admission_date')); $i++) {
                             $user->createRecord('sickle_cell_status_table', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
-                                'age' => $searchValue,
+                                'age' => Input::get('age')[$i],
                                 'sex' => Input::get('sex')[$i],
+                                'visit_date' => Input::get('visit_date'),
                                 'sickle_status' => Input::get('sickle_status')[$i],
+                                'other' => Input::get('other')[$i],
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
                                 'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
-                            ));
+                            ));                         
                         }
-                        $i++;
-                    }
+                    }                     
                     $successMessage = 'History added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
@@ -1865,110 +1866,41 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    // $multiArray = $override->get('hospitalization_table', 'patient_id', $_GET['cid']);
-                    $i = 0;
-                    foreach (Input::get('admission_date') as $searchValue) {
-                        $hospitalization_id = $override->getNews('hospitalization_table', 'admission_date', $searchValue, 'patient_id', $_GET['cid']);
-                        if ($hospitalization_id) {
-                            // if ($user->isValueInMultiArrays($searchValue, $multiArray)) {
 
-                            // echo "The value '{$searchValue}' exists in the multi-dimensional array.";
-                            // $user->isValueInMultiArrays($searchValue, $multiArray);
-                            // $id = $override->getNews('hospitalization_table', 'admission_date', $searchValue,'patient_id',$_GET['cid']);
-                            $user->updateRecord('hospitalization_table', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'admission_date' => $searchValue,
-                                'admission_reason' => Input::get('admission_reason')[$i],
-                                'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
-                            ), $hospitalization_id[0]['id']);
-                        } else {
-                            // echo "The value '{$searchValue}' does not exist in the multi-dimensional array.";
-                            // $user->createRecord('card_test', array(
-                            //     'cardiac' => $searchValue,
-                            // ));vehicle11
+                    if (Input::get('update_admission')) {
+                        $user->updateRecord('hospitalization_table', array(
+                            'study_id' => $_GET['sid'],
+                            'visit_code' => $_GET['vcode'],
+                            'visit_day' => $_GET['vday'],
+                            'seq_no' => $_GET['seq'],
+                            'vid' => $_GET['vid'],
+                            'admission_date' => Input::get('admission_date'),
+                            'admission_reason' => Input::get('admission_reason'),
+                            'discharge_diagnosis' => Input::get('discharge_diagnosis'),
+                            'discharge_date' => Input::get('discharge_date'),                                
+                        ), $hospitalization_id[0]['id']);
+                    } else {
+                        for ($i = 0; $i < count(Input::get('admission_date')); $i++) {
                             $user->createRecord('hospitalization_table', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
-                                'admission_date' => $searchValue,
+                                'admission_date' => Input::get('admission_date')[$i],
                                 'admission_reason' => Input::get('admission_reason')[$i],
                                 'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
+                                'discharge_date' => Input::get('discharge_date')[$i],                                
                                 'patient_id' => $_GET['cid'],
                                 'staff_id' => $user->data()->id,
                                 'status' => 1,
                                 'created_on' => date('Y-m-d'),
                                 'site_id' => $user->data()->site_id,
-                            ));
+                            ));                           
                         }
-                        $i++;
-                    }
+                    }                      
                     $successMessage = 'Hospitalization details added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
-                    die;
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('add_hospitalization_list')) {
-            $validate = $validate->check($_POST, array(
-                // 'hospitalization_date' => array(
-                //     'required' => true,
-                // ),
-
-            ));
-            if ($validate->passed()) {
-
-                try {
-
-                    $multiArray = $override->get('hospitalization_table', 'patient_id', $_GET['cid']);
-                    $i = 0;
-
-                    print_r($_POST);
-                    foreach (Input::get('admission_date') as $searchValue) {
-                        // if ($user->isValueInMultiArrays($searchValue, $multiArray)) {
-                        //     // echo "The value '{$searchValue}' exists in the multi-dimensional array.";
-                        //     // $user->isValueInMultiArrays($searchValue, $multiArray);
-                        //     // $id = $override->get('card_test', 'cardiac', $searchValue);
-                        //     // $user->updateRecord('card_test', array(
-                        //     //     'cardiac' => $searchValue,
-                        //     // ), $id['id']);
-                        // } else {
-                        //     // echo "The value '{$searchValue}' does not exist in the multi-dimensional array.";
-                        //     // $user->createRecord('card_test', array(
-                        //     //     'cardiac' => $searchValue,
-                        //     // ));vehicle11
-
-                        // print_r('Hi');
-                        $user->createRecord('hospitalization_table', array(
-                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
-                            'admission_date' => $searchValue,
-                            'admission_reason' => Input::get('admission_reason')[$i],
-                            'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ));
-                        // }
-                        $i++;
-                    }
-
-
-                    $successMessage = 'Hospitalization details added Successful';
-                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2487,121 +2419,80 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    if (Input::get('btn') == 'Update') {
+                    if (Input::get('update_medication')) {
                         $user->updateRecord('medication_treatments', array(
                             'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
+                            'start_date' => Input::get('start_date'),
+                            'batch_id' => Input::get('batch_id'),
                             'medication_type' => Input::get('medication_type'),
                             'medication_action' => Input::get('medication_action'),
                             'medication_dose' => Input::get('medication_dose'),
                             'units' => Input::get('medication_units'),
-                            'units' => Input::get('medication_units'),
+                            'end_date' => Input::get('end_date'),
                         ), Input::get('id'));
                     } else {
-                        $i = 0;
-                        foreach (Input::get('medication_type') as $searchValue) {
-                            $user->createRecord('medication_treatments', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'medication_type' => Input::get('medication_type')[$i],
-                                'medication_action' => Input::get('medication_action')[$i],
-                                'medication_dose' => Input::get('medication_dose')[$i],
-                                'units' => Input::get('medication_units')[$i],
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ));
-                            $i++;
+                        for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
+                            $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
+                            if (Input::get('medication_dose')[$i] <= $batch['amount']) {
+                                    $user->createRecord('medication_treatments', array(
+                                        'study_id' => $_GET['sid'],
+                                        'visit_code' => $_GET['vcode'],
+                                        'visit_day' => $_GET['vday'],
+                                        'seq_no' => $_GET['seq'],
+                                        'vid' => $_GET['vid'],
+                                        'start_date' => Input::get('start_date')[$i],
+                                        'batch_id' => Input::get('batch_id')[$i],
+                                        'medication_type' => $batch['medication_id'],
+                                        'medication_action' => Input::get('medication_action')[$i],
+                                        'medication_dose' => Input::get('medication_dose')[$i],
+                                        'units' => Input::get('medication_units')[$i],
+                                        'end_date' => Input::get('end_date')[$i],
+                                        'patient_id' => $_GET['cid'],
+                                        'staff_id' => $user->data()->id,
+                                        'status' => 1,
+                                        'created_on' => date('Y-m-d'),
+                                        'site_id' => $user->data()->site_id,
+                                    ));                                      
+                                    
+
+                                $amount = $batch['amount'] - Input::get('medication_dose')[$i];
+
+                                $user->updateRecord('batch', array(
+                                    'amount' => $amount,
+                                ), Input::get('batch_id')[$i]);
+
+                                $user->createRecord('batch_records', array(
+                                    'date' => Input::get('date'),
+                                    'batch_id' => Input::get('batch_id')[$i],
+                                    'medication_id' => $batch['medication_id'],
+                                    'serial_name' => $batch['serial_name'],
+                                    'received' => 0,
+                                    'removed' => Input::get('medication_dose')[$i],
+                                    'amount' => $amount,
+                                    'expire_date' => $batch['expire_date'],
+                                    'remarks' => $batch['remarks'],
+                                    'cost' => 0,
+                                    'price' => $batch['price'],
+                                    'status' => 1,
+                                    'create_on' => date('Y-m-d H:i:s'),
+                                    'site_id' =>  $user->data()->site_id,
+                                    'staff_id' => $user->data()->id,
+                                ));
+
+                                $successMessage ='Medication name : '. Input::get('name') . ' : Batch : '. Input::get('serial_name') .' - '. Input::get('removed') .' Decreased Successful';
+                            } else {
+                                $errorMessage = 'Batch to remove exceeds the available Amount';
+                            }
                         }
-                    }                   
+                    }                 
 
-                    // print_r(count(Input::get('medication_type')));
-                    // // print_r(count(Input::get('medication_type')));
-                    // for ($i = 0; $i < count(Input::get('medication_type')); $i++) {
-                    //     if (Input::get('medication_id')[$i]) {
-                    //         if (Input::get('seq_no')[$i] == $_GET['seq']) {
-                    //             $user->updateRecord('medication_treatments', array(
-                    //                 'study_id' => $_GET['sid'],
-                    //                 'visit_code' => $_GET['vcode'],
-                    //                 'visit_day' => $_GET['vday'],
-                    //                 'seq_no' => $_GET['seq'],
-                    //                 'vid' => $_GET['vid'],
-                    //                 'medication_type' => Input::get('medication_type')[$i],
-                    //                 'medication_action' => Input::get('medication_action')[$i],
-                    //                 'medication_dose' => Input::get('medication_dose')[$i],
-                    //                 'units' => Input::get('medication_units')[$i],
-                    //                 'units' => Input::get('medication_units')[$i],
-                    //             ), Input::get('medication_id')[$i]);
-                    //         }
-                    //     } else {
-                    //         $user->createRecord('medication_treatments', array(
-                    //             'study_id' => $_GET['sid'],
-                    //             'visit_code' => $_GET['vcode'],
-                    //             'visit_day' => $_GET['vday'],
-                    //             'seq_no' => $_GET['seq'],
-                    //             'vid' => $_GET['vid'],
-                    //             'medication_type' => Input::get('medication_type')[$i],
-                    //             'medication_action' => Input::get('medication_action')[$i],
-                    //             'medication_dose' => Input::get('medication_dose')[$i],
-                    //             'units' => Input::get('medication_units')[$i],
-                    //             'patient_id' => $_GET['cid'],
-                    //             'staff_id' => $user->data()->id,
-                    //             'status' => 1,
-                    //             'created_on' => date('Y-m-d'),
-                    //             'site_id' => $user->data()->site_id,
-                    //         ));
-                    //     }                   
-                    // }
-
-                    // $i = 0;
-                    // foreach (Input::get('medication_type') as $searchValue) {
-                        // $medication_id = $override->get3('medication_treatments', 'id', Input::get('medication_id')[$i], 'status', 1, 'patient_id', $_GET['cid']);
-                        // if (Input::get('medication_id')[$i]) {
-                        //     if (Input::get('seq_no')[$i] == $_GET['seq']) {
-                        //         $user->updateRecord('medication_treatments', array(
-                        //             'study_id' => $_GET['sid'],
-                        //             'visit_code' => $_GET['vcode'],
-                        //             'visit_day' => $_GET['vday'],
-                        //             'seq_no' => $_GET['seq'],
-                        //             'vid' => $_GET['vid'],
-                        //             'medication_type' => Input::get('medication_type')[$i],
-                        //             'medication_action' => Input::get('medication_action')[$i],
-                        //             'medication_dose' => Input::get('medication_dose')[$i],
-                        //             'units' => Input::get('medication_units')[$i],
-                        //             'units' => Input::get('medication_units')[$i],
-                        //         ), Input::get('medication_id')[$i]);
-                        //     }
-                        // } else {
-                        //     $user->createRecord('medication_treatments', array(
-                        //         'study_id' => $_GET['sid'],
-                        //         'visit_code' => $_GET['vcode'],
-                        //         'visit_day' => $_GET['vday'],
-                        //         'seq_no' => $_GET['seq'],
-                        //         'vid' => $_GET['vid'],
-                        //         'medication_type' => Input::get('medication_type')[$i],
-                        //         'medication_action' => Input::get('medication_action')[$i],
-                        //         'medication_dose' => Input::get('medication_dose')[$i],
-                        //         'units' => Input::get('medication_units')[$i],
-                        //         'patient_id' => $_GET['cid'],
-                        //         'staff_id' => $user->data()->id,
-                        //         'status' => 1,
-                        //         'created_on' => date('Y-m-d'),
-                        //         'site_id' => $user->data()->site_id,
-                        //     ));
-                        // }
-                    //     $i++;
-                    // }                    
-
+                    
                     $successMessage = 'Treatment plan added Successful';
-                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     // die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2609,6 +2500,60 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('update_medication')) {
+            $user->updateRecord('medication_treatments', array(
+                'study_id' => $_GET['sid'],
+                'visit_code' => $_GET['vcode'],
+                'visit_day' => $_GET['vday'],
+                'seq_no' => $_GET['seq'],
+                'vid' => $_GET['vid'],
+                'start_date' => Input::get('start_date'),
+                'batch_id' => Input::get('batch_id'),
+                'medication_type' => Input::get('medication_type'),
+                'medication_action' => Input::get('medication_action'),
+                'medication_dose' => Input::get('medication_dose'),
+                'units' => Input::get('medication_units'),
+                'end_date' => Input::get('end_date'),
+            ), Input::get('id'));
+
+            $successMessage = 'Medication Updated Successful';
+
+        } elseif (Input::get('update_admission')) {
+            $user->updateRecord('hospitalization_table', array(
+                'study_id' => $_GET['sid'],
+                'visit_code' => $_GET['vcode'],
+                'visit_day' => $_GET['vday'],
+                'seq_no' => $_GET['seq'],
+                'vid' => $_GET['vid'],
+                'admission_date' => Input::get('admission_date'),
+                'admission_reason' => Input::get('admission_reason'),
+                'discharge_diagnosis' => Input::get('discharge_diagnosis'),
+                'discharge_date' => Input::get('discharge_date'),
+            ), Input::get('id'));
+
+            $successMessage = 'Admission Updated Successful';
+
+        } elseif (Input::get('update_siblings')) {
+            $user->updateRecord('sickle_cell_status_table', array(
+                'study_id' => $_GET['sid'],
+                'visit_code' => $_GET['vcode'],
+                'visit_day' => $_GET['vday'],
+                'seq_no' => $_GET['seq'],
+                'vid' => $_GET['vid'],
+                'visit_date' => Input::get('visit_date'),
+                'age' => Input::get('age'),
+                'sex' => Input::get('sex'),
+                'sickle_status' => Input::get('sickle_status'),
+                'other' => Input::get('other'),
+                'patient_id' => $_GET['cid'],
+                'staff_id' => $user->data()->id,
+                'status' => 1,
+                'created_on' => date('Y-m-d'),
+                'site_id' => $user->data()->site_id,
+            ),Input::get('id'));
+
+            $successMessage = 'Siblings Updated Successful';
+
         } elseif (Input::get('add_social_economic')) {
             $validate = $validate->check($_POST, array(
                 'social_economic_date' => array(
@@ -2890,6 +2835,7 @@ if ($user->isLoggedIn()) {
                 try {
                     if ($_GET['btn'] == 'Update') {
                         $user->updateRecord('medications', array(
+                            'date' => Input::get('date'),
                             'name' => Input::get('name'),
                             'use_group' => Input::get('groups'),
                             'forms' => Input::get('forms'),
@@ -2907,6 +2853,7 @@ if ($user->isLoggedIn()) {
                             $errorMessage = 'Medications Already  Available Please Update instead!';
                         } else {
                             $user->createRecord('medications', array(
+                                'date' => Input::get('date'),
                                 'name' => Input::get('name'),
                                 'use_group' => Input::get('groups'),
                                 'forms' => Input::get('forms'),
@@ -2921,7 +2868,7 @@ if ($user->isLoggedIn()) {
                     }
 
                     Redirect::to('info.php?id=8');
-                    // Redirect::to('info.php?id=8&status=' . $_GET['status']);
+                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -2938,6 +2885,7 @@ if ($user->isLoggedIn()) {
                 try {
                     if ($_GET['btn'] == 'Update') {
                         $user->updateRecord('batch', array(
+                            'date' => Input::get('date'),
                             'medication_id' => Input::get('medication_id'),
                             'serial_name' => Input::get('serial_name'),
                             'amount' => Input::get('amount'),
@@ -2955,6 +2903,7 @@ if ($user->isLoggedIn()) {
                             $errorMessage = 'Batch / Serial Name Already  Available Please Update instead!';
                         } else {
                             $user->createRecord('batch', array(
+                                'date' => Input::get('date'),
                                 'medication_id' => Input::get('medication_id'),
                                 'serial_name' => Input::get('serial_name'),
                                 'amount' => Input::get('amount'),
@@ -2969,11 +2918,31 @@ if ($user->isLoggedIn()) {
                                 'update_id' => $user->data()->id,
                             ));
 
+                            $batch = $override->lastRow('batch', 'id')[0];
+
+                            $user->createRecord('batch_records', array(
+                                'date' => Input::get('date'),
+                                'batch_id' => $batch['id'],
+                                'medication_id' => Input::get('medication_id'),
+                                'serial_name' => Input::get('serial_name'),
+                                'received' => Input::get('amount'),
+                                'removed' => 0,
+                                'amount' => Input::get('amount'),
+                                'expire_date' => Input::get('expire_date'),
+                                'remarks' => Input::get('remarks'),
+                                'cost' => Input::get('price'),
+                                'price' => Input::get('price'),
+                                'status' => 1,
+                                'create_on' => date('Y-m-d H:i:s'),
+                                'site_id' =>  $user->data()->site_id,
+                                'staff_id' => $user->data()->id,
+                            ));
+
                             $successMessage = 'Medications Successful Added';
                         }
                     }
 
-                    // Redirect::to('info.php?id=9');
+                    Redirect::to('info.php?id=10');
 
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -3893,11 +3862,22 @@ if ($user->isLoggedIn()) {
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row">
+                                                   <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Date:</label>
+                                                            <input class="form-control" type="date" name="date" id="date" value="<?php if ($medication['date']) {
+                                                                                                                                                    print_r($medication['date']);
+                                                                                                                                                }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm-4">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="name">Name</label>
-                                                            <input type="text" class="form-control" placeholder="Enter email" id="name" name="name" value="<?php if ($medication['name']) {
+                                                            <input type="text" class="form-control" placeholder="Enter Medication Name" id="name" name="name" value="<?php if ($medication['name']) {
                                                                                                                                                                 print_r($medication['name']);
                                                                                                                                                             }  ?>" required />
                                                         </div>
@@ -3941,7 +3921,8 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
@@ -3959,9 +3940,8 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4">
+
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Cardiac</label>
@@ -3983,7 +3963,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Diabetes</label>
@@ -4004,7 +3984,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Sickle Cell</label>
@@ -4097,7 +4077,18 @@ if ($user->isLoggedIn()) {
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Date:</label>
+                                                            <input class="form-control" type="date" name="date" id="date" value="<?php if ($batches['date']) {
+                                                                                                                                                    print_r($batches['date']);
+                                                                                                                                                }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="medication_id">Medication Name</label>
@@ -4115,26 +4106,26 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Batch / Serial Number:</label>
                                                             <input class="form-control" type="text" name="serial_name" id="serial_name" value="<?php if ($batches['serial_name']) {
                                                                                                                                                     print_r($batches['serial_name']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Amount</label>
                                                             <input class="form-control" type="number" min="0" max="10000" name="amount" id="amount" value="<?php if ($batches['amount']) {
                                                                                                                                                                 print_r($batches['amount']);
-                                                                                                                                                            }  ?>" />
+                                                                                                                                                            }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4149,7 +4140,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Expire Date:</label>
                                                             <input class="form-control" type="date" name="expire_date" id="expire_date" value="<?php if ($batches['expire_date']) {
                                                                                                                                                     print_r($batches['expire_date']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4163,7 +4154,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Price</label>
                                                             <input class="form-control" type="number" min="0" max="10000000000000" name="price" id="price" value="<?php if ($batches['price']) {
                                                                                                                                                                         print_r($batches['price']);
-                                                                                                                                                                    }  ?>" />
+                                                                                                                                                                    }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5053,6 +5044,17 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
+                                            <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Date of Visit:</label>
+                                                            <input class="form-control" max="<?= date('Y-m-d'); ?>" type="date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($history['visit_date']) {
+                                                                                                                                                                                    print_r($history['visit_date']);
+                                                                                                                                                                                }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
@@ -6190,83 +6192,217 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-
-
                                                 <div class="row-form clearfix">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    <h3 class="card-title">Siblings Lists</h3>
+                                                                </div>
+                                                                <!-- /.card-header -->
+                                                                <div class="card-body">
+                                                                    <!-- <table id="medication_table" class="table order-list"> -->
+                                                                    <table id="siblings_table" class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th> Visit Day </th>
+                                                                                <th> age </th>
+                                                                                <th> sex </th>
+                                                                                <th> sickle cell disease status </th>
+                                                                                <th>If Other Status</th>
+                                                                                <th>Action</th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="tbody_3">
+                                                                        <?php $x = 1;
+                                                                            foreach ($override->getNews('sickle_cell_status_table', 'patient_id', $_GET['cid'], 'status', 1) as $sickle_cell_status_table) {   
+                                                                                if($sickle_cell_status_table['sex'] == 1){
+                                                                                    $sex = 'Male';
+                                                                                }
+                                                                                elseif($sickle_cell_status_table['sex'] == 2){
+                                                                                    $sex = 'Female';
+                                                                                }
 
-                                                    <table id="myTable3" class="table order-list">
-                                                        <thead>
-                                                            <tr>
-                                                                <th> age </th>
-                                                                <th> sex </th>
-                                                                <th> sickle cell disease status </th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php foreach ($override->getNews('sickle_cell_status_table', 'patient_id', $_GET['cid'], 'status', 1) as $sickle_cell_status_table) { ?>
 
-                                                                <tr>
-                                                                    <td>
-                                                                        <input type="text" class="form-control" name="age[]" id="age[]" placeholder="Type age..." value="<?php if ($sickle_cell_status_table['age']) {
-                                                                                                                                                                                print_r($sickle_cell_status_table['age']);
-                                                                                                                                                                            }  ?>">
-                                                                    </td>
-                                                                    <td>
-                                                                        <select class="form-control" name="sex[]" style="width: 100%;">
-                                                                            <option value="<?= $sickle_cell_status_table['sex'] ?>"><?php if ($sickle_cell_status_table) {
-                                                                                                                                        if ($sickle_cell_status_table['sex'] == 1) {
-                                                                                                                                            echo 'Male';
-                                                                                                                                        } elseif ($sickle_cell_status_table['sex'] == 2) {
-                                                                                                                                            echo 'Female';
-                                                                                                                                        }
-                                                                                                                                    } else {
-                                                                                                                                        echo 'Select';
-                                                                                                                                    } ?></option>
-                                                                            <option value="">Select</option>
-                                                                            <option value="1">Male</option>
-                                                                            <option value="2">Female</option>
-                                                                        </select>
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="text" class="form-control" name="sickle_status[]" value='<?php if ($sickle_cell_status_table['sickle_status']) {
-                                                                                                                                                    print_r($sickle_cell_status_table['sickle_status']);
-                                                                                                                                                }  ?>'>
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="button" class="ibtnDel3 btn btn-md btn-warning" value="Remove">
-                                                                        <a href="#delete_sickle<?= $sickle_cell_status_table['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
-                                                                    </td>
-                                                                </tr>
-                                                                <div class="modal fade" id="delete_sickle<?= $sickle_cell_status_table['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <form method="post">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                                                    <h4>Delete this ickle cell status details </h4>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <strong style="font-weight: bold;color: red">
-                                                                                        <p>Are you sure you want to delete this sickle cell status details ?</p>
-                                                                                    </strong>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <input type="hidden" name="id" value="<?= $sickle_cell_status_table['id'] ?>">
-                                                                                    <input type="submit" name="delete_sickle" value="Delete" class="btn btn-danger">
-                                                                                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                                if($sickle_cell_status_table['sickle_status'] == 1){
+                                                                                    $sickle_status = 'Positive';
+                                                                                }
+                                                                                elseif($sickle_cell_status_table['sickle_status'] == 2){
+                                                                                    $sickle_status = 'Negative';
+                                                                                }elseif($sickle_cell_status_table['sickle_status'] == 99){
+                                                                                    $sickle_status = 'Unknown';
+                                                                                }elseif($sickle_cell_status_table['sickle_status'] == 96){
+                                                                                    $sickle_status = 'Other';
+                                                                                }
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td><?= $x; ?></td>
+                                                                                <td><?= $sickle_cell_status_table['visit_day'] ?></td>
+                                                                                <td><?= $sickle_cell_status_table['age'] ?></td>
+                                                                                <td><?= $sex ?></td>
+                                                                                <td><?= $sickle_status ?></td>
+                                                                                <td><?= $sickle_cell_status_table['other'] ?></td>
+                                                                                <td>
+                                                                                    <span class="badge bg-info">
+                                                                                        <a href="#update_siblings<?= $sickle_cell_status_table['id'] ?>" role="button" data-toggle="modal">Update</a>
+                                                                                    </span>
+
+                                                                                    <span class="badge bg-danger">
+                                                                                        <a href="#delete_siblings<?= $sickle_cell_status_table['id'] ?>" role="button" data-toggle="modal">Delete</a>
+                                                                                    </span>
+                                                                                </td>
+                                                                                <!-- <input type="button" class="ibtnDel1 btn btn-md btn-warning" value="Remove"> -->
+                                                                            </tr>
+                                                                            <div class="modal fade" id="update_siblings<?= $sickle_cell_status_table['id'] ?>">
+                                                                                <div class="modal-dialog">
+                                                                                    <form method="post">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h4 class="modal-title">Siblings Form</h4>
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div class="modal-body">                                                                                                    
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>Age</label>
+                                                                                                                <input class="form-control" type="number" min="0" max="100" name="age" id="age" style="width: 100%;" value="<?php if ($sickle_cell_status_table['age']) {
+                                                                                                                                                                                                                                                                            print_r($sickle_cell_status_table['age']);
+                                                                                                                                                                                                                                                                        }  ?>" required />
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>Sex</label>
+                                                                                                                 <select class="form-control" name="sex" style="width: 100%;" required>
+                                                                                                                    <option value="<?= $sickle_cell_status_table['sex'] ?>">
+                                                                                                                        <?php if ($sickle_cell_status_table) {
+                                                                                                                            if ($sickle_cell_status_table['sex'] == 1) {
+                                                                                                                                echo 'Male';
+                                                                                                                            } elseif ($sickle_cell_status_table['sex'] == 2) {
+                                                                                                                                echo 'Female';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?>
+                                                                                                                    </option>
+                                                                                                                    <option value="">Select</option>
+                                                                                                                    <option value="1">Male</option>
+                                                                                                                    <option value="2">Female</option>
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="row">
+                                                                                                     <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>Sickle Cell Status</label>
+                                                                                                                 <select class="form-control" name="sickle_status" style="width: 100%;" required>
+                                                                                                                    <option value="<?= $sickle_cell_status_table['sickle_status'] ?>">
+                                                                                                                        <?php if ($sickle_cell_status_table) {
+                                                                                                                            if ($sickle_cell_status_table['sickle_status'] == 1) {
+                                                                                                                                echo 'Positive';
+                                                                                                                            } elseif ($sickle_cell_status_table['sickle_status'] == 2) {
+                                                                                                                                echo 'Negative';
+                                                                                                                            } elseif ($sickle_cell_status_table['sickle_status'] == 99) {
+                                                                                                                                echo 'Unknown';
+                                                                                                                            } elseif ($sickle_cell_status_table['sickle_status'] == 96) {
+                                                                                                                                echo 'Other';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?>
+                                                                                                                    </option>
+                                                                                                                    <option value="">Select</option>
+                                                                                                                    <option value="1">Positive</option>
+                                                                                                                    <option value="2">Negative</option>
+                                                                                                                    <option value="99">Unknown</option>
+                                                                                                                    <option value="96">Other</option>
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>Other</label>
+                                                                                                                <textarea class="form-control" name="other" id="other" rows="3" placeholder="Type other here...">
+                                                                                                                    <?php if ($sickle_cell_status_table['other']) {
+                                                                                                                        print_r($sickle_cell_status_table['other']);
+                                                                                                                    }  ?>
+                                                                                                                </textarea>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="modal-footer justify-content-between">
+                                                                                                <input type="hidden" name="id" value="<?= $sickle_cell_status_table['id'] ?>">
+                                                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                                                <input type="submit" name="update_siblings" class="btn btn-primary" value="Save changes">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
                                                                                 </div>
                                                                             </div>
-                                                                        </form>
+                                                                            <!-- /.modal -->
+                                                                            <div class="modal fade" id="delete_siblings<?= $sickle_cell_status_table['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <form method="post">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                                                <h4>Delete this Sibling </h4>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <strong style="font-weight: bold;color: red">
+                                                                                                <p>Are you sure you want to delete this Sibling ?</p>
+                                                                                                </strong>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="id" value="<?= $sickle_cell_status_table['id'] ?>">
+                                                                                                <input type="submit" name="delete_siblings" value="Delete" class="btn btn-danger">
+                                                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php $x++; } ?>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <hr>
+                                                                    <div>
+                                                                    <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Siblings()" value="Add New Siblings" />
                                                                     </div>
                                                                 </div>
-
-                                                            <?php } ?>
-                                                        </tbody>
-                                                    </table>
-                                                    <input type="button" class="btn btn-lg btn-block " id="addrow3" value="Add Row" />
+                                                                <!-- /.card-body -->
+                                                                <div class="card-footer clearfix">
+                                                                    <ul class="pagination pagination-sm m-0 float-right">
+                                                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.card -->
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
                                                 </div>
-
                                             <?php } ?>
 
                                             <div class="row">
@@ -10365,7 +10501,7 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                                                         <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
                                             < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Hospitalizazions Details</li>
@@ -10527,73 +10663,168 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                </div>
+                                                </div> 
 
                                                 <div class="row-form clearfix">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    <h3 class="card-title">Hospitalization Lists</h3>
+                                                                </div>
+                                                                <!-- /.card-header -->
+                                                                <div class="card-body">
+                                                                    <!-- <table id="medication_table" class="table order-list"> -->
+                                                                    <table id="hospitalization_table" class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <!-- <th style="width: 5px">#</th> -->
+                                                                                <th>#</th>
+                                                                                <th> Visit Day </th>
+                                                                                <th> Admission Date </th>
+                                                                                <th> Admission Reason </th>
+                                                                                <th> Discharge Diagnosis </th>
+                                                                                <th> Discharge Date </th>
+                                                                                <th>Action</th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="tbody_2">
+                                                                        <?php $x = 1;
+                                                                            foreach ($override->getNews('hospitalization_table', 'patient_id', $_GET['cid'], 'status', 1) as $hospitalization_table) {                                                                                
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td><?= $x; ?></td>
+                                                                                <td><?= $hospitalization_table['visit_day'] ?></td>
+                                                                                <td><?= $hospitalization_table['admission_date'] ?></td>
+                                                                                <td><?= $hospitalization_table['admission_reason'] ?></td>
+                                                                                <td><?= $hospitalization_table['discharge_diagnosis'] ?></td>
+                                                                                <td><?= $hospitalization_table['discharge_date'] ?></td>
+                                                                                <td>
+                                                                                    <span class="badge bg-info">
+                                                                                        <a href="#update_admission<?= $hospitalization_table['id'] ?>" role="button" data-toggle="modal">Update</a>
+                                                                                    </span>
 
-                                                    <table id="myTable" class=" table order-list">
-                                                        <thead>
-                                                            <tr>
-                                                                <th> Admission Date </th>
-                                                                <th> Admission Reason </th>
-                                                                <th> Discharge Diagnosis </th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php foreach ($override->getNews('hospitalization_table', 'patient_id', $_GET['cid'], 'status', 1) as $hospitalization_table) { ?>
+                                                                                    <span class="badge bg-danger">
+                                                                                        <a href="#delete_admission<?= $hospitalization_table['id'] ?>" role="button" data-toggle="modal">Delete</a>
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <div class="modal fade" id="update_admission<?= $hospitalization_table['id'] ?>">
+                                                                                <div class="modal-dialog">
+                                                                                    <form method="post">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h4 class="modal-title">Medication Form</h4>
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div class="modal-body">                                                                                                    
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>Admission date</label>
+                                                                                                                <input class="form-control" type="date" name="admission_date" id="admission_date" style="width: 100%;" value="<?php if ($hospitalization_table['admission_date']) {
+                                                                                                                                                                                                                                                                            print_r($hospitalization_table['admission_date']);
+                                                                                                                                                                                                                                                                        }  ?>" required />
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
 
-                                                                <tr>
-                                                                    <td class="col-sm-4">
-                                                                        <input class="form-control" name="admission_date[]" id="admission_date[]" value="<?php if ($hospitalization_table['admission_date']) {
-                                                                                                                                                                print_r($hospitalization_table['admission_date']);
-                                                                                                                                                            }  ?>">
-                                                                    </td>
-                                                                    <td class="col-sm-4">
-                                                                        <input class="form-control" name="admission_reason[]" id="admission_reason[]" value="<?php if ($hospitalization_table['admission_reason']) {
-                                                                                                                                                                    print_r($hospitalization_table['admission_reason']);
-                                                                                                                                                                }  ?>">
-                                                                    </td>
-                                                                    <td class="col-sm-3">
-                                                                        <input class="form-control" name="discharge_diagnosis[]" value='<?php if ($hospitalization_table['discharge_diagnosis']) {
-                                                                                                                                            print_r($hospitalization_table['discharge_diagnosis']);
-                                                                                                                                        }  ?>'>
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="button" class="ibtnDel btn btn-md btn-warning" value="Remove">
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="#delete_admission<?= $hospitalization_table['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
-                                                                    </td>
-                                                                </tr>
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>Admission Reason</label>
+                                                                                                                 <textarea class="form-control" name="admission_reason" id="admission_reason" rows="3" placeholder="Type Admissions Reasons here...">
+                                                                                                                    <?php if ($hospitalization_table['admission_reason']) {
+                                                                                                                        print_r($hospitalization_table['admission_reason']);
+                                                                                                                    }  ?>
+                                                                                                                </textarea>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
 
-                                                                <div class="modal fade" id="delete_admission<?= $hospitalization_table['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <form method="post">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                                                    <h4>Delete this ospitalization details </h4>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <strong style="font-weight: bold;color: red">
-                                                                                        <p>Are you sure you want to delete this hospitalization details ?</p>
-                                                                                    </strong>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
-                                                                                    <input type="submit" name="delete_admin" value="Delete" class="btn btn-danger">
-                                                                                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                                                <div class="row">
+                                                                                                     <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>Discharge Diagnosis</label>
+                                                                                                                 <textarea class="form-control" name="discharge_diagnosis" id="discharge_diagnosis" rows="3" placeholder="Type discharge diagnosis here...">
+                                                                                                                    <?php if ($hospitalization_table['discharge_diagnosis']) {
+                                                                                                                        print_r($hospitalization_table['discharge_diagnosis']);
+                                                                                                                    }  ?>
+                                                                                                                </textarea>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>Discharge date</label>
+                                                                                                                <input class="form-control" type="date" name="discharge_date" id="discharge_date" style="width: 100%;" value="<?php if ($hospitalization_table['discharge_date']) {
+                                                                                                                                                                                                                                                                            print_r($hospitalization_table['discharge_date']);
+                                                                                                                                                                                                                                                                        }  ?>" />
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="modal-footer justify-content-between">
+                                                                                                <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
+                                                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                                                <input type="submit" name="update_admission" class="btn btn-primary" value="Save changes">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
                                                                                 </div>
                                                                             </div>
-                                                                        </form>
-                                                                    </div>
+                                                                            <!-- /.modal -->
+                                                                            <div class="modal fade" id="delete_admission<?= $hospitalization_table['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <form method="post">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                                                <h4>Delete this ospitalization details </h4>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <strong style="font-weight: bold;color: red">
+                                                                                                <p>Are you sure you want to delete this hospitalization details ?</p>
+                                                                                                </strong>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
+                                                                                                <input type="submit" name="delete_admin" value="Delete" class="btn btn-danger">
+                                                                                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php $x++; } ?>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <hr>
+                                                                    <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Admission()" value="Add New Admission" />
                                                                 </div>
-                                                            <?php } ?>
-                                                        </tbody>
-                                                    </table>
-                                                    <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
+                                                                <!-- /.card-body -->
+                                                                <div class="card-footer clearfix">
+                                                                    <ul class="pagination pagination-sm m-0 float-right">
+                                                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.card -->
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -10744,7 +10975,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="col-md-12">
                                                         <div class="card">
                                                             <div class="card-header">
-                                                                <h3 class="card-title">Bordered Table</h3>
+                                                                <h3 class="card-title">Medication Lists</h3>
                                                             </div>
                                                             <!-- /.card-header -->
                                                             <div class="card-body">
@@ -10755,34 +10986,48 @@ if ($user->isLoggedIn()) {
                                                                             <!-- <th style="width: 5px">#</th> -->
                                                                             <th>#</th>
                                                                             <th> Visit Day </th>
+                                                                            <th> Start Date </th>
                                                                             <th> Medication name </th>
-                                                                            <th> Action </th>
                                                                             <th> Dose </th>
                                                                             <th> Units </th>
+                                                                            <th> Action </th>
+                                                                            <th> End Date ( If Stop ) </th>
                                                                             <th></th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody>
+                                                                    <tbody id="tbody">
                                                                     <?php $x = 1;
                                                                         foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
-                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
-                                                                            $batches = $override->getNews('batch', 'status', 1, 'id', $_GET['batch_id'])[0];
+                                                                            $batches = $override->getNews('batch', 'status', 1, 'id', $treatment['batch_id']);
+                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $batches[0]['medication_id']);
+
+
+                                                                            if($treatment['medication_action'] == 1){
+                                                                                $medication_action = 'Continue';
+                                                                            }elseif($treatment['medication_action'] == 2){
+                                                                                $medication_action = 'Start';
+                                                                            }elseif($treatment['medication_action'] == 3){
+                                                                                $medication_action = 'Stop';
+                                                                            }elseif($treatment['medication_action'] == 4){
+                                                                                $medication_action = 'Not Eligible';
+                                                                            }                                                                                                                                         
+                           
                                                                         ?>
                                                                         <tr>
                                                                             <td><?= $x; ?></td>
                                                                             <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td><?= $treatment['visit_day'] ?></td>
-                                                                            <td><?= $treatment['visit_day'] ?></td>
+                                                                            <td><?= $treatment['start_date'] ?></td>
+                                                                            <td><?= $medications[0]['name'] .' - ( '.$batches[0]['serial_name'].' ) ( '. $batches[0]['amount'] .' )'; ?></td>
+                                                                            <td><?= $treatment['medication_dose'] ?></td>
+                                                                            <td><?= $treatment['units'] ?></td>
+                                                                            <td><?= $medication_action ?></td>
+                                                                            <td><?= $treatment['end_date'] ?></td>
                                                                              <td>
+                                                                                <?php if($user->data()->power == 1 || $user->data()->accessLevel == 1 ){ ?>
                                                                                 <span class="badge bg-info">
                                                                                     <a href="#update_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Update</a>
                                                                                 </span>
-
-                                                                                <span class="badge bg-warning">
-                                                                                    <a href="#remove_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Remove</a>
-                                                                                </span>
+                                                                                <?php } ?>
 
                                                                                 <span class="badge bg-danger">
                                                                                     <a href="#delete_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Delete</a>
@@ -10795,37 +11040,66 @@ if ($user->isLoggedIn()) {
                                                                                 <form method="post">
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header">
-                                                                                            <h4 class="modal-title">SCREENING FORM</h4>
+                                                                                            <h4 class="modal-title">Medication Form</h4>
                                                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                                 <span aria-hidden="true">&times;</span>
                                                                                             </button>
                                                                                         </div>
-                                                                                        <?php $screening = $override->get('screening', 'patient_id', $client['id'])[0];
-                                                                                        ?>
                                                                                         <div class="modal-body">
                                                                                             <div class="row">
-                                                                                                <div class="col-sm-6">
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Start Date</label>
+                                                                                                            <input class="form-control" type="date" name="start_date" id="start_date" style="width: 100%;" value="<?php if ($treatment['start_date']) {
+                                                                                                                                                                                                                                                                        print_r($treatment['start_date']);
+                                                                                                                                                                                                                                                                    }  ?>" />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-sm-4">
                                                                                                     <div class="row-form clearfix">
                                                                                                         <div class="form-group">
                                                                                                             <label>Medication name</label>
-                                                                                                            <select name="medication_type" id="medication_type" class="form-control select2" style="width: 100%;" required readonly>
-                                                                                                                <?php if (!$medications) { ?>
-                                                                                                                    <option value="">Select Medication</option>
-                                                                                                                <?php } else { ?>
-                                                                                                                    <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name'] ?></option>
+                                                                                                            <select name="batch_id" id="batch_id" class="form-control select2" style="width: 100%;" required>
+                                                                                                                <?php if ($batches) { ?>
+                                                                                                                    <option value="<?= $batches[0]['id'] ?>"><?= $medications[0]['name'] .' - ( '.$batches[0]['serial_name'].' ) '; ?></option>
                                                                                                                 <?php } ?>
-                                                                                                                <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
-                                                                                                                    <option value="<?= $medication['id'] ?>"><?= $medication['name'] ?></option>
+                                                                                                                <?php foreach ($override->get('batch', 'status', 1) as $batch) { ?>
+                                                                                                                    <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' )  :  ( '. $batch['amount'] .' )'; ?></option>
                                                                                                                 <?php } ?>
                                                                                                             </select>
                                                                                                         </div>
                                                                                                     </div>
+                                                                                                </div>  
+                                                                                                  <div class="col-sm-4">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>DOSE</label>
+                                                                                                            <input class="form-control" type="text" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
+                                                                                                                                                                                                                                                                        print_r($treatment['medication_dose']);
+                                                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>                                                                                              
+                                                                                            </div>
+                                                                                            <div class="row">                                                                                             
+
+                                                                                                <div class="col-sm-4">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>UNITS</label>
+                                                                                                            <input class="form-control" type="text" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['units']) {
+                                                                                                                                                                                                                                                                        print_r($treatment['units']);
+                                                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                        </div>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                                <div class="col-sm-6">
+                                                                                                <div class="col-sm-4">
                                                                                                     <div class="row-form clearfix">
                                                                                                         <div class="form-group">
                                                                                                             <label>Action</label>
-                                                                                                            <select name="medication_action" class="form-control" id="medication_action" style="width: 80%;" required readonly>
+                                                                                                            <select name="medication_action" class="form-control" id="medication_action" style="width: 80%;" required>
                                                                                                                 <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
                                                                                                                                                                             if ($treatment['medication_action'] == 1) {
                                                                                                                                                                                 echo 'Continue';
@@ -10848,28 +11122,13 @@ if ($user->isLoggedIn()) {
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div class="row">
                                                                                                 <div class="col-sm-4">
                                                                                                     <div class="row-form clearfix">
-                                                                                                        <!-- select -->
                                                                                                         <div class="form-group">
-                                                                                                            <label>DOSE</label>
-                                                                                                            <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
-                                                                                                                                                                                                                                                                        print_r($treatment['medication_dose']);
-                                                                                                                                                                                                                                                                    }  ?>" required />
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-
-                                                                                                <div class="col-sm-4">
-                                                                                                    <div class="row-form clearfix">
-                                                                                                        <!-- select -->
-                                                                                                        <div class="form-group">
-                                                                                                            <label>UNITS</label>
-                                                                                                            <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['medication_units']) {
-                                                                                                                                                                                                                                                                        print_r($treatment['medication_units']);
-                                                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                            <label>End Date ( If Stop )</label>
+                                                                                                            <input class="form-control" type="date" name="end_date" id="end_date" style="width: 100%;" value="<?php if ($treatment['end_date']) {
+                                                                                                                                                                                                                                                                        print_r($treatment['end_date']);
+                                                                                                                                                                                                                                                                    }  ?>" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -10877,14 +11136,13 @@ if ($user->isLoggedIn()) {
                                                                                         </div>
                                                                                         <div class="modal-footer justify-content-between">
                                                                                             <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
+                                                                                            <input type="hidden" name="medication_id" value="<?= $medications[0]['id'] ?>">
                                                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                                            <input type="submit" name="add_medication" class="btn btn-primary" value="Save changes">
+                                                                                            <input type="submit" name="update_medication" class="btn btn-primary" value="Save changes">
                                                                                         </div>
                                                                                     </div>
-                                                                                    <!-- /.modal-content -->
                                                                                 </form>
                                                                             </div>
-                                                                            <!-- /.modal-dialog -->
                                                                         </div>
                                                                         <!-- /.modal -->
                                                                         <div class="modal fade" id="delete_med<?= $treatment['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -10912,7 +11170,8 @@ if ($user->isLoggedIn()) {
                                                                     <?php $x++; } ?>
                                                                     </tbody>
                                                                 </table>
-                                                                <input type="button" class="btn btn-lg btn-block" onclick="add_Medication()" value="Add New Medication" />
+                                                                <hr>
+                                                                <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Medication()" value="Add New Medication" />
                                                             </div>
                                                             <!-- /.card-body -->
                                                             <div class="card-footer clearfix">
@@ -15735,14 +15994,14 @@ if ($user->isLoggedIn()) {
                                                                 <input class="form-check-input" type="radio" name="water_access" id="water_access1" value="1" <?php if ($social_economic['water_access'] == 1) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                <label class="form-check-label">Flush to pit latrine</label>
+                                                                <label class="form-check-label">Yes</label>
                                                             </div>
 
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="water_access" id="water_access2" value="2" <?php if ($social_economic['water_access'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                <label class="form-check-label">Flush to somewhere else</label>
+                                                                <label class="form-check-label">No</label>
                                                             </div>
                                                         </div>
                                                         <span>IF no, skip next question</span>
@@ -15846,14 +16105,14 @@ if ($user->isLoggedIn()) {
                                                                 <input class="form-check-input" type="radio" name="toilet_access" id="toilet_access1" value="1" <?php if ($social_economic['toilet_access'] == 1) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                <label class="form-check-label">Flush to pit latrine</label>
+                                                                <label class="form-check-label">Yes</label>
                                                             </div>
 
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="toilet_access" id="toilet_access2" value="2" <?php if ($social_economic['toilet_access'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                <label class="form-check-label">Flush to somewhere else</label>
+                                                                <label class="form-check-label">No</label>
                                                             </div>
                                                         </div>
                                                         <span>IF no, skip next question</span>
@@ -16621,30 +16880,30 @@ if ($user->isLoggedIn()) {
         }
         // DropzoneJS Demo Code End
 
-        function add_Medication() {
-            var table = document.getElementById("medication_table");
-            var row = table.insertRow();
-            var vday = row.insertCell(0);
-            var medication_type = row.insertCell(1);
-            var medication_action = row.insertCell(2);
-            var medication_dose = row.insertCell(3);
-            var medication_units = row.insertCell(4);
-            var actionCell = row.insertCell(5);
-            var seq_no = row.insertCell(6);
-            var actionCell = row.insertCell(7);
-            var medication_id = row.insertCell(8);
+        // function add_Medication() {
+        //     var table = document.getElementById("medication_table");
+        //     var row = table.insertRow();
+        //     var vday = row.insertCell(0);
+        //     var medication_type = row.insertCell(1);
+        //     var medication_action = row.insertCell(2);
+        //     var medication_dose = row.insertCell(3);
+        //     var medication_units = row.insertCell(4);
+        //     var actionCell = row.insertCell(5);
+        //     var seq_no = row.insertCell(6);
+        //     var actionCell = row.insertCell(7);
+        //     var medication_id = row.insertCell(8);
 
-            // Assuming the data is passed from PHP
-            vday.innerHTML = '<button type="button" class="btn btn-info"><?= $_GET['vday']; ?></button>';
-            seq_no.innerHTML = '<input type="hidden" name="seq_no[]" value="<?= $_GET['seq'] ?>">';
-            medication_type.innerHTML = '<select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select>';
-            medication_action.innerHTML = '<select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
-            medication_dose.innerHTML = '<input class="form-control" type="text" name="medication_dose[]" value="" required>';
-            medication_units.innerHTML = '<input class="form-control"  type="text" name="medication_units[]" value="" required>';
-            medication_id.innerHTML = '<input class="form-control"  type="hidden" name="medication_id[]" value="" required>';
-            actionCell.innerHTML = '<button type="button" class="ibtnDel1">Remove</button>';
-            // actionCell2.innerHTML = '<button type="button" class="remove-row">Delete</button>';
-        }
+        //     // Assuming the data is passed from PHP
+        //     vday.innerHTML = '<button type="button" class="btn btn-info"><?= $_GET['vday']; ?></button>';
+        //     seq_no.innerHTML = '<input type="hidden" name="seq_no[]" value="<?= $_GET['seq'] ?>">';
+        //     medication_type.innerHTML = '<select class="form-control select2" name="medication_type[]" id="medication_type[]" style="width: 100%;"><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select>';
+        //     medication_action.innerHTML = '<select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;"><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select>';
+        //     medication_dose.innerHTML = '<input class="form-control" type="text" name="medication_dose[]" value="">';
+        //     medication_units.innerHTML = '<input class="form-control"  type="text" name="medication_units[]" value="">';
+        //     medication_id.innerHTML = '<input class="form-control"  type="hidden" name="medication_id[]" value="">';
+        //     actionCell.innerHTML = '<button type="button" class="ibtnDel1">Remove</button>';
+        //     // actionCell2.innerHTML = '<button type="button" class="remove-row">Delete</button>';
+        // }
 
         // Remove row
         // document.addEventListener("click", function(e) {
@@ -16654,10 +16913,88 @@ if ($user->isLoggedIn()) {
         //     }
         // });
 
-        $("table.order-list").on("click", ".ibtnDel1", function(event) {
-            $(this).closest("tr").remove();
-            counter -= 1
-        });
+        // $("table.order-list").on("click", ".ibtnDel1", function(event) {
+        //     $(this).closest("tr").remove();
+        //     counter -= 1
+        // });
+
+        var items = 0;
+
+        function add_Medication() {
+            items++;
+
+            var html = "<tr>";
+            html += "<td>" + items + "</td>";
+            html += "<td><?= $_GET['vday']; ?></td>";
+            html += '<td><input class="form-control"  type="date" name="start_date[]" value=""></td>';
+            html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' ) : ( '. $batch['amount'] .' )'; ?></option> <?php } ?></select></td>';
+            html += '<td><input class="form-control" type="text" name="medication_dose[]" value="" required></td>';
+            html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
+            html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
+            html += '<td><input class="form-control"  type="date" name="end_date[]" value=""></td>';
+            html += "<td><button type='button' onclick='deleteRow(this);'>Remove</button></td>"
+            html += "</tr>";
+
+            var row = document.getElementById("tbody").insertRow();
+            row.innerHTML = html;
+        }
+
+        function deleteRow(button) {
+        items--
+        button.parentElement.parentElement.remove();
+        // first parentElement will be td and second will be tr.
+        }
+
+        var items2 = 0;
+
+        function add_Admission() {
+            items2++;
+
+            var html = "<tr>";
+            html += "<td>" + items2 + "</td>";
+            html += "<td><?= $_GET['vday']; ?></td>";
+            html += '<td><input class="form-control" type="date" name="admission_date[]" value="" required></td>';
+            html += '<td><textarea class="form-control"  type="text" name="admission_reason[]" rows="3" placeholder="Type admission reason here..." required></textarea></td>';
+            html += '<td><textarea class="form-control"  type="text" name="discharge_diagnosis[]" rows="3" placeholder="Type Discharge diagnosis here..." required></textarea></td>';
+            html += '<td><input class="form-control"  type="date" name="discharge_date[]" value=""></td>';
+            html += "<td><button type='button' onclick='deleteRow2(this);'>Remove</button></td>"
+            html += "</tr>";
+
+            var row = document.getElementById("tbody_2").insertRow();
+            row.innerHTML = html;
+        }
+
+        function deleteRow2(button) {
+        items--
+        button.parentElement.parentElement.remove();
+        // first parentElement will be td and second will be tr.
+         }
+
+
+        var items3 = 0;
+
+        function add_Siblings() {
+            items3++;
+
+            var html = "<tr>";
+            html += "<td>" + items3 + "</td>";
+            html += "<td><?= $_GET['vday']; ?></td>";
+            html += '<td><input class="form-control" type="number" name="age[]" value="" min="0" max="100" required></td>';
+            html += '<td><select class="form-control" name="sex[]" id="sex[]" style="width: 100%;" required><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select></td>';
+            html += '<td><select class="form-control" name="sickle_status[]" id="sickle_status[]" style="width: 100%;" required><option value="">Select</option><option value="1">Positive</option><option value="2">Negative</option><option value="99">Unknown</option><option value="96">Other</option></select></td>';
+            html += '<td><textarea class="form-control"  type="text" name="other[]" rows="3" placeholder="Type other here..."></textarea></td>';
+            html += "<td><button type='button' onclick='deleteRow3(this);'>Remove</button></td>"
+            html += "</tr>";
+
+            var row = document.getElementById("tbody_3").insertRow();
+            row.innerHTML = html;
+        }
+
+        function deleteRow3(button) {
+        items--
+        button.parentElement.parentElement.remove();
+        // first parentElement will be td and second will be tr.
+         }
     </script>
 </body>
 

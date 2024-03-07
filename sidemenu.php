@@ -807,7 +807,7 @@ if ($user->isLoggedIn()) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=21&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $outcome; ?></span>
                                     <p>Study IDs</p>

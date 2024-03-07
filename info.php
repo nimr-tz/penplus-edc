@@ -770,6 +770,101 @@ if ($user->isLoggedIn()) {
                 Redirect::to($url);
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('increase_batch')) {
+            $validate = $validate->check($_POST, array(
+                'date' => array(
+                    'required' => true,
+                ),
+                'cost' => array(
+                    'required' => true,
+                ),
+                'price' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('id'))[0];
+                    $amount = $batch['amount'] + Input::get('received');
+                    $price = $batch['price'] + Input::get('cost');
+
+                    $user->updateRecord('batch', array(
+                        'amount' => $amount,
+                        'price' => $price,
+                    ), Input::get('id'));
+
+                    $user->createRecord('batch_records', array(
+                        'date' => Input::get('date'),
+                        'batch_id' => $batch['id'],
+                        'medication_id' => $batch['medication_id'],
+                        'serial_name' => $batch['serial_name'],
+                        'received' => Input::get('received'),
+                        'removed' => 0,
+                        'amount' => $amount,
+                        'expire_date' => $batch['expire_date'],
+                        'remarks' => Input::get('remarks'),
+                        'cost' => Input::get('cost'),
+                        'price' => $price,
+                        'status' => 1,
+                        'create_on' => date('Y-m-d H:i:s'),
+                        'site_id' =>  $user->data()->site_id,
+                        'staff_id' => $user->data()->id,
+                    ));
+
+                    $successMessage = 'Medication name : ' . Input::get('name') . ' : Batch : ' . Input::get('serial_name') . ' - ' . Input::get('removed') . ' Increased Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('decrease_batch')) {
+            $validate = $validate->check($_POST, array(
+                'date' => array(
+                    'required' => true,
+                ),
+                'removed' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('id'))[0];
+                    if (Input::get('removed') <= $batch['amount']) {
+                        $amount = $batch['amount'] - Input::get('removed');
+
+                        $user->updateRecord('batch', array(
+                            'amount' => $amount,
+                        ), Input::get('id'));
+
+                        $user->createRecord('batch_records', array(
+                            'date' => Input::get('date'),
+                            'batch_id' => $batch['id'],
+                            'medication_id' => $batch['medication_id'],
+                            'serial_name' => $batch['serial_name'],
+                            'received' => 0,
+                            'removed' => Input::get('removed'),
+                            'amount' => $amount,
+                            'expire_date' => $batch['expire_date'],
+                            'remarks' => Input::get('remarks'),
+                            'cost' => 0,
+                            'price' => $batch['price'],
+                            'status' => 1,
+                            'create_on' => date('Y-m-d H:i:s'),
+                            'site_id' =>  $user->data()->site_id,
+                            'staff_id' => $user->data()->id,
+                        ));
+
+                        $successMessage ='Medication name : '. Input::get('name') . ' : Batch : '. Input::get('serial_name') .' - '. Input::get('removed') .' Decreased Successful';
+                    } else {
+                        $errorMessage = 'Batch to remove exceeds the available Amount';
+                    }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         }
 
 
@@ -2900,6 +2995,9 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="add.php?id=5&btn=Add">
+                                            < Go Back</a>
+                                    </li>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Medications</li>
                                 </ol>
@@ -2943,15 +3041,6 @@ if ($user->isLoggedIn()) {
                                         $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
 
                                         ?>
-
-                                        <div class="col-sm-6">
-                                            <ol class="breadcrumb float-sm-right">
-                                                <li class="breadcrumb-item">
-                                                    <a href='index1.php' class="btn btn-default">Back</a>
-                                                    </a>
-                                                </li>
-                                            </ol>
-                                        </div>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -3129,7 +3218,7 @@ if ($user->isLoggedIn()) {
                                             <tbody>
                                                 <?php $x = 1;
                                                 foreach ($override->getNews('batch', 'status', 1, 'medication_id', $_GET['medication_id']) as $value) {
-
+                                                    $name = $override->get('medications', 'status', 1, 'id', $value['medication_id'])[0];
                                                     $batch_sum = $override->getSumD2('batch', 'amount', 'status', 1, 'medication_id', $value['id'])[0]['SUM(amount)'];
                                                     $forms = $override->get('forms', 'status', 1, 'id', $value['forms'])[0];
                                                     if ($batch_sum) {
@@ -3140,7 +3229,7 @@ if ($user->isLoggedIn()) {
 
                                                 ?>
                                                     <tr>
-                                                        <td><?= $value['name'] ?></td>
+                                                        <td><?= $name['name'] ?></td>
                                                         <td><?= $value['serial_name'] ?></td>
                                                         <td><?= $value['amount'] ?></td>
                                                         <td><?= $value['expire_date'] ?></td>
@@ -3152,78 +3241,148 @@ if ($user->isLoggedIn()) {
                                                             <?php } ?>
                                                         </td>
                                                         <td>
-                                                            <a href="#editVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update</a>
-                                                            <a href="info.php?id=9&generic_id=<?= $value['id'] ?>" role="button" class="btn btn-success">View</a>
+                                                            <!-- <a href="#editVisit<?= $value['id'] ?>" role="button" class="btn btn-success" data-toggle="modal">Update</a> -->
+                                                            <a href="#increase<?= $value['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Increase Batch</a>
+                                                            <a href="#decrease<?= $value['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Decrease Batch</a>
+                                                            <a href="info.php?id=9&generic_id=<?= $value['id'] ?>" role="button" class="btn btn-deafult">View</a>
                                                         </td>
 
                                                     </tr>
 
-                                                    <div class="modal fade" id="editVisit<?= $visit['id'] ?>">
+                                                    <div class="modal fade" id="increase<?= $value['id'] ?>">
                                                         <div class="modal-dialog">
                                                             <form method="post">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title">Default Modal</h4>
+                                                                        <h4 class="modal-title">Increase ( <?= $name['name']; ?>) :- Batch / Serial ( <?= $value['serial_name']; ?>) </h4>
                                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                     </div>
-                                                                    <?php $screening = $override->get('screening', 'patient_id', $client['id'])[0];
-                                                                    ?>
                                                                     <div class="modal-body">
                                                                         <div class="row">
-
-                                                                            <div class="row">
-                                                                                <div class="col-sm-6">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Visit Date</label>
-                                                                                            <input value="<?php if ($visit['status'] != 0) {
-                                                                                                                echo $visit['visit_date'];
-                                                                                                            } ?>" class="validate[required,custom[date]]" type="text" name="visit_date" id="visit_date" />
-                                                                                            <span>Example: 2010-12-01</span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <!-- <div class="col-sm-3">
-                                                                                    <div class="row-form clearfix"> -->
-                                                                                <!-- select -->
-                                                                                <!-- <div class="form-group">
-                                                                                            <label>Visit Name</label>
-                                                                                            <select name="visit_name" style="width: 100%;" required>
-                                                                                                <option value="">Select</option>
-                                                                                                <?php foreach ($override->getData('schedule') as $study) { ?>
-                                                                                                    <option value="<?= $study['name'] ?>"><?= $study['name'] ?></option>
-                                                                                                <?php } ?>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div> -->
-
-                                                                                <div class="col-sm-6">
-                                                                                    <div class="row-form clearfix">
-                                                                                        <!-- select -->
-                                                                                        <div class="form-group">
-                                                                                            <label>Notes / Remarks /Comments</label>
-                                                                                            <textarea name="reasons" rows="4"><?php if ($visit['status'] != 0) {
-                                                                                                                                    echo $visit['reasons'];
-                                                                                                                                } ?></textarea>
-                                                                                        </div>
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date Received</label>
+                                                                                        <input class="form-control" value="" type="date" name="date" id="date" required />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="dr"><span></span></div>
+
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Available Amount</label>
+                                                                                        <input class="form-control" value="<?php if ($value['amount']) {
+                                                                                                                                echo $value['amount'];
+                                                                                                                            } ?>" type="number" min="0" name="amount" id="amount" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Received Amount</label>
+                                                                                        <input class="form-control" value="" type="number" min="0" name="received" id="received" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Total Price ( TSHS )</label>
+                                                                                        <input class="form-control" value="<?php if ($value['price']) {
+                                                                                                                                echo $value['price'];
+                                                                                                                            } ?>" type="number" min="0" name="price" id="price" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>New Price ( TSHS )</label>
+                                                                                        <input class="form-control" value="" type="number" min="0" name="cost" id="cost" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="dr"><span></span></div>
                                                                     </div>
                                                                     <div class="modal-footer justify-content-between">
-                                                                        <input type="hidden" name="id" value="<?= $visit['id'] ?>">
-                                                                        <input type="hidden" name="vc" value="<?= $visit['visit_code'] ?>">
-                                                                        <input type="hidden" name="visit_name" value="<?= $visit['visit_name'] ?>">
-                                                                        <input type="hidden" name="cid" value="<?= $visit['client_id'] ?>">
+                                                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                                        <input type="hidden" name="name" value="<?= $name['name']; ?>">
+                                                                        <input type="hidden" name="serial_name" value="<?= $name['serial_name']; ?>">
                                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                        <input type="submit" name="edit_visit" class="btn btn-primary" value="Save changes">
+                                                                        <input type="submit" name="increase_batch" class="btn btn-primary" value="Save changes">
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.modal-content -->
+                                                            </form>
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+                                                    <!-- /.modal -->
+
+                                                    <div class="modal fade" id="decrease<?= $value['id'] ?>">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Decrease ( <?= $name['name']; ?>) :- Batch / Serial ( <?= $value['serial_name']; ?>) </h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Date Removed</label>
+                                                                                        <input class="form-control" value="" type="date" name="date" id="date" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Available Amount</label>
+                                                                                        <input class="form-control" value="<?php if ($value['amount']) {
+                                                                                                                                echo $value['amount'];
+                                                                                                                            } ?>" type="number" min="0" name="amount" id="amount" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-4">
+                                                                                <div class="row-form clearfix">
+                                                                                    <!-- select -->
+                                                                                    <div class="form-group">
+                                                                                        <label>Remove Amount</label>
+                                                                                        <input class="form-control" value="" type="number" min="0" name="removed" id="removed" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="dr"><span></span></div>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                                        <input type="hidden" name="name" value="<?= $name['name']; ?>">
+                                                                        <input type="hidden" name="serial_name" value="<?= $name['serial_name']; ?>">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        <input type="submit" name="decrease_batch" class="btn btn-primary" value="Save changes">
                                                                     </div>
                                                                 </div>
                                                                 <!-- /.modal-content -->
@@ -3271,6 +3430,9 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="add.php?id=6&btn=Add">
+                                            < Go Back</a>
+                                    </li>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Medications Batch</li>
                                 </ol>
@@ -3314,15 +3476,6 @@ if ($user->isLoggedIn()) {
                                         $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
 
                                         ?>
-
-                                        <div class="col-sm-6">
-                                            <ol class="breadcrumb float-sm-right">
-                                                <li class="breadcrumb-item"><a href="index1.php">
-                                                        <a href='info.php?id=8' class="btn btn-default">Back</a>
-                                                    </a>
-                                                </li>
-                                            </ol>
-                                        </div>
                                     </div>
 
                                     <!-- /.card-header -->
@@ -3436,25 +3589,15 @@ if ($user->isLoggedIn()) {
         <?php } elseif ($_GET['id'] == 14) { ?>
         <?php } elseif ($_GET['id'] == 15) { ?>
         <?php } ?>
-    </div>
-    <!-- /.col -->
-    </div>
-    <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 
-    <?php include 'footer.php'; ?>
+        <?php include 'footer.php'; ?>
 
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 
@@ -3750,5 +3893,7 @@ if ($user->isLoggedIn()) {
         // autocomplete(document.getElementById("myInput"), countries);
     </script>
 </body>
+
+</html>
 
 </html>

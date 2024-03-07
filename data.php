@@ -1768,13 +1768,13 @@ if ($user->isLoggedIn()) {
                                     } else {
                                         $clients = $override->getDataDesc1('visit', 'site_id', $user->data()->site_id,  'id');
                                     } ?>
-                                    visit
+                                    Study ID
                                 </h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">visit</li>
+                                    <li class="breadcrumb-item active">Study ID</li>
                                 </ol>
                             </div>
                         </div>
@@ -1807,7 +1807,7 @@ if ($user->isLoggedIn()) {
                                                                         <div class="form-group">
                                                                             <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
                                                                                 <option value="">Select Site</option>
-                                                                                <?php foreach ($override->get('sites', 'status', 1) as $site) { ?>
+                                                                                <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
                                                                                     <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
                                                                                 <?php } ?>
                                                                             </select>

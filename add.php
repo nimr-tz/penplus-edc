@@ -11050,7 +11050,7 @@ if ($user->isLoggedIn()) {
                                                                                                                     <option value="<?= $batches[0]['id'] ?>"><?= $medications[0]['name'] .' - ( '.$batches[0]['serial_name'].' ) '; ?></option>
                                                                                                                 <?php } ?>
                                                                                                                 <?php foreach ($override->get('batch', 'status', 1) as $batch) { ?>
-                                                                                                                    <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' )  :  ( '. $batches[0]['amount'] .' )'; ?></option>
+                                                                                                                    <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] .' - ( '.$batch['serial_name'].' )  :  ( '. $batch['amount'] .' )'; ?></option>
                                                                                                                 <?php } ?>
                                                                                                             </select>
                                                                                                         </div>

@@ -115,7 +115,7 @@ class OverideData
         return $result;
     }
 
-        public function getNewsAsc0($table, $where, $id, $where2, $id2)
+    public function getNewsAsc0($table, $where, $id, $where2, $id2)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' ORDER BY $where2 ASC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -221,7 +221,7 @@ class OverideData
         return $result;
     }
 
-        public function getAsc($table, $where, $id)
+    public function getAsc($table, $where, $id)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' ORDER BY 'medication_id' ASC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -603,6 +603,13 @@ class OverideData
     public function getDataDesc3($table, $where, $id, $where1, $id1, $where2, $id2, $name)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where1 = '$id1' AND $where2 = '$id2' ORDER BY $name DESC");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function fetchDetails($table, $where, $id, $searchTerm, $where1, $where2, $where3, $name)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND (LIKE $where1 = '%$searchTerm%' OR $where2 = '%$searchTerm%' OR $where3 = '%$searchTerm%') ORDER BY $name DESC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

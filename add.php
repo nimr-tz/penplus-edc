@@ -11009,9 +11009,11 @@ if ($user->isLoggedIn()) {
                                                                             <td><?= $medication_action ?></td>
                                                                             <td><?= $treatment['end_date'] ?></td>
                                                                              <td>
+                                                                                <?php if($user->data()->power == 1){ ?>
                                                                                 <span class="badge bg-info">
                                                                                     <a href="#update_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Update</a>
                                                                                 </span>
+                                                                                <?php } ?>
 
                                                                                 <span class="badge bg-danger">
                                                                                     <a href="#delete_med<?= $treatment['id'] ?>" role="button" data-toggle="modal">Delete</a>

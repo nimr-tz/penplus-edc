@@ -5,6 +5,10 @@ $override = new OverideData();
 $email = new Email();
 $random = new Random();
 
+$successMessage = null;
+$pageError = null;
+$errorMessage = null;
+
 $numRec = 50;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
@@ -855,7 +859,7 @@ if ($user->isLoggedIn()) {
                             'staff_id' => $user->data()->id,
                         ));
 
-                        $successMessage ='Medication name : '. Input::get('name') . ' : Batch : '. Input::get('serial_name') .' - '. Input::get('removed') .' Decreased Successful';
+                        $successMessage = 'Medication name : ' . Input::get('name') . ' : Batch : ' . Input::get('serial_name') . ' - ' . Input::get('removed') . ' Decreased Successful';
                     } else {
                         $errorMessage = 'Batch to remove exceeds the available Amount';
                     }
@@ -1004,25 +1008,31 @@ if ($user->isLoggedIn()) {
 
         <!-- Main Sidebar Container -->
         <?php include 'sidemenu.php'; ?>
-
         <?php if ($errorMessage) { ?>
-            <div class="alert alert-danger text-center">
-                <h4>Error!</h4>
-                <?= $errorMessage ?>
-            </div>
-        <?php } elseif ($pageError) { ?>
-            <div class="alert alert-danger text-center">
-                <h4>Error!</h4>
-                <?php foreach ($pageError as $error) {
-                    echo $error . ' , ';
-                } ?>
-            </div>
-        <?php } elseif ($successMessage) { ?>
-            <div class="alert alert-success text-center">
-                <h4>Success!</h4>
-                <?= $successMessage ?>
-            </div>
-        <?php } ?>
+
+            <?php if ($errorMessage) { ?>
+                <div class="alert alert-danger text-center">
+                    <h4>Error!</h4>
+                    <?= $errorMessage ?>
+                </div>
+            <?php } elseif ($pageError) { ?>
+            <?php } elseif ($pageError) { ?>
+
+                <div class="alert alert-danger text-center">
+                    <h4>Error!</h4>
+                    <?php foreach ($pageError as $error) {
+                        echo $error . ' , ';
+                    } ?>
+                </div>
+            <?php } elseif ($successMessage) { ?>
+            <?php } elseif ($successMessage) { ?>
+
+                <div class="alert alert-success text-center">
+                    <h4>Success!</h4>
+                    <?= $successMessage ?>
+                </div>
+        <?php }
+        } ?>
 
 
         <?php if ($_GET['id'] == 1 && ($user->data()->position == 1 || $user->data()->position == 2 || $user->data()->position == 3)) { ?>

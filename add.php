@@ -2437,6 +2437,7 @@ if ($user->isLoggedIn()) {
                     } else {
                         for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
                             $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
+                            $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
                             if (Input::get('medication_dose')[$i] <= $batch['amount']) {
                                     $user->createRecord('medication_treatments', array(
                                         'study_id' => $_GET['sid'],
@@ -2482,17 +2483,16 @@ if ($user->isLoggedIn()) {
                                     'site_id' =>  $user->data()->site_id,
                                     'staff_id' => $user->data()->id,
                                 ));
-
-                                $successMessage ='Medication name : '. Input::get('name') . ' : Batch : '. Input::get('serial_name') .' - '. Input::get('removed') .' Decreased Successful';
+                                $successMessage ='Medication name : '. Input::get('name') . ' : Batch : '. Input::get('serial_name') .' Amount '. Input::get('medication_dose')[$i] .' Decreased Successful';
                             } else {
-                                $errorMessage = 'Batch to remove exceeds the available Amount';
+                                $errorMessage = 'Dose asigned : ' . Input::get('medication_dose')[$i] . ' exceed the The available  Medication : '. $medication['name'] . ' : Batch : '. $batch['serial_name'] .' Available '. $batch['amount'];
                             }
                         }
-                    }                 
+                    }           
 
                     
                     $successMessage = 'Treatment plan added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$successMessage);
                     // die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -10987,7 +10987,7 @@ if ($user->isLoggedIn()) {
                                                                             <th>#</th>
                                                                             <th> Visit Day </th>
                                                                             <th> Start Date </th>
-                                                                            <th> Medication name </th>
+                                                                            <th> Medication name - ( batch ) : ( amount )</th>
                                                                             <th> Dose </th>
                                                                             <th> Units </th>
                                                                             <th> Action </th>

@@ -2540,6 +2540,7 @@ if ($user->isLoggedIn()) {
                 'visit_day' => $_GET['vday'],
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
+                'visit_date' => Input::get('visit_date'),
                 'age' => Input::get('age'),
                 'sex' => Input::get('sex'),
                 'sickle_status' => Input::get('sickle_status'),

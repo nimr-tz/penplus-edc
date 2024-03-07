@@ -3766,6 +3766,7 @@ if ($user->isLoggedIn()) {
                         search: searchTerm
                     },
                     success: function(response) {
+                        console.log(response)
                         $('#search-results').html(response);
                     }
                 });

@@ -607,9 +607,9 @@ class OverideData
         return $result;
     }
 
-    public function fetchDetails($table, $where, $id, $searchTerm, $where1, $where2, $where3, $name)
+    public function fetchDetails($table, $searchTerm, $where1, $where2, $where3)
     {
-        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND (LIKE $where1 = '%$searchTerm%' OR $where2 = '%$searchTerm%' OR $where3 = '%$searchTerm%') ORDER BY $name DESC");
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE LIKE $where1 = '%$searchTerm%' OR $where2 = '%$searchTerm%' OR $where3 = '%$searchTerm%'");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

@@ -239,7 +239,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('visit', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Visits Data';
+                $filename = 'Study Id';
             } elseif (Input::get('download_study_id')) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -1730,6 +1730,181 @@ if ($user->isLoggedIn()) {
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>
                                                     <th>Reason</th>
+                                                    <th>Site</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+        <?php } elseif ($_GET['id'] == 21) { ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>
+                                    <?php
+                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                        if ($_GET['site_id'] != null) {
+                                            $clients = $override->getDataDesc1('study_id', 'site_id', $_GET['site_id'],  'id');
+                                        } else {
+                                            $clients = $override->getDataDesc('study_id', 'id');
+                                        }
+                                    } else {
+                                        $clients = $override->getDataDesc1('visit', 'site_id', $user->data()->site_id,  'id');
+                                    } ?>
+                                    visit
+                                </h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
+                                    <li class="breadcrumb-item active">visit</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-3">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">List of Study ID's</h3>&nbsp;&nbsp;
+                                                        <span class="badge badge-info right"><?= $visit; ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <?php
+                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                                    ?>
+                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
+                                                                                <option value="">Select Site</option>
+                                                                                <?php foreach ($override->get('sites', 'status', 1) as $site) { ?>
+                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                                                <?php } ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    <?php } ?>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <?php
+                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                                    ?>
+                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <input type="submit" name="download_study_id" value="Download" class="btn btn-info">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    <?php } ?>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                < Back</a>
+                                                        </li>
+                                                        &nbsp;
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                Go Home > </a>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div><!-- /.container-fluid -->
+                                    </section>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Study Id</th>
+                                                    <th>Client Id</th>
+                                                    <th>Site</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $x = 1;
+                                                foreach ($clients as $value) {
+                                                    $sites = $override->getNews('sites', 'status', 1, 'id', $value['site_id'])[0];
+                                                ?>
+                                                    <tr>
+                                                        <td class="table-user">
+                                                            <?= $value['study_id']; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $value['client_id']; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $sites['name']; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?php if ($value['status'] == 1) { ?>
+                                                                <a href="#" class="btn btn-success">Taken</a>
+                                                            <?php } elseif ($value['status'] == 0) { ?>
+                                                                <a href="#" class="btn btn-warning">Free</a>
+                                                            <?php } ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <a href="#" class="btn btn-info">Update</a>
+                                                        </td>
+                                                    </tr>
+                                                <?php $x++;
+                                                } ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Study Id</th>
+                                                    <th>Client Id</th>
                                                     <th>Site</th>
                                                     <th>Status</th>
                                                     <th class="text-center">Action</th>

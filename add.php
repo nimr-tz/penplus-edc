@@ -5047,7 +5047,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Date of birth:</label>
+                                                            <label>Date of Visit:</label>
                                                             <input class="form-control" max="<?= date('Y-m-d'); ?>" type="date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($history['visit_date']) {
                                                                                                                                                                                     print_r($history['visit_date']);
                                                                                                                                                                                 }  ?>" required />

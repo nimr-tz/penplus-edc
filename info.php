@@ -1689,11 +1689,12 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-inline">
                                                             <!-- <div class=" input-group-append"> -->
                                                             <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+                                                            <input type="hidden" name="site_id" value="<?= $_GET['site_id'] ?>">
                                                             <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
                                                             <input type="text" name="search_name" id="search_name" class="form-control float-right" placeholder="Search here Names or Study ID">
                                                             <!-- </div> -->
                                                             <!-- <div class=" input-group-append"> -->
-                                                                <input type="submit" value="Search" class="btn btn-default"><i class="fas fa-search"></i>
+                                                            <input type="submit" value="Search" class="btn btn-default"><i class="fas fa-search"></i>
                                                             <!-- </div> -->
                                                         </div>
 

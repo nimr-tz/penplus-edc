@@ -285,7 +285,7 @@ if ($user->isLoggedIn()) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="info.php?id=3&status=5" class="nav-link">
+                            <a href="info.php?id=3&site_id=<?= $user->data()->site_id; ?>&status=5" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <span class="badge badge-info right"><?= $registered; ?></span>
                                 <p>Registered</p>

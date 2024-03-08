@@ -386,7 +386,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 2) {
                     $pagNum = $override->countData('screening', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 3) {
-                    $pagNum = $override->countData2('demographic', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
+                    $pagNum = $override->countData('demographic', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 4) {
                     $pagNum = $override->countData('vital', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 5) {
@@ -457,7 +457,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 3) {
                     $form_name = 'demographic';
                     $form_title = 'demographic';
-                    $clients = $override->getWithLimit1('demographic', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                    $clients = $override->getWithLimit1('demographic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 4) {
                     $clients = $override->getWithLimit1('vital', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 5) {
@@ -517,7 +517,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 2) {
                     $pagNum = $override->getCount('screening', 'status', 1);
                 } elseif ($_GET['status'] == 3) {
-                    $pagNum = $override->getCount('demographic', 'status', 1, 'enrolled', 1);
+                    $pagNum = $override->getCount('demographic', 'status', 1);
                 } elseif ($_GET['status'] == 4) {
                     $pagNum = $override->getCount('vital', 'status', 1);
                 } elseif ($_GET['status'] == 5) {
@@ -581,7 +581,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 2) {
                     $clients = $override->getWithLimit('screening', 'status', 1, $page, $numRec);
                 } elseif ($_GET['status'] == 3) {
-                    $clients = $override->getWithLimit('demographic', 'status', 1, 'enrolled', 1,  $page, $numRec);
+                    $clients = $override->getWithLimit('demographic', 'status', 1, $page, $numRec);
                 } elseif ($_GET['status'] == 4) {
                     $clients = $override->getWithLimit('vital', 'status', 1,  $page, $numRec);
                 } elseif ($_GET['status'] == 5) {
@@ -641,7 +641,7 @@ if ($user->isLoggedIn()) {
             } elseif ($_GET['status'] == 2) {
                 $pagNum = $override->countData('screening', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 3) {
-                $pagNum = $override->countData2('demographic', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
+                $pagNum = $override->countData('demographic', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 4) {
                 $pagNum = $override->countData('vital', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 5) {
@@ -705,7 +705,7 @@ if ($user->isLoggedIn()) {
             } elseif ($_GET['status'] == 2) {
                 $clients = $override->getWithLimit1('screening', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 3) {
-                $clients = $override->getWithLimit1('demographic', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                $clients = $override->getWithLimit1('demographic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 4) {
                 $clients = $override->getWithLimit1('vital', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 5) {

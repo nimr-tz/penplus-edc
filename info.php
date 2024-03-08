@@ -1363,7 +1363,6 @@ if ($user->isLoggedIn()) {
                                 <?php
                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                     if ($_GET['site_id'] != null) {
-
                                         $pagNum = 0;
                                         if ($_GET['status'] == 1) {
                                             $pagNum = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
@@ -1623,7 +1622,11 @@ if ($user->isLoggedIn()) {
                                             <div class="card-header">
                                                 <?php
                                                 if ($_GET['status'] == 1) { ?>
-                                                    <h3 class="card-title">List of Screened Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Screened Clients for <?php if ($_GET['site_id']) {
+                                                                                                            print_r($override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name']);
+                                                                                                        } else {
+                                                                                                            echo 'ALL SITES';
+                                                                                                        } ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $screened; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 2) { ?>
@@ -1653,33 +1656,29 @@ if ($user->isLoggedIn()) {
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <hr>
+
                                             <?php
                                             if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                             ?>
-                                                <div class="col-sm-6 align-content-center">
-                                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
+                                                <div class="card-tools">
+                                                    <div class="input-group input-group-sm float-left" style="width: 350px;">
+                                                        <form method="post">
+                                                            <div class="form-inline">
+                                                                <div class="input-group-append">
+                                                                    <div class="col-sm-12">
+                                                                        <select class="form-control float-right" name="site_id" style="width: 100%;" autocomplete="off">
                                                                             <option value="">Select Site</option>
                                                                             <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
                                                                                 <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
                                                                             <?php } ?>
                                                                         </select>
                                                                     </div>
+                                                                    <input type="submit" name="search_by_site1" value="Search by Site" class="btn btn-info"><i class="fas fa-search"></i>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-3">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <input type="submit" name="search_by_site1" value="Search by Site" class="btn btn-primary">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             <?php } ?>
 
@@ -1687,28 +1686,12 @@ if ($user->isLoggedIn()) {
                                                 <div class="input-group input-group-sm float-right" style="width: 350px;">
                                                     <form method="get">
                                                         <div class="form-inline">
-                                                            <!-- <div class=" input-group-append"> -->
                                                             <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
                                                             <!-- <input type="hidden" name="site_id" value="<?= $_GET['site_id'] ?>"> -->
                                                             <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
                                                             <input type="text" name="search_name" id="search_name" class="form-control float-right" placeholder="Search here Names or Study ID">
-                                                            <!-- </div> -->
-                                                            <!-- <div class=" input-group-append"> -->
                                                             <input type="submit" value="Search" class="btn btn-default"><i class="fas fa-search"></i>
-                                                            <!-- </div> -->
                                                         </div>
-
-
-                                                        <!-- <div class="form-inline">
-                                                            <div class="input-group" data-widget="sidebar-search">
-                                                                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                                                                <div class="input-group-append">
-                                                                    <button class="btn btn-sidebar">
-                                                                        <i class="fas fa-search fa-fw"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
                                                     </form>
                                                 </div>
                                             </div>

@@ -322,6 +322,10 @@ if ($user->isLoggedIn()) {
 
                 if ($visit) {
                     $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
+
+                    foreach ($override->get('visit', 'client_id', Input::get('id')) as $visit_client) {
+                        $user->updateRecord('visit', array('study_id' => Input::get('study_id')), $visit_client['id']);
+                    }
                 } else {
                     $user->createRecord('visit', array(
                         'study_id' => Input::get('study_id'),
@@ -1867,8 +1871,8 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Date of Enrollment</label>
-                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($screening['visit_date']) {
-                                                                                                                                                                                                                                            print_r($screening['visit_date']);
+                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($visits_date['visit_date']) {
+                                                                                                                                                                                                                                            print_r($visits_date['visit_date']);
                                                                                                                                                                                                                                         }  ?>" required />
                                                                                 </div>
                                                                             </div>
@@ -2130,8 +2134,14 @@ if ($user->isLoggedIn()) {
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
 
-                                                            <?php }
+                                                                    <?php }
                                                                 }
+
+
+                                                                if ($user->data()->power == 1) { ?>
+                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
+                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                            <?php }
                                                             } ?>
 
 
@@ -2147,10 +2157,15 @@ if ($user->isLoggedIn()) {
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
 
-                                                            <?php }
+                                                                    <?php }
+                                                                }
+                                                                if ($user->data()->power == 1) { ?>
+
+                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
+                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                            <?php
                                                                 }
                                                             } ?>
-
                                                         </td>
                                                     </tr>
 
@@ -2513,6 +2528,31 @@ if ($user->isLoggedIn()) {
                                                         <!-- /.modal-dialog -->
                                                     </div>
                                                     <!-- /.modal -->
+
+
+
+                                                    <div class="modal fade" id="deleteVisit<?= $visit['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete Visit</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this Visit ?</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $visit['id'] ?>">
+                                                                        <input type="submit" name="delete_visit" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 <?php $x++;
                                                 } ?>
                                             </tbody>

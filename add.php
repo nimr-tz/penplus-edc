@@ -258,7 +258,6 @@ if ($user->isLoggedIn()) {
                         if ($override->get('clients', 'id', $_GET['cid'])) {
 
                             $user->updateRecord('clients', array(
-                                'study_id' => $_GET['study_id'],
                                 'hospital_id' => Input::get('hospital_id'),
                                 'clinic_date' => Input::get('clinic_date'),
                                 'firstname' => Input::get('firstname'),

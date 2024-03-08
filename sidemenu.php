@@ -582,7 +582,7 @@ if ($user->isLoggedIn()) {
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="info.php?id=8" class="nav-link">
-                                    <i class="nav-icon fas fa-copy"></i>
+                                    <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Recruitments Reports <i class="fas fa-angle-left right"></i>
                                     </p>
@@ -628,7 +628,7 @@ if ($user->isLoggedIn()) {
 
                             <li class="nav-item">
                                 <a href="info.php?id=8" class="nav-link">
-                                    <i class="nav-icon fas fa-copy"></i>
+                                    <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Diseases Reports <i class="fas fa-angle-left right"></i>
                                     </p>

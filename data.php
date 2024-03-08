@@ -14,11 +14,11 @@ $numRec = 15;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
-        if ($_GET['data'] == 1) {
+        if (Input::get('download')) {
             $data = null;
             $filename = null;
 
-            if (Input::get('download_clients')) {
+            if (Input::get('data') == 1) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('clients', 'status', 1, 'site_id', $_GET['site_id']);
@@ -29,7 +29,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('clients', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Clients Data';
-            } elseif (Input::get('download_screening')) {
+            } elseif (Input::get('data') == 2) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('screening', 'status', 1, 'site_id', $_GET['site_id']);
@@ -40,7 +40,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('screening', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'screening Data';
-            } elseif (Input::get('download_demographic')) {
+            } elseif (Input::get('data') == 3) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('demographic', 'status', 1, 'site_id', $_GET['site_id']);
@@ -51,7 +51,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('demographic', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'demographic Data';
-            } elseif (Input::get('download_vital')) {
+            } elseif (Input::get('data') == 4) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('vital', 'status', 1, 'site_id', $_GET['site_id']);
@@ -62,7 +62,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('vital', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'vital Data';
-            } elseif (Input::get('download_main_diagnosis')) {
+            } elseif (Input::get('data') == 5) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
@@ -73,7 +73,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Main diagnosis Data';
-            } elseif (Input::get('download_history')) {
+            } elseif (Input::get('data') == 6) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('history', 'status', 1, 'site_id', $_GET['site_id']);
@@ -84,7 +84,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('history', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'history Data';
-            } elseif (Input::get('download_symptoms')) {
+            } elseif (Input::get('data') == 7) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
@@ -95,7 +95,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'symptoms Data';
-            } elseif (Input::get('download_cardiac')) {
+            } elseif (Input::get('data') == 8) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('cardiac', 'status', 1, 'site_id', $_GET['site_id']);
@@ -106,7 +106,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('cardiac', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Main diagnosis 3 ( Cardiac )';
-            } elseif (Input::get('download_diabetic')) {
+            } elseif (Input::get('data') == 9) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
@@ -117,7 +117,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Main diagnosis 3 ( diabetic )';
-            } elseif (Input::get('download_sickle_cell')) {
+            } elseif (Input::get('data') == 10) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
@@ -128,7 +128,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Main diagnosis 3 ( Sickle Cell )';
-            } elseif (Input::get('download_siblings')) {
+            } elseif (Input::get('data') == 11) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
@@ -139,7 +139,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Siblings Data';
-            } elseif (Input::get('download_results')) {
+            } elseif (Input::get('data') == 12) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('results', 'status', 1, 'site_id', $_GET['site_id']);
@@ -150,7 +150,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('results', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Results Data';
-            } elseif (Input::get('download_hospitalization')) {
+            } elseif (Input::get('data') == 13) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('hospitalization', 'status', 1, 'site_id', $_GET['site_id']);
@@ -161,7 +161,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('hospitalization', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Hospitalization Data';
-            } elseif (Input::get('download_hospitalization_details')) {
+            } elseif (Input::get('data') == 14) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id']);
@@ -172,7 +172,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Hospitalization Details Data';
-            } elseif (Input::get('download_admissions')) {
+            } elseif (Input::get('data') == 15) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
@@ -183,7 +183,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('hospitalization_table', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Admissions Data';
-            } elseif (Input::get('download_treatment_plan')) {
+            } elseif (Input::get('data') == 16) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('treatment_plan', 'status', 1, 'site_id', $_GET['site_id']);
@@ -194,7 +194,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Treatment_plan Data';
-            } elseif (Input::get('download_medications')) {
+            } elseif (Input::get('data') == 17) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
@@ -205,7 +205,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Medications Data';
-            } elseif (Input::get('download_dgns_complctns_comorbdts')) {
+            } elseif (Input::get('data') == 18) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id']);
@@ -216,7 +216,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Diagnosis, Complications and Comorbiditis Data';
-            } elseif (Input::get('download_risks')) {
+            } elseif (Input::get('data') == 19) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('risks', 'status', 1, 'site_id', $_GET['site_id']);
@@ -227,7 +227,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('risks', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Risks Data';
-            } elseif (Input::get('download_lab_details')) {
+            } elseif (Input::get('data') == 20) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
@@ -238,7 +238,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('lab_details', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Lab Details Data';
-            } elseif (Input::get('download_lab_requests')) {
+            } elseif (Input::get('data') == 21) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
@@ -249,7 +249,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('lab_requests', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Lab Tests Data';
-            } elseif (Input::get('download_test_list')) {
+            } elseif (Input::get('data') == 22) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('test_list', 'status', 1, 'site_id', $_GET['site_id']);
@@ -260,7 +260,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('test_list', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Test Data';
-            } elseif (Input::get('download_social_economic')) {
+            } elseif (Input::get('data') == 23) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
@@ -271,7 +271,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('social_economic', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Social Economic Data';
-            } elseif (Input::get('download_summary')) {
+            } elseif (Input::get('data') == 24) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('summary', 'status', 1, 'site_id', $_GET['site_id']);
@@ -282,7 +282,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('summary', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Summary Data';
-            } elseif (Input::get('download_schedule')) {
+            } elseif (Input::get('data') == 25) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('visit', 'status', 1, 'site_id', $_GET['site_id']);
@@ -293,7 +293,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('visit', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Schedule Data';
-            } elseif (Input::get('download_study_id')) {
+            } elseif (Input::get('data') == 26) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('study_id', 'status', 1, 'site_id', $_GET['site_id']);
@@ -304,7 +304,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('study_id', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Study ID Data';
-            } elseif (Input::get('download_sites')) {
+            } elseif (Input::get('data') == 27) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('site', 'status', 1, 'site_id', $_GET['site_id']);
@@ -320,9 +320,6 @@ if ($user->isLoggedIn()) {
             $user->exportData($data, $filename);
         }
     }
-
-
-
 } else {
     Redirect::to('index.php');
 }
@@ -840,7 +837,8 @@ if ($user->isLoggedIn()) {
                                                                 <div class="col-sm-6">
                                                                     <div class="row-form clearfix">
                                                                         <div class="form-group">
-                                                                            <input type="submit" name="download_clients" value="Download" class="btn btn-info">
+                                                                            <input type="hidden" name="data" value="<?= $_GET['status']; ?>">
+                                                                            <input type="submit" name="download" value="Download" class="btn btn-info">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -867,7 +865,7 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Study Id</th>
@@ -942,6 +940,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $i - 1;
+                                                                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -1056,7 +1082,7 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Study Id</th>
@@ -1129,6 +1155,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $i - 1;
+                                                                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -1141,7 +1195,7 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content-wrapper -->
 
-        <?php } elseif ($_GET['id'] == 12) { ?>
+        <?php } elseif ($_GET['id'] == 3) { ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
@@ -1253,7 +1307,7 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Study Id</th>
@@ -1324,6 +1378,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $i - 1;
+                                                                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -1335,7 +1417,7 @@ if ($user->isLoggedIn()) {
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-        <?php } elseif ($_GET['id'] == 21) { ?>
+        <?php } elseif ($_GET['id'] == 4) { ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
@@ -1447,7 +1529,7 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Study Id</th>
@@ -1499,6 +1581,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $i - 1;
+                                                                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>

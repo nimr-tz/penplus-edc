@@ -390,9 +390,9 @@ if ($user->isLoggedIn()) {
                 $page = ($_GET['page'] * $numRec) - $numRec;
             }
 
-            // if ($_GET['status'] == 1) {
-            //     $form_name = 'clients';
-            //     $form_title = 'Clients';
+            if ($_GET['status'] == 1) {
+                $form_name = 'clients';
+                $form_title = 'Clients';
             //     $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
             // } elseif ($_GET['status'] == 2) {
             //     $form_name = 'screening';
@@ -452,7 +452,7 @@ if ($user->isLoggedIn()) {
             //     $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
             // } elseif ($_GET['status'] == 28) {
             //     $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-            // }
+            }
         } else {
 
             $pagNum = 0;

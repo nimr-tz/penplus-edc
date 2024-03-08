@@ -770,42 +770,42 @@ if ($user->isLoggedIn()) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=3&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $demographic; ?></span>
                                     <p>Demographic </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=4&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $vital; ?></span>
                                     <p>Vital Sign</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=5&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $main_diagnosis; ?></span>
                                     <p>Patient Categories</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=6&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $history; ?></span>
                                     <p>Patient & Family History & Complication</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=7&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $symptoms; ?></span>
                                     <p>Symtom & Exam</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=8&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $history; ?></span>
                                     <p>Patient & Family History & Complication</p>
@@ -813,133 +813,133 @@ if ($user->isLoggedIn()) {
                             </li>
 
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=9&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $cardiac; ?></span>
                                     <p>Main diagnosis 1 ( Cardiac )</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=10&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $diabetic; ?></span>
                                     <p>Main diagnosis 2 ( Diabetes )</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=11&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $sickle_cell; ?></span>
                                     <p>Main diagnosis 3 ( Sickle Cell )</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=12&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $siblings; ?></span>
                                     <p>Siblings</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=13&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $results; ?></span>
                                     <p>Results</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=14&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $hospitalization; ?></span>
                                     <p>Hospitalization</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=15&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $hospitalization_details; ?></span>
                                     <p>Hospitalization Details </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=16&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $admissions; ?></span>
                                     <p>Admission</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=17&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $treatment_plan; ?></span>
                                     <p>Treatment Plan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=18&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $medications; ?></span>
                                     <p>Medications</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=19&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $dgns_complctns_comorbdts; ?></span>
                                     <p>Diagnosis, Complications, & Comorbidities</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=2&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $risks; ?></span>
                                     <p>RISK</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=20&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $lab_details; ?></span>
                                     <p>Lab Details</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=21&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $lab_requests; ?></span>
                                     <p>Lab Requests</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=22&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $test_list; ?></span>
                                     <p>Test Lists</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=23&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $social_economic; ?></span>
                                     <p>Socioeconomic Status </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=21&status=data" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $study_id; ?></span>
-                                    <p>Study IDs</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=3&status=24&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $schedule; ?></span>
                                     <p>Visits</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=data" class="nav-link">
+                                <a href="data.php?id=2&status=25&data=1" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $study_id; ?></span>
+                                    <p>Study IDs</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=4&status=26&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $sites; ?></span>
                                     <p>Sites</p>

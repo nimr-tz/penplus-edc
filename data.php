@@ -1054,7 +1054,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="col-sm-6">
                                                                     <div class="row-form clearfix">
                                                                         <div class="form-group">
-                                                                            <input type="hidden" name="form_name" value="<?= $form_name; ?>">
+                                                                            <input type="hidden" name="data" value="<?= $_GET['status']; ?>">
                                                                             <input type="submit" name="download" value="Download" class="btn btn-info">
                                                                         </div>
                                                                     </div>

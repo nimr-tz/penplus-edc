@@ -320,51 +320,392 @@ if ($user->isLoggedIn()) {
         }
     }
 
+
+    $form_name = '';
+    $form_title = '';
     if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
         if ($_GET['site_id'] != null) {
-            $kap = $override->getCount1('kap', 'status', 1, 'site_id', $_GET['site_id']);
-            $histroy = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
-            $kap = $override->getCount1('results', 'status', 1, 'site_id', $_GET['site_id']);
-            $classification = $override->getCount1('classification', 'status', 1, 'site_id', $_GET['site_id']);
-            $outcome = $override->getCount1('outcome', 'status', 1, 'site_id', $_GET['site_id']);
-            $economic = $override->getCount1('economic', 'status', 1, 'site_id', $_GET['site_id']);
-            $visit = $override->getCount1('visit', 'status', 1, 'site_id', $_GET['site_id']);
+            $pagNum = 0;
+            if ($_GET['status'] == 1) {
+                $pagNum = $override->countData('clients', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 2) {
+                $pagNum = $override->countData('screening', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 3) {
+                $pagNum = $override->countData2('demographic', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 4) {
+                $pagNum = $override->countData('vital', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 5) {
+                $pagNum = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 6) {
+                $pagNum = $override->countData('history', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 7) {
+                $pagNum = $override->countData('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 8) {
+                $pagNum = $override->countData('diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 9) {
+                $pagNum = $override->countData('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 10) {
+                $pagNum = $override->countData('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 11) {
+                $pagNum = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 12) {
+                $pagNum = $override->countData('results', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 13) {
+                $pagNum = $override->countData('hospitalization', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 14) {
+                $pagNum = $override->countData('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 15) {
+                $pagNum = $override->countData('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 16) {
+                $pagNum = $override->countData('treatment_plan', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 17) {
+                $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 18) {
+                $pagNum = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 19) {
+                $pagNum = $override->countData('risks', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 20) {
+                $pagNum = $override->countData('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 21) {
+                $pagNum = $override->countData('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 22) {
+                $pagNum = $override->countData('test_list', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 23) {
+                $pagNum = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 24) {
+                $pagNum = $override->countData('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 25) {
+                $pagNum = $override->countData('visit', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 26) {
+                $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 27) {
+                $pagNum = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 28) {
+                $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
+            }
+            $pages = ceil($pagNum / $numRec);
+            if (!$_GET['page'] || $_GET['page'] == 1) {
+                $page = 0;
+            } else {
+                $page = ($_GET['page'] * $numRec) - $numRec;
+            }
 
-            $registered = $override->getCount1('clients', 'status', 1, 'site_id', $_GET['site_id']);
-            $screened = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
-            $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
-            $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
-            $end = $override->getCount1('clients', 'status', 0, 'site_id', $_GET['site_id']);
+            if ($_GET['status'] == 1) {
+                $form_name = 'clients';
+                $form_title = 'Clients';
+                $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 2) {
+                $form_name = 'screening';
+                $form_title = 'screening';
+                $clients = $override->getWithLimit1('screening', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 3) {
+                $form_name = 'demographic';
+                $form_title = 'demographic';
+                $clients = $override->getWithLimit1('demographic', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 4) {
+                $clients = $override->getWithLimit1('vital', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 5) {
+                $clients = $override->getWithLimit1('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 6) {
+                $clients = $override->getWithLimit1('history', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 7) {
+                $clients = $override->getWithLimit1('symptoms', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 8) {
+                $clients = $override->getWithLimit1('diagnosis', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 9) {
+                $clients = $override->getWithLimit1('diabetic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 10) {
+                $clients = $override->getWithLimit1('sickle_cell', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 11) {
+                $clients = $override->getWithLimit1('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 12) {
+                $clients = $override->getWithLimit1('results', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 13) {
+                $clients = $override->getWithLimit1('hospitalization', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 14) {
+                $clients = $override->getWithLimit1('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 15) {
+                $clients = $override->getWithLimit1('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 16) {
+                $clients = $override->getWithLimit1('treatment_plan', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 17) {
+                $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 18) {
+                $clients = $override->getWithLimit1('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 19) {
+                $clients = $override->getWithLimit1('risks', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 20) {
+                $clients = $override->getWithLimit1('lab_details', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 21) {
+                $clients = $override->getWithLimit1('lab_requests', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 22) {
+                $clients = $override->getWithLimit1('test_list', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 23) {
+                $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 24) {
+                $clients = $override->getWithLimit1('social_economic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 25) {
+                $clients = $override->getWithLimit1('visit', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 26) {
+                $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 27) {
+                $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            } elseif ($_GET['status'] == 28) {
+                $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+            }
         } else {
-            // $kap = $override->getCount('kap', 'status', 1);
-            // $history = $override->getCount('history', 'status', 1);
-            // $kap = $override->getCount('results', 'status', 1);
-            // $classification = $override->getCount('classification', 'status', 1);
-            // $outcome = $override->getCount('outcome', 'status', 1);
-            // $economic = $override->getCount('economic', 'status', 1);
-            $visit = $override->getCount('visit', 'status', 1);
 
-            $registered = $override->getCount('clients', 'status', 1);
-            // $screened = $override->getCount('history', 'status', 1);
-            // $eligible = $override->getCount('history', 'eligible', 1);
-            // $enrolled = $override->getCount('history', 'eligible', 1);
-            $end = $override->getCount('clients', 'status', 0);
+            $pagNum = 0;
+            if ($_GET['status'] == 1) {
+                $pagNum = $override->getCount('clients', 'status', 1);
+            } elseif ($_GET['status'] == 2) {
+                $pagNum = $override->getCount('screening', 'status', 1);
+            } elseif ($_GET['status'] == 3) {
+                $pagNum = $override->getCount('demographic', 'status', 1, 'enrolled', 1);
+            } elseif ($_GET['status'] == 4) {
+                $pagNum = $override->getCount('vital', 'status', 1);
+            } elseif ($_GET['status'] == 5) {
+                $pagNum = $override->getCount('main_diagnosis', 'status', 1);
+            } elseif ($_GET['status'] == 6) {
+                $pagNum = $override->getCount('history', 'status', 1);
+            } elseif ($_GET['status'] == 7) {
+                $pagNum = $override->getCount('symptoms', 'status', 1);
+            } elseif ($_GET['status'] == 8) {
+                $pagNum = $override->getCount('diagnosis', 'status', 1);
+            } elseif ($_GET['status'] == 9) {
+                $pagNum = $override->getCount('diabetic', 'status', 1);
+            } elseif ($_GET['status'] == 10) {
+                $pagNum = $override->getCount('sickle_cell', 'status', 1);
+            } elseif ($_GET['status'] == 11) {
+                $pagNum = $override->getCount('sickle_cell_status_table', 'status', 1);
+            } elseif ($_GET['status'] == 12) {
+                $pagNum = $override->getCount('results', 'status', 1);
+            } elseif ($_GET['status'] == 13) {
+                $pagNum = $override->getCount('hospitalization', 'status', 1);
+            } elseif ($_GET['status'] == 14) {
+                $pagNum = $override->getCount('hospitalization_details', 'status', 1);
+            } elseif ($_GET['status'] == 15) {
+                $pagNum = $override->getCount('hospitalization_table', 'status', 1);
+            } elseif ($_GET['status'] == 16) {
+                $pagNum = $override->getCount('treatment_plan', 'status', 1);
+            } elseif ($_GET['status'] == 17) {
+                $pagNum = $override->getCount('medication_treatments', 'status', 1);
+            } elseif ($_GET['status'] == 18) {
+                $pagNum = $override->getCount('dgns_complctns_comorbdts', 'status', 1);
+            } elseif ($_GET['status'] == 19) {
+                $pagNum = $override->getCount('risks', 'status', 1);
+            } elseif ($_GET['status'] == 20) {
+                $pagNum = $override->getCount('lab_details', 'status', 1);
+            } elseif ($_GET['status'] == 21) {
+                $pagNum = $override->getCount('lab_requests', 'status', 1);
+            } elseif ($_GET['status'] == 22) {
+                $pagNum = $override->getCount('test_list', 'status', 1);
+            } elseif ($_GET['status'] == 23) {
+                $pagNum = $override->getCount('summary', 'status', 1);
+            } elseif ($_GET['status'] == 24) {
+                $pagNum = $override->getCount('social_economic', 'status', 1);
+            } elseif ($_GET['status'] == 25) {
+                $pagNum = $override->getCount('visit', 'status', 1);
+            } elseif ($_GET['status'] == 26) {
+                $pagNum = $override->getCount('study_id', 'status', 1);
+            } elseif ($_GET['status'] == 27) {
+                $pagNum = $override->getCount('site', 'status', 1);
+            } elseif ($_GET['status'] == 28) {
+                $pagNum = $override->getCount('medication_treatments', 'status', 1);
+            }
+            $pages = ceil($pagNum / $numRec);
+            if (!$_GET['page'] || $_GET['page'] == 1) {
+                $page = 0;
+            } else {
+                $page = ($_GET['page'] * $numRec) - $numRec;
+            }
+
+            if ($_GET['status'] == 1) {
+                // $clients = $override->getWithLimit('clients', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 2) {
+                //     $clients = $override->getWithLimit('screening', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 3) {
+                //     $clients = $override->getWithLimit('demographic', 'status', 1, 'enrolled', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 4) {
+                //     $clients = $override->getWithLimit('vital', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 5) {
+                //     $clients = $override->getWithLimit('main_diagnosis', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 6) {
+                //     $clients = $override->getWithLimit('history', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 7) {
+                //     $clients = $override->getWithLimit('symptoms', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 8) {
+                //     $clients = $override->getWithLimit('diagnosis', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 9) {
+                //     $clients = $override->getWithLimit('diabetic', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 10) {
+                //     $clients = $override->getWithLimit('sickle_cell', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 11) {
+                //     $clients = $override->getWithLimit('sickle_cell_status_table', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 12) {
+                //     $clients = $override->getWithLimit('results', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 13) {
+                //     $clients = $override->getWithLimit('hospitalization', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 14) {
+                //     $clients = $override->getWithLimit('hospitalization_details', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 15) {
+                //     $clients = $override->getWithLimit('hospitalization_table', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 16) {
+                //     $clients = $override->getWithLimit('treatment_plan', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 17) {
+                //     $clients = $override->getWithLimit('medication_treatments', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 18) {
+                //     $clients = $override->getWithLimit('dgns_complctns_comorbdts', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 19) {
+                //     $clients = $override->getWithLimit('risks', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 20) {
+                //     $clients = $override->getWithLimit('lab_details', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 21) {
+                //     $clients = $override->getWithLimit('lab_requests', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 22) {
+                //     $clients = $override->getWithLimit('test_list', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 23) {
+                //     $clients = $override->getWithLimit('summary', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 24) {
+                //     $clients = $override->getWithLimit('social_economic', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 25) {
+                //     $clients = $override->getWithLimit('visit', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 26) {
+                //     $clients = $override->getWithLimit('study_id', 'status', 1, $page, $numRec);
+                // } elseif ($_GET['status'] == 27) {
+                //     $clients = $override->getWithLimit('site', 'status', 1,  $page, $numRec);
+                // } elseif ($_GET['status'] == 28) {
+                //     $clients = $override->getWithLimit('medication_treatments', 'status', 1, $page, $numRec);
+            }
         }
     } else {
-        $kap = $override->getCount1('kap', 'status', 1, 'site_id', $user->data()->site_id);
-        $histroy = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
-        $kap = $override->getCount1('results', 'status', 1, 'site_id', $user->data()->site_id);
-        $classification = $override->getCount1('classification', 'status', 1, 'site_id', $user->data()->site_id);
-        $outcome = $override->getCount1('outcome', 'status', 1, 'site_id', $user->data()->site_id);
-        $economic = $override->getCount1('economic', 'status', 1, 'site_id', $user->data()->site_id);
-        $visit = $override->getCount1('visit', 'status', 1, 'site_id', $user->data()->site_id);
+        $pagNum = 0;
+        if ($_GET['status'] == 1) {
+            $pagNum = $override->countData('clients', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 2) {
+            $pagNum = $override->countData('screening', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 3) {
+            $pagNum = $override->countData2('demographic', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 4) {
+            $pagNum = $override->countData('vital', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 5) {
+            $pagNum = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+        } elseif ($_GET['status'] == 6) {
+            $pagNum = $override->countData('history', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 7) {
+            $pagNum = $override->countData('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 8) {
+            $pagNum = $override->countData('diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 9) {
+            $pagNum = $override->countData('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 10) {
+            $pagNum = $override->countData('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 11) {
+            $pagNum = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 12) {
+            $pagNum = $override->countData('results', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 13) {
+            $pagNum = $override->countData('hospitalization', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 14) {
+            $pagNum = $override->countData('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 15) {
+            $pagNum = $override->countData('hospitalization_table', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 16) {
+            $pagNum = $override->countData('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 17) {
+            $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 18) {
+            $pagNum = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 19) {
+            $pagNum = $override->countData('risks', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 20) {
+            $pagNum = $override->countData('lab_details', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 21) {
+            $pagNum = $override->countData('lab_requests', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 22) {
+            $pagNum = $override->countData('test_list', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 23) {
+            $pagNum = $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 24) {
+            $pagNum = $override->countData('social_economic', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 25) {
+            $pagNum = $override->countData('visit', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 26) {
+            $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 27) {
+            $pagNum = $override->countData('site', 'status', 1, 'site_id', $user->data()->site_id);
+        } elseif ($_GET['status'] == 28) {
+            $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
+        }
+        $pages = ceil($pagNum / $numRec);
+        if (!$_GET['page'] || $_GET['page'] == 1) {
+            $page = 0;
+        } else {
+            $page = ($_GET['page'] * $numRec) - $numRec;
+        }
 
-        $registered = $override->getCount1('clients', 'status', 1, 'site_id', $user->data()->site_id);
-        $screened = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
-        $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
-        $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
-        $end = $override->getCount1('clients', 'status', 0, 'site_id', $user->data()->site_id);
+        if ($_GET['status'] == 1) {
+            $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 2) {
+            $clients = $override->getWithLimit1('screening', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 3) {
+            $clients = $override->getWithLimit1('demographic', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 4) {
+            $clients = $override->getWithLimit1('vital', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 5) {
+            $clients = $override->getWithLimit1('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 6) {
+            $clients = $override->getWithLimit1('history', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 7) {
+            $clients = $override->getWithLimit1('symptoms', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 8) {
+            $clients = $override->getWithLimit1('diagnosis', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 9) {
+            $clients = $override->getWithLimit1('diabetic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 10) {
+            $clients = $override->getWithLimit1('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 11) {
+            $clients = $override->getWithLimit1('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 12) {
+            $clients = $override->getWithLimit1('results', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 13) {
+            $clients = $override->getWithLimit1('hospitalization', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 14) {
+            $clients = $override->getWithLimit1('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 15) {
+            $clients = $override->getWithLimit1('hospitalization_table', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 16) {
+            $clients = $override->getWithLimit1('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 17) {
+            $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 18) {
+            $clients = $override->getWithLimit1('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 19) {
+            $clients = $override->getWithLimit1('risks', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 20) {
+            $clients = $override->getWithLimit1('lab_details', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 21) {
+            $clients = $override->getWithLimit1('lab_requests', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 22) {
+            $clients = $override->getWithLimit1('test_list', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 23) {
+            $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 24) {
+            $clients = $override->getWithLimit1('social_economic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 25) {
+            $clients = $override->getWithLimit1('visit', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 26) {
+            $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 27) {
+            $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        } elseif ($_GET['status'] == 28) {
+            $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+        }
     }
+
+
+
+ 
 } else {
     Redirect::to('index.php');
 }
@@ -421,387 +762,7 @@ if ($user->isLoggedIn()) {
 
         <?php
 
-        $form_name = '';
-        $form_title = '';
-        if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-            if ($_GET['site_id'] != null) {
-                $pagNum = 0;
-                if ($_GET['status'] == 1) {
-                    $pagNum = $override->countData('clients', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 2) {
-                    $pagNum = $override->countData('screening', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 3) {
-                    $pagNum = $override->countData2('demographic', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 4) {
-                    $pagNum = $override->countData('vital', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 5) {
-                    $pagNum = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 6) {
-                    $pagNum = $override->countData('history', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 7) {
-                    $pagNum = $override->countData('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 8) {
-                    $pagNum = $override->countData('diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 9) {
-                    $pagNum = $override->countData('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 10) {
-                    $pagNum = $override->countData('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 11) {
-                    $pagNum = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 12) {
-                    $pagNum = $override->countData('results', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 13) {
-                    $pagNum = $override->countData('hospitalization', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 14) {
-                    $pagNum = $override->countData('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 15) {
-                    $pagNum = $override->countData('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 16) {
-                    $pagNum = $override->countData('treatment_plan', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 17) {
-                    $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 18) {
-                    $pagNum = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 19) {
-                    $pagNum = $override->countData('risks', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 20) {
-                    $pagNum = $override->countData('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 21) {
-                    $pagNum = $override->countData('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 22) {
-                    $pagNum = $override->countData('test_list', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 23) {
-                    $pagNum = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 24) {
-                    $pagNum = $override->countData('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 25) {
-                    $pagNum = $override->countData('visit', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 26) {
-                    $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 27) {
-                    $pagNum = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 28) {
-                    $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
-                }
-                $pages = ceil($pagNum / $numRec);
-                if (!$_GET['page'] || $_GET['page'] == 1) {
-                    $page = 0;
-                } else {
-                    $page = ($_GET['page'] * $numRec) - $numRec;
-                }
-
-                if ($_GET['status'] == 1) {
-                    $form_name = 'clients';
-                    $form_title = 'Clients';
-                    $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 2) {
-                    $form_name = 'screening';
-                    $form_title = 'screening';
-                    $clients = $override->getWithLimit1('screening', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 3) {
-                    $form_name = 'demographic';
-                    $form_title = 'demographic';
-                    $clients = $override->getWithLimit1('demographic', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 4) {
-                    $clients = $override->getWithLimit1('vital', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 5) {
-                    $clients = $override->getWithLimit1('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 6) {
-                    $clients = $override->getWithLimit1('history', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 7) {
-                    $clients = $override->getWithLimit1('symptoms', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 8) {
-                    $clients = $override->getWithLimit1('diagnosis', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 9) {
-                    $clients = $override->getWithLimit1('diabetic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 10) {
-                    $clients = $override->getWithLimit1('sickle_cell', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 11) {
-                    $clients = $override->getWithLimit1('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 12) {
-                    $clients = $override->getWithLimit1('results', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 13) {
-                    $clients = $override->getWithLimit1('hospitalization', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 14) {
-                    $clients = $override->getWithLimit1('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 15) {
-                    $clients = $override->getWithLimit1('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 16) {
-                    $clients = $override->getWithLimit1('treatment_plan', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 17) {
-                    $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 18) {
-                    $clients = $override->getWithLimit1('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 19) {
-                    $clients = $override->getWithLimit1('risks', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 20) {
-                    $clients = $override->getWithLimit1('lab_details', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 21) {
-                    $clients = $override->getWithLimit1('lab_requests', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 22) {
-                    $clients = $override->getWithLimit1('test_list', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 23) {
-                    $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 24) {
-                    $clients = $override->getWithLimit1('social_economic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 25) {
-                    $clients = $override->getWithLimit1('visit', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 26) {
-                    $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 27) {
-                    $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 28) {
-                    $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                }
-            } else {
-
-                $pagNum = 0;
-                if ($_GET['status'] == 1) {
-                    $pagNum = $override->getCount('clients', 'status', 1);
-                } elseif ($_GET['status'] == 2) {
-                    $pagNum = $override->getCount('screening', 'status', 1);
-                } elseif ($_GET['status'] == 3) {
-                    $pagNum = $override->getCount('demographic', 'status', 1, 'enrolled', 1);
-                } elseif ($_GET['status'] == 4) {
-                    $pagNum = $override->getCount('vital', 'status', 1);
-                } elseif ($_GET['status'] == 5) {
-                    $pagNum = $override->getCount('main_diagnosis', 'status', 1);
-                } elseif ($_GET['status'] == 6) {
-                    $pagNum = $override->getCount('history', 'status', 1);
-                } elseif ($_GET['status'] == 7) {
-                    $pagNum = $override->getCount('symptoms', 'status', 1);
-                } elseif ($_GET['status'] == 8) {
-                    $pagNum = $override->getCount('diagnosis', 'status', 1);
-                } elseif ($_GET['status'] == 9) {
-                    $pagNum = $override->getCount('diabetic', 'status', 1);
-                } elseif ($_GET['status'] == 10) {
-                    $pagNum = $override->getCount('sickle_cell', 'status', 1);
-                } elseif ($_GET['status'] == 11) {
-                    $pagNum = $override->getCount('sickle_cell_status_table', 'status', 1);
-                } elseif ($_GET['status'] == 12) {
-                    $pagNum = $override->getCount('results', 'status', 1);
-                } elseif ($_GET['status'] == 13) {
-                    $pagNum = $override->getCount('hospitalization', 'status', 1);
-                } elseif ($_GET['status'] == 14) {
-                    $pagNum = $override->getCount('hospitalization_details', 'status', 1);
-                } elseif ($_GET['status'] == 15) {
-                    $pagNum = $override->getCount('hospitalization_table', 'status', 1);
-                } elseif ($_GET['status'] == 16) {
-                    $pagNum = $override->getCount('treatment_plan', 'status', 1);
-                } elseif ($_GET['status'] == 17) {
-                    $pagNum = $override->getCount('medication_treatments', 'status', 1);
-                } elseif ($_GET['status'] == 18) {
-                    $pagNum = $override->getCount('dgns_complctns_comorbdts', 'status', 1);
-                } elseif ($_GET['status'] == 19) {
-                    $pagNum = $override->getCount('risks', 'status', 1);
-                } elseif ($_GET['status'] == 20) {
-                    $pagNum = $override->getCount('lab_details', 'status', 1);
-                } elseif ($_GET['status'] == 21) {
-                    $pagNum = $override->getCount('lab_requests', 'status', 1);
-                } elseif ($_GET['status'] == 22) {
-                    $pagNum = $override->getCount('test_list', 'status', 1);
-                } elseif ($_GET['status'] == 23) {
-                    $pagNum = $override->getCount('summary', 'status', 1);
-                } elseif ($_GET['status'] == 24) {
-                    $pagNum = $override->getCount('social_economic', 'status', 1);
-                } elseif ($_GET['status'] == 25) {
-                    $pagNum = $override->getCount('visit', 'status', 1);
-                } elseif ($_GET['status'] == 26) {
-                    $pagNum = $override->getCount('study_id', 'status', 1);
-                } elseif ($_GET['status'] == 27) {
-                    $pagNum = $override->getCount('site', 'status', 1);
-                } elseif ($_GET['status'] == 28) {
-                    $pagNum = $override->getCount('medication_treatments', 'status', 1);
-                }
-                $pages = ceil($pagNum / $numRec);
-                if (!$_GET['page'] || $_GET['page'] == 1) {
-                    $page = 0;
-                } else {
-                    $page = ($_GET['page'] * $numRec) - $numRec;
-                }
-
-                if ($_GET['status'] == 1) {
-                    $clients = $override->getWithLimit('clients', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 2) {
-                //     $clients = $override->getWithLimit('screening', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 3) {
-                //     $clients = $override->getWithLimit('demographic', 'status', 1, 'enrolled', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 4) {
-                //     $clients = $override->getWithLimit('vital', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 5) {
-                //     $clients = $override->getWithLimit('main_diagnosis', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 6) {
-                //     $clients = $override->getWithLimit('history', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 7) {
-                //     $clients = $override->getWithLimit('symptoms', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 8) {
-                //     $clients = $override->getWithLimit('diagnosis', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 9) {
-                //     $clients = $override->getWithLimit('diabetic', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 10) {
-                //     $clients = $override->getWithLimit('sickle_cell', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 11) {
-                //     $clients = $override->getWithLimit('sickle_cell_status_table', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 12) {
-                //     $clients = $override->getWithLimit('results', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 13) {
-                //     $clients = $override->getWithLimit('hospitalization', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 14) {
-                //     $clients = $override->getWithLimit('hospitalization_details', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 15) {
-                //     $clients = $override->getWithLimit('hospitalization_table', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 16) {
-                //     $clients = $override->getWithLimit('treatment_plan', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 17) {
-                //     $clients = $override->getWithLimit('medication_treatments', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 18) {
-                //     $clients = $override->getWithLimit('dgns_complctns_comorbdts', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 19) {
-                //     $clients = $override->getWithLimit('risks', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 20) {
-                //     $clients = $override->getWithLimit('lab_details', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 21) {
-                //     $clients = $override->getWithLimit('lab_requests', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 22) {
-                //     $clients = $override->getWithLimit('test_list', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 23) {
-                //     $clients = $override->getWithLimit('summary', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 24) {
-                //     $clients = $override->getWithLimit('social_economic', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 25) {
-                //     $clients = $override->getWithLimit('visit', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 26) {
-                //     $clients = $override->getWithLimit('study_id', 'status', 1, $page, $numRec);
-                // } elseif ($_GET['status'] == 27) {
-                //     $clients = $override->getWithLimit('site', 'status', 1,  $page, $numRec);
-                // } elseif ($_GET['status'] == 28) {
-                //     $clients = $override->getWithLimit('medication_treatments', 'status', 1, $page, $numRec);
-                }
-            }
-        } else {
-            $pagNum = 0;
-            if ($_GET['status'] == 1) {
-                $pagNum = $override->countData('clients', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 2) {
-                $pagNum = $override->countData('screening', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 3) {
-                $pagNum = $override->countData2('demographic', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 4) {
-                $pagNum = $override->countData('vital', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 5) {
-                $pagNum = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
-            } elseif ($_GET['status'] == 6) {
-                $pagNum = $override->countData('history', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 7) {
-                $pagNum = $override->countData('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 8) {
-                $pagNum = $override->countData('diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 9) {
-                $pagNum = $override->countData('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 10) {
-                $pagNum = $override->countData('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 11) {
-                $pagNum = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 12) {
-                $pagNum = $override->countData('results', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 13) {
-                $pagNum = $override->countData('hospitalization', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 14) {
-                $pagNum = $override->countData('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 15) {
-                $pagNum = $override->countData('hospitalization_table', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 16) {
-                $pagNum = $override->countData('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 17) {
-                $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 18) {
-                $pagNum = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 19) {
-                $pagNum = $override->countData('risks', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 20) {
-                $pagNum = $override->countData('lab_details', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 21) {
-                $pagNum = $override->countData('lab_requests', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 22) {
-                $pagNum = $override->countData('test_list', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 23) {
-                $pagNum = $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 24) {
-                $pagNum = $override->countData('social_economic', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 25) {
-                $pagNum = $override->countData('visit', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 26) {
-                $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 27) {
-                $pagNum = $override->countData('site', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 28) {
-                $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
-            }
-            $pages = ceil($pagNum / $numRec);
-            if (!$_GET['page'] || $_GET['page'] == 1) {
-                $page = 0;
-            } else {
-                $page = ($_GET['page'] * $numRec) - $numRec;
-            }
-
-            if ($_GET['status'] == 1) {
-                $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 2) {
-                $clients = $override->getWithLimit1('screening', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 3) {
-                $clients = $override->getWithLimit1('demographic', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 4) {
-                $clients = $override->getWithLimit1('vital', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 5) {
-                $clients = $override->getWithLimit1('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 6) {
-                $clients = $override->getWithLimit1('history', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 7) {
-                $clients = $override->getWithLimit1('symptoms', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 8) {
-                $clients = $override->getWithLimit1('diagnosis', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 9) {
-                $clients = $override->getWithLimit1('diabetic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 10) {
-                $clients = $override->getWithLimit1('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 11) {
-                $clients = $override->getWithLimit1('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 12) {
-                $clients = $override->getWithLimit1('results', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 13) {
-                $clients = $override->getWithLimit1('hospitalization', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 14) {
-                $clients = $override->getWithLimit1('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 15) {
-                $clients = $override->getWithLimit1('hospitalization_table', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 16) {
-                $clients = $override->getWithLimit1('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 17) {
-                $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 18) {
-                $clients = $override->getWithLimit1('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 19) {
-                $clients = $override->getWithLimit1('risks', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 20) {
-                $clients = $override->getWithLimit1('lab_details', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 21) {
-                $clients = $override->getWithLimit1('lab_requests', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 22) {
-                $clients = $override->getWithLimit1('test_list', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 23) {
-                $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 24) {
-                $clients = $override->getWithLimit1('social_economic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 25) {
-                $clients = $override->getWithLimit1('visit', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 26) {
-                $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 27) {
-                $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 28) {
-                $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            }
-        }
+        
         ?>
 
 

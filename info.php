@@ -300,19 +300,19 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
-                $client_study = $override->getNews('clients', 'id', Input::get('id'), 'status', 1)[0];
-                $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
+                // $client_study = $override->getNews('clients', 'id', Input::get('id'), 'status', 1)[0];
+                // $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
                 $screening_id = $override->getNews('screening', 'patient_id', Input::get('id'), 'status', 1)[0];
                 $visit_id = $override->get('visit', 'client_id', Input::get('id'))[0];
                 $last_visit = $override->getlastRow('visit', 'client_id', Input::get('id'), 'id')[0];
                 $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'));
                 $visit_id = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
 
-                if (!$client_study['study_id']) {
-                    $study_id = $std_id['study_id'];
-                } else {
-                    $study_id = $client_study['study_id'];
-                }
+                // if (!$client_study['study_id']) {
+                //     $study_id = $std_id['study_id'];
+                // } else {
+                //     $study_id = $client_study['study_id'];
+                // }
 
                 if (Input::get('visit_name') == 'Registration Visit') {
                     $visit_code = 'RV';
@@ -1394,7 +1394,7 @@ if ($user->isLoggedIn()) {
                                                 $searchTerm = $_GET['search_name'];
                                                 $clients = $override->getWithLimit3Search('clients', 'status', 1, 'screened', 1,  'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
                                             } else {
-                                                $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['sid'], $page, $numRec);
+                                                $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                                             }
                                         } elseif ($_GET['status'] == 2) {
                                             if ($_GET['search_name']) {

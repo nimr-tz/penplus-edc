@@ -263,27 +263,16 @@ if ($user->isLoggedIn()) {
                         $lastname = Input::get('lastname');
 
 
-                        // $client_study = $override->getNews('clients', 'id', Input::get('id'), 'status', 1)[0];
-                        // $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
-                        // $screening_id = $override->getNews('screening', 'patient_id', Input::get('id'), 'status', 1)[0];
-                        // $visit_id = $override->get('visit', 'client_id', Input::get('id'))[0];
-                        // $last_visit = $override->getlastRow('visit', 'client_id', Input::get('id'), 'id')[0];
-                        // $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'));
-                        // $visit_id = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
+                        // $std_id = $override->getNews('study_id', 'site_id', $site_id, 'status', 0)[0];
 
-                        // if (!$client_study['study_id']) {
-                        //     $study_id = $std_id['study_id'];
-                        // } else {
-                        //     $study_id = $client_study['study_id'];
-                        // }
-
+                        $std_id = $override->getNews('study_id2', 'site_id', $user->data()->site_id, 'status', 0)[0];
 
                         if ($check_clients >= 1) {
                             $errorMessage = 'Participant ' . $firstname . ' -  ' . $middlename . '  -  ' . $lastname . '  -  ' . '  Already Registered';
                         } else {
-
                             if ($override->get('clients', 'id', $_GET['cid'])) {
                                 $user->updateRecord('clients', array(
+                                    'study_id' => $_GET['study_id'],
                                     'hospital_id' => Input::get('hospital_id'),
                                     'clinic_date' => Input::get('clinic_date'),
                                     'firstname' => Input::get('firstname'),
@@ -304,10 +293,20 @@ if ($user->isLoggedIn()) {
                                     'client_image' => $attachment_file,
                                     'comments' => Input::get('comments'),
                                 ), $_GET['cid']);
+
+                                $std_id = $override->getNews('study_id2', 'site_id', $user->data()->site_id, 'status', 0)[0];
+
+                                $user->updateRecord('study_id2', array(
+                                    'status' => 1,
+                                    'client_id' => $last_row['id'],
+                                ), $std_id['id']);
+
+                                $successMessage = 'Client Updated Successful';
+                                Redirect::to('info.php?id=3&site_id=' . $user->data()->site_id.'&status=5');
                             } else {
                                 $user->createRecord('clients', array(
                                     'participant_id' => $screening_id,
-                                    'study_id' => '',
+                                    'study_id' => $std_id['study_id'],
                                     'hospital_id' => Input::get('hospital_id'),
                                     'clinic_date' => Input::get('clinic_date'),
                                     'firstname' => Input::get('firstname'),
@@ -335,8 +334,14 @@ if ($user->isLoggedIn()) {
 
                                 $last_row = $override->lastRow('clients', 'id')[0];
 
+                                $user->updateRecord('study_id2', array(
+                                    'status' => 1,
+                                    'client_id' => $last_row['id'],
+                                ), $std_id['id']);
+
+
                                 $user->createRecord('visit', array(
-                                    'study_id' => '',
+                                    'study_id' => $std_id['study_id'],
                                     'visit_name' => 'Registration Visit',
                                     'visit_code' => 'RV',
                                     'visit_day' => 'Day -1',
@@ -351,10 +356,10 @@ if ($user->isLoggedIn()) {
                                     'visit_status' => 1,
                                     'site_id' => $user->data()->site_id,
                                 ));
-                            }
 
                             $successMessage = 'Client Added Successful';
-                            Redirect::to('info.php?id=3&status=5&site_id=' . $user->data()->site_id);
+                            Redirect::to('info.php?id=3&site_id=' . $user->data()->site_id.'&status=5');
+                            }      
                         }
                     }
                 } catch (Exception $e) {

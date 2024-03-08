@@ -184,6 +184,17 @@ if ($user->isLoggedIn()) {
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+                <?php
+                $Site = '';
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    $Site = ' ALL SITES';
+                    if ($_GET['site_id']) {
+                        $Site = ' ' . ' ' . $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
+                    }
+                } else {
+                    $Site = ' ' . ' ' . $override->getNews('site', 'status', 1, 'id', $user->data()->site_id)[0]['name'];
+                }
+                ?>
                 <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -196,7 +207,7 @@ if ($user->isLoggedIn()) {
                         <li class="nav-item">
                             <a href="./index1.php" class="nav-link active">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v1</p>
+                                <p>Dashboard <?= $Site; ?></p>
                             </a>
                         </li>
                         <!-- <li class="nav-item">

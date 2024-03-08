@@ -101,10 +101,21 @@ if ($user->isLoggedIn()) {
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <div class="content-header">
+        <?php
+        $Site = '';
+        if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+          $Site = ' ALL SITES';
+          if ($_GET['site_id']) {
+            $Site = ' ' . ' '. $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
+          }
+        } else {
+          $Site =' ' . ' ' . $override->getNews('site', 'status', 1, 'id', $user->data()->site_id)[0]['name'];
+        }
+        ?>
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-3">
-              <h1 class="m-0">Dashboard</h1>
+              <h1 class="m-0">Dashboard <?= $Site; ?></h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
 
@@ -141,7 +152,7 @@ if ($user->isLoggedIn()) {
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard v1</li>
+                <li class="breadcrumb-item active"> <?= $Site; ?></li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->

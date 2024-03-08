@@ -66,12 +66,36 @@ if ($user->isLoggedIn()) {
 
 
 
-            // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
-            // $results = $override->getCount1('results', 'status', 1, 'site_id', $_GET['site_id']);
-            // $classification = $override->getCount1('classification', 'status', 1, 'site_id', $_GET['site_id']);
-            // $outcome = $override->getCount1('outcome', 'status', 1, 'site_id', $_GET['site_id']);
-            // $economic = $override->getCount1('economic', 'status', 1, 'site_id', $_GET['site_id']);
-            $visit = $override->getCount1('visit', 'status', 1, 'site_id', $_GET['site_id']);
+            // DATA
+                $clients = $override->countData('clients', 'status', 1, 'site_id', $_GET['site_id']);
+                $screening = $override->countData('screening', 'status', 1, 'site_id', $_GET['site_id']);
+                $demographic = $override->countData2('demographic', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
+                $vital = $override->countData('vital', 'status', 1, 'site_id', $_GET['site_id']);
+                $main_diagnosis = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+                $history = $override->countData('history', 'status', 1, 'site_id', $_GET['site_id']);
+                $symptoms = $override->countData('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
+                $diagnosis = $override->countData('diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+                $diabetic = $override->countData('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
+                $sickle_cell = $override->countData('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
+                $sickle_cell_status_table = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
+                $results = $override->countData('results', 'status', 1, 'site_id', $_GET['site_id']);
+                $hospitalization = $override->countData('hospitalization', 'status', 1, 'site_id', $_GET['site_id']);
+                $hospitalization_details = $override->countData('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id']);
+                $hospitalization_table = $override->countData('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
+                $treatment_plan = $override->countData('treatment_plan', 'status', 1, 'site_id', $_GET['site_id']);
+                $medication_treatments = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
+                $dgns_complctns_comorbdts = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id']);
+                $risks = $override->countData('risks', 'status', 1, 'site_id', $_GET['site_id']);
+                $lab_details = $override->countData('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
+                $lab_requests = $override->countData('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
+                $test_list = $override->countData('test_list', 'status', 1, 'site_id', $_GET['site_id']);
+                $summary = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
+                $social_economic = $override->countData('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
+                $visit = $override->countData('visit', 'status', 1, 'site_id', $_GET['site_id']);
+                $study_id = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
+                $site = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
+                $medication_treatments = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
+            }
 
             $registered = $override->getCount1('clients', 'status', 1, 'site_id', $_GET['site_id']);
             $screened = $override->countData1('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);

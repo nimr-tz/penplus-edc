@@ -263,10 +263,6 @@ if ($user->isLoggedIn()) {
                         $lastname = Input::get('lastname');
 
 
-                        // $std_id = $override->getNews('study_id', 'site_id', $site_id, 'status', 0)[0];
-
-                        $std_id = $override->getNews('study_id2', 'site_id', $user->data()->site_id, 'status', 0)[0];
-
                         if ($check_clients >= 1) {
                             $errorMessage = 'Participant ' . $firstname . ' -  ' . $middlename . '  -  ' . $lastname . '  -  ' . '  Already Registered';
                         } else {
@@ -304,6 +300,9 @@ if ($user->isLoggedIn()) {
                                 $successMessage = 'Client Updated Successful';
                                 Redirect::to('info.php?id=3&site_id=' . $user->data()->site_id.'&status=5');
                             } else {
+
+                                $std_id = $override->getNews('study_id2', 'site_id', $user->data()->site_id, 'status', 0)[0];
+
                                 $user->createRecord('clients', array(
                                     'participant_id' => $screening_id,
                                     'study_id' => $std_id['study_id'],

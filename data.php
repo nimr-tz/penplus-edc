@@ -439,7 +439,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 21) {
                     $pagNum = $override->countData('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 22) {
-                    $pagNum = $override->countData('test_list', 'status', 1, 'site_id', $_GET['site_id']);
+                    $pagNum = $override->getCount('test_list', 'status', 1);
                 } elseif ($_GET['status'] == 23) {
                     $pagNum = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 24) {
@@ -450,9 +450,7 @@ if ($user->isLoggedIn()) {
                     $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 27) {
                     $pagNum = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 28) {
-                    $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
-                }
+                } 
 
                 $pages = ceil($pagNum / $numRec);
                 if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -510,7 +508,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 21) {
                     $clients = $override->getWithLimit1('lab_requests', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 22) {
-                    $clients = $override->getWithLimit1('test_list', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                    $clients = $override->getWithLimit('test_list', 'status', 1, $page, $numRec);
                 } elseif ($_GET['status'] == 23) {
                     $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 24) {
@@ -521,8 +519,6 @@ if ($user->isLoggedIn()) {
                     $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 27) {
                     $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 28) {
-                    $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 }
             } else {
 
@@ -581,9 +577,7 @@ if ($user->isLoggedIn()) {
                     $pagNum = $override->getCount('study_id', 'status', 1);
                 } elseif ($_GET['status'] == 27) {
                     $pagNum = $override->getCount('site', 'status', 1);
-                } elseif ($_GET['status'] == 28) {
-                    $pagNum = $override->getCount('medication_treatments', 'status', 1);
-                }
+                } 
                 $pages = ceil($pagNum / $numRec);
                 if (!$_GET['page'] || $_GET['page'] == 1) {
                     $page = 0;
@@ -645,8 +639,6 @@ if ($user->isLoggedIn()) {
                     $clients = $override->getWithLimit('study_id', 'status', 1, $page, $numRec);
                 } elseif ($_GET['status'] == 27) {
                     $clients = $override->getWithLimit('site', 'status', 1,  $page, $numRec);
-                } elseif ($_GET['status'] == 28) {
-                    $clients = $override->getWithLimit('medication_treatments', 'status', 1, $page, $numRec);
                 }
             }
         } else {
@@ -694,7 +686,7 @@ if ($user->isLoggedIn()) {
             } elseif ($_GET['status'] == 21) {
                 $pagNum = $override->countData('lab_requests', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 22) {
-                $pagNum = $override->countData('test_list', 'status', 1, 'site_id', $user->data()->site_id);
+                $pagNum = $override->getCount('test_list', 'status', 1);
             } elseif ($_GET['status'] == 23) {
                 $pagNum = $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 24) {
@@ -705,9 +697,8 @@ if ($user->isLoggedIn()) {
                 $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 27) {
                 $pagNum = $override->countData('site', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 28) {
-                $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
             }
+
             $pages = ceil($pagNum / $numRec);
             if (!$_GET['page'] || $_GET['page'] == 1) {
                 $page = 0;
@@ -758,7 +749,7 @@ if ($user->isLoggedIn()) {
             } elseif ($_GET['status'] == 21) {
                 $clients = $override->getWithLimit1('lab_requests', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 22) {
-                $clients = $override->getWithLimit1('test_list', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                $clients = $override->getWithLimit('test_list', 'status', 1,  $page, $numRec);
             } elseif ($_GET['status'] == 23) {
                 $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 24) {
@@ -769,9 +760,7 @@ if ($user->isLoggedIn()) {
                 $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 27) {
                 $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 28) {
-                $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            }
+            } 
         }
 
         ?>
@@ -958,27 +947,27 @@ if ($user->isLoggedIn()) {
                                     <div class="card-footer clearfix">
                                         <ul class="pagination pagination-sm m-0 float-right">
                                             <li class="page-item">
-                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
-                                                                                                                                                                echo $_GET['page'] - 1;
-                                                                                                                                                            } else {
-                                                                                                                                                                echo 1;
-                                                                                                                                                            } ?>">&laquo;
+                                                <a class="page-link" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                                            } else {
+                                                                                                                                                                                echo 1;
+                                                                                                                                                                            } ?>">&laquo;
                                                 </a>
                                             </li>
                                             <?php for ($i = 1; $i <= $pages; $i++) { ?>
                                                 <li class="page-item">
                                                     <a class="page-link <?php if ($i == $_GET['page']) {
                                                                             echo 'active';
-                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                                        } ?>" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
                                                     </a>
                                                 </li>
                                             <?php } ?>
                                             <li class="page-item">
-                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
-                                                                                                                                                                echo $_GET['page'] + 1;
-                                                                                                                                                            } else {
-                                                                                                                                                                echo $i - 1;
-                                                                                                                                                            } ?>">&raquo;
+                                                <a class="page-link" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                                    echo $_GET['page'] + 1;
+                                                                                                                                                                                } else {
+                                                                                                                                                                                    echo $i - 1;
+                                                                                                                                                                                } ?>">&raquo;
                                                 </a>
                                             </li>
                                         </ul>
@@ -1184,16 +1173,16 @@ if ($user->isLoggedIn()) {
                                                 <li class="page-item">
                                                     <a class="page-link <?php if ($i == $_GET['page']) {
                                                                             echo 'active';
-                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                                        } ?>" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
                                                     </a>
                                                 </li>
                                             <?php } ?>
                                             <li class="page-item">
-                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
-                                                                                                                                                                echo $_GET['page'] + 1;
-                                                                                                                                                            } else {
-                                                                                                                                                                echo $i - 1;
-                                                                                                                                                            } ?>">&raquo;
+                                                <a class="page-link" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                                    echo $_GET['page'] + 1;
+                                                                                                                                                                                } else {
+                                                                                                                                                                                    echo $i - 1;
+                                                                                                                                                                                } ?>">&raquo;
                                                 </a>
                                             </li>
                                         </ul>

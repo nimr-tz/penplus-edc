@@ -90,12 +90,12 @@ if ($user->isLoggedIn()) {
             $risks = $override->countData('risks', 'status', 1, 'site_id', $_GET['site_id']);
             $lab_details = $override->countData('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
             $lab_requests = $override->countData('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
-            $test_list = $override->countData('test_list', 'status', 1, 'site_id', $_GET['site_id']);
+            $test_list = $override->getCount('test_list', 'status', 1);
             $summary = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
             $social_economic = $override->countData('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
             $schedule = $override->countData('visit', 'status', 1, 'site_id', $_GET['site_id']);
             $study_id = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
-            $sites = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
+            $sites = $override->countData('site', 'status', 1, 'id', $_GET['site_id']);
 
             // REPORTS
 
@@ -204,12 +204,12 @@ if ($user->isLoggedIn()) {
         $risks = $override->countData('risks', 'status', 1, 'site_id', $user->data()->site_id);
         $lab_details = $override->countData('lab_details', 'status', 1, 'site_id', $user->data()->site_id);
         $lab_requests = $override->countData('lab_requests', 'status', 1, 'site_id', $user->data()->site_id);
-        $test_list = $override->countData('test_list', 'status', 1, 'site_id', $user->data()->site_id);
+        $test_list = $override->getCount('test_list', 'status', 1);
         $summary = $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id);
         $social_economic = $override->countData('social_economic', 'status', 1, 'site_id', $user->data()->site_id);
         $schedule = $override->countData('visit', 'status', 1, 'site_id', $user->data()->site_id);
         $study_id = $override->countData('study_id', 'status', 1, 'site_id', $user->data()->site_id);
-        $sites = $override->countData('site', 'status', 1, 'site_id', $user->data()->site_id);
+        $sites = $override->countData('site', 'status', 1, 'id', $user->data()->site_id);
 
         // REPORTS
 

@@ -14,6 +14,21 @@ $numRec = 15;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
+
+        if (Input::get('search_by_site')) {
+            $validate = new validate();
+            $validate = $validate->check($_POST, array(
+                'site_id' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                $url = 'data.php?id=' . $_GET['id'] . '&status=' . $_GET['status'] . '&data=' . $_GET['data'] . '&site_id=' . Input::get('site_id');
+                Redirect::to($url);
+                $pageError = $validate->errors();
+            }
+        }
+
         if (Input::get('download')) {
             $data = null;
             $filename = null;

@@ -76,7 +76,7 @@ if ($user->isLoggedIn()) {
             $main_diagnosis = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
             $history = $override->countData('history', 'status', 1, 'site_id', $_GET['site_id']);
             $symptoms = $override->countData('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
-            $cardiac = $override->countData('diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+            $cardiac = $override->countData('cardiac', 'status', 1, 'site_id', $_GET['site_id']);
             $diabetic = $override->countData('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
             $sickle_cell = $override->countData('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
             $siblings = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
@@ -133,7 +133,7 @@ if ($user->isLoggedIn()) {
             $main_diagnosis = $override->getCount('main_diagnosis', 'status', 1);
             $history = $override->getCount('history', 'status', 1);
             $symptoms = $override->getCount('symptoms', 'status', 1);
-            $cardiac = $override->getCount('diagnosis', 'status', 1);
+            $cardiac = $override->getCount('cardiac', 'status', 1);
             $diabetic = $override->getCount('diabetic', 'status', 1);
             $sickle_cell = $override->getCount('sickle_cell', 'status', 1);
             $siblings = $override->getCount('sickle_cell_status_table', 'status', 1);
@@ -190,7 +190,7 @@ if ($user->isLoggedIn()) {
         $main_diagnosis = $override->countData('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
         $history = $override->countData('history', 'status', 1, 'site_id', $user->data()->site_id);
         $symptoms = $override->countData('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
-        $cardiac = $override->countData('diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
+        $cardiac = $override->countData('cardiac', 'status', 1, 'site_id', $user->data()->site_id);
         $diabetic = $override->countData('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
         $sickle_cell = $override->countData('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id);
         $siblings = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id);
@@ -822,7 +822,7 @@ if ($user->isLoggedIn()) {
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $Diabetic; ?></span>
+                                    <span class="badge badge-info right"><?= $diabetic; ?></span>
                                     <p>Main diagnosis 2 ( Diabetes )</p>
                                 </a>
                             </li>

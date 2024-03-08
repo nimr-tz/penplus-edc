@@ -1318,29 +1318,40 @@ if ($user->isLoggedIn()) {
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
+                    <?php
+                    $Site = '';
+                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                        $Site = 'ALL SITES';
+                        if ($_GET['site_id']) {
+                            $Site = $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
+                        }
+                    } else {
+                        $Site = $override->getNews('site', 'status', 1, 'id', $user->data()->site_id)[0]['name'];
+                    }
+                    ?>
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <h1>
                                     <?php
                                     if ($_GET['status'] == 1) {
-                                        echo $title = 'Screening';
+                                        echo $title = 'Screening for ' . $Site;
                                     ?>
                                     <?php
                                     } elseif ($_GET['status'] == 2) {
-                                        echo $title = 'Eligibility';
+                                        echo $title = 'Eligibility  for ' . $Site;
                                     ?>
                                     <?php
                                     } elseif ($_GET['status'] == 3) {
-                                        echo  $title = 'Enrollment';
+                                        echo  $title = 'Enrollment for ' . $Site;
                                     ?>
                                     <?php
                                     } elseif ($_GET['status'] == 4) {
-                                        echo $title = 'Termination';
+                                        echo $title = 'Termination for ' . $Site;
                                     ?>
                                     <?php
                                     } elseif ($_GET['status'] == 5) {
-                                        echo  $title = 'Registration'; ?>
+                                        echo  $title = 'Registration for ' . $Site; ?>
                                     <?php
                                     } ?>
                                 </h1>
@@ -1622,31 +1633,27 @@ if ($user->isLoggedIn()) {
                                             <div class="card-header">
                                                 <?php
                                                 if ($_GET['status'] == 1) { ?>
-                                                    <h3 class="card-title">List of Screened Clients for <?php if ($_GET['site_id']) {
-                                                                                                            print_r($override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name']);
-                                                                                                        } else {
-                                                                                                            echo 'ALL SITES';
-                                                                                                        } ?></h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Screened Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $screened; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 2) { ?>
-                                                    <h3 class="card-title">List of Eligible Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Eligible Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $eligible; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 3) { ?>
-                                                    <h3 class="card-title">List of Enrolled Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Enrolled Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $enrolled; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 4) { ?>
-                                                    <h3 class="card-title">List of Terminated Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Terminated Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $end; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 5) { ?>
-                                                    <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Registered Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $registered; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 7) { ?>
-                                                    <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Registered Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $registered; ?></span>
                                                 <?php } ?>
                                                 <div class="card-tools">
@@ -1924,7 +1931,7 @@ if ($user->isLoggedIn()) {
                                                         }
                                                     } ?>
                                                 </td>
-                                                <td><span class="badge bg-danger">55%</span></td>
+                                                <!-- <td><span class="badge bg-danger">55%</span></td> -->
                                                 </tr>
                                                 <div class="modal fade" id="addScreening<?= $client['id'] ?>">
                                                     <div class="modal-dialog">

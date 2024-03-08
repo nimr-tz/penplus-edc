@@ -12,140 +12,84 @@ $errorMessage = null;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
-        if (Input::get('reset_pass')) {
-            $salt = $random->get_rand_alphanumeric(32);
-            $password = '12345678';
-            $user->updateRecord('user', array(
-                'password' => Hash::make($password, $salt),
-                'salt' => $salt,
-            ), Input::get('id'));
-            $successMessage = 'Password Reset Successful';
-        } elseif (Input::get('lock_account')) {
-            $user->updateRecord('user', array(
-                'count' => 4,
-            ), Input::get('id'));
-            $successMessage = 'Account locked Successful';
-        } elseif (Input::get('unlock_account')) {
-            $user->updateRecord('user', array(
-                'count' => 0,
-            ), Input::get('id'));
-            $successMessage = 'Account Unlock Successful';
-        } elseif (Input::get('delete_staff')) {
-            $user->updateRecord('user', array(
-                'status' => 0,
-            ), Input::get('id'));
-            $successMessage = 'User Restored Successful';
-        } elseif (Input::get('restore_staff')) {
-            $user->updateRecord('user', array(
-                'status' => 1,
-            ), Input::get('id'));
-            $successMessage = 'User Deleted Successful';
-        } elseif (Input::get('add_visit')) {
-            $validate = $validate->check($_POST, array(
-                'visit_date' => array(
-                    'required' => true,
-                ),
-                'visit_status' => array(
-                    'required' => true,
-                ),
-            ));
-
-            if ($validate->passed()) {
-                $user->updateRecord('visit', array(
-                    'visit_date' => Input::get('visit_date'),
-                    'visit_status' => Input::get('visit_status'),
-                    'comments' => Input::get('comments'),
-                    'patient_id' => Input::get('cid'),
-                    'update_on' => date('Y-m-d H:i:s'),
-                    'update_id' => $user->data()->id,
-                ), Input::get('id'));
-
-                $successMessage = 'Visit Updates  Successful';
-            } else {
-                $pageError = $validate->errors();
+        if ($_GET['id'] == 16) {
+            $data = null;
+            $filename = null;
+            if (Input::get('clients')) {
+                $data = $override->get('clients', 'status', 1);
+                $filename = 'Registartion Data';
+            } elseif (Input::get('screening')) {
+                $data = $override->get('screening', 'status', 1);
+                $filename = 'screening Data';
+            } elseif (Input::get('')) {
+                $data = $override->get('demographic', 'status', 1);
+                $filename = 'Demographic Data';
+            } elseif (Input::get('')) {
+                $data = $override->getData('vital');
+                $filename = 'Vitals Sign Data';
+            } elseif (Input::get('main_diagnosis')) {
+                $data = $override->getData('main_diagnosis');
+                $filename = 'Pateint Category Data';
+            } elseif (Input::get('history')) {
+                $data = $override->getData('history');
+                $filename = 'Patient & Family History & Complication';
+            } elseif (Input::get('symptoms')) {
+                $data = $override->getData('symptoms');
+                $filename = 'Symtom & Exam';
+            } elseif (Input::get('diagnosis')) {
+                $data = $override->getData('cardiac');
+                $filename = 'Main diagnosis 3 ( Cardiac )';
+            } elseif (Input::get('diabetic')) {
+                $data = $override->getData('diabetic');
+                $filename = 'Main diagnosis 3 ( Diabetic )';
+            } elseif (Input::get('sickle_cell_list')) {
+                $data = $override->get('sickle_cell_status_table', 'status', 1);
+                $filename = 'sickle cell status Data';
+            } elseif (Input::get('sickle_cell')) {
+                $data = $override->getData('sickle_cell');
+                $filename = 'Main diagnosis 3 ( Sickle Cell )';
+            } elseif (Input::get('results')) {
+                $data = $override->getData('results');
+                $filename = 'Results Data';
+            } elseif (Input::get('hospitalization')) {
+                $data = $override->getData('hospitalization');
+                $filename = 'Hospitalization Data';
+            } elseif (Input::get('treatment_plan')) {
+                $data = $override->getData('treatment_plan');
+                $filename = 'Treatment Plan Data';
+            } elseif (Input::get('treatment_list')) {
+                $data = $override->get('medication_treatments', 'status', 1);
+                $filename = 'Treatment Medication List Data';
+            } elseif (Input::get('dgns_complctns_comorbdts')) {
+                $data = $override->getData('dgns_complctns_comorbdts');
+                $filename = 'Diagnosis, Complications, & Comorbidities Data';
+            } elseif (Input::get('risks')) {
+                $data = $override->getData('risks');
+                $filename = 'RISK Data';
+            } elseif (Input::get('hospitalization_details')) {
+                $data = $override->getData('hospitalization_details');
+                $filename = 'Hospitalization Details Data';
+            } elseif (Input::get('hospitalization_list')) {
+                $data = $override->get('hospitalization_table', 'status', 1);
+                $filename = 'hospitalization List Data';
+            } elseif (Input::get('lab_details')) {
+                $data = $override->getData('lab_details');
+                $filename = 'Lab Details Data';
+            } elseif (Input::get('social_economic')) {
+                $data = $override->getData('social_economic');
+                $filename = 'Socioeconomic Status Data';
+            } elseif (Input::get('visit')) {
+                $data = $override->getData('visit');
+                $filename = 'visit Schedule Data';
+            } elseif (Input::get('study_id')) {
+                $data = $override->getData('study_id');
+                $filename = 'study_id Status Data';
+            } elseif (Input::get('site')) {
+                $data = $override->getData('site');
+                $filename = 'Site List';
             }
-        } elseif (Input::get('search_by_site')) {
 
-            $validate = $validate->check($_POST, array(
-                'site_id' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                if (Input::get('status')) {
-                    $url = 'info.php?id=3&status=' . Input::get('status') . '&site_id=' . Input::get('site_id');
-                } else {
-                    $url = 'info.php?id=' . $_GET['id'] . '&site_id=' . Input::get('site_id');
-                }
-                Redirect::to($url);
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('clear_data')) {
-
-            $validate = $validate->check($_POST, array(
-                'name' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    if (Input::get('name')) {
-                        if (Input::get('name') == 'user' || Input::get('name') == 'study_id' || Input::get('name') == 'sites' || Input::get('name') == 'position' || Input::get('name') == 'household' || Input::get('name') == 'insurance' || Input::get('name') == 'district' || Input::get('name') == 'education' || Input::get('name') == 'lung_rads' || Input::get('name') == 'occupation' || Input::get('name') == 'payments' || Input::get('name') == 'relation') {
-                            $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Cleared';
-                        } else {
-                            $clearData = $override->clearDataTable(Input::get('name'));
-                            $successMessage = 'Table ' . '"' . Input::get('name') . '"' . ' Cleared Successfull';
-                        }
-                    } else {
-                        $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Found!';
-                    }
-                    // die;
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('setSiteId')) {
-
-            $validate = $validate->check($_POST, array(
-                'name' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $setSiteId = $override->setSiteId('visit', 'site_id', Input::get('name'), 1);
-                    $successMessage = 'Site ID Successfull';
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('unset_study_id')) {
-            $validate = $validate->check($_POST, array(
-                'name' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    if (Input::get('name') == 'study_id') {
-                        $study_id = $override->getData('study_id');
-                        foreach ($study_id as $row) {
-                            $user->updateRecord('study_id', array(
-                                'client_id' => 0,
-                                'status' => 0,
-                            ), $row['id']);
-                        }
-                    }
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
+            $user->exportData($data, $filename);
         }
 
 
@@ -163,50 +107,50 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('clients', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Clients Data';
-            } elseif (Input::get('download_kap')) {
+            } elseif (Input::get('download_screening')) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
-                        $data = $override->getNews('kap', 'status', 1, 'site_id', $_GET['site_id']);
+                        $data = $override->getNews('screening', 'status', 1, 'site_id', $_GET['site_id']);
                     } else {
-                        $data = $override->get('kap', 'status', 1);
+                        $data = $override->get('screening', 'status', 1);
                     }
                 } else {
-                    $data = $override->getNews('kap', 'status', 1, 'site_id', $user->data()->site_id);
+                    $data = $override->getNews('screening', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Kap Data';
-            } elseif (Input::get('download_history')) {
+                $filename = 'screening Data';
+            } elseif (Input::get('download_demographic')) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
-                        $data = $override->getNews('history', 'status', 1, 'site_id', $_GET['site_id']);
+                        $data = $override->getNews('demographic', 'status', 1, 'site_id', $_GET['site_id']);
                     } else {
-                        $data = $override->get('history', 'status', 1);
+                        $data = $override->get('demographic', 'status', 1);
                     }
                 } else {
-                    $data = $override->getNews('history', 'status', 1, 'site_id', $user->data()->site_id);
+                    $data = $override->getNews('demographic', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Kap history';
+                $filename = 'demographic Data';
             } elseif (Input::get('download_results')) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
-                        $data = $override->getNews('results', 'status', 1, 'site_id', $_GET['site_id']);
+                        $data = $override->getNews('vital', 'status', 1, 'site_id', $_GET['site_id']);
                     } else {
-                        $data = $override->get('results', 'status', 1);
+                        $data = $override->get('vital', 'status', 1);
                     }
                 } else {
-                    $data = $override->getNews('results', 'status', 1, 'site_id', $user->data()->site_id);
+                    $data = $override->getNews('vital', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Results Data';
-            } elseif (Input::get('download_classification')) {
+                $filename = 'vital Data';
+            } elseif (Input::get('download_vital')) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
-                        $data = $override->getNews('classification', 'status', 1, 'site_id', $_GET['site_id']);
+                        $data = $override->getNews('vital', 'status', 1, 'site_id', $_GET['site_id']);
                     } else {
-                        $data = $override->get('classification', 'status', 1);
+                        $data = $override->get('vital', 'status', 1);
                     }
                 } else {
-                    $data = $override->getNews('classification', 'status', 1, 'site_id', $user->data()->site_id);
+                    $data = $override->getNews('vital', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Classification Data';
+                $filename = 'vital Data';
             } elseif (Input::get('download_outcome')) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {

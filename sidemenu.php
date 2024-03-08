@@ -869,6 +869,33 @@ if ($user->isLoggedIn()) {
                         </ul> -->
                     </li>
                 <?php } ?>
+                <?php
+                if ($user->data()->power == 1) {
+                ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Study ID <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="info.php?id=5" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Set Study Id</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=6" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>UnSet Study Id</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

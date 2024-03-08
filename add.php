@@ -253,32 +253,12 @@ if ($user->isLoggedIn()) {
                                 $chk = false;
                             }
                         }
+
                         $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
-
-                        // $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));                         
-
                         if ($override->get('clients', 'id', $_GET['cid'])) {
 
-                            if ($_GET['study_id']) {
-                                $std_id = $_GET['study_id'];
-                            } else {
-                                $clients = $override->getNews('clients', 'status', 1, 'id', $_GET['cid']);
-
-                                if ($clients[0]['study_id']) {
-                                    $std_id = $clients[0]['study_id'];
-                                } else {
-                                    $std_id = $override->getNews('study_id2', 'site_id', $user->data()->site_id, 'status', 0)[0];
-                                    $std_id = $std_id['study_id'];
-
-                                    $user->updateRecord('study_id2', array(
-                                        'status' => 1,
-                                        'client_id' => $_GET['cid'],
-                                    ), $std_id['id']);
-                                }
-                            }
-
                             $user->updateRecord('clients', array(
-                                'study_id' => $std_id,
+                                'study_id' => $_GET['study_id'],
                                 'hospital_id' => Input::get('hospital_id'),
                                 'clinic_date' => Input::get('clinic_date'),
                                 'firstname' => Input::get('firstname'),
@@ -313,7 +293,7 @@ if ($user->isLoggedIn()) {
                             if ($check_clients >= 1) {
                                 $errorMessage = 'Participant ' . $firstname . ' -  ' . $middlename . '  -  ' . $lastname . '  -  ' . '  Already Registered';
                             } else {
-                                $std_id = $override->getNews('study_id2', 'site_id', $user->data()->site_id, 'status', 0)[0];
+                                $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
 
                                 $user->createRecord('clients', array(
                                     'participant_id' => $screening_id,
@@ -345,7 +325,7 @@ if ($user->isLoggedIn()) {
 
                                 $last_row = $override->lastRow('clients', 'id')[0];
 
-                                $user->updateRecord('study_id2', array(
+                                $user->updateRecord('study_id', array(
                                     'status' => 1,
                                     'client_id' => $last_row['id'],
                                 ), $std_id['id']);

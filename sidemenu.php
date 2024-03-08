@@ -48,13 +48,15 @@ if ($user->isLoggedIn()) {
 
     if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
         if ($_GET['site_id'] != null) {
+
+            // DISEASE ALL
             $diseases = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1, 'site_id', $_GET['site_id']);
             $cardiac = $override->countData1('main_diagnosis', 'status', 1, 'cardiac', 1, 'site_id', $_GET['site_id']);
             $diabetes = $override->countData1('main_diagnosis', 'status', 1, 'diabetes', 1, 'site_id', $_GET['site_id']);
             $sickle_cell = $override->countData1('main_diagnosis', 'status', 1, 'sickle_cell', 1, 'site_id', $_GET['site_id']);
             $other_diagnosis = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0, 'site_id', $_GET['site_id']);
 
-
+            // DIEASES CARDIAC
             $cardiomyopathy = $override->countData1('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $_GET['site_id']);
             $heumatic = $override->countData1('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $_GET['site_id']);
             $congenital = $override->countData1('cardiac', 'status', 1, 'congenital', 1, 'site_id', $_GET['site_id']);
@@ -67,35 +69,35 @@ if ($user->isLoggedIn()) {
 
 
             // DATA
-                $clients = $override->countData('clients', 'status', 1, 'site_id', $_GET['site_id']);
-                $screening = $override->countData('screening', 'status', 1, 'site_id', $_GET['site_id']);
-                $demographic = $override->countData2('demographic', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
-                $vital = $override->countData('vital', 'status', 1, 'site_id', $_GET['site_id']);
-                $main_diagnosis = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
-                $history = $override->countData('history', 'status', 1, 'site_id', $_GET['site_id']);
-                $symptoms = $override->countData('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
-                $diagnosis = $override->countData('diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
-                $diabetic = $override->countData('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
-                $sickle_cell = $override->countData('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
-                $sickle_cell_status_table = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
-                $results = $override->countData('results', 'status', 1, 'site_id', $_GET['site_id']);
-                $hospitalization = $override->countData('hospitalization', 'status', 1, 'site_id', $_GET['site_id']);
-                $hospitalization_details = $override->countData('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id']);
-                $hospitalization_table = $override->countData('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
-                $treatment_plan = $override->countData('treatment_plan', 'status', 1, 'site_id', $_GET['site_id']);
-                $medication_treatments = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
-                $dgns_complctns_comorbdts = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id']);
-                $risks = $override->countData('risks', 'status', 1, 'site_id', $_GET['site_id']);
-                $lab_details = $override->countData('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
-                $lab_requests = $override->countData('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
-                $test_list = $override->countData('test_list', 'status', 1, 'site_id', $_GET['site_id']);
-                $summary = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
-                $social_economic = $override->countData('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
-                $visit = $override->countData('visit', 'status', 1, 'site_id', $_GET['site_id']);
-                $study_id = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
-                $site = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
-                $medication_treatments = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
-            }
+            $clients = $override->countData('clients', 'status', 1, 'site_id', $_GET['site_id']);
+            $screening = $override->countData('screening', 'status', 1, 'site_id', $_GET['site_id']);
+            $demographic = $override->countData('demographic', 'status', 1, 'site_id', $_GET['site_id']);
+            $vital = $override->countData('vital', 'status', 1, 'site_id', $_GET['site_id']);
+            $main_diagnosis = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+            $history = $override->countData('history', 'status', 1, 'site_id', $_GET['site_id']);
+            $symptoms = $override->countData('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
+            $cardiac = $override->countData('diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+            $diabetic = $override->countData('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
+            $sickle_cell = $override->countData('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
+            $siblings = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
+            $results = $override->countData('results', 'status', 1, 'site_id', $_GET['site_id']);
+            $hospitalization = $override->countData('hospitalization', 'status', 1, 'site_id', $_GET['site_id']);
+            $hospitalization_details = $override->countData('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id']);
+            $admissions = $override->countData('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
+            $treatment_plan = $override->countData('treatment_plan', 'status', 1, 'site_id', $_GET['site_id']);
+            $medications = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
+            $dgns_complctns_comorbdts = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id']);
+            $risks = $override->countData('risks', 'status', 1, 'site_id', $_GET['site_id']);
+            $lab_details = $override->countData('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
+            $lab_requests = $override->countData('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
+            $test_list = $override->countData('test_list', 'status', 1, 'site_id', $_GET['site_id']);
+            $summary = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
+            $social_economic = $override->countData('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
+            $schedule = $override->countData('visit', 'status', 1, 'site_id', $_GET['site_id']);
+            $study_id = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
+            $sites = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
+
+            // REPORTS
 
             $registered = $override->getCount1('clients', 'status', 1, 'site_id', $_GET['site_id']);
             $screened = $override->countData1('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
@@ -103,12 +105,15 @@ if ($user->isLoggedIn()) {
             $enrolled = $override->countData1('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
             $end = $override->countData1('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
         } else {
+            // DIEASES ALL
+
             $diseases = $override->countData5('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1);
             $cardiac = $override->countData('main_diagnosis', 'status', 1, 'cardiac', 1);
             $diabetes = $override->countData('main_diagnosis', 'status', 1, 'diabetes', 1);
             $sickle_cell = $override->countData('main_diagnosis', 'status', 1, 'sickle_cell', 1);
             $other_diagnosis = $override->countData5('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0);
 
+            // DIEASES CARDIAC
 
             $cardiomyopathy = $override->countData('cardiac', 'status', 1, 'cardiomyopathy', 1);
             $heumatic = $override->countData('cardiac', 'status', 1, 'heumatic', 1);
@@ -120,14 +125,36 @@ if ($user->isLoggedIn()) {
             $thromboembolic = $override->countData('cardiac', 'status', 1, 'thromboembolic', 1);
 
 
+            // DATA
+            $clients = $override->getCount('clients', 'status', 1);
+            $screening = $override->getCount('screening', 'status', 1);
+            $demographic = $override->getCount('demographic', 'status', 1);
+            $vital = $override->getCount('vital', 'status', 1);
+            $main_diagnosis = $override->getCount('main_diagnosis', 'status', 1);
+            $history = $override->getCount('history', 'status', 1);
+            $symptoms = $override->getCount('symptoms', 'status', 1);
+            $cardiac = $override->getCount('diagnosis', 'status', 1);
+            $diabetic = $override->getCount('diabetic', 'status', 1);
+            $sickle_cell = $override->getCount('sickle_cell', 'status', 1);
+            $siblings = $override->getCount('sickle_cell_status_table', 'status', 1);
+            $results = $override->getCount('results', 'status', 1);
+            $hospitalization = $override->getCount('hospitalization', 'status', 1);
+            $hospitalization_details = $override->getCount('hospitalization_details', 'status', 1);
+            $admissions = $override->getCount('hospitalization_table', 'status', 1);
+            $treatment_plan = $override->getCount('treatment_plan', 'status', 1);
+            $medications = $override->getCount('medication_treatments', 'status', 1);
+            $dgns_complctns_comorbdts = $override->getCount('dgns_complctns_comorbdts', 'status', 1);
+            $risks = $override->getCount('risks', 'status', 1);
+            $lab_details = $override->getCount('lab_details', 'status', 1);
+            $lab_requests = $override->getCount('lab_requests', 'status', 1);
+            $test_list = $override->getCount('test_list', 'status', 1);
+            $summary = $override->getCount('summary', 'status', 1);
+            $social_economic = $override->getCount('social_economic', 'status', 1);
+            $schedule = $override->getCount('visit', 'status', 1);
+            $study_id = $override->getCount('study_id', 'status', 1);
+            $sites = $override->getCount('site', 'status', 1);
 
-            // $kap = $override->getCount('kap', 'status', 1);
-            // $history = $override->getCount('history', 'status', 1);
-            // $results = $override->getCount('results', 'status', 1);
-            // $classification = $override->getCount('classification', 'status', 1);
-            // $outcome = $override->getCount('outcome', 'status', 1);
-            // $economic = $override->getCount('economic', 'status', 1);
-            $visit = $override->getCount('visit', 'status', 1);
+            // REPORTS
 
             $registered = $override->getCount('clients', 'status', 1);
             $screened = $override->countData('clients', 'status', 1, 'screened', 1);
@@ -136,12 +163,15 @@ if ($user->isLoggedIn()) {
             $end = $override->countData('clients', 'status', 1, 'end_study', 1);
         }
     } else {
+        // DIEASES ALL
+
         $diseases = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 1, 'diabetes', 1, 'sickle_cell', 1, 'site_id', $user->data()->site_id);
         $cardiac = $override->countData1('main_diagnosis', 'status', 1, 'cardiac', 1, 'site_id', $user->data()->site_id);
         $diabetes = $override->countData1('main_diagnosis', 'status', 1, 'diabetes', 1, 'site_id', $user->data()->site_id);
         $sickle_cell = $override->countData1('main_diagnosis', 'status', 1, 'sickle_cell', 1, 'site_id', $user->data()->site_id);
         $other_diagnosis = $override->countData4('main_diagnosis', 'status', 1, 'cardiac', 0, 'diabetes', 0, 'sickle_cell', 0, 'site_id', $user->data()->site_id);
 
+        // DIEASES CARDIAC
 
         $cardiomyopathy = $override->countData1('cardiac', 'status', 1, 'cardiomyopathy', 1, 'site_id', $user->data()->site_id);
         $heumatic = $override->countData1('cardiac', 'status', 1, 'heumatic', 1, 'site_id', $user->data()->site_id);
@@ -152,13 +182,36 @@ if ($user->isLoggedIn()) {
         $arrhythmia = $override->countData1('cardiac', 'status', 1, 'arrhythmia', 1, 'site_id', $user->data()->site_id);
         $thromboembolic = $override->countData1('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $user->data()->site_id);
 
-        // $kap = $override->getCount1('kap', 'status', 1, 'site_id', $user->data()->site_id);
-        // $histroy = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
-        // $results = $override->getCount1('results', 'status', 1, 'site_id', $user->data()->site_id);
-        // $classification = $override->getCount1('classification', 'status', 1, 'site_id', $user->data()->site_id);
-        // $outcome = $override->getCount1('outcome', 'status', 1, 'site_id', $user->data()->site_id);
-        // $economic = $override->getCount1('economic', 'status', 1, 'site_id', $user->data()->site_id);
-        $visit = $override->getCount1('visit', 'status', 1, 'site_id', $user->data()->site_id);
+        // DATA
+        $clients = $override->countData('clients', 'status', 1, 'site_id', $user->data()->site_id);
+        $screening = $override->countData('screening', 'status', 1, 'site_id', $user->data()->site_id);
+        $demographic = $override->countData('demographic', 'status', 1, 'site_id', $user->data()->site_id);
+        $vital = $override->countData('vital', 'status', 1, 'site_id', $user->data()->site_id);
+        $main_diagnosis = $override->countData('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
+        $history = $override->countData('history', 'status', 1, 'site_id', $user->data()->site_id);
+        $symptoms = $override->countData('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
+        $cardiac = $override->countData('diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
+        $diabetic = $override->countData('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
+        $sickle_cell = $override->countData('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id);
+        $siblings = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id);
+        $results = $override->countData('results', 'status', 1, 'site_id', $user->data()->site_id);
+        $hospitalization = $override->countData('hospitalization', 'status', 1, 'site_id', $user->data()->site_id);
+        $hospitalization_details = $override->countData('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id);
+        $admissions = $override->countData('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
+        $treatment_plan = $override->countData('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id);
+        $medications = $override->countData('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
+        $dgns_complctns_comorbdts = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id);
+        $risks = $override->countData('risks', 'status', 1, 'site_id', $user->data()->site_id);
+        $lab_details = $override->countData('lab_details', 'status', 1, 'site_id', $user->data()->site_id);
+        $lab_requests = $override->countData('lab_requests', 'status', 1, 'site_id', $user->data()->site_id);
+        $test_list = $override->countData('test_list', 'status', 1, 'site_id', $user->data()->site_id);
+        $summary = $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id);
+        $social_economic = $override->countData('social_economic', 'status', 1, 'site_id', $user->data()->site_id);
+        $schedule = $override->countData('visit', 'status', 1, 'site_id', $user->data()->site_id);
+        $study_id = $override->countData('study_id', 'status', 1, 'site_id', $user->data()->site_id);
+        $sites = $override->countData('site', 'status', 1, 'site_id', $user->data()->site_id);
+
+        // REPORTS
 
         $registered = $override->getCount1('clients', 'status', 1, 'site_id', $user->data()->site_id);
         $screened = $override->countData1('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
@@ -705,28 +758,35 @@ if ($user->isLoggedIn()) {
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=1&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $registered; ?></span>
+                                    <span class="badge badge-info right"><?= $clients; ?></span>
                                     <p>Registration</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=2&status=2&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $screened; ?></span>
+                                    <span class="badge badge-info right"><?= $screening; ?></span>
                                     <p>Screening</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <span class="badge badge-info right"><?= $demographic; ?></span>
+                                    <p>Demographic </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $vital; ?></span>
                                     <p>Vital Sign</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <span class="badge badge-info right"><?= $main_diagnosis; ?></span>
                                     <p>Patient Categories</p>
                                 </a>
                             </li>
@@ -740,7 +800,7 @@ if ($user->isLoggedIn()) {
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <span class="badge badge-info right"><?= $symptoms; ?></span>
                                     <p>Symtom & Exam</p>
                                 </a>
                             </li>
@@ -748,27 +808,35 @@ if ($user->isLoggedIn()) {
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $history; ?></span>
+                                    <p>Patient & Family History & Complication</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $cardiac; ?></span>
                                     <p>Main diagnosis 1 ( Cardiac )</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <span class="badge badge-info right"><?= $Diabetic; ?></span>
                                     <p>Main diagnosis 2 ( Diabetes )</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $history; ?></span>
+                                    <span class="badge badge-info right"><?= $sickle_cell; ?></span>
                                     <p>Main diagnosis 3 ( Sickle Cell )</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $results; ?></span>
+                                    <span class="badge badge-info right"><?= $siblings; ?></span>
                                     <p>Siblings</p>
                                 </a>
                             </li>
@@ -782,78 +850,99 @@ if ($user->isLoggedIn()) {
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $results; ?></span>
+                                    <span class="badge badge-info right"><?= $hospitalization; ?></span>
                                     <p>Hospitalization</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $classification; ?></span>
+                                    <span class="badge badge-info right"><?= $hospitalization_details; ?></span>
                                     <p>Hospitalization Details </p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <span class="badge badge-info right"><?= $admissions; ?></span>
                                     <p>Admission</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $economic; ?></span>
+                                    <span class="badge badge-info right"><?= $treatment_plan; ?></span>
                                     <p>Treatment Plan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <span class="badge badge-info right"><?= $medications; ?></span>
                                     <p>Medications</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <span class="badge badge-info right"><?= $dgns_complctns_comorbdts; ?></span>
                                     <p>Diagnosis, Complications, & Comorbidities</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <span class="badge badge-info right"><?= $risks; ?></span>
                                     <p>RISK</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <span class="badge badge-info right"><?= $lab_details; ?></span>
                                     <p>Lab Details</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <span class="badge badge-info right"><?= $lab_requests; ?></span>
+                                    <p>Lab Requests</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $test_list; ?></span>
+                                    <p>Test Lists</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $social_economic; ?></span>
                                     <p>Socioeconomic Status </p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=21&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $outcome; ?></span>
+                                    <span class="badge badge-info right"><?= $study_id; ?></span>
                                     <p>Study IDs</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=data" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $visit; ?></span>
+                                    <span class="badge badge-info right"><?= $schedule; ?></span>
                                     <p>Visits</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=data" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $sites; ?></span>
+                                    <p>Sites</p>
                                 </a>
                             </li>
                         </ul>

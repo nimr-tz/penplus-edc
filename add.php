@@ -3101,6 +3101,102 @@ if ($user->isLoggedIn()) {
                     }
                 }
             }
+        } elseif (Input::get('add_region')) {
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $regions = $override->get('regions', 'id', $_GET['region_id']);
+                    if($regions){
+                        $user->updateRecord('regions', array(
+                            'name' => Input::get('name'),
+                        ),$_GET['region_id']);
+                        $successMessage = 'Region Successful Updated';
+                    }else{
+                        $user->createRecord('regions', array(
+                            'name' => Input::get('name'),
+                            'status' => 1,
+                        ));
+                        $successMessage = 'Region Successful Added';
+                    }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_district')) {
+            $validate = $validate->check($_POST, array(
+                'region_id' => array(
+                        'required' => true,
+                ), 
+                'name' => array(
+                        'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $districts = $override->get('districts', 'id', $_GET['district_id']);
+                    if($districts){
+                        $user->updateRecord('districts', array(
+                            'region_id' => $_GET['region_id'],
+                            'name' => Input::get('name'),
+                        ),$_GET['district_id']);
+                        $successMessage = 'District Successful Updated';
+                    }else{
+                        $user->createRecord('districts', array(
+                            'region_id' => Input::get('region_id'),
+                            'name' => Input::get('name'),
+                            'status' => 1,
+                        ));
+                        $successMessage = 'District Successful Added';
+                    }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_ward')) {
+            $validate = $validate->check($_POST, array(
+                'region_id' => array(
+                    'required' => true,
+                ), 
+                'district_id' => array(
+                    'required' => true,
+                ), 
+                'name' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $wards = $override->get('wards', 'id', $_GET['ward_id']);
+                    if($wards){
+                        $user->updateRecord('wards', array(
+                            'region_id' => $_GET['region_id'],
+                            'district_id' => $_GET['district_id'],
+                            'name' => Input::get('name'),
+                        ),$_GET['ward_id']);
+                        $successMessage = 'Ward Successful Updated';
+                    }else{
+                        $user->createRecord('wards', array(
+                            'region_id' => Input::get('region_id'),
+                            'district_id' => Input::get('district_id'),
+                            'name' => Input::get('name'),
+                            'status' => 1,
+                        ));
+                        $successMessage = 'Ward Successful Added';
+                    }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         }
     }
 } else {
@@ -3806,14 +3902,14 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Region</label>
                                                                 <select id="region" name="region" class="form-control" required>
-                                                                    <option value="<?= $district['id'] ?>"><?php if ($clients) {
-                                                                                                                print_r($district['name']);
+                                                                    <option value="<?= $region['id'] ?>"><?php if ($clients['region']) {
+                                                                                                                print_r($region['name']);
                                                                                                             } else {
-                                                                                                                echo 'Select district';
+                                                                                                                echo 'Select region';
                                                                                                             } ?>
                                                                     </option>
-                                                                    <?php foreach ($override->get('district', 'status', 1) as $value) { ?>
-                                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                                    <?php foreach ($override->get('regions', 'status', 1) as $region) { ?>
+                                                                        <option value="<?= $region['id'] ?>"><?= $region['name'] ?></option>
                                                                     <?php } ?>
                                                                 </select>
                                                             </div>
@@ -3825,15 +3921,12 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>District</label>
                                                                 <select id="district" name="district" class="form-control" required>
-                                                                    <option value="<?= $district['id'] ?>"><?php if ($clients) {
+                                                                    <option value="<?= $district['id'] ?>"><?php if ($clients['district']) {
                                                                                                                 print_r($district['name']);
                                                                                                             } else {
                                                                                                                 echo 'Select district';
                                                                                                             } ?>
-                                                                    </option>
-                                                                    <?php foreach ($override->get('district', 'status', 1) as $value) { ?>
-                                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
-                                                                    <?php } ?>
+                                                                    </option>                                                                   
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -3843,16 +3936,13 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Ward</label>
-                                                                <select id="district" name="district" class="form-control" required>
-                                                                    <option value="<?= $district['id'] ?>"><?php if ($clients) {
-                                                                                                                print_r($district['name']);
+                                                                <select id="ward" name="ward" class="form-control" required>
+                                                                    <option value="<?= $ward['id'] ?>"><?php if ($clients['ward']) {
+                                                                                                                print_r($ward['name']);
                                                                                                             } else {
                                                                                                                 echo 'Select district';
                                                                                                             } ?>
-                                                                    </option>
-                                                                    <?php foreach ($override->get('district', 'status', 1) as $value) { ?>
-                                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
-                                                                    <?php } ?>
+                                                                    </option>                                                                    
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -16699,8 +16789,557 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 24) { ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Region Form</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active">Region Form</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <?php $regions = $override->get('regions', 'id', $_GET['region_id']); ?>
+                            <!-- right column -->
+                            <div class="col-md-12">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Region</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                        <hr>                                                                                         
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Region</label>
+                                                            <input class="form-control" type="text" name="name" id="name" placeholder="Type region..." onkeyup="fetchData()" value="<?php if ($regions['0']['name']) {
+                                                                                                                                                                                                        print_r($regions['0']['name']);
+                                                                                                                                                                                                    }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                             
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='index1.php' class="btn btn-default">Back</a>
+                                            <input type="hidden" name="region_id" value="<?= $regions['0']['id'] ?>">
+                                            <input type="submit" name="add_region" value="Submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 25) { ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>District Form</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active">District Form</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <?php 
+                            $regions = $override->get('regions', 'id', $_GET['region_id']);
+                            $districts = $override->get('districts', 'id', $_GET['district_id']);
+                             ?>
+                            <!-- right left -->
+                            <div class="col-md-6">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">District</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                        <hr>                                                                                         
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Region</label>
+                                                            <select id="region_id" name="region_id" class="form-control" required <?php if($_GET['region_id']){ echo 'disabled'; } ?>>
+                                                                <option value="<?= $regions[0]['id'] ?>"><?php if ($regions[0]['name']) {
+                                                                                                            print_r($regions[0]['name']);
+                                                                                                        } else {
+                                                                                                            echo 'Select region';
+                                                                                                        } ?>
+                                                                </option>
+                                                                <?php foreach ($override->get('regions', 'status', 1) as $region) { ?>
+                                                                    <option value="<?= $region['id'] ?>"><?= $region['name'] ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>District Name</label>
+                                                            <input class="form-control" type="text" name="name" id="name" placeholder="Type district..." onkeyup="fetchData()" value="<?php if ($districts['0']['name']) {
+                                                                                                                                                                                                        print_r($districts['0']['name']);
+                                                                                                                                                                                                    }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                             
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='index1.php' class="btn btn-default">Back</a>
+                                            <input type="submit" name="add_district" value="Submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (left) -->
+
+                            <div class="col-6">
+                                <div class="card">
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-6">
+                                                    <div class="card-header">
+                                                        List of Districts
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                < Back</a>
+                                                        </li>
+                                                        &nbsp;
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                Go Home > </a>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div><!-- /.container-fluid -->
+                                    </section>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Region Name</th>
+                                                    <th>District Name</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $x = 1;
+                                                foreach ($override->get('districts', 'status', 1) as $value) {
+                                                    $regions = $override->get('regions', 'id', $value['region_id'])[0];
+                                                ?>
+                                                    <tr>
+                                                        <td class="table-user">
+                                                            <?= $x; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $regions['name']; ?>
+                                                        </td>
+
+                                                         <td class="table-user">
+                                                            <?= $value['name']; ?>
+                                                        </td>
+                                             
+                                                        <?php if ($value['status'] == 1) { ?>
+                                                            <td class="text-center">
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="ri-edit-box-line">
+                                                                    </i>Active
+                                                                </a>
+                                                            </td>
+                                                        <?php  } else { ?>
+                                                                <td class="text-center">
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="ri-edit-box-line">
+                                                                    </i>Not Active
+                                                                </a>
+                                                            </td>
+                                                        <?php } ?>
+                                                        <td>
+                                                            <a href="add.php?id=25&region_id=<?= $value['region_id'] ?>&district_id=<?= $value['id'] ?>" class="btn btn-info">Update</a>
+                                                            <a href="#delete<?= $staff['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                            <a href="#restore<?= $staff['id'] ?>" role="button" class="btn btn-secondary" data-toggle="modal">Restore</a>
+                                                        </td>
+                                                    </tr>
+                                                    <div class="modal fade" id="delete<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete User</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this user</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $staff['id'] ?>">
+                                                                        <input type="submit" name="delete_staff" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="restore<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Restore User</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: green">
+                                                                            <p>Are you sure you want to restore this user</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $staff['id'] ?>">
+                                                                        <input type="submit" name="restore_staff" value="Restore" class="btn btn-success">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                <?php $x++;
+                                                } ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Region Name</th>
+                                                    <th>District Name</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 26) { ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Wards Form</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active">Wards Form</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <?php 
+                            $regions = $override->get('regions', 'id', $_GET['region_id']);
+                            $districts = $override->getNews('districts', 'region_id', $_GET['region_id'],'id', $_GET['district_id']);
+                            $wards = $override->get('wards', 'id', $_GET['ward_id']);
+                             ?>
+                            <!-- right left -->
+                            <div class="col-md-6">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Ward</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                        <hr>                                                                                         
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Region</label>
+                                                            <select id="regions_id" name="region_id" class="form-control" required <?php if($_GET['region_id']){ echo 'disabled'; } ?>>
+                                                                <option value="<?= $regions[0]['id'] ?>"><?php if ($regions[0]['name']) {
+                                                                                                            print_r($regions[0]['name']);
+                                                                                                        } else {
+                                                                                                            echo 'Select region';
+                                                                                                        } ?>
+                                                                </option>
+                                                                <?php foreach ($override->get('regions', 'status', 1) as $region) { ?>
+                                                                    <option value="<?= $region['id'] ?>"><?= $region['name'] ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>District</label>
+                                                            <select id="districts_id" name="district_id" class="form-control" required <?php if($_GET['district_id']){ echo 'disabled'; } ?>>
+                                                                <option value="<?= $districts[0]['id'] ?>"><?php if ($districts[0]['name']) {
+                                                                                                            print_r($districts[0]['name']);
+                                                                                                        } else {
+                                                                                                            echo 'Select District';
+                                                                                                        } ?>
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Ward Name</label>
+                                                            <input class="form-control" type="text" name="name" id="name" placeholder="Type ward..." onkeyup="fetchData()" value="<?php if ($wards['0']['name']) {
+                                                                                                                                                                                                        print_r($wards['0']['name']);
+                                                                                                                                                                                                    }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                             
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='index1.php' class="btn btn-default">Back</a>
+                                            <input type="submit" name="add_ward" value="Submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (left) -->
+
+                            <div class="col-6">
+                                <div class="card">
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-6">
+                                                    <div class="card-header">
+                                                        List of Wards
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                < Back</a>
+                                                        </li>
+                                                        &nbsp;
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                Go Home > </a>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div><!-- /.container-fluid -->
+                                    </section>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                   <th>#</th>
+                                                    <th>Region Name</th>
+                                                    <th>District Name</th>
+                                                    <th>Ward Name</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $x = 1;
+                                                foreach ($override->get('wards', 'status', 1) as $value) {
+                                                    $regions = $override->get('regions', 'id', $value['region_id'])[0];
+                                                    $districts = $override->get('districts', 'id', $value['district_id'])[0];
+                                                ?>
+                                                    <tr>
+                                                        <td class="table-user">
+                                                            <?= $x; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $regions['name']; ?>
+                                                        </td>
+
+                                                        <td class="table-user">
+                                                            <?= $districts['name']; ?>
+                                                        </td>
+                                                         <td class="table-user">
+                                                            <?= $value['name']; ?>
+                                                        </td>
+                                             
+                                                        <?php if ($value['status'] == 1) { ?>
+                                                            <td class="text-center">
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="ri-edit-box-line">
+                                                                    </i>Active
+                                                                </a>
+                                                            </td>
+                                                        <?php  } else { ?>
+                                                                <td class="text-center">
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="ri-edit-box-line">
+                                                                    </i>Not Active
+                                                                </a>
+                                                            </td>
+                                                        <?php } ?>
+                                                        <td>
+                                                            <a href="add.php?id=26&region_id=<?= $value['region_id'] ?>&district_id=<?= $value['district_id'] ?>&ward_id=<?= $value['id'] ?>" class="btn btn-info">Update</a> <br><br>
+                                                            <a href="#delete<?= $value['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a><br><br>
+                                                            <a href="#restore<?= $value['id'] ?>" role="button" class="btn btn-secondary" data-toggle="modal">Restore</a>
+                                                        </td>
+                                                    </tr>
+                                                    <div class="modal fade" id="delete<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete User</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this user</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $staff['id'] ?>">
+                                                                        <input type="submit" name="delete_staff" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="restore<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Restore User</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: green">
+                                                                            <p>Are you sure you want to restore this user</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $staff['id'] ?>">
+                                                                        <input type="submit" name="restore_staff" value="Restore" class="btn btn-success">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                <?php $x++;
+                                                } ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Region Name</th>
+                                                    <th>District Name</th>
+                                                    <th>Ward Name</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 27) { ?>
         <?php } elseif ($_GET['id'] == 28 && $user->data()->position == 1) { ?>
 
@@ -17021,7 +17660,54 @@ if ($user->isLoggedIn()) {
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             })
 
+
+            $('#regions_id').change(function() {
+                var region_id = $(this).val();
+                $.ajax({
+                    url: "process.php?content=region_id",
+                    method: "GET",
+                    data: {
+                        region_id: region_id
+                    },
+                    dataType: "text",
+                    success: function(data) {
+                        $('#districts_id').html(data);
+                    }
+                });
+            });
+
+            $('#region').change(function() {
+                var region = $(this).val();
+                $.ajax({
+                    url: "process.php?content=region_id",
+                    method: "GET",
+                    data: {
+                        region_id: region
+                    },
+                    dataType: "text",
+                    success: function(data) {
+                        $('#district').html(data);
+                    }
+                });
+            });
+
+            $('#district').change(function() {
+                var district_id = $(this).val();
+                $.ajax({
+                    url: "process.php?content=district_id",
+                    method: "GET",
+                    data: {
+                        district_id: district_id
+                    },
+                    dataType: "text",
+                    success: function(data) {
+                        $('#ward').html(data);
+                    }
+                });
+            });
+
         })
+        
         // BS-Stepper Init
         document.addEventListener('DOMContentLoaded', function() {
             window.stepper = new Stepper(document.querySelector('.bs-stepper'))
@@ -17161,6 +17847,10 @@ if ($user->isLoggedIn()) {
             button.parentElement.parentElement.remove();
             // first parentElement will be td and second will be tr.
         }
+
+        // $(document).ready(function() {
+
+        // });
     </script>
 </body>
 

@@ -1008,6 +1008,35 @@ if ($user->isLoggedIn()) {
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Extra <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="add.php?id=24" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Regions</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="add.php?id=25" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Disricts</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="add.php?id=26" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Wards</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 <?php } ?>
             </ul>
         </nav>

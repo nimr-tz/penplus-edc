@@ -27,5 +27,23 @@ if ($_GET['content'] == 'category') {
     <option value="">Select Brands</option>
     <?php foreach ($all_generic as $batch) { ?>
         <option value="<?= $batch['id'] ?>"><?= $batch['name'] ?></option>
+    <?php }
+} elseif ($_GET['content'] == 'region_id') {
+    if ($_GET['region_id']) {
+        $districts = $override->getNews('districts', 'status', 1, 'region_id', $_GET['region_id']);
+    ?>
+        <option value="">Select Districts</option>
+        <?php foreach ($districts as $district) { ?>
+            <option value="<?= $district['id'] ?>"><?= $district['name'] ?></option>
+        <?php }
+    }
+} elseif ($_GET['content'] == 'district_id') {
+    if ($_GET['district_id']) {
+        $wards = $override->getNews('wards', 'status', 1, 'district_id', $_GET['district_id']);
+        ?>
+        <option value="">Select Wards</option>
+        <?php foreach ($wards as $ward) { ?>
+            <option value="<?= $ward['id'] ?>"><?= $ward['name'] ?></option>
 <?php }
+    }
 }

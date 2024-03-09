@@ -838,6 +838,7 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
+                print_r($_POST);
                 try {
                     $history = $override->get3('history', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
@@ -1046,39 +1047,44 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    if (Input::get('update_siblings')) {
-                        $user->updateRecord('sickle_cell_status_table', array(
-                            'study_id' => $_GET['sid'],
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
-                            'age' => Input::get('age'),
-                            'sex' => Input::get('sex'),
-                            'visit_date' => Input::get('visit_date'),
-                            'sickle_status' => Input::get('sickle_status'),
-                            'other' => Input::get('other'),
-                        ),  Input::get('id'));
-                    } else {
-                        for ($i = 0; $i < count(Input::get('admission_date')); $i++) {
-                            $user->createRecord('sickle_cell_status_table', array(
+                    if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
+
+
+                        if (Input::get('update_siblings')) {
+                            $user->updateRecord('sickle_cell_status_table', array(
                                 'study_id' => $_GET['sid'],
                                 'visit_code' => $_GET['vcode'],
                                 'visit_day' => $_GET['vday'],
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
-                                'age' => Input::get('age')[$i],
-                                'sex' => Input::get('sex')[$i],
+                                'age' => Input::get('age'),
+                                'sex' => Input::get('sex'),
                                 'visit_date' => Input::get('visit_date'),
-                                'sickle_status' => Input::get('sickle_status')[$i],
-                                'other' => Input::get('other')[$i],
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ));
+                                'sickle_status' => Input::get('sickle_status'),
+                                'other' => Input::get('other'),
+                            ),  Input::get('id'));
+                        } else {
+                            for ($i = 0; $i < count(Input::get('age')); $i++) {
+                                $user->createRecord('sickle_cell_status_table', array(
+                                    'study_id' => $_GET['sid'],
+                                    'visit_code' => $_GET['vcode'],
+                                    'visit_day' => $_GET['vday'],
+                                    'seq_no' => $_GET['seq'],
+                                    'vid' => $_GET['vid'],
+                                    'age' => Input::get('age')[$i],
+                                    'sex' => Input::get('sex')[$i],
+                                    'visit_date' => Input::get('visit_date'),
+                                    'sickle_status' => Input::get('sickle_status')[$i],
+                                    'other' => Input::get('other')[$i],
+                                    'patient_id' => $_GET['cid'],
+                                    'staff_id' => $user->data()->id,
+                                    'status' => 1,
+                                    'created_on' => date('Y-m-d'),
+                                    'site_id' => $user->data()->site_id,
+                                ));
+                            }                      
                         }
+
                     }
                     $successMessage = 'History added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);

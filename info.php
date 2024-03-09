@@ -219,6 +219,7 @@ if ($user->isLoggedIn()) {
 
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
+                            'study_id' => Input::get('study_id'),
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
                             'ncd' => Input::get('ncd'),
@@ -244,7 +245,7 @@ if ($user->isLoggedIn()) {
                             'conset_date' => Input::get('conset_date'),
                             'consent' => Input::get('consent'),
                             'ncd' => Input::get('ncd'),
-                            'study_id' => '',
+                            'study_id' => Input::get('study_id'),
                             'residence' => Input::get('residence'),
                             'created_on' => date('Y-m-d'),
                             'patient_id' => Input::get('id'),
@@ -256,7 +257,7 @@ if ($user->isLoggedIn()) {
                         ));
 
                         $user->createRecord('visit', array(
-                            'study_id' => '',
+                            'study_id' => Input::get('study_id'),
                             'visit_name' => 'Screening',
                             'visit_code' => 'SV',
                             'visit_day' => 'Day 0',
@@ -300,19 +301,10 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
-                $client_study = $override->getNews('clients', 'id', Input::get('id'), 'status', 1)[0];
-                $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
-                $screening_id = $override->getNews('screening', 'patient_id', Input::get('id'), 'status', 1)[0];
                 $visit_id = $override->get('visit', 'client_id', Input::get('id'))[0];
                 $last_visit = $override->getlastRow('visit', 'client_id', Input::get('id'), 'id')[0];
                 $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'));
                 $visit_id = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
-
-                if (!$client_study['study_id']) {
-                    $study_id = $std_id['study_id'];
-                } else {
-                    $study_id = $client_study['study_id'];
-                }
 
                 if (Input::get('visit_name') == 'Registration Visit') {
                     $visit_code = 'RV';
@@ -330,9 +322,13 @@ if ($user->isLoggedIn()) {
 
                 if ($visit) {
                     $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
+
+                    foreach ($override->get('visit', 'client_id', Input::get('id')) as $visit_client) {
+                        $user->updateRecord('visit', array('study_id' => Input::get('study_id')), $visit_client['id']);
+                    }
                 } else {
                     $user->createRecord('visit', array(
-                        'study_id' => $study_id,
+                        'study_id' => Input::get('study_id'),
                         'visit_name' => Input::get('visit_name'),
                         'visit_code' => $visit_code,
                         'visit_day' => 'Day 1',
@@ -348,174 +344,11 @@ if ($user->isLoggedIn()) {
                         'site_id' => $user->data()->site_id,
                     ));
 
-                    if (!$client_study['study_id']) {
-                        $user->updateRecord('screening', array('study_id' => $std_id['study_id']), $screening_id['id']);
-                        $user->updateRecord('clients', array('study_id' => $std_id['study_id'], 'enrolled' => 1), Input::get('id'));
-                        $user->updateRecord('study_id', array('status' => 1, 'client_id' => Input::get('id')), $std_id['id']);
-                    } else {
-                        $user->updateRecord('screening', array('study_id' => $client_study['study_id']), $screening_id['id']);
-                        $user->updateRecord('clients', array('study_id' => $client_study['study_id'], 'enrolled' => 1), Input::get('id'));
-                    }
+                    $user->updateRecord('clients', array('enrolled' => 1), Input::get('id'));
+
 
                     $successMessage = 'Enrollment  Added Successful';
                     Redirect::to('info.php?id=3&status=3');
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('add_Schedule')) {
-            $validate = $validate->check($_POST, array(
-                'expected_date' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                $client_study = $override->getNews('clients', 'id', $_GET['cid'], 'status', 1)[0];
-                $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
-                $screening_id = $override->getNews('screening', 'patient_id', $_GET['cid'], 'status', 1)[0];
-                $visit_id = $override->get('visit', 'client_id', $_GET['cid'])[0];
-                $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
-                $expected_date = $override->getNews('visit', 'expected_date', Input::get('expected_date'), 'client_id', $_GET['cid'])[0];
-
-                $sq = $last_visit['seq_no'] + 1;
-                $visit_day = 'Day ' . $sq;
-
-                if (!$client_study['study_id']) {
-                    $study_id = $std_id['study_id'];
-                } else {
-                    $study_id = $client_study['study_id'];
-                }
-
-                if (Input::get('visit_name') == 'Registration Visit') {
-                    $visit_code = 'RV';
-                } elseif (Input::get('visit_name') == 'Screening Visit') {
-                    $visit_code = 'SV';
-                } elseif (Input::get('visit_name') == 'Enrollment Visit') {
-                    $visit_code = 'EV';
-                } elseif (Input::get('visit_name') == 'Follow Up Visit') {
-                    $visit_code = 'FV';
-                } elseif (Input::get('visit_name') == 'Study Termination Visit') {
-                    $visit_code = 'TV';
-                } elseif (Input::get('visit_name') == 'Unschedule Visit') {
-                    $visit_code = 'UV';
-                }
-
-                $summary = $override->getNews('visit', 'client_id', $_GET['cid'], 'seq_no', Input::get('seq_no'));
-
-                if (Input::get('summary')) {
-                    $user->updateRecord('visit', array(
-                        // 'visit_name' => Input::get('visit_name'),
-                        // 'visit_code' => $visit_code,
-                        // 'visit_day' => $visit_day,
-                        'expected_date' => Input::get('expected_date'),
-                        'visit_date' => Input::get('summary_date'),
-                        'summary_date' => Input::get('summary_date'),
-                        'comments' => Input::get('comments'),
-                        'diagnosis' => Input::get('diagnosis'),
-                        'diagnosis_other' => Input::get('diagnosis_other'),
-                        'outcome' => Input::get('outcome'),
-                        'transfer_out' => Input::get('transfer_out'),
-                        'transfer_other' => Input::get('transfer_other'),
-                        'cause_death' => Input::get('cause_death'),
-                        'death_other' => Input::get('death_other'),
-                        'next_notes' => Input::get('next_notes'),
-                        'reasons' => Input::get('reasons'),
-                    ), Input::get('id'));
-
-                    $successMessage = 'Schedule Summary  Updated Successful';
-                } else {
-                    $user->createRecord('visit', array(
-                        'study_id' => $study_id,
-                        'visit_name' => Input::get('visit_name'),
-                        'visit_code' => $visit_code,
-                        'visit_day' => $visit_day,
-                        'expected_date' => Input::get('expected_date'),
-                        'visit_date' => '',
-
-                        'summary_date' => Input::get('summary_date'),
-                        'comments' => Input::get('comments'),
-                        'diagnosis' => Input::get('diagnosis'),
-                        'diagnosis_other' => Input::get('diagnosis_other'),
-                        'outcome' => Input::get('outcome'),
-                        'transfer_out' => Input::get('transfer_out'),
-                        'transfer_other' => Input::get('transfer_other'),
-                        'cause_death' => Input::get('cause_death'),
-                        'death_other' => Input::get('death_other'),
-                        'next_notes' => Input::get('next_notes'),
-
-                        'visit_window' => 0,
-                        'status' => 0,
-                        'client_id' => $_GET['cid'],
-                        'created_on' => date('Y-m-d'),
-                        'seq_no' => $sq,
-                        'reasons' => '',
-                        'visit_status' => 0,
-                        'site_id' => $user->data()->site_id,
-                    ));
-
-                    $successMessage = 'Schedule Summary  Added Successful';
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('add_summary2')) {
-            $validate = $validate->check($_POST, array(
-                'summary_date' => array(
-                    'required' => true,
-                ),
-
-            ));
-            if ($validate->passed()) {
-                try {
-
-                    $summary = $override->get3('summary', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
-                    if ($summary) {
-                        $user->updateRecord('summary', array(
-                            'visit_date' => Input::get('summary_date'),
-                            'summary_date' => Input::get('summary_date'),
-                            'comments' => Input::get('comments'),
-                            'diagnosis' => Input::get('diagnosis'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
-                            'outcome' => Input::get('outcome'),
-                            'transfer_out' => Input::get('transfer_out'),
-                            'cause_death' => Input::get('cause_death'),
-                            'next_appointment_notes' => Input::get('next_appointment_notes'),
-                            'next_appointment' => Input::get('next_appointment'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ), $summary['id']);
-                    } else {
-                        $user->createRecord('summary', array(
-                            'visit_date' => Input::get('summary_date'),
-                            'study_id' => Input::get('sid'),
-                            'visit_code' => $_GET['vcode'],
-                            'visit_day' => $_GET['vday'],
-                            'seq_no' => $_GET['seq'],
-                            'vid' => $_GET['vid'],
-                            'summary_date' => Input::get('summary_date'),
-                            'comments' => Input::get('comments'),
-                            'diagnosis' => Input::get('diagnosis'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
-                            'outcome' => Input::get('outcome'),
-                            'transfer_out' => Input::get('transfer_out'),
-                            'cause_death' => Input::get('cause_death'),
-                            'next_appointment_notes' => Input::get('next_appointment_notes'),
-                            'next_appointment' => Input::get('next_appointment'),
-                            'patient_id' => $_GET['cid'],
-                            'staff_id' => $user->data()->id,
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                            'site_id' => $user->data()->site_id,
-                        ));
-                    }
-                    $successMessage = 'Visit Summary  details added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq']);
-                    die;
-                } catch (Exception $e) {
-                    die($e->getMessage());
                 }
             } else {
                 $pageError = $validate->errors();
@@ -604,6 +437,53 @@ if ($user->isLoggedIn()) {
                 try {
                     $setSiteId = $override->setSiteId('visit', 'site_id', Input::get('name'), 1);
                     $successMessage = 'Site ID Successfull';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('set_study_id')) {
+
+            $validate = $validate->check($_POST, array(
+                'client_id' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $std_id = $override->getNews('study_id', 'site_id', $user->data()->site_id, 'status', 0)[0];
+
+                    $user->updateRecord('clients', array(
+                        'study_id' => $std_id['study_id'],
+                    ), Input::get('client_id'));
+
+                    $user->updateRecord('study_id', array(
+                        'status' => 1,
+                        'client_id' => Input::get('client_id'),
+                    ), $std_id['id']);
+
+                    $successMessage = 'STUDY ID ADDED Successfull';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('unset_study_id')) {
+
+            $validate = $validate->check($_POST, array(
+                'client_id' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->updateRecord('clients', array(
+                        'study_id' => '',
+                    ), Input::get('client_id'));
+
+                    $successMessage = 'STUDY ID DELETED Successfull';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -869,88 +749,6 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        }
-
-
-
-        if ($_GET['id'] == 6) {
-            $data = null;
-            $filename = null;
-            if (Input::get('clients')) {
-                $data = $override->get('clients', 'status', 1);
-                $filename = 'Registartion Data';
-            } elseif (Input::get('screening')) {
-                $data = $override->get('screening', 'status', 1);
-                $filename = 'screening Data';
-            } elseif (Input::get('demographic')) {
-                $data = $override->get('demographic', 'status', 1);
-                $filename = 'Demographic Data';
-            } elseif (Input::get('vital')) {
-                $data = $override->getData('vital');
-                $filename = 'Vitals Sign Data';
-            } elseif (Input::get('main_diagnosis')) {
-                $data = $override->getData('main_diagnosis');
-                $filename = 'Pateint Category Data';
-            } elseif (Input::get('history')) {
-                $data = $override->getData('history');
-                $filename = 'Patient & Family History & Complication';
-            } elseif (Input::get('symptoms')) {
-                $data = $override->getData('symptoms');
-                $filename = 'Symtom & Exam';
-            } elseif (Input::get('diagnosis')) {
-                $data = $override->getData('cardiac');
-                $filename = 'Main diagnosis 3 ( Cardiac )';
-            } elseif (Input::get('diabetic')) {
-                $data = $override->getData('diabetic');
-                $filename = 'Main diagnosis 3 ( Diabetic )';
-            } elseif (Input::get('sickle_cell_list')) {
-                $data = $override->get('sickle_cell_status_table', 'status', 1);
-                $filename = 'sickle cell status Data';
-            } elseif (Input::get('sickle_cell')) {
-                $data = $override->getData('sickle_cell');
-                $filename = 'Main diagnosis 3 ( Sickle Cell )';
-            } elseif (Input::get('results')) {
-                $data = $override->getData('results');
-                $filename = 'Results Data';
-            } elseif (Input::get('hospitalization')) {
-                $data = $override->getData('hospitalization');
-                $filename = 'Hospitalization Data';
-            } elseif (Input::get('treatment_plan')) {
-                $data = $override->getData('treatment_plan');
-                $filename = 'Treatment Plan Data';
-            } elseif (Input::get('treatment_list')) {
-                $data = $override->get('medication_treatments', 'status', 1);
-                $filename = 'Treatment Medication List Data';
-            } elseif (Input::get('dgns_complctns_comorbdts')) {
-                $data = $override->getData('dgns_complctns_comorbdts');
-                $filename = 'Diagnosis, Complications, & Comorbidities Data';
-            } elseif (Input::get('risks')) {
-                $data = $override->getData('risks');
-                $filename = 'RISK Data';
-            } elseif (Input::get('hospitalization_details')) {
-                $data = $override->getData('hospitalization_details');
-                $filename = 'Hospitalization Details Data';
-            } elseif (Input::get('hospitalization_list')) {
-                $data = $override->get('hospitalization_table', 'status', 1);
-                $filename = 'hospitalization List Data';
-            } elseif (Input::get('lab_details')) {
-                $data = $override->getData('lab_details');
-                $filename = 'Lab Details Data';
-            } elseif (Input::get('social_economic')) {
-                $data = $override->getData('social_economic');
-                $filename = 'Socioeconomic Status Data';
-            } elseif (Input::get('visit')) {
-                $data = $override->getData('visit');
-                $filename = 'visit Schedule Data';
-            } elseif (Input::get('study_id')) {
-                $data = $override->getData('study_id');
-                $filename = 'study_id Status Data';
-            } elseif (Input::get('site')) {
-                $data = $override->getData('site');
-                $filename = 'Site List';
-            }
-
-            $user->exportData($data, $filename);
         }
     }
 
@@ -1318,29 +1116,40 @@ if ($user->isLoggedIn()) {
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
+                    <?php
+                    $Site = '';
+                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                        $Site = 'ALL SITES';
+                        if ($_GET['site_id']) {
+                            $Site = $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
+                        }
+                    } else {
+                        $Site = $override->getNews('site', 'status', 1, 'id', $user->data()->site_id)[0]['name'];
+                    }
+                    ?>
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <h1>
                                     <?php
                                     if ($_GET['status'] == 1) {
-                                        echo $title = 'Screening';
+                                        echo $title = 'Screening for ' . $Site;
                                     ?>
                                     <?php
                                     } elseif ($_GET['status'] == 2) {
-                                        echo $title = 'Eligibility';
+                                        echo $title = 'Eligibility  for ' . $Site;
                                     ?>
                                     <?php
                                     } elseif ($_GET['status'] == 3) {
-                                        echo  $title = 'Enrollment';
+                                        echo  $title = 'Enrollment for ' . $Site;
                                     ?>
                                     <?php
                                     } elseif ($_GET['status'] == 4) {
-                                        echo $title = 'Termination';
+                                        echo $title = 'Termination for ' . $Site;
                                     ?>
                                     <?php
                                     } elseif ($_GET['status'] == 5) {
-                                        echo  $title = 'Registration'; ?>
+                                        echo  $title = 'Registration for ' . $Site; ?>
                                     <?php
                                     } ?>
                                 </h1>
@@ -1363,7 +1172,6 @@ if ($user->isLoggedIn()) {
                                 <?php
                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                     if ($_GET['site_id'] != null) {
-
                                         $pagNum = 0;
                                         if ($_GET['status'] == 1) {
                                             $pagNum = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
@@ -1390,21 +1198,61 @@ if ($user->isLoggedIn()) {
                                         }
 
                                         if ($_GET['status'] == 1) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['sid'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit3Search('clients', 'status', 1, 'screened', 1,  'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 2) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit3Search('clients', 'status', 1, 'eligible', 1,  'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit3('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 3) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit3Search('clients', 'status', 1, 'enrolled', 1,  'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit3('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 4) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit3Search('clients', 'status', 1, 'end_study', 1,  'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 5) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 6) {
-                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit3Search('clients', 'status', 1, 'screened', 0,  'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 7) {
-                                            $clients = $override->getWithLimit('clients', 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimitSearch('clients', 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit('clients', 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 8) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 0, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $_GET['site_id'], $page, $numRec);
+                                            }
                                         }
                                     } else {
 
@@ -1434,21 +1282,61 @@ if ($user->isLoggedIn()) {
                                         }
 
                                         if ($_GET['status'] == 1) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'screened', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 2) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'eligible', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'eligible', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'eligible', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 3) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'enrolled', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'enrolled', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'enrolled', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 4) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'end_study', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'end_study', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'end_study', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 5) {
-                                            $clients = $override->getWithLimit('clients', 'status', 1, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimitSearch('clients', 'status', 1, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit('clients', 'status', 1, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 6) {
-                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 0, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimit1Search('clients', 'status', 1, 'screened', 0, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit1('clients', 'status', 1, 'screened', 0, $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 7) {
-                                            $clients = $override->getDataLimit('clients', $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getDataLimitSearch('clients', $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getDataLimit('clients', $page, $numRec);
+                                            }
                                         } elseif ($_GET['status'] == 8) {
-                                            $clients = $override->getWithLimit('clients', 'status', 0, $page, $numRec);
+                                            if ($_GET['search_name']) {
+                                                $searchTerm = $_GET['search_name'];
+                                                $clients = $override->getWithLimitSearch('clients', 'status', 0, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                            } else {
+                                                $clients = $override->getWithLimit('clients', 'status', 0, $page, $numRec);
+                                            }
                                         }
                                     }
                                 } else {
@@ -1477,21 +1365,61 @@ if ($user->isLoggedIn()) {
                                         $page = ($_GET['page'] * $numRec) - $numRec;
                                     }
                                     if ($_GET['status'] == 1) {
-                                        $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit3Search('clients', 'status', 1, 'screened', 1,  'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     } elseif ($_GET['status'] == 2) {
-                                        $clients = $override->getWithLimit3('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit3Search('clients', 'status', 1, 'eligible', 1,  'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     } elseif ($_GET['status'] == 3) {
-                                        $clients = $override->getWithLimit3('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit3Search('clients', 'status', 1, 'enrolled', 1,  'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     } elseif ($_GET['status'] == 4) {
-                                        $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit3Search('clients', 'status', 1, 'end_study', 1,  'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     } elseif ($_GET['status'] == 5) {
-                                        $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit1Search('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     } elseif ($_GET['status'] == 6) {
-                                        $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit3Search('clients', 'status', 1, 'screened', 1,  'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit3('clients', 'status', 1, 'screened', 0, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     } elseif ($_GET['status'] == 7) {
-                                        $clients = $override->getWithLimit('clients', 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimitSearch('clients', 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit('clients', 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     } elseif ($_GET['status'] == 8) {
-                                        $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        if ($_GET['search_name']) {
+                                            $searchTerm = $_GET['search_name'];
+                                            $clients = $override->getWithLimit1Search('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'firstname', 'middlename', 'lastname', 'study_id');
+                                        } else {
+                                            $clients = $override->getWithLimit1('clients', 'status', 0, 'site_id', $user->data()->site_id, $page, $numRec);
+                                        }
                                     }
                                 }
                                 ?>
@@ -1503,27 +1431,27 @@ if ($user->isLoggedIn()) {
                                             <div class="card-header">
                                                 <?php
                                                 if ($_GET['status'] == 1) { ?>
-                                                    <h3 class="card-title">List of Screened Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Screened Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $screened; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 2) { ?>
-                                                    <h3 class="card-title">List of Eligible Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Eligible Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $eligible; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 3) { ?>
-                                                    <h3 class="card-title">List of Enrolled Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Enrolled Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $enrolled; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 4) { ?>
-                                                    <h3 class="card-title">List of Terminated Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Terminated Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $end; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 5) { ?>
-                                                    <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Registered Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $registered; ?></span>
                                                 <?php
                                                 } elseif ($_GET['status'] == 7) { ?>
-                                                    <h3 class="card-title">List of Registered Clients</h3> &nbsp;&nbsp;
+                                                    <h3 class="card-title">List of Registered Clients for <?= $Site; ?></h3> &nbsp;&nbsp;
                                                     <span class="badge badge-info right"><?= $registered; ?></span>
                                                 <?php } ?>
                                                 <div class="card-tools">
@@ -1533,47 +1461,45 @@ if ($user->isLoggedIn()) {
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <hr>
+
                                             <?php
                                             if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                             ?>
-                                                <div class="col-sm-6 align-content-center">
-                                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
+                                                <div class="card-tools">
+                                                    <div class="input-group input-group-sm float-left" style="width: 350px;">
+                                                        <form method="post">
+                                                            <div class="form-inline">
+                                                                <div class="input-group-append">
+                                                                    <div class="col-sm-12">
+                                                                        <select class="form-control float-right" name="site_id" style="width: 100%;" autocomplete="off">
                                                                             <option value="">Select Site</option>
                                                                             <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
                                                                                 <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
                                                                             <?php } ?>
                                                                         </select>
                                                                     </div>
+                                                                    <input type="submit" name="search_by_site1" value="Search by Site" class="btn btn-info"><i class="fas fa-search"></i>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-3">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <input type="submit" name="search_by_site1" value="Search by Site" class="btn btn-primary">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="card-tools">
-                                                    <div class="input-group input-group-sm float-right" style="width: 350px;">
-                                                        <input type="text" name="search" id="search" class="form-control float-right" placeholder="Search here names">
-
-                                                        <div class="input-group-append">
-                                                            <button type="submit" class="btn btn-default">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
-                                                        </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             <?php } ?>
 
+                                            <div class="card-tools">
+                                                <div class="input-group input-group-sm float-right" style="width: 350px;">
+                                                    <form method="get">
+                                                        <div class="form-inline">
+                                                            <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+                                                            <!-- <input type="hidden" name="site_id" value="<?= $_GET['site_id'] ?>"> -->
+                                                            <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
+                                                            <input type="text" name="search_name" id="search_name" class="form-control float-right" placeholder="Search here Names or Study ID">
+                                                            <input type="submit" value="Search" class="btn btn-default"><i class="fas fa-search"></i>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1803,7 +1729,7 @@ if ($user->isLoggedIn()) {
                                                         }
                                                     } ?>
                                                 </td>
-                                                <td><span class="badge bg-danger">55%</span></td>
+                                                <!-- <td><span class="badge bg-danger">55%</span></td> -->
                                                 </tr>
                                                 <div class="modal fade" id="addScreening<?= $client['id'] ?>">
                                                     <div class="modal-dialog">
@@ -1912,6 +1838,7 @@ if ($user->isLoggedIn()) {
                                                                     <input type="hidden" name="id" value="<?= $client['id'] ?>">
                                                                     <input type="hidden" name="screening_id" value="<?= $screening['id'] ?>">
                                                                     <input type="hidden" name="gender" value="<?= $client['gender'] ?>">
+                                                                    <input type="hidden" name="study_id" value="<?= $client['study_id'] ?>">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                     <input type="submit" name="add_screening" class="btn btn-primary" value="Save changes">
                                                                 </div>
@@ -1944,8 +1871,8 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Date of Enrollment</label>
-                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($screening['visit_date']) {
-                                                                                                                                                                                                                                            print_r($screening['visit_date']);
+                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($visits_date['visit_date']) {
+                                                                                                                                                                                                                                            print_r($visits_date['visit_date']);
                                                                                                                                                                                                                                         }  ?>" required />
                                                                                 </div>
                                                                             </div>
@@ -1971,6 +1898,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="modal-footer justify-content-between">
                                                                     <input type="hidden" name="id" value="<?= $client['id'] ?>">
                                                                     <input type="hidden" name="visit_name" value="Enrollment Visit">
+                                                                    <input type="hidden" name="study_id" value="<?= $client['study_id'] ?>">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                     <input type="submit" name="add_Enrollment" class="btn btn-primary" value="Save changes">
                                                                 </div>
@@ -2206,8 +2134,14 @@ if ($user->isLoggedIn()) {
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
 
-                                                            <?php }
+                                                                    <?php }
                                                                 }
+
+
+                                                                if ($user->data()->power == 1) { ?>
+                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
+                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                            <?php }
                                                             } ?>
 
 
@@ -2223,10 +2157,15 @@ if ($user->isLoggedIn()) {
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
 
-                                                            <?php }
+                                                                    <?php }
+                                                                }
+                                                                if ($user->data()->power == 1) { ?>
+
+                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
+                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                            <?php
                                                                 }
                                                             } ?>
-
                                                         </td>
                                                     </tr>
 
@@ -2589,6 +2528,31 @@ if ($user->isLoggedIn()) {
                                                         <!-- /.modal-dialog -->
                                                     </div>
                                                     <!-- /.modal -->
+
+
+
+                                                    <div class="modal fade" id="deleteVisit<?= $visit['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete Visit</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this Visit ?</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $visit['id'] ?>">
+                                                                        <input type="submit" name="delete_visit" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 <?php $x++;
                                                 } ?>
                                             </tbody>
@@ -2617,7 +2581,139 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 5) { ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>STUDY ID FORM ( SET STUDY ID )</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
+                                    <li class="breadcrumb-item active">STUDY ID FORM ( SET STUDY ID )</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- right column -->
+                            <div class="col-md-12">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Add STUDY ID </h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label for="forms">FULL NAME ( STUDY ID )</label>
+                                                            <select name="client_id" class="form-control" style="width: 100%;" required>
+                                                                <option value="">Select Name</option>
+                                                                <?php foreach ($override->get('clients', 'status', 1) as $client) { ?>
+                                                                    <option value="<?= $client['id'] ?>"><?= $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['firstname'] . ' - ' . $client['firstname'] ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='index1.php' class="btn btn-default">Back</a>
+                                            <input type="submit" name="set_study_id" value="Submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 6) { ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>STUDY ID FORM ( UNSET STUDY ID )</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
+                                    <li class="breadcrumb-item active">STUDY ID FORM ( UNSET STUDY ID )</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- right column -->
+                            <div class="col-md-12">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Remove STUDY ID </h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label for="forms">FULL NAME ( STUDY ID )</label>
+                                                            <select name="client_id" class="form-control" style="width: 100%;" required>
+                                                                <option value="">Select Name</option>
+                                                                <?php foreach ($override->get('clients', 'status', 1) as $client) { ?>
+                                                                    <option value="<?= $client['id'] ?>"><?= $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['firstname'] . ' - ' . $client['firstname'] ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='index1.php' class="btn btn-default">Back</a>
+                                            <input type="submit" name="unset_study_id" value="Submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 7) { ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
@@ -3765,6 +3861,7 @@ if ($user->isLoggedIn()) {
                     data: {
                         search: searchTerm
                     },
+                    // dataType: "json",
                     success: function(response) {
                         console.log(response)
                         $('#search-results').html(response);

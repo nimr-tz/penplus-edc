@@ -9,150 +9,31 @@ $validate = new validate();
 $successMessage = null;
 $pageError = null;
 $errorMessage = null;
+
+$numRec = 15;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
-        if (Input::get('reset_pass')) {
-            $salt = $random->get_rand_alphanumeric(32);
-            $password = '12345678';
-            $user->updateRecord('user', array(
-                'password' => Hash::make($password, $salt),
-                'salt' => $salt,
-            ), Input::get('id'));
-            $successMessage = 'Password Reset Successful';
-        } elseif (Input::get('lock_account')) {
-            $user->updateRecord('user', array(
-                'count' => 4,
-            ), Input::get('id'));
-            $successMessage = 'Account locked Successful';
-        } elseif (Input::get('unlock_account')) {
-            $user->updateRecord('user', array(
-                'count' => 0,
-            ), Input::get('id'));
-            $successMessage = 'Account Unlock Successful';
-        } elseif (Input::get('delete_staff')) {
-            $user->updateRecord('user', array(
-                'status' => 0,
-            ), Input::get('id'));
-            $successMessage = 'User Restored Successful';
-        } elseif (Input::get('restore_staff')) {
-            $user->updateRecord('user', array(
-                'status' => 1,
-            ), Input::get('id'));
-            $successMessage = 'User Deleted Successful';
-        } elseif (Input::get('add_visit')) {
-            $validate = $validate->check($_POST, array(
-                'visit_date' => array(
-                    'required' => true,
-                ),
-                'visit_status' => array(
-                    'required' => true,
-                ),
-            ));
 
-            if ($validate->passed()) {
-                $user->updateRecord('visit', array(
-                    'visit_date' => Input::get('visit_date'),
-                    'visit_status' => Input::get('visit_status'),
-                    'comments' => Input::get('comments'),
-                    'patient_id' => Input::get('cid'),
-                    'update_on' => date('Y-m-d H:i:s'),
-                    'update_id' => $user->data()->id,
-                ), Input::get('id'));
-
-                $successMessage = 'Visit Updates  Successful';
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('search_by_site')) {
-
+        if (Input::get('search_by_site')) {
+            $validate = new validate();
             $validate = $validate->check($_POST, array(
                 'site_id' => array(
                     'required' => true,
                 ),
             ));
             if ($validate->passed()) {
-                if (Input::get('status')) {
-                    $url = 'info.php?id=3&status=' . Input::get('status') . '&site_id=' . Input::get('site_id');
-                } else {
-                    $url = 'info.php?id=' . $_GET['id'] . '&site_id=' . Input::get('site_id');
-                }
+                $url = 'data.php?id=' . $_GET['id'] . '&status=' . $_GET['status'] . '&data=' . $_GET['data'] . '&site_id=' . Input::get('site_id');
                 Redirect::to($url);
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('clear_data')) {
-
-            $validate = $validate->check($_POST, array(
-                'name' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    if (Input::get('name')) {
-                        if (Input::get('name') == 'user' || Input::get('name') == 'study_id' || Input::get('name') == 'sites' || Input::get('name') == 'position' || Input::get('name') == 'household' || Input::get('name') == 'insurance' || Input::get('name') == 'district' || Input::get('name') == 'education' || Input::get('name') == 'lung_rads' || Input::get('name') == 'occupation' || Input::get('name') == 'payments' || Input::get('name') == 'relation') {
-                            $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Cleared';
-                        } else {
-                            $clearData = $override->clearDataTable(Input::get('name'));
-                            $successMessage = 'Table ' . '"' . Input::get('name') . '"' . ' Cleared Successfull';
-                        }
-                    } else {
-                        $errorMessage = 'Table ' . '"' . Input::get('name') . '"' . '  can not be Found!';
-                    }
-                    // die;
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('setSiteId')) {
-
-            $validate = $validate->check($_POST, array(
-                'name' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $setSiteId = $override->setSiteId('visit', 'site_id', Input::get('name'), 1);
-                    $successMessage = 'Site ID Successfull';
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
-        } elseif (Input::get('unset_study_id')) {
-            $validate = $validate->check($_POST, array(
-                'name' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    if (Input::get('name') == 'study_id') {
-                        $study_id = $override->getData('study_id');
-                        foreach ($study_id as $row) {
-                            $user->updateRecord('study_id', array(
-                                'client_id' => 0,
-                                'status' => 0,
-                            ), $row['id']);
-                        }
-                    }
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
                 $pageError = $validate->errors();
             }
         }
 
-
-        if ($_GET['status'] == 'data') {
+        if (Input::get('download')) {
             $data = null;
             $filename = null;
-            if (Input::get('download_clients')) {
+
+            if (Input::get('data') == 1) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('clients', 'status', 1, 'site_id', $_GET['site_id']);
@@ -163,18 +44,51 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('clients', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Clients Data';
-            } elseif (Input::get('download_kap')) {
+            } elseif (Input::get('data') == 2) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
-                        $data = $override->getNews('kap', 'status', 1, 'site_id', $_GET['site_id']);
+                        $data = $override->getNews('screening', 'status', 1, 'site_id', $_GET['site_id']);
                     } else {
-                        $data = $override->get('kap', 'status', 1);
+                        $data = $override->get('screening', 'status', 1);
                     }
                 } else {
-                    $data = $override->getNews('kap', 'status', 1, 'site_id', $user->data()->site_id);
+                    $data = $override->getNews('screening', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Kap Data';
-            } elseif (Input::get('download_history')) {
+                $filename = 'screening Data';
+            } elseif (Input::get('data') == 3) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('demographic', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('demographic', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('demographic', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'demographic Data';
+            } elseif (Input::get('data') == 4) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('vital', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('vital', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('vital', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'vital Data';
+            } elseif (Input::get('data') == 5) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('main_diagnosis', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Main diagnosis Data';
+            } elseif (Input::get('data') == 6) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('history', 'status', 1, 'site_id', $_GET['site_id']);
@@ -184,8 +98,63 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('history', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Kap history';
-            } elseif (Input::get('download_results')) {
+                $filename = 'history Data';
+            } elseif (Input::get('data') == 7) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('symptoms', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'symptoms Data';
+            } elseif (Input::get('data') == 8) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('cardiac', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('cardiac', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('cardiac', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Main diagnosis 3 ( Cardiac )';
+            } elseif (Input::get('data') == 9) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('diabetic', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Main diagnosis 3 ( diabetic )';
+            } elseif (Input::get('data') == 10) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('sickle_cell', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Main diagnosis 3 ( Sickle Cell )';
+            } elseif (Input::get('data') == 11) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('sickle_cell_status_table', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Siblings Data';
+            } elseif (Input::get('data') == 12) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('results', 'status', 1, 'site_id', $_GET['site_id']);
@@ -196,40 +165,139 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews('results', 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = 'Results Data';
-            } elseif (Input::get('download_classification')) {
+            } elseif (Input::get('data') == 13) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
-                        $data = $override->getNews('classification', 'status', 1, 'site_id', $_GET['site_id']);
+                        $data = $override->getNews('hospitalization', 'status', 1, 'site_id', $_GET['site_id']);
                     } else {
-                        $data = $override->get('classification', 'status', 1);
+                        $data = $override->get('hospitalization', 'status', 1);
                     }
                 } else {
-                    $data = $override->getNews('classification', 'status', 1, 'site_id', $user->data()->site_id);
+                    $data = $override->getNews('hospitalization', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Classification Data';
-            } elseif (Input::get('download_outcome')) {
+                $filename = 'Hospitalization Data';
+            } elseif (Input::get('data') == 14) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
-                        $data = $override->getNews('outcome', 'status', 1, 'site_id', $_GET['site_id']);
+                        $data = $override->getNews('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id']);
                     } else {
-                        $data = $override->get('outcome', 'status', 1);
+                        $data = $override->get('hospitalization_details', 'status', 1);
                     }
                 } else {
-                    $data = $override->getNews('outcome', 'status', 1, 'site_id', $user->data()->site_id);
+                    $data = $override->getNews('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Outcome Data';
-            } elseif (Input::get('download_economic')) {
+                $filename = 'Hospitalization Details Data';
+            } elseif (Input::get('data') == 15) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
-                        $data = $override->getNews('economic', 'status', 1, 'site_id', $_GET['site_id']);
+                        $data = $override->getNews('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
                     } else {
-                        $data = $override->get('economic', 'status', 1);
+                        $data = $override->get('hospitalization_table', 'status', 1);
                     }
                 } else {
-                    $data = $override->getNews('economic', 'status', 1, 'site_id', $user->data()->site_id);
+                    $data = $override->getNews('hospitalization_table', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Economic Data';
-            } elseif (Input::get('download_visit')) {
+                $filename = 'Admissions Data';
+            } elseif (Input::get('data') == 16) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('treatment_plan', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('treatment_plan', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Treatment_plan Data';
+            } elseif (Input::get('data') == 17) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('medication_treatments', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Medications Data';
+            } elseif (Input::get('data') == 18) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('dgns_complctns_comorbdts', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Diagnosis, Complications and Comorbiditis Data';
+            } elseif (Input::get('data') == 19) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('risks', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('risks', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('risks', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Risks Data';
+            } elseif (Input::get('data') == 20) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('lab_details', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('lab_details', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Lab Details Data';
+            } elseif (Input::get('data') == 21) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('lab_requests', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('lab_requests', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Lab Tests Data';
+            } elseif (Input::get('data') == 22) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('test_list', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('test_list', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('test_list', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Test Data';
+            } elseif (Input::get('data') == 23) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('social_economic', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('social_economic', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Social Economic Data';
+            } elseif (Input::get('data') == 24) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('summary', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('summary', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('summary', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Summary Data';
+            } elseif (Input::get('data') == 25) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('visit', 'status', 1, 'site_id', $_GET['site_id']);
@@ -239,8 +307,8 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('visit', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Study Id';
-            } elseif (Input::get('download_study_id')) {
+                $filename = 'Schedule Data';
+            } elseif (Input::get('data') == 26) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
                         $data = $override->getNews('study_id', 'status', 1, 'site_id', $_GET['site_id']);
@@ -250,57 +318,22 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('study_id', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Study Id Data';
+                $filename = 'Study ID Data';
+            } elseif (Input::get('data') == 27) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews('site', 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get('site', 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews('site', 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = 'Sites List Data';
             }
 
             $user->exportData($data, $filename);
         }
-    }
-
-    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-        if ($_GET['site_id'] != null) {
-            $kap = $override->getCount1('kap', 'status', 1, 'site_id', $_GET['site_id']);
-            $histroy = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
-            $kap = $override->getCount1('results', 'status', 1, 'site_id', $_GET['site_id']);
-            $classification = $override->getCount1('classification', 'status', 1, 'site_id', $_GET['site_id']);
-            $outcome = $override->getCount1('outcome', 'status', 1, 'site_id', $_GET['site_id']);
-            $economic = $override->getCount1('economic', 'status', 1, 'site_id', $_GET['site_id']);
-            $visit = $override->getCount1('visit', 'status', 1, 'site_id', $_GET['site_id']);
-
-            $registered = $override->getCount1('clients', 'status', 1, 'site_id', $_GET['site_id']);
-            $screened = $override->getCount1('history', 'status', 1, 'site_id', $_GET['site_id']);
-            $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
-            $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $_GET['site_id']);
-            $end = $override->getCount1('clients', 'status', 0, 'site_id', $_GET['site_id']);
-        } else {
-            // $kap = $override->getCount('kap', 'status', 1);
-            // $history = $override->getCount('history', 'status', 1);
-            // $kap = $override->getCount('results', 'status', 1);
-            // $classification = $override->getCount('classification', 'status', 1);
-            // $outcome = $override->getCount('outcome', 'status', 1);
-            // $economic = $override->getCount('economic', 'status', 1);
-            $visit = $override->getCount('visit', 'status', 1);
-
-            $registered = $override->getCount('clients', 'status', 1);
-            // $screened = $override->getCount('history', 'status', 1);
-            // $eligible = $override->getCount('history', 'eligible', 1);
-            // $enrolled = $override->getCount('history', 'eligible', 1);
-            $end = $override->getCount('clients', 'status', 0);
-        }
-    } else {
-        $kap = $override->getCount1('kap', 'status', 1, 'site_id', $user->data()->site_id);
-        $histroy = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
-        $kap = $override->getCount1('results', 'status', 1, 'site_id', $user->data()->site_id);
-        $classification = $override->getCount1('classification', 'status', 1, 'site_id', $user->data()->site_id);
-        $outcome = $override->getCount1('outcome', 'status', 1, 'site_id', $user->data()->site_id);
-        $economic = $override->getCount1('economic', 'status', 1, 'site_id', $user->data()->site_id);
-        $visit = $override->getCount1('visit', 'status', 1, 'site_id', $user->data()->site_id);
-
-        $registered = $override->getCount1('clients', 'status', 1, 'site_id', $user->data()->site_id);
-        $screened = $override->getCount1('history', 'status', 1, 'site_id', $user->data()->site_id);
-        $eligible = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
-        $enrolled = $override->getCount1('history', 'eligible', 1, 'site_id', $user->data()->site_id);
-        $end = $override->getCount1('clients', 'status', 0, 'site_id', $user->data()->site_id);
     }
 } else {
     Redirect::to('index.php');
@@ -314,7 +347,7 @@ if ($user->isLoggedIn()) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lung Cancer Database | Info</title>
+    <title>Penplus Database | Info</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -356,6 +389,382 @@ if ($user->isLoggedIn()) {
             </div>
         <?php } ?>
 
+        <?php
+
+        $form_name = '';
+        $form_title = '';
+        if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+            if ($_GET['site_id'] != null) {
+                $pagNum = 0;
+                if ($_GET['status'] == 1) {
+                    $pagNum = $override->countData('clients', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 2) {
+                    $pagNum = $override->countData('screening', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 3) {
+                    $pagNum = $override->countData('demographic', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 4) {
+                    $pagNum = $override->countData('vital', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 5) {
+                    $pagNum = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 6) {
+                    $pagNum = $override->countData('history', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 7) {
+                    $pagNum = $override->countData('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 8) {
+                    $pagNum = $override->countData('diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 9) {
+                    $pagNum = $override->countData('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 10) {
+                    $pagNum = $override->countData('sickle_cell', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 11) {
+                    $pagNum = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 12) {
+                    $pagNum = $override->countData('results', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 13) {
+                    $pagNum = $override->countData('hospitalization', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 14) {
+                    $pagNum = $override->countData('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 15) {
+                    $pagNum = $override->countData('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 16) {
+                    $pagNum = $override->countData('treatment_plan', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 17) {
+                    $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 18) {
+                    $pagNum = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 19) {
+                    $pagNum = $override->countData('risks', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 20) {
+                    $pagNum = $override->countData('lab_details', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 21) {
+                    $pagNum = $override->countData('lab_requests', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 22) {
+                    $pagNum = $override->getCount('test_list', 'status', 1);
+                } elseif ($_GET['status'] == 23) {
+                    $pagNum = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 24) {
+                    $pagNum = $override->countData('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 25) {
+                    $pagNum = $override->countData('visit', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 26) {
+                    $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 27) {
+                    $pagNum = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
+                } 
+
+                $pages = ceil($pagNum / $numRec);
+                if (!$_GET['page'] || $_GET['page'] == 1) {
+                    $page = 0;
+                } else {
+                    $page = ($_GET['page'] * $numRec) - $numRec;
+                }
+
+                if ($_GET['status'] == 1) {
+                    $form_name = 'clients';
+                    $form_title = 'Clients';
+                    $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 2) {
+                    $form_name = 'screening';
+                    $form_title = 'screening';
+                    $clients = $override->getWithLimit1('screening', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 3) {
+                    $form_name = 'demographic';
+                    $form_title = 'demographic';
+                    $clients = $override->getWithLimit1('demographic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 4) {
+                    $clients = $override->getWithLimit1('vital', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 5) {
+                    $clients = $override->getWithLimit1('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 6) {
+                    $clients = $override->getWithLimit1('history', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 7) {
+                    $clients = $override->getWithLimit1('symptoms', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 8) {
+                    $clients = $override->getWithLimit1('diagnosis', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 9) {
+                    $clients = $override->getWithLimit1('diabetic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 10) {
+                    $clients = $override->getWithLimit1('sickle_cell', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 11) {
+                    $clients = $override->getWithLimit1('sickle_cell_status_table', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 12) {
+                    $clients = $override->getWithLimit1('results', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 13) {
+                    $clients = $override->getWithLimit1('hospitalization', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 14) {
+                    $clients = $override->getWithLimit1('hospitalization_details', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 15) {
+                    $clients = $override->getWithLimit1('hospitalization_table', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 16) {
+                    $clients = $override->getWithLimit1('treatment_plan', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 17) {
+                    $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 18) {
+                    $clients = $override->getWithLimit1('dgns_complctns_comorbdts', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 19) {
+                    $clients = $override->getWithLimit1('risks', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 20) {
+                    $clients = $override->getWithLimit1('lab_details', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 21) {
+                    $clients = $override->getWithLimit1('lab_requests', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 22) {
+                    $clients = $override->getWithLimit('test_list', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 23) {
+                    $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 24) {
+                    $clients = $override->getWithLimit1('social_economic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 25) {
+                    $clients = $override->getWithLimit1('visit', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 26) {
+                    $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 27) {
+                    $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                }
+            } else {
+
+                $pagNum = 0;
+                if ($_GET['status'] == 1) {
+                    $pagNum = $override->getCount('clients', 'status', 1);
+                } elseif ($_GET['status'] == 2) {
+                    $pagNum = $override->getCount('screening', 'status', 1);
+                } elseif ($_GET['status'] == 3) {
+                    $pagNum = $override->getCount('demographic', 'status', 1);
+                } elseif ($_GET['status'] == 4) {
+                    $pagNum = $override->getCount('vital', 'status', 1);
+                } elseif ($_GET['status'] == 5) {
+                    $pagNum = $override->getCount('main_diagnosis', 'status', 1);
+                } elseif ($_GET['status'] == 6) {
+                    $pagNum = $override->getCount('history', 'status', 1);
+                } elseif ($_GET['status'] == 7) {
+                    $pagNum = $override->getCount('symptoms', 'status', 1);
+                } elseif ($_GET['status'] == 8) {
+                    $pagNum = $override->getCount('diagnosis', 'status', 1);
+                } elseif ($_GET['status'] == 9) {
+                    $pagNum = $override->getCount('diabetic', 'status', 1);
+                } elseif ($_GET['status'] == 10) {
+                    $pagNum = $override->getCount('sickle_cell', 'status', 1);
+                } elseif ($_GET['status'] == 11) {
+                    $pagNum = $override->getCount('sickle_cell_status_table', 'status', 1);
+                } elseif ($_GET['status'] == 12) {
+                    $pagNum = $override->getCount('results', 'status', 1);
+                } elseif ($_GET['status'] == 13) {
+                    $pagNum = $override->getCount('hospitalization', 'status', 1);
+                } elseif ($_GET['status'] == 14) {
+                    $pagNum = $override->getCount('hospitalization_details', 'status', 1);
+                } elseif ($_GET['status'] == 15) {
+                    $pagNum = $override->getCount('hospitalization_table', 'status', 1);
+                } elseif ($_GET['status'] == 16) {
+                    $pagNum = $override->getCount('treatment_plan', 'status', 1);
+                } elseif ($_GET['status'] == 17) {
+                    $pagNum = $override->getCount('medication_treatments', 'status', 1);
+                } elseif ($_GET['status'] == 18) {
+                    $pagNum = $override->getCount('dgns_complctns_comorbdts', 'status', 1);
+                } elseif ($_GET['status'] == 19) {
+                    $pagNum = $override->getCount('risks', 'status', 1);
+                } elseif ($_GET['status'] == 20) {
+                    $pagNum = $override->getCount('lab_details', 'status', 1);
+                } elseif ($_GET['status'] == 21) {
+                    $pagNum = $override->getCount('lab_requests', 'status', 1);
+                } elseif ($_GET['status'] == 22) {
+                    $pagNum = $override->getCount('test_list', 'status', 1);
+                } elseif ($_GET['status'] == 23) {
+                    $pagNum = $override->getCount('summary', 'status', 1);
+                } elseif ($_GET['status'] == 24) {
+                    $pagNum = $override->getCount('social_economic', 'status', 1);
+                } elseif ($_GET['status'] == 25) {
+                    $pagNum = $override->getCount('visit', 'status', 1);
+                } elseif ($_GET['status'] == 26) {
+                    $pagNum = $override->getCount('study_id', 'status', 1);
+                } elseif ($_GET['status'] == 27) {
+                    $pagNum = $override->getCount('site', 'status', 1);
+                } 
+                $pages = ceil($pagNum / $numRec);
+                if (!$_GET['page'] || $_GET['page'] == 1) {
+                    $page = 0;
+                } else {
+                    $page = ($_GET['page'] * $numRec) - $numRec;
+                }
+
+                if ($_GET['status'] == 1) {
+                    $clients = $override->getWithLimit('clients', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 2) {
+                    $clients = $override->getWithLimit('screening', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 3) {
+                    $clients = $override->getWithLimit('demographic', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 4) {
+                    $clients = $override->getWithLimit('vital', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 5) {
+                    $clients = $override->getWithLimit('main_diagnosis', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 6) {
+                    $clients = $override->getWithLimit('history', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 7) {
+                    $clients = $override->getWithLimit('symptoms', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 8) {
+                    $clients = $override->getWithLimit('diagnosis', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 9) {
+                    $clients = $override->getWithLimit('diabetic', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 10) {
+                    $clients = $override->getWithLimit('sickle_cell', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 11) {
+                    $clients = $override->getWithLimit('sickle_cell_status_table', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 12) {
+                    $clients = $override->getWithLimit('results', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 13) {
+                    $clients = $override->getWithLimit('hospitalization', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 14) {
+                    $clients = $override->getWithLimit('hospitalization_details', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 15) {
+                    $clients = $override->getWithLimit('hospitalization_table', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 16) {
+                    $clients = $override->getWithLimit('treatment_plan', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 17) {
+                    $clients = $override->getWithLimit('medication_treatments', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 18) {
+                    $clients = $override->getWithLimit('dgns_complctns_comorbdts', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 19) {
+                    $clients = $override->getWithLimit('risks', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 20) {
+                    $clients = $override->getWithLimit('lab_details', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 21) {
+                    $clients = $override->getWithLimit('lab_requests', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 22) {
+                    $clients = $override->getWithLimit('test_list', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 23) {
+                    $clients = $override->getWithLimit('summary', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 24) {
+                    $clients = $override->getWithLimit('social_economic', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 25) {
+                    $clients = $override->getWithLimit('visit', 'status', 1,  $page, $numRec);
+                } elseif ($_GET['status'] == 26) {
+                    $clients = $override->getWithLimit('study_id', 'status', 1, $page, $numRec);
+                } elseif ($_GET['status'] == 27) {
+                    $clients = $override->getWithLimit('site', 'status', 1,  $page, $numRec);
+                }
+            }
+        } else {
+            $pagNum = 0;
+            if ($_GET['status'] == 1) {
+                $pagNum = $override->countData('clients', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 2) {
+                $pagNum = $override->countData('screening', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 3) {
+                $pagNum = $override->countData('demographic', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 4) {
+                $pagNum = $override->countData('vital', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 5) {
+                $pagNum = $override->countData('main_diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+            } elseif ($_GET['status'] == 6) {
+                $pagNum = $override->countData('history', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 7) {
+                $pagNum = $override->countData('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 8) {
+                $pagNum = $override->countData('diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 9) {
+                $pagNum = $override->countData('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 10) {
+                $pagNum = $override->countData('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 11) {
+                $pagNum = $override->countData('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 12) {
+                $pagNum = $override->countData('results', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 13) {
+                $pagNum = $override->countData('hospitalization', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 14) {
+                $pagNum = $override->countData('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 15) {
+                $pagNum = $override->countData('hospitalization_table', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 16) {
+                $pagNum = $override->countData('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 17) {
+                $pagNum = $override->countData('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 18) {
+                $pagNum = $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 19) {
+                $pagNum = $override->countData('risks', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 20) {
+                $pagNum = $override->countData('lab_details', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 21) {
+                $pagNum = $override->countData('lab_requests', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 22) {
+                $pagNum = $override->getCount('test_list', 'status', 1);
+            } elseif ($_GET['status'] == 23) {
+                $pagNum = $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 24) {
+                $pagNum = $override->countData('social_economic', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 25) {
+                $pagNum = $override->countData('visit', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 26) {
+                $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 27) {
+                $pagNum = $override->countData('site', 'status', 1, 'site_id', $user->data()->site_id);
+            }
+
+            $pages = ceil($pagNum / $numRec);
+            if (!$_GET['page'] || $_GET['page'] == 1) {
+                $page = 0;
+            } else {
+                $page = ($_GET['page'] * $numRec) - $numRec;
+            }
+
+            if ($_GET['status'] == 1) {
+                $clients = $override->getWithLimit1('clients', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 2) {
+                $clients = $override->getWithLimit1('screening', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 3) {
+                $clients = $override->getWithLimit1('demographic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 4) {
+                $clients = $override->getWithLimit1('vital', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 5) {
+                $clients = $override->getWithLimit1('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 6) {
+                $clients = $override->getWithLimit1('history', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 7) {
+                $clients = $override->getWithLimit1('symptoms', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 8) {
+                $clients = $override->getWithLimit1('diagnosis', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 9) {
+                $clients = $override->getWithLimit1('diabetic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 10) {
+                $clients = $override->getWithLimit1('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 11) {
+                $clients = $override->getWithLimit1('sickle_cell_status_table', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 12) {
+                $clients = $override->getWithLimit1('results', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 13) {
+                $clients = $override->getWithLimit1('hospitalization', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 14) {
+                $clients = $override->getWithLimit1('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 15) {
+                $clients = $override->getWithLimit1('hospitalization_table', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 16) {
+                $clients = $override->getWithLimit1('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 17) {
+                $clients = $override->getWithLimit1('medication_treatments', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 18) {
+                $clients = $override->getWithLimit1('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 19) {
+                $clients = $override->getWithLimit1('risks', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 20) {
+                $clients = $override->getWithLimit1('lab_details', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 21) {
+                $clients = $override->getWithLimit1('lab_requests', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 22) {
+                $clients = $override->getWithLimit('test_list', 'status', 1,  $page, $numRec);
+            } elseif ($_GET['status'] == 23) {
+                $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 24) {
+                $clients = $override->getWithLimit1('social_economic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 25) {
+                $clients = $override->getWithLimit1('visit', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 26) {
+                $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 27) {
+                $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } 
+        }
+
+        ?>
+
 
         <?php if ($_GET['id'] == 1) { ?>
             <!-- Content Wrapper. Contains page content -->
@@ -366,16 +775,6 @@ if ($user->isLoggedIn()) {
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <h1>
-                                    <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc2('clients', 'status', 1, 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc1('clients', 'status', 1, 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc2('clients', 'status', 1, 'site_id', $user->data()->site_id,  'id');
-                                    } ?>
                                     Clients
                                 </h1>
                             </div>
@@ -442,7 +841,8 @@ if ($user->isLoggedIn()) {
                                                                 <div class="col-sm-6">
                                                                     <div class="row-form clearfix">
                                                                         <div class="form-group">
-                                                                            <input type="submit" name="download_clients" value="Download" class="btn btn-info">
+                                                                            <input type="hidden" name="data" value="<?= $_GET['status']; ?>">
+                                                                            <input type="submit" name="download" value="Download" class="btn btn-info">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -469,11 +869,11 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Study Id</th>
-                                                    <th>Interview Type</th>
+                                                    <th>Category</th>
                                                     <th>age</th>
                                                     <th>sex</th>
                                                     <th>Site</th>
@@ -533,7 +933,7 @@ if ($user->isLoggedIn()) {
                                             <tfoot>
                                                 <tr>
                                                     <th>Study Id</th>
-                                                    <th>Interview Type</th>
+                                                    <th>Category</th>
                                                     <th>age</th>
                                                     <th>sex</th>
                                                     <th>Site</th>
@@ -544,6 +944,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                                            } else {
+                                                                                                                                                                                echo 1;
+                                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                                    echo $_GET['page'] + 1;
+                                                                                                                                                                                } else {
+                                                                                                                                                                                    echo $i - 1;
+                                                                                                                                                                                } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -555,7 +983,7 @@ if ($user->isLoggedIn()) {
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-        <?php } elseif ($_GET['id'] == 6) { ?>
+        <?php } elseif ($_GET['id'] == 2) { ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
@@ -564,23 +992,13 @@ if ($user->isLoggedIn()) {
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <h1>
-                                    <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc2('kap', 'status', 1, 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc1('kap', 'status', 1, 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc2('kap', 'status', 1, 'site_id', $user->data()->site_id,  'id');
-                                    } ?>
-                                    Kap
+                                    <?= $form_title; ?>
                                 </h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">Kap</li>
+                                    <li class="breadcrumb-item active"><?= $form_title; ?></li>
                                 </ol>
                             </div>
                         </div>
@@ -598,8 +1016,8 @@ if ($user->isLoggedIn()) {
                                             <div class="row mb-2">
                                                 <div class="col-sm-3">
                                                     <div class="card-header">
-                                                        <h3 class="card-title">List of kap</h3>&nbsp;&nbsp;
-                                                        <span class="badge badge-info right"><?= $kap; ?></span>
+                                                        <h3 class="card-title">List of <?= $form_title; ?></h3>&nbsp;&nbsp;
+                                                        <span class="badge badge-info right"><?= $form_title; ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -613,7 +1031,7 @@ if ($user->isLoggedIn()) {
                                                                         <div class="form-group">
                                                                             <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
                                                                                 <option value="">Select Site</option>
-                                                                                <?php foreach ($override->get('sites', 'status', 1) as $site) { ?>
+                                                                                <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
                                                                                     <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
                                                                                 <?php } ?>
                                                                             </select>
@@ -640,7 +1058,8 @@ if ($user->isLoggedIn()) {
                                                                 <div class="col-sm-6">
                                                                     <div class="row-form clearfix">
                                                                         <div class="form-group">
-                                                                            <input type="submit" name="download_kap" value="Download" class="btn btn-info">
+                                                                            <input type="hidden" name="data" value="<?= $_GET['status']; ?>">
+                                                                            <input type="submit" name="download" value="Download" class="btn btn-info">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -667,10 +1086,11 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Study Id</th>
+                                                    <th>Category</th>
                                                     <th>Site</th>
                                                     <th>Status</th>
                                                     <th class="text-center">Action</th>
@@ -680,12 +1100,38 @@ if ($user->isLoggedIn()) {
                                                 <?php
                                                 $x = 1;
                                                 foreach ($clients as $value) {
-                                                    $sites = $override->getNews('sites', 'status', 1, 'id', $value['site_id'])[0];
+                                                    $sites = $override->getNews('site', 'status', 1, 'id', $value['site_id'])[0];
                                                 ?>
                                                     <tr>
                                                         <td class="table-user">
                                                             <?= $value['study_id']; ?>
                                                         </td>
+                                                        <?php if ($value['dignosis_type'] == 1) { ?>
+                                                            <td class="table-user">
+                                                                Cardiac </td>
+                                                        <?php } elseif ($value['dignosis_type'] == 2) { ?>
+                                                            <td class="table-user">
+                                                                Diabetes </td>
+                                                        <?php } elseif ($value['dignosis_type'] == 3) { ?>
+                                                            <td class="table-user">
+                                                                Sickle Cell </td>
+                                                        <?php } else { ?>
+                                                            <td class="table-user">
+                                                                Other
+                                                            </td>
+                                                        <?php } ?>
+                                                        <td class="table-user">
+                                                            <?= $value['age']; ?>
+                                                        </td>
+                                                        <?php if ($value['gender'] == 1) { ?>
+                                                            <td class="table-user">
+                                                                Male
+                                                            </td>
+                                                        <?php } elseif ($value['gender'] == 2) { ?>
+                                                            <td class="table-user">
+                                                                Female
+                                                            </td>
+                                                        <?php } ?>
                                                         <td class="table-user">
                                                             <?= $sites['name']; ?>
                                                         </td>
@@ -693,7 +1139,7 @@ if ($user->isLoggedIn()) {
                                                             <a href="#" class="btn btn-success">Active</a>
                                                         </td>
                                                         <td class="table-user">
-                                                            <a href="add.php?id=5&cid=<?= $value['id'] ?>" class="btn btn-info">Update</a>
+                                                            <a href="add.php?id=4&cid=<?= $value['id'] ?>" class="btn btn-info">Update</a>
                                                         </td>
                                                     </tr>
                                                 <?php $x++;
@@ -701,181 +1147,46 @@ if ($user->isLoggedIn()) {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                <tr>
                                                     <th>Study Id</th>
+                                                    <th>Category</th>
                                                     <th>Site</th>
                                                     <th>Status</th>
                                                     <th class="text-center">Action</th>
+                                                </tr>
                                                 </tr>
                                             </tfoot>
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <!--/.col (right) -->
-                        </div>
-                        <!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                </section>
-                <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
-        <?php } elseif ($_GET['id'] == 7) { ?>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1>
-                                    <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc2('history', 'status', 1, 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc1('history', 'status', 1, 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc2('history', 'status', 1, 'site_id', $user->data()->site_id,  'id');
-                                    } ?>
-                                    history
-                                </h1>
-                            </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">history</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div><!-- /.container-fluid -->
-                </section>
-
-                <!-- Main content -->
-                <section class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <section class="content-header">
-                                        <div class="container-fluid">
-                                            <div class="row mb-2">
-                                                <div class="col-sm-3">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">List of history</h3>&nbsp;&nbsp;
-                                                        <span class="badge badge-info right"><?= $history; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
-                                                                                <option value="">Select Site</option>
-                                                                                <?php foreach ($override->get('sites', 'status', 1) as $site) { ?>
-                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                                <?php } ?>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="download_history" value="Download" class="btn btn-info">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <ol class="breadcrumb float-sm-right">
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                < Back</a>
-                                                        </li>
-                                                        &nbsp;
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                Go Home > </a>
-                                                        </li>
-                                                    </ol>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                        </div><!-- /.container-fluid -->
-                                    </section>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $x = 1;
-                                                foreach ($clients as $value) {
-                                                    $sites = $override->getNews('sites', 'status', 1, 'id', $value['site_id'])[0];
-                                                ?>
-                                                    <tr>
-                                                        <td class="table-user">
-                                                            <?= $value['study_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $sites['name']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="#" class="btn btn-success">Active</a>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="add.php?id=6&cid=<?= $value['id'] ?>" class="btn btn-info">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                <?php $x++;
-                                                } ?>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=<?= $_GET['id'] ?>&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                                    echo $_GET['page'] + 1;
+                                                                                                                                                                                } else {
+                                                                                                                                                                                    echo $i - 1;
+                                                                                                                                                                                } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <!-- /.card-body -->
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -888,674 +1199,7 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content-wrapper -->
 
-        <?php } elseif ($_GET['id'] == 8) { ?>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1>
-                                    <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc2('results', 'status', 1, 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc1('results', 'status', 1, 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc2('results', 'status', 1, 'site_id', $user->data()->site_id,  'id');
-                                    } ?>
-                                    results
-                                </h1>
-                            </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">results</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div><!-- /.container-fluid -->
-                </section>
-
-                <!-- Main content -->
-                <section class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <section class="content-header">
-                                        <div class="container-fluid">
-                                            <div class="row mb-2">
-                                                <div class="col-sm-3">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">List of results</h3>&nbsp;&nbsp;
-                                                        <span class="badge badge-info right"><?= $results; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
-                                                                                <option value="">Select Site</option>
-                                                                                <?php foreach ($override->get('sites', 'status', 1) as $site) { ?>
-                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                                <?php } ?>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="download_results" value="Download" class="btn btn-info">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <ol class="breadcrumb float-sm-right">
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                < Back</a>
-                                                        </li>
-                                                        &nbsp;
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                Go Home > </a>
-                                                        </li>
-                                                    </ol>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                        </div><!-- /.container-fluid -->
-                                    </section>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $x = 1;
-                                                foreach ($clients as $value) {
-                                                    $sites = $override->getNews('sites', 'status', 1, 'id', $value['site_id'])[0];
-                                                ?>
-                                                    <tr>
-                                                        <td class="table-user">
-                                                            <?= $value['study_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $sites['name']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="#" class="btn btn-success">Active</a>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="add.php?id=7&cid=<?= $value['id'] ?>" class="btn btn-info">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                <?php $x++;
-                                                } ?>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <!--/.col (right) -->
-                        </div>
-                        <!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                </section>
-                <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
-
-        <?php } elseif ($_GET['id'] == 9) { ?>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1>
-                                    <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc2('classification', 'status', 1, 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc1('classification', 'status', 1, 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc2('classification', 'status', 1, 'site_id', $user->data()->site_id,  'id');
-                                    } ?>
-                                    classification
-                                </h1>
-                            </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">classification</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div><!-- /.container-fluid -->
-                </section>
-
-                <!-- Main content -->
-                <section class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <section class="content-header">
-                                        <div class="container-fluid">
-                                            <div class="row mb-2">
-                                                <div class="col-sm-3">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">List of classification</h3>&nbsp;&nbsp;
-                                                        <span class="badge badge-info right"><?= $classification; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
-                                                                                <option value="">Select Site</option>
-                                                                                <?php foreach ($override->get('sites', 'status', 1) as $site) { ?>
-                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                                <?php } ?>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="download_classifiaction" value="Download" class="btn btn-info">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <ol class="breadcrumb float-sm-right">
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                < Back</a>
-                                                        </li>
-                                                        &nbsp;
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                Go Home > </a>
-                                                        </li>
-                                                    </ol>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                        </div><!-- /.container-fluid -->
-                                    </section>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $x = 1;
-                                                foreach ($clients as $value) {
-                                                    $sites = $override->getNews('sites', 'status', 1, 'id', $value['site_id'])[0];
-                                                ?>
-                                                    <tr>
-                                                        <td class="table-user">
-                                                            <?= $value['study_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $sites['name']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="#" class="btn btn-success">Active</a>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="add.php?id=8&cid=<?= $value['id'] ?>" class="btn btn-info">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                <?php $x++;
-                                                } ?>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <!--/.col (right) -->
-                        </div>
-                        <!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                </section>
-                <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
-
-        <?php } elseif ($_GET['id'] == 10) { ?>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1>
-                                    <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc2('outcome', 'status', 1, 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc1('outcome', 'status', 1, 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc2('outcome', 'status', 1, 'site_id', $user->data()->site_id,  'id');
-                                    } ?>
-                                    outcome
-                                </h1>
-                            </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">outcome</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div><!-- /.container-fluid -->
-                </section>
-
-                <!-- Main content -->
-                <section class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <section class="content-header">
-                                        <div class="container-fluid">
-                                            <div class="row mb-2">
-                                                <div class="col-sm-3">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">List of Outcomes</h3>&nbsp;&nbsp;
-                                                        <span class="badge badge-info right"><?= $outcome; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
-                                                                                <option value="">Select Site</option>
-                                                                                <?php foreach ($override->get('sites', 'status', 1) as $site) { ?>
-                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                                <?php } ?>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="download_outcome" value="Download" class="btn btn-info">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <ol class="breadcrumb float-sm-right">
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                < Back</a>
-                                                        </li>
-                                                        &nbsp;
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                Go Home > </a>
-                                                        </li>
-                                                    </ol>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                        </div><!-- /.container-fluid -->
-                                    </section>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $x = 1;
-                                                foreach ($clients as $value) {
-                                                    $sites = $override->getNews('sites', 'status', 1, 'id', $value['site_id'])[0];
-                                                ?>
-                                                    <tr>
-                                                        <td class="table-user">
-                                                            <?= $value['study_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $sites['name']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="#" class="btn btn-success">Active</a>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="add.php?id=10&cid=<?= $value['id'] ?>" class="btn btn-info">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                <?php $x++;
-                                                } ?>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <!--/.col (right) -->
-                        </div>
-                        <!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                </section>
-                <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
-        <?php } elseif ($_GET['id'] == 11) { ?>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1>
-                                    <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc2('economic', 'status', 1, 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc1('economic', 'status', 1, 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc2('economic', 'status', 1, 'site_id', $user->data()->site_id,  'id');
-                                    }
-                                    ?>
-                                    eonomic
-                                </h1>
-                            </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">eonomic</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div><!-- /.container-fluid -->
-                </section>
-
-                <!-- Main content -->
-                <section class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <section class="content-header">
-                                        <div class="container-fluid">
-                                            <div class="row mb-2">
-                                                <div class="col-sm-3">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">List of eonomic</h3>&nbsp;&nbsp;
-                                                        <span class="badge badge-info right"><?= $economic; ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
-                                                                                <option value="">Select Site</option>
-                                                                                <?php foreach ($override->get('sites', 'status', 1) as $site) { ?>
-                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                                <?php } ?>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="download_economic" value="Download" class="btn btn-info">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <ol class="breadcrumb float-sm-right">
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                < Back</a>
-                                                        </li>
-                                                        &nbsp;
-                                                        <li class="breadcrumb-item">
-                                                            <a href="index1.php">
-                                                                Go Home > </a>
-                                                        </li>
-                                                    </ol>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                        </div><!-- /.container-fluid -->
-                                    </section>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $x = 1;
-                                                foreach ($clients as $value) {
-                                                    $sites = $override->getNews('sites', 'status', 1, 'id', $value['site_id'])[0];
-                                                ?>
-                                                    <tr>
-                                                        <td class="table-user">
-                                                            <?= $value['study_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $sites['name']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="#" class="btn btn-success">Active</a>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="add.php?id=9&cid=<?= $value['id'] ?>" class="btn btn-info">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                <?php $x++;
-                                                } ?>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <!--/.col (right) -->
-                        </div>
-                        <!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                </section>
-                <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
-        <?php } elseif ($_GET['id'] == 12) { ?>
+        <?php } elseif ($_GET['id'] == 3) { ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
@@ -1667,7 +1311,7 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Study Id</th>
@@ -1738,6 +1382,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $i - 1;
+                                                                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -1749,7 +1421,7 @@ if ($user->isLoggedIn()) {
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-        <?php } elseif ($_GET['id'] == 21) { ?>
+        <?php } elseif ($_GET['id'] == 4) { ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
@@ -1861,7 +1533,7 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Study Id</th>
@@ -1913,6 +1585,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $i - 1;
+                                                                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>

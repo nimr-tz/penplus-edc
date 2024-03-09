@@ -1563,7 +1563,7 @@ if ($user->isLoggedIn()) {
                                                 <tr>
                                                     <td><?= $client['clinic_date'] ?></td>
                                                     <td><?= $client['study_id'] ?></td>
-                                                    <td><?= $client['firstname'] . ' - ' . $client['lastname'] ?></td>
+                                                    <td><?= $client['firstname'] . ' - ' . $client['middlename'] . ' - ' . $client['lastname'] ?></td>
 
                                                     <?php if ($type['cardiac'] == 1) { ?>
                                                         <td>
@@ -2080,7 +2080,6 @@ if ($user->isLoggedIn()) {
                                         <table id="example1" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Patient ID</th>
                                                     <th>Visit Day</th>
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>
@@ -2120,7 +2119,6 @@ if ($user->isLoggedIn()) {
 
                                                 ?>
                                                     <tr>
-                                                        <td><?= $patient['study_id'] ?></td>
                                                         <td> <?= $visit['visit_day'] ?></td>
                                                         <td> <?= $visit['expected_date'] ?></td>
                                                         <td> <?= $visit['visit_date'] ?> </td>
@@ -2571,7 +2569,6 @@ if ($user->isLoggedIn()) {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Patient ID</th>
                                                     <th>Visit Day</th>
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>

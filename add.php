@@ -4705,8 +4705,9 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
+                                            <hr>
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -4717,61 +4718,56 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
                                             <?php
                                             if (!$override->get4('clients', 'id', $_GET['cid'], 'age')) {
                                             ?>
 
-                                                <div class="row">
-
-                                                    <div class="col-sm-4">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Appropriate grade for age:</label>
-                                                                <select class="form-control" name="grade_age" style="width: 100%;">
-                                                                    <option value="<?= $demographic['grade_age'] ?>"><?php if ($demographic) {
-                                                                                                                            if ($demographic['grade_age'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($demographic['grade_age'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            } elseif ($demographic['grade_age'] == 3) {
-                                                                                                                                echo 'N/A';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                    <option value="3">N/A</option>
-                                                                </select>
-                                                            </div>
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Appropriate grade for age:</label>
+                                                            <select class="form-control" name="grade_age" style="width: 100%;" required>
+                                                                <option value="<?= $demographic['grade_age'] ?>"><?php if ($demographic) {
+                                                                                                                        if ($demographic['grade_age'] == 1) {
+                                                                                                                            echo 'Yes';
+                                                                                                                        } elseif ($demographic['grade_age'] == 2) {
+                                                                                                                            echo 'No';
+                                                                                                                        } elseif ($demographic['grade_age'] == 3) {
+                                                                                                                            echo 'N/A';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                                <option value="3">N/A</option>
+                                                            </select>
                                                         </div>
                                                     </div>
+                                                </div>
 
-                                                    <div class="col-sm-4">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>NCD limiting school attendance::</label>
-                                                                <select class="form-control" name="school_attendance" style="width: 100%;">
-                                                                    <option value="<?= $demographic['school_attendance'] ?>"><?php if ($demographic) {
-                                                                                                                                    if ($demographic['school_attendance'] == 1) {
-                                                                                                                                        echo 'Yes';
-                                                                                                                                    } elseif ($demographic['school_attendance'] == 2) {
-                                                                                                                                        echo 'No';
-                                                                                                                                    } elseif ($demographic['school_attendance'] == 3) {
-                                                                                                                                        echo 'N/A';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                    <option value="3">N/A</option>
-                                                                </select>
-                                                            </div>
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>NCD limiting school attendance::</label>
+                                                            <select class="form-control" name="school_attendance" style="width: 100%;" required>
+                                                                <option value="<?= $demographic['school_attendance'] ?>"><?php if ($demographic) {
+                                                                                                                                if ($demographic['school_attendance'] == 1) {
+                                                                                                                                    echo 'Yes';
+                                                                                                                                } elseif ($demographic['school_attendance'] == 2) {
+                                                                                                                                    echo 'No';
+                                                                                                                                } elseif ($demographic['school_attendance'] == 3) {
+                                                                                                                                    echo 'N/A';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?></option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                                <option value="3">N/A</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4779,7 +4775,6 @@ if ($user->isLoggedIn()) {
                                             }
                                             ?>
 
-                                            <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -4787,10 +4782,13 @@ if ($user->isLoggedIn()) {
                                                             <label>Days of missed school in past month:</label>
                                                             <input class="form-control" type="number" min="0" max="100" name="missed_school" id="missed_school" value="<?php if ($demographic['missed_school']) {
                                                                                                                                                                             print_r($demographic['missed_school']);
-                                                                                                                                                                        }  ?>" />
+                                                                                                                                                                        }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -4798,61 +4796,67 @@ if ($user->isLoggedIn()) {
                                                             <label>Household Size:</label>
                                                             <input class="form-control" type="number" min="0" max="100" name="household_size" id="household_size" value="<?php if ($demographic['household_size']) {
                                                                                                                                                                                 print_r($demographic['household_size']);
-                                                                                                                                                                            }  ?>" />
+                                                                                                                                                                            }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
+                                                    <label>Patient referred from:</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Patient referred from:</label>
-                                                            <select class="form-control" id="referred" name="referred" style="width: 100%;" onchange="checkQuestionValue96('referred','referred_other')">
-                                                                <option value=" <?= $demographic['referred'] ?>"><?php if ($demographic) {
-                                                                                                                        if ($demographic['referred'] == 1) {
-                                                                                                                            echo 'Inpatient / hospital stay';
-                                                                                                                        } elseif ($demographic['referred'] == 2) {
-                                                                                                                            echo 'Primary care clinic';
-                                                                                                                        } elseif ($demographic['referred'] == 3) {
-                                                                                                                            echo 'Other outpatient clinic';
-                                                                                                                        } elseif ($demographic['referred'] == 4) {
-                                                                                                                            echo 'Maternal health';
-                                                                                                                        } elseif ($demographic['referred'] == 5) {
-                                                                                                                            echo 'Community';
-                                                                                                                        } elseif ($demographic['referred'] == 6) {
-                                                                                                                            echo 'Self';
-                                                                                                                        } elseif ($demographic['referred'] == 96) {
-                                                                                                                            echo 'Other';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
-                                                                <option value="1">Inpatient / hospital stay</option>
-                                                                <option value="2">Primary care clinic</option>
-                                                                <option value="3">Other outpatient clinic</option>
-                                                                <option value="4">Maternal health</option>
-                                                                <option value="5">Community</option>
-                                                                <option value="6">Self</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="referred" id="referred1" value="1" <?php if ($demographic['referred'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Inpatient / hospital stay</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="referred" id="referred2" value="2" <?php if ($demographic['referred'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Primary care clinic</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="referred" id="referred3" value="3" <?php if ($demographic['referred'] == 3) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Other outpatient clinic</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="referred" id="referred4" value="4" <?php if ($demographic['referred'] == 4) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Maternal health</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="referred" id="referred5" value="5" <?php if ($demographic['referred'] == 5) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Community</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="referred" id="referred6" value="6" <?php if ($demographic['referred'] == 6) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Self</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="referred" id="referred96" value="96" <?php if ($demographic['referred'] == 96) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>
+                                                             <textarea class="form-control" name="referred_other" id="referred_other" rows="3" placeholder="Type other here...">
+                                                                <?php if ($demographic['referred_other']) {
+                                                                    print_r($demographic['referred_other']);
+                                                                }  ?>
+                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-3" id="referred_other">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Other Specify:</label>
-                                                            <input class="form-control" type="text" name="referred_other" value="<?php if ($demographic['referred_other']) {
-                                                                                                                                        print_r($demographic['referred_other']);
-                                                                                                                                    }  ?>" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -4881,23 +4885,28 @@ if ($user->isLoggedIn()) {
                                                             <label>CHW name:</label>
                                                             <input class="form-control" type=" text" name="chw" id="chw" value="<?php if ($demographic['chw']) {
                                                                                                                                     print_r($demographic['chw']);
-                                                                                                                                }  ?>" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Comments:</label>
-                                                            <textarea class="form-control" name="comments" rows="4"><?php if ($demographic['comments']) {
-                                                                                                                        print_r($demographic['comments']);
-                                                                                                                    }  ?> </textarea>
+                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <hr>
+                                            <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>General Comments:</label>
+                                                                <textarea class="form-control" name="comments" rows="3">
+                                                                    <?php if ($demographic['comments']) {
+                                                                    print_r($demographic['comments']);
+                                                                }  ?> 
+                                                                </textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         <!-- /.card-body -->
 
                                         <div class="card-footer">

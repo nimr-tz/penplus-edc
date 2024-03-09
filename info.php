@@ -2036,14 +2036,18 @@ if ($user->isLoggedIn()) {
                                             $gender = 'Female';
                                         }
 
-                                        $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+                                        $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['middlename'] . ' ' . $patient['lastname'];
 
                                         ?>
 
 
                                         <div class="row mb-2">
                                             <div class="col-sm-6">
-                                                <h1>Study ID: <?= $patient['study_id'] ?><h4><?= $name ?></h4>
+                                                <h1>Study ID: <?= $patient['study_id'] ?></h1>
+                                                <h4>Name: <?= $name ?></h4>
+                                                <h4>Age: <?= $patient['age'] ?></h4>
+                                                <h4>Gender: <?= $gender ?></h4>
+                                                <h4>Category: <?= $cat ?></h4>
                                             </div>
                                             <div class="col-sm-6">
                                                 <ol class="breadcrumb float-sm-right">
@@ -2793,13 +2797,17 @@ if ($user->isLoggedIn()) {
                                             $gender = 'Female';
                                         }
 
-                                        $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['lastname'] . ' Age: ' . $patient['age'] . ' Gender: ' . $gender . ' Type: ' . $cat;
+                                        $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['middlename']. ' ' . $patient['lastname'];
 
                                         ?>
 
                                         <div class="row mb-2">
                                             <div class="col-sm-6">
-                                                <h1>Study ID: <?= $patient['study_id'] ?><h4><?= $name ?></h4>
+                                                <h1>Study ID: <?= $patient['study_id'] ?></h1>
+                                                <h4>Name: <?= $name ?></h4>
+                                                <h4>Age: <?= $patient['age'] ?></h4>
+                                                <h4>Gender: <?= $gender ?></h4>
+                                                <h4>Category: <?= $cat ?></h4>
                                             </div>
                                             <div class="col-sm-6">
                                                 <ol class="breadcrumb float-sm-right">

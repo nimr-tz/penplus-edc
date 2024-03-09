@@ -3627,6 +3627,11 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="index1.php">
+                                            < Back
+                                        </a>
+                                    </li>&nbsp;&nbsp;
                                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                                     <li class="breadcrumb-item active">Client Form</li>
                                 </ol>
@@ -4053,7 +4058,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Age ( Gurdian )</label>
-                                                            <input type="date" name="age" id="age" max="100" class="form-control" value="<?php if ($client['age']) {
+                                                            <input type="number" name="age" id="age" max="0" max="100" class="form-control" value="<?php if ($client['age']) {
                                                                                                                                     print_r($client['age']);
                                                                                                                                 }  ?>" required/>
                                                         </div>

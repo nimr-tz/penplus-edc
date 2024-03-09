@@ -4011,23 +4011,55 @@ if ($user->isLoggedIn()) {
                                                                                                                                                     }  ?>" required/>
                                                         </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>  
                                                 
-
+                                                <div class="col-sm-3">
+                                                    <label>Relation to patient ( Supporter )</label>
+                                                    <!-- radio -->
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <?php foreach ($override->get('relation', 'status', 1) as $relation) { ?>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="relation_patient" id="relation_patient<?= $client['id']; ?>" value="<?= $client['id']; ?>" <?php if ($client['relation_patient'] == $relation['id']) {
+                                                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                                                        } ?> required>
+                                                                    <label class="form-check-label"><?= $relation['name']; ?></label>
+                                                                </div>
+                                                            <?php } ?>
+                                                             <textarea class="form-control" name="relation_patient_other" id="relation_patient_other" rows="3" placeholder="Type other relation here...">
+                                                                <?php if ($clients['relation_patient_other']) {
+                                                                    print_r($clients['relation_patient_other']);
+                                                                }  ?>
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+                                            <hr>
+                                            <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
+                                                        <!-- Date -->
                                                         <div class="form-group">
-                                                            <label>Relation to patient </label>
-                                                            <input class="form-control" type="text" name="relation_patient" id="relation_patient" value="<?php if ($client['relation_patient']) {
-                                                                                                                                                                print_r($client['relation_patient']);
-                                                                                                                                                            }  ?>" required/>
+                                                            <label>Date of Birth ( Gurdian )</label>
+                                                            <input type="date" name="dob" id="dob" max="<?= date('Y-m-d'); ?>" class="form-control" value="<?php if ($client['dob']) {
+                                                                                                                                    print_r($client['dob']);
+                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- Date -->
+                                                        <div class="form-group">
+                                                            <label>Age ( Gurdian )</label>
+                                                            <input type="date" name="age" id="age" max="100" class="form-control" value="<?php if ($client['age']) {
+                                                                                                                                    print_r($client['age']);
+                                                                                                                                }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -4051,9 +4083,108 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-                                                
-                                                <div class="col-sm-6">
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Gender ( Gurdian )</label>
+                                                            <select class="form-control" name="gender" style="width: 100%;" required>
+                                                                <option value="<?= $client['gender'] ?>"><?php if ($client) {
+                                                                                                                if ($client['gender'] == 1) {
+                                                                                                                    echo 'Male';
+                                                                                                                } elseif ($client['gender'] == 2) {
+                                                                                                                    echo 'Female';
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Select';
+                                                                                                            } ?></option>
+                                                                <option value="1">Male</option>
+                                                                <option value="2">Female</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Education Level ( Gurdian )</label>
+                                                            <select class="form-control" name="education_level" style="width: 100%;" required>
+                                                                <option value="<?= $client['education_level'] ?>"><?php if ($client) {
+                                                                                                                        if ($client['education_level'] == 1) {
+                                                                                                                            echo 'Not attended school';
+                                                                                                                        } elseif ($client['education_level'] == 2) {
+                                                                                                                            echo 'Primary';
+                                                                                                                        } elseif ($client['education_level'] == 3) {
+                                                                                                                            echo 'Secondary';
+                                                                                                                        } elseif ($client['education_level'] == 4) {
+                                                                                                                            echo 'Certificate';
+                                                                                                                        } elseif ($client['education_level'] == 5) {
+                                                                                                                            echo 'Diploma';
+                                                                                                                        } elseif ($client['education_level'] == 6) {
+                                                                                                                            echo 'Undergraduate degree';
+                                                                                                                        } elseif ($client['education_level'] == 7) {
+                                                                                                                            echo 'Postgraduate degree';
+                                                                                                                        } elseif ($client['education_level'] == 8) {
+                                                                                                                            echo 'N / A';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                                <option value="1">Not attended school</option>
+                                                                <option value="2">Primary</option>
+                                                                <option value="3">Secondary</option>
+                                                                <option value="4">Certificate</option>
+                                                                <option value="5">Diploma</option>
+                                                                <option value="6">Undergraduate degree</option>
+                                                                <option value="7">Postgraduate degree</option>
+                                                                <option value="8">N / A</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Employment status ( Gurdian )</label>
+                                                            <select class="form-control" name="employment_status" style="width: 100%;" required>
+                                                                <option value="<?= $client['employment_status'] ?>"><?php if ($client) {
+                                                                                                                        if ($client['employment_status'] == 1) {
+                                                                                                                            echo 'Employed';
+                                                                                                                        } elseif ($client['employment_status'] == 2) {
+                                                                                                                            echo 'Self-employed';
+                                                                                                                        } elseif ($client['employment_status'] == 3) {
+                                                                                                                            echo 'Employed but on leave of absence';
+                                                                                                                        } elseif ($client['employment_status'] == 4) {
+                                                                                                                            echo 'Unemployed';
+                                                                                                                        } elseif ($client['employment_status'] == 5) {
+                                                                                                                            echo 'Student';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?></option>
+                                                                <option value="1">Employed</option>
+                                                                <option value="2">Self-employed</option>
+                                                                <option value="3">Employed but on leave of absence</option>
+                                                                <option value="4">Unemployed</option>
+                                                                <option value="5">Student</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>  
+                                            <hr>
+                                            <div class="card card-warning">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">General Comments / Remarks / Notes</h3>
+                                                </div>
+                                            </div>
+                                            <hr>                                                                                               
+                                            <div class="row">
+                                                <div class="col-sm-12">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">

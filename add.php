@@ -1047,8 +1047,8 @@ if ($user->isLoggedIn()) {
                         ));
                     }
 
-                    if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
 
+                    if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
 
                         if (Input::get('update_siblings')) {
                             $user->updateRecord('sickle_cell_status_table', array(
@@ -1084,7 +1084,6 @@ if ($user->isLoggedIn()) {
                                 ));
                             }                      
                         }
-
                     }
                     $successMessage = 'History added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
@@ -5155,15 +5154,17 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Diabetes</label>
                                                                 <select name="diabetes" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['diabetes'] ?>"><?php if ($history) {
-                                                                                                                    if ($history['diabetes'] == 1) {
-                                                                                                                        echo 'Yes';
-                                                                                                                    } elseif ($history['diabetes'] == 2) {
-                                                                                                                        echo 'No';
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    echo 'Select';
-                                                                                                                } ?></option>
+                                                                    <option value="<?= $history['diabetes'] ?>">
+                                                                        <?php if ($history) {
+                                                                                if ($history['diabetes'] == 1) {
+                                                                                    echo 'Yes';
+                                                                                } elseif ($history['diabetes'] == 2) {
+                                                                                    echo 'No';
+                                                                                }
+                                                                            } else {
+                                                                                echo 'Select';
+                                                                            } ?>
+                                                                        </option>
                                                                     <option value="1">Yes</option>
                                                                     <option value="2">No</option>
                                                                 </select>

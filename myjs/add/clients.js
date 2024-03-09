@@ -1,36 +1,48 @@
-const dropdown = document.getElementById("occupation");
-const elementToShow = document.getElementById("exposure");
+const occupation1 = document.getElementById("occupation1");
+const occupation2 = document.getElementById("occupation2");
+const occupation3 = document.getElementById("occupation3");
 
-function showElement() {
-  if (dropdown.value === "1") {
-    elementToShow.style.display = "block";
+const exposure = document.getElementById("exposure");
+
+function toggleElementVisibility() {
+  if (occupation1.checked) {
+    exposure.style.display = "block";
   } else {
-    elementToShow.style.display = "none";
-  }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", dropdown.value);
-
-  // Check if the elementToShow is hidden and the selected value is the hidden value
-  if (elementToShow.style.display === "none" && dropdown.value === "1") {
-    // Reset dropdown value to default or another appropriate action
-    dropdown.value = "2";
-    alert("Other is not available.");
+    exposure.style.display = "none";
   }
 }
 
-// Check if there's a previously selected value in localStorage
-const prevSelectedValue = localStorage.getItem("selectedValue");
+occupation1.addEventListener("change", toggleElementVisibility);
+occupation2.addEventListener("change", toggleElementVisibility);
+occupation3.addEventListener("change", toggleElementVisibility);
 
-if (prevSelectedValue) {
-  dropdown.value = prevSelectedValue;
+
+// Initial check
+toggleElementVisibility();
+
+function unsetOccupation() {
+  var radioButtons = document.getElementsByName("occupation");
+  radioButtons.forEach(function (radioButton) {
+    radioButton.checked = false;
+  });
 }
 
-// Show element if Option 2 is selected
-showElement();
+function validateClientsForm() {
+  var occupationOptions = document.getElementsByName("occupation");
 
-// Listen for changes in the dropdown
-dropdown.addEventListener("change", showElement);
+  var occupationSelected = false;
 
+  for (var i = 0; i < occupationOptions.length; i++) {
+    if (occupationOptions[i].checked) {
+      occupationSelected = true;
+      break;
+    }
+  }
 
+  if (!occupationSelected) {
+    alert("Please select Option for 'Occupation Exposure'");
+    return false;
+  }
 
+  return true;
+}

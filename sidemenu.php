@@ -284,7 +284,7 @@ if ($user->isLoggedIn()) {
                         <li class="nav-item">
                             <a href="./index1.php" class="nav-link active">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard <?= $Site; ?></p>
+                                <p> <?= $Site; ?></p>
                             </a>
                         </li>
                         <!-- <li class="nav-item">

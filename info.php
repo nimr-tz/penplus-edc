@@ -1513,16 +1513,16 @@ if ($user->isLoggedIn()) {
                                                 <th>Patient Name</th>
                                                 <th>Type</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
-                                                <?php if ($_GET['status'] == 3) { ?>
+                                                <?php if ($_GET['status'] == 4) { ?>
+                                                    <th>Reason</th>
+                                                <?php } else { ?>
+                                                    <th>Action</th>
+                                                <?php } ?>
 
+                                                <?php if ($_GET['status'] == 3) { ?>
                                                     <th>Summary</th>
                                                 <?php } ?>
 
-                                                <?php
-                                                if ($_GET['status'] == 1) { ?>
-                                                    <th>Screening / Enrollments / Forms</th>
-                                                <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1628,7 +1628,7 @@ if ($user->isLoggedIn()) {
                                                     <?php if ($_GET['status'] == 4) { ?>
                                                         <td>
                                                             <?php if ($client['end_study'] == 1) { ?>
-                                                                <a href="#" class="btn btn-danger">END</a>
+                                                                <a href="#" class="btn btn-danger">Terminated</a>
                                                         </td>
 
                                                         <td>
@@ -1651,11 +1651,8 @@ if ($user->isLoggedIn()) {
                                                                 <a href="#" class="btn btn-info">Other</a>
                                                             <?php
                                                                 } ?>
-                                                        </td>
 
-
-                                                    <?php } else { ?>
-                                                        <td>
+                                                        <?php } else { ?>
                                                             <a href="#" class="btn btn-success">ACTIVE</a>
                                                         </td>
                                                 <?php }
@@ -1675,61 +1672,73 @@ if ($user->isLoggedIn()) {
                                                 <?php }
                                                 } ?>
 
-                                                <td>
-                                                    <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
-                                                        <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">View / Update</a>
-                                                </td>
+                                                <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
+                                                    <td>
 
-                                                <td>
+                                                        <?php if ($_GET['status'] == 5) { ?>
+                                                            <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">View / Update</a>
+                                                            <br>
+                                                            <hr>
+                                                        <?php
+                                                        } ?>
 
+                                                        <?php if ($screened) { ?>
 
-                                                    <?php if ($screened) { ?>
-                                                        <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
-                                                            Edit Screening
-                                                        </a>
-                                                    <?php } else {  ?>
-                                                        <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
-                                                            Add Screening
-                                                        </a>
-                                                <?php }
-                                                    } ?>
+                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
+                                                                Edit Screening
+                                                            </a>
+                                                        <?php } else {  ?>
 
-                                                <?php if ($_GET['status'] == 2) { ?>
-                                                    <?php if ($enrollment == 1) { ?>
-                                                        <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
-                                                            Edit Enrollment
-                                                        </a>
-                                                    <?php } else {  ?>
-                                                        <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
-                                                            Add Enrollment
-                                                        </a>
-                                                    <?php }
-                                                    ?>
-                                                <?php } ?>
-                                                <?php if ($_GET['status'] == 3) { ?>
-                                                    <?php if ($enrollment == 1) { ?>
-                                                        <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
-
-                                                <?php }
-                                                } ?>
-                                                </td>
-
-                                                <td>
-                                                    <?php if ($_GET['status'] == 3) { ?>
-                                                        <?php if ($enrollment == 1) { ?>
-                                                            <a href="summary.php?cid=<?= $client['id'] ?>" role="button" class="btn btn-primary">Patient Summary</a>
-
+                                                            <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
+                                                                Add Screening
+                                                            </a>
                                                     <?php }
                                                     } ?>
 
                                                     <?php if ($_GET['status'] == 5) { ?>
                                                         <?php if ($user->data()->power == 1) { ?>
+                                                            <br>
+                                                            <hr>
                                                             <a href="#delete_client<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                     <?php
                                                         }
                                                     } ?>
-                                                </td>
-                                                <!-- <td><span class="badge bg-danger">55%</span></td> -->
+
+                                                    <?php if ($_GET['status'] == 2) { ?>
+                                                    <td>
+
+                                                        <?php if ($enrollment == 1) { ?>
+                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
+                                                                Edit Enrollment
+                                                            </a>
+                                                        <?php } else {  ?>
+                                                            <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
+                                                                Add Enrollment
+                                                            </a>
+                                                    </td>
+
+                                                <?php }
+                                                ?>
+                                            <?php } ?>
+                                            <?php if ($_GET['status'] == 3) { ?>
+                                                <?php if ($enrollment == 1) { ?>
+                                                    <td>
+                                                        <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
+                                                    </td>
+
+
+                                            <?php }
+                                                } ?>
+
+                                            <?php if ($_GET['status'] == 3) { ?>
+                                                <?php if ($enrollment == 1) { ?>
+                                                    <td>
+                                                        <a href="summary.php?cid=<?= $client['id'] ?>" role="button" class="btn btn-primary">Patient Summary</a>
+                                                    </td>
+
+                                            <?php }
+                                                } ?>
+                                            <!-- <td><span class="badge bg-danger">55%</span></td> -->
                                                 </tr>
                                                 <div class="modal fade" id="addScreening<?= $client['id'] ?>">
                                                     <div class="modal-dialog">

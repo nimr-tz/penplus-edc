@@ -3553,25 +3553,27 @@ if ($user->isLoggedIn()) {
                                     <div class="card-header">
 
                                         <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
-                                            <h3 class="card-title">Add Client</h3>
+                                            <h3 class="card-title">Add Client  ( PATIENT DETAILS )</h3>
                                         <?php } ?>
 
                                         <?php if ($user->data()->position == 2) { ?>
-                                            <h3 class="card-title">View clients info</h3>
+                                            <h3 class="card-title">View clients info ( PATIENT DETAILS )</h3>
                                         <?php } ?>
                                     </div>
                                     <!-- /.card-header -->
-                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off" onsubmit="return validateClientsForm()">
                                         <div class="card-body">
+                                            <hr>
+
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Registration Date:</label>
-                                                            <input type="date" name="clinic_date" id="clinic_date" class="form-control" value="<?php if ($client['clinic_date']) {
+                                                            <input type="date" name="clinic_date" id="clinic_date" max="<?= date('Y-m-d'); ?>" class="form-control" value="<?php if ($client['clinic_date']) {
                                                                                                                                                     print_r($client['clinic_date']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3608,6 +3610,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-3">
@@ -3615,9 +3618,9 @@ if ($user->isLoggedIn()) {
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Date of Birth:</label>
-                                                            <input type="date" name="dob" id="dob" class="form-control" value="<?php if ($client['dob']) {
+                                                            <input type="date" name="dob" id="dob" max="<?= date('Y-m-d'); ?>" class="form-control" value="<?php if ($client['dob']) {
                                                                                                                                     print_r($client['dob']);
-                                                                                                                                }  ?>" />
+                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3644,64 +3647,120 @@ if ($user->isLoggedIn()) {
 
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
-                                                        <div class="form-group">
-                                                            <label>Education Level</label>
-                                                            <select class="form-control" name="education_level" style="width: 100%;" required>
-                                                                <option value="<?= $client['education_level'] ?>"><?php if ($client) {
-                                                                                                                        if ($client['education_level'] == 1) {
-                                                                                                                            echo 'Not attended school';
-                                                                                                                        } elseif ($client['education_level'] == 2) {
-                                                                                                                            echo 'Primary';
-                                                                                                                        } elseif ($client['education_level'] == 3) {
-                                                                                                                            echo 'Secondary';
-                                                                                                                        } elseif ($client['education_level'] == 4) {
-                                                                                                                            echo 'Certificate';
-                                                                                                                        } elseif ($client['education_level'] == 5) {
-                                                                                                                            echo 'Diploma';
-                                                                                                                        } elseif ($client['education_level'] == 6) {
-                                                                                                                            echo 'Undergraduate degree';
-                                                                                                                        } elseif ($client['education_level'] == 7) {
-                                                                                                                            echo 'Postgraduate degree';
-                                                                                                                        } elseif ($client['education_level'] == 8) {
-                                                                                                                            echo 'N / A';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
-                                                                <option value="1">Not attended school</option>
-                                                                <option value="2">Primary</option>
-                                                                <option value="3">Secondary</option>
-                                                                <option value="4">Certificate</option>
-                                                                <option value="5">Diploma</option>
-                                                                <option value="6">Undergraduate degree</option>
-                                                                <option value="7">Postgraduate degree</option>
-                                                                <option value="8">N / A</option>
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-3">
-                                                    <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Hospital ID (Patient Hospital ID Number )</label>
                                                             <input class="form-control" type="text" name="hospital_id" id="hospital_id" value="<?php if ($client['hospital_id']) {
                                                                                                                                                     print_r($client['hospital_id']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                            </div>
+                                                <div class="col-sm-3">
+                                                    <label>Occupational Exposures</label>
+                                                    <!-- radio -->
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation" id="occupation1" value="1" <?php if ($client['occupation'] == 1) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>
+                                                            </div>
+                                                            <textarea class="form-control"  id="exposure" placeholder="List exposure" name="exposure" rows="3" style="width: 100%;">
+                                                                <?php if ($client['exposure']) {
+                                                                print_r($client['exposure']);
+                                                            }  ?>
+                                                            </textarea>
 
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation" id="occupation2" value="2" <?php if ($client['occupation'] == 2) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>
+                                                                <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="occupation" id="occupation3" value="3" <?php if ($client['occupation'] == 3) {
+                                                                                                                                                echo 'checked';
+                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Unknown</label>
+                                                            </div>                                                                
+                                                        </div>                       
+                                                        <button onclick="unsetOccupation()">Unset</button>
+                                                    </div>                                                        
+                                                </div>                                                           
+
+                                            </div>
+                                            <hr>
 
                                             <?php
                                             //  if ($override->get4('clients', 'id', $_GET['cid'], 'age')) {
                                             ?>
                                             <div id="adult">
                                                 <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>Phone Number 1</label>
+                                                                <input class="form-control" type="tel" pattern=[0]{1}[0-9]{9} minlength="10" maxlength="10" name="phone_number" id="phone_number" value="<?php if ($client['phone_number']) {
+                                                                                                                                                            print_r($client['phone_number']);
+                                                                                                                                                        }  ?>" required /> <span>Example: 0700 000 111</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>Phone Number 2 ( Option )</label>
+                                                                <input class="form-control" type="tel" pattern=[0]{1}[0-9]{9} minlength="10" maxlength="10" name="phone_number" id="phone_number" value="<?php if ($client['phone_number']) {
+                                                                                                                                                            print_r($client['phone_number']);
+                                                                                                                                                        }  ?>" /> <span>Example: 0700 000 111</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-sm-3">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label>Education Level</label>
+                                                                <select class="form-control" name="education_level" style="width: 100%;" required>
+                                                                    <option value="<?= $client['education_level'] ?>"><?php if ($client) {
+                                                                                                                            if ($client['education_level'] == 1) {
+                                                                                                                                echo 'Not attended school';
+                                                                                                                            } elseif ($client['education_level'] == 2) {
+                                                                                                                                echo 'Primary';
+                                                                                                                            } elseif ($client['education_level'] == 3) {
+                                                                                                                                echo 'Secondary';
+                                                                                                                            } elseif ($client['education_level'] == 4) {
+                                                                                                                                echo 'Certificate';
+                                                                                                                            } elseif ($client['education_level'] == 5) {
+                                                                                                                                echo 'Diploma';
+                                                                                                                            } elseif ($client['education_level'] == 6) {
+                                                                                                                                echo 'Undergraduate degree';
+                                                                                                                            } elseif ($client['education_level'] == 7) {
+                                                                                                                                echo 'Postgraduate degree';
+                                                                                                                            } elseif ($client['education_level'] == 8) {
+                                                                                                                                echo 'N / A';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo 'Select';
+                                                                                                                        } ?></option>
+                                                                    <option value="1">Not attended school</option>
+                                                                    <option value="2">Primary</option>
+                                                                    <option value="3">Secondary</option>
+                                                                    <option value="4">Certificate</option>
+                                                                    <option value="5">Diploma</option>
+                                                                    <option value="6">Undergraduate degree</option>
+                                                                    <option value="7">Postgraduate degree</option>
+                                                                    <option value="8">N / A</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
@@ -3727,124 +3786,193 @@ if ($user->isLoggedIn()) {
                                                                     <option value="3">Employed but on leave of absence</option>
                                                                     <option value="4">Unemployed</option>
                                                                     <option value="5">Student</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                                                                
+                                                </div>
+                                                <hr>
 
+                                                <div class="card card-warning">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Patient Address</h3>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label>Region</label>
+                                                                <select id="region" name="region" class="form-control" required>
+                                                                    <option value="<?= $district['id'] ?>"><?php if ($clients) {
+                                                                                                                print_r($district['name']);
+                                                                                                            } else {
+                                                                                                                echo 'Select district';
+                                                                                                            } ?>
+                                                                    </option>
+                                                                    <?php foreach ($override->get('district', 'status', 1) as $value) { ?>
+                                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                                    <?php } ?>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
-
 
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>Occupational Exposures</label>
-                                                                <select class="form-control" name="occupation" id="occupation" style="width: 100%;" onchange="checkQuestionValue1('occupation','exposure')" required>
-                                                                    <option value="<?= $client['occupation'] ?>"><?php if ($client) {
-                                                                                                                        if ($client['occupation'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($client['occupation'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        } elseif ($client['occupation'] == 3) {
-                                                                                                                            echo 'Unknown';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                    <option value="3">Unknown</option>
+                                                                <label>District</label>
+                                                                <select id="district" name="district" class="form-control" required>
+                                                                    <option value="<?= $district['id'] ?>"><?php if ($clients) {
+                                                                                                                print_r($district['name']);
+                                                                                                            } else {
+                                                                                                                echo 'Select district';
+                                                                                                            } ?>
+                                                                    </option>
+                                                                    <?php foreach ($override->get('district', 'status', 1) as $value) { ?>
+                                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                                    <?php } ?>
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <!-- <input type="text" id="occupation" onkeyup="checkQuestionValue('occupation','exposure')"> -->
-
                                                     </div>
-                                                    <div class="col-sm-6 hidden" id="exposure">
+
+                                                    <div class="col-sm-3">
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>If yes, list exposure:</label>
-                                                                <textarea class="form-control" name="exposure" rows="4"><?php if ($client['exposure']) {
-                                                                                                                            print_r($client['exposure']);
-                                                                                                                        }  ?></textarea>
+                                                                <label>Ward</label>
+                                                                <select id="district" name="district" class="form-control" required>
+                                                                    <option value="<?= $district['id'] ?>"><?php if ($clients) {
+                                                                                                                print_r($district['name']);
+                                                                                                            } else {
+                                                                                                                echo 'Select district';
+                                                                                                            } ?>
+                                                                    </option>
+                                                                    <?php foreach ($override->get('district', 'status', 1) as $value) { ?>
+                                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                                    <?php } ?>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-sm-3">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>Physical Address</label>
+                                                                <textarea class="form-control"  id="physical_address" placeholder="Type physical address here" name="physical_address" rows="3" style="width: 100%;" required>
+                                                                    <?php if ($client['physical_address']) {
+                                                                        print_r($client['physical_address']);
+                                                                    }  ?>
+                                                                </textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>   
                                                 </div>
                                             </div>
 
                                             <?php
                                             // }
                                             ?>
+                                            <hr>
 
+                                            <div class="card card-warning">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Guardian Details</h3>
+                                                </div>
+                                            </div>
+                                            <hr>
                                             <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Patient Phone Number</label>
-                                                            <input class="form-control" type="text" name="phone_number" id="phone_number" value="<?php if ($client['phone_number']) {
-                                                                                                                                                        print_r($client['phone_number']);
-                                                                                                                                                    }  ?>" /> <span>Example: 0700 000 111</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Guardian Phone Number</label>
-                                                            <input class="form-control" type="text" name="guardian_phone" id="guardian_phone" value="<?php if ($client['guardian_phone']) {
-                                                                                                                                                            print_r($client['guardian_phone']);
-                                                                                                                                                        }  ?>" /> <span>Example: 0700 000 111</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Guardian Name</label>
+                                                            <label>First Name  ( Gurdian )</label>
                                                             <input class="form-control" type="text" name="guardian_name" id="guardian_name" value="<?php if ($client['guardian_name']) {
                                                                                                                                                         print_r($client['guardian_name']);
-                                                                                                                                                    }  ?>" />
+                                                                                                                                                    }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Middle Name  ( Gurdian )</label>
+                                                            <input class="form-control" type="text" name="guardian_name" id="guardian_name" value="<?php if ($client['guardian_name']) {
+                                                                                                                                                        print_r($client['guardian_name']);
+                                                                                                                                                    }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Last Name  ( Gurdian )</label>
+                                                            <input class="form-control" type="text" name="guardian_name" id="guardian_name" value="<?php if ($client['guardian_name']) {
+                                                                                                                                                        print_r($client['guardian_name']);
+                                                                                                                                                    }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
+                                                
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Relation to patient </label>
+                                                            <input class="form-control" type="text" name="relation_patient" id="relation_patient" value="<?php if ($client['relation_patient']) {
+                                                                                                                                                                print_r($client['relation_patient']);
+                                                                                                                                                            }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Relation to patient</label>
-                                                            <input class="form-control" type="text" name="relation_patient" id="relation_patient" value="<?php if ($client['relation_patient']) {
-                                                                                                                                                                print_r($client['relation_patient']);
-                                                                                                                                                            }  ?>" />
+                                                            <label>Phone Number 1 ( Gurdian ) </label>
+                                                            <input class="form-control" type="tel" pattern=[0]{1}[0-9]{9} minlength="10" maxlength="10" name="guardian_phone" id="guardian_phone" value="<?php if ($client['guardian_phone']) {
+                                                                                                                                                            print_r($client['guardian_phone']);
+                                                                                                                                                        }  ?>" required/> <span>Example: 0700 000 111</span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+
+                                                <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Physical Address</label>
-                                                            <input class="form-control" type="text" name="physical_address" id="physical_address" value="<?php if ($client['physical_address']) {
-                                                                                                                                                                print_r($client['physical_address']);
-                                                                                                                                                            }  ?>" />
+                                                            <label>Phone Number 2 ( Gurdian - Optional )</label>
+                                                            <input class="form-control" type="tel" pattern=[0]{1}[0-9]{9} minlength="10" maxlength="10" name="guardian_phone" id="guardian_phone" value="<?php if ($client['guardian_phone']) {
+                                                                                                                                                            print_r($client['guardian_phone']);
+                                                                                                                                                        }  ?>"/> <span>Example: 0700 000 111</span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                
+                                                
+                                                <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Comments / Remarks:</label>
-                                                            <textarea class="form-control" name="comments" rows="4"><?php if ($client['comments']) {
-                                                                                                                        print_r($client['comments']);
-                                                                                                                    }  ?></textarea>
+                                                            <textarea class="form-control" name="comments" rows="3">
+                                                            <?php if ($client['comments']) {
+                                                                print_r($client['comments']);
+                                                            }  ?>
+                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>

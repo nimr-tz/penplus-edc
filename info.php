@@ -2150,7 +2150,9 @@ if ($user->isLoggedIn()) {
 
 
                                                                 if ($user->data()->power == 1) { ?>
+                                                                <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
+                                                                    <hr>
                                                                     <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
                                                             <?php }
                                                             } ?>

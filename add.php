@@ -320,6 +320,8 @@ if ($user->isLoggedIn()) {
                                     'comments' => Input::get('comments'),
                                     'status' => 1,
                                     'created_on' => date('Y-m-d'),
+                                    'other' => 0,
+                                    'dignosis_type' => 0,                                    
                                 ));
 
                                 $last_row = $override->lastRow('clients', 'id')[0];
@@ -444,6 +446,9 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_main_diagnosis')) {
             $validate = $validate->check($_POST, array(
+                'diagnosis_date' => array(
+                    'required' => true,
+                ),
                 'cardiac' => array(
                     'required' => true,
                 ),
@@ -453,6 +458,9 @@ if ($user->isLoggedIn()) {
                 'sickle_cell' => array(
                     'required' => true,
                 ),
+                'other' => array(
+                    'required' => true,
+                ),
 
             ));
             if ($validate->passed()) {
@@ -460,16 +468,23 @@ if ($user->isLoggedIn()) {
 
                     $main_diagnosis = $override->get3('main_diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
-                    // if ((Input::get('cardiac') == 1 && Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
-                    //     || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
-                    //     || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
-                    //     || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
-                    // ) {
-                    //     $errorMessage = 'Patient Diagnosed with more than one Disease';
-                    // } else {
-
+                    if ((Input::get('cardiac') == 1 && Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1 && Input::get('other') == 1)
+                        || (Input::get('cardiac') == 1 && Input::get('diabetes') == 1)
+                        || (Input::get('cardiac') == 1 && Input::get('sickle_cell') == 1)
+                        || (Input::get('cardiac') == 1 && Input::get('other') == 1)
+                        || (Input::get('diabetes') == 1 && Input::get('sickle_cell') == 1)
+                        || (Input::get('diabetes') == 1 && Input::get('other') == 1)
+                        || (Input::get('sickle_cell') == 1 && Input::get('other') == 1)
+                    ) {
+                        $errorMessage = 'If Patient has Diagnosed with more than one Disease Please report before Proceeding ';
+                    }elseif(Input::get('other') == 1 && empty(trim(Input::get('other_diseases')))){
+                        $errorMessage = 'Please add a valaue from question " Patient Diagnosis With any Other Diseases "Other " If Other Diseaes is "YES"" Before you submit again';
+                    }elseif(Input::get('other') == 2 && !empty(trim(Input::get('other_diseases')))){
+                        $errorMessage = 'Please Remove a valaue from question " Patient Diagnosis With any Other Diseases "Other "" Before you submit again';
+                    }elseif(Input::get('cardiac') == 2 && Input::get('diabetes') == 2 && Input::get('sickle_cell') == 2 && Input::get('other') == 2){
+                        $errorMessage = 'If Patient has Diagnosed without any Disease Please report before Proceeding ';
+                    } else {
                     if ($main_diagnosis) {
-
                         $user->updateRecord('main_diagnosis', array(
                             'visit_date' => Input::get('diagnosis_date'),
                             'study_id' => $_GET['sid'],
@@ -480,12 +495,15 @@ if ($user->isLoggedIn()) {
                             'cardiac' => Input::get('cardiac'),
                             'diabetes' => Input::get('diabetes'),
                             'sickle_cell' => Input::get('sickle_cell'),
+                            'other' => Input::get('other'),
+                            'other_diseases' => Input::get('other_diseases'),
                             'comments' => Input::get('comments'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $main_diagnosis['id']);
+                        $successMessage = 'Diagnosis Updated Successful';
                     } else {
                         $user->createRecord('main_diagnosis', array(
                             'visit_date' => Input::get('diagnosis_date'),
@@ -497,6 +515,8 @@ if ($user->isLoggedIn()) {
                             'cardiac' => Input::get('cardiac'),
                             'diabetes' => Input::get('diabetes'),
                             'sickle_cell' => Input::get('sickle_cell'),
+                            'other' => Input::get('other'),
+                            'other_diseases' => Input::get('other_diseases'),
                             'comments' => Input::get('comments'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -504,6 +524,7 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                        $successMessage = 'Diagnosis added Successful';
                     }
 
                     $dignosis_type = '';
@@ -514,8 +535,10 @@ if ($user->isLoggedIn()) {
                         $dignosis_type = 2;
                     } else if (Input::get('sickle_cell') == 1) {
                         $dignosis_type = 3;
-                    } else if (Input::get('cardiac') == 0 && Input::get('diabetes') == 0 && Input::get('sickle_cell') == 0) {
+                    } else if (Input::get('other') == 1) {
                         $dignosis_type = 96;
+                    } else if (Input::get('cardiac') == 0 && Input::get('diabetes') == 0 && Input::get('sickle_cell') == 0 && Input::get('other') == 0) {
+                        $dignosis_type = 0;
                     } else {
                         $dignosis_type = 0;
                     }
@@ -525,14 +548,14 @@ if ($user->isLoggedIn()) {
                         'cardiac' => Input::get('cardiac'),
                         'diabetes' => Input::get('diabetes'),
                         'sickle_cell' => Input::get('sickle_cell'),
+                        'other' => Input::get('other'),
+                        'other_diseases' => Input::get('other_diseases'),
                         'dignosis_type' => $dignosis_type
                     ), $_GET['cid']);
 
-
-                    $successMessage = 'Diagnosis added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $successMessage);
                     die;
-                    // }
+                    }
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -4675,11 +4698,11 @@ if ($user->isLoggedIn()) {
                                 <!-- general form elements disabled -->
                                 <div class="card card-warning">
                                     <div class="card-header">
-                                        <!-- <h3 class="card-title">
+                                         <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                                <?= $name ?>
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>
                                             </strong>
-                                        </h3> -->
+                                        </h3> 
                                     </div>
                                     <!-- Content Header (Page header) -->
                                     <section class="content-header">
@@ -4998,12 +5021,12 @@ if ($user->isLoggedIn()) {
                             <div class="col-md-12">
                                 <!-- general form elements disabled -->
                                 <div class="card card-warning">
-                                    <div class="card-header">
-                                        <!-- <h3 class="card-title">
+                                     <div class="card-header">
+                                         <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                                <?= $name ?>
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>
                                             </strong>
-                                        </h3> -->
+                                        </h3> 
                                     </div>
                                     <!-- Content Header (Page header) -->
                                     <section class="content-header">
@@ -5081,14 +5104,9 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>BMI</label><span>&nbsp;&nbsp; ( kg/m2 )</span>
-                                                            <button type="button" class="btn btn-block btn-primary">
-                                                                <?php if ($vital['bmi']) {
+                                                            <input type="input" id="bmi" name="bmi" value="<?php if ($vital['bmi']) {
                                                                 print_r($vital['bmi']);
-                                                            } ?>
-                                                            <input id="bmi" value="<?php if ($vital['weight']) {
-                                                                print_r($vital['weight']);
-                                                            }  ?>" readonly/>
-                                                            </button>                                                         
+                                                            } ?>" class="btn btn-block btn-primary" readonly/>                                                           
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5223,11 +5241,11 @@ if ($user->isLoggedIn()) {
                                 <!-- general form elements disabled -->
                                 <div class="card card-warning">
                                     <div class="card-header">
-                                        <!-- <h3 class="card-title">
+                                         <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                                <?= $name ?>
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>
                                             </strong>
-                                        </h3> -->
+                                        </h3> 
                                     </div>
                                     <!-- Content Header (Page header) -->
                                     <section class="content-header">
@@ -5263,7 +5281,7 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
-                                            <!-- <div class="row"> -->
+                                            <hr>
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
@@ -5342,16 +5360,42 @@ if ($user->isLoggedIn()) {
                                                             </select>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                                
                                             </div>
-
+                                            <hr>
                                             <div class="row">
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <label>Patient Diagnosis With any Other Diseases ?</label>
+                                                    <!-- radio -->
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="other" id="other1" value="1" <?php if ($main_diagnosis['other'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>
+                                                                 <textarea class="form-control" name="other_diseases" id="other_diseases" placeholder="Type here new diseases" style="width: 100%;" rows="3">
+                                                                    <?php if ($main_diagnosis['other_diseases']) {
+                                                                        print_r($main_diagnosis['other_diseases']);
+                                                                    }  ?>
+                                                                </textarea>
+                                                            </div>                                                           
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="other" id="other2" value="2" <?php if ($main_diagnosis['other'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
+                                                <div class="col-sm-8">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Reamrks / Comments / Notes:</label>
-                                                            <textarea class="form-control" name="comments" id="comments" cols="30" rows="4">
+                                                            <label> General Remarks / Comments / Notes:</label>
+                                                            <textarea class="form-control" name="comments" id="comments" style="width: 100%;" rows="3">
                                                                     <?php if ($main_diagnosis['comments']) {
                                                                         print_r($main_diagnosis['comments']);
                                                                     }  ?>
@@ -5360,7 +5404,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- </div> -->
+                                            <hr>
                                         </div>
                                         <!-- /.card-body -->
 
@@ -17547,15 +17591,21 @@ if ($user->isLoggedIn()) {
     <!-- <script src="../../dist/js/demo.js"></script> -->
     <!-- Page specific script -->
 
-    <!-- Vital Signs Js -->
-    <script src="myjs/add/clients.js"></script>
+    <!-- Staff Signs Js -->
+    <script src="myjs/add/staff/staff.js"></script>
+
+    <!-- Clients Signs Js -->
+    <script src="myjs/add/clients/clients.js"></script>
 
     <!-- demographic Js -->
     <script src="myjs/add/demographic/demographic.js"></script>
 
 
     <!-- Vital Signs Js -->
-    <script src="myjs/add/vital.js"></script>
+    <script src="myjs/add/vital/vital.js"></script>
+
+    <!-- main_diagnosis Signs Js -->
+    <script src="myjs/add/main_diagnosis/main_diagnosis.js"></script>
 
     <!-- Medications Js -->
     <script src="myjs/add/medications/basal_changed.js"></script>

@@ -1,32 +1,37 @@
-const alcohol = document.getElementById("alcohol");
-const alcohol_type1 = document.getElementById("alcohol_type1");
-const quantity = document.getElementById("quantity");
+const alcohol1 = document.getElementById(`alcohol1`);
+const alcohol2 = document.getElementById(`alcohol2`);
+const alcohol3 = document.getElementById(`alcohol3`);
 
-function showElement() {
-  if (alcohol.value === "1") {
-    alcohol_type1.style.display = "block";
+const quantity1 = document.getElementById(`quantity1`);
+const quantity = document.getElementById(`quantity`);
+const alcohol_type = document.getElementById(`alcohol_type`);
+const alcohol_type1 = document.getElementById(`alcohol_type1`);
+
+function toggleElementVisibility() {
+  if (alcohol1.checked) {
+    alcohol_type.style.display = "block";
+    alcohol_type1.setAttribute("required", "required");
+    quantity1.style.display = "block";
+    quantity.setAttribute("required", "required");
     quantity.style.display = "block";
-  } else if (alcohol.value === "2") {
-    alcohol_type1.style.display = "block";
+  } else if (alcohol2.checked) {
+    alcohol_type.style.display = "block";
+    alcohol_type1.setAttribute("required", "required");
+    quantity1.style.display = "block";
+    quantity.setAttribute("required", "required");
     quantity.style.display = "block";
   } else {
-    alcohol_type1.style.display = "none";
+    alcohol_type.style.display = "none";
+    alcohol_type1.removeAttribute("required");
+    quantity1.style.display = "none";
+    quantity.removeAttribute("required");
     quantity.style.display = "none";
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", alcohol.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const alcoholValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (alcoholValue) {
-  alcohol.value = alcoholValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-alcohol.addEventListener("change", showElement);
+alcohol1.addEventListener("change", toggleElementVisibility);
+alcohol2.addEventListener("change", toggleElementVisibility);
+alcohol3.addEventListener("change", toggleElementVisibility);

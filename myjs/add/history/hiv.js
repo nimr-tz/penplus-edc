@@ -1,32 +1,34 @@
-const hiv = document.getElementById("hiv");
-const hiv_test = document.getElementById("hiv_test");
-const art1 = document.getElementById("art1");
+const hiv1 = document.getElementById(`hiv1`);
+const hiv2 = document.getElementById(`hiv2`);
+const hiv3 = document.getElementById(`hiv3`);
 
-function showElement() {
-  if (hiv.value === "1") {
+
+const hiv_test = document.getElementById(`hiv_test`); ;
+const hiv_test_label = document.getElementById(`hiv_test_label`);
+const art = document.getElementById(`art`);
+
+function toggleElementVisibility() {
+  if (hiv1.checked) {
     hiv_test.style.display = "block";
-    art1.style.display = "block";
-  } else if (hiv.value === "2") {
+    hiv_test_label.style.display = "block";
+    hiv_test.setAttribute("required", "required");
+    art.style.display = "block";
+  }else if (hiv2.checked) {
     hiv_test.style.display = "block";
-    art1.style.display = "none";
+    hiv_test_label.style.display = "block";
+    hiv_test.setAttribute("required", "required");
+    art.style.display = "none";
   } else {
     hiv_test.style.display = "none";
-    art1.style.display = "none";
+    hiv_test_label.style.display = "none";
+    hiv_test.removeAttribute("required");
+    art.style.display = "none";
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", hiv.value);
 }
+// Initial check
+toggleElementVisibility();
 
-// Check if there's a previously selected value in localStorage
-const hivValue = localStorage.getItem("selectedValue");
+hiv1.addEventListener("change", toggleElementVisibility);
+hiv2.addEventListener("change", toggleElementVisibility);
+hiv3.addEventListener("change", toggleElementVisibility);
 
-if (hivValue) {
-  hiv.value = hivValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-hiv.addEventListener("change", showElement);

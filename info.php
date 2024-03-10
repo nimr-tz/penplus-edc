@@ -2749,10 +2749,10 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <?php if ($_GET['msg1'] == 2) { ?>
+                                <?php if ($errorMessage) { ?>
                                     <div class="alert alert-danger text-center">
                                         <h4>Error!</h4>
-                                        <?= $_GET['msg'] ?>
+                                        <?= $errorMessage ?>
                                     </div>
                                 <?php } elseif ($pageError) { ?>
                                     <div class="alert alert-danger text-center">
@@ -2761,7 +2761,7 @@ if ($user->isLoggedIn()) {
                                             echo $error . ' , ';
                                         } ?>
                                     </div>
-                                <?php } elseif ($_GET['msg1'] == 1) { ?>
+                                <?php } elseif ($_GET['msg']) { ?>
                                     <div class="alert alert-success text-center">
                                         <h4>Success!</h4>
                                         <?= $_GET['msg'] ?>
@@ -2794,7 +2794,7 @@ if ($user->isLoggedIn()) {
                                             $gender = 'Female';
                                         }
 
-                                        $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['middlename']. ' ' . $patient['lastname'];
+                                        $name = 'Name: ' . $patient['firstname'] . ' ' . $patient['middlename'] . ' ' . $patient['lastname'];
 
                                         ?>
 

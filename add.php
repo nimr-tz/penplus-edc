@@ -375,9 +375,9 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    if(Input::get('referred') == 96 && (Input::get('referred_other') == '' || empty(Input::get('referred_other')) || null !== Input::get('referred_other'))){
+                    if(Input::get('referred') == 96 && empty(trim(Input::get('referred_other')))){
                         $errorMessage = 'Please add a valaue from question " Patient referred from Other" Before you submit again';
-                    }elseif(Input::get('referred') != 96 && Input::get('referred_other') != '' ){
+                    }elseif(Input::get('referred') != 96 && !empty(trim(Input::get('referred_other')))){
                         $errorMessage = 'Please remove a valaue from question " Patient referred from Other" Before you submit again';
                     }else{
 
@@ -407,8 +407,6 @@ if ($user->isLoggedIn()) {
                         ), $demographic['id']);
 
                         $successMessage = 'Demographic added Successful';
-                        Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$$successMessage);
-
 
                     } else {
                         $user->createRecord('demographic', array(
@@ -434,10 +432,9 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ));
                         $successMessage = 'Demographic added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$$successMessage);
-
                     }
-                    // die;
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
+                    die;
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -812,6 +809,7 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $vital['id']);
+                        $successMessage = 'Vital Updated Successful';
                     } else {
                         $user->createRecord('vital', array(
                             'visit_date' => Input::get('visit_date'),
@@ -833,9 +831,9 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                        $successMessage = 'Vital added Successful';
                     }
-                    $successMessage = 'Vital added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -4953,7 +4951,7 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>">
                                             < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Vital Signs Form</li>
@@ -5042,112 +5040,116 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
+                                            <hr>
                                             <div class="row">
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Vital Signs Date</label>
-                                                                <input class="validate[required,custom[date]] form-control" type="date" name="visit_date" id="visit_date" value="<?php if ($vital['visit_date']) {
-                                                                                                                                                                                        print_r($vital['visit_date']);
-                                                                                                                                                                                    }  ?>" />
-                                                            </div>
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Vital Signs Date</label>
+                                                            <input class="validate[required,custom[date]] form-control" max="<?= date('Y-m-d') ?>" type="date" name="visit_date" id="visit_date" value="<?php if ($vital['visit_date']) {
+                                                                                                                                                                                    print_r($vital['visit_date']);
+                                                                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
-
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Ht (cm)</label>
-                                                                <input class="form-control" type="text" name="height" id="height" value="<?php if ($vital['height']) {
-                                                                                                                                                print_r($vital['height']);
-                                                                                                                                            }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Wt (kg):</label>
-                                                                <input class="form-control" type="text" name="weight" id="weight" value="<?php if ($vital['weight']) {
-                                                                                                                                                print_r($vital['weight']);
-                                                                                                                                            }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <div class="form-group">
-                                                                <label>BMI</label><span>&nbsp;&nbsp; ( kg/m2 )</span>
-                                                                <input class="form-control" name="bmi" id="bmi" value="<?php if ($vital['bmi']) {
-                                                                                                                            print_r($vital['bmi']);
-                                                                                                                        }  ?>" readonly placeholder="bmi value here">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                 </div>
 
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>MUAC (cm)</label>
-                                                                <input class="form-control" type="text" name="muac" id="muac" value="<?php if ($vital['muac']) {
-                                                                                                                                            print_r($vital['muac']);
-                                                                                                                                        }  ?>" />
-                                                            </div>
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Ht (cm)</label>
+                                                            <input class="form-control" min="0" max="900" step="0.01" type="number" name="height" id="height" value="<?php if ($vital['height']) {
+                                                                                                                                            print_r($vital['height']);
+                                                                                                                                        }  ?>" required />
                                                         </div>
                                                     </div>
+                                                </div>
 
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Systolic</label>
-                                                                <input class="form-control" type="text" name="systolic" id="systolic" value="<?php if ($vital['systolic']) {
-                                                                                                                                                    print_r($vital['systolic']);
-                                                                                                                                                }  ?>" />
-                                                            </div>
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Wt (kg):</label>
+                                                            <input class="form-control" min="0" max="200" step="0.01" type="number" name="weight" id="weight" value="<?php if ($vital['weight']) {
+                                                                                                                                            print_r($vital['weight']);
+                                                                                                                                        }  ?>" required/>
                                                         </div>
                                                     </div>
-
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Dystolic</label>
-                                                                <input class="form-control" type="text" name="dystolic" id="dystolic" value="<?php if ($vital['dystolic']) {
-                                                                                                                                                    print_r($vital['dystolic']);
-                                                                                                                                                }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>PR</label>
-                                                                <input class="form-control" type="text" name="pr" id="pr" value="<?php if ($vital['pr']) {
-                                                                                                                                        print_r($vital['pr']);
-                                                                                                                                    }  ?>" />
-                                                            </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>BMI</label><span>&nbsp;&nbsp; ( kg/m2 )</span>
+                                                            <button type="button" class="btn btn-block btn-primary">
+                                                                <?php if ($vital['bmi']) {
+                                                                print_r($vital['bmi']);
+                                                            } ?>
+                                                            <input id="bmi" value="<?php if ($vital['weight']) {
+                                                                print_r($vital['weight']);
+                                                            }  ?>" readonly/>
+                                                            </button>                                                         
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>MUAC (cm)</label>
+                                                            <input class="form-control" min="0" max="900" step="0.01" type="number" name="muac" id="muac" value="<?php if ($vital['muac']) {
+                                                                                                                                        print_r($vital['muac']);
+                                                                                                                                    }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Systolic</label>
+                                                            <input class="form-control" min="0" max="900" step="0" type="number" name="systolic" id="systolic" value="<?php if ($vital['systolic']) {
+                                                                                                                                                print_r($vital['systolic']);
+                                                                                                                                            }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Dystolic</label>
+                                                            <input class="form-control" min="0" max="900" step="0" type="number" name="dystolic" id="dystolic" value="<?php if ($vital['dystolic']) {
+                                                                                                                                                print_r($vital['dystolic']);
+                                                                                                                                            }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>PR</label>
+                                                            <input class="form-control" min="0" max="900" step="0" type="number" name="pr" id="pr" value="<?php if ($vital['pr']) {
+                                                                                                                                    print_r($vital['pr']);
+                                                                                                                                }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
                                         </div>
                                         <!-- /.card-body -->
 
                                         <div class="card-footer">
-                                            <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
+                                            <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
                                             <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                                 <input type="submit" name="add_vital" value="Submit" class="btn btn-primary">
                                             <?php } ?>

@@ -441,9 +441,9 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 22) {
                     $pagNum = $override->getCount('test_list', 'status', 1);
                 } elseif ($_GET['status'] == 23) {
-                    $pagNum = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
-                } elseif ($_GET['status'] == 24) {
                     $pagNum = $override->countData('social_economic', 'status', 1, 'site_id', $_GET['site_id']);
+                } elseif ($_GET['status'] == 24) {
+                    $pagNum = $override->countData('summary', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 25) {
                     $pagNum = $override->countData('visit', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 26) {
@@ -510,9 +510,9 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 22) {
                     $clients = $override->getWithLimit('test_list', 'status', 1, $page, $numRec);
                 } elseif ($_GET['status'] == 23) {
-                    $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
-                } elseif ($_GET['status'] == 24) {
                     $clients = $override->getWithLimit1('social_economic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                } elseif ($_GET['status'] == 24) {
+                    $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 25) {
                     $clients = $override->getWithLimit1('visit', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 26) {
@@ -567,10 +567,10 @@ if ($user->isLoggedIn()) {
                     $pagNum = $override->getCount('lab_requests', 'status', 1);
                 } elseif ($_GET['status'] == 22) {
                     $pagNum = $override->getCount('test_list', 'status', 1);
-                } elseif ($_GET['status'] == 23) {
-                    $pagNum = $override->getCount('summary', 'status', 1);
-                } elseif ($_GET['status'] == 24) {
+                } elseif ($_GET['status'] == 23) {                    
                     $pagNum = $override->getCount('social_economic', 'status', 1);
+                } elseif ($_GET['status'] == 24) {
+                    $pagNum = $override->getCount('summary', 'status', 1);
                 } elseif ($_GET['status'] == 25) {
                     $pagNum = $override->getCount('visit', 'status', 1);
                 } elseif ($_GET['status'] == 26) {
@@ -630,9 +630,9 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 22) {
                     $clients = $override->getWithLimit('test_list', 'status', 1,  $page, $numRec);
                 } elseif ($_GET['status'] == 23) {
-                    $clients = $override->getWithLimit('summary', 'status', 1, $page, $numRec);
+                    $clients = $override->getWithLimit('social_economic', 'status', 1, $page, $numRec);
                 } elseif ($_GET['status'] == 24) {
-                    $clients = $override->getWithLimit('social_economic', 'status', 1,  $page, $numRec);
+                    $clients = $override->getWithLimit('summary', 'status', 1,  $page, $numRec);
                 } elseif ($_GET['status'] == 25) {
                     $clients = $override->getWithLimit('visit', 'status', 1,  $page, $numRec);
                 } elseif ($_GET['status'] == 26) {
@@ -688,9 +688,9 @@ if ($user->isLoggedIn()) {
             } elseif ($_GET['status'] == 22) {
                 $pagNum = $override->getCount('test_list', 'status', 1);
             } elseif ($_GET['status'] == 23) {
-                $pagNum = $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id);
-            } elseif ($_GET['status'] == 24) {
                 $pagNum = $override->countData('social_economic', 'status', 1, 'site_id', $user->data()->site_id);
+            } elseif ($_GET['status'] == 24) {
+                $pagNum = $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 25) {
                 $pagNum = $override->countData('visit', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 26) {
@@ -751,9 +751,9 @@ if ($user->isLoggedIn()) {
             } elseif ($_GET['status'] == 22) {
                 $clients = $override->getWithLimit('test_list', 'status', 1,  $page, $numRec);
             } elseif ($_GET['status'] == 23) {
-                $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } elseif ($_GET['status'] == 24) {
                 $clients = $override->getWithLimit1('social_economic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+            } elseif ($_GET['status'] == 24) {
+                $clients = $override->getWithLimit1('summary', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 25) {
                 $clients = $override->getWithLimit1('visit', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 26) {

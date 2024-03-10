@@ -221,6 +221,7 @@ if ($user->isLoggedIn()) {
 
             ));
             if ($validate->passed()) {
+                print_r($_POST);
                 $errorM = false;
                 try {
                     $attachment_file = Input::get('image');
@@ -265,14 +266,28 @@ if ($user->isLoggedIn()) {
                                 'lastname' => Input::get('lastname'),
                                 'dob' => Input::get('dob'),
                                 'age' => $age,
+                                'age2' => Input::get('age2'),
                                 'gender' => Input::get('gender'),
                                 'employment_status' => Input::get('employment_status'),
                                 'education_level' => Input::get('education_level'),
                                 'occupation' => Input::get('occupation'),
                                 'exposure' => Input::get('exposure'),
                                 'phone_number' => Input::get('phone_number'),
+                                'phone_number2' => Input::get('phone_number2'),
                                 'guardian_phone' => Input::get('guardian_phone'),
+                                'guardian_phone2' => Input::get('guardian_phone2'),
                                 'guardian_name' => Input::get('guardian_name'),
+                                'middlename_gurdian' => Input::get('middlename_gurdian'),
+                                'lastname_gurdian' => Input::get('lastname_gurdian'),
+                                'gender_gurdian' => Input::get('gender_gurdian'),
+                                'occupation_gurdian' => Input::get('occupation_gurdian'),
+                                'education_gurdian' => Input::get('education_gurdian'),
+                                'region' => Input::get('region'),
+                                'district' => Input::get('district'),
+                                'ward' => Input::get('ward'),
+                                'relation' => Input::get('relation'),
+                                'dob_gurdian' => Input::get('dob_gurdian'),                                    
+                                'age_gurdian' => Input::get('age_gurdian'),
                                 'relation_patient' => Input::get('relation_patient'),
                                 'physical_address' => Input::get('physical_address'),
                                 'client_image' => $attachment_file,
@@ -304,14 +319,28 @@ if ($user->isLoggedIn()) {
                                     'lastname' => Input::get('lastname'),
                                     'dob' => Input::get('dob'),
                                     'age' => $age,
+                                    'age2' => Input::get('age2'),
                                     'gender' => Input::get('gender'),
                                     'employment_status' => Input::get('employment_status'),
                                     'education_level' => Input::get('education_level'),
                                     'occupation' => Input::get('occupation'),
                                     'exposure' => Input::get('exposure'),
                                     'phone_number' => Input::get('phone_number'),
+                                    'phone_number2' => Input::get('phone_number2'),
                                     'guardian_phone' => Input::get('guardian_phone'),
+                                    'guardian_phone2' => Input::get('guardian_phone2'),
                                     'guardian_name' => Input::get('guardian_name'),
+                                    'middlename_gurdian' => Input::get('middlename_gurdian'),
+                                    'lastname_gurdian' => Input::get('lastname_gurdian'),
+                                    'gender_gurdian' => Input::get('gender_gurdian'),
+                                    'occupation_gurdian' => Input::get('occupation_gurdian'),
+                                    'education_gurdian' => Input::get('education_gurdian'),
+                                    'region' => Input::get('region'),
+                                    'district' => Input::get('district'),
+                                    'ward' => Input::get('ward'),
+                                    'relation' => Input::get('relation'),
+                                    'dob_gurdian' => Input::get('dob_gurdian'),                                    
+                                    'age_gurdian' => Input::get('age_gurdian'),
                                     'relation_patient' => Input::get('relation_patient'),
                                     'physical_address' => Input::get('physical_address'),
                                     'site_id' => $user->data()->site_id,
@@ -3767,7 +3796,14 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row">
 
-                            <?php $client = $override->get('clients', 'id', $_GET['cid'])[0]; ?>
+                            <?php 
+                            $client = $override->get('clients', 'id', $_GET['cid'])[0];
+                            $regions = $override->get('regions', 'id', $client['region'])[0];
+                            $districts = $override->get('districts', 'id', $client['district'])[0];
+                            $wards = $override->get('wards', 'id', $client['ward'])[0];
+                            $relations = $override->get('relation', 'id', $client['relation'])[0];
+
+                             ?>
 
                             <!-- right column -->
                             <div class="col-md-12">
@@ -3836,7 +3872,7 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div class="row-form clearfix">
                                                         <!-- Date -->
                                                         <div class="form-group">
@@ -3847,7 +3883,18 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
+                                                    <div class="row-form clearfix">
+                                                        <!-- Date -->
+                                                        <div class="form-group">
+                                                            <label>Age:</label>
+                                                            <input type="number" name="age2" id="age2" min="0" max="100" class="form-control" value="<?php if ($client['age2']) {
+                                                                                                                                    print_r($client['age2']);
+                                                                                                                                }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Gender</label>
@@ -3938,8 +3985,8 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Phone Number 2 ( Option )</label>
-                                                                <input class="form-control" type="tel" pattern=[0]{1}[0-9]{9} minlength="10" maxlength="10" name="phone_number" id="phone_number" value="<?php if ($client['phone_number']) {
-                                                                                                                                                            print_r($client['phone_number']);
+                                                                <input class="form-control" type="tel" pattern=[0]{1}[0-9]{9} minlength="10" maxlength="10" name="phone_number2" id="phone_number2" value="<?php if ($client['phone_number2']) {
+                                                                                                                                                            print_r($client['phone_number2']);
                                                                                                                                                         }  ?>" /> <span>Example: 0700 000 111</span>
                                                             </div>
                                                         </div>
@@ -4029,8 +4076,8 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Region</label>
                                                                 <select id="region" name="region" class="form-control" required>
-                                                                    <option value="<?= $region['id'] ?>"><?php if ($clients['region']) {
-                                                                                                                print_r($region['name']);
+                                                                    <option value="<?= $regions['id'] ?>"><?php if ($client['region']) {
+                                                                                                                print_r($regions['name']);
                                                                                                             } else {
                                                                                                                 echo 'Select region';
                                                                                                             } ?>
@@ -4048,8 +4095,8 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>District</label>
                                                                 <select id="district" name="district" class="form-control" required>
-                                                                    <option value="<?= $district['id'] ?>"><?php if ($clients['district']) {
-                                                                                                                print_r($district['name']);
+                                                                    <option value="<?= $districts['id'] ?>"><?php if ($client['district']) {
+                                                                                                                print_r($districts['name']);
                                                                                                             } else {
                                                                                                                 echo 'Select district';
                                                                                                             } ?>
@@ -4064,8 +4111,8 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Ward</label>
                                                                 <select id="ward" name="ward" class="form-control" required>
-                                                                    <option value="<?= $ward['id'] ?>"><?php if ($clients['ward']) {
-                                                                                                                print_r($ward['name']);
+                                                                    <option value="<?= $wards['id'] ?>"><?php if ($client['ward']) {
+                                                                                                                print_r($wards['name']);
                                                                                                             } else {
                                                                                                                 echo 'Select district';
                                                                                                             } ?>
@@ -4121,8 +4168,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Middle Name  ( Gurdian )</label>
-                                                            <input class="form-control" type="text" name="guardian_name" id="guardian_name" value="<?php if ($client['guardian_name']) {
-                                                                                                                                                        print_r($client['guardian_name']);
+                                                            <input class="form-control" type="text" name="middlename_gurdian" id="middlename_gurdian" value="<?php if ($client['middlename_gurdian']) {
+                                                                                                                                                        print_r($client['middlename_gurdian']);
                                                                                                                                                     }  ?>" required/>
                                                         </div>
                                                     </div>
@@ -4133,8 +4180,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Last Name  ( Gurdian )</label>
-                                                            <input class="form-control" type="text" name="guardian_name" id="guardian_name" value="<?php if ($client['guardian_name']) {
-                                                                                                                                                        print_r($client['guardian_name']);
+                                                            <input class="form-control" type="text" name="lastname_gurdian" id="lastname_gurdian" value="<?php if ($client['lastname_gurdian']) {
+                                                                                                                                                        print_r($client['lastname_gurdian']);
                                                                                                                                                     }  ?>" required/>
                                                         </div>
                                                     </div>
@@ -4147,15 +4194,15 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <?php foreach ($override->get('relation', 'status', 1) as $relation) { ?>
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="relation_patient" id="relation_patient<?= $client['id']; ?>" value="<?= $client['id']; ?>" <?php if ($client['relation_patient'] == $relation['id']) {
+                                                                    <input class="form-check-input" type="radio" name="relation" id="relation<?= $relation['id']; ?>" value="<?= $relation['id']; ?>" <?php if ($client['relation'] == $relation['id']) {
                                                                                                                                                                                                                             echo 'checked';
                                                                                                                                                                                                                         } ?> required>
                                                                     <label class="form-check-label"><?= $relation['name']; ?></label>
                                                                 </div>
                                                             <?php } ?>
-                                                             <textarea class="form-control" name="relation_patient_other" id="relation_patient_other" rows="3" placeholder="Type other relation here...">
-                                                                <?php if ($clients['relation_patient_other']) {
-                                                                    print_r($clients['relation_patient_other']);
+                                                             <textarea class="form-control" name="relation_patient" id="relation_patient" rows="3" placeholder="Type other relation here...">
+                                                                <?php if ($client['relation_patient']) {
+                                                                    print_r($client['relation_patient']);
                                                                 }  ?>
                                                             </textarea>
                                                         </div>
@@ -4169,8 +4216,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Date of Birth ( Gurdian )</label>
-                                                            <input type="date" name="dob" id="dob" max="<?= date('Y-m-d'); ?>" class="form-control" value="<?php if ($client['dob']) {
-                                                                                                                                    print_r($client['dob']);
+                                                            <input type="date" name="dob_gurdian" id="dob_gurdian" max="<?= date('Y-m-d'); ?>" class="form-control" value="<?php if ($client['dob_gurdian']) {
+                                                                                                                                    print_r($client['dob_gurdian']);
                                                                                                                                 }  ?>" required/>
                                                         </div>
                                                     </div>
@@ -4180,8 +4227,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- Date -->
                                                         <div class="form-group">
                                                             <label>Age ( Gurdian )</label>
-                                                            <input type="number" name="age" id="age" max="0" max="100" class="form-control" value="<?php if ($client['age']) {
-                                                                                                                                    print_r($client['age']);
+                                                            <input type="number" name="age_gurdian" id="age_gurdian" min="0" max="100" class="form-control" value="<?php if ($client['age_gurdian']) {
+                                                                                                                                    print_r($client['age_gurdian']);
                                                                                                                                 }  ?>" required/>
                                                         </div>
                                                     </div>
@@ -4204,8 +4251,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Phone Number 2 ( Gurdian - Optional )</label>
-                                                            <input class="form-control" type="tel" pattern=[0]{1}[0-9]{9} minlength="10" maxlength="10" name="guardian_phone" id="guardian_phone" value="<?php if ($client['guardian_phone']) {
-                                                                                                                                                            print_r($client['guardian_phone']);
+                                                            <input class="form-control" type="tel" pattern=[0]{1}[0-9]{9} minlength="10" maxlength="10" name="guardian_phone2" id="guardian_phone2" value="<?php if ($client['guardian_phone2']) {
+                                                                                                                                                            print_r($client['guardian_phone2']);
                                                                                                                                                         }  ?>"/> <span>Example: 0700 000 111</span>
                                                         </div>
                                                     </div>
@@ -4217,11 +4264,11 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Gender ( Gurdian )</label>
-                                                            <select class="form-control" name="gender" style="width: 100%;" required>
-                                                                <option value="<?= $client['gender'] ?>"><?php if ($client) {
-                                                                                                                if ($client['gender'] == 1) {
+                                                            <select class="form-control" name="gender_gurdian" style="width: 100%;" required>
+                                                                <option value="<?= $client['gender_gurdian'] ?>"><?php if ($client) {
+                                                                                                                if ($client['gender_gurdian'] == 1) {
                                                                                                                     echo 'Male';
-                                                                                                                } elseif ($client['gender'] == 2) {
+                                                                                                                } elseif ($client['gender_gurdian'] == 2) {
                                                                                                                     echo 'Female';
                                                                                                                 }
                                                                                                             } else {
@@ -4237,23 +4284,23 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Education Level ( Gurdian )</label>
-                                                            <select class="form-control" name="education_level" style="width: 100%;" required>
-                                                                <option value="<?= $client['education_level'] ?>"><?php if ($client) {
-                                                                                                                        if ($client['education_level'] == 1) {
+                                                            <select class="form-control" name="education_gurdian" style="width: 100%;" required>
+                                                                <option value="<?= $client['education_gurdian'] ?>"><?php if ($client) {
+                                                                                                                        if ($client['education_gurdian'] == 1) {
                                                                                                                             echo 'Not attended school';
-                                                                                                                        } elseif ($client['education_level'] == 2) {
+                                                                                                                        } elseif ($client['education_gurdian'] == 2) {
                                                                                                                             echo 'Primary';
-                                                                                                                        } elseif ($client['education_level'] == 3) {
+                                                                                                                        } elseif ($client['education_gurdian'] == 3) {
                                                                                                                             echo 'Secondary';
-                                                                                                                        } elseif ($client['education_level'] == 4) {
+                                                                                                                        } elseif ($client['education_gurdian'] == 4) {
                                                                                                                             echo 'Certificate';
-                                                                                                                        } elseif ($client['education_level'] == 5) {
+                                                                                                                        } elseif ($client['education_gurdian'] == 5) {
                                                                                                                             echo 'Diploma';
-                                                                                                                        } elseif ($client['education_level'] == 6) {
+                                                                                                                        } elseif ($client['education_gurdian'] == 6) {
                                                                                                                             echo 'Undergraduate degree';
-                                                                                                                        } elseif ($client['education_level'] == 7) {
+                                                                                                                        } elseif ($client['education_gurdian'] == 7) {
                                                                                                                             echo 'Postgraduate degree';
-                                                                                                                        } elseif ($client['education_level'] == 8) {
+                                                                                                                        } elseif ($client['education_gurdian'] == 8) {
                                                                                                                             echo 'N / A';
                                                                                                                         }
                                                                                                                     } else {
@@ -4277,17 +4324,17 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Employment status ( Gurdian )</label>
-                                                            <select class="form-control" name="employment_status" style="width: 100%;" required>
-                                                                <option value="<?= $client['employment_status'] ?>"><?php if ($client) {
-                                                                                                                        if ($client['employment_status'] == 1) {
+                                                            <select class="form-control" name="occupation_gurdian" style="width: 100%;" required>
+                                                                <option value="<?= $client['occupation_gurdian'] ?>"><?php if ($client) {
+                                                                                                                        if ($client['occupation_gurdian'] == 1) {
                                                                                                                             echo 'Employed';
-                                                                                                                        } elseif ($client['employment_status'] == 2) {
+                                                                                                                        } elseif ($client['occupation_gurdian'] == 2) {
                                                                                                                             echo 'Self-employed';
-                                                                                                                        } elseif ($client['employment_status'] == 3) {
+                                                                                                                        } elseif ($client['occupation_gurdian'] == 3) {
                                                                                                                             echo 'Employed but on leave of absence';
-                                                                                                                        } elseif ($client['employment_status'] == 4) {
+                                                                                                                        } elseif ($client['occupation_gurdian'] == 4) {
                                                                                                                             echo 'Unemployed';
-                                                                                                                        } elseif ($client['employment_status'] == 5) {
+                                                                                                                        } elseif ($client['occupation_gurdian'] == 5) {
                                                                                                                             echo 'Student';
                                                                                                                         }
                                                                                                                     } else {
@@ -17783,6 +17830,7 @@ if ($user->isLoggedIn()) {
 
     <!-- Clients Signs Js -->
     <script src="myjs/add/clients/clients.js"></script>
+    <script src="myjs/add/clients/relation.js"></script>
 
     <!-- demographic Js -->
     <script src="myjs/add/demographic/chw.js"></script>

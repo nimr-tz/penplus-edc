@@ -360,9 +360,9 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_demographic')) {
             $validate = $validate->check($_POST, array(
-                // 'visit_date' => array(
-                //     'required' => true,
-                // ),
+                'visit_date' => array(
+                    'required' => true,
+                ),
                 'next_visit' => array(
                     'required' => true,
                 ),
@@ -375,8 +375,13 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
+                    if(Input::get('referred') == 96 && (Input::get('referred_other') == '' || empty(Input::get('referred_other')) || null !== Input::get('referred_other'))){
+                        $errorMessage = 'Please add a valaue from question " Patient referred from Other" Before you submit again';
+                    }elseif(Input::get('referred') != 96 && Input::get('referred_other') != '' ){
+                        $errorMessage = 'Please remove a valaue from question " Patient referred from Other" Before you submit again';
+                    }else{
 
-                    $demographic = $override->get3('demographic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                        $demographic = $override->get3('demographic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
                     if ($demographic) {
                         $user->updateRecord('demographic', array(
@@ -400,6 +405,11 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $demographic['id']);
+
+                        $successMessage = 'Demographic added Successful';
+                        Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$$successMessage);
+
+
                     } else {
                         $user->createRecord('demographic', array(
                             'visit_date' => Input::get('visit_date'),
@@ -423,10 +433,12 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                        $successMessage = 'Demographic added Successful';
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$$successMessage);
+
                     }
-                    $successMessage = 'Demographic added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
-                    die;
+                    // die;
+                    }
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }

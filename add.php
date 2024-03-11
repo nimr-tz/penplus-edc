@@ -11798,9 +11798,9 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    </div>
+                                                                                                </div>
                                                                                                 <div class="row">
-                                                                                                    <div class="col-sm-8">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Medication name</label>
@@ -11815,7 +11815,7 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-4">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Action</label>
@@ -11844,18 +11844,22 @@ if ($user->isLoggedIn()) {
                                                                                                     </div>                                                                                                    
                                                                                                 </div>
                                                                                                 <div class="row">
-                                                                                                    <div class="col-sm-4">
+                                                                                                    <div class="col-sm-12">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
-                                                                                                                <label>DOSE</label>
-                                                                                                                <input class="form-control" type="text" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
-                                                                                                                                                                                                                                    print_r($treatment['medication_dose']);
-                                                                                                                                                                                                                                }  ?>" required />
+                                                                                                                <label>DOSE PPRESCRIPTION</label>
+                                                                                                                 <textarea class="form-control" name="medication_dose" id="medication_dose" rows="3" placeholder="Type other medication dose here..." required>
+                                                                                                                    <?php if ($clients['medication_dose']) {
+                                                                                                                        print_r($clients['medication_dose']);
+                                                                                                                    }  ?>
+                                                                                                                </textarea>                                                                                                               
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
+                                                                                                    </div>
+                                                                                                <div class="row">
 
-                                                                                                    <div class="col-sm-4">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>UNITS</label>
@@ -11866,7 +11870,7 @@ if ($user->isLoggedIn()) {
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     
-                                                                                                    <div class="col-sm-4">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>End Date ( If Stop )</label>

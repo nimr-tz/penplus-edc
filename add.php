@@ -11771,7 +11771,7 @@ if ($user->isLoggedIn()) {
                                                                                     <form method="post">
                                                                                         <div class="modal-content">
                                                                                             <div class="modal-header">
-                                                                                                <h4 class="modal-title">Medication Form</h4>
+                                                                                                <h4 class="modal-title">Medication Form</h4><br><?php if($user->data()->power==1 || $user->data()->accessLevel == 1){ if($batches){ echo ' Medication :- ' . $medications[0]['name'] . ' Batch : - (' . $batches[0]['serial_name']. ')'; } } ?>
                                                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                                     <span aria-hidden="true">&times;</span>
                                                                                                 </button>
@@ -11805,11 +11805,11 @@ if ($user->isLoggedIn()) {
                                                                                                             <div class="form-group">
                                                                                                                 <label>Medication name</label>
                                                                                                                 <select name="batch_id" id="batch_id" class="form-control select2" style="width: 100%;" required>
-                                                                                                                    <?php if ($batches) { ?>
-                                                                                                                        <option value="<?= $batches[0]['id'] ?>"><?= $medications[0]['name'] . ' - ( ' . $batches[0]['serial_name'] . ' ) '; ?></option>
+                                                                                                                    <?php if ($medications) { ?>
+                                                                                                                        <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name']; ?></option>
                                                                                                                     <?php } ?>
-                                                                                                                    <?php foreach ($override->get('batch', 'status', 1) as $batch) { ?>
-                                                                                                                        <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' )  :  ( ' . $batch['amount'] . ' )'; ?></option>
+                                                                                                                    <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
+                                                                                                                        <option value="<?= $medication['id'] ?>"><?= $medication['name']; ?></option>
                                                                                                                     <?php } ?>
                                                                                                                 </select>
                                                                                                             </div>

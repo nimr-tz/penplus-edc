@@ -2737,7 +2737,7 @@ if ($user->isLoggedIn()) {
                         }
                     }
                 }
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $msg);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());

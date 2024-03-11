@@ -908,6 +908,7 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
+                // print_r($_POST);
                 try {
                     if((Input::get('hiv') == 1 || Input::get('hiv') == 2) && empty(trim(Input::get('hiv_test')))){
                         $errorMessage = 'Please add a valaue from question " Date Tested " Before you submit again';
@@ -1041,6 +1042,7 @@ if ($user->isLoggedIn()) {
                                 'packs' => $packs_year,
                                 'active_smoker' => Input::get('active_smoker'),
                                 'alcohol' => Input::get('alcohol'),
+                                'alcohol_type' => Input::get('alcohol_type'),
                                 'quantity' => Input::get('quantity'),
                                 'cardiovascular' => Input::get('cardiovascular'),
                                 'cardiovascular_date' => Input::get('cardiovascular_date'),
@@ -1093,6 +1095,7 @@ if ($user->isLoggedIn()) {
                                 'packs' => $packs_year,
                                 'active_smoker' => Input::get('active_smoker'),
                                 'alcohol' => Input::get('alcohol'),
+                                'alcohol_type' => Input::get('alcohol_type'),
                                 'quantity' => Input::get('quantity'),
                                 'pain_event' => Input::get('pain_event'),
                                 'stroke' => Input::get('stroke'),
@@ -2332,6 +2335,22 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $summary[0]['id']);
+
+                        $user->updateRecord('visit', array(
+                            'summary_id' => $summary[0]['id'],
+                            'expected_date' => Input::get('next_appointment_date'),
+                            'summary_date' => Input::get('summary_date'),
+                            'comments' => Input::get('comments'),
+                            'diagnosis' => Input::get('diagnosis'),
+                            'diagnosis_other' => Input::get('diagnosis_other'),
+                            'outcome' => Input::get('outcome'),
+                            'transfer_out' => Input::get('transfer_out'),
+                            'transfer_other' => Input::get('transfer_other'),
+                            'cause_death' => Input::get('cause_death'),
+                            'death_other' => Input::get('death_other'),
+                            'next_notes' => Input::get('next_appointment_notes'),
+                        ),$_GET['vid']);
+
                     } else {
                         $user->createRecord('summary', array(
                             'visit_date' => Input::get('summary_date'),
@@ -2359,52 +2378,57 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
-                    }
 
-                    if ($expected_date['expected_date'] == Input::get('next_appointment_date')) {
-                        $errorMessage = 'Next Date already exists';
-                    } else {
-                        $user->createRecord('visit', array(
-                            'study_id' => $_GET['sid'],
-                            'visit_name' => $visit_name,
-                            'visit_code' => $visit_code,
-                            'visit_day' => $visit_day,
-                            'expected_date' => Input::get('next_appointment_date'),
-                            'visit_date' => '',
+                            $last_row = $override->lastRow('summary', 'id')[0];
 
-                            'summary_date' => Input::get('summary_date'),
-                            'comments' => Input::get('comments'),
-                            'diagnosis' => Input::get('diagnosis'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
-                            'outcome' => Input::get('outcome'),
-                            'transfer_out' => Input::get('transfer_out'),
-                            'transfer_other' => Input::get('transfer_other'),
-                            'cause_death' => Input::get('cause_death'),
-                            'death_other' => Input::get('death_other'),
-                            'next_notes' => Input::get('next_appointment_notes'),
+                            // if ($expected_date['expected_date'] == Input::get('next_appointment_date')) {
+                            //     $errorMessage = 'Next Date already exists';
+                            // } else {
 
-                            'visit_window' => 0,
-                            'status' => 0,
-                            'client_id' => $_GET['cid'],
-                            'created_on' => date('Y-m-d'),
-                            'seq_no' => $sq,
-                            'reasons' => '',
-                            'visit_status' => 0,
-                            'site_id' => $user->data()->site_id,
-                        ));
+                            $user->createRecord('visit', array(
+                                'summary_id' => $last_row['summary_id'],
+                                'study_id' => $_GET['sid'],
+                                'visit_name' => $visit_name,
+                                'visit_code' => $visit_code,
+                                'visit_day' => $visit_day,
+                                'expected_date' => Input::get('next_appointment_date'),
+                                'visit_date' => '',
 
-                        $successMessage = 'Schedule Summary  Added Successful';
-                    }
+                                'summary_date' => Input::get('summary_date'),
+                                'comments' => Input::get('comments'),
+                                'diagnosis' => Input::get('diagnosis'),
+                                'diagnosis_other' => Input::get('diagnosis_other'),
+                                'outcome' => Input::get('outcome'),
+                                'transfer_out' => Input::get('transfer_out'),
+                                'transfer_other' => Input::get('transfer_other'),
+                                'cause_death' => Input::get('cause_death'),
+                                'death_other' => Input::get('death_other'),
+                                'next_notes' => Input::get('next_appointment_notes'),
 
-                    if ($visit_name == 'Study Termination Visit') {
-                        $user->updateRecord('clients', array(
-                            'end_study' => 1,
-                        ), $_GET['cid']);
-                    } else {
-                        $user->updateRecord('clients', array(
-                            'end_study' => 0,
-                        ), $_GET['cid']);
-                    }
+                                'visit_window' => 0,
+                                'status' => 0,
+                                'client_id' => $_GET['cid'],
+                                'created_on' => date('Y-m-d'),
+                                'seq_no' => $sq,
+                                'reasons' => '',
+                                'visit_status' => 0,
+                                'site_id' => $user->data()->site_id,
+                            ));
+
+                            $successMessage = 'Schedule Summary  Added Successful';
+                        }
+
+                        // }
+
+                        if ($visit_name == 'Study Termination Visit') {
+                            $user->updateRecord('clients', array(
+                                'end_study' => 1,
+                            ), $_GET['cid']);
+                        } else {
+                            $user->updateRecord('clients', array(
+                                'end_study' => 0,
+                            ), $_GET['cid']);
+                        }
 
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
@@ -6442,7 +6466,7 @@ if ($user->isLoggedIn()) {
                                                     </div>   
                                     
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Acute chest syndrome </label>
@@ -6491,7 +6515,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div> 
                                                     
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <label>Hepatitis test?:</label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
@@ -6501,14 +6525,9 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                                     echo 'checked';
                                                                                                                                                                                 } ?> required>
                                                                     <label class="form-check-label">Yes</label>
-                                                                    <label>Date Test</label>
-                                                                    <input type="date" name="hepatitis_date" class="form-control" value="<?php if ($history['hepatitis_date']) {
+                                                                    <label id="hepatitis_date_label">Date Test</label>
+                                                                    <input type="date" name="hepatitis_date" id="hepatitis_date" class="form-control" value="<?php if ($history['hepatitis_date']) {
                                                                                                                                                 print_r($history['hepatitis_date']);
-                                                                                                                                            }  ?>" />
-                                                                                                                                                <br>
-                                                                    <label>Test Results</label>
-                                                                    <input type="text" name="hepatitis_results" class="form-control" value="<?php if ($history['hepatitis_results']) {
-                                                                                                                                                print_r($history['hepatitis_results']);
                                                                                                                                             }  ?>" />
                                                                 </div>                                                           
 
@@ -6519,6 +6538,34 @@ if ($user->isLoggedIn()) {
                                                                     <label class="form-check-label">No</label>
                                                                 </div>                                                            
                                                             </div>
+                                                        </div>
+                                                    </div> 
+                                                    <div class="col-sm-2"  id="hepatitis_results">
+                                                        <label>Test Results</label>
+                                                        <!-- radio -->
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_results" id="hepatitis_results1" value="1" <?php if ($history['hepatitis_results'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Positive</label>                                                                    
+                                                                </div>                                                           
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_results" id="hepatitis_results2" value="2" <?php if ($history['hepatitis_results'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Negative</label>
+                                                                </div>  
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_results" id="hepatitis_results3" value="3" <?php if ($history['hepatitis_results'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Invalid</label>
+                                                                </div>                                                            
+                                                            </div>
+                                                        <button onclick="unsetHepatitis_result()">Unset</button>
                                                         </div>
                                                     </div>  
                                                 </div>

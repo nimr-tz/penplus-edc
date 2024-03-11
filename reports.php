@@ -24,6 +24,7 @@ if ($user->isLoggedIn()) {
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'headBar.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -64,6 +65,57 @@ if ($user->isLoggedIn()) {
                     object-fit: scale-down;
                     object-position: center center;
                 }
+
+                /* Define a class for the table */
+                .table {
+                    width: 100%;
+                    /* Initially, set the width to 100% */
+                    margin-bottom: 1rem;
+                    background-color: transparent;
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                }
+
+                /* Define styles for table header cells */
+                .table th {
+                    font-weight: bold;
+                    background-color: #f2f2f2;
+                    color: #333;
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+
+                /* Define styles for table data cells */
+                .table td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+
+                /* Small screens (sm) */
+                @media only screen and (max-width: 575px) {
+                    .table-sm {
+                        font-size: 12px;
+                        /* Decrease font size for small screens */
+                    }
+                }
+
+                /* Medium screens (md) */
+                @media only screen and (min-width: 576px) and (max-width: 991px) {
+                    .table-md {
+                        font-size: 14px;
+                        /* Set font size for medium screens */
+                    }
+                }
+
+                /* Large screens (lg) */
+                @media only screen and (min-width: 992px) {
+                    .table-lg {
+                        font-size: 16px;
+                        /* Set font size for large screens */
+                    }
+                }
             </style>
 
             <!-- Main content -->
@@ -84,14 +136,14 @@ if ($user->isLoggedIn()) {
                                 <div class="card-body">
                                     <div class="container-fluid">
                                         <div class="container-fluid">
-                                            <table class="table table-bordered table-hover table-striped">
+                                            <table class="table table-bordered table-hover table-striped table-sm table-md table-lg" style="width: 100%;">
                                                 <colgroup>
                                                     <col width="5%">
-                                                    <col width="20%">
-                                                    <col width="25%">
-                                                    <col width="20%">
-                                                    <col width="15%">
-                                                    <col width="15%">
+                                                    <col width="5%">
+                                                    <col width="5%">
+                                                    <col width="5%">
+                                                    <col width="5%">
+                                                    <col width="5%">
                                                 </colgroup>
                                                 <thead>
                                                     <tr class="bg-gradient-primary text-light">
@@ -296,6 +348,52 @@ if ($user->isLoggedIn()) {
     </div>
     <!-- ./wrapper -->
 
+
+
+    <?php
+    // Step 1: Fetch data from the database
+    // Example assumes you have already established a database connection
+
+    // $sql = "SELECT site, COUNT(*) AS count FROM your_table GROUP BY site";
+    // $result = mysqli_query($conn, $sql);
+    $data = array();
+    $result = $override->getDataRegister('status', 1);
+    foreach ($result as $value) {
+        $site = $row['site_id'];
+        $count = $row['count'];
+
+        // Calculate any relevant metrics for each site here, if needed
+
+        // Store the data for each site
+        $data[] = array(
+            'site' => $site,
+            'count' => $count
+            // Add other metrics here if needed
+        );
+    }
+
+
+    $labels = array_column($data, 'site');
+    $countData = array_column($data, 'count');
+
+    $chartData = array(
+        'labels' => $labels,
+        'datasets' => array(
+            array(
+                'label' => 'Site Counts',
+                'data' => $countData,
+                'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                'borderColor' => 'rgba(54, 162, 235, 1)',
+                'borderWidth' => 1
+            )
+        )
+    );
+
+    // Step 4: Pass data to Charts.js
+    $chartDataJSON = json_encode($chartData);
+    ?>
+
+
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -412,8 +510,9 @@ if ($user->isLoggedIn()) {
             })
 
 
+            // REGISTARION CHART
 
-            var ctx = document.getElementById('siteChart').getContext('2d');
+            var ctx = document.getElementById('total_registration').getContext('2d');
             var chartData = <?php echo $chartDataJSON; ?>;
 
             var myChart = new Chart(ctx, {

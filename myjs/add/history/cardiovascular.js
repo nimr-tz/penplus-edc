@@ -1,26 +1,20 @@
-const cardiovascular = document.getElementById("cardiovascular");
-const cardiovascular_date = document.getElementById("cardiovascular_date");
+const cardiovascular1 = document.getElementById(`cardiovascular1`);
+const cardiovascular2 = document.getElementById(`cardiovascular2`);
 
-function showElement() {
-  if (cardiovascular.value === "1") {
+const cardiovascular_date = document.getElementById(`cardiovascular_date`);
+
+function toggleElementVisibility() {
+  if (alcohol1.checked) {
     cardiovascular_date.style.display = "block";
+    cardiovascular_date.setAttribute("required", "required");    
   } else {
-    cardiovascular_date.style.display = "none";
+    cardiovascular_date.style.display = "block";
+    cardiovascular_date.setAttribute("required", "required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", cardiovascular.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const cardiovascularValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (cardiovascularValue) {
-  cardiovascular.value = cardiovascularValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-cardiovascular.addEventListener("change", showElement);
+cardiovascular1.addEventListener("change", toggleElementVisibility);
+cardiovascular1.addEventListener("change", toggleElementVisibility);

@@ -921,9 +921,9 @@ if ($user->isLoggedIn()) {
                         $errorMessage = 'Please add a valaue from question " ART Start Date ? " If On Art is "Yes" Before you submit again';
                     }elseif(Input::get('art') == 2 && !empty(trim(Input::get('art_date')))){
                         $errorMessage = 'Please Remove a valaue from question " ART Start Date ? " If On Art is "No" Before you submit again';
-                    }elseif((Input::get('tb') == 1  || Input::get('tb') == 2 || Input::get('tb') == 3) && !empty(trim(Input::get('tb_year')))){
+                    }elseif((Input::get('tb') == 1  || Input::get('tb') == 2 || Input::get('tb') == 3) && empty(trim(Input::get('tb_year')))){
                         $errorMessage = 'Please Add a valaue from question " Year TB tested " If TB is +,- or EPTB " Before you submit again';
-                    }elseif((Input::get('tb') == 4 || Input::get('tb') == 5) && empty(trim(Input::get('tb_year')))){
+                    }elseif((Input::get('tb') == 4 || Input::get('tb') == 5) && !empty(trim(Input::get('tb_year')))){
                         $errorMessage = 'Please Remove a valaue from question " Year TB tested " If TB is +,- or EPTB " Before you submit again';
                     }elseif(Input::get('smoking') == 2  && (!empty(trim(Input::get('start_smoking'))) || !empty(trim(Input::get('active_smoker'))) || 
                         !empty(trim(Input::get('quit_smoking'))) || !empty(trim(Input::get('type_smoked'))) || !empty(trim(Input::get('packs_cigarette_day'))))){
@@ -5674,8 +5674,8 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                        <div class="card-body">                                         
-
+                                        <div class="card-body"> 
+                                            <hr>                                      
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="card card-warning">
@@ -5697,7 +5697,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                                                 }  ?>" required />
                                                         </div>
                                                     </div>
-                                                </div>                                           
+                                                </div>                                         
                                                 
 
                                                 <div class="col-sm-3">

@@ -17369,8 +17369,10 @@ if ($user->isLoggedIn()) {
                                                         <?php } ?>
                                                         <td>
                                                             <a href="add.php?id=24&region_id=<?= $value['id'] ?>" class="btn btn-info">Update</a>
-                                                            <a href="#delete<?= $value['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
-                                                            <a href="#restore<?= $value['id'] ?>" role="button" class="btn btn-secondary" data-toggle="modal">Restore</a>
+                                                            <?php if ($user->data()->power == 1) {?>
+                                                            <a href="#delete<?= $staff['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                            <a href="#restore<?= $staff['id'] ?>" role="button" class="btn btn-secondary" data-toggle="modal">Restore</a>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                                     <div class="modal fade" id="delete<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -17641,8 +17643,10 @@ if ($user->isLoggedIn()) {
                                                         <?php } ?>
                                                         <td>
                                                             <a href="add.php?id=25&region_id=<?= $value['region_id'] ?>&district_id=<?= $value['id'] ?>" class="btn btn-info">Update</a>
+                                                            <?php if ($user->data()->power == 1) {?>
                                                             <a href="#delete<?= $staff['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
                                                             <a href="#restore<?= $staff['id'] ?>" role="button" class="btn btn-secondary" data-toggle="modal">Restore</a>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                                     <div class="modal fade" id="delete<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -17934,8 +17938,10 @@ if ($user->isLoggedIn()) {
                                                         <?php } ?>
                                                         <td>
                                                             <a href="add.php?id=26&region_id=<?= $value['region_id'] ?>&district_id=<?= $value['district_id'] ?>&ward_id=<?= $value['id'] ?>" class="btn btn-info">Update</a> <br><br>
-                                                            <a href="#delete<?= $value['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a><br><br>
-                                                            <a href="#restore<?= $value['id'] ?>" role="button" class="btn btn-secondary" data-toggle="modal">Restore</a>
+                                                            <?php if ($user->data()->power == 1) {?>
+                                                            <a href="#delete<?= $staff['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                            <a href="#restore<?= $staff['id'] ?>" role="button" class="btn btn-secondary" data-toggle="modal">Restore</a>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                                     <div class="modal fade" id="delete<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

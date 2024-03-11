@@ -1,26 +1,20 @@
-const other_complication = document.getElementById("other_complication");
-const specify_complication = document.getElementById("specify_complication");
+const other_complication1 = document.getElementById(`other_complication1`);
+const other_complication2 = document.getElementById(`other_complication2`);
 
-function showElement() {
-  if (other_complication.value === "1") {
+const specify_complication = document.getElementById(`specify_complication`);
+
+function toggleElementVisibility() {
+  if (other_complication1.checked) {
     specify_complication.style.display = "block";
+    specify_complication.setAttribute("required", "required");
   } else {
     specify_complication.style.display = "none";
+    specify_complication.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", other_complication.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const other_complicationValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (other_complicationValue) {
-  other_complication.value = other_complicationValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-other_complication.addEventListener("change", showElement);
+other_complication1.addEventListener("change", toggleElementVisibility);
+other_complication2.addEventListener("change", toggleElementVisibility);

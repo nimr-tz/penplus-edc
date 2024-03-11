@@ -1041,6 +1041,7 @@ if ($user->isLoggedIn()) {
                                 'packs' => $packs_year,
                                 'active_smoker' => Input::get('active_smoker'),
                                 'alcohol' => Input::get('alcohol'),
+                                'alcohol_type' => Input::get('alcohol_type'),
                                 'quantity' => Input::get('quantity'),
                                 'cardiovascular' => Input::get('cardiovascular'),
                                 'cardiovascular_date' => Input::get('cardiovascular_date'),
@@ -1093,6 +1094,7 @@ if ($user->isLoggedIn()) {
                                 'packs' => $packs_year,
                                 'active_smoker' => Input::get('active_smoker'),
                                 'alcohol' => Input::get('alcohol'),
+                                'alcohol_type' => Input::get('alcohol_type'),
                                 'quantity' => Input::get('quantity'),
                                 'pain_event' => Input::get('pain_event'),
                                 'stroke' => Input::get('stroke'),
@@ -1210,6 +1212,7 @@ if ($user->isLoggedIn()) {
                                 'visit_day' => $_GET['vday'],
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
+                                'entry_date' => Input::get('entry_date'),
                                 'age' => Input::get('age'),
                                 'sex' => Input::get('sex'),
                                 'visit_date' => Input::get('visit_date'),
@@ -1217,25 +1220,31 @@ if ($user->isLoggedIn()) {
                                 'other' => Input::get('other'),
                             ),  Input::get('id'));
                         } else {
-                            for ($i = 0; $i < count(Input::get('age')); $i++) {
-                                $user->createRecord('sickle_cell_status_table', array(
-                                    'study_id' => $_GET['sid'],
-                                    'visit_code' => $_GET['vcode'],
-                                    'visit_day' => $_GET['vday'],
-                                    'seq_no' => $_GET['seq'],
-                                    'vid' => $_GET['vid'],
-                                    'age' => Input::get('age')[$i],
-                                    'sex' => Input::get('sex')[$i],
-                                    'visit_date' => Input::get('visit_date'),
-                                    'sickle_status' => Input::get('sickle_status')[$i],
-                                    'other' => Input::get('other')[$i],
-                                    'patient_id' => $_GET['cid'],
-                                    'staff_id' => $user->data()->id,
-                                    'status' => 1,
-                                    'created_on' => date('Y-m-d'),
-                                    'site_id' => $user->data()->site_id,
-                                ));
-                            }                      
+                            if (Input::get('sibling')) {
+                                for ($i = 0; $i < count(Input::get('age')); $i++) {
+                                    $user->createRecord('sickle_cell_status_table', array(
+                                        'study_id' => $_GET['sid'],
+                                        'visit_code' => $_GET['vcode'],
+                                        'visit_day' => $_GET['vday'],
+                                        'seq_no' => $_GET['seq'],
+                                        'vid' => $_GET['vid'],
+                                        'entry_date' => Input::get('entry_date')[$i],
+                                        'age' => Input::get('age')[$i],
+                                        'sex' => Input::get('sex')[$i],
+                                        'visit_date' => Input::get('visit_date'),
+                                        'sickle_status' => Input::get('sickle_status')[$i],
+                                        'other' => Input::get('other')[$i],
+                                        'patient_id' => $_GET['cid'],
+                                        'staff_id' => $user->data()->id,
+                                        'status' => 1,
+                                        'created_on' => date('Y-m-d'),
+                                        'site_id' => $user->data()->site_id,
+                                    ));
+                                }
+                        }
+                        // else{
+                        //     $errorMessage = '" AGE " , " SEX " , " status " OR DATE IS MISSING please update accordingly " Before you submit again';
+                        //     }                      
                         }
                     }
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$successMessage);
@@ -1976,7 +1985,6 @@ if ($user->isLoggedIn()) {
                 'hospitalization_date' => array(
                     'required' => true,
                 ),
-
             ));
             if ($validate->passed()) {
                 try {
@@ -1999,6 +2007,9 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $hospitalization_details['id']);
+
+                        $successMessage = 'Hospitalization details Updated Successful';
+
                     } else {
                         $user->createRecord('hospitalization_details', array(
                             'visit_date' => Input::get('hospitalization_date'),
@@ -2017,6 +2028,8 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+
+                        $successMessage = 'Hospitalization details added Successful';
                     }
 
 
@@ -2027,32 +2040,35 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
+                            'entry_date' => Input::get('entry_date'),
                             'admission_date' => Input::get('admission_date'),
                             'admission_reason' => Input::get('admission_reason'),
                             'discharge_diagnosis' => Input::get('discharge_diagnosis'),
                             'discharge_date' => Input::get('discharge_date'),
                         ), $hospitalization_id[0]['id']);
                     } else {
-                        for ($i = 0; $i < count(Input::get('admission_date')); $i++) {
-                            $user->createRecord('hospitalization_table', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'admission_date' => Input::get('admission_date')[$i],
-                                'admission_reason' => Input::get('admission_reason')[$i],
-                                'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
-                                'discharge_date' => Input::get('discharge_date')[$i],
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ));
+                        if (Input::get('admission')) {
+                            for ($i = 0; $i < count(Input::get('admission_date')); $i++) {
+                                $user->createRecord('hospitalization_table', array(
+                                    'study_id' => $_GET['sid'],
+                                    'visit_code' => $_GET['vcode'],
+                                    'visit_day' => $_GET['vday'],
+                                    'seq_no' => $_GET['seq'],
+                                    'vid' => $_GET['vid'],
+                                    'entry_date' => Input::get('entry_date')[$i],
+                                    'admission_date' => Input::get('admission_date')[$i],
+                                    'admission_reason' => Input::get('admission_reason')[$i],
+                                    'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
+                                    'discharge_date' => Input::get('discharge_date')[$i],
+                                    'patient_id' => $_GET['cid'],
+                                    'staff_id' => $user->data()->id,
+                                    'status' => 1,
+                                    'created_on' => date('Y-m-d'),
+                                    'site_id' => $user->data()->site_id,
+                                ));
+                            }
                         }
                     }
-                    $successMessage = 'Hospitalization details added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                 } catch (Exception $e) {
@@ -2325,6 +2341,22 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $summary[0]['id']);
+
+                        $user->updateRecord('visit', array(
+                            'summary_id' => $summary[0]['id'],
+                            'expected_date' => Input::get('next_appointment_date'),
+                            'summary_date' => Input::get('summary_date'),
+                            'comments' => Input::get('comments'),
+                            'diagnosis' => Input::get('diagnosis'),
+                            'diagnosis_other' => Input::get('diagnosis_other'),
+                            'outcome' => Input::get('outcome'),
+                            'transfer_out' => Input::get('transfer_out'),
+                            'transfer_other' => Input::get('transfer_other'),
+                            'cause_death' => Input::get('cause_death'),
+                            'death_other' => Input::get('death_other'),
+                            'next_notes' => Input::get('next_appointment_notes'),
+                        ),$_GET['vid']);
+
                     } else {
                         $user->createRecord('summary', array(
                             'visit_date' => Input::get('summary_date'),
@@ -2352,52 +2384,57 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
-                    }
 
-                    if ($expected_date['expected_date'] == Input::get('next_appointment_date')) {
-                        $errorMessage = 'Next Date already exists';
-                    } else {
-                        $user->createRecord('visit', array(
-                            'study_id' => $_GET['sid'],
-                            'visit_name' => $visit_name,
-                            'visit_code' => $visit_code,
-                            'visit_day' => $visit_day,
-                            'expected_date' => Input::get('next_appointment_date'),
-                            'visit_date' => '',
+                            $last_row = $override->lastRow('summary', 'id')[0];
 
-                            'summary_date' => Input::get('summary_date'),
-                            'comments' => Input::get('comments'),
-                            'diagnosis' => Input::get('diagnosis'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
-                            'outcome' => Input::get('outcome'),
-                            'transfer_out' => Input::get('transfer_out'),
-                            'transfer_other' => Input::get('transfer_other'),
-                            'cause_death' => Input::get('cause_death'),
-                            'death_other' => Input::get('death_other'),
-                            'next_notes' => Input::get('next_appointment_notes'),
+                            // if ($expected_date['expected_date'] == Input::get('next_appointment_date')) {
+                            //     $errorMessage = 'Next Date already exists';
+                            // } else {
 
-                            'visit_window' => 0,
-                            'status' => 0,
-                            'client_id' => $_GET['cid'],
-                            'created_on' => date('Y-m-d'),
-                            'seq_no' => $sq,
-                            'reasons' => '',
-                            'visit_status' => 0,
-                            'site_id' => $user->data()->site_id,
-                        ));
+                            $user->createRecord('visit', array(
+                                'summary_id' => $last_row['summary_id'],
+                                'study_id' => $_GET['sid'],
+                                'visit_name' => $visit_name,
+                                'visit_code' => $visit_code,
+                                'visit_day' => $visit_day,
+                                'expected_date' => Input::get('next_appointment_date'),
+                                'visit_date' => '',
 
-                        $successMessage = 'Schedule Summary  Added Successful';
-                    }
+                                'summary_date' => Input::get('summary_date'),
+                                'comments' => Input::get('comments'),
+                                'diagnosis' => Input::get('diagnosis'),
+                                'diagnosis_other' => Input::get('diagnosis_other'),
+                                'outcome' => Input::get('outcome'),
+                                'transfer_out' => Input::get('transfer_out'),
+                                'transfer_other' => Input::get('transfer_other'),
+                                'cause_death' => Input::get('cause_death'),
+                                'death_other' => Input::get('death_other'),
+                                'next_notes' => Input::get('next_appointment_notes'),
 
-                    if ($visit_name == 'Study Termination Visit') {
-                        $user->updateRecord('clients', array(
-                            'end_study' => 1,
-                        ), $_GET['cid']);
-                    } else {
-                        $user->updateRecord('clients', array(
-                            'end_study' => 0,
-                        ), $_GET['cid']);
-                    }
+                                'visit_window' => 0,
+                                'status' => 0,
+                                'client_id' => $_GET['cid'],
+                                'created_on' => date('Y-m-d'),
+                                'seq_no' => $sq,
+                                'reasons' => '',
+                                'visit_status' => 0,
+                                'site_id' => $user->data()->site_id,
+                            ));
+
+                            $successMessage = 'Schedule Summary  Added Successful';
+                        }
+
+                        // }
+
+                        if ($visit_name == 'Study Termination Visit') {
+                            $user->updateRecord('clients', array(
+                                'end_study' => 1,
+                            ), $_GET['cid']);
+                        } else {
+                            $user->updateRecord('clients', array(
+                                'end_study' => 0,
+                            ), $_GET['cid']);
+                        }
 
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
@@ -2445,6 +2482,9 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $successMessage = 'Treatment Plan Updated Successful';
+
                         }
 
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
@@ -2481,6 +2521,9 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $successMessage = 'Treatment Plan Updated Successful';
+
                         }
 
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
@@ -2522,6 +2565,9 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $successMessage = 'Treatment Plan Updated Successful';
+
                         }
                     } else {
                         $user->createRecord('treatment_plan', array(
@@ -2570,6 +2616,8 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+
+                        $successMessage = 'Treatment Plan Added Successful';
                     }
 
                     if (Input::get('update_medication')) {
@@ -2589,10 +2637,83 @@ if ($user->isLoggedIn()) {
                             'end_date' => Input::get('end_date'),
                         ), Input::get('id'));
                     } else {
-                        for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
-                            $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
-                            $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
-                            if (Input::get('medication_dose')[$i] <= $batch['amount']) {
+
+                    // if (Input::get('medication')) {
+                    //     for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
+                    //         $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
+                    //         $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
+                    //         if (Input::get('medication_dose')[$i] <= $batch['amount']) {
+                    //             $user->createRecord('medication_treatments', array(
+                    //                 'study_id' => $_GET['sid'],
+                    //                 'visit_code' => $_GET['vcode'],
+                    //                 'visit_day' => $_GET['vday'],
+                    //                 'seq_no' => $_GET['seq'],
+                    //                 'vid' => $_GET['vid'],
+                    //                 'date' => Input::get('date')[$i],
+                    //                 'start_date' => Input::get('start_date')[$i],
+                    //                 'batch_id' => Input::get('batch_id')[$i],
+                    //                     // $user->createRecord('batch_records', array(
+                //     'date' => Input::get('date'),
+                //     'batch_id' => Input::get('batch_id'),
+                //     'medication_id' => $batch['medication_id'],
+                //     'serial_name' => $batch['serial_name'],
+                //     'received' => $received,
+                //     'removed' => $removed,
+                //     'amount' => $amount,
+                //     'expire_date' => $batch['expire_date'],
+                //     'remarks' => $batch['remarks'],
+                //     'cost' => 0,
+                //     'price' => $batch['price'],
+                //     'status' => 1,
+                //     'create_on' => date('Y-m-d H:i:s'),
+                //     'site_id' =>  $user->data()->site_id,
+                //     'staff_id' => $user->data()->id,
+                // ));            'medication_type' => $batch['medication_id'],
+                    //                 'medication_action' => Input::get('medication_action')[$i],
+                    //                 'medication_dose' => Input::get('medication_dose')[$i],
+                    //                 'units' => Input::get('medication_units')[$i],
+                    //                 'end_date' => Input::get('end_date')[$i],
+                    //                 'patient_id' => $_GET['cid'],
+                    //                 'staff_id' => $user->data()->id,
+                    //                 'status' => 1,
+                    //                 'created_on' => date('Y-m-d'),
+                    //                 'site_id' => $user->data()->site_id,
+                    //             ));
+
+
+                    //             $amount = $batch['amount'] - Input::get('medication_dose')[$i];
+
+                    //             $user->updateRecord('batch', array(
+                    //                 'amount' => $amount,
+                    //             ), Input::get('batch_id')[$i]);
+
+                    //             $user->createRecord('batch_records', array(
+                    //                 'date' => Input::get('date')[$i],
+                    //                 'batch_id' => Input::get('batch_id')[$i],
+                    //                 'medication_id' => $batch['medication_id'],
+                    //                 'serial_name' => $batch['serial_name'],
+                    //                 'received' => 0,
+                    //                 'removed' => Input::get('medication_dose')[$i],
+                    //                 'amount' => $amount,
+                    //                 'expire_date' => $batch['expire_date'],
+                    //                 'remarks' => $batch['remarks'],
+                    //                 'cost' => 0,
+                    //                 'price' => $batch['price'],
+                    //                 'status' => 1,
+                    //                 'create_on' => date('Y-m-d H:i:s'),
+                    //                 'site_id' =>  $user->data()->site_id,
+                    //                 'staff_id' => $user->data()->id,
+                    //             ));
+                    //             $successMessage1 = 'Medication name : ' . Input::get('name') . ' : Batch : ' . Input::get('serial_name') . ' Amount ' . Input::get('medication_dose')[$i] . ' Decreased Successful';
+                    //             $msg = $successMessage1;
+                    //         } else {
+                    //             $errorMessage = 'Dose asigned : ' . Input::get('medication_dose')[$i] . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
+                    //         }
+                    //     }
+                    // }
+
+                    if (Input::get('medication')) {
+                        for ($i = 0; $i < count(Input::get('medication_id')); $i++) {
                                 $user->createRecord('medication_treatments', array(
                                     'study_id' => $_GET['sid'],
                                     'visit_code' => $_GET['vcode'],
@@ -2601,8 +2722,7 @@ if ($user->isLoggedIn()) {
                                     'vid' => $_GET['vid'],
                                     'date' => Input::get('date')[$i],
                                     'start_date' => Input::get('start_date')[$i],
-                                    'batch_id' => Input::get('batch_id')[$i],
-                                    'medication_type' => $batch['medication_id'],
+                                    'medication_type' => Input::get('medication_id')[$i],
                                     'medication_action' => Input::get('medication_action')[$i],
                                     'medication_dose' => Input::get('medication_dose')[$i],
                                     'units' => Input::get('medication_units')[$i],
@@ -2614,47 +2734,10 @@ if ($user->isLoggedIn()) {
                                     'site_id' => $user->data()->site_id,
                                 ));
 
-
-                                $amount = $batch['amount'] - Input::get('medication_dose')[$i];
-
-                                $user->updateRecord('batch', array(
-                                    'amount' => $amount,
-                                ), Input::get('batch_id')[$i]);
-
-                                $user->createRecord('batch_records', array(
-                                    'date' => Input::get('date')[$i],
-                                    'batch_id' => Input::get('batch_id')[$i],
-                                    'medication_id' => $batch['medication_id'],
-                                    'serial_name' => $batch['serial_name'],
-                                    'received' => 0,
-                                    'removed' => Input::get('medication_dose')[$i],
-                                    'amount' => $amount,
-                                    'expire_date' => $batch['expire_date'],
-                                    'remarks' => $batch['remarks'],
-                                    'cost' => 0,
-                                    'price' => $batch['price'],
-                                    'status' => 1,
-                                    'create_on' => date('Y-m-d H:i:s'),
-                                    'site_id' =>  $user->data()->site_id,
-                                    'staff_id' => $user->data()->id,
-                                ));
-                                $successMessage1 = 'Medication name : ' . Input::get('name') . ' : Batch : ' . Input::get('serial_name') . ' Amount ' . Input::get('medication_dose')[$i] . ' Decreased Successful';
-                                $msg = $successMessage1;
-                            } else {
-                                $errorMessage = 'Dose asigned : ' . Input::get('medication_dose')[$i] . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
-                            }
                         }
                     }
-
-                    if ($msg) {
-                        $msg1 = 1;
-                        $successMessage = 'Treatment Support Added Successful';
-                        $msg = $successMessage . ' && ' . $msg;
-                    } elseif ($errorMessage) {
-                        $msg1 = 2;
-                        $msg = $errorMessage;
-                    }
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&msg=' . $msg . '&msg1=' . $msg1);
+                }
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2664,34 +2747,32 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('update_medication')) {
 
-            print_r($_POST);
+            // $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
+            // $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
+            // $treatments = $override->getNews('medication_treatments', 'status', 1, 'id', Input::get('id'))[0];
 
-            $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
-            $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
-            $treatments = $override->getNews('medication_treatments', 'status', 1, 'id', Input::get('id'))[0];
+            // $extra = 0;
+            // $amount = 0;
+            // $removed = 0;
+            // $received = 0;
 
-            $extra = 0;
-            $amount = 0;
-            $removed = 0;
-            $received = 0;
+            // if (Input::get('medication_dose') <= $batch['amount']) {
 
-            if (Input::get('medication_dose') <= $batch['amount']) {
+                // if (Input::get('medication_dose') == $treatments['medication_dose']) {
+                //     $amount = $treatments['medication_dose'];
+                // } elseif (Input::get('medication_dose') <= $treatments['medication_dose']) {
+                //     $extra = floatval($treatments['medication_dose']) - floatval(Input::get('medication_dose'));
+                //     $amount = floatval($batch['amount']) + floatval($extra);
+                //     $received = $extra;
+                // } elseif (nput::get('medication_dose') >= $treatments['medication_dose']) {
+                //     $extra = floatval(Input::get('medication_dose')) - floatval($treatments['medication_dose']);
+                //     $amount = floatval($batch['amount']) - floatval($extra);
+                //     $removed = $extra;
+                // }
 
-                if (Input::get('medication_dose') == $treatments['medication_dose']) {
-                    $amount = $treatments['medication_dose'];
-                } elseif (Input::get('medication_dose') <= $treatments['medication_dose']) {
-                    $extra = floatval($treatments['medication_dose']) - floatval(Input::get('medication_dose'));
-                    $amount = floatval($batch['amount']) + floatval($extra);
-                    $received = $extra;
-                } elseif (nput::get('medication_dose') >= $treatments['medication_dose']) {
-                    $extra = floatval(Input::get('medication_dose')) - floatval($treatments['medication_dose']);
-                    $amount = floatval($batch['amount']) - floatval($extra);
-                    $removed = $extra;
-                }
-
-                $user->updateRecord('batch', array(
-                    'amount' => $amount,
-                ), Input::get('batch_id'));
+                // $user->updateRecord('batch', array(
+                //     'amount' => $amount,
+                // ), Input::get('batch_id'));
 
 
                 $user->updateRecord('medication_treatments', array(
@@ -2702,7 +2783,6 @@ if ($user->isLoggedIn()) {
                     'vid' => $_GET['vid'],
                     'date' => Input::get('date'),
                     'start_date' => Input::get('start_date'),
-                    'batch_id' => Input::get('batch_id'),
                     'medication_type' => Input::get('medication_id'),
                     'medication_action' => Input::get('medication_action'),
                     'medication_dose' => Input::get('medication_dose'),
@@ -2711,29 +2791,30 @@ if ($user->isLoggedIn()) {
                 ), Input::get('id'));
 
 
-                $user->createRecord('batch_records', array(
-                    'date' => Input::get('date'),
-                    'batch_id' => Input::get('batch_id'),
-                    'medication_id' => $batch['medication_id'],
-                    'serial_name' => $batch['serial_name'],
-                    'received' => $received,
-                    'removed' => $removed,
-                    'amount' => $amount,
-                    'expire_date' => $batch['expire_date'],
-                    'remarks' => $batch['remarks'],
-                    'cost' => 0,
-                    'price' => $batch['price'],
-                    'status' => 1,
-                    'create_on' => date('Y-m-d H:i:s'),
-                    'site_id' =>  $user->data()->site_id,
-                    'staff_id' => $user->data()->id,
-                ));
+                // $user->createRecord('batch_records', array(
+                //     'date' => Input::get('date'),
+                //     'batch_id' => Input::get('batch_id'),
+                //     'medication_id' => $batch['medication_id'],
+                //     'serial_name' => $batch['serial_name'],
+                //     'received' => $received,
+                //     'removed' => $removed,
+                //     'amount' => $amount,
+                //     'expire_date' => $batch['expire_date'],
+                //     'remarks' => $batch['remarks'],
+                //     'cost' => 0,
+                //     'price' => $batch['price'],
+                //     'status' => 1,
+                //     'create_on' => date('Y-m-d H:i:s'),
+                //     'site_id' =>  $user->data()->site_id,
+                //     'staff_id' => $user->data()->id,
+                // ));
 
-                $successMessage = 'Medication name : ' . Input::get('name') . ' : Batch : ' . $batch['serial_name'] . ' Amount ' . Input::get('medication_dose') . ' Updated Successful';
-                $msg = $successMessage1;
-            } else {
-                $errorMessage = 'Dose asigned : ' . Input::get('medication_dose') . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
-            }
+                $successMessage = 'Medication Plan Updated Successful';
+
+            // }
+            //  else {
+            //     $errorMessage = 'Dose asigned : ' . Input::get('medication_dose') . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
+            // }
         } elseif (Input::get('update_admission')) {
             $user->updateRecord('hospitalization_table', array(
                 'study_id' => $_GET['sid'],
@@ -2741,6 +2822,7 @@ if ($user->isLoggedIn()) {
                 'visit_day' => $_GET['vday'],
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
+                'entry_date' => Input::get('entry_date'),
                 'admission_date' => Input::get('admission_date'),
                 'admission_reason' => Input::get('admission_reason'),
                 'discharge_diagnosis' => Input::get('discharge_diagnosis'),
@@ -2756,6 +2838,7 @@ if ($user->isLoggedIn()) {
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
                 'visit_date' => Input::get('visit_date'),
+                'entry_date' => Input::get('entry_date'),
                 'age' => Input::get('age'),
                 'sex' => Input::get('sex'),
                 'sickle_status' => Input::get('sickle_status'),
@@ -3015,17 +3098,17 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('delete_med')) {
+        } elseif (Input::get('delete_medication')) {
             $user->updateRecord('medication_treatments', array(
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = 'User Medication Successful Deleted';
-        } elseif (Input::get('delete_admin')) {
+        } elseif (Input::get('delete_admission')) {
             $user->updateRecord('hospitalization_table', array(
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = 'Hospitalization details Successful Deleted';
-        } elseif (Input::get('delete_sickle')) {
+        } elseif (Input::get('delete_siblings')) {
             $user->updateRecord('sickle_cell_status_table', array(
                 'status' => 0,
             ), Input::get('id'));
@@ -6337,7 +6420,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Pain Event</label>
                                                                 <select name="pain_event" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['pain_event'] ?>"><?php if ($history) {
+                                                                    <option value="<?= $history['pain_event'] ?>"><?php if ($history['pain_event']) {
                                                                                                                         if ($history['pain_event'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($history['pain_event'] == 2) {
@@ -6358,7 +6441,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Stroke</label>
                                                                 <select name="stroke" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['stroke'] ?>"><?php if ($history) {
+                                                                    <option value="<?= $history['stroke'] ?>"><?php if ($history['stroke']) {
                                                                                                                     if ($history['stroke'] == 1) {
                                                                                                                         echo 'Yes';
                                                                                                                     } elseif ($history['stroke'] == 2) {
@@ -6379,7 +6462,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Pneumonia </label>
                                                                 <select name="pneumonia" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['pneumonia'] ?>"><?php if ($history) {
+                                                                    <option value="<?= $history['pneumonia'] ?>"><?php if ($history['pneumonia']) {
                                                                                                                         if ($history['pneumonia'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($history['pneumonia'] == 2) {
@@ -6395,68 +6478,49 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
 
 
                                                 <div class="row">
-
-                                                    <div class="col-sm-4">
-                                                        <div class="row-form clearfix">
-                                                            <div class="form-group">
-                                                                <label>Blood Transfusion</label>
-                                                                <select name="blood_transfusion" class="form-control" id="blood_transfusion" style="width: 100%;" onchange="checkQuestionValue3('blood_transfusion','transfusion_born','transfusion_12months')">
-                                                                    <option value="<?= $history['blood_transfusion'] ?>"><?php if ($history) {
-                                                                                                                                if ($history['blood_transfusion'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($history['blood_transfusion'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4" id="transfusion_born">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>how many times since you were born ? </label>
-                                                                <input type="text" name="transfusion_born" class="form-control" value="<?php if ($history['transfusion_born']) {
-                                                                                                                                            print_r($history['transfusion_born']);
-                                                                                                                                        }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4" id="transfusion_12months">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>how many times for the past twelve months ?</label>
-                                                                <input type="text" name="transfusion_12months" class="form-control" value="<?php if ($history['transfusion_12months']) {
-                                                                                                                                                print_r($history['transfusion_12months']);
-                                                                                                                                            }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-
-
-                                                <div class="row">
-
                                                     <div class="col-sm-3">
+                                                        <label>Blood Transfusion</label>
+                                                        <!-- radio -->
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="blood_transfusion" id="blood_transfusion1" value="1" <?php if ($history['blood_transfusion'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                    <label id="transfusion_born_label">How many times since you were born ?</label>
+                                                                    <input type="number" min="0" max="100" name="transfusion_born" id="transfusion_born" class="form-control" value="<?php if ($history['transfusion_born']) {
+                                                                                                                                                    print_r($history['transfusion_born']);
+                                                                                                                                                }  ?>" />
+                                                                                                                                                <br>
+                                                                    <label id="transfusion_12months_label">how many times for the past twelve months ?</label>
+                                                                    <input type="number" min="0" max="100" id="transfusion_12months" name="transfusion_12months" class="form-control" value="<?php if ($history['transfusion_12months']) {
+                                                                                                                                                    print_r($history['transfusion_12months']);
+                                                                                                                                                }  ?>" />
+                                                                </div>                                                           
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="blood_transfusion" id="blood_transfusion2" value="2" <?php if ($history['blood_transfusion'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>   
+                                    
+
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Acute chest syndrome </label>
                                                                 <select name="acute_chest" style="width: 100%;" class="form-control" required>
-                                                                    <option value="<?= $history['acute_chest'] ?>"><?php if ($history) {
+                                                                    <option value="<?= $history['acute_chest'] ?>"><?php if ($history['acute_chest']) {
                                                                                                                         if ($history['acute_chest'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($history['acute_chest'] == 2) {
@@ -6474,135 +6538,89 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3">
+                                                        <label>Any Other Complication?</label>
+                                                        <!-- radio -->
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>Any Other Complication?</label>
-                                                                <select name="other_complication" id="other_complication" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('other_complication','specify_complication')">
-                                                                    <option value="<?= $history['other_complication'] ?>"><?php if ($history) {
-                                                                                                                                if ($history['other_complication'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($history['other_complication'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="other_complication" id="other_complication1" value="1" <?php if ($history['other_complication'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                    <textarea class="form-control" name="specify_complication" id="specify_complication" rows="3" placeholder="Type other relation here...">
+                                                                        <?php if ($clients['specify_complication']) {
+                                                                            print_r($clients['specify_complication']);
+                                                                        }  ?>
+                                                                    </textarea> 
+                                                                </div>                                                           
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="other_complication" id="other_complication2" value="2" <?php if ($history['other_complication'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6" id="specify_complication">
+                                                    </div> 
+                                                    
+                                                    <div class="col-sm-2">
+                                                        <label>Hepatitis test?:</label>
+                                                        <!-- radio -->
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Other Specify</label>
-                                                                <input type="text" name="specify_complication" class="form-control" value="<?php if ($history['specify_complication']) {
-                                                                                                                                                print_r($history['specify_complication']);
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_test" id="hepatitis_test1" value="1" <?php if ($history['hepatitis_test'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                    <label id="hepatitis_date_label">Date Test</label>
+                                                                    <input type="date" name="hepatitis_date" id="hepatitis_date" class="form-control" value="<?php if ($history['hepatitis_date']) {
+                                                                                                                                                print_r($history['hepatitis_date']);
                                                                                                                                             }  ?>" />
+                                                                </div>                                                           
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_test" id="hepatitis_test2" value="2" <?php if ($history['hepatitis_test'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                    </div> 
+                                                    <div class="col-sm-2"  id="hepatitis_results">
+                                                        <label>Test Results</label>
+                                                        <!-- radio -->
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_results" id="hepatitis_results1" value="1" <?php if ($history['hepatitis_results'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Positive</label>                                                                    
+                                                                </div>                                                           
 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_results" id="hepatitis_results2" value="2" <?php if ($history['hepatitis_results'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Negative</label>
+                                                                </div>  
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_results" id="hepatitis_results3" value="3" <?php if ($history['hepatitis_results'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Invalid</label>
+                                                                </div>                                                            
+                                                            </div>
+                                                        <button onclick="unsetHepatitis_result()">Unset</button>
+                                                        </div>
+                                                    </div>  
+                                                </div>
+                                                <hr>
                                             <?php } ?>
 
-                                            <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
-
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Hepatitis test?:</label>
-                                                                <select name="hepatitis_test" id="hepatitis_test" class="form-control" style="width: 100%;" onchange="checkQuestionValue3('hepatitis_test','hepatitis_date','hepatitis_results')">
-                                                                    <option value="<?= $history['hepatitis_test'] ?>"><?php if ($history) {
-                                                                                                                            if ($history['hepatitis_test'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($history['hepatitis_test'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-3" id="hepatitis_date">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Date Test</label>
-                                                                <input type="date" name="hepatitis_date" class="form-control" value="<?php if ($history['hepatitis_date']) {
-                                                                                                                                            print_r($history['hepatitis_date']);
-                                                                                                                                        }  ?>" />
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-3" id="hepatitis_results">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Test Results</label>
-                                                                <input type="text" name="hepatitis_results" class="form-control" value="<?php if ($history['hepatitis_results']) {
-                                                                                                                                            print_r($history['hepatitis_results']);
-                                                                                                                                        }  ?>" />
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>ABO Blood Group:</label>
-                                                                <select name="blood_group" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['blood_group'] ?>"><?php if ($history) {
-                                                                                                                        if ($history['blood_group'] == 1) {
-                                                                                                                            echo 'A+';
-                                                                                                                        } elseif ($history['blood_group'] == 2) {
-                                                                                                                            echo 'A-';
-                                                                                                                        } elseif ($history['blood_group'] == 3) {
-                                                                                                                            echo 'B+';
-                                                                                                                        } elseif ($history['blood_group'] == 4) {
-                                                                                                                            echo 'B-';
-                                                                                                                        } elseif ($history['blood_group'] == 5) {
-                                                                                                                            echo 'O+';
-                                                                                                                        } elseif ($history['blood_group'] == 6) {
-                                                                                                                            echo 'O-';
-                                                                                                                        } elseif ($history['blood_group'] == 7) {
-                                                                                                                            echo 'AB+';
-                                                                                                                        } elseif ($history['blood_group'] == 8) {
-                                                                                                                            echo 'AB-';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?>
-                                                                    </option>
-                                                                    <option value="1">A+</option>
-                                                                    <option value="2">A-</option>
-                                                                    <option value="3">B+</option>
-                                                                    <option value="4">B-</option>
-                                                                    <option value="5">O+</option>
-                                                                    <option value="6">O-</option>
-                                                                    <option value="7">AB+</option>
-                                                                    <option value="8">AB</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php } ?>
-
-                                            <hr>
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
                                                 <div class="row">
                                                     <div class="col-sm-4">
@@ -6749,12 +6767,53 @@ if ($user->isLoggedIn()) {
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
-                                                <div class="row">
-                                                    <div class="col-sm-3">
+                                                <div class="row">                                                    
+                                                    <div class="col-sm-2">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>ABO Blood Group:</label>
+                                                                <select name="blood_group" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $history['blood_group'] ?>"><?php if ($history) {
+                                                                                                                        if ($history['blood_group'] == 1) {
+                                                                                                                            echo 'A+';
+                                                                                                                        } elseif ($history['blood_group'] == 2) {
+                                                                                                                            echo 'A-';
+                                                                                                                        } elseif ($history['blood_group'] == 3) {
+                                                                                                                            echo 'B+';
+                                                                                                                        } elseif ($history['blood_group'] == 4) {
+                                                                                                                            echo 'B-';
+                                                                                                                        } elseif ($history['blood_group'] == 5) {
+                                                                                                                            echo 'O+';
+                                                                                                                        } elseif ($history['blood_group'] == 6) {
+                                                                                                                            echo 'O-';
+                                                                                                                        } elseif ($history['blood_group'] == 7) {
+                                                                                                                            echo 'AB+';
+                                                                                                                        } elseif ($history['blood_group'] == 8) {
+                                                                                                                            echo 'AB-';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                                    </option>
+                                                                    <option value="1">A+</option>
+                                                                    <option value="2">A-</option>
+                                                                    <option value="3">B+</option>
+                                                                    <option value="4">B-</option>
+                                                                    <option value="5">O+</option>
+                                                                    <option value="6">O-</option>
+                                                                    <option value="7">AB+</option>
+                                                                    <option value="8">AB</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Family History of SCD?</label>
-                                                                <select name="history_scd" class="form-control" style="width: 100%;">
+                                                                <select name="history_scd" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $history['history_scd'] ?>"><?php if ($history) {
                                                                                                                         if ($history['history_scd'] == 1) {
                                                                                                                             echo 'Yes';
@@ -6779,7 +6838,7 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Vaccine History</label>
-                                                                <select name="vaccine_history" class="form-control" style="width: 100%;">
+                                                                <select name="vaccine_history" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $history['vaccine_history'] ?>"><?php if ($history) {
                                                                                                                             if ($history['vaccine_history'] == 1) {
                                                                                                                                 echo 'Pneumococcal';
@@ -6810,24 +6869,26 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>How many siblings do you have?</label>
-                                                                <input type="number" name="siblings" class="form-control" value="<?php if ($history['siblings']) {
+                                                                <input type="number" min="0" max="100" name="siblings" class="form-control" value="<?php if ($history['siblings']) {
                                                                                                                                         print_r($history['siblings']);
-                                                                                                                                    }  ?>" />
+                                                                                                                                    }  ?>" required/>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>How many of them are alive?</label>
-                                                                <input type="number" name="sibling_salive" class="form-control" value="<?php if ($history['sibling_salive']) {
+                                                                <input type="number" min="0" max="100" name="sibling_salive" class="form-control" value="<?php if ($history['sibling_salive']) {
                                                                                                                                             print_r($history['sibling_salive']);
-                                                                                                                                        }  ?>" />
+                                                                                                                                        }  ?>" required/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <hr>
 
                                                 <div class="row-form clearfix">
                                                     <div class="row">
@@ -6844,6 +6905,7 @@ if ($user->isLoggedIn()) {
                                                                             <tr>
                                                                                 <th>#</th>
                                                                                 <th> Visit Day </th>
+                                                                                <th> Date </th>
                                                                                 <th> age </th>
                                                                                 <th> sex </th>
                                                                                 <th> sickle cell disease status </th>
@@ -6875,6 +6937,7 @@ if ($user->isLoggedIn()) {
                                                                                 <tr>
                                                                                     <td><?= $x; ?></td>
                                                                                     <td><?= $sickle_cell_status_table['visit_day'] ?></td>
+                                                                                    <td><?= $sickle_cell_status_table['entry_date'] ?></td>
                                                                                     <td><?= $sickle_cell_status_table['age'] ?></td>
                                                                                     <td><?= $sex ?></td>
                                                                                     <td><?= $sickle_status ?></td>
@@ -6905,6 +6968,16 @@ if ($user->isLoggedIn()) {
                                                                                                         <div class="col-sm-6">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
+                                                                                                                    <label>Entry Date</label>
+                                                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d') ?>" name="entry_date" id="entry_date" style="width: 100%;" value="<?php if ($sickle_cell_status_table['entry_date']) {
+                                                                                                                                                                                                                                    print_r($sickle_cell_status_table['entry_date']);
+                                                                                                                                                                                                                                }  ?>" required />
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-sm-6">
+                                                                                                            <div class="row-form clearfix">
+                                                                                                                <div class="form-group">
                                                                                                                     <label>Age</label>
                                                                                                                     <input class="form-control" type="number" min="0" max="100" name="age" id="age" style="width: 100%;" value="<?php if ($sickle_cell_status_table['age']) {
                                                                                                                                                                                                                                     print_r($sickle_cell_status_table['age']);
@@ -6913,7 +6986,12 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
 
-                                                                                                        <div class="col-sm-6">
+                                                                                                       
+                                                                                                    </div>
+                                                                                                    <hr>
+
+                                                                                                    <div class="row">
+                                                                                                         <div class="col-sm-6">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
                                                                                                                     <label>Sex</label>
@@ -6936,9 +7014,6 @@ if ($user->isLoggedIn()) {
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                    </div>
-
-                                                                                                    <div class="row">
                                                                                                         <div class="col-sm-6">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
@@ -6968,7 +7043,11 @@ if ($user->isLoggedIn()) {
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        <div class="col-sm-6">
+                                                                                                    </div>   
+                                                                                                    <hr>   
+
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-12">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
                                                                                                                     <label>Other</label>
@@ -7039,8 +7118,9 @@ if ($user->isLoggedIn()) {
                                                         <!-- /.col -->
                                                     </div>
                                                 </div>
+                                                <hr>
+
                                             <?php } ?>
-                                            <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-12">
@@ -7049,9 +7129,9 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="history_other" id="history_other1" value="1" <?php if ($history['cardiac_surgery_type'] == 1) {
+                                                                <input class="form-check-input" type="radio" name="history_other" id="history_other1" value="1" <?php if ($history['history_other'] == 1) {
                                                                                                                                                                                 echo 'checked';
-                                                                                                                                                                            } ?>>
+                                                                                                                                                                            } ?> required>
                                                                 <label class="form-check-label">Yes</label>  
                                                                 <textarea class="form-control" name="history_specify" id="history_specify" placeholder="Type other here" style="width: 100%;" rows="3">
                                                                     <?php if ($history['history_specify']) {
@@ -7061,7 +7141,7 @@ if ($user->isLoggedIn()) {
                                                             </div>
 
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="history_other" id="history_other2" value="2" <?php if ($history['cardiac_surgery_type'] == 2) {
+                                                                <input class="form-check-input" type="radio" name="history_other" id="history_other2" value="2" <?php if ($history['history_other'] == 2) {
                                                                                                                                                                                 echo 'checked';
                                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">No</label>
@@ -11312,6 +11392,7 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- <th style="width: 5px">#</th> -->
                                                                                 <th>#</th>
                                                                                 <th> Visit Day </th>
+                                                                                <th> Entry Date </th>
                                                                                 <th> Admission Date </th>
                                                                                 <th> Admission Reason </th>
                                                                                 <th> Discharge Diagnosis </th>
@@ -11327,6 +11408,7 @@ if ($user->isLoggedIn()) {
                                                                                 <tr>
                                                                                     <td><?= $x; ?></td>
                                                                                     <td><?= $hospitalization_table['visit_day'] ?></td>
+                                                                                    <td><?= $hospitalization_table['entry_date'] ?></td>
                                                                                     <td><?= $hospitalization_table['admission_date'] ?></td>
                                                                                     <td><?= $hospitalization_table['admission_reason'] ?></td>
                                                                                     <td><?= $hospitalization_table['discharge_diagnosis'] ?></td>
@@ -11356,6 +11438,16 @@ if ($user->isLoggedIn()) {
                                                                                                         <div class="col-sm-6">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
+                                                                                                                    <label>Entry date</label>
+                                                                                                                    <input class="form-control" type="date" name="entry_date" id="entry_date" style="width: 100%;" value="<?php if ($hospitalization_table['entry_date']) {
+                                                                                                                                                                                                                                        print_r($hospitalization_table['entry_date']);
+                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-sm-6">
+                                                                                                            <div class="row-form clearfix">
+                                                                                                                <div class="form-group">
                                                                                                                     <label>Admission date</label>
                                                                                                                     <input class="form-control" type="date" name="admission_date" id="admission_date" style="width: 100%;" value="<?php if ($hospitalization_table['admission_date']) {
                                                                                                                                                                                                                                         print_r($hospitalization_table['admission_date']);
@@ -11363,8 +11455,10 @@ if ($user->isLoggedIn()) {
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
+                                                                                                    </div>
 
-                                                                                                        <div class="col-sm-6">
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-12">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
                                                                                                                     <label>Admission Reason</label>
@@ -11428,7 +11522,7 @@ if ($user->isLoggedIn()) {
                                                                                                 </div>
                                                                                                 <div class="modal-footer">
                                                                                                     <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
-                                                                                                    <input type="submit" name="delete_admin" value="Delete" class="btn btn-danger">
+                                                                                                    <input type="submit" name="delete_admission" value="Delete" class="btn btn-danger">
                                                                                                     <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                                                 </div>
                                                                                             </div>
@@ -11492,7 +11586,7 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>">
                                             < Back</a>
                                     </li>&nbsp;&nbsp;
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
@@ -11617,12 +11711,12 @@ if ($user->isLoggedIn()) {
                                                                         <tr>
                                                                             <th>#</th>
                                                                             <th> Visit Day </th>
-                                                                            <th> Date </th>
+                                                                            <th> Entry Date </th>
                                                                             <th> Start Date </th>
-                                                                            <th> Medication name - ( batch ) : ( amount )</th>
-                                                                            <th> Dose </th>
-                                                                            <th> Units </th>
+                                                                            <th> Medication name </th>
                                                                             <th> Action </th>
+                                                                            <th> Dose Prescription </th>
+                                                                            <th> Units </th>
                                                                             <th> End Date ( If Stop ) </th>
                                                                             <th></th>
                                                                         </tr>
@@ -11631,7 +11725,7 @@ if ($user->isLoggedIn()) {
                                                                         <?php $x = 1;
                                                                         foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
                                                                             $batches = $override->getNews('batch', 'status', 1, 'id', $treatment['batch_id']);
-                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $batches[0]['medication_id']);
+                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
 
                                                                             if ($treatment['medication_action'] == 1) {
                                                                                 $medication_action = 'Continue';
@@ -11646,13 +11740,18 @@ if ($user->isLoggedIn()) {
                                                                         ?>
                                                                             <tr>
                                                                                 <td><?= $x; ?></td>
-                                                                                <td><?= $treatment['date'] ?></td>
                                                                                 <td><?= $treatment['visit_day'] ?></td>
+                                                                                <td><?= $treatment['date'] ?></td>
                                                                                 <td><?= $treatment['start_date'] ?></td>
-                                                                                <td><?= $medications[0]['name'] . ' - ( ' . $batches[0]['serial_name'] . ' ) ( ' . $batches[0]['amount'] . ' )'; ?></td>
+                                                                                <td><?= $medications[0]['name']; ?></td>
+                                                                                <td><?= $medication_action ?></td>
+                                                                                <!-- <td> -->
+                                                                                    <?php
+                                                                                // $medications[0]['name'] . ' - ( ' . $batches[0]['serial_name'] . ' ) ( ' . $batches[0]['amount'] . ' )'; 
+                                                                                ?>
+                                                                                <!-- </td> -->
                                                                                 <td><?= $treatment['medication_dose'] ?></td>
                                                                                 <td><?= $treatment['units'] ?></td>
-                                                                                <td><?= $medication_action ?></td>
                                                                                 <td><?= $treatment['end_date'] ?></td>
                                                                                 <td>
                                                                                     <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
@@ -11672,14 +11771,14 @@ if ($user->isLoggedIn()) {
                                                                                     <form method="post">
                                                                                         <div class="modal-content">
                                                                                             <div class="modal-header">
-                                                                                                <h4 class="modal-title">Medication Form</h4>
+                                                                                                <h4 class="modal-title">Medication Form</h4><br><?php if($user->data()->power==1 || $user->data()->accessLevel == 1){ if($batches){ echo ' Medication :- ' . $medications[0]['name'] . ' Batch : - (' . $batches[0]['serial_name']. ')'; } } ?>
                                                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                                     <span aria-hidden="true">&times;</span>
                                                                                                 </button>
                                                                                             </div>
                                                                                             <div class="modal-body">
                                                                                                 <div class="row">
-                                                                                                    <div class="col-sm-3">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Date</label>
@@ -11689,7 +11788,7 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-3">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Start Date</label>
@@ -11699,45 +11798,24 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-3">
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Medication name</label>
-                                                                                                                <select name="batch_id" id="batch_id" class="form-control select2" style="width: 100%;" required>
-                                                                                                                    <?php if ($batches) { ?>
-                                                                                                                        <option value="<?= $batches[0]['id'] ?>"><?= $medications[0]['name'] . ' - ( ' . $batches[0]['serial_name'] . ' ) '; ?></option>
+                                                                                                                <select name="medication_id" id="medication_id" class="form-control select2" style="width: 100%;" required>
+                                                                                                                    <?php if ($medications) { ?>
+                                                                                                                        <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name']; ?></option>
                                                                                                                     <?php } ?>
-                                                                                                                    <?php foreach ($override->get('batch', 'status', 1) as $batch) { ?>
-                                                                                                                        <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' )  :  ( ' . $batch['amount'] . ' )'; ?></option>
+                                                                                                                    <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
+                                                                                                                        <option value="<?= $medication['id'] ?>"><?= $medication['name']; ?></option>
                                                                                                                     <?php } ?>
                                                                                                                 </select>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-3">
-                                                                                                        <div class="row-form clearfix">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>DOSE</label>
-                                                                                                                <input class="form-control" type="text" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
-                                                                                                                                                                                                                                    print_r($treatment['medication_dose']);
-                                                                                                                                                                                                                                }  ?>" required />
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="row">
-
-                                                                                                    <div class="col-sm-4">
-                                                                                                        <div class="row-form clearfix">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>UNITS</label>
-                                                                                                                <input class="form-control" type="text" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['units']) {
-                                                                                                                                                                                                                                        print_r($treatment['units']);
-                                                                                                                                                                                                                                    }  ?>" required />
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="col-sm-4">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Action</label>
@@ -11763,8 +11841,36 @@ if ($user->isLoggedIn()) {
                                                                                                                 </select>
                                                                                                             </div>
                                                                                                         </div>
+                                                                                                    </div>                                                                                                    
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-12">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>DOSE PPRESCRIPTION</label>
+                                                                                                                 <textarea class="form-control" name="medication_dose" id="medication_dose" rows="3" placeholder="Type other medication dose here..." required>
+                                                                                                                    <?php if ($treatment['medication_dose']) {
+                                                                                                                        print_r($treatment['medication_dose']);
+                                                                                                                    }  ?>
+                                                                                                                </textarea>                                                                                                               
+                                                                                                            </div>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-4">
+                                                                                                    </div>
+                                                                                                <div class="row">
+
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>UNITS</label>
+                                                                                                                <input class="form-control" type="text" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['units']) {
+                                                                                                                                                                                                                                        print_r($treatment['units']);
+                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>End Date ( If Stop )</label>
@@ -11778,8 +11884,6 @@ if ($user->isLoggedIn()) {
                                                                                             </div>
                                                                                             <div class="modal-footer justify-content-between">
                                                                                                 <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
-                                                                                                <input type="hidden" name="batch_id" value="<?= $treatment['batch_id'] ?>">
-                                                                                                <input type="hidden" name="medication_id" value="<?= $medications[0]['id'] ?>">
                                                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                                                 <input type="submit" name="update_medication" class="btn btn-primary" value="Save changes">
                                                                                             </div>
@@ -11803,7 +11907,7 @@ if ($user->isLoggedIn()) {
                                                                                             </div>
                                                                                             <div class="modal-footer">
                                                                                                 <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
-                                                                                                <input type="submit" name="delete_med" value="Delete" class="btn btn-danger">
+                                                                                                <input type="submit" name="delete_medication" value="Delete" class="btn btn-danger">
                                                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                                             </div>
                                                                                         </div>
@@ -12571,7 +12675,7 @@ if ($user->isLoggedIn()) {
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
+                                            <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
                                             <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
                                                 <input type="submit" name="add_treatment_plan" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -18402,17 +18506,21 @@ if ($user->isLoggedIn()) {
             items++;
 
             var html = "<tr>";
-            html += "<td>" + items + "</td>";
+            html += '<td><input type="hidden" name="medication[]" value=""></td>';
+            // html += "<td>" + items + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
-            html += '<td><input class="form-control"  type="date" name="date[]" value="" required></td>';
+            html += '<td><input class="form-control"  type="date" name="date[]" value=""  max="<?= date('Y-m-d') ?>" required></td>';
             html += '<td><input class="form-control"  type="date" name="start_date[]" value=""></td>';
-            html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' ) : ( ' . $batch['amount'] . ' )'; ?></option> <?php } ?></select></td>';
-            html += '<td><input class="form-control" type="text" name="medication_dose[]" value="" required></td>';
-            html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
+            html += '<td><select class="form-control select2" name="medication_id[]" id="medication_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select></td>';
+            // html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' ) : ( ' . $batch['amount'] . ' )'; ?></option> <?php } ?></select></td>';
             html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
+            html += '<textarea class="form-control" name="medication_dose" id="medication_dose" rows="3" placeholder="Type medication dose here..." required></textarea>'
+            html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
             html += '<td><input class="form-control"  type="date" name="end_date[]" value=""></td>';
             html += "<td><button type='button' onclick='deleteRow(this);'>Remove</button></td>"
             html += "</tr>";
+
+
 
             var row = document.getElementById("tbody").insertRow();
             row.innerHTML = html;
@@ -18430,8 +18538,10 @@ if ($user->isLoggedIn()) {
             items2++;
 
             var html = "<tr>";
-            html += "<td>" + items2 + "</td>";
+            html += '<td><input type="hidden" name="admission[]" value=""></td>';
+            // html += "<td>" + items2 + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
+            html += '<td><input class="form-control" type="date" name="entry_date[]" value="" max="<?= date('Y-m-d') ?>" required></td>';
             html += '<td><input class="form-control" type="date" name="admission_date[]" value="" required></td>';
             html += '<td><textarea class="form-control"  type="text" name="admission_reason[]" rows="3" placeholder="Type admission reason here..." required></textarea></td>';
             html += '<td><textarea class="form-control"  type="text" name="discharge_diagnosis[]" rows="3" placeholder="Type Discharge diagnosis here..." required></textarea></td>';
@@ -18456,8 +18566,10 @@ if ($user->isLoggedIn()) {
             items3++;
 
             var html = "<tr>";
-            html += "<td>" + items3 + "</td>";
+            html += '<td><input type="hidden" name="sibling[]" value=""></td>';
+            // html += "<td>" + items3 + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
+            html += '<td><input class="form-control" type="date" name="entry_date[]" value="" max="<?= date('Y-m-d') ?>" required></td>';
             html += '<td><input class="form-control" type="number" name="age[]" value="" min="0" max="100" required></td>';
             html += '<td><select class="form-control" name="sex[]" id="sex[]" style="width: 100%;" required><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select></td>';
             html += '<td><select class="form-control" name="sickle_status[]" id="sickle_status[]" style="width: 100%;" required><option value="">Select</option><option value="1">Positive</option><option value="2">Negative</option><option value="99">Unknown</option><option value="96">Other</option></select></td>';

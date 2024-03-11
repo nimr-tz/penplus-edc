@@ -25,6 +25,59 @@ if ($user->isLoggedIn()) {
 <html lang="en">
 <?php include 'headBar.php'; ?>
 
+<style>
+    /* Define a class for the table */
+    .table {
+        width: 100%;
+        /* Initially, set the width to 100% */
+        margin-bottom: 1rem;
+        background-color: transparent;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    /* Define styles for table header cells */
+    .table th {
+        font-weight: bold;
+        background-color: #f2f2f2;
+        color: #333;
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    /* Define styles for table data cells */
+    .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    /* Small screens (sm) */
+    @media only screen and (max-width: 100px) {
+        .table-sm {
+            font-size: 12px;
+            /* Decrease font size for small screens */
+        }
+    }
+
+    /* Medium screens (md) */
+    @media only screen and (min-width: 200px) and (max-width: 300px) {
+        .table-md {
+            font-size: 14px;
+            /* Set font size for medium screens */
+        }
+    }
+
+    /* Large screens (lg) */
+    @media only screen and (min-width: 500px) {
+        .table-lg {
+            font-size: 16px;
+            /* Set font size for large screens */
+        }
+    }
+</style>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <!-- Navbar -->
@@ -78,7 +131,7 @@ if ($user->isLoggedIn()) {
                 <div class="card-body">
                     <div class="container-fluid">
                         <div class="container-fluid">
-                            <table class="table table-bordered table-hover table-striped">
+                            <table class="table table-bordered table-hover table-striped table-sm table-md table-lg">
                                 <colgroup>
                                     <col width="5%">
                                     <col width="20%">

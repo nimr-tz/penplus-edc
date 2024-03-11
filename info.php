@@ -1512,6 +1512,9 @@ if ($user->isLoggedIn()) {
                                                 <th>Patient ID</th>
                                                 <th>Patient Name</th>
                                                 <th>Type</th>
+                                                <?php if ($user->data()->power = 1 || $user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                    <th>Site</th>
+                                                <?php } ?>
                                                 <th>Status</th>
                                                 <?php if ($_GET['status'] == 4) { ?>
                                                     <th>( Reason / Notes / Remarks / Comments )</th>
@@ -1535,6 +1538,8 @@ if ($user->isLoggedIn()) {
                                                 $end_study = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
                                                 $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
                                                 $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
+                                                $site = $override->get('site', 'id', $client['site_id'])[0];
+
 
                                                 $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
 
@@ -1584,6 +1589,9 @@ if ($user->isLoggedIn()) {
                                                     <?php
                                                     } ?>
 
+                                                    <?php if ($user->data()->power = 1 || $user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                        <td><?= $site['name'] ?></td>
+                                                    <?php } ?>
                                                     <?php if ($_GET['status'] == 1) { ?>
 
                                                         <?php if ($client['eligible'] == 1) { ?>
@@ -2150,7 +2158,7 @@ if ($user->isLoggedIn()) {
 
 
                                                                 if ($user->data()->power == 1) { ?>
-                                                                <hr>
+                                                                    <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
                                                                     <hr>
                                                                     <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
@@ -2634,7 +2642,7 @@ if ($user->isLoggedIn()) {
                                                             <select name="client_id" class="form-control" style="width: 100%;" required>
                                                                 <option value="">Select Name</option>
                                                                 <?php foreach ($override->get('clients', 'status', 1) as $client) { ?>
-                                                                    <option value="<?= $client['id'] ?>"><?= $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['firstname'] . ' - ' . $client['firstname'] ?></option>
+                                                                    <option value="<?= $client['id'] ?>"><?= $client['id'] . ' - ( ' . $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['middelname'] . ' - ' . $client['lastname'] . ' ) ' ?></option>
                                                                 <?php } ?>
                                                             </select>
                                                         </div>
@@ -2701,7 +2709,7 @@ if ($user->isLoggedIn()) {
                                                             <select name="client_id" class="form-control" style="width: 100%;" required>
                                                                 <option value="">Select Name</option>
                                                                 <?php foreach ($override->get('clients', 'status', 1) as $client) { ?>
-                                                                    <option value="<?= $client['id'] ?>"><?= $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['firstname'] . ' - ' . $client['firstname'] ?></option>
+                                                                    <option value="<?= $client['id'] ?>"><?= $client['id'] . ' - ( ' . $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['middelname'] . ' - ' . $client['lastname'] . ' ) ' ?></option>
                                                                 <?php } ?>
                                                             </select>
                                                         </div>

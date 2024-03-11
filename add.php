@@ -17584,7 +17584,7 @@ if ($user->isLoggedIn()) {
                                     </section>
                                      <?php
                                     $pagNum = 0;
-                                    $pagNum = $override->getCount('distrcts', 'status', 1);
+                                    $pagNum = $override->getCount('districts', 'status', 1);
                                     $pages = ceil($pagNum / $numRec);
                                     if (!$_GET['page'] || $_GET['page'] == 1) {
                                         $page = 0;
@@ -17592,7 +17592,7 @@ if ($user->isLoggedIn()) {
                                         $page = ($_GET['page'] * $numRec) - $numRec;
                                     }
 
-                                    $distrcts = $override->getWithLimit('distrcts', 'status', 1, $page, $numRec);
+                                    $districts = $override->getWithLimit('districts', 'status', 1, $page, $numRec);
                                     ?>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -17609,7 +17609,7 @@ if ($user->isLoggedIn()) {
                                             <tbody>
                                                 <?php
                                                 $x = 1;
-                                                foreach ($distrcts as $value) {
+                                                foreach ($districts as $value) {
                                                     $regions = $override->get('regions', 'id', $value['region_id'])[0];
                                                 ?>
                                                     <tr>

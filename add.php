@@ -2007,6 +2007,9 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $hospitalization_details['id']);
+
+                        $successMessage = 'Hospitalization details Updated Successful';
+
                     } else {
                         $user->createRecord('hospitalization_details', array(
                             'visit_date' => Input::get('hospitalization_date'),
@@ -2025,6 +2028,8 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+
+                        $successMessage = 'Hospitalization details added Successful';
                     }
 
 
@@ -2064,7 +2069,6 @@ if ($user->isLoggedIn()) {
                             }
                         }
                     }
-                    $successMessage = 'Hospitalization details added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
                     die;
                 } catch (Exception $e) {
@@ -2478,6 +2482,9 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $successMessage = 'Treatment Plan Updated Successful';
+
                         }
 
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) {
@@ -2514,6 +2521,9 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $successMessage = 'Treatment Plan Updated Successful';
+
                         }
 
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) {
@@ -2555,6 +2565,9 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $successMessage = 'Treatment Plan Updated Successful';
+
                         }
                     } else {
                         $user->createRecord('treatment_plan', array(
@@ -2603,6 +2616,8 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+
+                        $successMessage = 'Treatment Plan Added Successful';
                     }
 
                     if (Input::get('update_medication')) {
@@ -2623,11 +2638,82 @@ if ($user->isLoggedIn()) {
                         ), Input::get('id'));
                     } else {
 
-                    if (Input::get('medication_type')) {
-                        for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
-                            $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
-                            $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
-                            if (Input::get('medication_dose')[$i] <= $batch['amount']) {
+                    // if (Input::get('medication')) {
+                    //     for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
+                    //         $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
+                    //         $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
+                    //         if (Input::get('medication_dose')[$i] <= $batch['amount']) {
+                    //             $user->createRecord('medication_treatments', array(
+                    //                 'study_id' => $_GET['sid'],
+                    //                 'visit_code' => $_GET['vcode'],
+                    //                 'visit_day' => $_GET['vday'],
+                    //                 'seq_no' => $_GET['seq'],
+                    //                 'vid' => $_GET['vid'],
+                    //                 'date' => Input::get('date')[$i],
+                    //                 'start_date' => Input::get('start_date')[$i],
+                    //                 'batch_id' => Input::get('batch_id')[$i],
+                    //                     // $user->createRecord('batch_records', array(
+                //     'date' => Input::get('date'),
+                //     'batch_id' => Input::get('batch_id'),
+                //     'medication_id' => $batch['medication_id'],
+                //     'serial_name' => $batch['serial_name'],
+                //     'received' => $received,
+                //     'removed' => $removed,
+                //     'amount' => $amount,
+                //     'expire_date' => $batch['expire_date'],
+                //     'remarks' => $batch['remarks'],
+                //     'cost' => 0,
+                //     'price' => $batch['price'],
+                //     'status' => 1,
+                //     'create_on' => date('Y-m-d H:i:s'),
+                //     'site_id' =>  $user->data()->site_id,
+                //     'staff_id' => $user->data()->id,
+                // ));            'medication_type' => $batch['medication_id'],
+                    //                 'medication_action' => Input::get('medication_action')[$i],
+                    //                 'medication_dose' => Input::get('medication_dose')[$i],
+                    //                 'units' => Input::get('medication_units')[$i],
+                    //                 'end_date' => Input::get('end_date')[$i],
+                    //                 'patient_id' => $_GET['cid'],
+                    //                 'staff_id' => $user->data()->id,
+                    //                 'status' => 1,
+                    //                 'created_on' => date('Y-m-d'),
+                    //                 'site_id' => $user->data()->site_id,
+                    //             ));
+
+
+                    //             $amount = $batch['amount'] - Input::get('medication_dose')[$i];
+
+                    //             $user->updateRecord('batch', array(
+                    //                 'amount' => $amount,
+                    //             ), Input::get('batch_id')[$i]);
+
+                    //             $user->createRecord('batch_records', array(
+                    //                 'date' => Input::get('date')[$i],
+                    //                 'batch_id' => Input::get('batch_id')[$i],
+                    //                 'medication_id' => $batch['medication_id'],
+                    //                 'serial_name' => $batch['serial_name'],
+                    //                 'received' => 0,
+                    //                 'removed' => Input::get('medication_dose')[$i],
+                    //                 'amount' => $amount,
+                    //                 'expire_date' => $batch['expire_date'],
+                    //                 'remarks' => $batch['remarks'],
+                    //                 'cost' => 0,
+                    //                 'price' => $batch['price'],
+                    //                 'status' => 1,
+                    //                 'create_on' => date('Y-m-d H:i:s'),
+                    //                 'site_id' =>  $user->data()->site_id,
+                    //                 'staff_id' => $user->data()->id,
+                    //             ));
+                    //             $successMessage1 = 'Medication name : ' . Input::get('name') . ' : Batch : ' . Input::get('serial_name') . ' Amount ' . Input::get('medication_dose')[$i] . ' Decreased Successful';
+                    //             $msg = $successMessage1;
+                    //         } else {
+                    //             $errorMessage = 'Dose asigned : ' . Input::get('medication_dose')[$i] . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
+                    //         }
+                    //     }
+                    // }
+
+                    if (Input::get('medication')) {
+                        for ($i = 0; $i < count(Input::get('medication_id')); $i++) {
                                 $user->createRecord('medication_treatments', array(
                                     'study_id' => $_GET['sid'],
                                     'visit_code' => $_GET['vcode'],
@@ -2636,8 +2722,7 @@ if ($user->isLoggedIn()) {
                                     'vid' => $_GET['vid'],
                                     'date' => Input::get('date')[$i],
                                     'start_date' => Input::get('start_date')[$i],
-                                    'batch_id' => Input::get('batch_id')[$i],
-                                    'medication_type' => $batch['medication_id'],
+                                    'medication_type' => Input::get('medication_id')[$i],
                                     'medication_action' => Input::get('medication_action')[$i],
                                     'medication_dose' => Input::get('medication_dose')[$i],
                                     'units' => Input::get('medication_units')[$i],
@@ -2649,48 +2734,10 @@ if ($user->isLoggedIn()) {
                                     'site_id' => $user->data()->site_id,
                                 ));
 
-
-                                $amount = $batch['amount'] - Input::get('medication_dose')[$i];
-
-                                $user->updateRecord('batch', array(
-                                    'amount' => $amount,
-                                ), Input::get('batch_id')[$i]);
-
-                                $user->createRecord('batch_records', array(
-                                    'date' => Input::get('date')[$i],
-                                    'batch_id' => Input::get('batch_id')[$i],
-                                    'medication_id' => $batch['medication_id'],
-                                    'serial_name' => $batch['serial_name'],
-                                    'received' => 0,
-                                    'removed' => Input::get('medication_dose')[$i],
-                                    'amount' => $amount,
-                                    'expire_date' => $batch['expire_date'],
-                                    'remarks' => $batch['remarks'],
-                                    'cost' => 0,
-                                    'price' => $batch['price'],
-                                    'status' => 1,
-                                    'create_on' => date('Y-m-d H:i:s'),
-                                    'site_id' =>  $user->data()->site_id,
-                                    'staff_id' => $user->data()->id,
-                                ));
-                                $successMessage1 = 'Medication name : ' . Input::get('name') . ' : Batch : ' . Input::get('serial_name') . ' Amount ' . Input::get('medication_dose')[$i] . ' Decreased Successful';
-                                $msg = $successMessage1;
-                            } else {
-                                $errorMessage = 'Dose asigned : ' . Input::get('medication_dose')[$i] . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
-                            }
                         }
                     }
                 }
-
-                    if ($msg) {
-                        $msg1 = 1;
-                        $successMessage = 'Treatment Support Added Successful';
-                        $msg = $successMessage . ' && ' . $msg;
-                    } elseif ($errorMessage) {
-                        $msg1 = 2;
-                        $msg = $errorMessage;
-                    }
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&msg=' . $msg . '&msg1=' . $msg1);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $msg);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2700,32 +2747,32 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('update_medication')) {
 
-            $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
-            $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
-            $treatments = $override->getNews('medication_treatments', 'status', 1, 'id', Input::get('id'))[0];
+            // $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
+            // $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
+            // $treatments = $override->getNews('medication_treatments', 'status', 1, 'id', Input::get('id'))[0];
 
-            $extra = 0;
-            $amount = 0;
-            $removed = 0;
-            $received = 0;
+            // $extra = 0;
+            // $amount = 0;
+            // $removed = 0;
+            // $received = 0;
 
-            if (Input::get('medication_dose') <= $batch['amount']) {
+            // if (Input::get('medication_dose') <= $batch['amount']) {
 
-                if (Input::get('medication_dose') == $treatments['medication_dose']) {
-                    $amount = $treatments['medication_dose'];
-                } elseif (Input::get('medication_dose') <= $treatments['medication_dose']) {
-                    $extra = floatval($treatments['medication_dose']) - floatval(Input::get('medication_dose'));
-                    $amount = floatval($batch['amount']) + floatval($extra);
-                    $received = $extra;
-                } elseif (nput::get('medication_dose') >= $treatments['medication_dose']) {
-                    $extra = floatval(Input::get('medication_dose')) - floatval($treatments['medication_dose']);
-                    $amount = floatval($batch['amount']) - floatval($extra);
-                    $removed = $extra;
-                }
+                // if (Input::get('medication_dose') == $treatments['medication_dose']) {
+                //     $amount = $treatments['medication_dose'];
+                // } elseif (Input::get('medication_dose') <= $treatments['medication_dose']) {
+                //     $extra = floatval($treatments['medication_dose']) - floatval(Input::get('medication_dose'));
+                //     $amount = floatval($batch['amount']) + floatval($extra);
+                //     $received = $extra;
+                // } elseif (nput::get('medication_dose') >= $treatments['medication_dose']) {
+                //     $extra = floatval(Input::get('medication_dose')) - floatval($treatments['medication_dose']);
+                //     $amount = floatval($batch['amount']) - floatval($extra);
+                //     $removed = $extra;
+                // }
 
-                $user->updateRecord('batch', array(
-                    'amount' => $amount,
-                ), Input::get('batch_id'));
+                // $user->updateRecord('batch', array(
+                //     'amount' => $amount,
+                // ), Input::get('batch_id'));
 
 
                 $user->updateRecord('medication_treatments', array(
@@ -2736,7 +2783,6 @@ if ($user->isLoggedIn()) {
                     'vid' => $_GET['vid'],
                     'date' => Input::get('date'),
                     'start_date' => Input::get('start_date'),
-                    'batch_id' => Input::get('batch_id'),
                     'medication_type' => Input::get('medication_id'),
                     'medication_action' => Input::get('medication_action'),
                     'medication_dose' => Input::get('medication_dose'),
@@ -2745,29 +2791,30 @@ if ($user->isLoggedIn()) {
                 ), Input::get('id'));
 
 
-                $user->createRecord('batch_records', array(
-                    'date' => Input::get('date'),
-                    'batch_id' => Input::get('batch_id'),
-                    'medication_id' => $batch['medication_id'],
-                    'serial_name' => $batch['serial_name'],
-                    'received' => $received,
-                    'removed' => $removed,
-                    'amount' => $amount,
-                    'expire_date' => $batch['expire_date'],
-                    'remarks' => $batch['remarks'],
-                    'cost' => 0,
-                    'price' => $batch['price'],
-                    'status' => 1,
-                    'create_on' => date('Y-m-d H:i:s'),
-                    'site_id' =>  $user->data()->site_id,
-                    'staff_id' => $user->data()->id,
-                ));
+                // $user->createRecord('batch_records', array(
+                //     'date' => Input::get('date'),
+                //     'batch_id' => Input::get('batch_id'),
+                //     'medication_id' => $batch['medication_id'],
+                //     'serial_name' => $batch['serial_name'],
+                //     'received' => $received,
+                //     'removed' => $removed,
+                //     'amount' => $amount,
+                //     'expire_date' => $batch['expire_date'],
+                //     'remarks' => $batch['remarks'],
+                //     'cost' => 0,
+                //     'price' => $batch['price'],
+                //     'status' => 1,
+                //     'create_on' => date('Y-m-d H:i:s'),
+                //     'site_id' =>  $user->data()->site_id,
+                //     'staff_id' => $user->data()->id,
+                // ));
 
-                $successMessage = 'Medication name : ' . Input::get('name') . ' : Batch : ' . $batch['serial_name'] . ' Amount ' . Input::get('medication_dose') . ' Updated Successful';
-                $msg = $successMessage1;
-            } else {
-                $errorMessage = 'Dose asigned : ' . Input::get('medication_dose') . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
-            }
+                $successMessage = 'Medication Plan Updated Successful';
+
+            // }
+            //  else {
+            //     $errorMessage = 'Dose asigned : ' . Input::get('medication_dose') . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
+            // }
         } elseif (Input::get('update_admission')) {
             $user->updateRecord('hospitalization_table', array(
                 'study_id' => $_GET['sid'],
@@ -3051,7 +3098,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('delete_med')) {
+        } elseif (Input::get('delete_medication')) {
             $user->updateRecord('medication_treatments', array(
                 'status' => 0,
             ), Input::get('id'));

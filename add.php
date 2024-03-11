@@ -17295,7 +17295,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row mb-2">
                                                 <div class="col-sm-6">
                                                     <div class="card-header">
-                                                        List of Districts
+                                                        List of Regions
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
@@ -17349,7 +17349,7 @@ if ($user->isLoggedIn()) {
                                                             <?= $x; ?>
                                                         </td>
                                                         <td class="table-user">
-                                                            <?= $regions['name']; ?>
+                                                            <?= $value['name']; ?>
                                                         </td>
                                              
                                                         <?php if ($value['status'] == 1) { ?>

@@ -1217,7 +1217,7 @@ if ($user->isLoggedIn()) {
                                 'other' => Input::get('other'),
                             ),  Input::get('id'));
                         } else {
-                            if (!empty(trim(Input::get('age'))) && !empty(trim(Input::get('sex'))) && !empty(trim(Input::get('sickle_status')))) {
+                            if (count(Input::get('age')) > 1) {
                                 for ($i = 0; $i < count(Input::get('age')); $i++) {
                                     $user->createRecord('sickle_cell_status_table', array(
                                         'study_id' => $_GET['sid'],
@@ -6347,7 +6347,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Pain Event</label>
                                                                 <select name="pain_event" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['pain_event'] ?>"><?php if ($history) {
+                                                                    <option value="<?= $history['pain_event'] ?>"><?php if ($history['pain_event']) {
                                                                                                                         if ($history['pain_event'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($history['pain_event'] == 2) {
@@ -6368,7 +6368,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Stroke</label>
                                                                 <select name="stroke" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['stroke'] ?>"><?php if ($history) {
+                                                                    <option value="<?= $history['stroke'] ?>"><?php if ($history['stroke']) {
                                                                                                                     if ($history['stroke'] == 1) {
                                                                                                                         echo 'Yes';
                                                                                                                     } elseif ($history['stroke'] == 2) {
@@ -6389,7 +6389,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Pneumonia </label>
                                                                 <select name="pneumonia" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['pneumonia'] ?>"><?php if ($history) {
+                                                                    <option value="<?= $history['pneumonia'] ?>"><?php if ($history['pneumonia']) {
                                                                                                                         if ($history['pneumonia'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($history['pneumonia'] == 2) {
@@ -6426,7 +6426,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                 }  ?>" />
                                                                                                                                                 <br>
                                                                     <label id="transfusion_12months_label">how many times for the past twelve months ?</label>
-                                                                    <input type="number" min="0" max="100" name="transfusion_12months" class="form-control" value="<?php if ($history['transfusion_12months']) {
+                                                                    <input type="number" min="0" max="100" id="transfusion_12months" name="transfusion_12months" class="form-control" value="<?php if ($history['transfusion_12months']) {
                                                                                                                                                     print_r($history['transfusion_12months']);
                                                                                                                                                 }  ?>" />
                                                                 </div>                                                           

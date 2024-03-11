@@ -1217,25 +1217,30 @@ if ($user->isLoggedIn()) {
                                 'other' => Input::get('other'),
                             ),  Input::get('id'));
                         } else {
-                            for ($i = 0; $i < count(Input::get('age')); $i++) {
-                                $user->createRecord('sickle_cell_status_table', array(
-                                    'study_id' => $_GET['sid'],
-                                    'visit_code' => $_GET['vcode'],
-                                    'visit_day' => $_GET['vday'],
-                                    'seq_no' => $_GET['seq'],
-                                    'vid' => $_GET['vid'],
-                                    'age' => Input::get('age')[$i],
-                                    'sex' => Input::get('sex')[$i],
-                                    'visit_date' => Input::get('visit_date'),
-                                    'sickle_status' => Input::get('sickle_status')[$i],
-                                    'other' => Input::get('other')[$i],
-                                    'patient_id' => $_GET['cid'],
-                                    'staff_id' => $user->data()->id,
-                                    'status' => 1,
-                                    'created_on' => date('Y-m-d'),
-                                    'site_id' => $user->data()->site_id,
-                                ));
-                            }                      
+                            if (!empty(trim(Input::get('age'))) && !empty(trim(Input::get('sex'))) && !empty(trim(Input::get('sickle_status')))) {
+                                for ($i = 0; $i < count(Input::get('age')); $i++) {
+                                    $user->createRecord('sickle_cell_status_table', array(
+                                        'study_id' => $_GET['sid'],
+                                        'visit_code' => $_GET['vcode'],
+                                        'visit_day' => $_GET['vday'],
+                                        'seq_no' => $_GET['seq'],
+                                        'vid' => $_GET['vid'],
+                                        'age' => Input::get('age')[$i],
+                                        'sex' => Input::get('sex')[$i],
+                                        'visit_date' => Input::get('visit_date'),
+                                        'sickle_status' => Input::get('sickle_status')[$i],
+                                        'other' => Input::get('other')[$i],
+                                        'patient_id' => $_GET['cid'],
+                                        'staff_id' => $user->data()->id,
+                                        'status' => 1,
+                                        'created_on' => date('Y-m-d'),
+                                        'site_id' => $user->data()->site_id,
+                                    ));
+                                }
+                        }
+                        // else{
+                        //     $errorMessage = '" AGE " , " SEX " , " status " OR DATE IS MISSING please update accordingly " Before you submit again';
+                        //     }                      
                         }
                     }
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$successMessage);
@@ -2589,6 +2594,8 @@ if ($user->isLoggedIn()) {
                             'end_date' => Input::get('end_date'),
                         ), Input::get('id'));
                     } else {
+
+                    if (Input::get('medication_type')) {
                         for ($i = 0; $i < count(Input::get('batch_id')); $i++) {
                             $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
                             $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('batch_id')[$i])[0];
@@ -2645,6 +2652,7 @@ if ($user->isLoggedIn()) {
                             }
                         }
                     }
+                }
 
                     if ($msg) {
                         $msg1 = 1;
@@ -7007,7 +7015,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="history_other" id="history_other1" value="1" <?php if ($history['cardiac_surgery_type'] == 1) {
                                                                                                                                                                                 echo 'checked';
-                                                                                                                                                                            } ?>>
+                                                                                                                                                                            } ?> required>
                                                                 <label class="form-check-label">Yes</label>  
                                                                 <textarea class="form-control" name="history_specify" id="history_specify" placeholder="Type other here" style="width: 100%;" rows="3">
                                                                     <?php if ($history['history_specify']) {

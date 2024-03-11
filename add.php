@@ -11778,7 +11778,7 @@ if ($user->isLoggedIn()) {
                                                                                             </div>
                                                                                             <div class="modal-body">
                                                                                                 <div class="row">
-                                                                                                    <div class="col-sm-3">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Date</label>
@@ -11788,7 +11788,7 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-3">
+                                                                                                    <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Start Date</label>
@@ -11798,7 +11798,9 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div class="col-sm-3">
+                                                                                                    </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-8">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Medication name</label>
@@ -11810,29 +11812,6 @@ if ($user->isLoggedIn()) {
                                                                                                                         <option value="<?= $batch['id'] ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' )  :  ( ' . $batch['amount'] . ' )'; ?></option>
                                                                                                                     <?php } ?>
                                                                                                                 </select>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="col-sm-3">
-                                                                                                        <div class="row-form clearfix">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>DOSE</label>
-                                                                                                                <input class="form-control" type="text" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
-                                                                                                                                                                                                                                    print_r($treatment['medication_dose']);
-                                                                                                                                                                                                                                }  ?>" required />
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="row">
-
-                                                                                                    <div class="col-sm-4">
-                                                                                                        <div class="row-form clearfix">
-                                                                                                            <div class="form-group">
-                                                                                                                <label>UNITS</label>
-                                                                                                                <input class="form-control" type="text" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['units']) {
-                                                                                                                                                                                                                                        print_r($treatment['units']);
-                                                                                                                                                                                                                                    }  ?>" required />
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -11862,7 +11841,31 @@ if ($user->isLoggedIn()) {
                                                                                                                 </select>
                                                                                                             </div>
                                                                                                         </div>
+                                                                                                    </div>                                                                                                    
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-4">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>DOSE</label>
+                                                                                                                <input class="form-control" type="text" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
+                                                                                                                                                                                                                                    print_r($treatment['medication_dose']);
+                                                                                                                                                                                                                                }  ?>" required />
+                                                                                                            </div>
+                                                                                                        </div>
                                                                                                     </div>
+
+                                                                                                    <div class="col-sm-4">
+                                                                                                        <div class="row-form clearfix">
+                                                                                                            <div class="form-group">
+                                                                                                                <label>UNITS</label>
+                                                                                                                <input class="form-control" type="text" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['units']) {
+                                                                                                                                                                                                                                        print_r($treatment['units']);
+                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    
                                                                                                     <div class="col-sm-4">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">

@@ -6261,78 +6261,59 @@ if ($user->isLoggedIn()) {
                                                 <hr>
 
                                                 <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <label>Neuropathy</label>
+                                                        <!-- radio -->
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="neuropathy" id="neuropathy1" value="1" <?php if ($history['neuropathy'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                    <label id="neuropathy_date_label">Date of Neuropathy</label>
+                                                                    <input type="date" name="neuropathy_date" id="neuropathy_date" class="form-control" value="<?php if ($history['neuropathy_date']) {
+                                                                                                                                                    print_r($history['neuropathy_date']);
+                                                                                                                                                }  ?>" />
+                                                                </div>                                                           
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="neuropathy" id="neuropathy2" value="2" <?php if ($history['neuropathy'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                            
+                                                            </div>
+                                                                <span> (e.g ulcers, gangrene)</span>
+                                                        </div>
+                                                    </div>  
 
                                                     <div class="col-sm-3">
+                                                        <label>Sexual dysfunction</label>
+                                                        <!-- radio -->
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>Neuropathy</label>
-                                                                <select name="neuropathy" id="neuropathy" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['neuropathy'] ?>"><?php if ($history) {
-                                                                                                                        if ($history['neuropathy'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($history['neuropathy'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="sexual_dysfunction" id="sexual_dysfunction1" value="1" <?php if ($history['sexual_dysfunction'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label"  id="sexual_dysfunction_date_label">Yes</label>
+                                                                    <label>Date of Sexual dysfunction</label>
+                                                                    <input type="date" name="sexual_dysfunction_date" id="sexual_dysfunction_date" class="form-control" value="<?php if ($history['sexual_dysfunction_date']) {
+                                                                                                                                                    print_r($history['sexual_dysfunction_date']);
+                                                                                                                                                }  ?>" />
+                                                                </div>                                                           
 
-                                                    <div class="col-sm-3 hidden" id="neuropathy_date">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Date of Neuropathy</label>
-                                                                <input type="date" name="neuropathy_date" class="form-control" id="neuropathy_date" value="<?php if ($history['neuropathy_date']) {
-                                                                                                                                                                print_r($history['neuropathy_date']);
-                                                                                                                                                            }  ?>" />
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="sexual_dysfunction" id="sexual_dysfunction2" value="2" <?php if ($history['sexual_dysfunction'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>  
                                                 </div>
-
-
-
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="row-form clearfix">
-                                                            <div class="form-group">
-                                                                <label>Sexual dysfunction</label>
-                                                                <select name="sexual_dysfunction" id="sexual_dysfunction" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['sexual_dysfunction'] ?>"><?php if ($history) {
-                                                                                                                                if ($history['sexual_dysfunction'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($history['sexual_dysfunction'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6" id="sexual_dysfunction_date">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Date of Sexual dysfunction</label>
-                                                                <input type="date" name="sexual_dysfunction_date" class="form-control" id="sexual_dysfunction_date" value="<?php if ($history['sexual_dysfunction_date']) {
-                                                                                                                                                                                print_r($history['sexual_dysfunction_date']);
-                                                                                                                                                                            }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
 
                                             <?php } ?>
 

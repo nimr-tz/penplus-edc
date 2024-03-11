@@ -7015,7 +7015,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="history_other" id="history_other1" value="1" <?php if ($history['cardiac_surgery_type'] == 1) {
+                                                                <input class="form-check-input" type="radio" name="history_other" id="history_other1" value="1" <?php if ($history['history_other'] == 1) {
                                                                                                                                                                                 echo 'checked';
                                                                                                                                                                             } ?> required>
                                                                 <label class="form-check-label">Yes</label>  
@@ -7027,7 +7027,7 @@ if ($user->isLoggedIn()) {
                                                             </div>
 
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="history_other" id="history_other2" value="2" <?php if ($history['cardiac_surgery_type'] == 2) {
+                                                                <input class="form-check-input" type="radio" name="history_other" id="history_other2" value="2" <?php if ($history['history_other'] == 2) {
                                                                                                                                                                                 echo 'checked';
                                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">No</label>

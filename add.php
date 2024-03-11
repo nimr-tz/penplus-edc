@@ -11804,7 +11804,7 @@ if ($user->isLoggedIn()) {
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Medication name</label>
-                                                                                                                <select name="batch_id" id="batch_id" class="form-control select2" style="width: 100%;" required>
+                                                                                                                <select name="medication_id" id="medication_id" class="form-control select2" style="width: 100%;" required>
                                                                                                                     <?php if ($medications) { ?>
                                                                                                                         <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name']; ?></option>
                                                                                                                     <?php } ?>

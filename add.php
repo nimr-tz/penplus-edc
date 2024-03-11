@@ -11664,12 +11664,12 @@ if ($user->isLoggedIn()) {
                                                                         <tr>
                                                                             <th>#</th>
                                                                             <th> Visit Day </th>
-                                                                            <th> Date </th>
+                                                                            <th> Entry Date </th>
                                                                             <th> Start Date </th>
-                                                                            <th> Medication name - ( batch ) : ( amount )</th>
-                                                                            <th> Dose </th>
-                                                                            <th> Units </th>
+                                                                            <th> Medication name </th>
                                                                             <th> Action </th>
+                                                                            <th> Dose Prescription </th>
+                                                                            <th> Units </th>
                                                                             <th> End Date ( If Stop ) </th>
                                                                             <th></th>
                                                                         </tr>
@@ -11696,10 +11696,11 @@ if ($user->isLoggedIn()) {
                                                                                 <td><?= $treatment['date'] ?></td>
                                                                                 <td><?= $treatment['visit_day'] ?></td>
                                                                                 <td><?= $treatment['start_date'] ?></td>
-                                                                                <td><?= $medications[0]['name'] . ' - ( ' . $batches[0]['serial_name'] . ' ) ( ' . $batches[0]['amount'] . ' )'; ?></td>
+                                                                                <td><?= $medications[0]['name']; ?></td>
+                                                                                <td><?= $medication_action ?></td>
+                                                                                <!-- <td><?= $medications[0]['name'] . ' - ( ' . $batches[0]['serial_name'] . ' ) ( ' . $batches[0]['amount'] . ' )'; ?></td> -->
                                                                                 <td><?= $treatment['medication_dose'] ?></td>
                                                                                 <td><?= $treatment['units'] ?></td>
-                                                                                <td><?= $medication_action ?></td>
                                                                                 <td><?= $treatment['end_date'] ?></td>
                                                                                 <td>
                                                                                     <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
@@ -18455,9 +18456,9 @@ if ($user->isLoggedIn()) {
             html += '<td><input class="form-control"  type="date" name="date[]" value=""  max="<?= date('Y-m-d') ?>" required></td>';
             html += '<td><input class="form-control"  type="date" name="start_date[]" value=""></td>';
             html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' ) : ( ' . $batch['amount'] . ' )'; ?></option> <?php } ?></select></td>';
+            html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
             html += '<td><input class="form-control" type="text" name="medication_dose[]" value="" required></td>';
             html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
-            html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
             html += '<td><input class="form-control"  type="date" name="end_date[]" value=""></td>';
             html += "<td><button type='button' onclick='deleteRow(this);'>Remove</button></td>"
             html += "</tr>";

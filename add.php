@@ -1247,7 +1247,7 @@ if ($user->isLoggedIn()) {
                         //     }                      
                         }
                     }
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].'&msg='.$successMessage);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
                 }
                 } catch (Exception $e) {
@@ -6136,8 +6136,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Hypertension</label>
-                                                                <select name="hypertension" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['hypertension'] ?>"><?php if ($history) {
+                                                                <select name="hypertension" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $history['hypertension'] ?>"><?php if ($history['hypertension']) {
                                                                                                                         if ($history['hypertension'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($history['hypertension'] == 2) {
@@ -6157,9 +6157,9 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Diabetes</label>
-                                                                <select name="diabetes" class="form-control" style="width: 100%;">
+                                                                <select name="diabetes" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $history['diabetes'] ?>">
-                                                                        <?php if ($history) {
+                                                                        <?php if ($history['diabetes']) {
                                                                                 if ($history['diabetes'] == 1) {
                                                                                     echo 'Yes';
                                                                                 } elseif ($history['diabetes'] == 2) {
@@ -6180,8 +6180,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>CKD</label>
-                                                                <select name="ckd" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['ckd'] ?>"><?php if ($history) {
+                                                                <select name="ckd" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $history['ckd'] ?>"><?php if ($history['ckd']) {
                                                                                                                 if ($history['ckd'] == 1) {
                                                                                                                     echo 'Yes';
                                                                                                                 } elseif ($history['ckd'] == 2) {
@@ -6201,8 +6201,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Depression</label>
-                                                                <select name="depression" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['depression'] ?>"><?php if ($history) {
+                                                                <select name="depression" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $history['depression'] ?>"><?php if ($history['depression']) {
                                                                                                                         if ($history['depression'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($history['depression'] == 2) {
@@ -6627,8 +6627,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Family History of cardiac disease?</label>
-                                                                <select name="cardiac_disease" id="cardiac_disease" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['cardiac_disease'] ?>"><?php if ($history) {
+                                                                <select name="cardiac_disease" id="cardiac_disease" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $history['cardiac_disease'] ?>"><?php if ($history['cardiac_disease']) {
                                                                                                                             if ($history['cardiac_disease'] == 1) {
                                                                                                                                 echo 'Yes';
                                                                                                                             } elseif ($history['cardiac_disease'] == 2) {
@@ -6655,7 +6655,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="cardiac_surgery" id="cardiac_surgery1" value="1" <?php if ($history['cardiac_surgery'] == 1) {
                                                                                                                                                                                     echo 'checked';
-                                                                                                                                                                                } ?>>
+                                                                                                                                                                                } ?> required>
                                                                     <label class="form-check-label">Yes</label>                                                                
                                                                 </div>
 

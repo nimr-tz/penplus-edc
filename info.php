@@ -1514,7 +1514,7 @@ if ($user->isLoggedIn()) {
                                                 <th>Type</th>
                                                 <th>Status</th>
                                                 <?php if ($_GET['status'] == 4) { ?>
-                                                    <th>Reason</th>
+                                                    <th>( Reason / Notes / Remarks / Comments )</th>
                                                 <?php } else { ?>
                                                     <th>Action</th>
                                                 <?php } ?>

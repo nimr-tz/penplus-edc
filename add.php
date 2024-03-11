@@ -6153,7 +6153,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                         <label>Cardiovascular Diseases</label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
@@ -6180,7 +6180,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>            
                                                     
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                         <label>Retinopathy</label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
@@ -6205,7 +6205,7 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
                                                     </div> 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                         <label>Renal Disease </label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
@@ -6231,7 +6231,11 @@ if ($user->isLoggedIn()) {
                                                         <span> (e.g elevated creatinine)</span>
                                                         </div>
                                                     </div> 
-                                                    <div class="col-sm-3">
+                                                </div>
+                                                <hr>
+
+                                                <div class="row">
+                                                    <div class="col-sm-4">
                                                         <label>PVD </label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
@@ -6257,11 +6261,8 @@ if ($user->isLoggedIn()) {
                                                                 <span> (e.g ulcers, gangrene)</span>
                                                         </div>
                                                     </div>  
-                                                </div>
-                                                <hr>
 
-                                                <div class="row">
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                         <label>Neuropathy</label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
@@ -6288,7 +6289,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>  
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                         <label>Sexual dysfunction</label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">

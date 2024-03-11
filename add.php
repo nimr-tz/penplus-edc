@@ -908,7 +908,6 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
-                // print_r($_POST);
                 try {
                     if((Input::get('hiv') == 1 || Input::get('hiv') == 2) && empty(trim(Input::get('hiv_test')))){
                         $errorMessage = 'Please add a valaue from question " Date Tested " Before you submit again';
@@ -1213,6 +1212,7 @@ if ($user->isLoggedIn()) {
                                 'visit_day' => $_GET['vday'],
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
+                                'entry_date' => Input::get('entry_date'),
                                 'age' => Input::get('age'),
                                 'sex' => Input::get('sex'),
                                 'visit_date' => Input::get('visit_date'),
@@ -1220,7 +1220,7 @@ if ($user->isLoggedIn()) {
                                 'other' => Input::get('other'),
                             ),  Input::get('id'));
                         } else {
-                            if (count(Input::get('age')) > 1) {
+                            if (Input::get('sibling')) {
                                 for ($i = 0; $i < count(Input::get('age')); $i++) {
                                     $user->createRecord('sickle_cell_status_table', array(
                                         'study_id' => $_GET['sid'],
@@ -1228,6 +1228,7 @@ if ($user->isLoggedIn()) {
                                         'visit_day' => $_GET['vday'],
                                         'seq_no' => $_GET['seq'],
                                         'vid' => $_GET['vid'],
+                                        'entry_date' => Input::get('entry_date')[$i],
                                         'age' => Input::get('age')[$i],
                                         'sex' => Input::get('sex')[$i],
                                         'visit_date' => Input::get('visit_date'),
@@ -1984,7 +1985,6 @@ if ($user->isLoggedIn()) {
                 'hospitalization_date' => array(
                     'required' => true,
                 ),
-
             ));
             if ($validate->passed()) {
                 try {
@@ -2035,13 +2035,14 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
+                            'entry_date' => Input::get('entry_date'),
                             'admission_date' => Input::get('admission_date'),
                             'admission_reason' => Input::get('admission_reason'),
                             'discharge_diagnosis' => Input::get('discharge_diagnosis'),
                             'discharge_date' => Input::get('discharge_date'),
                         ), $hospitalization_id[0]['id']);
                     } else {
-                        if (Input::get('admission_date') && Input::get('admission_reason') && Input::get('discharge_diagnosis')) {
+                        if (Input::get('admission')) {
                             for ($i = 0; $i < count(Input::get('admission_date')); $i++) {
                                 $user->createRecord('hospitalization_table', array(
                                     'study_id' => $_GET['sid'],
@@ -2049,6 +2050,7 @@ if ($user->isLoggedIn()) {
                                     'visit_day' => $_GET['vday'],
                                     'seq_no' => $_GET['seq'],
                                     'vid' => $_GET['vid'],
+                                    'entry_date' => Input::get('entry_date')[$i],
                                     'admission_date' => Input::get('admission_date')[$i],
                                     'admission_reason' => Input::get('admission_reason')[$i],
                                     'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
@@ -2698,8 +2700,6 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('update_medication')) {
 
-            print_r($_POST);
-
             $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
             $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
             $treatments = $override->getNews('medication_treatments', 'status', 1, 'id', Input::get('id'))[0];
@@ -2775,6 +2775,7 @@ if ($user->isLoggedIn()) {
                 'visit_day' => $_GET['vday'],
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
+                'entry_date' => Input::get('entry_date'),
                 'admission_date' => Input::get('admission_date'),
                 'admission_reason' => Input::get('admission_reason'),
                 'discharge_diagnosis' => Input::get('discharge_diagnosis'),
@@ -2790,6 +2791,7 @@ if ($user->isLoggedIn()) {
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
                 'visit_date' => Input::get('visit_date'),
+                'entry_date' => Input::get('entry_date'),
                 'age' => Input::get('age'),
                 'sex' => Input::get('sex'),
                 'sickle_status' => Input::get('sickle_status'),
@@ -3054,12 +3056,12 @@ if ($user->isLoggedIn()) {
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = 'User Medication Successful Deleted';
-        } elseif (Input::get('delete_admin')) {
+        } elseif (Input::get('delete_admission')) {
             $user->updateRecord('hospitalization_table', array(
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = 'Hospitalization details Successful Deleted';
-        } elseif (Input::get('delete_sickle')) {
+        } elseif (Input::get('delete_siblings')) {
             $user->updateRecord('sickle_cell_status_table', array(
                 'status' => 0,
             ), Input::get('id'));
@@ -6856,6 +6858,7 @@ if ($user->isLoggedIn()) {
                                                                             <tr>
                                                                                 <th>#</th>
                                                                                 <th> Visit Day </th>
+                                                                                <th> Date </th>
                                                                                 <th> age </th>
                                                                                 <th> sex </th>
                                                                                 <th> sickle cell disease status </th>
@@ -6887,6 +6890,7 @@ if ($user->isLoggedIn()) {
                                                                                 <tr>
                                                                                     <td><?= $x; ?></td>
                                                                                     <td><?= $sickle_cell_status_table['visit_day'] ?></td>
+                                                                                    <td><?= $sickle_cell_status_table['entry_date'] ?></td>
                                                                                     <td><?= $sickle_cell_status_table['age'] ?></td>
                                                                                     <td><?= $sex ?></td>
                                                                                     <td><?= $sickle_status ?></td>
@@ -6917,6 +6921,16 @@ if ($user->isLoggedIn()) {
                                                                                                         <div class="col-sm-6">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
+                                                                                                                    <label>Entry Date</label>
+                                                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d') ?>" name="entry_date" id="entry_date" style="width: 100%;" value="<?php if ($sickle_cell_status_table['entry_date']) {
+                                                                                                                                                                                                                                    print_r($sickle_cell_status_table['entry_date']);
+                                                                                                                                                                                                                                }  ?>" required />
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-sm-6">
+                                                                                                            <div class="row-form clearfix">
+                                                                                                                <div class="form-group">
                                                                                                                     <label>Age</label>
                                                                                                                     <input class="form-control" type="number" min="0" max="100" name="age" id="age" style="width: 100%;" value="<?php if ($sickle_cell_status_table['age']) {
                                                                                                                                                                                                                                     print_r($sickle_cell_status_table['age']);
@@ -6925,7 +6939,12 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
 
-                                                                                                        <div class="col-sm-6">
+                                                                                                       
+                                                                                                    </div>
+                                                                                                    <hr>
+
+                                                                                                    <div class="row">
+                                                                                                         <div class="col-sm-6">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
                                                                                                                     <label>Sex</label>
@@ -6948,9 +6967,6 @@ if ($user->isLoggedIn()) {
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                    </div>
-
-                                                                                                    <div class="row">
                                                                                                         <div class="col-sm-6">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
@@ -6980,7 +6996,11 @@ if ($user->isLoggedIn()) {
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        <div class="col-sm-6">
+                                                                                                    </div>   
+                                                                                                    <hr>   
+
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-12">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
                                                                                                                     <label>Other</label>
@@ -11325,6 +11345,7 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- <th style="width: 5px">#</th> -->
                                                                                 <th>#</th>
                                                                                 <th> Visit Day </th>
+                                                                                <th> Entry Date </th>
                                                                                 <th> Admission Date </th>
                                                                                 <th> Admission Reason </th>
                                                                                 <th> Discharge Diagnosis </th>
@@ -11340,6 +11361,7 @@ if ($user->isLoggedIn()) {
                                                                                 <tr>
                                                                                     <td><?= $x; ?></td>
                                                                                     <td><?= $hospitalization_table['visit_day'] ?></td>
+                                                                                    <td><?= $hospitalization_table['entry_date'] ?></td>
                                                                                     <td><?= $hospitalization_table['admission_date'] ?></td>
                                                                                     <td><?= $hospitalization_table['admission_reason'] ?></td>
                                                                                     <td><?= $hospitalization_table['discharge_diagnosis'] ?></td>
@@ -11369,6 +11391,16 @@ if ($user->isLoggedIn()) {
                                                                                                         <div class="col-sm-6">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
+                                                                                                                    <label>Entry date</label>
+                                                                                                                    <input class="form-control" type="date" name="entry_date" id="entry_date" style="width: 100%;" value="<?php if ($hospitalization_table['entry_date']) {
+                                                                                                                                                                                                                                        print_r($hospitalization_table['entry_date']);
+                                                                                                                                                                                                                                    }  ?>" required />
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-sm-6">
+                                                                                                            <div class="row-form clearfix">
+                                                                                                                <div class="form-group">
                                                                                                                     <label>Admission date</label>
                                                                                                                     <input class="form-control" type="date" name="admission_date" id="admission_date" style="width: 100%;" value="<?php if ($hospitalization_table['admission_date']) {
                                                                                                                                                                                                                                         print_r($hospitalization_table['admission_date']);
@@ -11376,8 +11408,10 @@ if ($user->isLoggedIn()) {
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
+                                                                                                    </div>
 
-                                                                                                        <div class="col-sm-6">
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-12">
                                                                                                             <div class="row-form clearfix">
                                                                                                                 <div class="form-group">
                                                                                                                     <label>Admission Reason</label>
@@ -11441,7 +11475,7 @@ if ($user->isLoggedIn()) {
                                                                                                 </div>
                                                                                                 <div class="modal-footer">
                                                                                                     <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
-                                                                                                    <input type="submit" name="delete_admin" value="Delete" class="btn btn-danger">
+                                                                                                    <input type="submit" name="delete_admission" value="Delete" class="btn btn-danger">
                                                                                                     <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                                                 </div>
                                                                                             </div>
@@ -18415,9 +18449,10 @@ if ($user->isLoggedIn()) {
             items++;
 
             var html = "<tr>";
-            html += "<td>" + items + "</td>";
+            html += '<td><input type="hidden" name="medication[]" value=""></td>';
+            // html += "<td>" + items + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
-            html += '<td><input class="form-control"  type="date" name="date[]" value="" required></td>';
+            html += '<td><input class="form-control"  type="date" name="date[]" value=""  max="<?= date('Y-m-d') ?>" required></td>';
             html += '<td><input class="form-control"  type="date" name="start_date[]" value=""></td>';
             html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' ) : ( ' . $batch['amount'] . ' )'; ?></option> <?php } ?></select></td>';
             html += '<td><input class="form-control" type="text" name="medication_dose[]" value="" required></td>';
@@ -18443,8 +18478,10 @@ if ($user->isLoggedIn()) {
             items2++;
 
             var html = "<tr>";
-            html += "<td>" + items2 + "</td>";
+            html += '<td><input type="hidden" name="admission[]" value=""></td>';
+            // html += "<td>" + items2 + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
+            html += '<td><input class="form-control" type="date" name="entry_date[]" value="" max="<?= date('Y-m-d') ?>" required></td>';
             html += '<td><input class="form-control" type="date" name="admission_date[]" value="" required></td>';
             html += '<td><textarea class="form-control"  type="text" name="admission_reason[]" rows="3" placeholder="Type admission reason here..." required></textarea></td>';
             html += '<td><textarea class="form-control"  type="text" name="discharge_diagnosis[]" rows="3" placeholder="Type Discharge diagnosis here..." required></textarea></td>';
@@ -18469,8 +18506,10 @@ if ($user->isLoggedIn()) {
             items3++;
 
             var html = "<tr>";
-            html += "<td>" + items3 + "</td>";
+            html += '<td><input type="hidden" name="sibling[]" value=""></td>';
+            // html += "<td>" + items3 + "</td>";
             html += "<td><?= $_GET['vday']; ?></td>";
+            html += '<td><input class="form-control" type="date" name="entry_date[]" value="" max="<?= date('Y-m-d') ?>" required></td>';
             html += '<td><input class="form-control" type="number" name="age[]" value="" min="0" max="100" required></td>';
             html += '<td><select class="form-control" name="sex[]" id="sex[]" style="width: 100%;" required><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select></td>';
             html += '<td><select class="form-control" name="sickle_status[]" id="sickle_status[]" style="width: 100%;" required><option value="">Select</option><option value="1">Positive</option><option value="2">Negative</option><option value="99">Unknown</option><option value="96">Other</option></select></td>';

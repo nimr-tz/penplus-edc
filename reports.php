@@ -67,138 +67,227 @@ if ($user->isLoggedIn()) {
             </style>
 
             <!-- Main content -->
-            <div class="card card-outline card-primary rounded-0 shadow">
-                <div class="card-header">
-                    <h3 class="card-title">PENPLUS RECRUITMENTS STATUS AS OF <?= date('Y-m-d') ?></h3>
-                    <div class="card-tools">
-                        <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
-                        <a class="btn btn-flat btn-sm btn-primary" href="reports_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Table row -->
+                    <div class="row">
+                        <!-- Left col -->
+                        <section class="col-lg-12 connectedSortable">
+                            <div class="card card-outline card-primary rounded-0 shadow">
+                                <div class="card-header">
+                                    <h3 class="card-title">PENPLUS RECRUITMENTS STATUS AS OF <?= date('Y-m-d') ?></h3>
+                                    <div class="card-tools">
+                                        <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
+                                        <a class="btn btn-flat btn-sm btn-primary" href="reports_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="container-fluid">
+                                        <div class="container-fluid">
+                                            <table class="table table-bordered table-hover table-striped">
+                                                <colgroup>
+                                                    <col width="5%">
+                                                    <col width="20%">
+                                                    <col width="25%">
+                                                    <col width="20%">
+                                                    <col width="15%">
+                                                    <col width="15%">
+                                                </colgroup>
+                                                <thead>
+                                                    <tr class="bg-gradient-primary text-light">
+                                                        <th>#</th>
+                                                        <th>Site</th>
+                                                        <th>Registered</th>
+                                                        <th>Screened</th>
+                                                        <th>Cardiac</th>
+                                                        <th>Diabetes</th>
+                                                        <th>Sickle cell</th>
+                                                        <th>Other Diagnosis</th>
+                                                        <th>Eligible</th>
+                                                        <th>Enrolled</th>
+                                                        <th>End</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <?php
+                                                    $i = 1;
+                                                    foreach ($site_data as $row) {
+                                                        $registered = $override->countData('clients', 'status', 1, 'site_id', $row['id']);
+                                                        $registered_Total = $override->getCount('clients', 'status', 1);
+                                                        $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $row['id']);
+                                                        $screened_Total = $override->countData('clients', 'status', 1, 'screened', 1);
+                                                        $sickle_cell = $override->countData2('clients', 'status', 1, 'sickle_cell', 1, 'site_id', $row['id']);
+                                                        $sickle_cell_Total = $override->countData('clients', 'status', 1, 'sickle_cell', 1);
+                                                        $cardiac = $override->countData2('clients', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
+                                                        $cardiac_Total = $override->countData('clients', 'status', 1, 'cardiac', 1);
+                                                        $diabetes = $override->countData2('clients', 'status', 1, 'diabetes', 1, 'site_id', $row['id']);
+                                                        $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
+                                                        $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $row['id']);
+                                                        $eligible_Total = $override->countData('clients', 'status', 1, 'eligible', 1);
+                                                        $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
+                                                        $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
+                                                        $end_study = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
+                                                        $end_study_Total = $override->countData('clients', 'status', 1, 'end_study', 1);
+                                                    ?>
+                                                        <tr>
+                                                            <td class="text-center"><?php echo $i++; ?></td>
+                                                            <td class=""><?php echo $row['name'] ?></td>
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $registered ?></p>
+                                                            </td>
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $screened ?></p>
+                                                            </td>
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $cardiac ?></p>
+                                                            </td>
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $diabetes ?></p>
+                                                            </td>
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $sickle_cell ?></p>
+                                                            </td>
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $other ?></p>
+                                                            </td>
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $eligible ?></p>
+                                                            </td>
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $enrolled ?></p>
+                                                            </td>
+
+                                                            <td class="">
+                                                                <p class="m-0 truncate-1"><?php echo $end_study ?></p>
+                                                            </td>
+                                                        </tr>
+
+
+                                                    <?php } ?>
+                                                    <tr>
+                                                        <td class="text-center"></td>
+                                                        <td class="">TOTAL</td>
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $registered_Total ?></p>
+                                                        </td>
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $screened_Total ?></p>
+                                                        </td>
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $cardiac_Total ?></p>
+                                                        </td>
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $diabetes_Total ?></p>
+                                                        </td>
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $sickle_cell_Total ?></p>
+                                                        </td>
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $other_Total ?></p>
+                                                        </td>
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $eligible_Total ?></p>
+                                                        </td>
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $enrolled_Total ?></p>
+                                                        </td>
+
+                                                        <td class="">
+                                                            <p class="m-0 truncate-1"><?php echo $end_study_Total ?></p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- /.right col -->
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="container-fluid">
-                        <div class="container-fluid">
-                            <table class="table table-bordered table-hover table-striped">
-                                <colgroup>
-                                    <col width="5%">
-                                    <col width="20%">
-                                    <col width="25%">
-                                    <col width="20%">
-                                    <col width="15%">
-                                    <col width="15%">
-                                </colgroup>
-                                <thead>
-                                    <tr class="bg-gradient-primary text-light">
-                                        <th>#</th>
-                                        <th>Site</th>
-                                        <th>Registered</th>
-                                        <th>Screened</th>
-                                        <th>Cardiac</th>
-                                        <th>Diabetes</th>
-                                        <th>Sickle cell</th>
-                                        <th>Other Diagnosis</th>
-                                        <th>Eligible</th>
-                                        <th>Enrolled</th>
-                                        <th>End</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                    <!-- /.row (Table row) -->
 
-                                    <?php
-                                    $i = 1;
-                                    foreach ($site_data as $row) {
-                                        $registered = $override->countData('clients', 'status', 1, 'site_id', $row['id']);
-                                        $registered_Total = $override->getCount('clients', 'status', 1);
-                                        $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $row['id']);
-                                        $screened_Total = $override->countData('clients', 'status', 1, 'screened', 1);
-                                        $sickle_cell = $override->countData2('clients', 'status', 1, 'sickle_cell', 1, 'site_id', $row['id']);
-                                        $sickle_cell_Total = $override->countData('clients', 'status', 1, 'sickle_cell', 1);
-                                        $cardiac = $override->countData2('clients', 'status', 1, 'cardiac', 1, 'site_id', $row['id']);
-                                        $cardiac_Total = $override->countData('clients', 'status', 1, 'cardiac', 1);
-                                        $diabetes = $override->countData2('clients', 'status', 1, 'diabetes', 1, 'site_id', $row['id']);
-                                        $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
-                                        $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $row['id']);
-                                        $eligible_Total = $override->countData('clients', 'status', 1, 'eligible', 1);
-                                        $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
-                                        $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
-                                        $end_study = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
-                                        $end_study_Total = $override->countData('clients', 'status', 1, 'end_study', 1);
-                                    ?>
-                                        <tr>
-                                            <td class="text-center"><?php echo $i++; ?></td>
-                                            <td class=""><?php echo $row['name'] ?></td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $registered ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $screened ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $cardiac ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $diabetes ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $sickle_cell ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $other ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $eligible ?></p>
-                                            </td>
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $enrolled ?></p>
-                                            </td>
+                    <!-- Main row -->
+                    <div class="row">
+                        <!-- Left col -->
+                        <section class="col-lg-6 connectedSortable">
+                            <!-- Custom tabs (Charts with tabs)-->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="fas fa-chart-pie mr-1"></i>
+                                        Total Registration
+                                    </h3>
+                                    <div class="card-tools">
+                                        <ul class="nav nav-pills ml-auto">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#total_registration1" data-toggle="tab">Area</a>
+                                            </li>
+                                            <!-- <li class="nav-item">
+                                                <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                                            </li> -->
+                                        </ul>
+                                    </div>
+                                </div><!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="tab-content p-0">
+                                        <!-- Morris chart - Sales -->
+                                        <div class="chart tab-pane active" id="total_registration1" style="position: relative; height: 300px;">
+                                            <canvas id="total_registration" height="300" style="height: 300px;"></canvas>
+                                        </div>
+                                        <!-- <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+                                            <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                        </div> -->
+                                    </div>
+                                </div><!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
 
-                                            <td class="">
-                                                <p class="m-0 truncate-1"><?php echo $end_study ?></p>
-                                            </td>
-                                        </tr>
+                        </section>
+                        <!-- /.Left col -->
+                        <!-- Right col -->
+                        <section class="col-lg-6 connectedSortable">
+                            <!-- Custom tabs (Charts with tabs)-->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="fas fa-chart-pie mr-1"></i>
+                                        Site Registration
+                                    </h3>
+                                    <div class="card-tools">
+                                        <ul class="nav nav-pills ml-auto">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div><!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="tab-content p-0">
+                                        <!-- Morris chart - Sales -->
+                                        <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
+                                            <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                        </div>
+                                        <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+                                            <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                        </div>
+                                    </div>
+                                </div><!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
 
-
-                                    <?php } ?>
-                                    <tr>
-                                        <td class="text-center"></td>
-                                        <td class="">TOTAL</td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $registered_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $screened_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $cardiac_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $diabetes_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $sickle_cell_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $other_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $eligible_Total ?></p>
-                                        </td>
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $enrolled_Total ?></p>
-                                        </td>
-
-                                        <td class="">
-                                            <p class="m-0 truncate-1"><?php echo $end_study_Total ?></p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        </section>
+                        <!-- /.right col -->
                     </div>
+                    <!-- /.row (main row) -->
                 </div>
-            </div>
+                <!-- /.container-fluid -->
+            </section>
             <!-- /.content -->
-
         </div>
         <!-- /.content-wrapper -->
         <?php include 'footerBar.php'; ?>
@@ -234,6 +323,11 @@ if ($user->isLoggedIn()) {
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
+
+
+
+    <script src="mycharts/registered.js"></script>
+
     <!-- Page specific script -->
     <script>
         $(function() {
@@ -317,6 +411,25 @@ if ($user->isLoggedIn()) {
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             })
 
+
+
+            var ctx = document.getElementById('siteChart').getContext('2d');
+            var chartData = <?php echo $chartDataJSON; ?>;
+
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
         })
         // BS-Stepper Init
         document.addEventListener('DOMContentLoaded', function() {
@@ -378,6 +491,3 @@ if ($user->isLoggedIn()) {
         }
         // DropzoneJS Demo Code End
     </script>
-</body>
-
-</html>

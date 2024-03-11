@@ -1,27 +1,24 @@
-const history_other = document.getElementById("history_other");
-const history_specify = document.getElementById("history_specify");
+const history_other1 = document.getElementById("history_other1");
+const history_other2 = document.getElementById("history_other2");
 
+const history_specify = document.getElementById(`history_specify`);
 
-function showElement() {
-  if (history_other.value === "1") {
+function toggleElementVisibility() {
+  if (history_other1.checked) {
     history_specify.style.display = "block";
+    history_specify.setAttribute("required", "required");
   } else {
     history_specify.style.display = "none";
+    history_specify.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", history_other.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const history_otherValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (history_otherValue) {
-  history_other.value = history_otherValue;
-}
+history_other1.addEventListener("change", toggleElementVisibility);
+history_other2.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-history_other.addEventListener("change", showElement);
+
+

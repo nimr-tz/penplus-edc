@@ -1,30 +1,30 @@
-const tb = document.getElementById("tb");
-const tb_year = document.getElementById("tb_year");
+const tb1 = document.getElementById(`tb1`);
+const tb2 = document.getElementById(`tb2`);
+const tb3 = document.getElementById(`tb3`);
+const tb4 = document.getElementById(`tb4`);
+const tb5 = document.getElementById(`tb5`);
 
-function showElement() {
-  if (tb.value === "1") {
+
+const tb_year_label = document.getElementById(`tb_year_label`);
+const tb_year = document.getElementById(`tb_year`);
+
+function toggleElementVisibility() {
+  if (tb1.checked || tb2.checked || tb3.checked) {
+    tb_year_label.style.display = "block";
     tb_year.style.display = "block";
-  } else if (tb.value === "2") {
-    tb_year.style.display = "block";
-  } else if (tb.value === "3") {
-    tb_year.style.display = "block";
+    tb_year.setAttribute("required", "required");
   } else {
+    tb_year_label.style.display = "none";
     tb_year.style.display = "none";
+    tb_year.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", tb.value);
 }
+// Initial check
+toggleElementVisibility();
 
-// Check if there's a previously selected value in localStorage
-const tbValue = localStorage.getItem("selectedValue");
+tb1.addEventListener("change", toggleElementVisibility);
+tb2.addEventListener("change", toggleElementVisibility);
+tb3.addEventListener("change", toggleElementVisibility);
+tb4.addEventListener("change", toggleElementVisibility);
+tb5.addEventListener("change", toggleElementVisibility);
 
-if (tbValue) {
-  tb.value = tbValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-tb.addEventListener("change", showElement);

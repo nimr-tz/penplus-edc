@@ -115,7 +115,7 @@ if ($user->isLoggedIn()) {
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-3">
-              <h1 class="m-0">Dashboard <?= $Site; ?></h1>
+              <h1 class="m-0"> <?= $Site; ?></h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
 

@@ -9,6 +9,7 @@ header('Content-Type: application/json');
 $data = array();
 $result = $override->getDataRegister3('status', 1);
 foreach ($result as $value) {
+    $yearname = $value['yearname'];
     $monthname = $value['monthname'];
     $site_id = $value['site_id'];
     $count = $value['count'];

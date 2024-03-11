@@ -515,9 +515,9 @@ class OverideData
         return $result;
     }
 
-    public function getDataRegister()
+    public function getDataRegister($where,$value)
     {
-        $query = $this->_pdo->query("SELECT MONTHNAME(clinic_date) as monthname, SUM(status) as amount FROM clients GROUP BY monthname");
+        $query = $this->_pdo->query("SELECT site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' GROUP BY site_id");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
@@ -538,20 +538,27 @@ class OverideData
 
     public function getDataRegister3($where, $value)
     {
-        $query = $this->_pdo->query("SELECT MONTHNAME(clinic_date) AS monthname, site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' GROUP BY monthname, site_id");
+        $query = $this->_pdo->query("SELECT DATE_FORMAT(clinic_date, '%Y-%m') AS monthname, site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' GROUP BY monthname, site_id ORDER BY monthname");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
     public function getDataRegister4($where, $value, $where1, $value1)
     {
-        $query = $this->_pdo->query("SELECT MONTHNAME(clinic_date) AS monthname, site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' AND $where1 = '$value1' GROUP BY monthname, site_id");
+        $query = $this->_pdo->query("SELECT DATE_FORMAT(clinic_date, '%Y-%m') AS monthname, site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' AND $where1 = '$value1' GROUP BY monthname, site_id ORDER BY monthname");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
 
     public function getDataRegister5($where, $value)
+    {
+        $query = $this->_pdo->query("SELECT MONTHNAME(clinic_date) AS monthname, dignosis_type as dignosis_type, COUNT(*) AS count FROM clients WHERE $where = '$value' GROUP BY monthname, dignosis_type");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataRegister6($where, $value)
     {
         $query = $this->_pdo->query("SELECT MONTHNAME(clinic_date) AS monthname, dignosis_type as dignosis_type, COUNT(*) AS count FROM clients WHERE $where = '$value' GROUP BY monthname, dignosis_type");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

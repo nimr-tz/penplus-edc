@@ -1,26 +1,30 @@
-const art = document.getElementById("art");
-const art_date = document.getElementById("art_date");
+const art1 = document.getElementById(`art1`);
+const art2 = document.getElementById(`art2`);
 
-function showElement() {
-  if (art.value === "1") {
+const art_date_label = document.getElementById(`art_date_label`);
+const art_date = document.getElementById(`art_date`);
+
+function toggleElementVisibility() {
+  if (art1.checked) {
+    art_date_label.style.display = "block";
     art_date.style.display = "block";
+    art_date.setAttribute("required", "required");
   } else {
+    art_date_label.style.display = "none";
     art_date.style.display = "none";
+    art_date.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", art.value);
 }
+// Initial check
+toggleElementVisibility();
 
-// Check if there's a previously selected value in localStorage
-const artValue = localStorage.getItem("selectedValue");
+art1.addEventListener("change", toggleElementVisibility);
+art2.addEventListener("change", toggleElementVisibility);
 
-if (artValue) {
-  art.value = artValue;
+
+function unsetArt() {
+  var unsetArts = document.getElementsByName("art");
+  unsetArts.forEach(function (unsetArt) {
+    unsetArt.checked = false;
+  });
 }
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-art.addEventListener("change", showElement);

@@ -11725,7 +11725,7 @@ if ($user->isLoggedIn()) {
                                                                         <?php $x = 1;
                                                                         foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
                                                                             $batches = $override->getNews('batch', 'status', 1, 'id', $treatment['batch_id']);
-                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $batches[0]['medication_id']);
+                                                                            $medications = $override->getNews('medications', 'status', 1, 'id', $treatment[0]['medication_id']);
 
                                                                             if ($treatment['medication_action'] == 1) {
                                                                                 $medication_action = 'Continue';

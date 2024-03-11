@@ -8,6 +8,8 @@ $validate = new validate();
 $successMessage = null;
 $pageError = null;
 $errorMessage = null;
+$numRec = 15;
+
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         if (Input::get('add_user')) {
@@ -17251,7 +17253,7 @@ if ($user->isLoggedIn()) {
                         <div class="row">
                             <?php $regions = $override->get('regions', 'id', $_GET['region_id']); ?>
                             <!-- right column -->
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <!-- general form elements disabled -->
                                 <div class="card card-warning">
                                     <div class="card-header">
@@ -17284,7 +17286,186 @@ if ($user->isLoggedIn()) {
                                 </div>
                                 <!-- /.card -->
                             </div>
+                            <!--/.col (left) -->
+
+                            <div class="col-6">
+                                <div class="card">
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-6">
+                                                    <div class="card-header">
+                                                        List of Districts
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                < Back</a>
+                                                        </li>
+                                                        &nbsp;
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                Go Home > </a>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div><!-- /.container-fluid -->
+                                    </section>
+                                     <?php
+                                    $pagNum = 0;
+                                    $pagNum = $override->getCount('regions', 'status', 1);
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+
+                                    $regions = $override->getWithLimit('regions', 'status', 1, $page, $numRec);
+                                    ?>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Region Name</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $x = 1;
+                                                foreach ($regions as $value) {
+                                                    $regions = $override->get('regions', 'id', $value['region_id'])[0];
+                                                ?>
+                                                    <tr>
+                                                        <td class="table-user">
+                                                            <?= $x; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $regions['name']; ?>
+                                                        </td>
+                                             
+                                                        <?php if ($value['status'] == 1) { ?>
+                                                            <td class="text-center">
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="ri-edit-box-line">
+                                                                    </i>Active
+                                                                </a>
+                                                            </td>
+                                                        <?php  } else { ?>
+                                                                <td class="text-center">
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="ri-edit-box-line">
+                                                                    </i>Not Active
+                                                                </a>
+                                                            </td>
+                                                        <?php } ?>
+                                                        <td>
+                                                            <a href="add.php?id=24&region_id=<?= $value['id'] ?>" class="btn btn-info">Update</a>
+                                                            <a href="#delete<?= $value['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                            <a href="#restore<?= $value['id'] ?>" role="button" class="btn btn-secondary" data-toggle="modal">Restore</a>
+                                                        </td>
+                                                    </tr>
+                                                    <div class="modal fade" id="delete<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Delete User</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: red">
+                                                                            <p>Are you sure you want to delete this user</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $staff['id'] ?>">
+                                                                        <input type="submit" name="delete_staff" value="Delete" class="btn btn-danger">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="restore<?= $staff['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                        <h4>Restore User</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong style="font-weight: bold;color: green">
+                                                                            <p>Are you sure you want to restore this user</p>
+                                                                        </strong>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id" value="<?= $staff['id'] ?>">
+                                                                        <input type="submit" name="restore_staff" value="Restore" class="btn btn-success">
+                                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                <?php $x++;
+                                                } ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Region Name</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="add.php?id=24&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                            echo $_GET['page'] - 1;
+                                                                                                        } else {
+                                                                                                            echo 1;
+                                                                                                        } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="add.php?id=24&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="add.php?id=24&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                echo $_GET['page'] + 1;
+                                                                                                            } else {
+                                                                                                                echo $i - 1;
+                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /.card -->
+                            </div>
                             <!--/.col (right) -->
+
+
                         </div>
                         <!-- /.row -->
                     </div><!-- /.container-fluid -->
@@ -17401,6 +17582,18 @@ if ($user->isLoggedIn()) {
                                             <hr>
                                         </div><!-- /.container-fluid -->
                                     </section>
+                                     <?php
+                                    $pagNum = 0;
+                                    $pagNum = $override->getCount('distrcts', 'status', 1);
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+
+                                    $distrcts = $override->getWithLimit('distrcts', 'status', 1, $page, $numRec);
+                                    ?>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <table id="example1" class="table table-bordered table-striped">
@@ -17416,7 +17609,7 @@ if ($user->isLoggedIn()) {
                                             <tbody>
                                                 <?php
                                                 $x = 1;
-                                                foreach ($override->get('districts', 'status', 1) as $value) {
+                                                foreach ($distrcts as $value) {
                                                     $regions = $override->get('regions', 'id', $value['region_id'])[0];
                                                 ?>
                                                     <tr>
@@ -17512,6 +17705,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="add.php?id=25&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                            echo $_GET['page'] - 1;
+                                                                                                        } else {
+                                                                                                            echo 1;
+                                                                                                        } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="add.php?id=25&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="add.php?id=25&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                echo $_GET['page'] + 1;
+                                                                                                            } else {
+                                                                                                                echo $i - 1;
+                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -17649,9 +17870,21 @@ if ($user->isLoggedIn()) {
                                             <hr>
                                         </div><!-- /.container-fluid -->
                                     </section>
+                                    <?php
+                                    $pagNum = 0;
+                                    $pagNum = $override->getCount('wards', 'status', 1);
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+
+                                    $ward = $override->getWithLimit('wards', 'status', 1, $page, $numRec);
+                                    ?>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                       <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                    <th>#</th>
@@ -17665,7 +17898,7 @@ if ($user->isLoggedIn()) {
                                             <tbody>
                                                 <?php
                                                 $x = 1;
-                                                foreach ($override->get('wards', 'status', 1) as $value) {
+                                                foreach ($ward as $value) {
                                                     $regions = $override->get('regions', 'id', $value['region_id'])[0];
                                                     $districts = $override->get('districts', 'id', $value['district_id'])[0];
                                                 ?>
@@ -17766,6 +17999,34 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="add.php?id=26&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                            echo $_GET['page'] - 1;
+                                                                                                        } else {
+                                                                                                            echo 1;
+                                                                                                        } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="add.php?id=26&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="add.php?id=26&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                echo $_GET['page'] + 1;
+                                                                                                            } else {
+                                                                                                                echo $i - 1;
+                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>

@@ -2038,23 +2038,25 @@ if ($user->isLoggedIn()) {
                             'discharge_date' => Input::get('discharge_date'),
                         ), $hospitalization_id[0]['id']);
                     } else {
-                        for ($i = 0; $i < count(Input::get('admission_date')); $i++) {
-                            $user->createRecord('hospitalization_table', array(
-                                'study_id' => $_GET['sid'],
-                                'visit_code' => $_GET['vcode'],
-                                'visit_day' => $_GET['vday'],
-                                'seq_no' => $_GET['seq'],
-                                'vid' => $_GET['vid'],
-                                'admission_date' => Input::get('admission_date')[$i],
-                                'admission_reason' => Input::get('admission_reason')[$i],
-                                'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
-                                'discharge_date' => Input::get('discharge_date')[$i],
-                                'patient_id' => $_GET['cid'],
-                                'staff_id' => $user->data()->id,
-                                'status' => 1,
-                                'created_on' => date('Y-m-d'),
-                                'site_id' => $user->data()->site_id,
-                            ));
+                        if (Input::get('admission_date') && Input::get('admission_reason') && Input::get('discharge_diagnosis')) {
+                            for ($i = 0; $i < count(Input::get('admission_date')); $i++) {
+                                $user->createRecord('hospitalization_table', array(
+                                    'study_id' => $_GET['sid'],
+                                    'visit_code' => $_GET['vcode'],
+                                    'visit_day' => $_GET['vday'],
+                                    'seq_no' => $_GET['seq'],
+                                    'vid' => $_GET['vid'],
+                                    'admission_date' => Input::get('admission_date')[$i],
+                                    'admission_reason' => Input::get('admission_reason')[$i],
+                                    'discharge_diagnosis' => Input::get('discharge_diagnosis')[$i],
+                                    'discharge_date' => Input::get('discharge_date')[$i],
+                                    'patient_id' => $_GET['cid'],
+                                    'staff_id' => $user->data()->id,
+                                    'status' => 1,
+                                    'created_on' => date('Y-m-d'),
+                                    'site_id' => $user->data()->site_id,
+                                ));
+                            }
                         }
                     }
                     $successMessage = 'Hospitalization details added Successful';

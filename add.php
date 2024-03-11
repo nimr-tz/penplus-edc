@@ -6395,68 +6395,49 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
 
 
                                                 <div class="row">
-
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-3">
+                                                        <label>Blood Transfusion</label>
+                                                        <!-- radio -->
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>Blood Transfusion</label>
-                                                                <select name="blood_transfusion" class="form-control" id="blood_transfusion" style="width: 100%;" onchange="checkQuestionValue3('blood_transfusion','transfusion_born','transfusion_12months')">
-                                                                    <option value="<?= $history['blood_transfusion'] ?>"><?php if ($history) {
-                                                                                                                                if ($history['blood_transfusion'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($history['blood_transfusion'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="blood_transfusion" id="blood_transfusion1" value="1" <?php if ($history['blood_transfusion'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                    <label id="transfusion_born_label">How many times since you were born ?</label>
+                                                                    <input type="number" min="0" max="100" name="transfusion_born" id="transfusion_born" class="form-control" value="<?php if ($history['transfusion_born']) {
+                                                                                                                                                    print_r($history['transfusion_born']);
+                                                                                                                                                }  ?>" />
+                                                                                                                                                <br>
+                                                                    <label id="transfusion_12months_label">how many times for the past twelve months ?</label>
+                                                                    <input type="number" min="0" max="100" name="transfusion_12months" class="form-control" value="<?php if ($history['transfusion_12months']) {
+                                                                                                                                                    print_r($history['transfusion_12months']);
+                                                                                                                                                }  ?>" />
+                                                                </div>                                                           
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="blood_transfusion" id="blood_transfusion2" value="2" <?php if ($history['blood_transfusion'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4" id="transfusion_born">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>how many times since you were born ? </label>
-                                                                <input type="text" name="transfusion_born" class="form-control" value="<?php if ($history['transfusion_born']) {
-                                                                                                                                            print_r($history['transfusion_born']);
-                                                                                                                                        }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4" id="transfusion_12months">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>how many times for the past twelve months ?</label>
-                                                                <input type="text" name="transfusion_12months" class="form-control" value="<?php if ($history['transfusion_12months']) {
-                                                                                                                                                print_r($history['transfusion_12months']);
-                                                                                                                                            }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-
-
-                                                <div class="row">
+                                                    </div>   
+                                    
 
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Acute chest syndrome </label>
                                                                 <select name="acute_chest" style="width: 100%;" class="form-control" required>
-                                                                    <option value="<?= $history['acute_chest'] ?>"><?php if ($history) {
+                                                                    <option value="<?= $history['acute_chest'] ?>"><?php if ($history['acute_chest']) {
                                                                                                                         if ($history['acute_chest'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($history['acute_chest'] == 2) {
@@ -6474,135 +6455,66 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3">
+                                                        <label>Any Other Complication?</label>
+                                                        <!-- radio -->
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>Any Other Complication?</label>
-                                                                <select name="other_complication" id="other_complication" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('other_complication','specify_complication')">
-                                                                    <option value="<?= $history['other_complication'] ?>"><?php if ($history) {
-                                                                                                                                if ($history['other_complication'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($history['other_complication'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="other_complication" id="other_complication1" value="1" <?php if ($history['other_complication'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                    <textarea class="form-control" name="specify_complication" id="specify_complication" rows="3" placeholder="Type other relation here...">
+                                                                        <?php if ($clients['specify_complication']) {
+                                                                            print_r($clients['specify_complication']);
+                                                                        }  ?>
+                                                                    </textarea> 
+                                                                </div>                                                           
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="other_complication" id="other_complication2" value="2" <?php if ($history['other_complication'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6" id="specify_complication">
+                                                    </div> 
+                                                    
+                                                    <div class="col-sm-3">
+                                                        <label>Hepatitis test?:</label>
+                                                        <!-- radio -->
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Other Specify</label>
-                                                                <input type="text" name="specify_complication" class="form-control" value="<?php if ($history['specify_complication']) {
-                                                                                                                                                print_r($history['specify_complication']);
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_test" id="hepatitis_test1" value="1" <?php if ($history['hepatitis_test'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                    <label>Date Test</label>
+                                                                    <input type="date" name="hepatitis_date" class="form-control" value="<?php if ($history['hepatitis_date']) {
+                                                                                                                                                print_r($history['hepatitis_date']);
                                                                                                                                             }  ?>" />
+                                                                                                                                                <br>
+                                                                    <label>Test Results</label>
+                                                                    <input type="text" name="hepatitis_results" class="form-control" value="<?php if ($history['hepatitis_results']) {
+                                                                                                                                                print_r($history['hepatitis_results']);
+                                                                                                                                            }  ?>" />
+                                                                </div>                                                           
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hepatitis_test" id="hepatitis_test2" value="2" <?php if ($history['hepatitis_test'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                            
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>  
                                                 </div>
-
+                                                <hr>
                                             <?php } ?>
 
-                                            <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
-
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Hepatitis test?:</label>
-                                                                <select name="hepatitis_test" id="hepatitis_test" class="form-control" style="width: 100%;" onchange="checkQuestionValue3('hepatitis_test','hepatitis_date','hepatitis_results')">
-                                                                    <option value="<?= $history['hepatitis_test'] ?>"><?php if ($history) {
-                                                                                                                            if ($history['hepatitis_test'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($history['hepatitis_test'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-3" id="hepatitis_date">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Date Test</label>
-                                                                <input type="date" name="hepatitis_date" class="form-control" value="<?php if ($history['hepatitis_date']) {
-                                                                                                                                            print_r($history['hepatitis_date']);
-                                                                                                                                        }  ?>" />
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-3" id="hepatitis_results">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Test Results</label>
-                                                                <input type="text" name="hepatitis_results" class="form-control" value="<?php if ($history['hepatitis_results']) {
-                                                                                                                                            print_r($history['hepatitis_results']);
-                                                                                                                                        }  ?>" />
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>ABO Blood Group:</label>
-                                                                <select name="blood_group" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['blood_group'] ?>"><?php if ($history) {
-                                                                                                                        if ($history['blood_group'] == 1) {
-                                                                                                                            echo 'A+';
-                                                                                                                        } elseif ($history['blood_group'] == 2) {
-                                                                                                                            echo 'A-';
-                                                                                                                        } elseif ($history['blood_group'] == 3) {
-                                                                                                                            echo 'B+';
-                                                                                                                        } elseif ($history['blood_group'] == 4) {
-                                                                                                                            echo 'B-';
-                                                                                                                        } elseif ($history['blood_group'] == 5) {
-                                                                                                                            echo 'O+';
-                                                                                                                        } elseif ($history['blood_group'] == 6) {
-                                                                                                                            echo 'O-';
-                                                                                                                        } elseif ($history['blood_group'] == 7) {
-                                                                                                                            echo 'AB+';
-                                                                                                                        } elseif ($history['blood_group'] == 8) {
-                                                                                                                            echo 'AB-';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?>
-                                                                    </option>
-                                                                    <option value="1">A+</option>
-                                                                    <option value="2">A-</option>
-                                                                    <option value="3">B+</option>
-                                                                    <option value="4">B-</option>
-                                                                    <option value="5">O+</option>
-                                                                    <option value="6">O-</option>
-                                                                    <option value="7">AB+</option>
-                                                                    <option value="8">AB</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php } ?>
-
-                                            <hr>
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
                                                 <div class="row">
                                                     <div class="col-sm-4">
@@ -6749,12 +6661,53 @@ if ($user->isLoggedIn()) {
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
-                                                <div class="row">
-                                                    <div class="col-sm-3">
+                                                <div class="row">                                                    
+                                                    <div class="col-sm-2">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>ABO Blood Group:</label>
+                                                                <select name="blood_group" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $history['blood_group'] ?>"><?php if ($history) {
+                                                                                                                        if ($history['blood_group'] == 1) {
+                                                                                                                            echo 'A+';
+                                                                                                                        } elseif ($history['blood_group'] == 2) {
+                                                                                                                            echo 'A-';
+                                                                                                                        } elseif ($history['blood_group'] == 3) {
+                                                                                                                            echo 'B+';
+                                                                                                                        } elseif ($history['blood_group'] == 4) {
+                                                                                                                            echo 'B-';
+                                                                                                                        } elseif ($history['blood_group'] == 5) {
+                                                                                                                            echo 'O+';
+                                                                                                                        } elseif ($history['blood_group'] == 6) {
+                                                                                                                            echo 'O-';
+                                                                                                                        } elseif ($history['blood_group'] == 7) {
+                                                                                                                            echo 'AB+';
+                                                                                                                        } elseif ($history['blood_group'] == 8) {
+                                                                                                                            echo 'AB-';
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        echo 'Select';
+                                                                                                                    } ?>
+                                                                    </option>
+                                                                    <option value="1">A+</option>
+                                                                    <option value="2">A-</option>
+                                                                    <option value="3">B+</option>
+                                                                    <option value="4">B-</option>
+                                                                    <option value="5">O+</option>
+                                                                    <option value="6">O-</option>
+                                                                    <option value="7">AB+</option>
+                                                                    <option value="8">AB</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Family History of SCD?</label>
-                                                                <select name="history_scd" class="form-control" style="width: 100%;">
+                                                                <select name="history_scd" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $history['history_scd'] ?>"><?php if ($history) {
                                                                                                                         if ($history['history_scd'] == 1) {
                                                                                                                             echo 'Yes';
@@ -6779,7 +6732,7 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Vaccine History</label>
-                                                                <select name="vaccine_history" class="form-control" style="width: 100%;">
+                                                                <select name="vaccine_history" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $history['vaccine_history'] ?>"><?php if ($history) {
                                                                                                                             if ($history['vaccine_history'] == 1) {
                                                                                                                                 echo 'Pneumococcal';
@@ -6810,24 +6763,26 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>How many siblings do you have?</label>
-                                                                <input type="number" name="siblings" class="form-control" value="<?php if ($history['siblings']) {
+                                                                <input type="number" min="0" max="100" name="siblings" class="form-control" value="<?php if ($history['siblings']) {
                                                                                                                                         print_r($history['siblings']);
-                                                                                                                                    }  ?>" />
+                                                                                                                                    }  ?>" required/>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>How many of them are alive?</label>
-                                                                <input type="number" name="sibling_salive" class="form-control" value="<?php if ($history['sibling_salive']) {
+                                                                <input type="number" min="0" max="100" name="sibling_salive" class="form-control" value="<?php if ($history['sibling_salive']) {
                                                                                                                                             print_r($history['sibling_salive']);
-                                                                                                                                        }  ?>" />
+                                                                                                                                        }  ?>" required/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <hr>
 
                                                 <div class="row-form clearfix">
                                                     <div class="row">
@@ -7039,8 +6994,9 @@ if ($user->isLoggedIn()) {
                                                         <!-- /.col -->
                                                     </div>
                                                 </div>
+                                                <hr>
+
                                             <?php } ?>
-                                            <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-12">

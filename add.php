@@ -11849,8 +11849,8 @@ if ($user->isLoggedIn()) {
                                                                                                             <div class="form-group">
                                                                                                                 <label>DOSE PPRESCRIPTION</label>
                                                                                                                  <textarea class="form-control" name="medication_dose" id="medication_dose" rows="3" placeholder="Type other medication dose here..." required>
-                                                                                                                    <?php if ($clients['medication_dose']) {
-                                                                                                                        print_r($clients['medication_dose']);
+                                                                                                                    <?php if ($treatment['medication_dose']) {
+                                                                                                                        print_r($treatment['medication_dose']);
                                                                                                                     }  ?>
                                                                                                                 </textarea>                                                                                                               
                                                                                                             </div>
@@ -11884,8 +11884,6 @@ if ($user->isLoggedIn()) {
                                                                                             </div>
                                                                                             <div class="modal-footer justify-content-between">
                                                                                                 <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
-                                                                                                <input type="hidden" name="batch_id" value="<?= $treatment['batch_id'] ?>">
-                                                                                                <input type="hidden" name="medication_id" value="<?= $medications[0]['id'] ?>">
                                                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                                                 <input type="submit" name="update_medication" class="btn btn-primary" value="Save changes">
                                                                                             </div>
@@ -11909,7 +11907,7 @@ if ($user->isLoggedIn()) {
                                                                                             </div>
                                                                                             <div class="modal-footer">
                                                                                                 <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
-                                                                                                <input type="submit" name="delete_med" value="Delete" class="btn btn-danger">
+                                                                                                <input type="submit" name="delete_medication" value="Delete" class="btn btn-danger">
                                                                                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                                             </div>
                                                                                         </div>

@@ -908,6 +908,7 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
+                print_r($_POST);
                 try {
                     if((Input::get('hiv') == 1 || Input::get('hiv') == 2) && empty(trim(Input::get('hiv_test')))){
                         $errorMessage = 'Please add a valaue from question " Date Tested " Before you submit again';
@@ -971,6 +972,7 @@ if ($user->isLoggedIn()) {
                             }
                         }
                     }
+                    $history_id = '';
 
                     if ($history) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
@@ -1014,6 +1016,8 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $history['id']);
+
+                            $history_id = $history['id'];
 
                             $successMessage = 'History Updated Successful';
 
@@ -1068,6 +1072,8 @@ if ($user->isLoggedIn()) {
                                 'site_id' => $user->data()->site_id,
                             ), $history['id']);
 
+                            $history_id = $history['id'];
+
                             $successMessage = 'History Updated Successful';
                         }
 
@@ -1121,6 +1127,9 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $history['id']);
+
+                            $history_id = $history['id'];
+
 
                             $successMessage = 'History Updated Successful';
                         }
@@ -1199,6 +1208,9 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+
+                        $history_id = $override->getlastRow('history', 'patient_id', $_GET['cid'], 'id')[0]['id'];
+
                         $successMessage = 'History added Successful';
                     }
 
@@ -1213,6 +1225,7 @@ if ($user->isLoggedIn()) {
                                 'seq_no' => $_GET['seq'],
                                 'vid' => $_GET['vid'],
                                 'entry_date' => Input::get('entry_date'),
+                                'history_id' => $history_id,
                                 'age' => Input::get('age'),
                                 'sex' => Input::get('sex'),
                                 'visit_date' => Input::get('visit_date'),
@@ -1228,6 +1241,7 @@ if ($user->isLoggedIn()) {
                                         'visit_day' => $_GET['vday'],
                                         'seq_no' => $_GET['seq'],
                                         'vid' => $_GET['vid'],
+                                        'history_id' => $history_id,
                                         'entry_date' => Input::get('entry_date')[$i],
                                         'age' => Input::get('age')[$i],
                                         'sex' => Input::get('sex')[$i],
@@ -1988,6 +2002,8 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
+                    $hospitalization_detail_id = '';
+
 
                     $hospitalization_details = $override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                     if ($hospitalization_details) {
@@ -2007,6 +2023,8 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $hospitalization_details['id']);
+
+                        $hospitalization_detail_id = $hospitalization_details['id'];
 
                         $successMessage = 'Hospitalization details Updated Successful';
 
@@ -2029,6 +2047,8 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ));
 
+                        $hospitalization_detail_id = $override->getlastRow('hospitalization_details', 'patient_id', $_GET['cid'], 'id')[0]['id'];
+
                         $successMessage = 'Hospitalization details added Successful';
                     }
 
@@ -2040,6 +2060,7 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
+                            'hospitalization_detail_id' => $hospitalization_detail_id,
                             'entry_date' => Input::get('entry_date'),
                             'admission_date' => Input::get('admission_date'),
                             'admission_reason' => Input::get('admission_reason'),
@@ -2055,6 +2076,7 @@ if ($user->isLoggedIn()) {
                                     'visit_day' => $_GET['vday'],
                                     'seq_no' => $_GET['seq'],
                                     'vid' => $_GET['vid'],
+                                    'hospitalization_detail_id' => $hospitalization_detail_id,
                                     'entry_date' => Input::get('entry_date')[$i],
                                     'admission_date' => Input::get('admission_date')[$i],
                                     'admission_reason' => Input::get('admission_reason')[$i],
@@ -2069,7 +2091,7 @@ if ($user->isLoggedIn()) {
                             }
                         }
                     }
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -2556,6 +2578,8 @@ if ($user->isLoggedIn()) {
                 try {
                     $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
+                    $treatment_id = '';
+
                     if ($treatment_plan) {
                         if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) {
                             $user->updateRecord('treatment_plan', array(
@@ -2584,6 +2608,8 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $treatment_id = $treatment_plan['id'];
 
                             $successMessage = 'Treatment Plan Updated Successful';
 
@@ -2623,6 +2649,8 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $treatment_id = $treatment_plan['id'];
 
                             $successMessage = 'Treatment Plan Updated Successful';
 
@@ -2667,6 +2695,8 @@ if ($user->isLoggedIn()) {
                                 'status' => 1,
                                 'site_id' => $user->data()->site_id,
                             ), $treatment_plan['id']);
+
+                            $treatment_id = $treatment_plan['id'];
 
                             $successMessage = 'Treatment Plan Updated Successful';
 
@@ -2719,6 +2749,8 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ));
 
+                        $treatment_id = $override->getlastRow('treatment_plan', 'patient_id', $_GET['cid'], 'id')[0]['id'];
+
                         $successMessage = 'Treatment Plan Added Successful';
                     }
 
@@ -2729,6 +2761,7 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
+                            'treatment_id' => $treatment_id,
                             'date' => Input::get('date'),
                             'start_date' => Input::get('start_date'),
                             'batch_id' => Input::get('batch_id'),
@@ -2822,6 +2855,7 @@ if ($user->isLoggedIn()) {
                                     'visit_day' => $_GET['vday'],
                                     'seq_no' => $_GET['seq'],
                                     'vid' => $_GET['vid'],
+                                    'treatment_id' => $treatment_id,
                                     'date' => Input::get('date')[$i],
                                     'start_date' => Input::get('start_date')[$i],
                                     'medication_type' => Input::get('medication_id')[$i],
@@ -2848,6 +2882,8 @@ if ($user->isLoggedIn()) {
                 $pageError = $validate->errors();
             }
         } elseif (Input::get('update_medication')) {
+
+            $treatment_id = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
 
             // $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
             // $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
@@ -2883,6 +2919,7 @@ if ($user->isLoggedIn()) {
                     'visit_day' => $_GET['vday'],
                     'seq_no' => $_GET['seq'],
                     'vid' => $_GET['vid'],
+                    'treatment_id' => $treatment_id['id'],
                     'date' => Input::get('date'),
                     'start_date' => Input::get('start_date'),
                     'medication_type' => Input::get('medication_id'),
@@ -2918,12 +2955,15 @@ if ($user->isLoggedIn()) {
             //     $errorMessage = 'Dose asigned : ' . Input::get('medication_dose') . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
             // }
         } elseif (Input::get('update_admission')) {
+            $hospitalization_detail_id = $override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
             $user->updateRecord('hospitalization_table', array(
                 'study_id' => $_GET['sid'],
                 'visit_code' => $_GET['vcode'],
                 'visit_day' => $_GET['vday'],
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
+                'hospitalization_detail_id' => $hospitalization_detail_id['id'],
                 'entry_date' => Input::get('entry_date'),
                 'admission_date' => Input::get('admission_date'),
                 'admission_reason' => Input::get('admission_reason'),
@@ -2933,12 +2973,15 @@ if ($user->isLoggedIn()) {
 
             $successMessage = 'Admission Updated Successful';
         } elseif (Input::get('update_siblings')) {
+            $history = $override->get3('history', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+
             $user->updateRecord('sickle_cell_status_table', array(
                 'study_id' => $_GET['sid'],
                 'visit_code' => $_GET['vcode'],
                 'visit_day' => $_GET['vday'],
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
+                'history_id' => $history_id['id'],
                 'visit_date' => Input::get('visit_date'),
                 'entry_date' => Input::get('entry_date'),
                 'age' => Input::get('age'),

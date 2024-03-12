@@ -1,26 +1,25 @@
-const pvd = document.getElementById("pvd");
-const pvd_date = document.getElementById("pvd_date");
+const pvd1 = document.getElementById(`pvd1`);
+const pvd2 = document.getElementById(`pvd2`);
 
-function showElement() {
-  if (pvd.value === "1") {
+const pvd_date_label = document.getElementById(`pvd_date_label`);
+const pvd_date = document.getElementById(`pvd_date`);
+
+function toggleElementVisibility() {
+  if (pvd1.checked) {
+    pvd_date_label.style.display = "block";
     pvd_date.style.display = "block";
+    pvd_date.setAttribute("required", "required");
   } else {
+    pvd_date_label.style.display = "none";
     pvd_date.style.display = "none";
+    pvd_date.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", pvd.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const pvdValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (pvdValue) {
-  pvd.value = pvdValue;
-}
+pvd1.addEventListener("change", toggleElementVisibility);
+pvd2.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-pvd.addEventListener("change", showElement);

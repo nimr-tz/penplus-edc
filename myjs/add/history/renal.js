@@ -1,26 +1,24 @@
-const renal = document.getElementById("renal");
-const renal_date = document.getElementById("renal_date");
+const renal1 = document.getElementById(`renal1`);
+const renal2 = document.getElementById(`renal2`);
 
-function showElement() {
-  if (renal.value === "1") {
+const renal_date_label = document.getElementById(`renal_date_label`);
+const renal_date = document.getElementById(`renal_date`);
+
+function toggleElementVisibility() {
+  if (renal1.checked) {
+    renal_date_label.style.display = "block";
     renal_date.style.display = "block";
+    renal_date.setAttribute("required", "required");
   } else {
+    renal_date_label.style.display = "none";
     renal_date.style.display = "none";
+    renal_date.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", renal.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const renalValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (renalValue) {
-  renal.value = renalValue;
-}
+renal1.addEventListener("change", toggleElementVisibility);
+renal2.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-renal.addEventListener("change", showElement);

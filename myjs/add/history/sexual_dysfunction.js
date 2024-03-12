@@ -1,28 +1,29 @@
-const sexual_dysfunction = document.getElementById("sexual_dysfunction");
+const sexual_dysfunction1 = document.getElementById("sexual_dysfunction1");
+const sexual_dysfunction2 = document.getElementById("sexual_dysfunction2");
+
+
+const sexual_dysfunction_date_label = document.getElementById(
+  `sexual_dysfunction_date_label`
+);
 const sexual_dysfunction_date = document.getElementById(
-  "sexual_dysfunction_date"
+  `sexual_dysfunction_date`
 );
 
-function showElement() {
-  if (sexual_dysfunction.value === "1") {
+function toggleElementVisibility() {
+  if (sexual_dysfunction1.checked) {
+    sexual_dysfunction_date_label.style.display = "block";
     sexual_dysfunction_date.style.display = "block";
+    sexual_dysfunction_date.setAttribute("required", "required");
   } else {
+    sexual_dysfunction_date_label.style.display = "none";
     sexual_dysfunction_date.style.display = "none";
+    sexual_dysfunction_date.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", sexual_dysfunction.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const sexual_dysfunctionValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (sexual_dysfunctionValue) {
-  sexual_dysfunction.value = sexual_dysfunctionValue;
-}
+sexual_dysfunction1.addEventListener("change", toggleElementVisibility);
+sexual_dysfunction2.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-sexual_dysfunction.addEventListener("change", showElement);

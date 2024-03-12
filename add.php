@@ -6381,8 +6381,8 @@ if ($user->isLoggedIn()) {
                                                                     <input class="form-check-input" type="radio" name="sexual_dysfunction" id="sexual_dysfunction1" value="1" <?php if ($history['sexual_dysfunction'] == 1) {
                                                                                                                                                                                     echo 'checked';
                                                                                                                                                                                 } ?> required>
-                                                                    <label class="form-check-label"  id="sexual_dysfunction_date_label">Yes</label>
-                                                                    <label>Date of Sexual dysfunction</label>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                    <label id="sexual_dysfunction_date_label">Date of Sexual dysfunction</label>
                                                                     <input type="date" name="sexual_dysfunction_date" id="sexual_dysfunction_date" class="form-control" value="<?php if ($history['sexual_dysfunction_date']) {
                                                                                                                                                     print_r($history['sexual_dysfunction_date']);
                                                                                                                                                 }  ?>" />
@@ -6398,7 +6398,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>  
                                                 </div>
-
+                                                <hr>
                                             <?php } ?>
 
 
@@ -6720,8 +6720,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Family History of Diabetic disease?</label>
-                                                                <select name="diabetic_disease" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $history['diabetic_disease'] ?>"><?php if ($history) {
+                                                                <select name="diabetic_disease" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $history['diabetic_disease'] ?>"><?php if ($history['diabetic_disease']) {
                                                                                                                             if ($history['diabetic_disease'] == 1) {
                                                                                                                                 echo 'Yes';
                                                                                                                             } elseif ($history['diabetic_disease'] == 2) {
@@ -6745,8 +6745,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Hypertension ?</label>
-                                                                <select name="hypertension_disease" class="form-control" id="hypertension_disease" style="width: 100%;">
-                                                                    <option value="<?= $history['hypertension_disease'] ?>"><?php if ($history) {
+                                                                <select name="hypertension_disease" class="form-control" id="hypertension_disease" style="width: 100%;" required>
+                                                                    <option value="<?= $history['hypertension_disease'] ?>"><?php if ($history['hypertension_disease']) {
                                                                                                                                 if ($history['hypertension_disease'] == 1) {
                                                                                                                                     echo 'Yes';
                                                                                                                                 } elseif ($history['hypertension_disease'] == 2) {
@@ -11715,8 +11715,8 @@ if ($user->isLoggedIn()) {
                                                                             <th> Start Date </th>
                                                                             <th> Medication name </th>
                                                                             <th> Action </th>
-                                                                            <th> Dose Prescription </th>
-                                                                            <th> Units </th>
+                                                                            <th> Dose Description </th>
+                                                                            <th> Dose Duration </th>
                                                                             <th> End Date ( If Stop ) </th>
                                                                             <th></th>
                                                                         </tr>
@@ -11750,8 +11750,8 @@ if ($user->isLoggedIn()) {
                                                                                 // $medications[0]['name'] . ' - ( ' . $batches[0]['serial_name'] . ' ) ( ' . $batches[0]['amount'] . ' )'; 
                                                                                 ?>
                                                                                 <!-- </td> -->
-                                                                                <td><?= $treatment['medication_dose'] ?></td>
                                                                                 <td><?= $treatment['units'] ?></td>
+                                                                                <td><?= $treatment['medication_dose'] ?></td>
                                                                                 <td><?= $treatment['end_date'] ?></td>
                                                                                 <td>
                                                                                     <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
@@ -11847,10 +11847,10 @@ if ($user->isLoggedIn()) {
                                                                                                     <div class="col-sm-12">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
-                                                                                                                <label>DOSE PPRESCRIPTION</label>
-                                                                                                                 <textarea class="form-control" name="medication_dose" id="medication_dose" rows="3" placeholder="Type other medication dose here..." required>
-                                                                                                                    <?php if ($treatment['medication_dose']) {
-                                                                                                                        print_r($treatment['medication_dose']);
+                                                                                                                <label>DOSE DESCRIPTION</label>
+                                                                                                                 <textarea class="form-control" name="medication_units" id="medication_units" rows="3" placeholder="Type other medication dose here..." required>
+                                                                                                                    <?php if ($treatment['units']) {
+                                                                                                                        print_r($treatment['units']);
                                                                                                                     }  ?>
                                                                                                                 </textarea>                                                                                                               
                                                                                                             </div>
@@ -11858,13 +11858,12 @@ if ($user->isLoggedIn()) {
                                                                                                     </div>
                                                                                                     </div>
                                                                                                 <div class="row">
-
                                                                                                     <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
                                                                                                                 <label>UNITS</label>
-                                                                                                                <input class="form-control" type="text" name="medication_units" id="medication_units" style="width: 100%;" value="<?php if ($treatment['units']) {
-                                                                                                                                                                                                                                        print_r($treatment['units']);
+                                                                                                                <input class="form-control" type="number" min="0" max="1000" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
+                                                                                                                                                                                                                                        print_r($treatment['medication_dose']);
                                                                                                                                                                                                                                     }  ?>" required />
                                                                                                             </div>
                                                                                                         </div>
@@ -18514,8 +18513,8 @@ if ($user->isLoggedIn()) {
             html += '<td><select class="form-control select2" name="medication_id[]" id="medication_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select></td>';
             // html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' ) : ( ' . $batch['amount'] . ' )'; ?></option> <?php } ?></select></td>';
             html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
-            html += '<textarea class="form-control" name="medication_dose" id="medication_dose" rows="3" placeholder="Type medication dose here..." required></textarea>'
-            html += '<td><input class="form-control"  type="text" name="medication_units[]" value="" required></td>';
+            html += '<textarea class="form-control" name="medication_units" id="medication_units" rows="3" placeholder="Type medication dose here..." required></textarea>'
+            html += '<td><input class="form-control"  min="0" max="10000" type="number" name="medication_dose[]" value="" required></td>';
             html += '<td><input class="form-control"  type="date" name="end_date[]" value=""></td>';
             html += "<td><button type='button' onclick='deleteRow(this);'>Remove</button></td>"
             html += "</tr>";

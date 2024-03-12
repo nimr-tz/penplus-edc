@@ -2288,7 +2288,6 @@ if ($user->isLoggedIn()) {
 
             ));
             if ($validate->passed()) {
-                // print_r($_POST);
                 try {
 
                     if (Input::get('visit_type') == 1) {
@@ -2360,7 +2359,7 @@ if ($user->isLoggedIn()) {
                             ),$summary_id['id']);
 
                         }else{
-                            $seq_no = $_GET['seq_no'] + 1;
+                            $seq_no = $_GET['seq'] + 1;
 
                             $visit_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $seq_no)[0];
                         
@@ -2463,7 +2462,7 @@ if ($user->isLoggedIn()) {
                         //     //     $errorMessage = 'Next Date already exists';
                         //     // } else {
 
-                        $seq_no = $_GET['seq_no'] + 1;
+                        $seq_no = $_GET['seq'] + 1;
 
                         $visit_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $seq_no)[0];
                     
@@ -2524,6 +2523,7 @@ if ($user->isLoggedIn()) {
                                 ));
                             }
                         }
+
                         $successMessage = 'Schedule Summary  Added Successful';
 
                     }                    
@@ -15032,11 +15032,11 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             
                                                         </div>
+                                                        <label id="death_date_label">Date of Death</label>
+                                                        <input class="form-control" type="date" name="death_date" id="death_date" max="<?= date('Y-m-d') ?>" value="<?php if ($summary['death_date']) {
+                                                                                                                                    print_r($summary['death_date']);
+                                                                                                                                }  ?>" />
                                                         <label id="transfer_out_date_label">Date Transffered Out</label>
-                                                                <input class="form-control" type="date" name="death_date" id="death_date" max="<?= date('Y-m-d') ?>" value="<?php if ($summary['death_date']) {
-                                                                                                                                            print_r($summary['death_date']);
-                                                                                                                                        }  ?>" />
-                                                                                                                                        <label id="death_date_label">Date of Death</label>
                                                         <input class="form-control" type="date" name="transfer_out_date" id="transfer_out_date" max="<?= date('Y-m-d') ?>" value="<?php if ($summary['transfer_out_date']) {
                                                                                                                                     print_r($summary['transfer_out_date']);
                                                                                                                                 }  ?>" />
@@ -15109,7 +15109,21 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-2" id="set_next">
+                                                 <div class="col-sm-6" id="comments">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Remarks / Comments / Reason </label>
+                                                            <textarea class="form-control" name="remarks" rows="3">
+                                                                <?php if ($summary['remarks']) {
+                                                                    print_r($summary['remarks']);
+                                                                }  ?>
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-2">
                                                     <label>Set Next Appointments ?</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -15130,32 +15144,21 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-sm-6" id="comments">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Remarks / Comments / Reason </label>
-                                                            <textarea class="form-control" name="remarks" rows="3">
-                                                                <?php if ($summary['remarks']) {
-                                                                    print_r($summary['remarks']);
-                                                                }  ?>
-                                                            </textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            </div>                                               
 
                                             <?php 
                                             // if ($summary['next_appointment_notes']) { 
 
                                                 ?>
+                                                <hr>
+                                            <div class="row">
 
-                                                <div class="col-sm-3" id="next_notes">
+                                                <div class="col-sm-8" id="next_notes">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Notes for Next Appointment</label>
-                                                            <textarea class="form-control" name="next_appointment_notes" rows="3">
+                                                            <textarea class="form-control" name="next_appointment_notes" id="next_appointment_notes" rows="3">
                                                                 <?php if ($summary['next_appointment_notes']) {
                                                                     print_r($summary['next_appointment_notes']);
                                                                 }  ?>
@@ -15164,12 +15167,12 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-3" id="next_appointment">
+                                                <div class="col-sm-4" id="next_appointment">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Next Appointment Date</label>
-                                                            <input class="form-control" type="date" name="next_appointment_date" value="<?php if ($summary['next_appointment_date']) {
+                                                            <input class="form-control" type="date" id="next_appointment_date" name="next_appointment_date" value="<?php if ($summary['next_appointment_date']) {
                                                                                                                                             print_r($summary['next_appointment_date']);
                                                                                                                                         }  ?>" />
                                                         </div>

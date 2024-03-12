@@ -2290,11 +2290,6 @@ if ($user->isLoggedIn()) {
             if ($validate->passed()) {
                 // print_r($_POST);
                 try {
-                    $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
-                    $expected_date = $override->getNews('visit', 'expected_date', Input::get('next_appointment_date'), 'client_id', $_GET['cid'])[0];
-
-                    $sq = $last_visit['seq_no'] + 1;
-                    $visit_day = 'Day ' . $sq;
 
                     if (Input::get('visit_type') == 1) {
                         $visit_code = 'RV';
@@ -2343,8 +2338,9 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ), $summary[0]['id']);
 
-                        $visit_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $_GET['seq'])[0];
-                            if ($visit_id) {
+                        $summary_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'summary_id', $summary[0]['id'])[0];
+
+                        if ($summary_id) {
                             $user->updateRecord('visit', array(
                                 'summary_id' => $summary[0]['id'],
                                 'expected_date' => Input::get('next_appointment_date'),
@@ -2358,43 +2354,70 @@ if ($user->isLoggedIn()) {
                                 'cause_death' => Input::get('cause_death'),
                                 'death_other' => Input::get('death_other'),
                                 'next_notes' => Input::get('next_appointment_notes'),
-                            ),$visit_id['id']);
+                            ),$summary_id['id']);
 
                         }else{
-                            $user->createRecord('visit', array(
-                                'summary_id' => $summary[0]['id'],
-                                'study_id' => $_GET['sid'],
-                                'visit_name' => $visit_name,
-                                'visit_code' => $visit_code,
-                                'visit_day' => $visit_day,
-                                'expected_date' => Input::get('next_appointment_date'),
-                                'visit_date' => '',
+                            $seq_no = $_GET['seq_no'] + 1;
 
-                                'summary_date' => Input::get('summary_date'),
-                                'comments' => Input::get('comments'),
-                                'diagnosis' => Input::get('diagnosis'),
-                                'diagnosis_other' => Input::get('diagnosis_other'),
-                                'outcome' => Input::get('outcome'),
-                                'transfer_out' => Input::get('transfer_out'),
-                                'transfer_other' => Input::get('transfer_other'),
-                                'cause_death' => Input::get('cause_death'),
-                                'death_other' => Input::get('death_other'),
-                                'next_notes' => Input::get('next_appointment_notes'),
+                            $visit_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $seq_no)[0];
+                        
+                            if ($visit_id) {
+                                $user->updateRecord('visit', array(
+                                    'summary_id' => $summary[0]['id'],
+                                    'expected_date' => Input::get('next_appointment_date'),
+                                    'summary_date' => Input::get('summary_date'),
+                                    'comments' => Input::get('comments'),
+                                    'diagnosis' => Input::get('diagnosis'),
+                                    'diagnosis_other' => Input::get('diagnosis_other'),
+                                    'outcome' => Input::get('outcome'),
+                                    'transfer_out' => Input::get('transfer_out'),
+                                    'transfer_other' => Input::get('transfer_other'),
+                                    'cause_death' => Input::get('cause_death'),
+                                    'death_other' => Input::get('death_other'),
+                                    'next_notes' => Input::get('next_appointment_notes'),
+                                ),$visit_id['id']);
+                            }else{
+                                $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
+                                $expected_date = $override->getNews('visit', 'expected_date', Input::get('next_appointment_date'), 'client_id', $_GET['cid'])[0];
 
-                                'visit_window' => 0,
-                                'status' => 1,
-                                'client_id' => $_GET['cid'],
-                                'created_on' => date('Y-m-d'),
-                                'seq_no' => $sq,
-                                'reasons' => '',
-                                'visit_status' => 0,
-                                'site_id' => $user->data()->site_id,
-                            ));
+                                $sq = $last_visit['seq_no'] + 1;
+                                $visit_day = 'Day ' . $sq;
 
-                        }
+                                $user->createRecord('visit', array(
+                                    'summary_id' => $summary[0]['id'],
+                                    'study_id' => $_GET['sid'],
+                                    'visit_name' => $visit_name,
+                                    'visit_code' => $visit_code,
+                                    'visit_day' => $visit_day,
+                                    'expected_date' => Input::get('next_appointment_date'),
+                                    'visit_date' => '',
 
-                    }
-                     else {
+                                    'summary_date' => Input::get('summary_date'),
+                                    'comments' => Input::get('comments'),
+                                    'diagnosis' => Input::get('diagnosis'),
+                                    'diagnosis_other' => Input::get('diagnosis_other'),
+                                    'outcome' => Input::get('outcome'),
+                                    'transfer_out' => Input::get('transfer_out'),
+                                    'transfer_other' => Input::get('transfer_other'),
+                                    'cause_death' => Input::get('cause_death'),
+                                    'death_other' => Input::get('death_other'),
+                                    'next_notes' => Input::get('next_appointment_notes'),
+
+                                    'visit_window' => 0,
+                                    'status' => 1,
+                                    'client_id' => $_GET['cid'],
+                                    'created_on' => date('Y-m-d'),
+                                    'seq_no' => $sq,
+                                    'reasons' => '',
+                                    'visit_status' => 0,
+                                    'site_id' => $user->data()->site_id,
+                                ));
+
+                            }                           
+
+                        }                       
+
+                    }else {
 
                         $user->createRecord('summary', array(
                             'visit_date' => Input::get('summary_date'),
@@ -2423,16 +2446,19 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ));
 
-                            $last_row = $override->lastRow('summary', 'id')[0];
+                        $last_row = $override->lastRow('summary', 'id')[0];
 
-                            // if ($expected_date['expected_date'] == Input::get('next_appointment_date')) {
-                            //     $errorMessage = 'Next Date already exists';
-                            // } else {
+                        //     // if ($expected_date['expected_date'] == Input::get('next_appointment_date')) {
+                        //     //     $errorMessage = 'Next Date already exists';
+                        //     // } else {
 
-                            $visit_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $_GET['seq'])[0];
-                            if ($visit_id) {
+                        $seq_no = $_GET['seq_no'] + 1;
+
+                        $visit_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $seq_no)[0];
+                    
+                        if ($visit_id) {
                             $user->updateRecord('visit', array(
-                                'summary_id' => $last_row['id'],
+                                'summary_id' => $summary[0]['id'],
                                 'expected_date' => Input::get('next_appointment_date'),
                                 'summary_date' => Input::get('summary_date'),
                                 'comments' => Input::get('comments'),
@@ -2445,10 +2471,15 @@ if ($user->isLoggedIn()) {
                                 'death_other' => Input::get('death_other'),
                                 'next_notes' => Input::get('next_appointment_notes'),
                             ),$visit_id['id']);
+                        } else {
+                            $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
+                            $expected_date = $override->getNews('visit', 'expected_date', Input::get('next_appointment_date'), 'client_id', $_GET['cid'])[0];
 
-                        }else{
+                            $sq = $last_visit['seq_no'] + 1;
+                            $visit_day = 'Day ' . $sq;
+
                             $user->createRecord('visit', array(
-                                'summary_id' => $last_row['id'],
+                                'summary_id' => $summary[0]['id'],
                                 'study_id' => $_GET['sid'],
                                 'visit_name' => $visit_name,
                                 'visit_code' => $visit_code,
@@ -2478,22 +2509,19 @@ if ($user->isLoggedIn()) {
                             ));
 
                         }
+                        $successMessage = 'Schedule Summary  Added Successful';
 
-                            $successMessage = 'Schedule Summary  Added Successful';
+                    }                    
 
-                        }
-
-                        // }
-
-                        if ($visit_name == 'Study Termination Visit') {
-                            $user->updateRecord('clients', array(
-                                'end_study' => 1,
-                            ), $_GET['cid']);
-                        } else {
-                            $user->updateRecord('clients', array(
-                                'end_study' => 0,
-                            ), $_GET['cid']);
-                        }
+                    if ($visit_name == 'Study Termination Visit') {
+                        $user->updateRecord('clients', array(
+                            'end_study' => 1,
+                        ), $_GET['cid']);
+                    } else {
+                        $user->updateRecord('clients', array(
+                            'end_study' => 0,
+                        ), $_GET['cid']);
+                    }
 
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $successMessage);
                     die;

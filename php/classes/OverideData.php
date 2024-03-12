@@ -150,6 +150,14 @@ class OverideData
         return $result;
     }
 
+
+    public function get1($table, $where, $id, $where1, $id1, $where2, $id2, $where3, $id3)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE ($where = '$id' OR $where1 = '$id1') AND $where2 = '$id2' AND $where3 = '$id3'");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function get6($table, $where, $id, $where2, $id2, $where3, $id3, $where4, $id4)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 = '$id3' AND $where4 = '$id4'");
@@ -515,7 +523,7 @@ class OverideData
         return $result;
     }
 
-    public function getDataRegister($where,$value)
+    public function getDataRegister($where, $value)
     {
         $query = $this->_pdo->query("SELECT site_id as site_id, COUNT(*) AS count FROM clients WHERE $where = '$value' GROUP BY site_id");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -650,7 +658,7 @@ class OverideData
         return $result;
     }
 
-    public function getWithLimit3Search($table, $where, $id,$where1, $id1, $where2, $id2, $page, $numRec, $searchTerm, $where3, $where4, $where5, $where6)
+    public function getWithLimit3Search($table, $where, $id, $where1, $id1, $where2, $id2, $page, $numRec, $searchTerm, $where3, $where4, $where5, $where6)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE ($where3 LIKE '%$searchTerm%' OR $where4 LIKE '%$searchTerm%' OR $where5 LIKE '%$searchTerm%' OR $where6 LIKE '%$searchTerm%') AND ($where = '$id' AND $where1 = '$id1' AND $where2 = '$id2') limit $page,$numRec");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

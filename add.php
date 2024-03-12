@@ -2288,7 +2288,7 @@ if ($user->isLoggedIn()) {
 
             ));
             if ($validate->passed()) {
-                print_r($_POST);
+                // print_r($_POST);
                 try {
                     $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
                     $expected_date = $override->getNews('visit', 'expected_date', Input::get('next_appointment_date'), 'client_id', $_GET['cid'])[0];
@@ -2343,24 +2343,59 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ), $summary[0]['id']);
 
-                        $summary_id = $override->get3('visit', 'status', 1, 'patient_id', $_GET['cid'], 'summary_id', $summary[0]['id'])[0];
+                        $visit_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $_GET['seq'])[0];
+                            if ($visit_id) {
+                            $user->updateRecord('visit', array(
+                                'summary_id' => $summary[0]['id'],
+                                'expected_date' => Input::get('next_appointment_date'),
+                                'summary_date' => Input::get('summary_date'),
+                                'comments' => Input::get('comments'),
+                                'diagnosis' => Input::get('diagnosis'),
+                                'diagnosis_other' => Input::get('diagnosis_other'),
+                                'outcome' => Input::get('outcome'),
+                                'transfer_out' => Input::get('transfer_out'),
+                                'transfer_other' => Input::get('transfer_other'),
+                                'cause_death' => Input::get('cause_death'),
+                                'death_other' => Input::get('death_other'),
+                                'next_notes' => Input::get('next_appointment_notes'),
+                            ),$visit_id['id']);
 
-                        $user->updateRecord('visit', array(
-                            'summary_id' => $summary[0]['id'],
-                            'expected_date' => Input::get('next_appointment_date'),
-                            'summary_date' => Input::get('summary_date'),
-                            'comments' => Input::get('comments'),
-                            'diagnosis' => Input::get('diagnosis'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
-                            'outcome' => Input::get('outcome'),
-                            'transfer_out' => Input::get('transfer_out'),
-                            'transfer_other' => Input::get('transfer_other'),
-                            'cause_death' => Input::get('cause_death'),
-                            'death_other' => Input::get('death_other'),
-                            'next_notes' => Input::get('next_appointment_notes'),
-                        ),$summary_id['id']);
+                        }else{
+                            $user->createRecord('visit', array(
+                                'summary_id' => $summary[0]['id'],
+                                'study_id' => $_GET['sid'],
+                                'visit_name' => $visit_name,
+                                'visit_code' => $visit_code,
+                                'visit_day' => $visit_day,
+                                'expected_date' => Input::get('next_appointment_date'),
+                                'visit_date' => '',
 
-                    } else {
+                                'summary_date' => Input::get('summary_date'),
+                                'comments' => Input::get('comments'),
+                                'diagnosis' => Input::get('diagnosis'),
+                                'diagnosis_other' => Input::get('diagnosis_other'),
+                                'outcome' => Input::get('outcome'),
+                                'transfer_out' => Input::get('transfer_out'),
+                                'transfer_other' => Input::get('transfer_other'),
+                                'cause_death' => Input::get('cause_death'),
+                                'death_other' => Input::get('death_other'),
+                                'next_notes' => Input::get('next_appointment_notes'),
+
+                                'visit_window' => 0,
+                                'status' => 1,
+                                'client_id' => $_GET['cid'],
+                                'created_on' => date('Y-m-d'),
+                                'seq_no' => $sq,
+                                'reasons' => '',
+                                'visit_status' => 0,
+                                'site_id' => $user->data()->site_id,
+                            ));
+
+                        }
+
+                    }
+                     else {
+
                         $user->createRecord('summary', array(
                             'visit_date' => Input::get('summary_date'),
                             'summary_date' => Input::get('summary_date'),
@@ -2394,8 +2429,26 @@ if ($user->isLoggedIn()) {
                             //     $errorMessage = 'Next Date already exists';
                             // } else {
 
+                            $visit_id = $override->get1('visit', 'status', 0, 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $_GET['seq'])[0];
+                            if ($visit_id) {
+                            $user->updateRecord('visit', array(
+                                'summary_id' => $last_row['id'],
+                                'expected_date' => Input::get('next_appointment_date'),
+                                'summary_date' => Input::get('summary_date'),
+                                'comments' => Input::get('comments'),
+                                'diagnosis' => Input::get('diagnosis'),
+                                'diagnosis_other' => Input::get('diagnosis_other'),
+                                'outcome' => Input::get('outcome'),
+                                'transfer_out' => Input::get('transfer_out'),
+                                'transfer_other' => Input::get('transfer_other'),
+                                'cause_death' => Input::get('cause_death'),
+                                'death_other' => Input::get('death_other'),
+                                'next_notes' => Input::get('next_appointment_notes'),
+                            ),$visit_id['id']);
+
+                        }else{
                             $user->createRecord('visit', array(
-                                'summary_id' => $last_row['summary_id'],
+                                'summary_id' => $last_row['id'],
                                 'study_id' => $_GET['sid'],
                                 'visit_name' => $visit_name,
                                 'visit_code' => $visit_code,
@@ -2415,7 +2468,7 @@ if ($user->isLoggedIn()) {
                                 'next_notes' => Input::get('next_appointment_notes'),
 
                                 'visit_window' => 0,
-                                'status' => 0,
+                                'status' => 1,
                                 'client_id' => $_GET['cid'],
                                 'created_on' => date('Y-m-d'),
                                 'seq_no' => $sq,
@@ -2424,7 +2477,10 @@ if ($user->isLoggedIn()) {
                                 'site_id' => $user->data()->site_id,
                             ));
 
+                        }
+
                             $successMessage = 'Schedule Summary  Added Successful';
+
                         }
 
                         // }
@@ -2439,7 +2495,7 @@ if ($user->isLoggedIn()) {
                             ), $_GET['cid']);
                         }
 
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $$successMessage);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -14702,12 +14758,12 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>">
                                             < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Next Visit Summary</li>
                                 </ol>
-                            </div>
+                            </div>&status=<?= $_GET['status'] ?>
                         </div>
                     </div><!-- /.container-fluid -->
                 </section>

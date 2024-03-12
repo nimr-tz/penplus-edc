@@ -2288,6 +2288,7 @@ if ($user->isLoggedIn()) {
 
             ));
             if ($validate->passed()) {
+                print_r($_POST);
                 try {
                     $last_visit = $override->getlastRow('visit', 'client_id', $_GET['cid'], 'id')[0];
                     $expected_date = $override->getNews('visit', 'expected_date', Input::get('next_appointment_date'), 'client_id', $_GET['cid'])[0];
@@ -2342,6 +2343,8 @@ if ($user->isLoggedIn()) {
                             'site_id' => $user->data()->site_id,
                         ), $summary[0]['id']);
 
+                        $summary_id = $override->get3('visit', 'status', 1, 'patient_id', $_GET['cid'], 'summary_id', $summary[0]['id'])[0];
+
                         $user->updateRecord('visit', array(
                             'summary_id' => $summary[0]['id'],
                             'expected_date' => Input::get('next_appointment_date'),
@@ -2355,7 +2358,7 @@ if ($user->isLoggedIn()) {
                             'cause_death' => Input::get('cause_death'),
                             'death_other' => Input::get('death_other'),
                             'next_notes' => Input::get('next_appointment_notes'),
-                        ),$_GET['vid']);
+                        ),$summary_id['id']);
 
                     } else {
                         $user->createRecord('summary', array(
@@ -2436,7 +2439,7 @@ if ($user->isLoggedIn()) {
                             ), $_GET['cid']);
                         }
 
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $$successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());

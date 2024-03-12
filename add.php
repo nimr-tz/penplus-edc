@@ -2458,7 +2458,7 @@ if ($user->isLoggedIn()) {
                     
                         if ($visit_id) {
                             $user->updateRecord('visit', array(
-                                'summary_id' => $summary[0]['id'],
+                                'summary_id' => $last_row['id'],
                                 'expected_date' => Input::get('next_appointment_date'),
                                 'summary_date' => Input::get('summary_date'),
                                 'comments' => Input::get('comments'),
@@ -2479,7 +2479,7 @@ if ($user->isLoggedIn()) {
                             $visit_day = 'Day ' . $sq;
 
                             $user->createRecord('visit', array(
-                                'summary_id' => $summary[0]['id'],
+                                'summary_id' => $last_row['id'],
                                 'study_id' => $_GET['sid'],
                                 'visit_name' => $visit_name,
                                 'visit_code' => $visit_code,

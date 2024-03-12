@@ -2326,10 +2326,13 @@ if ($user->isLoggedIn()) {
                             'diagnosis_other' => Input::get('diagnosis_other'),
                             'outcome' => Input::get('outcome'),
                             'transfer_out' => Input::get('transfer_out'),
+                            'transfer_out_date' => Input::get('transfer_out_date'),
                             'transfer_other' => Input::get('transfer_other'),
                             'cause_death' => Input::get('cause_death'),
+                            'death_date' => Input::get('death_date'),
                             'death_other' => Input::get('death_other'),
                             'remarks' => Input::get('remarks'),
+                            'set_next' => Input::get('set_next'),
                             'next_appointment_notes' => Input::get('next_appointment_notes'),
                             'next_appointment_date' => Input::get('next_appointment_date'),
                             'patient_id' => $_GET['cid'],
@@ -2383,35 +2386,40 @@ if ($user->isLoggedIn()) {
                                 $sq = $last_visit['seq_no'] + 1;
                                 $visit_day = 'Day ' . $sq;
 
-                                $user->createRecord('visit', array(
-                                    'summary_id' => $summary[0]['id'],
-                                    'study_id' => $_GET['sid'],
-                                    'visit_name' => $visit_name,
-                                    'visit_code' => $visit_code,
-                                    'visit_day' => $visit_day,
-                                    'expected_date' => Input::get('next_appointment_date'),
-                                    'visit_date' => '',
+                                if (Input::get('set_next') == 1) {
 
-                                    'summary_date' => Input::get('summary_date'),
-                                    'comments' => Input::get('comments'),
-                                    'diagnosis' => Input::get('diagnosis'),
-                                    'diagnosis_other' => Input::get('diagnosis_other'),
-                                    'outcome' => Input::get('outcome'),
-                                    'transfer_out' => Input::get('transfer_out'),
-                                    'transfer_other' => Input::get('transfer_other'),
-                                    'cause_death' => Input::get('cause_death'),
-                                    'death_other' => Input::get('death_other'),
-                                    'next_notes' => Input::get('next_appointment_notes'),
+                                    $user->createRecord('visit', array(
+                                        'summary_id' => $summary[0]['id'],
+                                        'study_id' => $_GET['sid'],
+                                        'visit_name' => $visit_name,
+                                        'visit_code' => $visit_code,
+                                        'visit_day' => $visit_day,
+                                        'expected_date' => Input::get('next_appointment_date'),
+                                        'visit_date' => '',
 
-                                    'visit_window' => 0,
-                                    'status' => 1,
-                                    'client_id' => $_GET['cid'],
-                                    'created_on' => date('Y-m-d'),
-                                    'seq_no' => $sq,
-                                    'reasons' => '',
-                                    'visit_status' => 0,
-                                    'site_id' => $user->data()->site_id,
-                                ));
+                                        'summary_date' => Input::get('summary_date'),
+                                        'comments' => Input::get('comments'),
+                                        'diagnosis' => Input::get('diagnosis'),
+                                        'diagnosis_other' => Input::get('diagnosis_other'),
+                                        'outcome' => Input::get('outcome'),
+                                        'transfer_out' => Input::get('transfer_out'),
+                                        'transfer_out_date' => Input::get('transfer_out_date'),
+                                        'transfer_other' => Input::get('transfer_other'),
+                                        'cause_death' => Input::get('cause_death'),
+                                        'death_date' => Input::get('death_date'),
+                                        'death_other' => Input::get('death_other'),
+                                        'next_notes' => Input::get('next_appointment_notes'),
+
+                                        'visit_window' => 0,
+                                        'status' => 1,
+                                        'client_id' => $_GET['cid'],
+                                        'created_on' => date('Y-m-d'),
+                                        'seq_no' => $sq,
+                                        'reasons' => '',
+                                        'visit_status' => 0,
+                                        'site_id' => $user->data()->site_id,
+                                    )); 
+                                }
 
                             }                           
 
@@ -2433,10 +2441,13 @@ if ($user->isLoggedIn()) {
                             'comments' => Input::get('comments'),
                             'outcome' => Input::get('outcome'),
                             'transfer_out' => Input::get('transfer_out'),
+                            'transfer_out_date' => Input::get('transfer_out_date'),
                             'transfer_other' => Input::get('transfer_other'),
                             'cause_death' => Input::get('cause_death'),
+                            'death_date' => Input::get('death_date'),
                             'death_other' => Input::get('death_other'),
                             'remarks' => Input::get('remarks'),
+                            'set_next' => Input::get('set_next'),
                             'next_appointment_notes' => Input::get('next_appointment_notes'),
                             'next_appointment_date' => Input::get('next_appointment_date'),
                             'patient_id' => $_GET['cid'],
@@ -2478,36 +2489,40 @@ if ($user->isLoggedIn()) {
                             $sq = $last_visit['seq_no'] + 1;
                             $visit_day = 'Day ' . $sq;
 
-                            $user->createRecord('visit', array(
-                                'summary_id' => $last_row['id'],
-                                'study_id' => $_GET['sid'],
-                                'visit_name' => $visit_name,
-                                'visit_code' => $visit_code,
-                                'visit_day' => $visit_day,
-                                'expected_date' => Input::get('next_appointment_date'),
-                                'visit_date' => '',
+                            if (Input::get('set_next') == 1) {
 
-                                'summary_date' => Input::get('summary_date'),
-                                'comments' => Input::get('comments'),
-                                'diagnosis' => Input::get('diagnosis'),
-                                'diagnosis_other' => Input::get('diagnosis_other'),
-                                'outcome' => Input::get('outcome'),
-                                'transfer_out' => Input::get('transfer_out'),
-                                'transfer_other' => Input::get('transfer_other'),
-                                'cause_death' => Input::get('cause_death'),
-                                'death_other' => Input::get('death_other'),
-                                'next_notes' => Input::get('next_appointment_notes'),
+                                $user->createRecord('visit', array(
+                                    'summary_id' => $last_row['id'],
+                                    'study_id' => $_GET['sid'],
+                                    'visit_name' => $visit_name,
+                                    'visit_code' => $visit_code,
+                                    'visit_day' => $visit_day,
+                                    'expected_date' => Input::get('next_appointment_date'),
+                                    'visit_date' => '',
 
-                                'visit_window' => 0,
-                                'status' => 1,
-                                'client_id' => $_GET['cid'],
-                                'created_on' => date('Y-m-d'),
-                                'seq_no' => $sq,
-                                'reasons' => '',
-                                'visit_status' => 0,
-                                'site_id' => $user->data()->site_id,
-                            ));
+                                    'summary_date' => Input::get('summary_date'),
+                                    'comments' => Input::get('comments'),
+                                    'diagnosis' => Input::get('diagnosis'),
+                                    'diagnosis_other' => Input::get('diagnosis_other'),
+                                    'outcome' => Input::get('outcome'),
+                                    'transfer_out' => Input::get('transfer_out'),
+                                    'transfer_out_date' => Input::get('transfer_out_date'),
+                                    'transfer_other' => Input::get('transfer_other'),
+                                    'cause_death' => Input::get('cause_death'),
+                                    'death_date' => Input::get('death_date'),
+                                    'death_other' => Input::get('death_other'),
+                                    'next_notes' => Input::get('next_appointment_notes'),
 
+                                    'visit_window' => 0,
+                                    'status' => 1,
+                                    'client_id' => $_GET['cid'],
+                                    'created_on' => date('Y-m-d'),
+                                    'seq_no' => $sq,
+                                    'reasons' => '',
+                                    'visit_status' => 0,
+                                    'site_id' => $user->data()->site_id,
+                                ));
+                            }
                         }
                         $successMessage = 'Schedule Summary  Added Successful';
 
@@ -14979,7 +14994,7 @@ if ($user->isLoggedIn()) {
 
                                             <hr>
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <label>Outcome</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -14987,7 +15002,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="outcome" id="outcome1" value="1" <?php if ($summary['outcome'] == 1) {
                                                                                                                                                         echo 'checked';
-                                                                                                                                                    } ?>>
+                                                                                                                                                    } ?> required>
                                                                 <label class="form-check-label">On treatment</label>
                                                             </div>
 
@@ -15013,13 +15028,22 @@ if ($user->isLoggedIn()) {
                                                                 <input class="form-check-input" type="radio" name="outcome" id="outcome5" value="5" <?php if ($summary['outcome'] == 5) {
                                                                                                                                                         echo 'checked';
                                                                                                                                                     } ?>>
-                                                                <label class="form-check-label">Death</label>
+                                                                <label class="form-check-label">Death</label>                                                                
                                                             </div>
+                                                            
                                                         </div>
+                                                        <label id="transfer_out_date_label">Date Transffered Out</label>
+                                                                <input class="form-control" type="date" name="death_date" id="death_date" max="<?= date('Y-m-d') ?>" value="<?php if ($summary['death_date']) {
+                                                                                                                                            print_r($summary['death_date']);
+                                                                                                                                        }  ?>" />
+                                                                                                                                        <label id="death_date_label">Date of Death</label>
+                                                        <input class="form-control" type="date" name="transfer_out_date" id="transfer_out_date" max="<?= date('Y-m-d') ?>" value="<?php if ($summary['transfer_out_date']) {
+                                                                                                                                    print_r($summary['transfer_out_date']);
+                                                                                                                                }  ?>" />
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-3" id="transfer_out">
+                                                <div class="col-sm-2" id="transfer_out">
                                                     <label>Transfer Out To</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -15052,7 +15076,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-3" id="cause_death">
+                                                <div class="col-sm-2" id="cause_death">
                                                     <label>Cause of Death</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -15085,6 +15109,28 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
+                                                <div class="col-sm-2" id="set_next">
+                                                    <label>Set Next Appointments ?</label>
+                                                    <!-- radio -->
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="set_next" id="set_next1" value="1" <?php if ($summary['set_next'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="set_next" id="set_next2" value="2" <?php if ($summary['set_next'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-sm-6" id="comments">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -15098,6 +15144,11 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                            <?php 
+                                            // if ($summary['next_appointment_notes']) { 
+
+                                                ?>
 
                                                 <div class="col-sm-3" id="next_notes">
                                                     <div class="row-form clearfix">
@@ -15123,8 +15174,11 @@ if ($user->isLoggedIn()) {
                                                                                                                                         }  ?>" />
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
+                                                </div>                                                                                                              
+                                            <?php 
+                                        // }
+                                          ?>
+                                           </div>
                                             <hr>
 
                                         </div>
@@ -18383,7 +18437,6 @@ if ($user->isLoggedIn()) {
     <script src="myjs/add/economics"></script>
     <script src="myjs/add/economics"></script>
     <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
 
 
     <!-- SUMMARY Js -->
@@ -18392,6 +18445,7 @@ if ($user->isLoggedIn()) {
     <script src="myjs/add/summary/diagnosis_summary.js"></script>
     <script src="myjs/add/summary/outcome.js"></script>
     <script src="myjs/add/summary/transfer_out.js"></script>
+    <script src="myjs/add/summary/set_next.js"></script>
 
 
 

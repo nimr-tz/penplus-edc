@@ -13,9 +13,11 @@ const diagnosis_summary_other = document.getElementById(
 
 function toggleElementVisibility() {
   if (diagnosis_summary96.checked) {
+    diagnosis_summary_other.setAttribute("required", "required");
     diagnosis_summary_other.style.display = "block";
   } else {
     diagnosis_summary_other.style.display = "none";
+    diagnosis_summary_other.removeAttribute("required");
   }
 }
 

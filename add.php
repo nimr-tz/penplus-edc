@@ -18406,21 +18406,30 @@ if ($user->isLoggedIn()) {
     <script src="myjs/add/economics"></script>
     <script src="myjs/add/economics"></script>
     <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
-    <script src="myjs/add/economics"></script>
+
+    <!-- TREATMENT PALN Js -->
+
+    <script src="myjs/add/treatment/basal.js"></script>
+    <script src="myjs/add/treatment/cardiology.js"></script>
+    <script src="myjs/add/treatment/other_support.js"></script>
+    <script src="myjs/add/treatment/prandial.js"></script>
+    <script src="myjs/add/treatment/referral.js"></script>
+    <script src="myjs/add/treatment/restriction.js"></script>
+    <script src="myjs/add/treatment/support.js"></script>
+    <script src="myjs/add/treatment/transfusion.js"></script>
+    <script src="myjs/add/treatment/vaccination.js"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+    <script src="myjs/add/treatment"></script>
+
 
 
     <!-- SUMMARY Js -->

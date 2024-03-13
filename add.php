@@ -12257,6 +12257,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
 
                                             <?php } ?>
@@ -12605,58 +12606,54 @@ if ($user->isLoggedIn()) {
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
                                                 <div class="row">
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
+                                                        <label>Cardiology referral:</label>
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Cardiology referral:</label>
-                                                                <select name="cardiology" id="cardiology" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('cardiology','completed1')" required>
-                                                                    <option value="<?= $treatment_plan['cardiology'] ?>"><?php if ($treatment_plan) {
-                                                                                                                                if ($treatment_plan['cardiology'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($treatment_plan['cardiology'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="cardiology" id="cardiology1" value="1" <?php if ($treatment_plan['cardiology'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="cardiology" id="cardiology2" value="2" <?php if ($treatment_plan['cardiology'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>   
 
-                                                    <div class="col-sm-3" id="completed_hidden">
+                                                    <div class="col-sm-4" id="completed">
+                                                        <label>Completed ?:</label>
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Completed ?:</label>
-                                                                <select name="completed" id="completed" class="form-control" style="width: 100%;" onchange="checkQuestionValue2('completed','cardiology_date','cardiology_reason')">
-                                                                    <option value="<?= $treatment_plan['completed'] ?>"><?php if ($treatment_plan) {
-                                                                                                                            if ($treatment_plan['completed'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($treatment_plan['completed'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="completed" id="completed1" value="1" <?php if ($treatment_plan['completed'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="completed" id="completed2" value="2" <?php if ($treatment_plan['completed'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>   
 
-                                                    <div class="col-sm-3" id="cardiology_date">
+                                                    <div class="col-sm-4" id="cardiology_date1">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Date Completed:</label>
-                                                                <input style="width: 100%;" type="text" name="cardiology_date" class="form-control" value="<?php if ($treatment_plan['cardiology_date']) {
+                                                                <input style="width: 100%;" type="date" name="cardiology_date" id="cardiology_date" class="form-control" value="<?php if ($treatment_plan['cardiology_date']) {
                                                                                                                                                                 print_r($treatment_plan['cardiology_date']);
                                                                                                                                                             }  ?>" />
                                                             </div>
@@ -12664,12 +12661,12 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
 
-                                                    <div class="col-sm-3" id="cardiology_reason">
+                                                    <div class="col-sm-4" id="cardiology_reason1">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>If no, why ?:</label>
-                                                                <input style="width: 100%;" type="text" class="form-control" name="cardiology_reason" value="<?php if ($treatment_plan['cardiology_reason']) {
+                                                                <input style="width: 100%;" type="text" class="form-control" name="cardiology_reason"  id="cardiology_reason" value="<?php if ($treatment_plan['cardiology_reason']) {
                                                                                                                                                                     print_r($treatment_plan['cardiology_reason']);
                                                                                                                                                                 }  ?>" />
                                                             </div>
@@ -12677,15 +12674,16 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                 </div>
+                                                <hr>
                                                 <div class="row">
 
-                                                    <div class="col-sm-12">
+                                                    <div class="col-sm-4">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Awaiting surgery:</label>
                                                                 <select name="awaiting_surgery" class="form-control" id="awaiting_surgery" style="width: 100%;" required>
-                                                                    <option value="<?= $treatment_plan['awaiting_surgery'] ?>"><?php if ($treatment_plan) {
+                                                                    <option value="<?= $treatment_plan['awaiting_surgery'] ?>"><?php if ($treatment_plan['awaiting_surgery']) {
                                                                                                                                     if ($treatment_plan['awaiting_surgery'] == 1) {
                                                                                                                                         echo 'Yes';
                                                                                                                                     } elseif ($treatment_plan['awaiting_surgery'] == 2) {
@@ -12702,6 +12700,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
 
                                             <?php } ?>

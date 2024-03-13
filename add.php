@@ -12559,42 +12559,39 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-sm-6">
+                                             <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label>Social support provided?:</label>
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Social support provided?:</label>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="social_support" id="social_support1" value="1" <?php if ($treatment_plan['social_support'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>
+                                                            </div>
 
-                                                            <select name="social_support" id="social_support" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('social_support','social_support_type')" required>
-                                                                <option value="<?= $treatment_plan['social_support'] ?>"><?php if ($treatment_plan) {
-                                                                                                                                if ($treatment_plan['social_support'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($treatment_plan['social_support'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                </option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="social_support" id="social_support2" value="2" <?php if ($treatment_plan['social_support'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                                    
 
-                                                <div class="col-sm-6 hidden" id="social_support_type">
+                                                <div class="col-sm-8" id="social_support_type1">
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
                                                             <label>Type:</label>
-                                                            <input style="width: 100%;" type="text" class="form-control" name="social_support_type" value="<?php if ($treatment_plan['social_support_type']) {
-                                                                                                                                                                print_r($treatment_plan['social_support_type']);
-                                                                                                                                                            }  ?>" />
+                                                            <input type="text" class="form-control" name="social_support_type" id="social_support_type" value="<?php if ($treatment_plan['social_support_type']) {
+                                                                                                                                                print_r($treatment_plan['social_support_type']);
+                                                                                                                                            }  ?>" />
+
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                                
                                             </div>
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
@@ -12702,40 +12699,38 @@ if ($user->isLoggedIn()) {
                                             <?php } ?>
 
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
+                                                    <label>Any new referrals provided?:</label>
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Any new referrals provided?:</label>
-                                                            <select name="new_referrals" id="new_referrals" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('new_referrals','new_referrals_type')" required>
-                                                                <option value="<?= $treatment_plan['new_referrals'] ?>"><?php if ($treatment_plan) {
-                                                                                                                            if ($treatment_plan['new_referrals'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($treatment_plan['new_referrals'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?>
-                                                                </option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="new_referrals" id="new_referrals1" value="1" <?php if ($treatment_plan['new_referrals'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="new_referrals" id="new_referrals2" value="2" <?php if ($treatment_plan['new_referrals'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                                    
 
-                                                <div class="col-sm-6" id="new_referrals_type">
+                                                <div class="col-sm-8" id="new_referrals_type1">
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
                                                             <label>Type:</label>
-                                                            <input style="width: 100%;" type="text" class="form-control" name="new_referrals_type" value="<?php if ($treatment_plan['new_referrals_type']) {
-                                                                                                                                                                print_r($treatment_plan['new_referrals_type']);
-                                                                                                                                                            }  ?>" />
+                                                            <input type="text" class="form-control" name="new_referrals_type" id="new_referrals_type" value="<?php if ($treatment_plan['new_referrals_type']) {
+                                                                                                                                                print_r($treatment_plan['new_referrals_type']);
+                                                                                                                                            }  ?>" />
+
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                                
                                             </div>
 
                                             <div class="row">

@@ -2984,7 +2984,7 @@ if ($user->isLoggedIn()) {
                 'visit_day' => $_GET['vday'],
                 'seq_no' => $_GET['seq'],
                 'vid' => $_GET['vid'],
-                'history_id' => $history_id['id'],
+                'history_id' => $history['id'],
                 'visit_date' => Input::get('visit_date'),
                 'entry_date' => Input::get('entry_date'),
                 'age' => Input::get('age'),

@@ -12537,7 +12537,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div> 
 
-                                                    <div class="col-sm-9 hidden" id="support_specify1">
+                                                    <div class="col-sm-8" id="support_specify1">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
@@ -12549,6 +12549,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                             <?php } ?>
 

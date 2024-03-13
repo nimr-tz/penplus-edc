@@ -12005,7 +12005,9 @@ if ($user->isLoggedIn()) {
                                                                     </tbody>
                                                                 </table>
                                                                 <hr>
-                                                                <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Medication()" value="Add New Medication" />
+                                                                <button type="button" class="btn btn-block btn-info" onclick="add_Medication()"><ion-icon name='add-circle-outline'></ion-icon>Add New Medication</button>
+
+                                                                <!-- <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Medication()" value="Add New Medication" /> -->
                                                             </div>
                                                             <!-- /.card-body -->
                                                             <div class="card-footer clearfix">

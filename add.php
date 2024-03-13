@@ -7245,7 +7245,10 @@ if ($user->isLoggedIn()) {
                                                                     </table>
                                                                     <hr>
                                                                     <div>
-                                                                        <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Siblings()" value="Add New Siblings" />
+                                                                         <!-- <td> -->
+                                                                            <button type="button" class="btn btn-block btn-info" onclick="add_Siblings()"><ion-icon name='add-circle-outline'></ion-icon>Add New Siblings</button>
+                                                                        <!-- </td>                                                                         -->
+                                                                        <!-- <input type="button" class="btn btn-lg btn-block btn-info" " value="" /> -->
                                                                     </div>
                                                                 </div>
                                                                 <!-- /.card-body -->
@@ -18700,7 +18703,7 @@ if ($user->isLoggedIn()) {
             html += '<td><select class="form-control" name="sex[]" id="sex[]" style="width: 100%;" required><option value="">Select</option><option value="1">Male</option><option value="2">Female</option></select></td>';
             html += '<td><select class="form-control" name="sickle_status[]" id="sickle_status[]" style="width: 100%;" required><option value="">Select</option><option value="1">Positive</option><option value="2">Negative</option><option value="99">Unknown</option><option value="96">Other</option></select></td>';
             html += '<td><textarea class="form-control"  type="text" name="other[]" rows="3" placeholder="Type other here..."></textarea></td>';
-            html += "<td><button type='button' onclick='deleteRow3(this);'>Remove</button></td>"
+            html += "<td><button type='button' onclick='deleteRow3(this);'><ion-icon name='remove-circle-outline'></ion-icon>Remove</button></td>"
             html += "</tr>";
 
             var row = document.getElementById("tbody_3").insertRow();
@@ -18717,6 +18720,10 @@ if ($user->isLoggedIn()) {
 
         // });
     </script>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

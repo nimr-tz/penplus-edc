@@ -11893,7 +11893,7 @@ if ($user->isLoggedIn()) {
                                                                                                             <div class="form-group">
                                                                                                                 <label>Medication name</label>
                                                                                                                 <select name="medication_id" id="medication_id" class="form-control select2" style="width: 100%;" required>
-                                                                                                                    <?php if ($medications) { ?>
+                                                                                                                    <?php if ($medications[0]['name']) { ?>
                                                                                                                         <option value="<?= $medications[0]['id'] ?>"><?= $medications[0]['name']; ?></option>
                                                                                                                     <?php } ?>
                                                                                                                     <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
@@ -11908,7 +11908,7 @@ if ($user->isLoggedIn()) {
                                                                                                             <div class="form-group">
                                                                                                                 <label>Action</label>
                                                                                                                 <select name="medication_action" class="form-control" id="medication_action" style="width: 80%;" required>
-                                                                                                                    <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment) {
+                                                                                                                    <option value="<?= $treatment['medication_action'] ?>"><?php if ($treatment['medication_action'] ) {
                                                                                                                                                                                 if ($treatment['medication_action'] == 1) {
                                                                                                                                                                                     echo 'Continue';
                                                                                                                                                                                 } elseif ($treatment['medication_action'] == 2) {

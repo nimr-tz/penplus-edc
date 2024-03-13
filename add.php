@@ -12043,48 +12043,45 @@ if ($user->isLoggedIn()) {
 
                                                 <div class="row">
                                                     <div class="col-sm-4">
+                                                        <label>Changed?</label>
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>Changed?</label>
-                                                                <select name="basal_changed" class="form-control" id="basal_changed" style="width: 100%;" onchange="checkQuestionValue1('basal_changed','basal_changed_hides')">
-                                                                    <option value="<?= $treatment_plan['basal_changed'] ?>"><?php if ($treatment_plan) {
-                                                                                                                                if ($treatment_plan['basal_changed'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($treatment_plan['basal_changed'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="basal_changed2" id="basal_changed1" value="1" <?php if ($treatment_plan['basal_changed2'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="basal_changed2" id="basal_changed2" value="2" <?php if ($treatment_plan['basal_changed2'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                    
+
+                                                    <div class="col-sm-4" id="basal_am">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label>Units in am:</label>
+                                                                <input type="number" min="0" max="1000" step="any" class="form-control" name="basal_am2" id="basal_am2" value="<?php if ($treatment_plan['basal_am2']) {
+                                                                                                                                                    print_r($treatment_plan['basal_am2']);
+                                                                                                                                                }  ?>" />
+
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-4" id="basal_pm">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label>Units in pm:</label>
+                                                                <input type="number" min="0" max="1000" step="any" class="form-control" name="basal_pm2" id="basal_pm2" value="<?php if ($treatment_plan['basal_pm2']) {
+                                                                                                                                                    print_r($treatment_plan['basal_pm2']);
+                                                                                                                                                }  ?>" />
 
-                                                    <div class="col-sm-8" id="basal_changed_hides">
-                                                        <div class="col-sm-4">
-                                                            <div class="row-form clearfix">
-                                                                <div class="form-group">
-                                                                    <label>Units in am:</label>
-                                                                    <input type="text" class="form-control" name="basal_am2" id="basal_am2" value="<?php if ($treatment_plan['basal_am2']) {
-                                                                                                                                                        print_r($treatment_plan['basal_am2']);
-                                                                                                                                                    }  ?>" />
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="row-form clearfix">
-                                                                <div class="form-group">
-                                                                    <label>Units in pm:</label>
-                                                                    <input type="text" class="form-control" name="basal_pm2" id="basal_pm2" value="<?php if ($treatment_plan['basal_pm2']) {
-                                                                                                                                                        print_r($treatment_plan['basal_pm2']);
-                                                                                                                                                    }  ?>" />
-
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -12102,65 +12099,60 @@ if ($user->isLoggedIn()) {
 
                                                 <div class="row">
                                                     <div class="col-sm-3">
+                                                        <label>Changed?</label>
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>Changed?</label>
-                                                                <select name="prandial_changed" class="form-control" id="prandial_changed" style="width: 100%;" onchange="checkQuestionValue1('prandial_changed','prandial_changed_hides')">
-                                                                    <option value="<?= $treatment_plan['prandial_changed'] ?>"><?php if ($treatment_plan) {
-                                                                                                                                    if ($treatment_plan['prandial_changed'] == 1) {
-                                                                                                                                        echo 'Yes';
-                                                                                                                                    } elseif ($treatment_plan['prandial_changed'] == 2) {
-                                                                                                                                        echo 'No';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="prandial_changed2" id="prandial_changed1" value="1" <?php if ($treatment_plan['prandial_changed2'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="prandial_changed2" id="prandial_changed2" value="2" <?php if ($treatment_plan['prandial_changed2'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                    
+
+                                                    <div class="col-sm-3" id="prandial_am">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label>Units in am:</label>
+                                                                <input type="number" min="0" max="1000" step="any" class="form-control" name="prandial_am2" id="prandial_am2" value="<?php if ($treatment_plan['prandial_am2']) {
+                                                                                                                                                    print_r($treatment_plan['prandial_am2']);
+                                                                                                                                                }  ?>" />
+
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-3" id="prandial_lunch">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label>Units at lunch :</label>
+                                                                <input type="number" min="0" max="1000" step="any" class="form-control" name="prandial_lunch2" id="prandial_lunch2" value="<?php if ($treatment_plan['prandial_lunch2']) {
+                                                                                                                                                    print_r($treatment_plan['prandial_lunch2']);
+                                                                                                                                                }  ?>" />
 
-                                                    <div class="col-sm-8" id="prandial_changed_hides">
-
-                                                        <div class="col-sm-3">
-                                                            <div class="row-form clearfix">
-                                                                <div class="form-group">
-                                                                    <label>Units in am :</label>
-                                                                    <input type="text" name="prandial_am2" class="form-control" id="prandial_am2" value="<?php if ($treatment_plan['prandial_am2']) {
-                                                                                                                                                                print_r($treatment_plan['prandial_am2']);
-                                                                                                                                                            }  ?>" />
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3">
-                                                            <div class="row-form clearfix">
-                                                                <div class="form-group">
-                                                                    <label>Units at lunch :</label>
-                                                                    <input type="text" name="prandial_lunch2" class="form-control" id="prandial_lunch2" value="<?php if ($treatment_plan['prandial_lunch2']) {
-                                                                                                                                                                    print_r($treatment_plan['prandial_lunch2']);
-                                                                                                                                                                }  ?>" />
+                                                    </div>
+                                                    <div class="col-sm-3" id="prandial_pm">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label>Units in pm:</label>
+                                                                <input type="number" min="0" max="1000" step="any" class="form-control" name="prandial_pm2" id="prandial_pm2" value="<?php if ($treatment_plan['prandial_pm2']) {
+                                                                                                                                                    print_r($treatment_plan['prandial_pm2']);
+                                                                                                                                                }  ?>" />
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-sm-3">
-                                                            <div class="row-form clearfix">
-                                                                <div class="form-group">
-                                                                    <label>Units in pm :</label>
-                                                                    <input type="text" name="prandial_pm2" class="form-control" id="prandial_pm2" value="<?php if ($treatment_plan['prandial_pm2']) {
-                                                                                                                                                                print_r($treatment_plan['prandial_pm2']);
-                                                                                                                                                            }  ?>" />
-
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
 
                                             <?php } ?>
 

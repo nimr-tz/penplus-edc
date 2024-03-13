@@ -11515,7 +11515,7 @@ if ($user->isLoggedIn()) {
                                                                                         <form method="post">
                                                                                             <div class="modal-content">
                                                                                                 <div class="modal-header">
-                                                                                                    <h4 class="modal-title">Medication Form</h4>
+                                                                                                    <h4 class="modal-title">Admission Form</h4>
                                                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                                         <span aria-hidden="true">&times;</span>
                                                                                                     </button>
@@ -11621,7 +11621,8 @@ if ($user->isLoggedIn()) {
                                                                         </tbody>
                                                                     </table>
                                                                     <hr>
-                                                                    <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Admission()" value="Add New Admission" />
+                                                                    <button type="button" class="btn btn-block btn-info" onclick="add_Admission()"><ion-icon name='add-circle-outline'></ion-icon>Add New Admission</button>
+                                                                    <!-- <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Admission()" value="Add New Admission" /> -->
                                                                 </div>
                                                                 <!-- /.card-body -->
                                                                 <div class="card-footer clearfix">

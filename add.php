@@ -11770,6 +11770,7 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
+                                            <hr>
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="row-form clearfix">
@@ -11783,6 +11784,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
 
                                             <div class="row-form clearfix">
                                                 <div class="row">
@@ -12027,6 +12029,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                                 <!-- /.row -->
                                             </div>
+                                            <hr>
 
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
@@ -12040,6 +12043,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-sm-4">
@@ -12086,6 +12090,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -12096,6 +12101,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-sm-3">
@@ -12153,6 +12159,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                             <?php } ?>
 
@@ -12558,6 +12565,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
 
                                              <div class="row">
                                                 <div class="col-sm-4">
@@ -12593,6 +12601,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>                                                
                                             </div>
+                                            <hr>
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
@@ -12732,6 +12741,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>                                                
                                             </div>
+                                            <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-12">

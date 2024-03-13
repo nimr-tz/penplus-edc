@@ -11955,7 +11955,7 @@ if ($user->isLoggedIn()) {
                                                                                                     <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">
                                                                                                             <div class="form-group">
-                                                                                                                <label>UNITS</label>
+                                                                                                                <label>Dose Duration</label>
                                                                                                                 <input class="form-control" type="number" min="0" max="1000" name="medication_dose" id="medication_dose" style="width: 100%;" value="<?php if ($treatment['medication_dose']) {
                                                                                                                                                                                                                                         print_r($treatment['medication_dose']);
                                                                                                                                                                                                                                     }  ?>" required />

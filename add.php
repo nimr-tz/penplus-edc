@@ -12347,7 +12347,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div> 
 
-                                                    <div class="col-sm-8" id="transfusion_units">
+                                                    <div class="col-sm-8" id="transfusion_units1">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
@@ -12370,16 +12370,17 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
 
                                                 <div class="row">
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Diet?:</label>
-                                                                <select name="diet" id="diet" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $treatment_plan['diet'] ?>"><?php if ($treatment_plan) {
+                                                                <select name="diet" id="diet" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $treatment_plan['diet'] ?>"><?php if ($treatment_plan['diet']) {
                                                                                                                         if ($treatment_plan['diet'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($treatment_plan['diet'] == 2) {
@@ -12396,13 +12397,13 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Hydration?:</label>
-                                                                <select name="hydration" id="hydration" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $treatment_plan['hydration'] ?>"><?php if ($treatment_plan) {
+                                                                <select name="hydration" id="hydration" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $treatment_plan['hydration'] ?>"><?php if ($treatment_plan['hydration']) {
                                                                                                                             if ($treatment_plan['hydration'] == 1) {
                                                                                                                                 echo 'Yes';
                                                                                                                             } elseif ($treatment_plan['hydration'] == 2) {
@@ -12419,13 +12420,13 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Acute Symptoms?:</label>
-                                                                <select name="acute_symptoms" id="acute_symptoms" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $treatment_plan['acute_symptoms'] ?>"><?php if ($treatment_plan) {
+                                                                <select name="acute_symptoms" id="acute_symptoms" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $treatment_plan['acute_symptoms'] ?>"><?php if ($treatment_plan['acute_symptoms']) {
                                                                                                                                     if ($treatment_plan['acute_symptoms'] == 1) {
                                                                                                                                         echo 'Yes';
                                                                                                                                     } elseif ($treatment_plan['acute_symptoms'] == 2) {
@@ -12442,13 +12443,13 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Fever ?:</label>
-                                                                <select name="fever" id="fever" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $treatment_plan['fever'] ?>"><?php if ($treatment_plan) {
+                                                                <select name="fever" id="fever" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $treatment_plan['fever'] ?>"><?php if ($treatment_plan['fever']) {
                                                                                                                         if ($treatment_plan['fever'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($treatment_plan['fever'] == 2) {
@@ -12464,17 +12465,14 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-
-                                                <div class="row">
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Life style :</label>
-                                                                <select name="life_style" id="life_style" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $treatment_plan['life_style'] ?>"><?php if ($treatment_plan) {
+                                                                <select name="life_style" id="life_style" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $treatment_plan['life_style'] ?>"><?php if ($treatment_plan['life_style']) {
                                                                                                                                 if ($treatment_plan['life_style'] == 1) {
                                                                                                                                     echo 'Yes';
                                                                                                                                 } elseif ($treatment_plan['life_style'] == 2) {
@@ -12491,13 +12489,13 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Misconception:</label>
-                                                                <select name="misconception" id="misconception" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $treatment_plan['misconception'] ?>"><?php if ($treatment_plan) {
+                                                                <select name="misconception" id="misconception" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $treatment_plan['misconception'] ?>"><?php if ($treatment_plan['misconception']) {
                                                                                                                                 if ($treatment_plan['misconception'] == 1) {
                                                                                                                                     echo 'Yes';
                                                                                                                                 } elseif ($treatment_plan['misconception'] == 2) {
@@ -12514,6 +12512,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
 
                                                 <div class="row">
@@ -12523,7 +12522,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-group">
                                                                 <label>Any Other Support?:</label>
                                                                 <select name="other_support" id="other_support" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('other_support','support_specify')">
-                                                                    <option value="<?= $treatment_plan['other_support'] ?>"><?php if ($treatment_plan) {
+                                                                    <option value="<?= $treatment_plan['other_support'] ?>"><?php if ($treatment_plan['other_support']) {
                                                                                                                                 if ($treatment_plan['other_support'] == 1) {
                                                                                                                                     echo 'Yes';
                                                                                                                                 } elseif ($treatment_plan['other_support'] == 2) {

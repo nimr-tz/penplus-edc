@@ -1,26 +1,31 @@
-const lower_arms = document.getElementById("lower_arms");
+const lower_arms1 = document.getElementById("lower_arms1");
+const lower_arms2 = document.getElementById("lower_arms2");
+const lower_arms3 = document.getElementById("lower_arms3");
+
 const score_lower_arms = document.getElementById("score_lower_arms");
+const score_lower_arms_label = document.getElementById(
+  `score_lower_arms_label`
+);
 
-function showElement() {
-  if (lower_arms.value === "1") {
+const score_lower_arms_span = document.getElementById(`score_lower_arms_span`);
+
+function toggleElementVisibility() {
+  if (lower_arms1.checked) {
+    score_lower_arms_label.style.display = "block";
+    score_lower_arms.setAttribute("required", "required");
     score_lower_arms.style.display = "block";
+    score_lower_arms_span.style.display = "block";
   } else {
+    score_lower_arms_label.style.display = "none";
+    score_lower_arms.removeAttribute("required");
     score_lower_arms.style.display = "none";
+    score_lower_arms_span.style.display = "none";
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", lower_arms.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const lower_armsValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (lower_armsValue) {
-  upper_arms.value = lower_armsValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-lower_arms.addEventListener("change", showElement);
+lower_arms1.addEventListener("change", toggleElementVisibility);
+lower_arms2.addEventListener("change", toggleElementVisibility);
+lower_arms3.addEventListener("change", toggleElementVisibility);

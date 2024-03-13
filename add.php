@@ -1271,9 +1271,9 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_symptoms')) {
             $validate = $validate->check($_POST, array(
-                // 'visit_date' => array(
-                //     'required' => true,
-                // ),
+                'visit_date' => array(
+                    'required' => true,
+                ),
             ));
             if ($validate->passed()) {
                 try {
@@ -1373,6 +1373,8 @@ if ($user->isLoggedIn()) {
                                 'score_other_pain' => Input::get('score_other_pain'),
                             ), $symptoms['id']);
                         }
+                        $successMessage = 'Symptoms Updated Successful';
+
                     } else {
                         $user->createRecord('symptoms', array(
                             'visit_date' => Input::get('visit_date'),
@@ -1441,9 +1443,9 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
-                    }
                     $successMessage = 'Symptoms added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    }
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -5065,7 +5067,7 @@ if ($user->isLoggedIn()) {
                                     <div class="card-header">
                                          <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -5404,7 +5406,7 @@ if ($user->isLoggedIn()) {
                                      <div class="card-header">
                                          <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -5623,7 +5625,7 @@ if ($user->isLoggedIn()) {
                                     <div class="card-header">
                                          <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -5864,7 +5866,7 @@ if ($user->isLoggedIn()) {
                                     <div class="card-header">
                                          <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>   ( Diseases History )
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>   ( Diseases History ) ( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>                                    
@@ -7325,7 +7327,7 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1>History, Symtom & Exam</h1>
+                                <h1>History, Symtom & Exam </h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
@@ -7375,13 +7377,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
 
                                     <div class="card-header">
-                                        <h3 class="card-title">History, Symtom & Exam</h3>
-
-                                        <!-- <h3 class="card-title">
+                                       <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                                <?= $name ?>
-                                            </strong>
-                                        </h3> -->
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                           </strong>
+                                        </h3> 
                                     </div>
                                     <!-- Content Header (Page header) -->
                                     <section class="content-header">
@@ -7579,7 +7579,7 @@ if ($user->isLoggedIn()) {
                                                                     <input class="form-check-input" type="radio" name="chest_pain" id="chest_pain2" value="2" <?php if ($symptoms['chest_pain'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                    <label class="form-check-label">No</label>Unsure
+                                                                    <label class="form-check-label">No</label>
                                                                 </div>  
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="chest_pain" id="chest_pain3" value="3" <?php if ($symptoms['chest_pain'] == 3) {
@@ -7587,11 +7587,11 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>Pain Score Today( Chest Pain ):</label>  
+                                                                <label id="score_chest_pain_labale">Pain Score Today( Chest Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_chest_pain']) {
                                                                     print_r($symptoms['score_chest_pain']);
                                                                 } ?>" id="score_chest_pain" name="score_chest_pain" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
+                                                                <span id="score_chest_pain_span"> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -7627,11 +7627,11 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>Pain Score Today( Headache Pain ):</label>  
+                                                                <label id="score_headache_label">Pain Score Today( Headache Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_headache']) {
                                                                     print_r($symptoms['score_headache']);
                                                                 } ?>" id="score_headache" name="score_headache" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
+                                                                <span id="score_headache_span"> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -7665,11 +7665,11 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>Pain Score Today( Abnorminal Pain ):</label>  
+                                                                <label id="score_abnorminal_pain_label">Pain Score Today( Abnorminal Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_abnorminal_pain']) {
                                                                     print_r($symptoms['score_abnorminal_pain']);
                                                                 } ?>" id="score_abnorminal_pain" name="score_abnorminal_pain" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
+                                                                <span id="score_abnorminal_span"> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -7704,11 +7704,11 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>Pain Score Today( Upper arms Pain ):</label>  
+                                                                <label id="score_upper_arms_label">>Pain Score Today( Upper arms Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_upper_arms']) {
                                                                     print_r($symptoms['score_upper_arms']);
                                                                 } ?>" id="score_upper_arms" name="score_upper_arms" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
+                                                                <span id="score_upper_arms_span"> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -7737,11 +7737,11 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>Pain Score Today( Lower arms Pain ):</label>  
+                                                                <label id="score_lower_arms_label">Pain Score Today( Lower arms Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_lower_arms']) {
                                                                     print_r($symptoms['score_lower_arms']);
                                                                 } ?>" id="score_lower_arms" name="score_lower_arms" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
+                                                                <span id="score_lower_arms_span"> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -7770,11 +7770,11 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>Pain Score Today( Waist Pain ):</label>  
+                                                                <label id="score_waist_label">Pain Score Today( Waist Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_waist']) {
                                                                     print_r($symptoms['score_waist']);
                                                                 } ?>" id="score_waist" name="score_waist" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
+                                                                <span id="score_waist_span"> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -7806,21 +7806,21 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>Pain Score Today( Joints Pain ):</label>  
+                                                                <label id="score_joints_label">Pain Score Today( Joints Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_joints']) {
                                                                     print_r($symptoms['score_joints']);
                                                                 } ?>" id="score_joints" name="score_joints" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
+                                                                <span id="score_joints_span"> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     
 
-                                                    <div class="col-sm-3" id="spescify_joints">
+                                                    <div class="col-sm-3" id="spescify_joints1">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Joints( Specify )</label>
-                                                                <input type="text" name="spescify_joints" class="form-control" value="<?php if ($symptoms['spescify_joints']) {
+                                                                <input type="text" id="spescify_joints" name="spescify_joints" class="form-control" value="<?php if ($symptoms['spescify_joints']) {
                                                                                                                                             print_r($symptoms['spescify_joints']);
                                                                                                                                         }  ?>" />
                                                             </div>
@@ -7833,38 +7833,38 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="other_pain" id="joints1" value="1" <?php if ($symptoms['joints'] == 1) {
+                                                                    <input class="form-check-input" type="radio" name="other_pain" id="other_pain1" value="1" <?php if ($symptoms['other_pain'] == 1) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?> required>
                                                                     <label class=" form-check-label">Yes</label>
                                                                 </div>
 
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="other_pain" id="joints2" value="2" <?php if ($symptoms['joints'] == 2) {
+                                                                    <input class="form-check-input" type="radio" name="other_pain" id="other_pain2" value="2" <?php if ($symptoms['other_pain'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">No</label>Unsure
                                                                 </div>  
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="other_pain" id="other_pain3" value="3" <?php if ($symptoms['joints'] == 3) {
+                                                                    <input class="form-check-input" type="radio" name="other_pain" id="other_pain3" value="3" <?php if ($symptoms['other_pain'] == 3) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>Pain Score Today( Other Pain ):</label>  
+                                                                <label id="score_other_pain_label">Pain Score Today( Other Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_other_pain']) {
                                                                     print_r($symptoms['score_other_pain']);
                                                                 } ?>" id="score_other_pain" name="score_other_pain" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
+                                                                <span id="score_other_pain_span"> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>                                                    
 
-                                                    <div class="col-sm-3" id="spescify_other_pain">
+                                                    <div class="col-sm-3" id="spescify_other_pain1">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Other Pain ( Specify )</label>
-                                                                <input type="text" name="spescify_other_pain" class="form-control" value="<?php if ($symptoms['spescify_other_pain']) {
+                                                                <input type="text" id="spescify_other_pain" name="spescify_other_pain" class="form-control" value="<?php if ($symptoms['spescify_other_pain']) {
                                                                                                                                             print_r($symptoms['spescify_other_pain']);
                                                                                                                                         }  ?>" />
                                                             </div>
@@ -7889,7 +7889,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Fasting FS:</label>
-                                                                <input type="text" name="fasting" class="form-control" value="<?php if ($symptoms['fasting']) {
+                                                                <input type="number" min="0" max="1000"  step="any" name="fasting" class="form-control" value="<?php if ($symptoms['fasting']) {
                                                                                                                                     print_r($symptoms['fasting']);
                                                                                                                                 }  ?>" required/>
                                                             </div>
@@ -7900,7 +7900,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Random FS:</label>
-                                                                <input type="text" name="random_fs" class="form-control" value="<?php if ($symptoms['random_fs']) {
+                                                                <input type="number" min="0" max="1000"  step="any" name="random_fs" class="form-control" value="<?php if ($symptoms['random_fs']) {
                                                                                                                                     print_r($symptoms['random_fs']);
                                                                                                                                 }  ?>" required/>
                                                             </div>
@@ -7916,7 +7916,7 @@ if ($user->isLoggedIn()) {
                                                                 <?php } else { ?>
                                                                     <label>HbA1C:( During Follow up )</label>
                                                                 <?php } ?>
-                                                                <input type="number" min="0" max="1000" name="hba1c" class="form-control" value="<?php if ($symptoms['hba1c']) {
+                                                                <input type="number" min="0" max="1000" name="hba1c" step="any" class="form-control" value="<?php if ($symptoms['hba1c']) {
                                                                                                                                 print_r($symptoms['hba1c']);
                                                                                                                             }  ?>" required/>
                                                             </div>
@@ -7958,11 +7958,10 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label>If Yes, how many episodes of severe hypoglycemia</label>
+                                                                <label id="hypoglycemia__number_label">If Yes, how many episodes of severe hypoglycemia</label>
                                                                 <input type="number" value="<?php if ($symptoms['hypoglycemia__number']) {
                                                                     print_r($symptoms['hypoglycemia__number']);
                                                                 } ?>" id="hypoglycemia__number" name="hypoglycemia__number" min="0" max="100" class="form-control" placeholder="Enter score" />                                                            
-                                                                <span> ( 1 - 10 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -8157,7 +8156,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unk</label>
                                                                 </div> 
-                                                                <label>Other Symptoms (Specify)</label>
+                                                                <label id="sickle_specify_label">Other Symptoms (Specify)</label>
                                                                     <input type="text" value="<?php if ($symptoms['sickle_specify']) {
                                                                         print_r($symptoms['sickle_specify']);
                                                                     } ?>" id="sickle_specify" name="sickle_specify" class="form-control" placeholder="Enter other" />                                                            
@@ -8183,7 +8182,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Edema</label>
-                                                                <select name="edema" id="edema" class="form-control" style="width: 100%;">
+                                                                <select name="edema" id="edema" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $symptoms['edema'] ?>"><?php if ($symptoms['edema']) {
                                                                                                                     if ($symptoms['edema'] == 1) {
                                                                                                                         echo 'None';
@@ -8246,8 +8245,8 @@ if ($user->isLoggedIn()) {
                                                                     <label class="form-check-label">Other</label>
                                                                 </div>
                                                                 <textarea class="form-control" name="lungs_other" id="lungs_other" rows="3" placeholder="Enter findings" >
-                                                                    <?php if ($results['lungs_other']) {
-                                                                        print_r($results['lungs_other']);
+                                                                    <?php if ($symptoms['lungs_other']) {
+                                                                        print_r($symptoms['lungs_other']);
                                                                     } ?>
                                                                 </textarea>
                                                             </div>
@@ -8258,7 +8257,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>JVP</label>
-                                                                <select name="jvp" id="jvp" class="form-control" style="width: 100%;">
+                                                                <select name="jvp" id="jvp" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $symptoms['jvp'] ?>"><?php if ($symptoms['jvp']) {
                                                                                                                 if ($symptoms['jvp'] == 1) {
                                                                                                                     echo 'Elevated';
@@ -8282,7 +8281,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Volume status</label>
-                                                                <select name="volume" id="volume" class="form-control" style="width: 100%;">
+                                                                <select name="volume" id="volume" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $symptoms['volume'] ?>"><?php if ($symptoms['volume']) {
                                                                                                                     if ($symptoms['volume'] == 1) {
                                                                                                                         echo 'Hyper';
@@ -8306,7 +8305,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Loud Murmur?</label>
-                                                                <select name="murmur" id="murmur" class="form-control" style="width: 100%;">
+                                                                <select name="murmur" id="murmur" class="form-control" style="width: 100%;" required>
                                                                     <option value="<?= $symptoms['murmur'] ?>"><?php if ($symptoms['murmur']) {
                                                                                                                     if ($symptoms['murmur'] == 1) {
                                                                                                                         echo 'Present';
@@ -8362,7 +8361,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-8" id="foot_exam_category">
                                                         <label>Foot Exam Category</label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
@@ -8370,7 +8369,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="foot_exam_finding" id="foot_exam_finding1" value="1" <?php if ($symptoms['foot_exam_finding'] == 1) {
                                                                                                                                                                     echo 'checked';
-                                                                                                                                                                } ?> required>
+                                                                                                                                                                } ?> >
                                                                     <label class=" form-check-label">Normal</label>
                                                                 </div>
 
@@ -8380,13 +8379,14 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Abnormal</label>
                                                                 </div>  
-                                                                <label>Foot exam Finding Other:</label>
+                                                                <label id="foot_exam_other_label">Foot exam Finding Other:</label>
                                                                 <textarea class="form-control" name="foot_exam_other" id="foot_exam_other" rows="3" placeholder="Enter other">
-                                                                    <?php if ($results['foot_exam_other']) {
-                                                                        print_r($results['foot_exam_other']);
+                                                                    <?php if ($symptoms['foot_exam_other']) {
+                                                                        print_r($symptoms['foot_exam_other']);
                                                                     } ?>
                                                                 </textarea>                                                                    
                                                             </div>
+                                                            <button onclick="unsetFootExam()">Unset</button>                                                                                                                                                                                                                     
                                                         </div>
                                                     </div>
                                                 </div>
@@ -8543,7 +8543,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3">
-                                                        <label> Other ( LAB ) </label>
+                                                        <label> Other ( LAB ) ? </label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
@@ -8560,7 +8560,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">No</label>Unsure
                                                                 </div>  
-                                                                <label>Other  (LAB)</label>
+                                                                <label id="labs_other_label">Other  (LAB)</label>
                                                                     <input type="text" value="<?php if ($symptoms['labs_other']) {
                                                                         print_r($symptoms['labs_other']);
                                                                     } ?>" id="labs_other" name="labs_other" class="form-control" placeholder="Enter other" />                                                            

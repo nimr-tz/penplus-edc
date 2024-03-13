@@ -1,26 +1,25 @@
-const other_sickle = document.getElementById("other_sickle");
-const sickle_specify = document.getElementById("sickle_specify");
+const other_sickle1 = document.getElementById("other_sickle1");
+const other_sickle2 = document.getElementById("other_sickle2");
+const other_sickle3 = document.getElementById("other_sickle3");
 
-function showElement() {
-  if (other_sickle.value === "1") {
+const sickle_specify = document.getElementById("sickle_specify");
+const sickle_specify_label = document.getElementById("sickle_specify_label");
+
+function toggleElementVisibility() {
+  if (other_sickle1.checked) {
+    sickle_specify_label.style.display = "block";
     sickle_specify.style.display = "block";
+    sickle_specify.setAttribute("required", "required");
   } else {
+    sickle_specify_label.style.display = "none";
+    sickle_specify.removeAttribute("required");
     sickle_specify.style.display = "none";
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", other_sickle.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const other_sickleValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (other_sickleValue) {
-  other_sickle.value = other_sickleValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-other_sickle.addEventListener("change", showElement);
+other_sickle1.addEventListener("change", toggleElementVisibility);
+other_sickle2.addEventListener("change", toggleElementVisibility);
+other_sickle3.addEventListener("change", toggleElementVisibility);

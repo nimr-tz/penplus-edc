@@ -1,26 +1,31 @@
-const headache = document.getElementById("headache");
+const headache1 = document.getElementById("headache1");
+const headache2 = document.getElementById("headache2");
+const headache3 = document.getElementById("headache3");
+
 const score_headache = document.getElementById("score_headache");
+const score_headache_labale = document.getElementById(
+  `score_chest_pain_labale`
+);
 
-function showElement() {
-  if (headache.value === "1") {
+const score_headache_sapn = document.getElementById(`score_headache_sapn`);
+
+function toggleElementVisibility() {
+  if (headache1.checked) {
+    score_headache_labale.style.display = "block";
+    score_headache.setAttribute("required", "required");
     score_headache.style.display = "block";
+    score_headache_sapn.style.display = "block";
   } else {
+    score_headache_labale.style.display = "none";
+    score_headache.removeAttribute("required");
     score_headache.style.display = "none";
+    score_headache_sapn.style.display = "none";
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", headache.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const headacheValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (headacheValue) {
-  headache.value = headacheValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-headache.addEventListener("change", showElement);
+headache1.addEventListener("change", toggleElementVisibility);
+headache2.addEventListener("change", toggleElementVisibility);
+headache3.addEventListener("change", toggleElementVisibility);

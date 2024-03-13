@@ -12175,6 +12175,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-sm-3">
@@ -12182,8 +12183,8 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Salt:</label>
-                                                                <select name="salt" id="salt" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $treatment_plan['salt'] ?>"><?php if ($treatment_plan) {
+                                                                <select name="salt" id="salt" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $treatment_plan['salt'] ?>"><?php if ($treatment_plan['salt']) {
                                                                                                                         if ($treatment_plan['salt'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($treatment_plan['salt'] == 2) {
@@ -12205,11 +12206,11 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Fluid:</label>
-                                                                <select name="fluid" id="fluid" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $treatment_plan['salt'] ?>"><?php if ($treatment_plan) {
-                                                                                                                        if ($treatment_plan['salt'] == 1) {
+                                                                <select name="fluid" id="fluid" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $treatment_plan['fluid'] ?>"><?php if ($treatment_plan['fluid'] ) {
+                                                                                                                        if ($treatment_plan['fluid'] == 1) {
                                                                                                                             echo 'Yes';
-                                                                                                                        } elseif ($treatment_plan['salt'] == 2) {
+                                                                                                                        } elseif ($treatment_plan['fluid'] == 2) {
                                                                                                                             echo 'No';
                                                                                                                         }
                                                                                                                     } else {
@@ -12221,37 +12222,35 @@ if ($user->isLoggedIn()) {
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>                                                   
 
                                                     <div class="col-sm-3">
+                                                        <label>Other Restriction ?:</label>
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Other Restriction ?:</label>
-                                                                <select name="restriction_other" id="restriction_other" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('restriction_other','restriction_specify')">
-                                                                    <option value="<?= $treatment_plan['restriction_other'] ?>"><?php if ($treatment_plan) {
-                                                                                                                                    if ($treatment_plan['restriction_other'] == 1) {
-                                                                                                                                        echo 'Yes';
-                                                                                                                                    } elseif ($treatment_plan['restriction_other'] == 2) {
-                                                                                                                                        echo 'No';
-                                                                                                                                    }
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="restriction_other" id="restriction_other1" value="1" <?php if ($treatment_plan['restriction_other'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="restriction_other" id="restriction_other2" value="2" <?php if ($treatment_plan['restriction_other'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>                                                                                                  
 
-                                                    <div class="col-sm-3 hidden" id="restriction_specify">
+                                                    <div class="col-sm-3" id="restriction_specify1">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Other Restriction specify:</label>
-                                                                <input type="text" name="restriction_specify" class="form-control" value="<?php if ($treatment_plan['restriction_specify']) {
+                                                                <input type="text" name="restriction_specify" id="restriction_specify" class="form-control" value="<?php if ($treatment_plan['restriction_specify']) {
                                                                                                                                                 print_r($treatment_plan['restriction_specify']);
                                                                                                                                             }  ?>" />
                                                             </div>

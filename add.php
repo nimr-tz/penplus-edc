@@ -11452,218 +11452,214 @@ if ($user->isLoggedIn()) {
                                             </div>
                                             <hr>
 
-                                            <div class="row" id="hospitalization_ncd_hides">
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <?php if ($_GET['seq'] == 1) { ?>
-                                                                    <label>If yes , Number of hospitalizations in past 12 Months:</label>
-                                                                <?php } else { ?>
-                                                                    <label>If yes , Number of hospitalizations since last Visit:</label>
-                                                                <?php } ?>
-                                                                <input type="number" id="hospitalization_year" id="hospitalization_year" name="hospitalization_year" min="0" max="1000" class="form-control" value="<?php if ($hospitalization_details['hospitalization_year']) {
-                                                                                                                                                                    print_r($hospitalization_details['hospitalization_year']);
-                                                                                                                                                                }  ?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <?php if ($_GET['seq'] == 1) { ?>
-                                                                    <label>If yes , Number of hospital days in past 12 Months:</label>
-                                                                <?php } else { ?>
-                                                                    <label>If yes , Number of hospital days since last visit:</label>
-                                                                <?php } ?>
-                                                                <input type="number" id="hospitalization_day" name="hospitalization_day" min="0" max="1000" class="form-control" value="<?php if ($hospitalization_details['hospitalization_day']) {
-                                                                                                                                                                    print_r($hospitalization_details['hospitalization_day']);
-                                                                                                                                                                }  ?>" />
-                                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6" id="hospitalization_year1">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <?php if ($_GET['seq'] == 1) { ?>
+                                                                <label>If yes , Number of hospitalizations in past 12 Months:</label>
+                                                            <?php } else { ?>
+                                                                <label>If yes , Number of hospitalizations since last Visit:</label>
+                                                            <?php } ?>
+                                                            <input type="number" id="hospitalization_year" id="hospitalization_year" name="hospitalization_year" min="0" max="1000" class="form-control" value="<?php if ($hospitalization_details['hospitalization_year']) {
+                                                                                                                                                                print_r($hospitalization_details['hospitalization_year']);
+                                                                                                                                                            }  ?>" />
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr>
 
-                                                <div class="row-form clearfix">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="card">
-                                                                <div class="card-header">
-                                                                    <h3 class="card-title">Hospitalization Lists</h3>
-                                                                </div>
-                                                                <!-- /.card-header -->
-                                                                <div class="card-body">
-                                                                    <!-- <table id="medication_table" class="table order-list"> -->
-                                                                    <table id="hospitalization_table" class="table table-bordered">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <!-- <th style="width: 5px">#</th> -->
-                                                                                <th>#</th>
-                                                                                <th> Visit Day </th>
-                                                                                <th> Entry Date </th>
-                                                                                <th> Admission Date </th>
-                                                                                <th> Admission Reason </th>
-                                                                                <th> Discharge Diagnosis </th>
-                                                                                <th> Discharge Date </th>
-                                                                                <th>Action</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody id="tbody_2">
-                                                                            <?php $x = 1;
-                                                                            foreach ($override->getNews('hospitalization_table', 'patient_id', $_GET['cid'], 'status', 1) as $hospitalization_table) {
-                                                                            ?>
-                                                                                <tr>
-                                                                                    <td><?= $x; ?></td>
-                                                                                    <td><?= $hospitalization_table['visit_day'] ?></td>
-                                                                                    <td><?= $hospitalization_table['entry_date'] ?></td>
-                                                                                    <td><?= $hospitalization_table['admission_date'] ?></td>
-                                                                                    <td><?= $hospitalization_table['admission_reason'] ?></td>
-                                                                                    <td><?= $hospitalization_table['discharge_diagnosis'] ?></td>
-                                                                                    <td><?= $hospitalization_table['discharge_date'] ?></td>
-                                                                                    <td>
-                                                                                        <span class="badge bg-info">
-                                                                                            <a href="#update_admission<?= $hospitalization_table['id'] ?>" role="button" data-toggle="modal">Update</a>
-                                                                                        </span>
-
-                                                                                        <span class="badge bg-danger">
-                                                                                            <a href="#delete_admission<?= $hospitalization_table['id'] ?>" role="button" data-toggle="modal">Delete</a>
-                                                                                        </span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <div class="modal fade" id="update_admission<?= $hospitalization_table['id'] ?>">
-                                                                                    <div class="modal-dialog">
-                                                                                        <form method="post">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <h4 class="modal-title">Admission Form</h4>
-                                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                                <div class="modal-body">
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-sm-6">
-                                                                                                            <div class="row-form clearfix">
-                                                                                                                <div class="form-group">
-                                                                                                                    <label>Entry date</label>
-                                                                                                                    <input class="form-control" type="date" name="entry_date" id="entry_date" style="width: 100%;" value="<?php if ($hospitalization_table['entry_date']) {
-                                                                                                                                                                                                                                        print_r($hospitalization_table['entry_date']);
-                                                                                                                                                                                                                                    }  ?>" required />
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div class="col-sm-6">
-                                                                                                            <div class="row-form clearfix">
-                                                                                                                <div class="form-group">
-                                                                                                                    <label>Admission date</label>
-                                                                                                                    <input class="form-control" type="date" name="admission_date" id="admission_date" style="width: 100%;" value="<?php if ($hospitalization_table['admission_date']) {
-                                                                                                                                                                                                                                        print_r($hospitalization_table['admission_date']);
-                                                                                                                                                                                                                                    }  ?>" required />
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-sm-12">
-                                                                                                            <div class="row-form clearfix">
-                                                                                                                <div class="form-group">
-                                                                                                                    <label>Admission Reason</label>
-                                                                                                                    <textarea class="form-control" name="admission_reason" id="admission_reason" rows="3" placeholder="Type Admissions Reasons here...">
-                                                                                                                    <?php if ($hospitalization_table['admission_reason']) {
-                                                                                                                        print_r($hospitalization_table['admission_reason']);
-                                                                                                                    }  ?>
-                                                                                                                </textarea>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-
-                                                                                                    <div class="row">
-                                                                                                        <div class="col-sm-6">
-                                                                                                            <div class="row-form clearfix">
-                                                                                                                <div class="form-group">
-                                                                                                                    <label>Discharge Diagnosis</label>
-                                                                                                                    <textarea class="form-control" name="discharge_diagnosis" id="discharge_diagnosis" rows="3" placeholder="Type discharge diagnosis here...">
-                                                                                                                    <?php if ($hospitalization_table['discharge_diagnosis']) {
-                                                                                                                        print_r($hospitalization_table['discharge_diagnosis']);
-                                                                                                                    }  ?>
-                                                                                                                </textarea>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div class="col-sm-6">
-                                                                                                            <div class="row-form clearfix">
-                                                                                                                <div class="form-group">
-                                                                                                                    <label>Discharge date</label>
-                                                                                                                    <input class="form-control" type="date" name="discharge_date" id="discharge_date" style="width: 100%;" value="<?php if ($hospitalization_table['discharge_date']) {
-                                                                                                                                                                                                                                        print_r($hospitalization_table['discharge_date']);
-                                                                                                                                                                                                                                    }  ?>" />
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="modal-footer justify-content-between">
-                                                                                                    <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
-                                                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                                                    <input type="submit" name="update_admission" class="btn btn-primary" value="Save changes">
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </form>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <!-- /.modal -->
-                                                                                <div class="modal fade" id="delete_admission<?= $hospitalization_table['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                                                    <div class="modal-dialog">
-                                                                                        <form method="post">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                                                                    <h4>Delete this ospitalization details </h4>
-                                                                                                </div>
-                                                                                                <div class="modal-body">
-                                                                                                    <strong style="font-weight: bold;color: red">
-                                                                                                        <p>Are you sure you want to delete this hospitalization details ?</p>
-                                                                                                    </strong>
-                                                                                                </div>
-                                                                                                <div class="modal-footer">
-                                                                                                    <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
-                                                                                                    <input type="submit" name="delete_admission" value="Delete" class="btn btn-danger">
-                                                                                                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </form>
-                                                                                    </div>
-                                                                                </div>
-                                                                            <?php $x++;
-                                                                            } ?>
-                                                                        </tbody>
-                                                                    </table>
-                                                                    <hr>
-                                                                    <button type="button" class="btn btn-block btn-info" onclick="add_Admission()"><ion-icon name='add-circle-outline'></ion-icon>Add New Admission</button>
-                                                                    <!-- <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Admission()" value="Add New Admission" /> -->
-                                                                </div>
-                                                                <!-- /.card-body -->
-                                                                <div class="card-footer clearfix">
-                                                                    <ul class="pagination pagination-sm m-0 float-right">
-                                                                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <!-- /.card -->
+                                                <div class="col-sm-6" id="hospitalization_day1">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <?php if ($_GET['seq'] == 1) { ?>
+                                                                <label>If yes , Number of hospital days in past 12 Months:</label>
+                                                            <?php } else { ?>
+                                                                <label>If yes , Number of hospital days since last visit:</label>
+                                                            <?php } ?>
+                                                            <input type="number" id="hospitalization_day" name="hospitalization_day" min="0" max="1000" class="form-control" value="<?php if ($hospitalization_details['hospitalization_day']) {
+                                                                                                                                                                print_r($hospitalization_details['hospitalization_day']);
+                                                                                                                                                            }  ?>" />
                                                         </div>
-                                                        <!-- /.col -->
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row" id="hospitalization_list">
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Hospitalization Lists</h3>
+                                                        </div>
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+                                                            <!-- <table id="medication_table" class="table order-list"> -->
+                                                            <table id="hospitalization_table" class="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <!-- <th style="width: 5px">#</th> -->
+                                                                        <th>#</th>
+                                                                        <th> Visit Day </th>
+                                                                        <th> Entry Date </th>
+                                                                        <th> Admission Date </th>
+                                                                        <th> Admission Reason </th>
+                                                                        <th> Discharge Diagnosis </th>
+                                                                        <th> Discharge Date </th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="tbody_2">
+                                                                    <?php $x = 1;
+                                                                    foreach ($override->getNews('hospitalization_table', 'patient_id', $_GET['cid'], 'status', 1) as $hospitalization_table) {
+                                                                    ?>
+                                                                        <tr>
+                                                                            <td><?= $x; ?></td>
+                                                                            <td><?= $hospitalization_table['visit_day'] ?></td>
+                                                                            <td><?= $hospitalization_table['entry_date'] ?></td>
+                                                                            <td><?= $hospitalization_table['admission_date'] ?></td>
+                                                                            <td><?= $hospitalization_table['admission_reason'] ?></td>
+                                                                            <td><?= $hospitalization_table['discharge_diagnosis'] ?></td>
+                                                                            <td><?= $hospitalization_table['discharge_date'] ?></td>
+                                                                            <td>
+                                                                                <span class="badge bg-info">
+                                                                                    <a href="#update_admission<?= $hospitalization_table['id'] ?>" role="button" data-toggle="modal">Update</a>
+                                                                                </span>
+
+                                                                                <span class="badge bg-danger">
+                                                                                    <a href="#delete_admission<?= $hospitalization_table['id'] ?>" role="button" data-toggle="modal">Delete</a>
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <div class="modal fade" id="update_admission<?= $hospitalization_table['id'] ?>">
+                                                                            <div class="modal-dialog">
+                                                                                <form method="post">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h4 class="modal-title">Admission Form</h4>
+                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-6">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Entry date</label>
+                                                                                                            <input class="form-control" type="date" name="entry_date" id="entry_date" style="width: 100%;" value="<?php if ($hospitalization_table['entry_date']) {
+                                                                                                                                                                                                                                print_r($hospitalization_table['entry_date']);
+                                                                                                                                                                                                                            }  ?>" required />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-sm-6">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Admission date</label>
+                                                                                                            <input class="form-control" type="date" name="admission_date" id="admission_date" style="width: 100%;" value="<?php if ($hospitalization_table['admission_date']) {
+                                                                                                                                                                                                                                print_r($hospitalization_table['admission_date']);
+                                                                                                                                                                                                                            }  ?>" required />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-12">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Admission Reason</label>
+                                                                                                            <textarea class="form-control" name="admission_reason" id="admission_reason" rows="3" placeholder="Type Admissions Reasons here...">
+                                                                                                            <?php if ($hospitalization_table['admission_reason']) {
+                                                                                                                print_r($hospitalization_table['admission_reason']);
+                                                                                                            }  ?>
+                                                                                                        </textarea>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-6">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Discharge Diagnosis</label>
+                                                                                                            <textarea class="form-control" name="discharge_diagnosis" id="discharge_diagnosis" rows="3" placeholder="Type discharge diagnosis here...">
+                                                                                                            <?php if ($hospitalization_table['discharge_diagnosis']) {
+                                                                                                                print_r($hospitalization_table['discharge_diagnosis']);
+                                                                                                            }  ?>
+                                                                                                        </textarea>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-sm-6">
+                                                                                                    <div class="row-form clearfix">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Discharge date</label>
+                                                                                                            <input class="form-control" type="date" name="discharge_date" id="discharge_date" style="width: 100%;" value="<?php if ($hospitalization_table['discharge_date']) {
+                                                                                                                                                                                                                                print_r($hospitalization_table['discharge_date']);
+                                                                                                                                                                                                                            }  ?>" />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="modal-footer justify-content-between">
+                                                                                            <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
+                                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                                            <input type="submit" name="update_admission" class="btn btn-primary" value="Save changes">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.modal -->
+                                                                        <div class="modal fade" id="delete_admission<?= $hospitalization_table['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <form method="post">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                                            <h4>Delete this ospitalization details </h4>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <strong style="font-weight: bold;color: red">
+                                                                                                <p>Are you sure you want to delete this hospitalization details ?</p>
+                                                                                            </strong>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <input type="hidden" name="id" value="<?= $hospitalization_table['id'] ?>">
+                                                                                            <input type="submit" name="delete_admission" value="Delete" class="btn btn-danger">
+                                                                                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    <?php $x++;
+                                                                    } ?>
+                                                                </tbody>
+                                                            </table>
+                                                            <hr>
+                                                            <button type="button" class="btn btn-block btn-info" onclick="add_Admission()"><ion-icon name='add-circle-outline'></ion-icon>Add New Admission</button>
+                                                            <!-- <input type="button" class="btn btn-lg btn-block btn-info" onclick="add_Admission()" value="Add New Admission" /> -->
+                                                        </div>
+                                                        <!-- /.card-body -->
+                                                        <div class="card-footer clearfix">
+                                                            <ul class="pagination pagination-sm m-0 float-right">
+                                                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.card -->
+                                                </div>
+                                                <!-- /.col -->
                                             </div>
                                         </div>
                                         <!-- /.card-body -->

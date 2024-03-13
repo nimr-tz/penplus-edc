@@ -1,26 +1,22 @@
-const diagns_changed = document.getElementById("diagns_changed");
-const ncd_diagns = document.getElementById("ncd_diagns");
+const diagns_changed1 = document.getElementById("diagns_changed1");
+const diagns_changed2 = document.getElementById("diagns_changed2");
 
-function showElement() {
-  if (diagns_changed.value === "1") {
-    ncd_diagns.style.display = "block";
+const diagns_cardiac = document.getElementById(`diagns_cardiac`);
+const diagns_cardiac1_1 = document.getElementById(`diagns_cardiac1`);
+
+function toggleElementVisibility() {
+  if (diagns_changed1.checked) {
+    diagns_cardiac.style.display = "block";
+    diagns_cardiac1_1.setAttribute("required", "required");
   } else {
-    ncd_diagns.style.display = "none";
+    diagns_cardiac.style.display = "none";
+    diagns_cardiac1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", diagns_changed.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const diagns_changedValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (diagns_changedValue) {
-  diagns_changed.value = diagns_changedValue;
-}
+diagns_changed1.addEventListener("change", toggleElementVisibility);
+diagns_changed2.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-diagns_changed.addEventListener("change", showElement);

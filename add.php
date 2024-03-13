@@ -12912,7 +12912,7 @@ if ($user->isLoggedIn()) {
 
                                             <div class="row">
                                                 <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-6" id="diagns_cardiac">
                                                         <label>If yes, what is the NCD diagnosis?:</label>
                                                         <!-- radio -->
                                                         <div class="row-form clearfix">
@@ -12995,74 +12995,90 @@ if ($user->isLoggedIn()) {
                                                             </div>  
                                                         </div>
                                                     </div>
+                                                    <!-- <hr> -->
 
                                                     <?php } ?>
 
                                                 <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
 
-                                                <div class="col-sm-6">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>If yes, what is the NCD diagnosis?:</label>
-                                                            <select name="diagns_diabetes" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $dgns_complctns_comorbdts['diagns_diabetes'] ?>"><?php if ($dgns_complctns_comorbdts) {
-                                                                                                                                        if ($dgns_complctns_comorbdts['diagns_diabetes'] == 1) {
-                                                                                                                                            echo 'Type 1 DM';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_diabetes'] == 2) {
-                                                                                                                                            echo 'Type 2 DM';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_diabetes'] == 3) {
-                                                                                                                                            echo 'Gestational DM';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_diabetes'] == 4) {
-                                                                                                                                            echo 'DM not yet specified';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_diabetes'] == 96) {
-                                                                                                                                            echo 'Other';
-                                                                                                                                        }
-                                                                                                                                    } else {
-                                                                                                                                        echo 'Select';
-                                                                                                                                    } ?></option>
-                                                                <option value="1">Type 1 DM</option>
-                                                                <option value="2">Type 2 DM</option>
-                                                                <option value="3">Gestational DM</option>
-                                                                <option value="4">DM not yet specified</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                    <div class="col-sm-6" id="diagns_diabetes">
+                                                        <label>If yes, what is the NCD diagnosis?:</label>
+                                                        <!-- radio -->
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagns_diabetes" id="diagns_diabetes1" value="1" <?php if ($dgns_complctns_comorbdts['diagns_diabetes'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Type 1 DM</label>                                                                
+                                                                </div>
+
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagns_diabetes" id="diagns_diabetes2" value="2" <?php if ($dgns_complctns_comorbdts['diagns_diabetes'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Type 2 DM</label>
+                                                                </div>   
+                                                                    <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagns_diabetes" id="diagns_diabetes3" value="3" <?php if ($dgns_complctns_comorbdts['diagns_diabetes'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Gestational DM</label>
+                                                                </div>   
+                                                                    <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagns_diabetes" id="diagns_diabetes4" value="4" <?php if ($dgns_complctns_comorbdts['diagns_diabetes'] == 4) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">DM not yet specified</label>
+                                                                </div>   
+                                                                    <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagns_diabetes" id="diagns_diabetes96" value="96" <?php if ($dgns_complctns_comorbdts['diagns_diabetes'] == 5) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Other</label>
+                                                                </div>                                                                                                                          
+                                                                
+                                                            </div>  
                                                         </div>
                                                     </div>
-                                                </div>
                                                 <?php } ?>
-
-
 
                                                 <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+                                                    <div class="col-sm-6" id="diagns_sickle">
+                                                        <label>If yes, what is the NCD diagnosis?:</label>
+                                                        <!-- radio -->
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagns_sickle" id="diagns_sickle1" value="1" <?php if ($dgns_complctns_comorbdts['diagns_sickle'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Sickle Cell Disease</label>                                                                
+                                                                </div>
 
-                                                <div class="col-sm-6">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>If yes, what is the NCD diagnosis?:</label>
-                                                            <select name="diagns_sickle" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $dgns_complctns_comorbdts['diagns_sickle'] ?>"><?php if ($dgns_complctns_comorbdts) {
-                                                                                                                                        if ($dgns_complctns_comorbdts['diagns_sickle'] == 1) {
-                                                                                                                                            echo 'Sickle Cell Disease';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_sickle'] == 2) {
-                                                                                                                                            echo 'Other hemoglobinopathy';
-                                                                                                                                        } elseif ($dgns_complctns_comorbdts['diagns_sickle'] == 96) {
-                                                                                                                                            echo 'Other';
-                                                                                                                                        }
-                                                                                                                                    } else {
-                                                                                                                                        echo 'Select';
-                                                                                                                                    } ?></option>
-                                                                <option value="1">Sickle Cell Disease</option>
-                                                                <option value="2">Other hemoglobinopathy</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagns_sickle" id="diagns_sickle2" value="2" <?php if ($dgns_complctns_comorbdts['diagns_sickle'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Other hemoglobinopathy</label>
+                                                                </div>  
+                                                                
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagns_sickle" id="diagns_sickle96" value="96" <?php if ($dgns_complctns_comorbdts['diagns_sickle'] == 96) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Other</label>
+                                                                </div>  
+                                                                
+                                                            </div>  
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                    </div>  
+
                                                 <?php } ?>
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="diagns_specify1">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Specify diagnosis:</label>

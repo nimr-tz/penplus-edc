@@ -7,12 +7,12 @@ const labs_other_label = document.getElementById("labs_other_label");
 function toggleElementVisibility() {
   if (labs1.checked) {
     labs_other_label.style.display = "block";
-    labs_other_label.style.display = "block";
-    labs_other_label.setAttribute("required", "required");
+    labs_other.style.display = "block";
+    labs_other.setAttribute("required", "required");
   } else {
     labs_other_label.style.display = "none";
-    labs_other_label.removeAttribute("required");
-    labs_other_label.style.display = "none";
+    labs_other.removeAttribute("required");
+    labs_other.style.display = "none";
   }
 }
 

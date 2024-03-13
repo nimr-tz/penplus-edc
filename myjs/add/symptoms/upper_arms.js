@@ -12,7 +12,7 @@ const score_upper_arms_label = document.getElementById(
 const score_upper_arms_span = document.getElementById(`score_upper_arms_span`);
 
 function toggleElementVisibility() {
-  if (headache1.checked) {
+  if (upper_arms1.checked) {
     score_upper_arms_label.style.display = "block";
     score_upper_arms.setAttribute("required", "required");
     score_upper_arms.style.display = "block";

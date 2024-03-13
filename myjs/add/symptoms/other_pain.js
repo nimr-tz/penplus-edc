@@ -20,7 +20,7 @@ function toggleElementVisibility() {
     score_other_pain.setAttribute("required", "required");
     score_other_pain_span.style.display = "block";
   } else {
-    spescify_other_pain1.style.display = "block";
+    spescify_other_pain1.style.display = "none";
     spescify_other_pain.removeAttribute("required");
     score_other_pain_label.style.display = "none";
     score_other_pain.style.display = "none";

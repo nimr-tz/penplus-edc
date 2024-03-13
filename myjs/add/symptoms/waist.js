@@ -8,7 +8,7 @@ const score_waist_label = document.getElementById(`score_waist_label`);
 const score_waist_span = document.getElementById(`score_waist_span`);
 
 function toggleElementVisibility() {
-  if (lower_arms1.checked) {
+  if (waist1.checked) {
     score_waist_label.style.display = "block";
     score_waist.setAttribute("required", "required");
     score_waist.style.display = "block";

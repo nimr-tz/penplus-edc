@@ -18,7 +18,7 @@ function toggleElementVisibility() {
     score_joints.setAttribute("required", "required");
     score_joints_span.style.display = "block";
   } else {
-    spescify_joints1.style.display = "block";
+    spescify_joints1.style.display = "none";
     spescify_joints.removeAttribute("required");
     score_joints_label.style.display = "none";
     score_joints.style.display = "none";

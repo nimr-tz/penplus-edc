@@ -1356,6 +1356,7 @@ if ($user->isLoggedIn()) {
                                 'hb' => Input::get('hb'),
                                 'wbc' => Input::get('wbc'),
                                 'plt' => Input::get('plt'),
+                                'labs' => Input::get('labs'),
                                 'labs_other' => Input::get('labs_other'),
                                 'headache' => Input::get('headache'),
                                 'score_headache' => Input::get('score_headache'),
@@ -1436,6 +1437,7 @@ if ($user->isLoggedIn()) {
                             'hb' => Input::get('hb'),
                             'wbc' => Input::get('wbc'),
                             'plt' => Input::get('plt'),
+                            'labs' => Input::get('labs'),
                             'labs_other' => Input::get('labs_other'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -7696,7 +7698,7 @@ if ($user->isLoggedIn()) {
                                                                     <input class="form-check-input" type="radio" name="upper_arms" id="upper_arms2" value="2" <?php if ($symptoms['upper_arms'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                    <label class="form-check-label">No</label>Unsure
+                                                                    <label class="form-check-label">No</label>
                                                                 </div>  
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="upper_arms" id="upper_arms3" value="3" <?php if ($symptoms['upper_arms'] == 3) {
@@ -7704,7 +7706,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Unsure</label>
                                                                 </div> 
-                                                                <label id="score_upper_arms_label">>Pain Score Today( Upper arms Pain ):</label>  
+                                                                <label id="score_upper_arms_label">Pain Score Today( Upper arms Pain ):</label>  
                                                                 <input type="number" value="<?php if ($symptoms['score_upper_arms']) {
                                                                     print_r($symptoms['score_upper_arms']);
                                                                 } ?>" id="score_upper_arms" name="score_upper_arms" min="0" max="10" class="form-control" placeholder="Enter score" />                                                            
@@ -7729,7 +7731,7 @@ if ($user->isLoggedIn()) {
                                                                     <input class="form-check-input" type="radio" name="lower_arms" id="lower_arms2" value="2" <?php if ($symptoms['lower_arms'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                    <label class="form-check-label">No</label>Unsure
+                                                                    <label class="form-check-label">No</label>
                                                                 </div>  
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="lower_arms" id="lower_arms3" value="3" <?php if ($symptoms['lower_arms'] == 3) {
@@ -7762,7 +7764,7 @@ if ($user->isLoggedIn()) {
                                                                     <input class="form-check-input" type="radio" name="waist" id="waist2" value="2" <?php if ($symptoms['waist'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                    <label class="form-check-label">No</label>Unsure
+                                                                    <label class="form-check-label">No</label>
                                                                 </div>  
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="waist" id="waist3" value="3" <?php if ($symptoms['waist'] == 3) {
@@ -7798,7 +7800,7 @@ if ($user->isLoggedIn()) {
                                                                     <input class="form-check-input" type="radio" name="joints" id="joints2" value="2" <?php if ($symptoms['joints'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                    <label class="form-check-label">No</label>Unsure
+                                                                    <label class="form-check-label">No</label>
                                                                 </div>  
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="joints" id="joints3" value="3" <?php if ($symptoms['joints'] == 3) {
@@ -7843,7 +7845,7 @@ if ($user->isLoggedIn()) {
                                                                     <input class="form-check-input" type="radio" name="other_pain" id="other_pain2" value="2" <?php if ($symptoms['other_pain'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                    <label class="form-check-label">No</label>Unsure
+                                                                    <label class="form-check-label">No</label>
                                                                 </div>  
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="other_pain" id="other_pain3" value="3" <?php if ($symptoms['other_pain'] == 3) {
@@ -8511,7 +8513,7 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Hb:</label>
-                                                                <input type="number" min="0" max="1000" name="hb" class="form-control" value="<?php if ($symptoms['hb']) {
+                                                                <input type="number" step="any" min="0" max="1000" name="hb" class="form-control" value="<?php if ($symptoms['hb']) {
                                                                                                                                 print_r($symptoms['hb']);
                                                                                                                             }  ?>" required/>
                                                             </div>
@@ -8523,7 +8525,7 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>WBC:</label>
-                                                                <input type="number" min="0" max="1000" name="wbc" class="form-control" value="<?php if ($symptoms['wbc']) {
+                                                                <input type="number" step="any" min="0" max="1000" name="wbc" class="form-control" value="<?php if ($symptoms['wbc']) {
                                                                                                                                 print_r($symptoms['wbc']);
                                                                                                                             }  ?>" required/>
                                                             </div>
@@ -8535,7 +8537,7 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Plt:</label>
-                                                                <input type="number" min="0" max="1000" name="plt" class="form-control" value="<?php if ($symptoms['plt']) {
+                                                                <input type="number" step="any" min="0" max="1000" name="plt" class="form-control" value="<?php if ($symptoms['plt']) {
                                                                                                                                 print_r($symptoms['plt']);
                                                                                                                             }  ?>" required />
                                                             </div>
@@ -8558,7 +8560,7 @@ if ($user->isLoggedIn()) {
                                                                     <input class="form-check-input" type="radio" name="labs" id="labs2" value="2" <?php if ($symptoms['labs'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
-                                                                    <label class="form-check-label">No</label>Unsure
+                                                                    <label class="form-check-label">No</label>
                                                                 </div>  
                                                                 <label id="labs_other_label">Other  (LAB)</label>
                                                                     <input type="text" value="<?php if ($symptoms['labs_other']) {
@@ -18309,6 +18311,7 @@ if ($user->isLoggedIn()) {
     <script src="myjs/add/symptoms/other_symptoms.js"></script>
     <script src="myjs/add/symptoms/upper_arms.js"></script>
     <script src="myjs/add/symptoms/waist.js"></script>
+    <script src="myjs/add/symptoms/other_lab.js"></script>
 
     <!-- Results Js -->
 

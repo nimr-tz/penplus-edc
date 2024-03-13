@@ -6981,7 +6981,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
@@ -7024,7 +7024,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-2">
+                                                    <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>How many of them are alive?</label>
@@ -7145,7 +7145,7 @@ if ($user->isLoggedIn()) {
                                                                                                                     <label>Sex</label>
                                                                                                                     <select class="form-control" name="sex" style="width: 100%;" required>
                                                                                                                         <option value="<?= $sickle_cell_status_table['sex'] ?>">
-                                                                                                                            <?php if ($sickle_cell_status_table) {
+                                                                                                                            <?php if ($sickle_cell_status_table['sex']) {
                                                                                                                                 if ($sickle_cell_status_table['sex'] == 1) {
                                                                                                                                     echo 'Male';
                                                                                                                                 } elseif ($sickle_cell_status_table['sex'] == 2) {
@@ -7155,7 +7155,6 @@ if ($user->isLoggedIn()) {
                                                                                                                                 echo 'Select';
                                                                                                                             } ?>
                                                                                                                         </option>
-                                                                                                                        <option value="">Select</option>
                                                                                                                         <option value="1">Male</option>
                                                                                                                         <option value="2">Female</option>
                                                                                                                     </select>
@@ -7168,7 +7167,7 @@ if ($user->isLoggedIn()) {
                                                                                                                     <label>Sickle Cell Status</label>
                                                                                                                     <select class="form-control" name="sickle_status" style="width: 100%;" required>
                                                                                                                         <option value="<?= $sickle_cell_status_table['sickle_status'] ?>">
-                                                                                                                            <?php if ($sickle_cell_status_table) {
+                                                                                                                            <?php if ($sickle_cell_status_table['sickle_status']) {
                                                                                                                                 if ($sickle_cell_status_table['sickle_status'] == 1) {
                                                                                                                                     echo 'Positive';
                                                                                                                                 } elseif ($sickle_cell_status_table['sickle_status'] == 2) {
@@ -7182,7 +7181,6 @@ if ($user->isLoggedIn()) {
                                                                                                                                 echo 'Select';
                                                                                                                             } ?>
                                                                                                                         </option>
-                                                                                                                        <option value="">Select</option>
                                                                                                                         <option value="1">Positive</option>
                                                                                                                         <option value="2">Negative</option>
                                                                                                                         <option value="99">Unknown</option>

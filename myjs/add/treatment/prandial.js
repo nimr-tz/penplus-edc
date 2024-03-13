@@ -10,14 +10,14 @@ const prandial_pm2 = document.getElementById(`prandial_pm2`);
 
 function toggleElementVisibility() {
   if (prandial_changed1.checked) {
-    prandial_am2.style.display = "block";
+    prandial_am.style.display = "block";
     prandial_am2.setAttribute("required", "required");
     prandial_lunch.style.display = "block";
     prandial_lunch2.setAttribute("required", "required");
     prandial_pm.style.display = "block";
     prandial_pm2.setAttribute("required", "required");
   } else {
-    prandial_am2.style.display = "none";
+    prandial_am.style.display = "none";
     prandial_am2.removeAttribute("required");
     prandial_lunch.style.display = "none";
     prandial_lunch2.removeAttribute("required");

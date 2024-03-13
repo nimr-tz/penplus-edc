@@ -16,7 +16,7 @@ function toggleElementVisibility() {
   } else {
     basal_am.style.display = "none";
     basal_am2.removeAttribute("required");
-    basal_pm2.style.display = "none";
+    basal_pm.style.display = "none";
     basal_pm2.removeAttribute("required");
   }
 }

@@ -2596,6 +2596,8 @@ if ($user->isLoggedIn()) {
                                 'fluid' => Input::get('fluid'),
                                 'restriction_other' => Input::get('restriction_other'),
                                 'restriction_specify' => Input::get('restriction_specify'),
+                                'other_support' => Input::get('other_support'),
+                                'support_specify' => Input::get('support_specify'),
                                 'social_support' => Input::get('social_support'),
                                 'social_support_type' => Input::get('social_support_type'),
                                 'cardiology' => Input::get('cardiology'),
@@ -2637,6 +2639,8 @@ if ($user->isLoggedIn()) {
                                 'salt' => Input::get('salt'),
                                 'fluid' => Input::get('fluid'),
                                 'restriction_other' => Input::get('restriction_other'),
+                                'other_support' => Input::get('other_support'),
+                                'support_specify' => Input::get('support_specify'),
                                 'social_support' => Input::get('social_support'),
                                 'social_support_type' => Input::get('social_support_type'),
                                 'cardiology' => Input::get('cardiology'),
@@ -12514,9 +12518,55 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                                 <hr>
 
+                                            <?php } ?>
+
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card card-warning">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Support</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
 
                                                 <div class="row">
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-3">
+                                                        <label>Social support provided?:</label>
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="social_support" id="social_support1" value="1" <?php if ($treatment_plan['social_support'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="social_support" id="social_support2" value="2" <?php if ($treatment_plan['social_support'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                    
+
+                                                    <div class="col-sm-3" id="social_support_type1">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label>Type:</label>
+                                                                <input type="text" class="form-control" name="social_support_type" id="social_support_type" value="<?php if ($treatment_plan['social_support_type']) {
+                                                                                                                                                    print_r($treatment_plan['social_support_type']);
+                                                                                                                                                }  ?>" />
+
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                
+
+                                                    <div class="col-sm-3">
                                                         <label>Any Other Support?:</label>
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
@@ -12537,7 +12587,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div> 
 
-                                                    <div class="col-sm-8" id="support_specify1">
+                                                    <div class="col-sm-3" id="support_specify1">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
@@ -12550,57 +12600,6 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                                 <hr>
-
-                                            <?php } ?>
-
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="card card-warning">
-                                                        <div class="card-header">
-                                                            <h3 class="card-title">Support</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-
-                                             <div class="row">
-                                                <div class="col-sm-4">
-                                                    <label>Social support provided?:</label>
-                                                    <div class="row-form clearfix">
-                                                        <div class="form-group">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="social_support" id="social_support1" value="1" <?php if ($treatment_plan['social_support'] == 1) {
-                                                                                                                                                                echo 'checked';
-                                                                                                                                                            } ?> required>
-                                                                <label class="form-check-label">Yes</label>
-                                                            </div>
-
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="social_support" id="social_support2" value="2" <?php if ($treatment_plan['social_support'] == 2) {
-                                                                                                                                                                echo 'checked';
-                                                                                                                                                            } ?>>
-                                                                <label class="form-check-label">No</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>                                                    
-
-                                                <div class="col-sm-8" id="social_support_type1">
-                                                    <div class="row-form clearfix">
-                                                        <div class="form-group">
-                                                            <label>Type:</label>
-                                                            <input type="text" class="form-control" name="social_support_type" id="social_support_type" value="<?php if ($treatment_plan['social_support_type']) {
-                                                                                                                                                print_r($treatment_plan['social_support_type']);
-                                                                                                                                            }  ?>" />
-
-                                                        </div>
-                                                    </div>
-                                                </div>                                                
-                                            </div>
-                                            <hr>
-
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
                                                 <div class="row">

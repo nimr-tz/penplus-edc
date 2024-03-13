@@ -1,26 +1,21 @@
-const foot_exam = document.getElementById("foot_exam");
-const foot_exam_finding1 = document.getElementById("foot_exam_finding1");
+const foot_exam1 = document.getElementById("foot_exam1");
+const foot_exam2 = document.getElementById("foot_exam2");
 
-function showElement() {
-  if (foot_exam.value === "1") {
-    foot_exam_finding1.style.display = "block";
+const foot_exam_category = document.getElementById("foot_exam_category");
+const foot_exam_finding1_1 = document.getElementById("foot_exam_finding1");
+
+function toggleElementVisibility() {
+  if (foot_exam1.checked) {
+    foot_exam_category.style.display = "block";
+    foot_exam_finding1_1.setAttribute("required", "required");
   } else {
-    foot_exam_finding1.style.display = "none";
+    foot_exam_category.style.display = "none";
+    foot_exam_finding1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", foot_exam.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const foot_examValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (foot_examValue) {
-  foot_exam.value = foot_examValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-foot_exam.addEventListener("change", showElement);
+foot_exam1.addEventListener("change", toggleElementVisibility);
+foot_exam2.addEventListener("change", toggleElementVisibility);

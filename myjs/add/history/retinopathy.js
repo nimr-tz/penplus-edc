@@ -1,26 +1,25 @@
-const retinopathy = document.getElementById("retinopathy");
-const retinopathy_date = document.getElementById("retinopathy_date");
+const retinopathy1 = document.getElementById(`retinopathy1`);
+const retinopathy2 = document.getElementById(`retinopathy2`);
 
-function showElement() {
-  if (retinopathy.value === "1") {
+const retinopathy_date_label = document.getElementById(
+  `retinopathy_date_label`
+);
+const retinopathy_date = document.getElementById(`retinopathy_date`);
+
+function toggleElementVisibility() {
+  if (retinopathy1.checked) {
+    retinopathy_date_label.style.display = "block";
     retinopathy_date.style.display = "block";
+    retinopathy_date.setAttribute("required", "required");
   } else {
+    retinopathy_date_label.style.display = "none";
     retinopathy_date.style.display = "none";
+    retinopathy_date.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", retinopathy.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const retinopathyValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (retinopathyValue) {
-  retinopathy.value = retinopathyValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-retinopathy.addEventListener("change", showElement);
+retinopathy1.addEventListener("change", toggleElementVisibility);
+retinopathy2.addEventListener("change", toggleElementVisibility);

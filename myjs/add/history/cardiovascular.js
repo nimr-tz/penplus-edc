@@ -22,4 +22,4 @@ function toggleElementVisibility() {
 toggleElementVisibility();
 
 cardiovascular1.addEventListener("change", toggleElementVisibility);
-cardiovascular1.addEventListener("change", toggleElementVisibility);
+cardiovascular2.addEventListener("change", toggleElementVisibility);

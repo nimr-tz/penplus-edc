@@ -1,26 +1,24 @@
-const neuropathy = document.getElementById("neuropathy");
-const neuropathy_date = document.getElementById("neuropathy_date");
+const neuropathy1 = document.getElementById(`neuropathy1`);
+const neuropathy2 = document.getElementById(`neuropathy2`);
 
-function showElement() {
-  if (neuropathy.value === "1") {
+const neuropathy_date_label = document.getElementById(`neuropathy_date_label`);
+const neuropathy_date = document.getElementById(`neuropathy_date`);
+
+function toggleElementVisibility() {
+  if (neuropathy1.checked) {
+    neuropathy_date_label.style.display = "block";
     neuropathy_date.style.display = "block";
+    neuropathy_date.setAttribute("required", "required");
   } else {
+    neuropathy_date_label.style.display = "none";
     neuropathy_date.style.display = "none";
+    neuropathy_date.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", neuropathy.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const neuropathyValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (neuropathyValue) {
-  neuropathy.value = neuropathyValue;
-}
+neuropathy1.addEventListener("change", toggleElementVisibility);
+neuropathy2.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-neuropathy.addEventListener("change", showElement);

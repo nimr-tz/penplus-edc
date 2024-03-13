@@ -1,29 +1,35 @@
-const joints = document.getElementById("joints");
-const joints_hides1 = document.getElementById("joints_hides1");
-const joints_hides2 = document.getElementById("joints_hides2");
+const joints1 = document.getElementById("joints1");
+const joints2 = document.getElementById("joints2");
+const joints3 = document.getElementById("joints3");
 
-function showElement() {
-  if (joints.value === "1") {
-    joints_hides1.style.display = "block";
-    joints_hides2.style.display = "block";
+const spescify_joints1 = document.getElementById("spescify_joints1");
+const spescify_joints = document.getElementById("spescify_joints");
+const score_joints = document.getElementById("score_joints");
+const score_joints_label = document.getElementById(`score_joints_label`);
+
+const score_joints_span = document.getElementById(`score_joints_span`);
+
+function toggleElementVisibility() {
+  if (joints1.checked) {
+    spescify_joints1.style.display = "block";
+    spescify_joints.setAttribute("required", "required");
+    score_joints_label.style.display = "block";
+    score_joints.style.display = "block";
+    score_joints.setAttribute("required", "required");
+    score_joints_span.style.display = "block";
   } else {
-    joints_hides1.style.display = "none";
-    joints_hides2.style.display = "none";
+    spescify_joints1.style.display = "none";
+    spescify_joints.removeAttribute("required");
+    score_joints_label.style.display = "none";
+    score_joints.style.display = "none";
+    score_joints.removeAttribute("required");
+    score_joints_span.style.display = "none";
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", joints.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const jointsValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (jointsValue) {
-  joints.value = jointsValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-joints.addEventListener("change", showElement);
+joints1.addEventListener("change", toggleElementVisibility);
+joints2.addEventListener("change", toggleElementVisibility);
+joints3.addEventListener("change", toggleElementVisibility);

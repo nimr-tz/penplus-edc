@@ -1,26 +1,31 @@
-const foot_exam_finding = document.getElementById("foot_exam_finding");
+const foot_exam_finding1 = document.getElementById("foot_exam_finding1");
+const foot_exam_finding2 = document.getElementById("foot_exam_finding2");
+
 const foot_exam_other = document.getElementById("foot_exam_other");
+const foot_exam_other_label = document.getElementById("foot_exam_other_label");
 
-function showElement() {
-  if (foot_exam_finding.value === "2") {
+function toggleElementVisibility() {
+  if (foot_exam_finding2.checked) {
+    foot_exam_other_label.style.display = "block";
     foot_exam_other.style.display = "block";
+    foot_exam_other.setAttribute("required", "required");
   } else {
+    foot_exam_other_label.style.display = "none";
     foot_exam_other.style.display = "none";
+    foot_exam_other.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", foot_exam_finding.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const foot_exam_findingValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (foot_exam_findingValue) {
-  foot_exam_finding.value = foot_exam_findingValue;
+foot_exam_finding1.addEventListener("change", toggleElementVisibility);
+foot_exam_finding2.addEventListener("change", toggleElementVisibility);
+
+
+function unsetFootExam() {
+  var unsetRadios = document.getElementsByName("foot_exam_finding");
+  unsetRadios.forEach(function (unsetRadio) {
+    unsetRadio.checked = false;
+  });
 }
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-foot_exam_finding.addEventListener("change", showElement);

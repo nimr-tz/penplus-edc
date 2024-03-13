@@ -2252,6 +2252,8 @@ if ($user->isLoggedIn()) {
                                 'cmplctn_syndrome' => Input::get('cmplctn_syndrome'),
                             ), $dgns_complctns_comorbdts['id']);
                         }
+                                            $successMessage = 'Diagnosis details Updated Successful';
+
                     } else {
                         $user->createRecord('dgns_complctns_comorbdts', array(
                             'visit_date' => Input::get('diagns_date'),
@@ -2295,9 +2297,9 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                                            $successMessage = 'Diagnosis details added Successful';
                     }
-                    $successMessage = 'Diagnosis details added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());

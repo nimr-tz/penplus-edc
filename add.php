@@ -11402,40 +11402,43 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-sm-6">
+                                                 <div class="col-sm-6">
+                                                    <?php if ($_GET['seq'] == 1) { ?>
+                                                        <label>Hospitalized in the past 12 Months for this NCD?:</label>
+                                                    <?php } else { ?>
+                                                        <label>Hospitalized since the last visit for this NCD?:</label>
+                                                    <?php } ?>   
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <?php if ($_GET['seq'] == 1) { ?>
-                                                                <label>Hospitalized in the past 12 Months for this NCD?:</label>
-                                                            <?php } else { ?>
-                                                                <label>Hospitalized since the last visit for this NCD?:</label>
-                                                            <?php } ?>
-                                                            <select name="hospitalization_ncd" id="hospitalization_ncd" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('hospitalization_ncd','hospitalization_ncd_hides')" required>
-                                                                <option value="<?= $hospitalization_details['hospitalization_ncd'] ?>"><?php if ($hospitalization_details) {
-                                                                                                                                            if ($hospitalization_details['hospitalization_ncd'] == 1) {
-                                                                                                                                                echo 'Yes';
-                                                                                                                                            } elseif ($hospitalization_details['hospitalization_ncd'] == 2) {
-                                                                                                                                                echo 'No';
-                                                                                                                                            } elseif ($hospitalization_details['hospitalization_ncd'] == 3) {
-                                                                                                                                                echo 'Unknown';
-                                                                                                                                            }
-                                                                                                                                        } else {
-                                                                                                                                            echo 'Select';
-                                                                                                                                        } ?>
-                                                                </option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                                <option value="3">Unknown</option>
-                                                            </select>
-                                                        </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="hospitalization_ncd" id="hospitalization_ncd1" value="1" <?php if ($hospitalization_details['hospitalization_ncd'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>                                                                
+                                                            </div>
+
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="hospitalization_ncd" id="hospitalization_ncd2" value="2" <?php if ($hospitalization_details['hospitalization_ncd'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>    
+                                                             <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="hospitalization_ncd" id="hospitalization_ncd3" value="3" <?php if ($hospitalization_details['hospitalization_ncd'] == 3) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Unknown</label>
+                                                            </div>                                                              
+                                                            
+                                                        </div>  
                                                     </div>
-                                                </div>
+                                                </div>                                                 
                                             </div>
+                                            <hr>
 
                                             <div class="row" id="hospitalization_ncd_hides">
-                                                <div class="row" id="hospitalization_year">
+                                                <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
@@ -11445,7 +11448,7 @@ if ($user->isLoggedIn()) {
                                                                 <?php } else { ?>
                                                                     <label>If yes , Number of hospitalizations since last Visit:</label>
                                                                 <?php } ?>
-                                                                <input type="number" name="hospitalization_year" min="0" max="1000" class="form-control" value="<?php if ($hospitalization_details['hospitalization_year']) {
+                                                                <input type="number" id="hospitalization_year" id="hospitalization_year" name="hospitalization_year" min="0" max="1000" class="form-control" value="<?php if ($hospitalization_details['hospitalization_year']) {
                                                                                                                                                                     print_r($hospitalization_details['hospitalization_year']);
                                                                                                                                                                 }  ?>" />
                                                             </div>
@@ -11461,13 +11464,14 @@ if ($user->isLoggedIn()) {
                                                                 <?php } else { ?>
                                                                     <label>If yes , Number of hospital days since last visit:</label>
                                                                 <?php } ?>
-                                                                <input type="number" name="hospitalization_day" min="0" max="1000" class="form-control" value="<?php if ($hospitalization_details['hospitalization_day']) {
+                                                                <input type="number" id="hospitalization_day" name="hospitalization_day" min="0" max="1000" class="form-control" value="<?php if ($hospitalization_details['hospitalization_day']) {
                                                                                                                                                                     print_r($hospitalization_details['hospitalization_day']);
                                                                                                                                                                 }  ?>" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row-form clearfix">
                                                     <div class="row">
@@ -11491,7 +11495,6 @@ if ($user->isLoggedIn()) {
                                                                                 <th> Discharge Diagnosis </th>
                                                                                 <th> Discharge Date </th>
                                                                                 <th>Action</th>
-                                                                                <th></th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody id="tbody_2">

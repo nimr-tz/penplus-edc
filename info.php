@@ -2181,7 +2181,7 @@ if ($user->isLoggedIn()) {
 
                                                                 if ($user->data()->power == 1) { ?>
                                                                     <hr>
-                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
+                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
                                                                     <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
                                                             <?php }
@@ -2199,16 +2199,17 @@ if ($user->isLoggedIn()) {
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <hr>
 
                                                                     <?php }
                                                                 }
-                                                                if ($user->data()->power == 1) { ?>
+                                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
-
-                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
-                                                                    <hr>
-                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                                    <?php if ($user->data()->power == 1) { ?>
+                                                                        <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
                                                             <?php
+                                                                    }
                                                                 }
                                                             } ?>
                                                         </td>
@@ -2315,8 +2316,8 @@ if ($user->isLoggedIn()) {
                                                                                     <div class="form-group">
                                                                                         <label>Expected Date</label>
                                                                                         <input class="form-control" type="date" name="expected_date" id="expected_date" style="width: 100%;" value="<?php if ($visit['expected_date']) {
-                                                                                                                                                                                                                                    print_r($visit['expected_date']);
-                                                                                                                                                                                                                                }  ?>" required />
+                                                                                                                                                                                                        print_r($visit['expected_date']);
+                                                                                                                                                                                                    }  ?>" required />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

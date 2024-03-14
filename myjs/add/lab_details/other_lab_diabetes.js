@@ -1,26 +1,21 @@
-const other_lab_diabetes = document.getElementById("other_lab_diabetes");
+const other_lab_diabetes1_1 = document.getElementById("other_lab_diabetes1");
+const other_lab_diabetes2_2 = document.getElementById("other_lab_diabetes2");
+
+const specify_lab_diabetes1 = document.getElementById("specify_lab_diabetes1");
 const specify_lab_diabetes = document.getElementById("specify_lab_diabetes");
 
-function showElement() {
-  if (other_lab_diabetes.value === "1") {
-    specify_lab_diabetes.style.display = "block";
+function toggleElementVisibility() {
+  if (other_lab_diabetes1_1.checked) {
+    specify_lab_diabetes1.style.display = "block";
+    specify_lab_diabetes.setAttribute("required", "required");
   } else {
-    specify_lab_diabetes.style.display = "none";
+    specify_lab_diabetes1.style.display = "none";
+    specify_lab_diabetes.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", other_lab_diabetes.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const other_lab_diabetesValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (other_lab_diabetesValue) {
-  other_lab_diabetes.value = other_lab_diabetesValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-other_lab_diabetes.addEventListener("change", showElement);
+other_lab_diabetes1_1.addEventListener("change", toggleElementVisibility);
+other_lab_diabetes1_1.addEventListener("change", toggleElementVisibility);

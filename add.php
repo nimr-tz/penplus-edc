@@ -14610,6 +14610,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
 
                                                 <div class="row">
@@ -14666,32 +14667,33 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
+                                                        <label>Any Chemistry Test today?:</label>
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Any Chemistry Test today?:</label>
-                                                                <select name="chemistry_test2" id="chemistry_test2" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('chemistry_test2','hide_chemistry_test2')">
-                                                                    <option value="<?= $lab_details['chemistry_test'] ?>"><?php if ($lab_details) {
-                                                                                                                                if ($lab_details['chemistry_test2'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($lab_details['chemistry_test2'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="chemistry_test2" id="chemistry_test6_6" value="1" <?php if ($lab_details['chemistry_test2'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>                                                                
+                                                                </div>
+
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="chemistry_test2" id="chemistry_test7_7" value="2" <?php if ($lab_details['chemistry_test2'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                                                                                                    
+                                                                
+                                                            </div>  
                                                         </div>
-                                                    </div>
+                                                    </div>                                                    
                                                 </div>
+                                                <hr>
 
 
 
-                                                <div id="hide_chemistry_test2">
+                                                <div id="hide_chemistry_test8_8">
                                                     <div class="row">
                                                         <div class="col-sm-3">
                                                             <div class="row-form clearfix">
@@ -14745,6 +14747,8 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
+                                                    <hr>
+
 
                                                     <div class="row">
 
@@ -14760,30 +14764,30 @@ if ($user->isLoggedIn()) {
                                                             <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-4" id="other_lab_diabetes">
+                                                            <label>Any Chemistry Test today?:</label>
                                                             <div class="row-form clearfix">
-                                                                <!-- select -->
                                                                 <div class="form-group">
-                                                                    <label>Other chemistry?:</label>
-                                                                    <select name="other_lab_diabetes" id="other_lab_diabetes" class="form-control" style="width: 100%;">
-                                                                        <option value="<?= $lab_details['other_lab_diabetes'] ?>"><?php if ($lab_details['other_lab_diabetes']) {
-                                                                                                                                        if ($lab_details['other_lab_diabetes'] == 1) {
-                                                                                                                                            echo 'Yes';
-                                                                                                                                        } elseif ($lab_details['other_lab_diabetes'] == 2) {
-                                                                                                                                            echo 'No';
-                                                                                                                                        }
-                                                                                                                                    } else {
-                                                                                                                                        echo 'Select';
-                                                                                                                                    } ?>
-                                                                        </option>
-                                                                        <option value="1">Yes</option>
-                                                                        <option value="2">No</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="other_lab_diabetes" id="other_lab_diabetes1" value="1" <?php if ($lab_details['other_lab_diabetes'] == 1) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                        <label class="form-check-label">Yes</label>                                                                
+                                                                    </div>
 
-                                                        <div class="col-sm-4" id="specify_lab_diabetes">
+
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="other_lab_diabetes" id="other_lab_diabetes2" value="2" <?php if ($lab_details['other_lab_diabetes'] == 2) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                        <label class="form-check-label">No</label>
+                                                                    </div>                                                                                                                                    
+                                                                    
+                                                                </div>  
+                                                            </div>
+                                                        </div>                                                        
+
+                                                        <div class="col-sm-4" id="specify_lab_diabetes1">
                                                             <div class="row-form clearfix">
                                                                 <!-- select -->
                                                                 <div class="form-group">
@@ -14796,6 +14800,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
 
                                                     </div>
+                                                    <hr>
                                                 </div>
 
 

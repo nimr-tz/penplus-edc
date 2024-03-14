@@ -1,26 +1,43 @@
-const chemistry_test2 = document.getElementById("chemistry_test2");
-const hide_chemistry_test2 = document.getElementById("hide_chemistry_test2");
+const chemistry_test6_6 = document.getElementById("chemistry_test6_6");
+const chemistry_test7_7 = document.getElementById("chemistry_test7_7");
 
-function showElement() {
-  if (chemistry_test2.value === "1") {
-    hide_chemistry_test2.style.display = "block";
+const hide_chemistry_test8_8 = document.getElementById(
+  "hide_chemistry_test8_8"
+);
+
+const na_diabetes = document.getElementById("na_diabetes");
+const k_diabetes = document.getElementById("k_diabetes");
+const cre_diabetes = document.getElementById("cre_diabetes");
+const proteinuria = document.getElementById("proteinuria");
+const lipid_panel = document.getElementById("lipid_panel");
+const other_lab_diabetes = document.getElementById("other_lab_diabetes");
+const other_lab_diabetes1 = document.getElementById("other_lab_diabetes1");
+
+function toggleElementVisibility() {
+  if (chemistry_test6_6.checked) {
+    hide_chemistry_test8_8.style.display = "block";
+    na_diabetes.setAttribute("required", "required");
+    k_diabetes.setAttribute("required", "required");
+    cre_diabetes.setAttribute("required", "required");
+    proteinuria.setAttribute("required", "required");
+    lipid_panel.setAttribute("required", "required");
+    other_lab_diabetes.style.display = "block";
+    other_lab_diabetes1.setAttribute("required", "required");
   } else {
-    hide_chemistry_test2.style.display = "none";
+    hide_chemistry_test8_8.style.display = "none";
+    na_diabetes.removeAttribute("required");
+    k_diabetes.removeAttribute("required");
+    cre_diabetes.removeAttribute("required");
+    proteinuria.removeAttribute("required");
+    lipid_panel.removeAttribute("required");
+    other_lab_diabetes.style.display = "none";
+    other_lab_diabetes1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", chemistry_test2.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const chemistry_test2Value = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (chemistry_test2Value) {
-  chemistry_test2.value = chemistry_test2Value;
-}
+chemistry_test6_6.addEventListener("change", toggleElementVisibility);
+chemistry_test7_7.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-chemistry_test2.addEventListener("change", showElement);

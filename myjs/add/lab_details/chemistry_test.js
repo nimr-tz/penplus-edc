@@ -24,7 +24,6 @@ function toggleElementVisibility() {
     inr.setAttribute("required", "required");
     other_chemistry.style.display = "block";
     other_chemistry1.setAttribute("required", "required");
-    other_chemistry2.setAttribute("required", "required");
   } else {
     hide_chemistry_test.style.display = "none";
     na.removeAttribute("required");
@@ -35,7 +34,6 @@ function toggleElementVisibility() {
     inr.removeAttribute("required");
     other_chemistry.style.display = "none";
     other_chemistry1.removeAttribute("required");
-    other_chemistry2.removeAttribute("required");
   }
 }
 

@@ -1,26 +1,46 @@
-const chemistry_test = document.getElementById("chemistry_test");
+const chemistry_test1 = document.getElementById("chemistry_test1");
+const chemistry_test2 = document.getElementById("chemistry_test2");
+
 const hide_chemistry_test = document.getElementById("hide_chemistry_test");
 
-function showElement() {
-  if (chemistry_test.value === "1") {
+const na = document.getElementById("na");
+const k = document.getElementById("k");
+const bun = document.getElementById("bun");
+const cre = document.getElementById("cre");
+const bnp = document.getElementById("bnp");
+const inr = document.getElementById("inr");
+const other_chemistry = document.getElementById("other_chemistry");
+const other_chemistry1 = document.getElementById("other_chemistry1");
+const other_chemistry2 = document.getElementById("other_chemistry2");
+
+function toggleElementVisibility() {
+  if (chemistry_test1.checked) {
     hide_chemistry_test.style.display = "block";
+    na.setAttribute("required", "required");
+    k.setAttribute("required", "required");
+    bun.setAttribute("required", "required");
+    cre.setAttribute("required", "required");
+    bnp.setAttribute("required", "required");
+    inr.setAttribute("required", "required");
+    other_chemistry.style.display = "block";
+    other_chemistry1.setAttribute("required", "required");
+    other_chemistry2.setAttribute("required", "required");
   } else {
     hide_chemistry_test.style.display = "none";
+    na.removeAttribute("required");
+    k.removeAttribute("required");
+    bun.removeAttribute("required");
+    cre.removeAttribute("required");
+    bnp.removeAttribute("required");
+    inr.removeAttribute("required");
+    other_chemistry.style.display = "none";
+    other_chemistry1.removeAttribute("required");
+    other_chemistry2.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", chemistry_test.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const chemistry_testValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (chemistry_testValue) {
-  chemistry_test.value = chemistry_testValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-chemistry_test.addEventListener("change", showElement);
+chemistry_test1.addEventListener("change", toggleElementVisibility);
+chemistry_test2.addEventListener("change", toggleElementVisibility);

@@ -13890,8 +13890,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Tobacco:</label>
-                                                            <select name="risk_tobacco" id="risk_tobacco" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $risks['risk_tobacco'] ?>"><?php if ($risks) {
+                                                            <select name="risk_tobacco" id="risk_tobacco" class="form-control" style="width: 100%;" required>
+                                                                <option value="<?= $risks['risk_tobacco'] ?>"><?php if ($risks['risk_tobacco']) {
                                                                                                                     if ($risks['risk_tobacco'] == 1) {
                                                                                                                         echo 'Yes, currently';
                                                                                                                     } elseif ($risks['risk_tobacco'] == 2) {
@@ -13920,8 +13920,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Alcohol:</label>
-                                                            <select name="risk_alcohol" id="risk_alcohol" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $risks['risk_alcohol'] ?>"><?php if ($risks) {
+                                                            <select name="risk_alcohol" id="risk_alcohol" class="form-control" style="width: 100%; required">
+                                                                <option value="<?= $risks['risk_alcohol'] ?>"><?php if ($risks['risk_alcohol']) {
                                                                                                                     if ($risks['risk_alcohol'] == 1) {
                                                                                                                         echo 'Yes, currently';
                                                                                                                     } elseif ($risks['risk_alcohol'] == 2) {
@@ -13952,8 +13952,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Employment status:</label>
-                                                            <select name="risk_employment" id="risk_employment" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $risks['risk_employment'] ?>"><?php if ($risks) {
+                                                            <select name="risk_employment" id="risk_employment" class="form-control" style="width: 100%;" required>
+                                                                <option value="<?= $risks['risk_employment'] ?>"><?php if ($risks['risk_employment']) {
                                                                                                                         if ($risks['risk_employment'] == 1) {
                                                                                                                             echo 'Employed';
                                                                                                                         } elseif ($risks['risk_employment'] == 2) {
@@ -13984,8 +13984,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>NCD limiting school?:</label>
-                                                            <select name="ncd_limiting" id="ncd_limiting" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $risks['ncd_limiting'] ?>"><?php if ($risks) {
+                                                            <select name="ncd_limiting" id="ncd_limiting" class="form-control" style="width: 100%;" required>
+                                                                <option value="<?= $risks['ncd_limiting'] ?>"><?php if ($risks['ncd_limiting']) {
                                                                                                                     if ($risks['ncd_limiting'] == 1) {
                                                                                                                         echo 'Yes';
                                                                                                                     } elseif ($risks['ncd_limiting'] == 2) {

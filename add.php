@@ -790,6 +790,7 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
+                print_r($_POST);
                 try {
 
                     $sickle_cell = $override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
@@ -811,7 +812,8 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $sickle_cell['id']);
-                                            $successMessage = 'Sickle Cell Updated Successful';
+
+                            $successMessage = 'Sickle Cell Updated Successful';
                     } else {
                         $user->createRecord('sickle_cell', array(
                             'diagnosis' => Input::get('diagnosis'),
@@ -830,7 +832,7 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
-                                            $successMessage = 'Sickle Cell added Successful';
+                            $successMessage = 'Sickle Cell added Successful';
                     }
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
@@ -9765,21 +9767,21 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_sickle_cell1" value="1" <?php if ($symptoms['diagnosis'] == 1) {
+                                                                    <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_sickle_cell1" value="1" <?php if ($sickle_cell['diagnosis'] == 1) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?> required>
                                                                     <label class=" form-check-label">Sickle Cell Disease</label>
                                                                 </div>
 
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_sickle_cell2" value="2" <?php if ($symptoms['diagnosis'] == 2) {
+                                                                    <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_sickle_cell2" value="2" <?php if ($sickle_cell['diagnosis'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">Other Hemoglobinopathy</label>
                                                                 </div>                                                                
                                                                 <textarea class="form-control" name="diagnosis_other" id="diagnosis_other_sickcle_cell" rows="3" placeholder="Enter other" >
-                                                                    <?php if ($symptoms['diagnosis_other']) {
-                                                                        print_r($symptoms['diagnosis_other']);
+                                                                    <?php if ($sickle_cell['diagnosis_other']) {
+                                                                        print_r($sickle_cell['diagnosis_other']);
                                                                     } ?>
                                                                 </textarea>
                                                             </div>

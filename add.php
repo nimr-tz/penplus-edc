@@ -9492,67 +9492,83 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
+                                            <hr>
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Visit Date:</label>
+                                                            <input class="form-control" type="date" name="visit_date" value="<?php if ($diabetic['visit_date']) {
+                                                                                                                                        print_r($diabetic['visit_date']);
+                                                                                                                                    }  ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Diagnosis Date:</label>
-                                                            <input class="form-control" type="date" name="diagnosis_date" value="<?php if ($diabetic['visit_date']) {
-                                                                                                                                        print_r($diabetic['visit_date']);
-                                                                                                                                    }  ?>" />
+                                                            <input class="form-control" type="date" name="diagnosis_date" value="<?php if ($diabetic['diagnosis_date']) {
+                                                                                                                                        print_r($diabetic['diagnosis_date']);
+                                                                                                                                    }  ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
+                                                    <label>Main diagnosis?:</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
-                                                            <label>Main diagnosis</label>
-                                                            <select name="diagnosis" id="diagnosis4" class="form-control" style="width: 100%;" onchange="checkQuestionValue96('diagnosis','diagnosis_other_hide')" required>
-                                                                <option value="<?= $diabetic['diagnosis'] ?>"><?php if ($diabetic) {
-                                                                                                                    if ($diabetic['diagnosis'] == 1) {
-                                                                                                                        echo 'Type 1 DM';
-                                                                                                                    } elseif ($diabetic['diagnosis'] == 2) {
-                                                                                                                        echo 'Type 2 DM';
-                                                                                                                    } elseif ($diabetic['diagnosis'] == 3) {
-                                                                                                                        echo 'Gestational DM';
-                                                                                                                    } elseif ($diabetic['diagnosis'] == 4) {
-                                                                                                                        echo 'DM not yet specified';
-                                                                                                                    } elseif ($diabetic['diagnosis'] == 96) {
-                                                                                                                        echo 'Other';
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    echo 'Select';
-                                                                                                                } ?>
-                                                                </option>
-                                                                <option value="1">Type 1 DM</option>
-                                                                <option value="2">Type 2 DM</option>
-                                                                <option value="3">Gestational DM</option>
-                                                                <option value="4">DM not yet specified</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_diabetic1" value="1" <?php if ($diabetic['diagnosis'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Type 1 DM</label>
+                                                            </div>
+                                                                <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_diabetic2" value="2" <?php if ($diabetic['diagnosis'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> >
+                                                                <label class=" form-check-label">Type 2 DM</label>
+                                                            </div>
+                                                                <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_diabetic3" value="3" <?php if ($diabetic['diagnosis'] == 3) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> >
+                                                                <label class=" form-check-label">Gestational DM</label>
+                                                            </div>
+                                                                <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_diabetic4" value="4" <?php if ($diabetic['diagnosis'] == 4) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> >
+                                                                <label class=" form-check-label">DM not yet specified</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_diabetic96" value="96" <?php if ($diabetic['diagnosis'] == 96) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>                                                                
+                                                            <textarea class="form-control" name="diagnosis_other" id="diagnosis_other_diabetic" rows="3" placeholder="Enter other" >
+                                                                <?php if ($sickle_cell['diagnosis_other']) {
+                                                                    print_r($sickle_cell['diagnosis_other']);
+                                                                } ?>
+                                                            </textarea>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-4" id="diagnosis_other4">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Other Diagnosis</label>
-                                                            <textarea name="diagnosis_other" class="form-control" rows="3"><?php if ($diabetic['diagnosis_other']) {
-                                                                                                                                print_r($diabetic['diagnosis_other']);
-                                                                                                                            }  ?></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </div>                                                
+                                                
                                             </div>
+                                            <hr>
 
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Presentation with any of the following?:</label>
                                                             <select name="symptoms" class="form-control" style="width: 100%;" required>
-                                                                <option value="<?= $diabetic['symptoms'] ?>"><?php if ($diabetic) {
+                                                                <option value="<?= $diabetic['symptoms'] ?>"><?php if ($diabetic['symptoms']) {
                                                                                                                     if ($diabetic['symptoms'] == 1) {
                                                                                                                         echo 'DKA with coma';
                                                                                                                     } elseif ($diabetic['symptoms'] == 2) {
@@ -9580,44 +9596,41 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+
+                                                <div class="col-sm-6">
+                                                    <label>Hypertension</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
-                                                            <label>Hypertension:</label>
-                                                            <select name="hypertension" id="hypertension6" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('hypertension','hypertension_date')">
-                                                                <option value="<?= $diabetic['hypertension'] ?>"><?php if ($diabetic) {
-                                                                                                                        if ($diabetic['hypertension'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($diabetic['hypertension'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        } elseif ($diabetic['hypertension'] == 2) {
-                                                                                                                            echo 'Unknown';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?>
-                                                                </option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                                <option value="3">Unknown</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4" id="hypertension_date6">
-                                                    <div class="row-form clearfix">
-                                                        <div class="form-group">
-                                                            <label>Hypertension Date:</label>
-                                                            <input type="date" name="hypertension_date" class="form-control" value="<?php if ($diabetic['hypertension_date']) {
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="hypertension" id="hypertension1" value="1" <?php if ($diabetic['hypertension'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="hypertension" id="hypertension2" value="2" <?php if ($diabetic['hypertension'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> >
+                                                                <label class=" form-check-label">No</label>
+                                                            </div> 
+                                                             <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="hypertension" id="hypertension3" value="3" <?php if ($diabetic['hypertension'] == 3) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> >
+                                                                <label class=" form-check-label">Unknown</label>
+                                                            </div>                                                                                                                               
+                                                            <label name="hypertension_date1">Hypertension Date:</label>
+                                                            <input type="date" name="hypertension_date" id="hypertension_date" class="form-control" value="<?php if ($diabetic['hypertension_date']) {
                                                                                                                                         print_r($diabetic['hypertension_date']);
                                                                                                                                     }  ?>" />
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                                 
                                             </div>
                                             <!-- /.card-body -->
                                             <div class="card-footer">
-                                                <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
+                                                <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
                                                 <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
 
                                                     <input type="submit" name="add_diabetic" value="Submit" class="btn btn-primary">

@@ -10645,7 +10645,8 @@ if ($user->isLoggedIn()) {
                                                             <input type="number" min="0" max="100" id="total_hospitalization_number"  name="total_hospitalization_number" class="form-control" style="width: 100%;" value="<?php if ($hospitalization['total_hospitalization_number']) {
                                                                                                                                                                                         print_r($hospitalization['total_hospitalization_number']);
                                                                                                                                                                                     }  ?>" />
-                                                            <span>Record on hospitalization record</span>
+                                                            <span>Record on hospitalization record</span><br>
+                                                            <span>(N / A =  98 ), ( Missing = 99 )</span>
                                                         </div>
 
                                                     </div>
@@ -10654,8 +10655,8 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                                 
-                                            <div class="row" id="ncd_hospitalizations">
-                                                <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-6" id="ncd_hospitalizations">
                                                     <label>If yes, for NCD?</label>
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
@@ -10689,7 +10690,9 @@ if ($user->isLoggedIn()) {
                                                             <input type="number" min="0" max="100" id="hospitalization_number"  ame="hospitalization_number" class="form-control" style="width: 100%;" value="<?php if ($hospitalization['hospitalization_number']) {
                                                                                                                                                                                         print_r($hospitalization['hospitalization_number']);
                                                                                                                                                                                     }  ?>" />
-                                                            <span>Record on hospitalization record</span>
+                                                            <span>Record on hospitalization record</span><br>
+                                                                                                                     
+                                                            <span>(N / A =  98 ), ( Missing = 99 )</span>
                                                         </div>
 
                                                     </div>
@@ -10710,10 +10713,10 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label>Number of missed days of school in the last month?</label>
-                                                            <input type="number" min="0" max="10000" name="school_days" id="school_days" class="form-control" value="<?php if ($hospitalization['school_days']) {
+                                                            <input type="number" min="0" max="99" name="school_days" id="school_days" class="form-control" value="<?php if ($hospitalization['school_days']) {
                                                                                                                                                                         print_r($hospitalization['school_days']);
                                                                                                                                                                     }  ?>" required/>
-                                                            <span>N / A = ( 9999 )</span>
+                                                            <span>(N / A =  98 ), ( Missing = 99 )</span>
 
                                                         </div>
                                                     </div>
@@ -10765,6 +10768,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                         }  ?>" required />
                                                             </div>
                                                         </div>
+                                                        <span>(N / A =  98 ), ( Missing = 99 )</span>
                                                     </div>
 
                                                     <div class="col-sm-6">
@@ -10805,21 +10809,24 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Number of Home BG measurement in last week</label>
-                                                                <input type="number" min="0" max="100" class="form-control" name="bg_measurement" id="bg_measurement" value="<?php if ($hospitalization['bg_measurement']) {
+                                                                <input type="number" min="0" max="99" class="form-control" name="bg_measurement" id="bg_measurement" value="<?php if ($hospitalization['bg_measurement']) {
                                                                                                                                                                                     print_r($hospitalization['bg_measurement']);
-                                                                                                                                                                                }  ?>" />
+                                                                                                                                                                                }  ?>" required/>
                                                             </div>
                                                         </div>
+                                                        <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
                                                     </div>
 
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Home BG result in last week</label>
-                                                                <input type="text" name="bg_result180" id="bg_result180" class="form-control" value="<?php if ($hospitalization['bg_result180']) {
+                                                                <input type="number"  min="0" max="99" step="any" name="bg_result180" id="bg_result180" class="form-control" value="<?php if ($hospitalization['bg_result180']) {
                                                                                                                                                             print_r($hospitalization['bg_result180']);
-                                                                                                                                                        }  ?>" />
-                                                                <span> # > 10: </span>
+                                                                                                                                                        }  ?>" required/>
+                                                                <span> # > 10: </span><br>   
+                                                                <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -10828,10 +10835,11 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Home BG result in last week</label>
-                                                                <input type="text" name="bg_result70_180" id="bg_result70_180" class="form-control" value="<?php if ($hospitalization['bg_result70_180']) {
+                                                                <input type="number" min="0" max="99" step="0.01" name="bg_result70_180" id="bg_result70_180" class="form-control" value="<?php if ($hospitalization['bg_result70_180']) {
                                                                                                                                                                 print_r($hospitalization['bg_result70_180']);
-                                                                                                                                                            }  ?>" />
-                                                                <span> # 3.8 - 10: </span>
+                                                                                                                                                            }  ?>" required/>
+                                                                <span> # 3.8 - 10: </span><br>
+                                                                <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
 
                                                             </div>
                                                         </div>
@@ -10843,27 +10851,27 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Home BG result in last week</label>
-                                                                <input type="text" name="bg_result70" id="bg_result70" class="form-control" value="<?php if ($hospitalization['bg_result70']) {
+                                                                <input type="number" min="0" max="99" step="0.01" name="bg_result70" id="bg_result70" class="form-control" value="<?php if ($hospitalization['bg_result70']) {
                                                                                                                                                         print_r($hospitalization['bg_result70']);
-                                                                                                                                                    }  ?>" />
-                                                                <span> # < 3.8: </span>
-
+                                                                                                                                                    }  ?>" required/>
+                                                                <span> # < 3.8: </span><br>  
+                                                                <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
-
-
                                                     <div class="col-sm-6">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Number of insulin doses missed in last week</label>
-                                                                <input type="text" name="basal" id="basal" class="form-control" value="<?php if ($hospitalization['basal']) {
+                                                                <input type="number" min="0" max="99" step="any" name="basal" id="basal" class="form-control" value="<?php if ($hospitalization['basal']) {
                                                                                                                                             print_r($hospitalization['basal']);
-                                                                                                                                        }  ?>" />
-                                                                <span> Basal: </span>
+                                                                                                                                        }  ?>" required/>
+                                                                <span> Basal: </span><br>
+                                                                <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
 
                                                             </div>
                                                         </div>
@@ -10873,29 +10881,32 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Number of insulin doses missed in last week</label>
-                                                                <input type="text" name="prandial" id="prandial" class="form-control" value="<?php if ($hospitalization['prandial']) {
+                                                                <input type="number" min="0" max="99" step="any" name="prandial" id="prandial" class="form-control" value="<?php if ($hospitalization['prandial']) {
                                                                                                                                                     print_r($hospitalization['prandial']);
-                                                                                                                                                }  ?>" />
-                                                                <span> Prandial: </span>
+                                                                                                                                                }  ?>" required/>
+                                                                <span> Prandial: </span><br>
+                                                                <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
 
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="card card-warning">
                                                     <div class="card-header">
                                                         <h3 class="card-title">Insulin</h3>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Basal insulin</label>
-                                                                <select name="basal_insulin" id="basal_insulin" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $hospitalization['basal_insulin'] ?>"><?php if ($hospitalization) {
+                                                                <select name="basal_insulin" id="basal_insulin" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $hospitalization['basal_insulin'] ?>"><?php if ($hospitalization['basal_insulin']) {
                                                                                                                                     if ($hospitalization['basal_insulin'] == 1) {
                                                                                                                                         echo 'NPH';
                                                                                                                                     } elseif ($hospitalization['basal_insulin'] == 2) {
@@ -10905,12 +10916,9 @@ if ($user->isLoggedIn()) {
                                                                                                                                     echo 'Select';
                                                                                                                                 } ?>
                                                                     </option>
-                                                                    <option value="">Select</option>
                                                                     <option value="1">NPH</option>
                                                                     <option value="2">Analog</option>
                                                                 </select>
-
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -10918,25 +10926,28 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label> Units in am:</label>
-                                                                <input type="text" name="basal_am" id="basal_am" class="form-control" value="<?php if ($hospitalization['basal_am']) {
+                                                                <input type="number" min="0" max="99" step="any" name="basal_am" id="basal_am" class="form-control" value="<?php if ($hospitalization['basal_am']) {
                                                                                                                                                     print_r($hospitalization['basal_am']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required />
 
                                                             </div>
+                                                        <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Units in pm</label>
-                                                                <input type="text" name="basal_pm" id="basal_pm" class="form-control" value="<?php if ($hospitalization['basal_pm']) {
+                                                                <input type="number" min="0" max="99" step="any" name="basal_pm" id="basal_pm" class="form-control" value="<?php if ($hospitalization['basal_pm']) {
                                                                                                                                                     print_r($hospitalization['basal_pm']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required />
 
                                                             </div>
                                                         </div>
+                                                    <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
 
@@ -10944,8 +10955,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Prandial insulin</label>
-                                                                <select name="prandial_insulin" id="prandial_insulin" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $hospitalization['prandial_insulin'] ?>"><?php if ($hospitalization) {
+                                                                <select name="prandial_insulin" id="prandial_insulin" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $hospitalization['prandial_insulin'] ?>"><?php if ($hospitalization['prandial_insulin']) {
                                                                                                                                     if ($hospitalization['prandial_insulin'] == 1) {
                                                                                                                                         echo 'Analog';
                                                                                                                                     } elseif ($hospitalization['prandial_insulin'] == 2) {
@@ -10955,7 +10966,6 @@ if ($user->isLoggedIn()) {
                                                                                                                                     echo 'Select';
                                                                                                                                 } ?>
                                                                     </option>
-                                                                    <option value="">Select</option>
                                                                     <option value="1">Analog</option>
                                                                     <option value="2">Regular</option>
                                                                 </select>
@@ -10966,46 +10976,51 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label> Units in am:</label>
-                                                                <input type="text" name="prandial_am" id="prandial_am" class="form-control" value="<?php if ($hospitalization['prandial_am']) {
+                                                                <input type="number" min="0" max="99" step="any" name="prandial_am" id="prandial_am" class="form-control" value="<?php if ($hospitalization['prandial_am']) {
                                                                                                                                                         print_r($hospitalization['prandial_am']);
-                                                                                                                                                    }  ?>" />
+                                                                                                                                                    }  ?>" required/>
 
                                                             </div>
+                                                        <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label> Units in pm:</label>
-                                                                <input type="text" name="prandial_pm" id="prandial_pm" class="form-control" value="<?php if ($hospitalization['prandial_pm']) {
+                                                                <input type="number" min="0" max="99" step="any" name="prandial_pm" id="prandial_pm" class="form-control" value="<?php if ($hospitalization['prandial_pm']) {
                                                                                                                                                         print_r($hospitalization['prandial_pm']);
-                                                                                                                                                    }  ?>" />
+                                                                                                                                                    }  ?>" required/>
 
                                                             </div>
+                                                        <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Units in lunch:</label>
-                                                                <input type="text" name="prandial_lunch" id="prandial_lunch" class="form-control" value="<?php if ($hospitalization['prandial_lunch']) {
+                                                                <input type="number" min="0" max="99" step="any" name="prandial_lunch" id="prandial_lunch" class="form-control" value="<?php if ($hospitalization['prandial_lunch']) {
                                                                                                                                                                 print_r($hospitalization['prandial_lunch']);
-                                                                                                                                                            }  ?>" />
+                                                                                                                                                            }  ?>" required/>
 
                                                             </div>
                                                         </div>
+                                                        <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Total daily insulin dose</label>
-                                                                <input type="text" name="total_insulin_dose" id="total_insulin_dose" class="form-control" value="<?php if ($hospitalization['total_insulin_dose']) {
+                                                                <input type="number" min="0" max="99" step="any" name="total_insulin_dose" id="total_insulin_dose" class="form-control" value="<?php if ($hospitalization['total_insulin_dose']) {
                                                                                                                                                                         print_r($hospitalization['total_insulin_dose']);
-                                                                                                                                                                    }  ?>" />
-                                                                <span> ( Units ): </span>
+                                                                                                                                                                    }  ?>" required/>
+                                                                <span> ( Units ): </span><br>
+                                                                <span>(N / A =  98 ),<br> ( Missing = 99 )</span>
 
                                                             </div>
                                                         </div>
@@ -11014,8 +11029,8 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Adjusts insulin dosing at home?</label>
-                                                                <select name="home_insulin_dose" id="home_insulin_dose" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $hospitalization['home_insulin_dose'] ?>"><?php if ($hospitalization) {
+                                                                <select name="home_insulin_dose" id="home_insulin_dose" class="form-control" style="width: 100%;" required>
+                                                                    <option value="<?= $hospitalization['home_insulin_dose'] ?>"><?php if ($hospitalization['home_insulin_dose']) {
                                                                                                                                         if ($hospitalization['home_insulin_dose'] == 1) {
                                                                                                                                             echo 'Yes';
                                                                                                                                         } elseif ($hospitalization['home_insulin_dose'] == 2) {
@@ -11076,6 +11091,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
                                             <?php } ?>
 
 

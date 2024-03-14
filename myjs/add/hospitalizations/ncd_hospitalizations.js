@@ -2,7 +2,7 @@ const ncd_hospitalizations1 = document.getElementById("ncd_hospitalizations1");
 const ncd_hospitalizations2 = document.getElementById("ncd_hospitalizations2");
 
 const hospitalization_number1 = document.getElementById(
-  "hospitalization_number11"
+  "hospitalization_number1"
 );
 const hospitalization_number = document.getElementById(
   "hospitalization_number"

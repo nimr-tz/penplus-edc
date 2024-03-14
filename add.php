@@ -657,6 +657,7 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $cardiac['id']);
+                                            $successMessage = 'Cardiac Updated Successful';
                     } else {
                         $user->createRecord('cardiac', array(
                             'visit_date' => Input::get('visit_date'),
@@ -701,10 +702,10 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                        $successMessage = 'Cardiac added Successful';
                     }
 
-                    $successMessage = 'Cardiac added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }

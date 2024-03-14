@@ -5120,7 +5120,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Date of Visit:</label>
                                                             <input class="validate[required,custom[date]] form-control" type="date" name="visit_date" id="visit_date" value="<?php if ($demographic['visit_date']) {
                                                                                                                                                                                     print_r($demographic['visit_date']);
-                                                                                                                                                                                }  ?>" />
+                                                                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>

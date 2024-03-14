@@ -1,29 +1,29 @@
-const echo_other = document.getElementById("echo_other");
-const echo_performed2 = document.getElementById("echo_performed2");
+const echo_other1 = document.getElementById("echo_other1");
 const echo_other2 = document.getElementById("echo_other2");
 
-function showElement() {
-  if (echo_other.value === "1") {
-    echo_performed2.style.display = "block";
-    echo_other2.style.display = "block";
+const echo_specify1 = document.getElementById("echo_specify1");
+
+const echo_specify = document.getElementById("echo_specify");
+
+const echo_other2_1_1 = document.getElementById("echo_other2_1_1");
+const echo_specify222 = document.getElementById("echo_specify222");
+
+function toggleElementVisibility() {
+  if (ecg966.checked) {
+    echo_specify1.style.display = "block";
+    echo_specify.setAttribute("required", "required");
+    echo_specify222.style.display = "block";
+    echo_other2_1_1.setAttribute("required", "required");
   } else {
-    echo_performed2.style.display = "none";
-    echo_other2.style.display = "none";
+    echo_specify1.style.display = "none";
+    echo_specify.removeAttribute("required");
+    echo_specify222.style.display = "none";
+    echo_other2_1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", echo_other.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const echo_otherValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (echo_otherValue) {
-  echo_other.value = echo_otherValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-echo_other.addEventListener("change", showElement);
+echo_other1.addEventListener("change", toggleElementVisibility);
+echo_other2.addEventListener("change", toggleElementVisibility);

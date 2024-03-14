@@ -10319,7 +10319,7 @@ if ($user->isLoggedIn()) {
                                                 <hr>
 
                                                 <div class="row">
-                                                    <div class="col-sm-6" id="echo_performed2">
+                                                    <div class="col-sm-6" id="echo_specify1">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Other Echo specify</label>
@@ -10332,7 +10332,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-4" id="echo_other">
+                                                    <div class="col-sm-4" id="echo_specify222">
                                                         <label> Other ?</label>
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">

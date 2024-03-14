@@ -1589,7 +1589,7 @@ if ($user->isLoggedIn()) {
                                                     + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
                                                     + intval($summary) + intval($social_economic);
 
-                                                $all_visit = intval($override->getCount0('visit', 'client_id', $client['id'],'seq_no',1));
+                                                $all_visit = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
 
                                                 $progress1 = (intval($all_visit) * 15);
 
@@ -1762,7 +1762,7 @@ if ($user->isLoggedIn()) {
                                                     } ?>
 
                                                     <?php if ($_GET['status'] == 5) { ?>
-                                                        <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                        <?php if ($user->data()->power == 1) { ?>
                                                             <br>
                                                             <hr>
                                                             <a href="#delete_client<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
@@ -1790,7 +1790,7 @@ if ($user->isLoggedIn()) {
                                                 <?php if ($enrollment == 1) { ?>
                                                     <td>
                                                         <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
-                                                        <?php if ($user->data()->power == 1) { ?>
+                                                        <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
 
                                                             <span class="badge bg-danger">
                                                                 <?= $progress; ?>%

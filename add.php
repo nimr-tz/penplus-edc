@@ -740,6 +740,7 @@ if ($user->isLoggedIn()) {
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $diabetic['id']);
+                                            $successMessage = 'Diabetic Updated Successful';
                     } else {
                         $user->createRecord('diabetic', array(
                             'visit_date' => Input::get('visit_date'),
@@ -761,8 +762,8 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                                            $successMessage = 'Diabetic added Successful';
                     }
-                    $successMessage = 'Diabetic added Successful';
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
                 } catch (Exception $e) {

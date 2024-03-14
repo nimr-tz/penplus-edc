@@ -1,26 +1,34 @@
-const scd_test = document.getElementById("scd_test");
+const scd_test1_1 = document.getElementById("scd_test1");
+const scd_test2 = document.getElementById("scd_test2");
+const scd_test3 = document.getElementById("scd_test3");
+const scd_test4 = document.getElementById("scd_test4");
+const scd_test5 = document.getElementById("scd_test5");
+const scd_test6 = document.getElementById("scd_test6");
+const scd_test96 = document.getElementById("scd_test96");
+
 const scd_test_other = document.getElementById("scd_test_other");
 
-function showElement() {
-  if (scd_test.value === "96") {
-    scd_test_other.style.display = "block";
+const scd_test_other1 = document.getElementById("scd_test_other1");
+
+function toggleElementVisibility() {
+  if (scd_test96.checked) {
+    scd_test_other1.style.display = "block";
+    scd_test_other.setAttribute("required", "required");
   } else {
-    scd_test_other.style.display = "none";
+    scd_test_other1.style.display = "none";
+    scd_test_other.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", scd_test.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const scd_testValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (scd_testValue) {
-  scd_test.value = scd_testValue;
-}
+scd_test1_1.addEventListener("change", toggleElementVisibility);
+scd_test2.addEventListener("change", toggleElementVisibility);
+scd_test3.addEventListener("change", toggleElementVisibility);
+scd_test4.addEventListener("change", toggleElementVisibility);
+scd_test5.addEventListener("change", toggleElementVisibility);
+scd_test6.addEventListener("change", toggleElementVisibility);
+scd_test96.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-scd_test.addEventListener("change", showElement);

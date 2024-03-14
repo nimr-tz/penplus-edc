@@ -1,28 +1,29 @@
-const confirmatory_test = document.getElementById("confirmatory_test");
+const confirmatory_test1 = document.getElementById("confirmatory_test1");
+const confirmatory_test2 = document.getElementById("confirmatory_test2");
+
+const confirmatory_test_type1 = document.getElementById(
+  "confirmatory_test_type1"
+);
+
 const confirmatory_test_type = document.getElementById(
   "confirmatory_test_type"
 );
 
-function showElement() {
-  if (confirmatory_test.value === "1") {
-    confirmatory_test_type.style.display = "block";
+function toggleElementVisibility() {
+  if (scd_test96.checked) {
+    confirmatory_test_type1.style.display = "block";
+    confirmatory_test_type.setAttribute("required", "required");
   } else {
-    confirmatory_test_type.style.display = "none";
+    confirmatory_test_type1.style.display = "none";
+    confirmatory_test_type.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", confirmatory_test.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const confirmatory_testValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (confirmatory_testValue) {
-  confirmatory_test.value = confirmatory_testValue;
-}
+confirmatory_test1.addEventListener("change", toggleElementVisibility);
+confirmatory_test2.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-confirmatory_test.addEventListener("change", showElement);
+

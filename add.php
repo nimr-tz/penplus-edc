@@ -10390,14 +10390,14 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>   
                                                 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-4" id="sc_test">
                                                     <label>SCD Test Result?</label>
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="scd_done" id="scd_test1" value="1" <?php if ($results['scd_test'] == 1) {
+                                                                <input class="form-check-input" type="radio" name="sc_test1" id="scd_test1" value="1" <?php if ($results['scd_test'] == 1) {
                                                                                                                                                                                 echo 'checked';
-                                                                                                                                                                            } ?> required>
+                                                                                                                                                                            } ?>>
                                                                 <label class="form-check-label">Presumptive Diagnosis</label>                                                                
                                                             </div>
 
@@ -10445,12 +10445,12 @@ if ($user->isLoggedIn()) {
 
                                                 
 
-                                                <div class="col-sm-4" id="scd_test_other">
+                                                <div class="col-sm-4" id="scd_test_other1">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>SCD Other Specify</label>
-                                                            <textarea name="scd_test_other" rows="3" class="form-control">
+                                                            <textarea name="scd_test_other"  id="scd_test_other" rows="3" class="form-control">
                                                                     <?php if ($results['scd_test_other']) {
                                                                         print_r($results['scd_test_other']);
                                                                     }  ?>
@@ -10463,7 +10463,7 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
 
-                                            <div class="row">
+                                            <div class="row" id="confirmatory_test">
                                                 <div class="col-sm-6">
                                                     <label>Confirmatory Test:</label>
                                                     <div class="row-form clearfix">
@@ -10487,13 +10487,13 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div> 
                                                 
-                                                <div class="col-sm-6" id="confirmatory_test_type">
+                                                <div class="col-sm-6" id="confirmatory_test_type1">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Type of Confirmatory Test</label>
-                                                            <select name="confirmatory_test_type" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $results['confirmatory_test_type'] ?>"><?php if ($results) {
+                                                            <select name="confirmatory_test_type" id="confirmatory_test_type" class="form-control" style="width: 100%;">
+                                                                <option value="<?= $results['confirmatory_test_type'] ?>"><?php if ($results['confirmatory_test_type']) {
                                                                                                                                 if ($results['confirmatory_test_type'] == 1) {
                                                                                                                                     echo 'HPLC';
                                                                                                                                 } elseif ($results['confirmatory_test_type'] == 2) {

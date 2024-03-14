@@ -217,7 +217,7 @@ if ($user->isLoggedIn()) {
                         }
                     }
 
-                    
+
 
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
@@ -1568,6 +1568,32 @@ if ($user->isLoggedIn()) {
                                                 $summary = $override->getlastRow1('summary', 'status', 1, 'patient_id', $client['id'], 'id')[0];
 
 
+
+
+                                                $demographic = $override->countData('demographic', 'patient_id', $client['id'], 'status', 1);
+                                                $vital = $override->countData('vital', 'patient_id', $client['id'], 'status', 1);
+                                                $history = $override->countData('history', 'patient_id',  $client['id'], 'status', 1);
+                                                $symptoms = $override->countData('symptoms', 'patient_id', $client['id'], 'status', 1);
+                                                $diagnosis = $override->countData('main_diagnosis', 'patient_id', $client['id'], 'status', 1);
+                                                $results = $override->countData('results', 'patient_id', $client['id'], 'status', 1);
+                                                $hospitalization = $override->countData('hospitalization', 'patient_id', $client['id'], 'status', 1);
+                                                $treatment_plan = $override->countData('treatment_plan', 'patient_id', $client['id'], 'status', 1);
+                                                $dgns_complctns_comorbdts = $override->countData('dgns_complctns_comorbdts', 'patient_id', $client['id'], 'status', 1);
+                                                $risks = $override->countData('risks', 'patient_id', $client['id'], 'status', 1);
+                                                $hospitalization_details = $override->countData('hospitalization_details', 'patient_id', $client['id'], 'status', 1);
+                                                $lab_details = $override->countData('lab_details', 'patient_id', $client['id'], 'status', 1);
+                                                $summary = $override->countData('summary', 'patient_id', $client['id'], 'status', 1);
+                                                $social_economic = $override->countData('social_economic', 'patient_id', $client['id'], 'status', 1);
+
+                                                $total1 = intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                    + $treatment_plan + $dgns_complctns_comorbdts + $risks + $hospitalization_details + $lab_details
+                                                    + intval($summary) + intval($social_economic);
+
+                                                $all_visit = intval($override->getCount('visit', 'client_id', $client['id']));
+
+                                                $progress = intval(($total1 / $all_visit));
+
+
                                                 $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
 
                                                 $screened = 0;
@@ -1761,10 +1787,17 @@ if ($user->isLoggedIn()) {
                                                 <?php if ($enrollment == 1) { ?>
                                                     <td>
                                                         <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
+                                                        <?php if ($user->data()->power == 1) { ?>
+
+                                                            <span class="badge bg-danger">
+                                                                <?= $progress; ?>%
+                                                            </span>
+                                                        <?php }
+                                                        ?>
+
                                                     </td>
-
-
-                                            <?php }
+                                            <?php
+                                                    }
                                                 } ?>
 
                                             <?php if ($_GET['status'] == 3) { ?>
@@ -1775,7 +1808,6 @@ if ($user->isLoggedIn()) {
 
                                             <?php }
                                                 } ?>
-                                            <!-- <td><span class="badge bg-danger">55%</span></td> -->
                                                 </tr>
                                                 <div class="modal fade" id="addScreening<?= $client['id'] ?>">
                                                     <div class="modal-dialog">
@@ -2213,7 +2245,7 @@ if ($user->isLoggedIn()) {
                                                                     <?php }
                                                                 }
                                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
-                                                                <hr>
+                                                                    <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
                                                                     <?php if ($user->data()->power == 1) { ?>

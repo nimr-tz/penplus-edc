@@ -1,7 +1,13 @@
-const echo_performed1 = document.getElementById("echo_performed1");
-const echo_performed2 = document.getElementById("echo_performed2");
+const echo_performed1trrrrrrr = document.getElementById(
+  "echo_performed1111111111111"
+);
+const echo_performed1trrrrrss = document.getElementById(
+  "echo_performed2322222"
+);
 
-const echo_performed = document.getElementById("echo_performed");
+const echo_performed23111111111144 = document.getElementById(
+  "echo_performed23111111111144"
+);
 
 const echo_date = document.getElementById("echo_date");
 const echo = document.getElementById("echo");
@@ -14,10 +20,11 @@ const thrombus = document.getElementById("thrombus");
 const congenital_defect = document.getElementById("congenital_defect");
 const echo_other = document.getElementById("echo_other");
 const echo_other1 = document.getElementById("echo_other1");
+const test22 = document.getElementById("test22");
 
 function toggleElementVisibility() {
-  if (echo_performed1.checked) {
-    echo_performed.style.display = "block";
+  if (echo_performed1trrrrrrr.checked) {
+    echo_performed23111111111144.style.display = "block";
     echo_date.setAttribute("required", "required");
     echo.setAttribute("required", "required");
     lv.setAttribute("required", "required");
@@ -29,8 +36,9 @@ function toggleElementVisibility() {
     congenital_defect.setAttribute("required", "required");
     echo_other.style.display = "block";
     echo_other1.setAttribute("required", "required");
+    test22.style.display = "block";
   } else {
-    echo_performed.style.display = "none";
+    echo_performed23111111111144.style.display = "none";
     echo_date.removeAttribute("required");
     echo.removeAttribute("required");
     lv.removeAttribute("required");
@@ -42,11 +50,12 @@ function toggleElementVisibility() {
     congenital_defect.removeAttribute("required");
     echo_other.style.display = "block";
     echo_other1.removeAttribute("required");
+    test22.style.display = "none";
   }
 }
 
 // Initial check
 toggleElementVisibility();
 
-echo_performed1.addEventListener("change", toggleElementVisibility);
-echo_performed2.addEventListener("change", toggleElementVisibility);
+echo_performed1trrrrrrr.addEventListener("change", toggleElementVisibility);
+echo_performed1trrrrrss.addEventListener("change", toggleElementVisibility);

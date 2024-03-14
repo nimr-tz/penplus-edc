@@ -801,19 +801,22 @@ if ($user->isLoggedIn()) {
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
+                            'diagnosis_date' => Input::get('diagnosis_date'),
                             'diagnosis' => Input::get('diagnosis'),
                             'diagnosis_other' => Input::get('diagnosis_other'),
-                            'visit_date' => Input::get('diagnosis_date'),
+                            'visit_date' => Input::get('visit_date'),
                             'comments' => Input::get('comments'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
                         ), $sickle_cell['id']);
+                                            $successMessage = 'Sickle Cell Updated Successful';
                     } else {
                         $user->createRecord('sickle_cell', array(
                             'diagnosis' => Input::get('diagnosis'),
-                            'diagnosis_other' => Input::get('diagnosis_other'),
+                            'diagnosis_other' => Input::get('diagnosis_other'),                            
+                            'diagnosis_date' => Input::get('diagnosis_date'),
                             'visit_date' => Input::get('visit_date'),
                             'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
@@ -827,9 +830,9 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                                            $successMessage = 'Sickle Cell added Successful';
                     }
-                    $successMessage = 'Sickle Cell added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -9643,7 +9646,7 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>">
                                             < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Main diagnosis ( Sickle Cell )</li>
@@ -9729,56 +9732,62 @@ if ($user->isLoggedIn()) {
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row-form clearfix">
+                                                <hr>
                                                 <div class="row">
-                                                    <div class="col-sm-4" id="diagnosis_date">
+                                                    <div class="col-sm-3" id="diagnosis_date">
+                                                        <div class="row-form clearfix">
+                                                            <!-- select -->
+                                                            <div class="form-group">
+                                                                <label>Visit Date:</label>
+                                                                <input type="date" name="visit_date" class="form-control" value="<?php if ($sickle_cell['visit_date']) {
+                                                                                                                                            print_r($sickle_cell['visit_date']);
+                                                                                                                                        }  ?>" required/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Diagnosis Date:</label>
-                                                                <input type="date" name="diagnosis_date" class="form-control" value="<?php if ($sickle_cell['visit_date']) {
-                                                                                                                                            print_r($sickle_cell['visit_date']);
-                                                                                                                                        }  ?>" />
+                                                                <input type="date" name="diagnosis_date" class="form-control" value="<?php if ($sickle_cell['diagnosis_date']) {
+                                                                                                                                            print_r($sickle_cell['diagnosis_date']);
+                                                                                                                                        }  ?>" required/>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-6">
+                                                        <label>Main diagnosis?:</label>
+                                                        <!-- radio -->
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Main diagnosis?:</label>
-                                                                <select name="diagnosis" id="diagnosis5" class="form-control" style="width: 100%;" onchange="checkQuestionValue2('diagnosis','diagnosis_date','diagnosis_other')" required>
-                                                                    <option value="<?= $sickle_cell['diagnosis'] ?>"><?php if ($sickle_cell) {
-                                                                                                                            if ($sickle_cell['diagnosis'] == 1) {
-                                                                                                                                echo 'Sickle Cell Disease';
-                                                                                                                            } elseif ($sickle_cell['diagnosis'] == 2) {
-                                                                                                                                echo 'Other Hemoglobinopathy';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?>
-                                                                    </option>
-                                                                    <option value="1">Sickle Cell Disease</option>
-                                                                    <option value="2">Other Hemoglobinopathy</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_sickle_cell1" value="1" <?php if ($symptoms['diagnosis'] == 1) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?> required>
+                                                                    <label class=" form-check-label">Sickle Cell Disease</label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_sickle_cell2" value="2" <?php if ($symptoms['diagnosis'] == 2) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Other Hemoglobinopathy</label>
+                                                                </div>                                                                
+                                                                <textarea class="form-control" name="diagnosis_other" id="diagnosis_other_sickcle_cell" rows="3" placeholder="Enter other" >
+                                                                    <?php if ($symptoms['diagnosis_other']) {
+                                                                        print_r($symptoms['diagnosis_other']);
+                                                                    } ?>
+                                                                </textarea>
                                                             </div>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4" id="diagnosis_other5">
-                                                        <div class="row-form clearfix">
-                                                            <!-- select -->
-                                                            <div class="form-group">
-                                                                <label>Other ( Specify ):</label>
-                                                                <input type="text" name="diagnosis_other" class="form-control" value="<?php if ($sickle_cell['diagnosis_other']) {
-                                                                                                                                            print_r($sickle_cell['diagnosis_other']);
-                                                                                                                                        }  ?>" />
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    </div>                                                    
                                                 </div>
                                             </div>
+                                            <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-12">
@@ -9795,9 +9804,10 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
                                             <!-- /.card-body -->
                                             <div class="card-footer">
-                                                <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
+                                                <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
                                                 <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
 
                                                     <input type="submit" name="add_scd" value="Submit" class="btn btn-primary">

@@ -14005,138 +14005,149 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
 
                                             <div class="card card-warning">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Last HIV test</h3>
                                                 </div>
                                             </div>
+                                            <hr>
 
 
                                             <div class="row">
                                                 <div class="col-sm-3">
+                                                    <label>HIV</label>
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>HIV:</label>
-                                                            <select name="risk_hiv" id="risk_hiv" style="width: 100%;" class="form-control" onchange="check2QuestionValue2('risk_hiv','risk_hiv_date','art2')">
-                                                                <option value="<?= $risks['risk_hiv'] ?>"><?php if ($risks) {
-                                                                                                                if ($risks['risk_hiv'] == 1) {
-                                                                                                                    echo 'R';
-                                                                                                                } elseif ($risks['risk_hiv'] == 2) {
-                                                                                                                    echo 'NR';
-                                                                                                                } elseif ($risks['risk_hiv'] == 3) {
-                                                                                                                    echo 'Unknown';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?>
-                                                                </option>
-                                                                <option value="1">R</option>
-                                                                <option value="2">NR</option>
-                                                                <option value="3">Unknown</option>
-                                                            </select>
-                                                        </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_hiv" id="risk_hiv1" value="1" <?php if ($risks['risk_hiv'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">R</label>                                                                
+                                                            </div>
+
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_hiv" id="risk_hiv2" value="2" <?php if ($risks['risk_hiv'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">NR</label>
+                                                            </div>   
+                                                                <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_hiv" id="risk_hiv3" value="3" <?php if ($risks['risk_hiv'] == 3) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Unknown</label>
+                                                            </div>                                                                 
+                                                            
+                                                        </div>  
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-3" id="risk_hiv_date">
+                                                </div>  
+                                                
+                                                <div class="col-sm-3" id="risk_hiv_date_label">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Date Test:</label>
-                                                            <input type="date" name="risk_hiv_date" class="form-control" value="<?php if ($risks['risk_hiv_date']) {
+                                                            <input type="date" name="risk_hiv_date" id="risk_hiv_date"  class="form-control" value="<?php if ($risks['risk_hiv_date']) {
                                                                                                                                     print_r($risks['risk_hiv_date']);
                                                                                                                                 }  ?>" />
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-3" id="risk_art1">
+                                                <div class="col-sm-3" id="risk_art">
+                                                    <label>On ART ?</label>
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
-                                                            <label>On ART ?</label>
-                                                            <select name="risk_art" id="risk_art" style="width: 100%;" class="form-control" onchange="checkQuestionValue1('art','risk_art_date')">
-                                                                <option value="<?= $history['art'] ?>"><?php if ($history) {
-                                                                                                            if ($history['art'] == 1) {
-                                                                                                                echo 'Yes';
-                                                                                                            } elseif ($history['art'] == 2) {
-                                                                                                                echo 'No';
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            echo 'Select';
-                                                                                                        } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_art" id="risk_art1" value="1" <?php if ($risks['risk_art'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Yes</label>                                                                
+                                                            </div>
+
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_art" id="risk_art2" value="2" <?php if ($risks['risk_art'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
+                                                        </div>  
                                                     </div>
-                                                </div>
+                                                </div>  
 
-
-
-                                                <div class="col-sm-3" id="risk_art_date">
+                                                <div class="col-sm-3" id="risk_art_date_label">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>ART start date:</label>
-                                                            <input type="date" name="risk_art_date" class="form-control" value="<?php if ($risks['risk_art_date']) {
+                                                            <input type="date" name="risk_art_date" id="risk_art_date" class="form-control" value="<?php if ($risks['risk_art_date']) {
                                                                                                                                     print_r($risks['risk_art_date']);
                                                                                                                                 }  ?>" />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
 
                                             <div class="card card-warning">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Last TB screening</h3>
                                                 </div>
                                             </div>
+                                            <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-6">
+                                                    <label>TB:</label>
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>TB:</label>
-                                                            <select name="risk_tb" id="risk_tb" class="form-control" style="width: 100%;" onchange="checkNotQuestionValue4('risk_tb','risk_tb_date')">
-                                                                <option value="<?= $risks['risk_tb'] ?>"><?php if ($risks) {
-                                                                                                                if ($risks['risk_tb'] == 1) {
-                                                                                                                    echo 'Positive : Smear / Xpert / Other';
-                                                                                                                } elseif ($risks['risk_tb'] == 2) {
-                                                                                                                    echo 'Negative : Smear / Xpert / Other';
-                                                                                                                } elseif ($risks['risk_tb'] == 3) {
-                                                                                                                    echo 'EPTB';
-                                                                                                                } elseif ($risks['risk_tb'] == 4) {
-                                                                                                                    echo 'Unknown';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?>
-                                                                </option>
-                                                                <option value="1">Positive : Smear / Xpert / Other</option>
-                                                                <option value="2">Negative : Smear / Xpert / Other</option>
-                                                                <option value="3">EPTB</option>
-                                                                <option value="4">Unknown</option>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_tb" id="risk_tb" value="1" <?php if ($risks['risk_tb'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Positive : Smear / Xpert / Other</label>                                                                
+                                                            </div>
 
-                                                            </select>
-                                                        </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_tb" id="risk_tb2" value="2" <?php if ($risks['risk_tb'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Negative : Smear / Xpert / Other</label>
+                                                            </div>  
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_tb" id="risk_tb3" value="3" <?php if ($risks['risk_tb'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">EPTB</label>
+                                                            </div>  
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="risk_tb" id="risk_tb4" value="4" <?php if ($risks['risk_tb'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Unknown</label>
+                                                            </div>                                                                                                                             
+                                                        </div>  
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-6" id="risk_tb_date">
+                                                </div> 
+
+                                                <div class="col-sm-6" id="risk_tb_date_label">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Date Screened:</label>
-                                                            <input type="date" name="risk_tb_date" class="form-control" value="<?php if ($risks['risk_tb_date']) {
+                                                            <input type="date" name="risk_tb_date" id="risk_tb_date" class="form-control" value="<?php if ($risks['risk_tb_date']) {
                                                                                                                                     print_r($risks['risk_tb_date']);
                                                                                                                                 }  ?>" />
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
+                                            <hr>
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">

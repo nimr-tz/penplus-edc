@@ -21,7 +21,7 @@ function toggleElementVisibility() {
     risk_art.style.display = "none";
     risk_art1_1.removeAttribute("required");
   } else {
-    risk_hiv_date_label.style.display = "block";
+    risk_hiv_date_label.style.display = "none";
     risk_hiv_date.style.display = "none";
     risk_hiv_date.removeAttribute("required");
     risk_art.style.display = "none";

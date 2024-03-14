@@ -8731,94 +8731,39 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                     <div class="card card-warning">
                                                         <div class="card-header">
                                                             <h3 class="card-title">Main diagnosis (Cardiac) </h3>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                     <div class="card card-warning">
                                                         <div class="card-header">
                                                             <h3 class="card-title">Sub diagnosis (Cardiac)</h3>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="card card-warning">
-                                                        <div class="card-header">
-                                                            <h3 class="card-title">Other diagnosis (Cardiac)</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
+                                            <hr>
 
                                             <div class="row">
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Hypertensive Heart Disease</label>
-                                                            <select name="hypertensive_heart" id="hypertensive_heart" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $diagnosis['hypertensive_heart'] ?>"><?php if ($diagnosis) {
+                                                            <select name="hypertensive_heart" id="hypertensive_heart" class="form-control" style="width: 100%;" required>
+                                                                <option value="<?= $diagnosis['hypertensive_heart'] ?>"><?php if ($diagnosis['hypertensive_heart']) {
                                                                                                                             if ($diagnosis['hypertensive_heart'] == 1) {
                                                                                                                                 echo 'Yes';
                                                                                                                             } elseif ($diagnosis['hypertensive_heart'] == 2) {
                                                                                                                                 echo 'No';
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
                                                                                                                             }
-                                                                                                                        } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-
-                                                <div class="col-sm-4">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label> Coronary Artery Disease</label>
-                                                            <select name="coronary_artery" id="coronary_artery" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $diagnosis['coronary_artery'] ?>"><?php if ($diagnosis) {
-                                                                                                                            if ($diagnosis['coronary_artery'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($diagnosis['coronary_artery'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            } else {
+                                                                                                                        } else {
                                                                                                                                 echo 'Select';
-                                                                                                                            }
-                                                                                                                        } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Severe / Uncontrolled Hypertension</label>
-                                                            <select name="severe_hypertension" id="severe_hypertension" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $diagnosis['severe_hypertension'] ?>"><?php if ($diagnosis) {
-                                                                                                                                if ($diagnosis['severe_hypertension'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($diagnosis['severe_hypertension'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                } else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                }
                                                                                                                             } ?></option>
                                                                 <option value="1">Yes</option>
                                                                 <option value="2">No</option>
@@ -8827,6 +8772,60 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
+
+                                            <div class="row">
+
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label> Coronary Artery Disease</label>
+                                                            <select name="coronary_artery" id="coronary_artery" class="form-control" style="width: 100%;" required>
+                                                                <option value="<?= $diagnosis['coronary_artery'] ?>"><?php if ($diagnosis['coronary_artery']) {
+                                                                                                                            if ($diagnosis['coronary_artery'] == 1) {
+                                                                                                                                echo 'Yes';
+                                                                                                                            } elseif ($diagnosis['coronary_artery'] == 2) {
+                                                                                                                                echo 'No';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                                echo 'Select';
+                                                                                                                            } ?>
+                                                                                                                        </option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <!-- select -->
+                                                        <div class="form-group">
+                                                            <label>Severe / Uncontrolled Hypertension</label>
+                                                            <select name="severe_hypertension" id="severe_hypertension" class="form-control" style="width: 100%;">
+                                                                <option value="<?= $diagnosis['severe_hypertension'] ?>"><?php if ($diagnosis['severe_hypertension']) {
+                                                                                                                                if ($diagnosis['severe_hypertension'] == 1) {
+                                                                                                                                    echo 'Yes';
+                                                                                                                                } elseif ($diagnosis['severe_hypertension'] == 2) {
+                                                                                                                                    echo 'No';
+                                                                                                                                }
+                                                                                                                            }  else {
+                                                                                                                                    echo 'Select';
+                                                                                                                                }?></option>
+                                                                <option value="1">Yes</option>
+                                                                <option value="2">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-4">

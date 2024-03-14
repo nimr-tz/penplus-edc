@@ -14428,6 +14428,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                             print_r($lab_details['na']);
                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                            <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
 
@@ -14440,6 +14441,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                         print_r($lab_details['k']);
                                                                                                                                     }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
 
@@ -14452,6 +14454,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                             print_r($lab_details['bun']);
                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
 
@@ -14464,6 +14467,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                             print_r($lab_details['cre']);
                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
 
@@ -14476,6 +14480,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                             print_r($lab_details['bnp']);
                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
 
@@ -14488,18 +14493,19 @@ if ($user->isLoggedIn()) {
                                                                                                                                             print_r($lab_details['inr']);
                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <hr>
 
-                                                    <div class="row">
+                                                    <div class="row" id="other_chemistry">
                                                         <div class="col-sm-4">
                                                             <label>Other:</label>
                                                             <div class="row-form clearfix">
                                                                 <div class="form-group">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="lab_Other" id="lab_Other1" value="1" <?php if ($lab_details['lab_Other'] == 1) {
+                                                                        <input class="form-check-input" type="radio" name="lab_Other" id="other_chemistry1" value="1" <?php if ($lab_details['lab_Other'] == 1) {
                                                                                                                                                                                         echo 'checked';
                                                                                                                                                                                     } ?> required>
                                                                         <label class="form-check-label">Yes</label>                                                                
@@ -14507,7 +14513,7 @@ if ($user->isLoggedIn()) {
 
 
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="lab_Other" id="lab_Other2" value="2" <?php if ($lab_details['lab_Other'] == 2) {
+                                                                        <input class="form-check-input" type="radio" name="lab_Other" id="other_chemistry2" value="2" <?php if ($lab_details['lab_Other'] == 2) {
                                                                                                                                                                                         echo 'checked';
                                                                                                                                                                                     } ?>>
                                                                         <label class="form-check-label">No</label>

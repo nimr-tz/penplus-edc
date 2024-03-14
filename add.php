@@ -722,13 +722,14 @@ if ($user->isLoggedIn()) {
 
                     if ($diabetic) {
                         $user->updateRecord('diabetic', array(
-                            'visit_date' => Input::get('diagnosis_date'),
+                            'visit_date' => Input::get('visit_date'),
                             'study_id' => $_GET['sid'],
                             'visit_code' => $_GET['vcode'],
                             'visit_day' => $_GET['vday'],
                             'seq_no' => $_GET['seq'],
                             'vid' => $_GET['vid'],
                             'diagnosis' => Input::get('diagnosis'),
+                            'diagnosis_date' => Input::get('diagnosis_date'),
                             'diagnosis_other' => Input::get('diagnosis_other'),
                             'hypertension' => Input::get('hypertension'),
                             'hypertension_date' => Input::get('hypertension_date'),
@@ -748,7 +749,8 @@ if ($user->isLoggedIn()) {
                         ), $diabetic['id']);
                     } else {
                         $user->createRecord('diabetic', array(
-                            'visit_date' => Input::get('diagnosis_date'),
+                            'visit_date' => Input::get('visit_date'),
+                            'diagnosis_date' => Input::get('diagnosis_date'),
                             'diagnosis' => Input::get('diagnosis'),
                             'diagnosis_other' => Input::get('diagnosis_other'),
                             'study_id' => $_GET['sid'],
@@ -790,7 +792,6 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
-                print_r($_POST);
                 try {
 
                     $sickle_cell = $override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];

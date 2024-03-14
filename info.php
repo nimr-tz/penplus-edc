@@ -1710,7 +1710,7 @@ if ($user->isLoggedIn()) {
                                                     <td>
 
                                                         <?php if ($_GET['status'] == 5) { ?>
-                                                            <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">View / Update</a>
+                                                            <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">Update Registration</a>
                                                             <br>
                                                             <hr>
                                                         <?php

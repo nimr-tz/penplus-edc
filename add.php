@@ -10390,12 +10390,12 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>   
                                                 
-                                                <div class="col-sm-4" id="sc_test">
+                                                <div class="col-sm-4" id="scd_test">
                                                     <label>SCD Test Result?</label>
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sc_test1" id="scd_test1" value="1" <?php if ($results['scd_test'] == 1) {
+                                                                <input class="form-check-input" type="radio" name="scd_test" id="scd_test1" value="1" <?php if ($results['scd_test'] == 1) {
                                                                                                                                                                                 echo 'checked';
                                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Presumptive Diagnosis</label>                                                                

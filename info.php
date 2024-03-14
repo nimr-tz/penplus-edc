@@ -2210,6 +2210,7 @@ if ($user->isLoggedIn()) {
                                                                     <?php }
                                                                 }
                                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
                                                                     <?php if ($user->data()->power == 1) { ?>

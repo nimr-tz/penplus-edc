@@ -8749,52 +8749,49 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <div class="row">
-
                                                 <div class="col-sm-6">
+                                                    <label>Hypertensive Heart Disease</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Hypertensive Heart Disease</label>
-                                                            <select name="hypertensive_heart" id="hypertensive_heart" class="form-control" style="width: 100%;" required>
-                                                                <option value="<?= $diagnosis['hypertensive_heart'] ?>"><?php if ($diagnosis['hypertensive_heart']) {
-                                                                                                                            if ($diagnosis['hypertensive_heart'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($diagnosis['hypertensive_heart'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="hypertensive_heart" id="hypertensive_heart1" value="1" <?php if ($diagnosis['hypertensive_heart'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="hypertensive_heart" id="hypertensive_heart2" value="2" <?php if ($diagnosis['hypertensive_heart'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                               
                                             </div>
                                             <hr>
 
                                             <div class="row">
-
                                                 <div class="col-sm-6">
+                                                    <label> Coronary Artery Disease</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label> Coronary Artery Disease</label>
-                                                            <select name="coronary_artery" id="coronary_artery" class="form-control" style="width: 100%;" required>
-                                                                <option value="<?= $diagnosis['coronary_artery'] ?>"><?php if ($diagnosis['coronary_artery']) {
-                                                                                                                            if ($diagnosis['coronary_artery'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($diagnosis['coronary_artery'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                                                                        </option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="coronary_artery" id="coronary_artery1" value="1" <?php if ($diagnosis['coronary_artery'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="coronary_artery" id="coronary_artery2" value="2" <?php if ($diagnosis['coronary_artery'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
                                                         </div>
                                                     </div>
                                                 </div>
@@ -8804,51 +8801,52 @@ if ($user->isLoggedIn()) {
 
                                             <div class="row">
                                                 <div class="col-sm-6">
+                                                    <label>Severe / Uncontrolled Hypertension</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Severe / Uncontrolled Hypertension</label>
-                                                            <select name="severe_hypertension" id="severe_hypertension" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $diagnosis['severe_hypertension'] ?>"><?php if ($diagnosis['severe_hypertension']) {
-                                                                                                                                if ($diagnosis['severe_hypertension'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($diagnosis['severe_hypertension'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            }  else {
-                                                                                                                                    echo 'Select';
-                                                                                                                                }?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="severe_hypertension" id="severe_hypertension1" value="1" <?php if ($diagnosis['severe_hypertension'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="severe_hypertension" id="severe_hypertension2" value="2" <?php if ($diagnosis['severe_hypertension'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                           
                                             <hr>
 
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                 <div class="col-sm-6">
+                                                    <label>Cardiomyopathy</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Cardiomyopathy</label>
-                                                            <select name="cardiomyopathy" id="cardiomyopathy" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('cardiomyopathy','sub_cardiomyopathy1')">
-                                                                <option value="<?= $diagnosis['cardiomyopathy'] ?>"><?php if ($diagnosis) {
-                                                                                                                        if ($diagnosis['cardiomyopathy'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($diagnosis['cardiomyopathy'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        }
-                                                                                                                    } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cardiomyopathy" id="cardiomyopathy1" value="1" <?php if ($diagnosis['cardiomyopathy'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="cardiomyopathy" id="cardiomyopathy2" value="2" <?php if ($diagnosis['cardiomyopathy'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                               
 
                                                 <div class="col-sm-6" id="sub_cardiomyopathy1">
                                                     <div class="row-form clearfix">
@@ -8909,27 +8907,28 @@ if ($user->isLoggedIn()) {
 
 
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                 <div class="col-sm-6">
+                                                    <label>Rheumatic Heart Disease</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Rheumatic Heart Disease</label>
-                                                            <select name="heumatic" id="heumatic" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('heumatic','sub_heumatic1')">
-                                                                <option value="<?= $diagnosis['heumatic'] ?>"><?php if ($diagnosis) {
-                                                                                                                    if ($diagnosis['heumatic'] == 1) {
-                                                                                                                        echo 'Yes';
-                                                                                                                    } elseif ($diagnosis['heumatic'] == 2) {
-                                                                                                                        echo 'No';
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    }
-                                                                                                                } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="heumatic" id="heumatic1" value="1" <?php if ($diagnosis['heumatic'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="heumatic" id="heumatic2" value="2" <?php if ($diagnosis['heumatic'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>  
+                                                
 
                                                 <div class="col-sm-6" id="sub_heumatic1">
                                                     <div class="row-form clearfix">
@@ -8982,28 +8981,29 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                 <div class="col-sm-6">
+                                                    <label>Congenital heart Disease</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Congenital heart Disease</label>
-                                                            <select name="congenital" id="congenital" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('congenital','sub_congenital1')">
-                                                                <option value="<?= $diagnosis['congenital'] ?>"><?php if ($diagnosis) {
-                                                                                                                    if ($diagnosis['congenital'] == 1) {
-                                                                                                                        echo 'Yes';
-                                                                                                                    } elseif ($diagnosis['congenital'] == 2) {
-                                                                                                                        echo 'No';
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    }
-                                                                                                                } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="congenital" id="congenital1" value="1" <?php if ($diagnosis['congenital'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="congenital" id="congenital2" value="2" <?php if ($diagnosis['congenital'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>  
 
+                                        
                                                 <div class="col-sm-6" id="sub_congenital1">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -9044,9 +9044,9 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Other specify( If Congenital Heart Disease )</label>
                                                             <textarea name="congenital_other" class="form-control" rows="3"><?php if ($diagnosis['congenital_other']) {
-                                                                                                                                print_r($diagnosis['congenital_other']);
-                                                                                                                            }  ?>
-                                                                                                        </textarea>
+                                                                                    print_r($diagnosis['congenital_other']);
+                                                                                }  ?>
+                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -9055,27 +9055,28 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                 <div class="col-sm-6">
+                                                    <label>Right Heart Failure</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Right Heart Failure</label>
-                                                            <select name="heart_failure" id="heart_failure" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('heart_failure','heart_failure1')">
-                                                                <option value="<?= $diagnosis['heart_failure'] ?>"><?php if ($diagnosis) {
-                                                                                                                        if ($diagnosis['heart_failure'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($diagnosis['heart_failure'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        }
-                                                                                                                    } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="heart_failure" id="heart_failure1" value="1" <?php if ($diagnosis['heart_failure'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="heart_failure" id="heart_failure2" value="2" <?php if ($diagnosis['heart_failure'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>  
+                                                
                                                 <div class="col-sm-6" id="sub_heart_failure">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -9098,27 +9099,28 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                 <div class="col-sm-6">
+                                                    <label>Pericardial disease</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Pericardial disease</label>
-                                                            <select name="pericardial" id="pericardial" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('pericardial','sub_pericardial1')">
-                                                                <option value="<?= $diagnosis['pericardial'] ?>"><?php if ($diagnosis) {
-                                                                                                                        if ($diagnosis['pericardial'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($diagnosis['pericardial'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        }
-                                                                                                                    } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="pericardial" id="pericardial1" value="1" <?php if ($diagnosis['pericardial'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Yes</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="pericardial" id="pericardial2" value="2" <?php if ($diagnosis['pericardial'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                   
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>  
+
 
                                                 <div class="col-sm-6" id="sub_pericardial1">
                                                     <div class="row-form clearfix">

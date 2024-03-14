@@ -734,13 +734,6 @@ if ($user->isLoggedIn()) {
                             'hypertension' => Input::get('hypertension'),
                             'hypertension_date' => Input::get('hypertension_date'),
                             'symptoms' => Input::get('symptoms'),
-                            'cardiovascular' => Input::get('cardiovascular'),
-                            'retinopathy' => Input::get('retinopathy'),
-                            'renal_disease' => Input::get('renal_disease'),
-                            'stroke' => Input::get('stroke'),
-                            'pvd' => Input::get('pvd'),
-                            'neuropathy' => Input::get('neuropathy'),
-                            'sexual_dysfunction' => Input::get('sexual_dysfunction'),
                             'comments' => Input::get('comments'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -761,13 +754,6 @@ if ($user->isLoggedIn()) {
                             'hypertension' => Input::get('hypertension'),
                             'hypertension_date' => Input::get('hypertension_date'),
                             'symptoms' => Input::get('symptoms'),
-                            'cardiovascular' => Input::get('cardiovascular'),
-                            'retinopathy' => Input::get('retinopathy'),
-                            'renal_disease' => Input::get('renal_disease'),
-                            'stroke' => Input::get('stroke'),
-                            'pvd' => Input::get('pvd'),
-                            'neuropathy' => Input::get('neuropathy'),
-                            'sexual_dysfunction' => Input::get('sexual_dysfunction'),
                             'comments' => Input::get('comments'),
                             'patient_id' => $_GET['cid'],
                             'staff_id' => $user->data()->id,
@@ -777,7 +763,7 @@ if ($user->isLoggedIn()) {
                         ));
                     }
                     $successMessage = 'Diabetic added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());

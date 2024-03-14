@@ -10081,10 +10081,9 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Echo Date:</label>
-                                                                <input type="text" name="echo_date" id="echo_date" class="form-control" value="<?php if ($results['echo_date']) {
+                                                                <input type="date" name="echo_date" id="echo_date" class="form-control" value="<?php if ($results['echo_date']) {
                                                                                                                                                     print_r($results['echo_date']);
                                                                                                                                                 }  ?>" />
-                                                                <span>Example: 2023-01-01</span>
                                                             </div>
                                                         </div>
                                                     </div>

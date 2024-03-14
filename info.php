@@ -2163,6 +2163,8 @@ if ($user->isLoggedIn()) {
                                                                 <a href="#AddVisit<?= $visit['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Pending</a>
                                                             <?php } elseif ($visit['visit_status'] == 2) { ?>
                                                                 <a href="#AddVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Missed</a>
+                                                            <?php } else { ?>
+                                                                <a href="#AddVisit<?= $visit['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Pending</a>
                                                             <?php } ?>
                                                         </td>
 

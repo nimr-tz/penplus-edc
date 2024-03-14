@@ -14765,7 +14765,7 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4" id="other_lab_diabetes">
-                                                            <label>Any Chemistry Test today?:</label>
+                                                            <label>Any Other Chemistry Test today?:</label>
                                                             <div class="row-form clearfix">
                                                                 <div class="form-group">
                                                                     <div class="form-check">
@@ -14813,6 +14813,7 @@ if ($user->isLoggedIn()) {
                                                         <h3 class="card-title">Sickle Cell</h3>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-sm-4">
@@ -14820,10 +14821,11 @@ if ($user->isLoggedIn()) {
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label># Transfusion in last 12 months</label>
-                                                                <input type="number" min="0" max="100" name="lab_transfusion_sickle" id="lab_transfusion_sickle" class="form-control" value="<?php if ($lab_details['na']) {
+                                                                <input type="number" min="0" max="100" name="lab_transfusion_sickle" id="lab_transfusion_sickle" class="form-control" value="<?php if ($lab_details['lab_transfusion_sickle']) {
                                                                                                                                                                                                     print_r($lab_details['lab_transfusion_sickle']);
-                                                                                                                                                                                                }  ?>" />
+                                                                                                                                                                                                }  ?>" required/>
                                                             </div>
+                                                            <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                         </div>
                                                     </div>
 
@@ -14834,34 +14836,36 @@ if ($user->isLoggedIn()) {
                                                                 <label># Transcranial Doppler</label>
                                                                 <input type="number" min="0" max="100" name="transcranial_doppler" id="transcranial_doppler" class="form-control" value="<?php if ($lab_details['transcranial_doppler']) {
                                                                                                                                                                                                 print_r($lab_details['transcranial_doppler']);
-                                                                                                                                                                                            }  ?>" />
+                                                                                                                                                                                            }  ?>" required/>
                                                             </div>
+                                                            <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-sm-4">
+                                                        <label>Any Hematology Test today?:</label>
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Any Hematology Test today?:</label>
-                                                                <select name="hematology_test" id="hematology_test" style="width: 100%;" class="form-control" onchange="checkQuestionValue1('hematology_test','hematology_test_hides')">
-                                                                    <option value="<?= $lab_details['hematology_test'] ?>"><?php if ($lab_details) {
-                                                                                                                                if ($lab_details['chemistry_test'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($lab_details['chemistry_test'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hematology_test" id="hematology_test1" value="1" <?php if ($lab_details['hematology_test'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>                                                                
+                                                                </div>
+
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hematology_test" id="hematology_test2" value="2" <?php if ($lab_details['hematology_test'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                                                                                                    
+                                                                
+                                                            </div>  
                                                         </div>
-                                                    </div>
+                                                    </div>                                                     
                                                 </div>
+                                                <hr>
 
                                                 <div id="hematology_test_hides">
                                                     <div class="row">
@@ -14870,11 +14874,12 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>WBC:</label>
-                                                                    <input type="text" name="wbc" id="wbc" class="form-control" value="<?php if ($lab_details['wbc']) {
+                                                                    <input type="number" min="0" max="1000" step="any" name="wbc" id="wbc" class="form-control" value="<?php if ($lab_details['wbc']) {
                                                                                                                                             print_r($lab_details['wbc']);
                                                                                                                                         }  ?>" />
                                                                 </div>
                                                             </div>
+                                                            <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                         </div>
 
                                                         <div class="col-sm-4">
@@ -14882,10 +14887,11 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Hb:</label>
-                                                                    <input type="text" name="hb" id="hb" class="form-control" value="<?php if ($lab_details['hb']) {
+                                                                    <input type="number" min="0" max="1000" step="any" name="hb" id="hb" class="form-control" value="<?php if ($lab_details['hb']) {
                                                                                                                                             print_r($lab_details['hb']);
                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
 
@@ -14894,10 +14900,11 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>MCV:</label>
-                                                                    <input type="text" name="mcv" id="mcv" class="form-control" value="<?php if ($lab_details['mcv']) {
+                                                                    <input type="number" min="0" max="1000" step="any" name="mcv" id="mcv" class="form-control" value="<?php if ($lab_details['mcv']) {
                                                                                                                                             print_r($lab_details['mcv']);
                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -14909,10 +14916,11 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Plt:</label>
-                                                                    <input type="text" name="plt" id="plt" class="form-control" value="<?php if ($lab_details['plt']) {
+                                                                    <input type="number" min="0" max="1000" step="any" name="plt" id="plt" class="form-control" value="<?php if ($lab_details['plt']) {
                                                                                                                                             print_r($lab_details['plt']);
                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
 
@@ -14921,10 +14929,11 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Fe studies:</label>
-                                                                    <input type="text" name="fe_studies" id="fe_studies" class="form-control" value="<?php if ($lab_details['fe_studies']) {
+                                                                    <input type="number" min="0" max="1000" step="any" name="fe_studies" id="fe_studies" class="form-control" value="<?php if ($lab_details['fe_studies']) {
                                                                                                                                                             print_r($lab_details['fe_studies']);
                                                                                                                                                         }  ?>" />
                                                                 </div>
+                                                            <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
@@ -14932,14 +14941,16 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>LFTs:</label>
-                                                                    <input type="text" name="lfts" id="lfts" class="form-control" value="<?php if ($lab_details['lfts']) {
+                                                                    <input type="number" min="0" max="1000" step="any" name="lfts" id="lfts" class="form-control" value="<?php if ($lab_details['lfts']) {
                                                                                                                                                 print_r($lab_details['lfts']);
                                                                                                                                             }  ?>" />
                                                                 </div>
+                                                                <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
                                             <?php } ?>
                                         </div>
                                         <!-- /.card-body -->

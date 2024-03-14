@@ -9,7 +9,7 @@ const hydroxyurea_dose1 = document.getElementById("hydroxyurea_dose1");
 const hydroxyurea_dose = document.getElementById("hydroxyurea_dose");
 
 function toggleElementVisibility() {
-  if (issue_injection1.checked) {
+  if (hydroxyurea1.checked) {
     hydroxyurea_dose1.style.display = "block";
     hydroxyurea_dose.setAttribute("required", "required");
     hydroxyurea_date1.style.display = "block";

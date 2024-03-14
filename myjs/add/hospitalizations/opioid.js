@@ -9,7 +9,7 @@ const opioid_dose1 = document.getElementById("opioid_dose1");
 const opioid_dose = document.getElementById("opioid_dose");
 
 function toggleElementVisibility() {
-  if (issue_injection1.checked) {
+  if (opioid1.checked) {
     opioid_dose1.style.display = "block";
     opioid_dose.setAttribute("required", "required");
     opioid_type1.style.display = "block";

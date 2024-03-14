@@ -8846,61 +8846,70 @@ if ($user->isLoggedIn()) {
                                                             </div>                                                                   
                                                         </div>
                                                     </div>
-                                                </div>                                               
-
-                                                <div class="col-sm-6" id="sub_cardiomyopathy1">
+                                                </div>    
+                                                
+                                                 <div class="col-sm-6">
+                                                    <label>If Cardiomyopathy</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>If Cardiomyopathy</label>
-                                                            <select name="sub_cardiomyopathy" id="sub_cardiomyopathy" class="form-control" style="width: 100%;" onchange="checkQuestionValue96('sub_cardiomyopathy','cardiomyopathy_other1')">
-                                                                <option value="<?= $diagnosis['sub_cardiomyopathy'] ?>"><?php if ($diagnosis) {
-                                                                                                                            if ($diagnosis['sub_cardiomyopathy'] == 1) {
-                                                                                                                                echo 'Ischemic';
-                                                                                                                            } elseif ($diagnosis['sub_cardiomyopathy'] == 2) {
-                                                                                                                                echo 'Alcohol-related';
-                                                                                                                            } elseif ($diagnosis['sub_cardiomyopathy'] == 3) {
-                                                                                                                                echo 'Peripartum';
-                                                                                                                            } elseif ($diagnosis['sub_cardiomyopathy'] == 4) {
-                                                                                                                                echo 'Arrhythmia-related';
-                                                                                                                            } elseif ($diagnosis['sub_cardiomyopathy'] == 5) {
-                                                                                                                                echo 'HIV-related';
-                                                                                                                            } elseif ($diagnosis['sub_cardiomyopathy'] == 6) {
-                                                                                                                                echo 'Chemotherapy-related';
-                                                                                                                            } elseif ($diagnosis['sub_cardiomyopathy'] == 7) {
-                                                                                                                                echo 'Viral/idiopathic';
-                                                                                                                            } elseif ($diagnosis['sub_cardiomyopathy'] == 96) {
-                                                                                                                                echo 'Other';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                <option value="1">Ischemic</option>
-                                                                <option value="2">Alcohol-related</option>
-                                                                <option value="3">Peripartum</option>
-                                                                <option value="4">Arrhythmia-related </option>
-                                                                <option value="5">HIV-related</option>
-                                                                <option value="6">Chemotherapy-related </option>
-                                                                <option value="7">Viral/idiopathic </option>
-                                                                <option value="96">Other </option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy1" value="1" <?php if ($diagnosis['sub_cardiomyopathy'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">Ischemic</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy2" value="2" <?php if ($diagnosis['sub_cardiomyopathy'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Alcohol-related</label>
+                                                            </div> 
+                                                             <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy3" value="2" <?php if ($diagnosis['sub_cardiomyopathy'] == 3) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Peripartum</label>
+                                                            </div>   
+                                                             <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy4" value="2" <?php if ($diagnosis['sub_cardiomyopathy'] == 4) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Arrhythmia-related</label>
+                                                            </div>   
+                                                             <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy5" value="2" <?php if ($diagnosis['sub_cardiomyopathy'] == 5) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">HIV-related</label>
+                                                            </div>   
+                                                             <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy6" value="2" <?php if ($diagnosis['sub_cardiomyopathy'] == 6) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Chemotherapy-related</label>
+                                                            </div>   
+                                                             <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy7" value="2" <?php if ($diagnosis['sub_cardiomyopathy'] == 7) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Viral/idiopathic</label>
+                                                            </div>   
+                                                             <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy96" value="2" <?php if ($diagnosis['sub_cardiomyopathy'] == 96) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div> 
+                                                            <textarea  name="cardiomyopathy_other" id="cardiomyopathy_other" class="form-control" rows="3">
+                                                                <?php if ($diagnosis['cardiomyopathy_other']) {
+                                                                    print_r($diagnosis['cardiomyopathy_other']);
+                                                                }  ?>
+                                                            </textarea>                                                                    
                                                         </div>
                                                     </div>
-                                                </div>
-
-
-                                                <div class="col-sm-4" id="cardiomyopathy_other">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Other specify</label>
-                                                            <textarea name="cardiomyopathy_other" class="form-control" rows="3"><?php if ($diagnosis['cardiomyopathy_other']) {
-                                                                                    print_r($diagnosis['cardiomyopathy_other']);
-                                                                                }  ?>
-                                                            </textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </div>                                                  
                                             </div>
 
                                             <hr>

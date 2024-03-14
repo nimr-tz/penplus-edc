@@ -14181,7 +14181,7 @@ if ($user->isLoggedIn()) {
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>">
+                                    <li class="breadcrumb-item"><a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>">
                                             < Back</a>
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
                                     <li class="breadcrumb-item active">Lab and Clinical Monitoring</li>
@@ -14265,6 +14265,7 @@ if ($user->isLoggedIn()) {
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
+                                            <hr>
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="row-form clearfix">
@@ -14273,7 +14274,7 @@ if ($user->isLoggedIn()) {
                                                             <label>Date:</label>
                                                             <input type="date" name="lab_date" id="lab_date" class="form-control" value="<?php if ($lab_details['lab_date']) {
                                                                                                                                                 print_r($lab_details['lab_date']);
-                                                                                                                                            }  ?>" />
+                                                                                                                                            }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -14283,8 +14284,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>NCD coping ?:</label>
-                                                            <select name="ncd_coping" id="ncd_coping" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $lab_details['ncd_coping'] ?>"><?php if ($lab_details) {
+                                                            <select name="ncd_coping" id="ncd_coping" class="form-control" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['ncd_coping'] ?>"><?php if ($lab_details['ncd_coping']) {
                                                                                                                         if ($lab_details['ncd_coping'] == 1) {
                                                                                                                             echo 'Well';
                                                                                                                         } elseif ($lab_details['ncd_coping'] == 2) {
@@ -14309,8 +14310,8 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Family planning ?:</label>
-                                                            <select name="family_planning" id="family_planning" class="form-control" style="width: 100%;">
-                                                                <option value="<?= $lab_details['family_planning'] ?>"><?php if ($lab_details) {
+                                                            <select name="family_planning" id="family_planning" class="form-control" style="width: 100%;" required>
+                                                                <option value="<?= $lab_details['family_planning'] ?>"><?php if ($lab_details['family_planning']) {
                                                                                                                             if ($lab_details['family_planning'] == 1) {
                                                                                                                                 echo 'Not eligible';
                                                                                                                             } elseif ($lab_details['family_planning'] == 2) {
@@ -14333,36 +14334,39 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
+                                                <hr>
 
                                                 <div class="card card-warning">
                                                     <div class="card-header">
                                                         <h3 class="card-title">Cardiac</h3>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-sm-4">
+                                                        <label>Cardiac surgery / intervention?:</label>
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Cardiac surgery / intervention?:</label>
-                                                                <select name="cardiac_surgery" id="cardiac_surgery2" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('cardiac_surgery','cardiac_surgery_type')">
-                                                                    <option value="<?= $lab_details['cardiac_surgery'] ?>"><?php if ($lab_details) {
-                                                                                                                                if ($lab_details['cardiac_surgery'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($lab_details['cardiac_surgery'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="cardiac_surgery" id="cardiac_surgery1" value="1" <?php if ($lab_details['cardiac_surgery'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>                                                                
+                                                                </div>
+
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="cardiac_surgery" id="cardiac_surgery2" value="2" <?php if ($lab_details['cardiac_surgery'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                                                                                                    
+                                                                
+                                                            </div>  
                                                         </div>
                                                     </div>
 
@@ -14377,28 +14381,30 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-sm-4">
+                                                        <label>Any Chemistry Test today?:</label>
                                                         <div class="row-form clearfix">
-                                                            <!-- select -->
                                                             <div class="form-group">
-                                                                <label>Any Chemistry Test today?:</label>
-                                                                <select name="chemistry_test" id="chemistry_test" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('chemistry_test','hide_chemistry_test')">
-                                                                    <option value="<?= $lab_details['chemistry_test'] ?>"><?php if ($lab_details) {
-                                                                                                                                if ($lab_details['chemistry_test'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($lab_details['chemistry_test'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="chemistry_test" id="chemistry_test1" value="1" <?php if ($lab_details['chemistry_test'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>                                                                
+                                                                </div>
+
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="chemistry_test" id="chemistry_test2" value="2" <?php if ($lab_details['chemistry_test'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>                                                                                                                                    
+                                                                
+                                                            </div>  
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
 
                                                 <div id="hide_chemistry_test">
@@ -14915,7 +14921,7 @@ if ($user->isLoggedIn()) {
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
+                                            <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
                                             <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
 
                                                 <input type="submit" name="add_lab_details" value="Submit" class="btn btn-primary">

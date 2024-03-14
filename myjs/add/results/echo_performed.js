@@ -1,7 +1,7 @@
 const echo_performed1 = document.getElementById("echo_performed1");
 const echo_performed2 = document.getElementById("echo_performed2");
 
-const ecg_performed = document.getElementById("ecg_performed");
+const echo_performed = document.getElementById("echo_performed");
 
 const echo_date = document.getElementById("echo_date");
 const echo = document.getElementById("echo");
@@ -17,7 +17,7 @@ const echo_other1 = document.getElementById("echo_other1");
 
 function toggleElementVisibility() {
   if (echo_performed1.checked) {
-    ecg_performed.style.display = "block";
+    echo_performed.style.display = "block";
     echo_date.setAttribute("required", "required");
     echo.setAttribute("required", "required");
     lv.setAttribute("required", "required");
@@ -30,7 +30,7 @@ function toggleElementVisibility() {
     echo_other.style.display = "block";
     echo_other1.setAttribute("required", "required");
   } else {
-    ecg_performed.style.display = "none";
+    echo_performed.style.display = "none";
     echo_date.removeAttribute("required");
     echo.removeAttribute("required");
     lv.removeAttribute("required");

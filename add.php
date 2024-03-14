@@ -10367,66 +10367,85 @@ if ($user->isLoggedIn()) {
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
 
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
+                                                    <label>Any SCD Test done today?</label>
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
-                                                            <label>Any SCD Test done today?</label>
-                                                            <select name="scd_done" id="scd_done" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('scd_done','scd_done_hide')">
-                                                                <option value="<?= $results['scd_done'] ?>"><?php if ($results) {
-                                                                                                                if ($results['scd_done'] == 1) {
-                                                                                                                    echo 'Yes';
-                                                                                                                } elseif ($results['scd_done'] == 2) {
-                                                                                                                    echo 'No';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_done" id="scd_done1" value="1" <?php if ($results['scd_done'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>                                                                
+                                                            </div>
 
-                                                <div class="col-sm-3" id="scd_test1">
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_done" id="scd_done2" value="2" <?php if ($results['scd_done'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                                                                                    
+                                                            
+                                                        </div>  
+                                                    </div>
+                                                </div>   
+                                                
+                                                <div class="col-sm-4">
+                                                    <label>SCD Test Result?</label>
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>SCD Test Result?</label>
-                                                            <select name="scd_test" id="scd_test" class="form-control" style="width: 100%;" onchange="checkQuestionValue96('scd_test','scd_test_other')">
-                                                                <option value="<?= $results['scd_test'] ?>"><?php if ($results) {
-                                                                                                                if ($results['scd_test'] == 1) {
-                                                                                                                    echo 'Presumptive Diagnosis';
-                                                                                                                } elseif ($results['scd_test'] == 2) {
-                                                                                                                    echo 'Sickling Test';
-                                                                                                                } elseif ($results['scd_test'] == 3) {
-                                                                                                                    echo 'SS';
-                                                                                                                } elseif ($results['scd_test'] == 4) {
-                                                                                                                    echo 'SA';
-                                                                                                                } elseif ($results['scd_test'] == 5) {
-                                                                                                                    echo 'SBThal';
-                                                                                                                } elseif ($results['scd_test'] == 6) {
-                                                                                                                    echo 'SC';
-                                                                                                                } elseif ($results['scd_test'] == 96) {
-                                                                                                                    echo 'Other';
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                echo 'Select';
-                                                                                                            } ?>
-                                                                </option>
-                                                                <option value="1">Presumptive Diagnosis</option>
-                                                                <option value="2">Sickling Test</option>
-                                                                <option value="3">SS </option>
-                                                                <option value="4">SA </option>
-                                                                <option value="5">SBThal </option>
-                                                                <option value="6">SC </option>
-                                                                <option value="96">Other </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_done" id="scd_test1" value="1" <?php if ($results['scd_test'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Presumptive Diagnosis</label>                                                                
+                                                            </div>
 
-                                                <div class="col-sm-6" id="scd_test_other">
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_test" id="scd_test2" value="2" <?php if ($results['scd_test'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Sickling Test</label>
+                                                            </div>      
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_test" id="scd_test3" value="3" <?php if ($results['scd_test'] == 3) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">SS</label>
+                                                            </div>    
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_test" id="scd_test4" value="4" <?php if ($results['scd_test'] == 4) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">SA</label>
+                                                            </div>    
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_test" id="scd_test5" value="5" <?php if ($results['scd_test'] == 5) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">SBThal</label>
+                                                            </div>    
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_test" id="scd_test6" value="6" <?php if ($results['scd_done'] == 6) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">SC</label>
+                                                            </div>    
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="scd_test" id="scd_test96" value="96" <?php if ($results['scd_test'] == 96) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div>                                                                                                                                  
+                                                            
+                                                        </div>  
+                                                    </div>
+                                                </div>  
+
+                                                
+
+                                                <div class="col-sm-4" id="scd_test_other">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -10441,32 +10460,33 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
 
 
                                             <div class="row">
-                                                <div class="col-sm-6" id="confirmatory_test1">
+                                                <div class="col-sm-6">
+                                                    <label>Confirmatory Test:</label>
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>Confirmatory Test:</label>
-                                                            <select name="confirmatory_test" id="confirmatory_test" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('confirmatory_test','confirmatory_test_type')">
-                                                                <option value="<?= $results['confirmatory_test'] ?>"><?php if ($results) {
-                                                                                                                            if ($results['confirmatory_test'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($results['confirmatory_test'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?>
-                                                                </option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="confirmatory_test" id="confirmatory_test1" value="1" <?php if ($results['confirmatory_test'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>                                                                
+                                                            </div>
 
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="confirmatory_test" id="confirmatory_test2" value="2" <?php if ($results['confirmatory_test'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                                                                                    
+                                                            
+                                                        </div>  
+                                                    </div>
+                                                </div> 
+                                                
                                                 <div class="col-sm-6" id="confirmatory_test_type">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->

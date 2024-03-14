@@ -13920,7 +13920,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Alcohol:</label>
-                                                            <select name="risk_alcohol" id="risk_alcohol" class="form-control" style="width: 100%; required">
+                                                            <select name="risk_alcohol" id="risk_alcohol" class="form-control" style="width: 100%;" required>
                                                                 <option value="<?= $risks['risk_alcohol'] ?>"><?php if ($risks['risk_alcohol']) {
                                                                                                                     if ($risks['risk_alcohol'] == 1) {
                                                                                                                         echo 'Yes, currently';

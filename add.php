@@ -8828,7 +8828,7 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -8850,7 +8850,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4" id="sub_cardiomyopathy1">
+                                                <div class="col-sm-6" id="sub_cardiomyopathy1">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -8890,22 +8890,26 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
+
                                                 <div class="col-sm-4" id="cardiomyopathy_other">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Other specify</label>
                                                             <textarea name="cardiomyopathy_other" class="form-control" rows="3"><?php if ($diagnosis['cardiomyopathy_other']) {
-                                                                                                                                    print_r($diagnosis['cardiomyopathy_other']);
-                                                                                                                                }  ?>
-                                                                                                            </textarea>
+                                                                                    print_r($diagnosis['cardiomyopathy_other']);
+                                                                                }  ?>
+                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <hr>
+
+
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -8927,7 +8931,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4" id="sub_heumatic1">
+                                                <div class="col-sm-6" id="sub_heumatic1">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -8975,8 +8979,10 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
 
+                                            <hr>
+
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -8998,7 +9004,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4" id="sub_congenital1">
+                                                <div class="col-sm-6" id="sub_congenital1">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
@@ -9045,6 +9051,8 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <hr>
 
                                             <div class="row">
                                                 <div class="col-sm-4">

@@ -1,32 +1,31 @@
-const opioid = document.getElementById("opioid");
+const opioid1 = document.getElementById("opioid1");
+const opioid2 = document.getElementById("opioid2");
+const opioid3 = document.getElementById("opioid3");
+
+const opioid_type1 = document.getElementById("opioid_type1");
 const opioid_type = document.getElementById("opioid_type");
+
+const opioid_dose1 = document.getElementById("opioid_dose1");
 const opioid_dose = document.getElementById("opioid_dose");
 
-
-function showElement() {
-  if (opioid.value === "1") {
-    opioid_type.style.display = "block";
-        opioid_dose.style.display = "block";
+function toggleElementVisibility() {
+  if (opioid1.checked) {
+    opioid_dose1.style.display = "block";
+    opioid_dose.setAttribute("required", "required");
+    opioid_type1.style.display = "block";
+    opioid_type.setAttribute("required", "required");
   } else {
-    opioid_type.style.display = "none";
-        opioid_dose.style.display = "none";
+    opioid_dose1.style.display = "none";
+    opioid_dose.removeAttribute("required");
+    opioid_type1.style.display = "none";
+    opioid_type.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", opioid.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const opioidValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (opioidValue) {
-  opioid.value = opioidValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-opioid.addEventListener("change", showElement);
-
+opioid1.addEventListener("change", toggleElementVisibility);
+opioid2.addEventListener("change", toggleElementVisibility);
+opioid3.addEventListener("change", toggleElementVisibility);
 

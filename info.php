@@ -1539,7 +1539,8 @@ if ($user->isLoggedIn()) {
                                                 <?php } ?>
                                                 <th>Status</th>
                                                 <?php if ($_GET['status'] == 4) { ?>
-                                                    <th>( Reason / Notes / Remarks / Comments )</th>
+                                                    <th> Reason </th>
+                                                    <th>Comments </th>
                                                 <?php } else { ?>
                                                     <th>Action</th>
                                                 <?php } ?>
@@ -1561,6 +1562,7 @@ if ($user->isLoggedIn()) {
                                                 $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
                                                 $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
                                                 $site = $override->get('site', 'id', $client['site_id'])[0];
+                                                $summary = $override->getlastRow1('summary', 'status', 1, 'patient_id', $client['id'], 'id')[0];
 
 
                                                 $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
@@ -1663,28 +1665,30 @@ if ($user->isLoggedIn()) {
 
                                                         <td>
                                                             <?php if ($termination == 1) { ?>
-                                                                <a href="#" class="btn btn-info">On Treatment</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">On Treatment</a>
                                                             <?php } elseif ($termination == '2') { ?>
 
-                                                                <a href="#" class="btn btn-info">Default</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Default</a>
                                                             <?php
                                                                 } elseif ($termination == 3) { ?>
-                                                                <a href="#" class="btn btn-info">Stop treatment</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Stop treatment</a>
                                                             <?php
                                                                 } elseif ($termination == 4) { ?>
-                                                                <a href="#" class="btn btn-info">Trnasfer Out</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Trnasfer Out</a>
                                                             <?php
                                                                 } elseif ($termination == 5) { ?>
-                                                                <a href="#" class="btn btn-info">Death</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Death</a>
                                                             <?php
                                                                 } else { ?>
-                                                                <a href="#" class="btn btn-info">Other</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Other</a>
                                                             <?php
                                                                 } ?>
 
                                                         <?php } else { ?>
-                                                            <a href="#" class="btn btn-success">ACTIVE</a>
+                                                            <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-success">ACTIVE</a>
                                                         </td>
+                                                        <td><?= $summary['comments'] . ' , ' . $summary['remarks'] ?></td>
+
                                                 <?php }
                                                         } ?>
 
@@ -1706,7 +1710,7 @@ if ($user->isLoggedIn()) {
                                                     <td>
 
                                                         <?php if ($_GET['status'] == 5) { ?>
-                                                            <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">View / Update</a>
+                                                            <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">Update Registration</a>
                                                             <br>
                                                             <hr>
                                                         <?php
@@ -2181,7 +2185,7 @@ if ($user->isLoggedIn()) {
 
                                                                 if ($user->data()->power == 1) { ?>
                                                                     <hr>
-                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
+                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
                                                                     <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
                                                             <?php }
@@ -2199,16 +2203,17 @@ if ($user->isLoggedIn()) {
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <hr>
 
                                                                     <?php }
                                                                 }
-                                                                if ($user->data()->power == 1) { ?>
+                                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
-
-                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Visit</a>
-                                                                    <hr>
-                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                                    <?php if ($user->data()->power == 1) { ?>
+                                                                        <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
                                                             <?php
+                                                                    }
                                                                 }
                                                             } ?>
                                                         </td>
@@ -2315,8 +2320,8 @@ if ($user->isLoggedIn()) {
                                                                                     <div class="form-group">
                                                                                         <label>Expected Date</label>
                                                                                         <input class="form-control" type="date" name="expected_date" id="expected_date" style="width: 100%;" value="<?php if ($visit['expected_date']) {
-                                                                                                                                                                                                                                    print_r($visit['expected_date']);
-                                                                                                                                                                                                                                }  ?>" required />
+                                                                                                                                                                                                        print_r($visit['expected_date']);
+                                                                                                                                                                                                    }  ?>" required />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

@@ -1,26 +1,25 @@
-const cardiac_surgery2 = document.getElementById("cardiac_surgery2");
-const cardiac_surgery_type2 = document.getElementById("cardiac_surgery_type2");
+const cardiac_surgery1_1_1 = document.getElementById("cardiac_surgery1_1_1");
+const cardiac_surgery2_2_2 = document.getElementById("cardiac_surgery2_2_2");
 
-function showElement() {
-  if (cardiac_surgery2.value === "1") {
-    cardiac_surgery_type2.style.display = "block";
+const cardiac_surgery_type3_3_3 = document.getElementById(
+  "cardiac_surgery_type3_3_3"
+);
+const cardiac_surgery_type2_2_2 = document.getElementById(
+  "cardiac_surgery_type2_2_2"
+);
+
+function toggleElementVisibility() {
+  if (cardiac_surgery1_1_1.checked) {
+    cardiac_surgery_type3_3_3.style.display = "block";
+    cardiac_surgery_type2_2_2.setAttribute("required", "required");
   } else {
-    cardiac_surgery_type2.style.display = "none";
+    cardiac_surgery_type3_3_3.style.display = "none";
+    cardiac_surgery_type2_2_2.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", cardiac_surgery2.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const cardiac_surgery2Value = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (cardiac_surgery2Value) {
-  cardiac_surgery2.value = cardiac_surgery2Value;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-cardiac_surgery2.addEventListener("change", showElement);
+cardiac_surgery1_1_1.addEventListener("change", toggleElementVisibility);
+cardiac_surgery2_2_2.addEventListener("change", toggleElementVisibility);

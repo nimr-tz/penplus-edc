@@ -1,26 +1,26 @@
-const hypertension6 = document.getElementById("hypertension6");
-const hypertension_date6 = document.getElementById("hypertension_date6");
+const hypertension1 = document.getElementById("hypertension1");
+const hypertension2 = document.getElementById("hypertension2");
+const hypertension3 = document.getElementById("hypertension3");
 
-function showElement() {
-  if (hypertension6.value === "1") {
-    hypertension_date6.style.display = "block";
+const hypertension_date = document.getElementById("hypertension_date");
+
+const hypertension_date1 = document.getElementById("hypertension_date1");
+
+function toggleElementVisibility() {
+  if (hypertension1.checked) {
+    hypertension_date1.style.display = "block";
+    hypertension_date.setAttribute("required", "required");
   } else {
-    hypertension_date6.style.display = "none";
+    hypertension_date1.style.display = "none";
+    hypertension_date.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", hypertension6.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const hypertension6Value = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (hypertension6Value) {
-  hypertension6.value = hypertension6Value;
-}
+hypertension1.addEventListener("change", toggleElementVisibility);
+hypertension2.addEventListener("change", toggleElementVisibility);
+hypertension3.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-hypertension6.addEventListener("change", showElement);

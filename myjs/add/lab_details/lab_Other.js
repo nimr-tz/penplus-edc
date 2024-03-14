@@ -1,26 +1,22 @@
-const lab_Other = document.getElementById("lab_Other");
-const lab_specify = document.getElementById("lab_specify");
+const other_chemistry4_4 = document.getElementById("other_chemistry4_4");
+const other_chemistry5_5 = document.getElementById("other_chemistry5_5");
 
-function showElement() {
-  if (lab_Other.value === "1") {
-    lab_specify.style.display = "block";
+const lab_specify3_3 = document.getElementById("lab_specify3_3");
+const lab_specify2_2 = document.getElementById("lab_specify2_2");
+
+function toggleElementVisibility() {
+  if (other_chemistry4_4.checked) {
+    lab_specify3_3.style.display = "block";
+    lab_specify2_2.setAttribute("required", "required");
   } else {
-    lab_specify.style.display = "none";
+    lab_specify3_3.style.display = "none";
+    lab_specify2_2.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", lab_Other.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const lab_OtherValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (lab_OtherValue) {
-  lab_Other.value = lab_OtherValue;
-}
+other_chemistry4_4.addEventListener("change", toggleElementVisibility);
+other_chemistry5_5.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-lab_Other.addEventListener("change", showElement);

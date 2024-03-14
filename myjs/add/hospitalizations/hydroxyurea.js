@@ -1,32 +1,32 @@
-const hydroxyurea = document.getElementById("hydroxyurea");
+const hydroxyurea1 = document.getElementById("hydroxyurea1");
+const hydroxyurea2 = document.getElementById("hydroxyurea2");
+const hydroxyurea3 = document.getElementById("hydroxyurea3");
+
+const hydroxyurea_date1 = document.getElementById("hydroxyurea_date1");
 const hydroxyurea_date = document.getElementById("hydroxyurea_date");
+
+const hydroxyurea_dose1 = document.getElementById("hydroxyurea_dose1");
 const hydroxyurea_dose = document.getElementById("hydroxyurea_dose");
 
-
-function showElement() {
-  if (hydroxyurea.value === "1") {
-    hydroxyurea_date.style.display = "block";
-    hydroxyurea_dose.style.display = "block";
+function toggleElementVisibility() {
+  if (hydroxyurea1.checked) {
+    hydroxyurea_dose1.style.display = "block";
+    hydroxyurea_dose.setAttribute("required", "required");
+    hydroxyurea_date1.style.display = "block";
+    hydroxyurea_date.setAttribute("required", "required");
   } else {
-    hydroxyurea_date.style.display = "none";
-    hydroxyurea_dose.style.display = "none";
+    hydroxyurea_dose1.style.display = "none";
+    hydroxyurea_dose.removeAttribute("required");
+    hydroxyurea_date1.style.display = "none";
+    hydroxyurea_date.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", hydroxyurea.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const hydroxyureaValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (hydroxyureaValue) {
-  hydroxyurea.value = hydroxyureaValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-hydroxyurea.addEventListener("change", showElement);
+hydroxyurea1.addEventListener("change", toggleElementVisibility);
+hydroxyurea2.addEventListener("change", toggleElementVisibility);
+hydroxyurea3.addEventListener("change", toggleElementVisibility);
 
 

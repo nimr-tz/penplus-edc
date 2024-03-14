@@ -1,26 +1,31 @@
-const diagnosis5 = document.getElementById("diagnosis5");
-const diagnosis_other5 = document.getElementById("diagnosis_other5");
+const diagnosis_sickle_cell1 = document.getElementById(
+  "diagnosis_sickle_cell1"
+);
+const diagnosis_sickle_cell2 = document.getElementById(
+  "diagnosis_sickle_cell2"
+);
 
-function showElement() {
-  if (diagnosis5.value === "2") {
-    diagnosis_other5.style.display = "block";
+const diagnosis_other_sickcle_cell1 = document.getElementById(
+  "diagnosis_other_sickcle_cell1"
+);
+const diagnosis_other_sickcle_cell = document.getElementById(
+  "diagnosis_other_sickcle_cell"
+);
+
+
+
+function toggleElementVisibility() {
+  if (diagnosis_sickle_cell2.checked) {
+    diagnosis_other_sickcle_cell1.style.display = "block";
+    diagnosis_other_sickcle_cell.setAttribute("required", "required");
   } else {
-    diagnosis_other5.style.display = "none";
+    diagnosis_other_sickcle_cell1.style.display = "none";
+    diagnosis_other_sickcle_cell.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", diagnosis5.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const diagnosis5Value = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (diagnosis5Value) {
-  diagnosis5.value = diagnosis5Value;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-diagnosis5.addEventListener("change", showElement);
+diagnosis_sickle_cell1.addEventListener("change", toggleElementVisibility);
+diagnosis_sickle_cell2.addEventListener("change", toggleElementVisibility);

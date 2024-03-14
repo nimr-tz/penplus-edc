@@ -1,28 +1,29 @@
-const issue_injection = document.getElementById("issue_injection");
-const issue_injection_yes = document.getElementById("issue_injection_yes");
+const issue_injection1 = document.getElementById("issue_injection1");
+const issue_injection2 = document.getElementById("issue_injection2");
 
-function showElement() {
-  if (issue_injection.value === "1") {
+const issue_injection_yes = document.getElementById("issue_injection_yes");
+const issue_injection_yes1 = document.getElementById("issue_injection_yes1");
+
+
+function toggleElementVisibility() {
+  if (issue_injection1.checked) {
     issue_injection_yes.style.display = "block";
+    issue_injection_yes1.setAttribute("required", "required");
   } else {
     issue_injection_yes.style.display = "none";
+    issue_injection_yes1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", issue_injection.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const issue_injectionValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (issue_injectionValue) {
-  issue_injection.value = issue_injectionValue;
+issue_injection1.addEventListener("change", toggleElementVisibility);
+issue_injection2.addEventListener("change", toggleElementVisibility);
+
+function unsetIssue_injection() {
+  var unsetIssue_injections = document.getElementsByName("issue_injection_yes");
+  unsetIssue_injections.forEach(function (unsetIssue_injection) {
+    unsetIssue_injection.checked = false;
+  });
 }
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-issue_injection.addEventListener("change", showElement);
-
-

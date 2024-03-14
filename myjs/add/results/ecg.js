@@ -1,26 +1,28 @@
-const ecg = document.getElementById("ecg");
+const ecg11 = document.getElementById("ecg1");
+const ecg22 = document.getElementById("ecg2");
+const ecg33 = document.getElementById("ecg3");
+const ecg44 = document.getElementById("ecg4");
+const ecg966 = document.getElementById("ecg96");
+
 const ecg_other = document.getElementById("ecg_other");
 
-function showElement() {
-  if (ecg.value === "96") {
-    ecg_other.style.display = "block";
+const ecg_other1 = document.getElementById("ecg_other1");
+
+function toggleElementVisibility() {
+  if (ecg966.checked) {
+    ecg_other1.style.display = "block";
+    ecg_other.setAttribute("required", "required");
   } else {
-    ecg_other.style.display = "none";
+    ecg_other1.style.display = "none";
+    ecg_other.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", ecg.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const ecgValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (ecgValue) {
-  ecg.value = ecgValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-ecg.addEventListener("change", showElement);
+ecg11.addEventListener("change", toggleElementVisibility);
+ecg22.addEventListener("change", toggleElementVisibility);
+ecg33.addEventListener("change", toggleElementVisibility);
+ecg44.addEventListener("change", toggleElementVisibility);
+ecg966.addEventListener("change", toggleElementVisibility);

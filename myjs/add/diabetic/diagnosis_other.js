@@ -1,26 +1,30 @@
-const diagnosis4 = document.getElementById("diagnosis4");
-const diagnosis_other4 = document.getElementById("diagnosis_other4");
+const diagnosis_diabetic1 = document.getElementById("diagnosis_diabetic1");
+const diagnosis_diabetic2 = document.getElementById("diagnosis_diabetic2");
+const diagnosis_diabetic3 = document.getElementById("diagnosis_diabetic3");
+const diagnosis_diabetic4 = document.getElementById("diagnosis_diabetic4");
+const diagnosis_diabetic96 = document.getElementById("diagnosis_diabetic96");
 
-function showElement() {
-  if (diagnosis4.value === "96") {
-    diagnosis_other4.style.display = "block";
+const diagnosis_other_diabetic = document.getElementById(
+  "diagnosis_other_diabetic"
+);
+
+function toggleElementVisibility() {
+  if (diagnosis_diabetic96.checked) {
+    diagnosis_other_diabetic.style.display = "block";
+    diagnosis_other_diabetic.setAttribute("required", "required");
   } else {
-    diagnosis_other4.style.display = "none";
+    diagnosis_other_diabetic.style.display = "none";
+    diagnosis_other_diabetic.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", diagnosis4.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const diagnosis4Value = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
+diagnosis_diabetic1.addEventListener("change", toggleElementVisibility);
+diagnosis_diabetic2.addEventListener("change", toggleElementVisibility);
+diagnosis_diabetic3.addEventListener("change", toggleElementVisibility);
+diagnosis_diabetic4.addEventListener("change", toggleElementVisibility);
+diagnosis_diabetic96.addEventListener("change", toggleElementVisibility);
 
-if (diagnosis4Value) {
-  diagnosis4.value = diagnosis4Value;
-}
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-diagnosis4.addEventListener("change", showElement);

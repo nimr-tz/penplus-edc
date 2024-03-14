@@ -1,26 +1,52 @@
-const echo_performed = document.getElementById("echo_performed");
 const echo_performed1 = document.getElementById("echo_performed1");
+const echo_performed2 = document.getElementById("echo_performed2");
 
-function showElement() {
-  if (echo_performed.value === "1") {
-    echo_performed1.style.display = "block";
+const ecg_performed = document.getElementById("ecg_performed");
+
+const echo_date = document.getElementById("echo_date");
+const echo = document.getElementById("echo");
+const lv = document.getElementById("lv");
+const mitral = document.getElementById("plt");
+const rv = document.getElementById("rv");
+const pericardial = document.getElementById("pericardial");
+const ivc = document.getElementById("ivc");
+const thrombus = document.getElementById("thrombus");
+const congenital_defect = document.getElementById("congenital_defect");
+const echo_other = document.getElementById("echo_other");
+const echo_other1 = document.getElementById("echo_other1");
+
+function toggleElementVisibility() {
+  if (echo_performed1.checked) {
+    ecg_performed.style.display = "block";
+    echo_date.setAttribute("required", "required");
+    echo.setAttribute("required", "required");
+    lv.setAttribute("required", "required");
+    mitral.setAttribute("required", "required");
+    rv.setAttribute("required", "required");
+    pericardial.setAttribute("required", "required");
+    ivc.setAttribute("required", "required");
+    thrombus.setAttribute("required", "required");
+    congenital_defect.setAttribute("required", "required");
+    echo_other.style.display = "block";
+    echo_other1.setAttribute("required", "required");
   } else {
-    echo_performed1.style.display = "none";
+    ecg_performed.style.display = "none";
+    echo_date.removeAttribute("required");
+    echo.removeAttribute("required");
+    lv.removeAttribute("required");
+    mitral.removeAttribute("required");
+    rv.removeAttribute("required");
+    pericardial.removeAttribute("required");
+    ivc.removeAttribute("required");
+    thrombus.removeAttribute("required");
+    congenital_defect.removeAttribute("required");
+    echo_other.style.display = "block";
+    echo_other1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", echo_performed.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const echo_performedValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (echo_performedValue) {
-  echo_performed.value = echo_performedValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-echo_performed.addEventListener("change", showElement);
+echo_performed1.addEventListener("change", toggleElementVisibility);
+echo_performed2.addEventListener("change", toggleElementVisibility);

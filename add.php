@@ -9934,38 +9934,40 @@ if ($user->isLoggedIn()) {
                                                             <label>Visit Date</label>
                                                             <input class="form-control" type="date" name="visit_date" id="visit_date" value="<?php if ($results['visit_date']) {
                                                                                                                                                     print_r($results['visit_date']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
+                                                    <label>Did the patient do an ECG?</label>
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
-                                                            <label>Did the patient do an ECG?</label>
-                                                            <select name="ecg_performed" id="ecg_performed" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('ecg_performed','ecg_performed1')">
-                                                                <option value="<?= $results['ecg_performed'] ?>"><?php if ($results) {
-                                                                                                                        if ($results['ecg_performed'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($results['ecg_performed'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="ecg_performed" id="ecg_performed1" value="1" <?php if ($results['ecg_performed'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>                                                                
+                                                            </div>
+
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="ecg_performed" id="ecg_performed2" value="2" <?php if ($results['ecg_performed'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                                                                                    
+                                                            
+                                                        </div>  
                                                     </div>
-                                                </div>
+                                                </div>                                                
                                             </div>
                                             <hr>
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
-                                                <div id="ecg_performed1">
+                                                <div id="ecg_performed">
                                                     <div class="row">
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-4">
                                                             <div class="row-form clearfix">
                                                                 <!-- select -->
                                                                 <div class="form-group">
@@ -9977,43 +9979,54 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-4" id="ecg">
+                                                            <label>ECG </label>
                                                             <div class="row-form clearfix">
                                                                 <div class="form-group">
-                                                                    <label>ECG</label>
-                                                                    <select name="ecg" id="ecg" style="width: 100%;" class="form-control" onchange="checkQuestionValue96('ecg','ecg_other')">
-                                                                        <option value="<?= $results['ecg'] ?>"><?php if ($results) {
-                                                                                                                    if ($results['ecg'] == 1) {
-                                                                                                                        echo 'Single lead or';
-                                                                                                                    } elseif ($results['ecg'] == 2) {
-                                                                                                                        echo '12 lead';
-                                                                                                                    } elseif ($results['ecg'] == 3) {
-                                                                                                                        echo 'Normal sinus rhythm';
-                                                                                                                    } elseif ($results['ecg'] == 4) {
-                                                                                                                        echo 'Atrial fibrillation';
-                                                                                                                    } elseif ($results['ecg'] == 96) {
-                                                                                                                        echo 'Other';
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    echo 'Select';
-                                                                                                                } ?></option>
-                                                                        <option value="1">Single lead or</option>
-                                                                        <option value="2">12 lead</option>
-                                                                        <option value="3">Normal sinus rhythm</option>
-                                                                        <option value="4">Atrial fibrillation</option>
-                                                                        <option value="96">Other</option>
-                                                                    </select>
-                                                                </div>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="ecg" id="ecg1" value="1" <?php if ($results['ecg'] == 1) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?> required>
+                                                                        <label class="form-check-label">Single lead or</label>                                                                
+                                                                    </div>
+
+
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="ecg" id="ecg2" value="2" <?php if ($results['ecg'] == 2) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                        <label class="form-check-label">12 lead</label>
+                                                                    </div> 
+                                                                      <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="ecg" id="ecg3" value="3" <?php if ($results['ecg'] == 3) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                        <label class="form-check-label">Normal sinus rhythm</label>
+                                                                    </div> 
+                                                                    
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="ecg" id="ecg4" value="4" <?php if ($results['ecg'] == 4) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                        <label class="form-check-label">Atrial fibrillation</label>
+                                                                    </div> 
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="ecg" id="ecg96" value="96" <?php if ($results['ecg'] == 96) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                        <label class="form-check-label">Other</label>
+                                                                    </div> 
+                                                                    
+                                                                </div>  
                                                             </div>
-                                                        </div>
+                                                        </div> 
 
-
-                                                        <div class="col-sm-6" id="ecg_other">
+                                                        <div class="col-sm-4" id="ecg_other1">
                                                             <div class="row-form clearfix">
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Other specify::</label>
-                                                                    <textarea name="ecg_other" rows="3" class="form-control">
+                                                                    <textarea id="ecg_other" name="ecg_other" rows="3" class="form-control">
                                                                         <?php if ($results['ecg_other']) {
                                                                             print_r($results['ecg_other']);
                                                                         }  ?>
@@ -10026,41 +10039,44 @@ if ($user->isLoggedIn()) {
                                             <?php } ?>
 
 
-                                            </br>
+                                            <hr>
                                             <div class="card card-warning">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Echo Results</h3>
                                                 </div>
                                             </div>
+                                            <hr>
 
                                             <div class="row">
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <label>Did the patient do an echo?</label>
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
-                                                            <label>Did the patient do an echo?</label>
-                                                            <select name="echo_performed" id="echo_performed" class="form-control" style="width: 100%;" onchange="checkQuestionValue1('echo_performed','echo_performed1')">
-                                                                <option value="<?= $results['echo_performed'] ?>"><?php if ($results) {
-                                                                                                                        if ($results['echo_performed'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($results['echo_performed'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="echo_performed" id="echo_performed1" value="1" <?php if ($results['echo_performed'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                <label class="form-check-label">Yes</label>                                                                
+                                                            </div>
+
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="echo_performed" id="echo_performed2" value="2" <?php if ($results['echo_performed'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">No</label>
+                                                            </div>                                                                                                                                    
+                                                            
+                                                        </div>  
                                                     </div>
-                                                </div>
+                                                </div>                                                 
                                             </div>
+                                            <hr>
 
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
-                                                <div id="echo_performed1">
+                                                <div id="echo_performed">
                                                     <div class="row">
-
                                                         <div class="col-sm-6">
                                                             <div class="row-form clearfix">
                                                                 <!-- select -->
@@ -10102,7 +10118,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>LV severely depressed</label>
                                                                     <select name="lv" id="lv" class="form-control" style="width: 100%;">
-                                                                        <option value="<?= $results['echo'] ?>"><?php if ($results) {
+                                                                        <option value="<?= $results['echo'] ?>"><?php if ($results['lv']) {
                                                                                                                     if ($results['lv'] == 1) {
                                                                                                                         echo 'Yes';
                                                                                                                     } elseif ($results['lv'] == 2) {
@@ -10127,12 +10143,12 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>Mitral stenosis</label>
                                                                     <select name="mitral" id="mitral" class="form-control" style="width: 100%;">
-                                                                        <option value="<?= $results['mitral'] ?>"><?php if ($results) {
-                                                                                                                        if ($results['lv'] == 1) {
+                                                                        <option value="<?= $results['mitral'] ?>"><?php if ($results['mitral']) {
+                                                                                                                        if ($results['mitral'] == 1) {
                                                                                                                             echo 'Yes';
-                                                                                                                        } elseif ($results['lv'] == 2) {
+                                                                                                                        } elseif ($results['mitral'] == 2) {
                                                                                                                             echo 'No';
-                                                                                                                        } elseif ($results['rv'] == 3) {
+                                                                                                                        } elseif ($results['mitral'] == 3) {
                                                                                                                             echo 'Unseen';
                                                                                                                         }
                                                                                                                     } else {
@@ -10153,7 +10169,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>RV severely dilated</label>
                                                                     <select name="rv" id="rv" class="form-control" style="width: 100%;">
-                                                                        <option value="<?= $results['rv'] ?>"><?php if ($results) {
+                                                                        <option value="<?= $results['rv'] ?>"><?php if ($results['rv']) {
                                                                                                                     if ($results['rv'] == 1) {
                                                                                                                         echo 'Yes';
                                                                                                                     } elseif ($results['rv'] == 2) {
@@ -10180,7 +10196,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>Pericardial effusion</label>
                                                                     <select name="pericardial" id="pericardial" class="form-control" style="width: 100%;">
-                                                                        <option value="<?= $results['pericardial'] ?>"><?php if ($results) {
+                                                                        <option value="<?= $results['pericardial'] ?>"><?php if ($results['pericardial']) {
                                                                                                                             if ($results['pericardial'] == 1) {
                                                                                                                                 echo 'Yes';
                                                                                                                             } elseif ($results['pericardial'] == 2) {
@@ -10204,7 +10220,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>IVC dilated,collapse less than 50%</label>
                                                                     <select name="ivc" id="ivc" class="form-control" style="width: 100%;">
-                                                                        <option value="<?= $results['ivc'] ?>"><?php if ($results) {
+                                                                        <option value="<?= $results['ivc'] ?>"><?php if ($resulresults['ivc']) {
                                                                                                                     if ($results['ivc'] == 1) {
                                                                                                                         echo 'Yes';
                                                                                                                     } elseif ($results['ivc'] == 2) {
@@ -10229,7 +10245,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>Thrombus</label>
                                                                     <select name="thrombus" id="thrombus" class="form-control" style="width: 100%;">
-                                                                        <option value="<?= $results['thrombus'] ?>"><?php if ($results) {
+                                                                        <option value="<?= $results['thrombus'] ?>"><?php if ($results['ithrombusvc']) {
                                                                                                                         if ($results['ithrombusvc'] == 1) {
                                                                                                                             echo 'Yes';
                                                                                                                         } elseif ($results['thrombus'] == 2) {
@@ -10256,7 +10272,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>Congenital defect</label>
                                                                     <select name="congenital_defect" id="congenital_defect" class="form-control" style="width: 100%;">
-                                                                        <option value="<?= $results['congenital_defect'] ?>"><?php if ($results) {
+                                                                        <option value="<?= $results['congenital_defect'] ?>"><?php if ($results['congenital_defect']) {
                                                                                                                                     if ($results['congenital_defect'] == 1) {
                                                                                                                                         echo 'Yes';
                                                                                                                                     } elseif ($results['congenital_defect'] == 2) {
@@ -10275,26 +10291,29 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-4" id="echo_other">
+                                                            <label>Any Other Echo ?</label>
                                                             <div class="row-form clearfix">
                                                                 <div class="form-group">
-                                                                    <label>Any Other Echo ?</label>
-                                                                    <select name="echo_other" id="echo_other" style="width: 100%;" class="form-control" onchange="checkQuestionValue1('echo_other','echo_performed2')">
-                                                                        <option value=" <?= $results['echo_other'] ?>"><?php if ($results) {
-                                                                                                                            if ($results['echo_other'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($results['echo_other'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?></option>
-                                                                        <option value="1">Yes</option>
-                                                                        <option value="2">No</option>
-                                                                    </select>
-                                                                </div>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="echo_other" id="echo_other1" value="1" <?php if ($results['echo_other'] == 1) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                        <label class="form-check-label">Yes</label>                                                                
+                                                                    </div>
+
+
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="echo_other" id="echo_other2" value="2" <?php if ($results['echo_other'] == 2) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                        <label class="form-check-label">No</label>
+                                                                    </div>                                                                                                                                    
+                                                                    
+                                                                </div>  
                                                             </div>
-                                                        </div>
+                                                        </div>  
+                                                        
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -10304,7 +10323,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Other Echo specify</label>
-                                                                <textarea name="echo_specify" rows="3" class="form-control">
+                                                                <textarea name="echo_specify" id="echo_specify" rows="3" class="form-control">
                                                                     <?php if ($results['echo_specify']) {
                                                                         print_r($results['echo_specify']);
                                                                     }  ?>
@@ -10313,29 +10332,34 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-6" id="echo_other2">
+                                                    <div class="col-sm-4" id="echo_other">
+                                                        <label> Other ?</label>
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>Other</label>
-                                                                <select name="echo_other2" class="form-control" style="width: 100%;">
-                                                                    <option value="<?= $results['echo_other2'] ?>"><?php if ($results) {
-                                                                                                                        if ($results['echo_other2'] == 1) {
-                                                                                                                            echo 'Yes';
-                                                                                                                        } elseif ($results['echo_other2'] == 2) {
-                                                                                                                            echo 'No';
-                                                                                                                        } elseif ($results['echo_other2'] == 3) {
-                                                                                                                            echo 'Unseen';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                    <option value="3">Unseen</option>
-                                                                </select>
-                                                            </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="echo_other2" id="echo_other2_1_1" value="1" <?php if ($results['echo_other2'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Yes</label>                                                                
+                                                                </div>
+
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="echo_other2" id="echo_other2_2_2" value="2" <?php if ($results['echo_other2'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>    
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="echo_other2" id="echo_other2_3_3" value="3" <?php if ($results['echo_other2'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">Unseen</label>
+                                                                </div>                                                                                                                                    
+                                                                
+                                                            </div>  
                                                         </div>
-                                                    </div>
+                                                    </div>                                                      
                                                 </div>
                                             <?php } ?>
 

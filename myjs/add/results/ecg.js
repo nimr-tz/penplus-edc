@@ -1,26 +1,40 @@
 const ecg = document.getElementById("ecg");
 const ecg_other = document.getElementById("ecg_other");
 
-function showElement() {
-  if (ecg.value === "96") {
-    ecg_other.style.display = "block";
+const ecg1 = document.getElementById("hematology_test1");
+const hematology_test2 = document.getElementById("hematology_test2");
+
+const hematology_test_hides = document.getElementById("hematology_test_hides");
+
+const wbc = document.getElementById("wbc");
+const hb = document.getElementById("hb");
+const mcv = document.getElementById("mcv");
+const plt = document.getElementById("plt");
+const fe_studies = document.getElementById("fe_studies");
+const lfts = document.getElementById("lfts");
+
+function toggleElementVisibility() {
+  if (hematology_test1.checked) {
+    hematology_test_hides.style.display = "block";
+    wbc.setAttribute("required", "required");
+    hb.setAttribute("required", "required");
+    mcv.setAttribute("required", "required");
+    plt.setAttribute("required", "required");
+    fe_studies.setAttribute("required", "required");
+    lfts.setAttribute("required", "required");
   } else {
-    ecg_other.style.display = "none";
+    hematology_test_hides.style.display = "none";
+    wbc.removeAttribute("required");
+    hb.removeAttribute("required");
+    mcv.removeAttribute("required");
+    plt.removeAttribute("required");
+    fe_studies.removeAttribute("required");
+    lfts.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", ecg.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const ecgValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (ecgValue) {
-  ecg.value = ecgValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-ecg.addEventListener("change", showElement);
+hematology_test1.addEventListener("change", toggleElementVisibility);
+hematology_test2.addEventListener("change", toggleElementVisibility);

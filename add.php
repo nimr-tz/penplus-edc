@@ -15207,7 +15207,7 @@ if ($user->isLoggedIn()) {
                                                 </div>
 
                                                 <div class="col-sm-3">
-                                                    <label>Type of diagnosis</label>relation
+                                                    <label>Type of diagnosis</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">

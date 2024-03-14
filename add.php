@@ -8956,25 +8956,25 @@ if ($user->isLoggedIn()) {
                                                                 <label class="form-check-label">Pure mitral regurgitation</label>
                                                             </div> 
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic3" value="2" <?php if ($diagnosis['sub_heumatic'] == 3) {
+                                                                <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic3" value="3" <?php if ($diagnosis['sub_heumatic'] == 3) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Mixed mitral valve disease (MS + MR) </label>
                                                             </div>   
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic4" value="2" <?php if ($diagnosis['sub_heumatic'] == 4) {
+                                                                <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic4" value="4" <?php if ($diagnosis['sub_heumatic'] == 4) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Isolated aortic valve disease (AVD)</label>
                                                             </div>   
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic5" value="2" <?php if ($diagnosis['sub_heumatic'] == 5) {
+                                                                <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic5" value="5" <?php if ($diagnosis['sub_heumatic'] == 5) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Mixed mitral and aortic valve disease (MMAVD)</label>
                                                             </div>     
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic96" value="2" <?php if ($diagnosis['sub_heumatic'] == 96) {
+                                                                <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic96" value="96" <?php if ($diagnosis['sub_heumatic'] == 96) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Other</label>
@@ -8986,7 +8986,7 @@ if ($user->isLoggedIn()) {
                                                             </textarea>                                                                    
                                                         </div>
                                                     </div>
-                                                </div>                                           
+                                                </div>                                          
                                               
                                             </div>
 
@@ -9015,53 +9015,57 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                        
-                                                <div class="col-sm-6" id="sub_congenital1">
+                                                <div class="col-sm-6">
+                                                    <label>If Congenital heart Disease</label>
+                                                    <!-- radio -->
                                                     <div class="row-form clearfix">
-                                                        <!-- select -->
                                                         <div class="form-group">
-                                                            <label>If Congenital heart Disease</label>
-                                                            <select name="sub_congenital" id="sub_congenital" class="form-control" style="width: 100%;" onchange="checkQuestionValue96('sub_congenital','congenital_other1')">
-                                                                <option value="<?= $diagnosis['sub_congenital'] ?>"><?php if ($diagnosis) {
-                                                                                                                        if ($diagnosis['sub_congenital'] == 1) {
-                                                                                                                            echo 'ASD';
-                                                                                                                        } elseif ($diagnosis['sub_congenital'] == 2) {
-                                                                                                                            echo 'VSD';
-                                                                                                                        } elseif ($diagnosis['sub_congenital'] == 3) {
-                                                                                                                            echo 'PDA';
-                                                                                                                        } elseif ($diagnosis['sub_congenital'] == 4) {
-                                                                                                                            echo 'Coarctation of aorta';
-                                                                                                                        } elseif ($diagnosis['sub_congenital'] == 5) {
-                                                                                                                            echo 'Tetralogy of Fallot';
-                                                                                                                        } elseif ($diagnosis['sub_congenital'] == 96) {
-                                                                                                                            echo 'Other';
-                                                                                                                        }
-                                                                                                                    } else {
-                                                                                                                        echo 'Select';
-                                                                                                                    } ?></option>
-                                                                <option value="1">ASD</option>
-                                                                <option value="2">VSD</option>
-                                                                <option value="3">PDA</option>
-                                                                <option value="4">Coarctation of aorta </option>
-                                                                <option value="5">Tetralogy of Fallot</option>
-                                                                <option value="96">Other</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic1" value="1" <?php if ($diagnosis['sub_heumatic'] == 1) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?> required>
+                                                                <label class=" form-check-label">ASD</label>
+                                                            </div>
 
-                                                <div class="col-sm-4" id="congenital_other">
-                                                    <div class="row-form clearfix">
-                                                        <!-- select -->
-                                                        <div class="form-group">
-                                                            <label>Other specify( If Congenital Heart Disease )</label>
-                                                            <textarea name="congenital_other" class="form-control" rows="3"><?php if ($diagnosis['congenital_other']) {
-                                                                                    print_r($diagnosis['congenital_other']);
-                                                                                }  ?>
-                                                            </textarea>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic2" value="2" <?php if ($diagnosis['sub_heumatic'] == 2) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">VSD</label>
+                                                            </div> 
+                                                                <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic3" value="3" <?php if ($diagnosis['sub_heumatic'] == 3) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">PDA </label>
+                                                            </div>   
+                                                                <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic4" value="4" <?php if ($diagnosis['sub_heumatic'] == 4) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Coarctation of aorta</label>
+                                                            </div>   
+                                                                <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic5" value="5" <?php if ($diagnosis['sub_heumatic'] == 5) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Tetralogy of Fallot</label>
+                                                            </div>     
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic96" value="96" <?php if ($diagnosis['sub_heumatic'] == 96) {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
+                                                                <label class="form-check-label">Other</label>
+                                                            </div> 
+                                                            <textarea  name="congenital_other" id="congenital_other" class="form-control" rows="3">
+                                                                <?php if ($diagnosis['congenital_other']) {
+                                                                    print_r($diagnosis['congenital_other']);
+                                                                }  ?>
+                                                            </textarea>                                                                    
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>                                        
+                                                
                                             </div>
 
                                             <hr>

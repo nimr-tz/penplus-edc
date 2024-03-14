@@ -1586,12 +1586,15 @@ if ($user->isLoggedIn()) {
                                                 $social_economic = $override->countData('social_economic', 'patient_id', $client['id'], 'status', 1);
 
                                                 $total1 = intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
-                                                    + $treatment_plan + $dgns_complctns_comorbdts + $risks + $hospitalization_details + $lab_details
+                                                    + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
                                                     + intval($summary) + intval($social_economic);
 
-                                                $all_visit = intval($override->getCount('visit', 'client_id', $client['id']));
+                                                $all_visit = intval($override->getCount0('visit', 'client_id', $client['id'],'seq_no',1));
 
-                                                $progress = intval(($total1 / $all_visit));
+                                                $progress1 = (intval($all_visit) * 15);
+
+                                                $progress = intval(intval($total1) / intval($progress1) * 100);
+
 
 
                                                 $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
@@ -1759,7 +1762,7 @@ if ($user->isLoggedIn()) {
                                                     } ?>
 
                                                     <?php if ($_GET['status'] == 5) { ?>
-                                                        <?php if ($user->data()->power == 1) { ?>
+                                                        <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                             <br>
                                                             <hr>
                                                             <a href="#delete_client<?= $client['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>

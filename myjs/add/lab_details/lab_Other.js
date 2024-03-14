@@ -1,26 +1,22 @@
-const lab_Other = document.getElementById("lab_Other");
+const lab_Other1 = document.getElementById("lab_Other1");
+const lab_Other2 = document.getElementById("lab_Other2");
+
+const lab_specify1 = document.getElementById("lab_specify1");
 const lab_specify = document.getElementById("lab_specify");
 
-function showElement() {
-  if (lab_Other.value === "1") {
-    lab_specify.style.display = "block";
+function toggleElementVisibility() {
+  if (lab_Other1.checked) {
+    lab_specify1.style.display = "block";
+    lab_specify.setAttribute("required", "required");
   } else {
-    lab_specify.style.display = "none";
+    lab_specify1.style.display = "none";
+    lab_specify.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", lab_Other.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const lab_OtherValue = localStorage.getItem("selectedValue");
+// Initial check
+toggleElementVisibility();
 
-if (lab_OtherValue) {
-  lab_Other.value = lab_OtherValue;
-}
+lab_Other1.addEventListener("change", toggleElementVisibility);
+lab_Other2.addEventListener("change", toggleElementVisibility);
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-lab_Other.addEventListener("change", showElement);

@@ -9,7 +9,7 @@ const echo_other2_1_1 = document.getElementById("echo_other2_1_1");
 const echo_specify222 = document.getElementById("echo_specify222");
 
 function toggleElementVisibility() {
-  if (ecg966.checked) {
+  if (echo_other1.checked) {
     echo_specify1.style.display = "block";
     echo_specify.setAttribute("required", "required");
     echo_specify222.style.display = "block";

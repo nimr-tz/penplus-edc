@@ -1539,7 +1539,8 @@ if ($user->isLoggedIn()) {
                                                 <?php } ?>
                                                 <th>Status</th>
                                                 <?php if ($_GET['status'] == 4) { ?>
-                                                    <th>( Reason / Notes / Remarks / Comments )</th>
+                                                    <th> Reason </th>
+                                                    <th>Comments </th>
                                                 <?php } else { ?>
                                                     <th>Action</th>
                                                 <?php } ?>
@@ -1561,6 +1562,7 @@ if ($user->isLoggedIn()) {
                                                 $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
                                                 $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
                                                 $site = $override->get('site', 'id', $client['site_id'])[0];
+                                                $summary = $override->getlastRow1('summary', 'status', 1, 'patient_id', $client['id'], 'id')[0];
 
 
                                                 $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
@@ -1663,28 +1665,30 @@ if ($user->isLoggedIn()) {
 
                                                         <td>
                                                             <?php if ($termination == 1) { ?>
-                                                                <a href="#" class="btn btn-info">On Treatment</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">On Treatment</a>
                                                             <?php } elseif ($termination == '2') { ?>
 
-                                                                <a href="#" class="btn btn-info">Default</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Default</a>
                                                             <?php
                                                                 } elseif ($termination == 3) { ?>
-                                                                <a href="#" class="btn btn-info">Stop treatment</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Stop treatment</a>
                                                             <?php
                                                                 } elseif ($termination == 4) { ?>
-                                                                <a href="#" class="btn btn-info">Trnasfer Out</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Trnasfer Out</a>
                                                             <?php
                                                                 } elseif ($termination == 5) { ?>
-                                                                <a href="#" class="btn btn-info">Death</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Death</a>
                                                             <?php
                                                                 } else { ?>
-                                                                <a href="#" class="btn btn-info">Other</a>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Other</a>
                                                             <?php
                                                                 } ?>
 
                                                         <?php } else { ?>
-                                                            <a href="#" class="btn btn-success">ACTIVE</a>
+                                                            <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-success">ACTIVE</a>
                                                         </td>
+                                                        <td><?= $summary['comments'] . ' , ' . $summary['remarks'] ?></td>
+
                                                 <?php }
                                                         } ?>
 

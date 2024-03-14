@@ -223,7 +223,6 @@ if ($user->isLoggedIn()) {
 
             ));
             if ($validate->passed()) {
-                print_r($_POST);
                 $errorM = false;
                 try {
                     $attachment_file = Input::get('image');
@@ -1939,6 +1938,7 @@ if ($user->isLoggedIn()) {
                                 'site_id' => $user->data()->site_id,
                             ), $lab_details['id']);
                         }
+                        $successMessage = 'Lab details Updated Successful';
                     } else {
                         $user->createRecord('lab_details', array(
                             'visit_date' => Input::get('lab_date'),
@@ -1991,9 +1991,9 @@ if ($user->isLoggedIn()) {
                             'created_on' => date('Y-m-d'),
                             'site_id' => $user->data()->site_id,
                         ));
+                        $successMessage = 'Lab details added Successful';
                     }
-                    $successMessage = 'Lab details added Successful';
-                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'].  '&status=' . $_GET['status'].'&msg='.$successMessage);
                     die;
                 } catch (Exception $e) {
                     die($e->getMessage());

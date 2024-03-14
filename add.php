@@ -2711,7 +2711,6 @@ if ($user->isLoggedIn()) {
                             $treatment_id = $treatment_plan['id'];
 
                             $successMessage = 'Treatment Plan Updated Successful';
-
                         }
                     } else {
                         $user->createRecord('treatment_plan', array(
@@ -12140,7 +12139,7 @@ if ($user->isLoggedIn()) {
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    </div>
+                                                                                                </div>
                                                                                                 <div class="row">
                                                                                                     <div class="col-sm-6">
                                                                                                         <div class="row-form clearfix">

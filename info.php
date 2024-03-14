@@ -217,6 +217,8 @@ if ($user->isLoggedIn()) {
                         }
                     }
 
+                    
+
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
                             'study_id' => Input::get('study_id'),
@@ -231,6 +233,7 @@ if ($user->isLoggedIn()) {
                             'eligibility' => $eligibility,
                             'doctor_confirm' => $doctor_confirm,
                             'status' => 1,
+                            'site_id' => $user->data()->site_id,
                         ), Input::get('scrrening_id'));
 
                         $visit = $override->getNews('visit', 'client_id', Input::get('id'), 'seq_no', 0, 'visit_name', 'Screening')[0];
@@ -2163,6 +2166,8 @@ if ($user->isLoggedIn()) {
                                                                 <a href="#AddVisit<?= $visit['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Pending</a>
                                                             <?php } elseif ($visit['visit_status'] == 2) { ?>
                                                                 <a href="#AddVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Missed</a>
+                                                            <?php } else { ?>
+                                                                <a href="#AddVisit<?= $visit['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Pending</a>
                                                             <?php } ?>
                                                         </td>
 
@@ -2208,6 +2213,7 @@ if ($user->isLoggedIn()) {
                                                                     <?php }
                                                                 }
                                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
                                                                     <?php if ($user->data()->power == 1) { ?>

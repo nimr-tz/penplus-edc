@@ -217,6 +217,8 @@ if ($user->isLoggedIn()) {
                         }
                     }
 
+                    
+
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
                             'study_id' => Input::get('study_id'),
@@ -231,6 +233,7 @@ if ($user->isLoggedIn()) {
                             'eligibility' => $eligibility,
                             'doctor_confirm' => $doctor_confirm,
                             'status' => 1,
+                            'site_id' => $user->data()->site_id,
                         ), Input::get('scrrening_id'));
 
                         $visit = $override->getNews('visit', 'client_id', Input::get('id'), 'seq_no', 0, 'visit_name', 'Screening')[0];

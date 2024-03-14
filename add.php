@@ -11247,42 +11247,46 @@ if ($user->isLoggedIn()) {
 
                                                 <div class="row">
                                                     <div class="col-sm-4">
+                                                        <label>On chronic opioid therapy?</label>
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>On chronic opioid therapy?</label>
-                                                                <select name="opioid" id="opioid" style="width: 100%;" class="form-control" onchange="checkQuestionValue1('opioid','opioid_hides')">
-                                                                    <option value="<?= $hospitalization['opioid'] ?>"><?php if ($hospitalization) {
-                                                                                                                            if ($hospitalization['opioid'] == 1) {
-                                                                                                                                echo 'Yes';
-                                                                                                                            } elseif ($hospitalization['opioid'] == 2) {
-                                                                                                                                echo 'No';
-                                                                                                                            } elseif ($hospitalization['opioid'] == 3) {
-                                                                                                                                echo 'N / A';
-                                                                                                                            }
-                                                                                                                        } else {
-                                                                                                                            echo 'Select';
-                                                                                                                        } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                    <option value="3">N / A</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="opioid" id="opioid1" value="1" <?php if ($hospitalization['opioid'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>                                                                
+                                                                </div>
 
-                                                    <div class="col-sm-4" id="opioid_type">
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="opioid" id="opioid2" value="2" <?php if ($hospitalization['opioid'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>   
+                                                                 <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="opioid" id="opioid3" value="3" <?php if ($hospitalization['opioid'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">N / A</label>
+                                                                </div>                                                                 
+                                                                
+                                                            </div>  
+                                                        </div>
+                                                    </div>                                                       
+
+                                                    <div class="col-sm-4" id="opioid_type1">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Type</label>
-                                                                <input type="text" name="opioid_type" class="form-control" value="<?php if ($hospitalization['opioid_type']) {
+                                                                <input type="text"  id="opioid_type" name="opioid_type" class="form-control" value="<?php if ($hospitalization['opioid_type']) {
                                                                                                                                         print_r($hospitalization['opioid_type']);
                                                                                                                                     }  ?>" />
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-4" id="opioid_dose">
+                                                    <div class="col-sm-4" id="opioid_dose1">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Dose</label>
@@ -11296,38 +11300,37 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                                 <hr>
 
-
-
-
                                                 <div class="row">
-
-                                                    <div class="col-sm-4">
+                                                     <div class="col-sm-4">
+                                                        <label>On hydroxyurea?</label>
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <label>On hydroxyurea?</label>
-                                                                <select name="hydroxyurea" id="hydroxyurea" style="width: 100%;" class="form-control" onchange="checkQuestionValue1('hydroxyurea','hydroxyurea_hides')">
-                                                                    <option value="<?= $hospitalization['hydroxyurea'] ?>"><?php if ($hospitalization) {
-                                                                                                                                if ($hospitalization['hydroxyurea'] == 1) {
-                                                                                                                                    echo 'Yes';
-                                                                                                                                } elseif ($hospitalization['hydroxyurea'] == 2) {
-                                                                                                                                    echo 'No';
-                                                                                                                                } elseif ($hospitalization['hydroxyurea'] == 3) {
-                                                                                                                                    echo 'N / A';
-                                                                                                                                }
-                                                                                                                            } else {
-                                                                                                                                echo 'Select';
-                                                                                                                            } ?>
-                                                                    </option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="2">No</option>
-                                                                    <option value="2">N / A</option>
-                                                                </select>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hydroxyurea" id="hydroxyurea1" value="1" <?php if ($hospitalization['hydroxyurea'] == 1) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?> required>
+                                                                    <label class="form-check-label">Yes</label>                                                                
+                                                                </div>
 
-                                                            </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hydroxyurea" id="hydroxyurea2" value="2" <?php if ($hospitalization['hydroxyurea'] == 2) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">No</label>
+                                                                </div>   
+                                                                 <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="hydroxyurea" id="hydroxyurea3" value="3" <?php if ($hospitalization['hydroxyurea'] == 3) {
+                                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                                } ?>>
+                                                                    <label class="form-check-label">N / A</label>
+                                                                </div>                                                                 
+                                                                
+                                                            </div>  
                                                         </div>
-                                                    </div>
+                                                    </div>                                                     
 
-                                                    <div class="col-sm-4" id="hydroxyurea_date">
+                                                    <div class="col-sm-4" id="hydroxyurea_date1">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <label>Start Date</label>

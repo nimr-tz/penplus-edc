@@ -12,23 +12,21 @@ const lfts = document.getElementById("lfts");
 
 function toggleElementVisibility() {
   if (hematology_test1.checked) {
-    hide_chemistry_test8_8.style.display = "block";
-    na_diabetes.setAttribute("required", "required");
-    k_diabetes.setAttribute("required", "required");
-    cre_diabetes.setAttribute("required", "required");
-    proteinuria.setAttribute("required", "required");
-    lipid_panel.setAttribute("required", "required");
-    other_lab_diabetes.style.display = "block";
-    other_lab_diabetes1.setAttribute("required", "required");
+    hematology_test_hides.style.display = "block";
+    wbc.setAttribute("required", "required");
+    hb.setAttribute("required", "required");
+    mcv.setAttribute("required", "required");
+    plt.setAttribute("required", "required");
+    fe_studies.setAttribute("required", "required");
+    lfts.setAttribute("required", "required");
   } else {
-    hide_chemistry_test8_8.style.display = "none";
-    na_diabetes.removeAttribute("required");
-    k_diabetes.removeAttribute("required");
-    cre_diabetes.removeAttribute("required");
-    proteinuria.removeAttribute("required");
-    lipid_panel.removeAttribute("required");
-    other_lab_diabetes.style.display = "none";
-    other_lab_diabetes1.removeAttribute("required");
+    hematology_test_hides.style.display = "none";
+    wbc.removeAttribute("required");
+    hb.removeAttribute("required");
+    mcv.removeAttribute("required");
+    plt.removeAttribute("required");
+    fe_studies.removeAttribute("required");
+    lfts.removeAttribute("required");
   }
 }
 

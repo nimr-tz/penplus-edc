@@ -1,22 +1,22 @@
-const lab_Other1 = document.getElementById("lab_Other1");
-const lab_Other2 = document.getElementById("lab_Other2");
+const other_chemistry4_4 = document.getElementById("other_chemistry4_4");
+const other_chemistry5_5 = document.getElementById("other_chemistry5_5");
 
-const lab_specify1 = document.getElementById("lab_specify1");
-const lab_specify = document.getElementById("lab_specify");
+const lab_specify3_3 = document.getElementById("lab_specify3_3");
+const lab_specify2_2 = document.getElementById("lab_specify2_2");
 
 function toggleElementVisibility() {
-  if (lab_Other1.checked) {
-    lab_specify1.style.display = "block";
-    lab_specify.setAttribute("required", "required");
+  if (other_chemistry4_4.checked) {
+    lab_specify3_3.style.display = "block";
+    lab_specify2_2.setAttribute("required", "required");
   } else {
-    lab_specify1.style.display = "none";
-    lab_specify.removeAttribute("required");
+    lab_specify3_3.style.display = "none";
+    lab_specify2_2.removeAttribute("required");
   }
 }
 
 // Initial check
 toggleElementVisibility();
 
-lab_Other1.addEventListener("change", toggleElementVisibility);
-lab_Other2.addEventListener("change", toggleElementVisibility);
+other_chemistry4_4.addEventListener("change", toggleElementVisibility);
+other_chemistry5_5.addEventListener("change", toggleElementVisibility);
 

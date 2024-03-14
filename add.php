@@ -14352,7 +14352,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="cardiac_surgery" id="cardiac_surgery1_1" value="1" <?php if ($lab_details['cardiac_surgery'] == 1) {
+                                                                    <input class="form-check-input" type="radio" name="cardiac_surgery" id="cardiac_surgery1_1_1" value="1" <?php if ($lab_details['cardiac_surgery'] == 1) {
                                                                                                                                                                                     echo 'checked';
                                                                                                                                                                                 } ?> required>
                                                                     <label class="form-check-label">Yes</label>                                                                
@@ -14360,7 +14360,7 @@ if ($user->isLoggedIn()) {
 
 
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="cardiac_surgery" id="cardiac_surgery2_2" value="2" <?php if ($lab_details['cardiac_surgery'] == 2) {
+                                                                    <input class="form-check-input" type="radio" name="cardiac_surgery" id="cardiac_surgery2_2_2" value="2" <?php if ($lab_details['cardiac_surgery'] == 2) {
                                                                                                                                                                                     echo 'checked';
                                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">No</label>
@@ -14370,12 +14370,12 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-4" id="cardiac_surgery_type3_3">
+                                                    <div class="col-sm-4" id="cardiac_surgery_type3_3_3">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
                                                             <div class="form-group">
                                                                 <label>Type:</label>
-                                                                <input type="text" name="cardiac_surgery_type2_2" name="cardiac_surgery_type" class="form-control" value="<?php if ($lab_details['cardiac_surgery_type']) {
+                                                                <input type="text" id="cardiac_surgery_type2_2_2" name="cardiac_surgery_type" class="form-control" value="<?php if ($lab_details['cardiac_surgery_type']) {
                                                                                                                                                 print_r($lab_details['cardiac_surgery_type']);
                                                                                                                                             }  ?>" />
                                                             </div>
@@ -14505,7 +14505,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="row-form clearfix">
                                                                 <div class="form-group">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="lab_Other" id="other_chemistry1" value="1" <?php if ($lab_details['lab_Other'] == 1) {
+                                                                        <input class="form-check-input" type="radio" name="lab_Other" id="other_chemistry4_4" value="1" <?php if ($lab_details['lab_Other'] == 1) {
                                                                                                                                                                                         echo 'checked';
                                                                                                                                                                                     } ?> required>
                                                                         <label class="form-check-label">Yes</label>                                                                
@@ -14513,7 +14513,7 @@ if ($user->isLoggedIn()) {
 
 
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="lab_Other" id="other_chemistry2" value="2" <?php if ($lab_details['lab_Other'] == 2) {
+                                                                        <input class="form-check-input" type="radio" name="lab_Other" id="other_chemistry5_5" value="2" <?php if ($lab_details['lab_Other'] == 2) {
                                                                                                                                                                                         echo 'checked';
                                                                                                                                                                                     } ?>>
                                                                         <label class="form-check-label">No</label>
@@ -14523,12 +14523,12 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>                                                        
 
-                                                        <div class="col-sm-8" id="lab_specify1">
+                                                        <div class="col-sm-8" id="lab_specify3_3">
                                                             <div class="row-form clearfix">
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Other Specify:</label>
-                                                                    <input type="text"  name="lab_specify" id="lab_specify" class="form-control" value="<?php if ($lab_details['lab_specify']) {
+                                                                    <input type="text"  name="lab_specify" id="lab_specify2_2" class="form-control" value="<?php if ($lab_details['lab_specify']) {
                                                                                                                                             print_r($lab_details['lab_specify']);
                                                                                                                                         }  ?>" />
                                                                 </div>
@@ -14548,6 +14548,7 @@ if ($user->isLoggedIn()) {
                                                         <h3 class="card-title">Diabetes</h3>
                                                     </div>
                                                 </div>
+                                                <hr>
 
                                                 <div class="row">
                                                     <div class="col-sm-4">

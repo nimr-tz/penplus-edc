@@ -43,7 +43,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('clients', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Clients Data';
+                $filename = 'Registration Data';
             } elseif (Input::get('data') == 2) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -54,7 +54,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('screening', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'screening Data';
+                $filename = 'Screening Data';
             } elseif (Input::get('data') == 3) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -65,7 +65,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('demographic', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'demographic Data';
+                $filename = 'Demographic Data';
             } elseif (Input::get('data') == 4) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -76,7 +76,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('vital', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'vital Data';
+                $filename = 'Vital Data';
             } elseif (Input::get('data') == 5) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -98,7 +98,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('history', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'history Data';
+                $filename = 'History Data';
             } elseif (Input::get('data') == 7) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -109,7 +109,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'symptoms Data';
+                $filename = 'Symptoms Data';
             } elseif (Input::get('data') == 8) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -120,7 +120,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('cardiac', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Main diagnosis 3 ( Cardiac )';
+                $filename = 'Main diagnosis 1 ( Cardiac )';
             } elseif (Input::get('data') == 9) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -131,7 +131,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Main diagnosis 3 ( diabetic )';
+                $filename = 'Main diagnosis 2 ( Diabetes )';
             } elseif (Input::get('data') == 10) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -208,7 +208,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Treatment_plan Data';
+                $filename = 'Treatment plan Data';
             } elseif (Input::get('data') == 17) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {
@@ -333,6 +333,42 @@ if ($user->isLoggedIn()) {
             }
 
             $user->exportData($data, $filename);
+        } elseif (Input::get('download_all')) {
+            $data = null;
+            $filename = null;
+
+            $AllTables = $override->AllTables();
+
+            foreach ($AllTables as $tables) {
+                if (
+                    $tables['Tables_in_penplus'] == 'clients' || $tables['Tables_in_penplus'] == 'screening' ||
+                    $tables['Tables_in_penplus'] == 'demographic' || $tables['Tables_in_penplus'] == 'vitals' ||
+                    $tables['Tables_in_penplus'] == 'main_diagnosis' || $tables['Tables_in_penplus'] == 'history' ||
+                    $tables['Tables_in_penplus'] == 'symptoms' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                    $tables['Tables_in_penplus'] == 'diabetic' || $tables['Tables_in_penplus'] == 'sickle_cell' ||
+                    $tables['Tables_in_penplus'] == 'results' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                    $tables['Tables_in_penplus'] == 'hospitalization' || $tables['Tables_in_penplus'] == 'hospitalization_details' ||
+                    $tables['Tables_in_penplus'] == 'treatment_plan' || $tables['Tables_in_penplus'] == 'dgns_complctns_comorbdts' ||
+                    $tables['Tables_in_penplus'] == 'risks' || $tables['Tables_in_penplus'] == 'lab_details' ||
+                    $tables['Tables_in_penplus'] == 'social_economic' || $tables['Tables_in_penplus'] == 'summary' ||
+                    $tables['Tables_in_penplus'] == 'medication_treatments' || $tables['Tables_in_penplus'] == 'hospitalization_detail_id' ||
+                    $tables['Tables_in_penplus'] == 'sickle_cell_status_table' || $tables['Tables_in_penplus'] == 'visit' ||
+                    $tables['Tables_in_penplus'] == 'lab_requests'
+                ) {
+                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                        if ($_GET['site_id'] != null) {
+                            $data = $override->getNews('clients', 'status', 1, 'site_id', $_GET['site_id']);
+                        } else {
+                            $data = $override->get('clients', 'status', 1);
+                        }
+                    } else {
+                        $data = $override->getNews('clients', 'status', 1, 'site_id', $user->data()->site_id);
+                    }
+                }
+
+                $filename = $tables['Tables_in_penplus'] . ' Data';
+            }
+            $user->exportData($data, $filename);
         }
     }
 } else {
@@ -450,7 +486,7 @@ if ($user->isLoggedIn()) {
                     $pagNum = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 27) {
                     $pagNum = $override->countData('site', 'status', 1, 'site_id', $_GET['site_id']);
-                } 
+                }
 
                 $pages = ceil($pagNum / $numRec);
                 if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -567,7 +603,7 @@ if ($user->isLoggedIn()) {
                     $pagNum = $override->getCount('lab_requests', 'status', 1);
                 } elseif ($_GET['status'] == 22) {
                     $pagNum = $override->getCount('test_list', 'status', 1);
-                } elseif ($_GET['status'] == 23) {                    
+                } elseif ($_GET['status'] == 23) {
                     $pagNum = $override->getCount('social_economic', 'status', 1);
                 } elseif ($_GET['status'] == 24) {
                     $pagNum = $override->getCount('summary', 'status', 1);
@@ -577,7 +613,7 @@ if ($user->isLoggedIn()) {
                     $pagNum = $override->getCount('study_id', 'status', 1);
                 } elseif ($_GET['status'] == 27) {
                     $pagNum = $override->getCount('site', 'status', 1);
-                } 
+                }
                 $pages = ceil($pagNum / $numRec);
                 if (!$_GET['page'] || $_GET['page'] == 1) {
                     $page = 0;
@@ -760,7 +796,7 @@ if ($user->isLoggedIn()) {
                 $clients = $override->getWithLimit1('study_id', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 27) {
                 $clients = $override->getWithLimit1('site', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
-            } 
+            }
         }
 
         ?>

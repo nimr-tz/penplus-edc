@@ -15205,6 +15205,8 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
+
+
                                                 <div class="col-sm-3">
                                                     <label>Type of diagnosis</label>
                                                     <!-- radio -->
@@ -15284,6 +15286,7 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <hr>
+                                            
                                             <div class="row">
                                                 <div class="col-sm-2">
                                                     <label>Outcome</label>
@@ -15400,7 +15403,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                 <div class="col-sm-6" id="comments">
+                                                <div class="col-sm-6" id="comments">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">

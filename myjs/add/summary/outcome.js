@@ -23,8 +23,8 @@ function toggleElementVisibility() {
     transfer_out.style.display = "block";
     cause_death1_1.setAttribute("required", "required");
     cause_death.style.display = "none";
-    comments.style.display = "block";
-    comments.setAttribute("required", "required");
+    // comments.style.display = "block";
+    // comments.setAttribute("required", "required");
     transfer_out_date_label.style.display = "block";
     transfer_out_date.style.display = "block";
     transfer_out_date.setAttribute("required", "required");
@@ -36,8 +36,8 @@ function toggleElementVisibility() {
     transfer_out.style.display = "none";
     cause_death1_1.removeAttribute("required");
     cause_death.style.display = "block";
-    comments.style.display = "block";
-    comments.setAttribute("required", "required");
+    // comments.style.display = "block";
+    // comments.setAttribute("required", "required");
     transfer_out_date_label.style.display = "none";
     transfer_out_date.style.display = "none";
     transfer_out_date.removeAttribute("required");
@@ -49,7 +49,7 @@ function toggleElementVisibility() {
     transfer_out.style.display = "none";
     cause_death1_1.removeAttribute("required");
     cause_death.style.display = "none";
-    comments.style.display = "none";
+    // comments.style.display = "none";
     transfer_out_date_label.style.display = "none";
     transfer_out_date.style.display = "none";
     transfer_out_date.removeAttribute("required");

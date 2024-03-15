@@ -18,4 +18,4 @@ function toggleElementVisibility() {
 toggleElementVisibility();
 
 other_lab_diabetes1_1.addEventListener("change", toggleElementVisibility);
-other_lab_diabetes1_1.addEventListener("change", toggleElementVisibility);
+other_lab_diabetes2_2.addEventListener("change", toggleElementVisibility);

@@ -14490,7 +14490,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="chemistry_test" id="chemistry_test1" value="1" <?php if ($lab_details['chemistry_test'] == 1) {
+                                                                    <input class="form-check-input" type="radio" name="chemistry_test" id="chemistry_test98" value="1" <?php if ($lab_details['chemistry_test'] == 1) {
                                                                                                                                                                                     echo 'checked';
                                                                                                                                                                                 } ?> required>
                                                                     <label class="form-check-label">Yes</label>                                                                
@@ -14498,7 +14498,7 @@ if ($user->isLoggedIn()) {
 
 
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="chemistry_test" id="chemistry_test2" value="2" <?php if ($lab_details['chemistry_test'] == 2) {
+                                                                    <input class="form-check-input" type="radio" name="chemistry_test" id="chemistry_test99" value="2" <?php if ($lab_details['chemistry_test'] == 2) {
                                                                                                                                                                                     echo 'checked';
                                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">No</label>
@@ -14512,7 +14512,7 @@ if ($user->isLoggedIn()) {
                                                 <hr>
 
 
-                                                <div id="hide_chemistry_test">
+                                                <div id="hide_chemistry_test1">
 
                                                     <div class="card card-warning">
                                                         <div class="card-header">
@@ -14602,7 +14602,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                     <hr>
 
-                                                    <div class="row" id="other_chemistry">
+                                                    <div class="row" id="other_chemistry7_7">
                                                         <div class="col-sm-4">
                                                             <label>Other:</label>
                                                             <div class="row-form clearfix">
@@ -14610,7 +14610,7 @@ if ($user->isLoggedIn()) {
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio" name="lab_Other" id="other_chemistry4_4" value="1" <?php if ($lab_details['lab_Other'] == 1) {
                                                                                                                                                                                         echo 'checked';
-                                                                                                                                                                                    } ?> required>
+                                                                                                                                                                                    } ?>>
                                                                         <label class="form-check-label">Yes</label>                                                                
                                                                     </div>
 
@@ -14626,12 +14626,12 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>                                                        
 
-                                                        <div class="col-sm-8" id="lab_specify3_3">
+                                                        <div class="col-sm-8" id="lab_specify3_3_3_3">
                                                             <div class="row-form clearfix">
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Other Specify:</label>
-                                                                    <input type="text"  name="lab_specify" id="lab_specify2_2" class="form-control" value="<?php if ($lab_details['lab_specify']) {
+                                                                    <input type="text"  name="lab_specify" id="lab_specify2_2_2_2" class="form-control" value="<?php if ($lab_details['lab_specify']) {
                                                                                                                                             print_r($lab_details['lab_specify']);
                                                                                                                                         }  ?>" />
                                                                 </div>
@@ -18887,6 +18887,7 @@ if ($user->isLoggedIn()) {
             });
 
         })
+
         
         // BS-Stepper Init
         document.addEventListener('DOMContentLoaded', function() {

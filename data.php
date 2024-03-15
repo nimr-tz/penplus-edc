@@ -372,7 +372,6 @@ if ($user->isLoggedIn()) {
             $data = null;
             $filename = null;
 
-            print_r(Input::get('table_name'));
             foreach (Input::get('table_name') as $tables) {
                 if (
                     $tables['Tables_in_penplus'] == 'clients' || $tables['Tables_in_penplus'] == 'screening' ||
@@ -399,6 +398,7 @@ if ($user->isLoggedIn()) {
                         $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $user->data()->site_id);
                     }
                     $filename = $tables['Tables_in_penplus'] . ' Data';
+                    print_r($filename);
                     $user->exportData($data, $filename);
                 }
             }

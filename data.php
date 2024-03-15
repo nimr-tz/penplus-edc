@@ -366,7 +366,6 @@ if ($user->isLoggedIn()) {
                     }
                     $filename = $tables['Tables_in_penplus'] . ' Data';
                     $user->exportData($data, $filename);
-
                 }
             }
         }
@@ -1553,7 +1552,7 @@ if ($user->isLoggedIn()) {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </form>
+                                                        </form>value
                                                     <?php } ?>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -1595,50 +1594,60 @@ if ($user->isLoggedIn()) {
                                         <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Client Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
+                                                    <th>#</th>
+                                                    <th>Table Name</th>
+                                                    <th>Data</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $x = 1;
-                                                foreach ($clients as $value) {
+                                                foreach ($override->AllTables() as $tables) {
+
                                                     $sites = $override->getNews('site', 'status', 1, 'id', $value['site_id'])[0];
+
+                                                    if (
+                                                        $tables['Tables_in_penplus'] == 'clients' || $tables['Tables_in_penplus'] == 'screening' ||
+                                                        $tables['Tables_in_penplus'] == 'demographic' || $tables['Tables_in_penplus'] == 'vital' ||
+                                                        $tables['Tables_in_penplus'] == 'main_diagnosis' || $tables['Tables_in_penplus'] == 'history' ||
+                                                        $tables['Tables_in_penplus'] == 'symptoms' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                                                        $tables['Tables_in_penplus'] == 'diabetic' || $tables['Tables_in_penplus'] == 'sickle_cell' ||
+                                                        $tables['Tables_in_penplus'] == 'results' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                                                        $tables['Tables_in_penplus'] == 'hospitalization' || $tables['Tables_in_penplus'] == 'hospitalization_details' ||
+                                                        $tables['Tables_in_penplus'] == 'treatment_plan' || $tables['Tables_in_penplus'] == 'dgns_complctns_comorbdts' ||
+                                                        $tables['Tables_in_penplus'] == 'risks' || $tables['Tables_in_penplus'] == 'lab_details' ||
+                                                        $tables['Tables_in_penplus'] == 'social_economic' || $tables['Tables_in_penplus'] == 'summary' ||
+                                                        $tables['Tables_in_penplus'] == 'medication_treatments' || $tables['Tables_in_penplus'] == 'hospitalization_detail_id' ||
+                                                        $tables['Tables_in_penplus'] == 'sickle_cell_status_table' || $tables['Tables_in_penplus'] == 'visit' ||
+                                                        $tables['Tables_in_penplus'] == 'lab_requests'
+                                                    ) {
                                                 ?>
-                                                    <tr>
-                                                        <td class="table-user">
-                                                            <?= $value['study_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $value['client_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $sites['name']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?php if ($value['status'] == 1) { ?>
-                                                                <a href="#" class="btn btn-success">Taken</a>
-                                                            <?php } elseif ($value['status'] == 0) { ?>
-                                                                <a href="#" class="btn btn-warning">Free</a>
-                                                            <?php } ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="#" class="btn btn-info">Update</a>
-                                                        </td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td class="table-user">
+                                                                <?= $x; ?>
+                                                            </td>
+                                                            <td>
+                                                                <input type="hidden" name="table_id" value="<?= $tables['Tables_in_penplus']; ?>">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" name="currently_smoking" id="currently_smoking1" value="<?= $tables['Tables_in_penplus']; ?>" <?php if ($tables['Tables_in_penplus'] != '') {
+                                                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                                                    } ?>>
+                                                                    <label class="form-check-label"><?= $tables['Tables_in_penplus']; ?></label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="table-user">
+                                                                <?= $override->getCount($tables['Tables_in_penplus'], 'status', 1); ?>
+                                                            </td>
+                                                        </tr>
                                                 <?php $x++;
+                                                    }
                                                 } ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Client Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
+                                                    <th>#</th>
+                                                    <th>Table Name</th>
+                                                    <th>Data</th>
                                                 </tr>
                                             </tfoot>
                                         </table>

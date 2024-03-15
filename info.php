@@ -1600,25 +1600,33 @@ if ($user->isLoggedIn()) {
                                                 $all_visit = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
 
                                                 if ($all_visit == 1) {
+                                                    $all_visit1 = intval($all_visit);
+
                                                     $total1 = intval($category) + intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
                                                         + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
                                                         + intval($summary) + intval($social_economic);
 
                                                     $progress1 = (intval($all_visit) * 15);
-                                                } elseif ($type['diabetes'] > 1) {
+                                                } elseif ($all_visit > 1) {
+                                                    $all_visit1 = intval($all_visit) - 1;
+
                                                     $total1 = intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
                                                         + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
                                                         + intval($summary);
 
-                                                    $progress1 = (intval($all_visit) * 11) +15;
-                                                } else {
-                                                    $total1 = 1;
-
-                                                    $progress1 = 1;
+                                                    $progress1 = (intval($all_visit1) * 11) +15;
                                                 }
+                                                //  else {
+                                                //     $total1 = 1;
+
+                                                //     $progress1 = 1;
+                                                // }
 
 
                                                 $progress = intval(intval($total1) / intval($progress1) * 100);
+
+                                                // $progress = $total1;
+
 
 
 

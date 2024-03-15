@@ -1569,6 +1569,18 @@ if ($user->isLoggedIn()) {
 
 
 
+                                                $category = 0;
+
+                                                if ($type['cardiac'] == 1) {
+                                                    $category =  $override->countData('cardiac', 'patient_id', $client['id'], 'status', 1);
+                                                } elseif ($type['diabetes'] == 1) {
+                                                    $category =  $override->countData('diabetic', 'patient_id', $client['id'], 'status', 1);
+                                                } elseif ($type['sickle_cell'] == 1) {
+                                                    $category =  $override->countData('sickle_cell', 'patient_id', $client['id'], 'status', 1);
+                                                } else {
+                                                    $category = 0;
+                                                }
+
 
                                                 $demographic = $override->countData('demographic', 'patient_id', $client['id'], 'status', 1);
                                                 $vital = $override->countData('vital', 'patient_id', $client['id'], 'status', 1);
@@ -1585,13 +1597,26 @@ if ($user->isLoggedIn()) {
                                                 $summary = $override->countData('summary', 'patient_id', $client['id'], 'status', 1);
                                                 $social_economic = $override->countData('social_economic', 'patient_id', $client['id'], 'status', 1);
 
-                                                $total1 = intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
-                                                    + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                    + intval($summary) + intval($social_economic);
-
                                                 $all_visit = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
 
-                                                $progress1 = (intval($all_visit) * 15);
+                                                if ($all_visit == 1) {
+                                                    $total1 = intval($category) + intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                        + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                        + intval($summary) + intval($social_economic);
+
+                                                    $progress1 = (intval($all_visit) * 15);
+                                                } elseif ($type['diabetes'] > 1) {
+                                                    $total1 = intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                                        + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                        + intval($summary);
+
+                                                    $progress1 = (intval($all_visit) * 11) +15;
+                                                } else {
+                                                    $total1 = 1;
+
+                                                    $progress1 = 1;
+                                                }
+
 
                                                 $progress = intval(intval($total1) / intval($progress1) * 100);
 

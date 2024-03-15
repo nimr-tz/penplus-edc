@@ -11,7 +11,7 @@ const cre_diabetes = document.getElementById("cre_diabetes");
 const proteinuria = document.getElementById("proteinuria");
 const lipid_panel = document.getElementById("lipid_panel");
 const other_lab_diabetes9_9_9 = document.getElementById("other_lab_diabetes9_9_9");
-const other_lab_diabetes1_1_1_1_1 = document.getElementById(
+const other_lab_diabetes1_1_1_1_1T = document.getElementById(
   "other_lab_diabetes1_1_1_1_1"
 );
 
@@ -24,7 +24,7 @@ function toggleElementVisibility() {
     proteinuria.setAttribute("required", "required");
     lipid_panel.setAttribute("required", "required");
     other_lab_diabetes9_9_9.style.display = "block";
-    other_lab_diabetes1_1_1_1_1.setAttribute("required", "required");
+    other_lab_diabetes1_1_1_1_1T.setAttribute("required", "required");
   } else {
     hide_chemistry_test8_8.style.display = "none";
     na_diabetes.removeAttribute("required");
@@ -33,7 +33,7 @@ function toggleElementVisibility() {
     proteinuria.removeAttribute("required");
     lipid_panel.removeAttribute("required");
     other_lab_diabetes9_9_9.style.display = "none";
-    other_lab_diabetes1_1_1_1_1.removeAttribute("required");
+    other_lab_diabetes1_1_1_1_1T.removeAttribute("required");
   }
 }
 

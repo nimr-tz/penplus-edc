@@ -15275,7 +15275,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Comments</label>
-                                                            <textarea class="form-control" name="comments" rows="3" required>
+                                                            <textarea class="form-control" name="comments" rows="3" placeholder="Write details comments here..." required>
                                                                 <?php if ($summary['comments']) {
                                                                     print_r($summary['comments']);
                                                                 }  ?>

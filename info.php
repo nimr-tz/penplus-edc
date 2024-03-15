@@ -517,8 +517,6 @@ if ($user->isLoggedIn()) {
                             $client_id = 'patient_id';
                         }
 
-                        print_r($client_id);
-
                         $clients = $override->get('clients', 'id', Input::get('client_id'));
                         $tables = $override->get(Input::get('table_name'), $client_id, Input::get('client_id'));
 

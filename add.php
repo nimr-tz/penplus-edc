@@ -15275,7 +15275,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Comments</label>
-                                                            <textarea class="form-control" name="comments" rows="3">
+                                                            <textarea class="form-control" name="comments" rows="3" required>
                                                                 <?php if ($summary['comments']) {
                                                                     print_r($summary['comments']);
                                                                 }  ?>
@@ -15286,7 +15286,7 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <hr>
-                                            
+
                                             <div class="row">
                                                 <div class="col-sm-2">
                                                     <label>Outcome</label>

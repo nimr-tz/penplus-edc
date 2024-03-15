@@ -756,6 +756,13 @@ if ($user->isLoggedIn()) {
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
+                                <a href="data.php?id=4&status=1&data=1" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $all; ?></span>
+                                    <p>ALL</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="data.php?id=1&status=1&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $clients; ?></span>
@@ -806,7 +813,7 @@ if ($user->isLoggedIn()) {
                             </li>
 
                             <li class="nav-item">
-                                <a href="data.php?id=2&status=9&data=8" class="nav-link">
+                                <a href="data.php?id=2&status=8&data=8" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $cardiac; ?></span>
                                     <p>Main diagnosis 1 ( Cardiac )</p>
@@ -918,7 +925,7 @@ if ($user->isLoggedIn()) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=3&status=24&data=24" class="nav-link">
+                                <a href="data.php?id=2&status=24&data=24" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $summary; ?></span>
                                     <p>Summary</p>
@@ -949,18 +956,20 @@ if ($user->isLoggedIn()) {
                     </li>
 
                 <?php } ?>
-                <?php
-                if ($user->data()->power == 1) {
-                ?>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-copy"></i>
-                            <p>
-                                Study ID <i class="fas fa-angle-left right"></i>
 
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Study ID <i class="fas fa-angle-left right"></i>
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <?php
+                        if ($user->data()->power == 1) {
+                        ?>
                             <li class="nav-item">
                                 <a href="info.php?id=5" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -973,10 +982,19 @@ if ($user->isLoggedIn()) {
                                     <p>UnSet Study Id</p>
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-
-                <?php } ?>
+                        <?php } ?>
+                        <?php
+                        if ($user->data()->power == 1 || $user->data()->accessLevel == 1) {
+                        ?>
+                            <li class="nav-item">
+                                <a href="info.php?id=5" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Update Study Id</p>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>

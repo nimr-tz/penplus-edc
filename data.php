@@ -368,6 +368,40 @@ if ($user->isLoggedIn()) {
                     $user->exportData($data, $filename);
                 }
             }
+        } elseif (Input::get('download_alls_data')) {
+            $data = null;
+            $filename = null;
+
+            print_r(Input::get('table_name'));
+            foreach (Input::get('table_name') as $tables) {
+                if (
+                    $tables['Tables_in_penplus'] == 'clients' || $tables['Tables_in_penplus'] == 'screening' ||
+                    $tables['Tables_in_penplus'] == 'demographic' || $tables['Tables_in_penplus'] == 'vitals' ||
+                    $tables['Tables_in_penplus'] == 'main_diagnosis' || $tables['Tables_in_penplus'] == 'history' ||
+                    $tables['Tables_in_penplus'] == 'symptoms' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                    $tables['Tables_in_penplus'] == 'diabetic' || $tables['Tables_in_penplus'] == 'sickle_cell' ||
+                    $tables['Tables_in_penplus'] == 'results' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                    $tables['Tables_in_penplus'] == 'hospitalization' || $tables['Tables_in_penplus'] == 'hospitalization_details' ||
+                    $tables['Tables_in_penplus'] == 'treatment_plan' || $tables['Tables_in_penplus'] == 'dgns_complctns_comorbdts' ||
+                    $tables['Tables_in_penplus'] == 'risks' || $tables['Tables_in_penplus'] == 'lab_details' ||
+                    $tables['Tables_in_penplus'] == 'social_economic' || $tables['Tables_in_penplus'] == 'summary' ||
+                    $tables['Tables_in_penplus'] == 'medication_treatments' || $tables['Tables_in_penplus'] == 'hospitalization_detail_id' ||
+                    $tables['Tables_in_penplus'] == 'sickle_cell_status_table' || $tables['Tables_in_penplus'] == 'visit' ||
+                    $tables['Tables_in_penplus'] == 'lab_requests'
+                ) {
+                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                        if ($_GET['site_id'] != null) {
+                            $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $_GET['site_id']);
+                        } else {
+                            $data = $override->get($tables['Tables_in_penplus'], 'status', 1);
+                        }
+                    } else {
+                        $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $user->data()->site_id);
+                    }
+                    $filename = $tables['Tables_in_penplus'] . ' Data';
+                    $user->exportData($data, $filename);
+                }
+            }
         }
     }
 } else {
@@ -1489,22 +1523,23 @@ if ($user->isLoggedIn()) {
                             <div class="col-sm-6">
                                 <h1>
                                     <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc1('study_id', 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc('study_id', 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc1('visit', 'site_id', $user->data()->site_id,  'id');
-                                    } ?>
-                                    Study ID
-                                </h1>
+                                    // if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                    //     if ($_GET['site_id'] != null) {
+                                    //         $clients = $override->getDataDesc1('study_id', 'site_id', $_GET['site_id'],  'id');
+                                    //     } else {
+                                    //         $clients = $override->getDataDesc('study_id', 'id');
+                                    //     }
+                                    // } else {
+                                    //     $clients = $override->getDataDesc1('visit', 'site_id', $user->data()->site_id,  'id');
+                                    // } 
+                                    ?>
+                                    List of Data Tables
+                                 </h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">Study ID</li>
+                                    <li class="breadcrumb-item active">List of Data Tables<< /li>
                                 </ol>
                             </div>
                         </div>
@@ -1551,7 +1586,7 @@ if ($user->isLoggedIn()) {
                                                 <?php
                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                                 ?>
-                                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                                    <!-- <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <div class="row-form clearfix">
@@ -1573,7 +1608,7 @@ if ($user->isLoggedIn()) {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </form>
+                                                    </form> -->
                                                 <?php } ?>
                                             </div>
                                             <div class="col-sm-6">
@@ -1581,7 +1616,7 @@ if ($user->isLoggedIn()) {
                                                 <?php
                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                                 ?>
-                                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                                    <!-- <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <div class="row-form clearfix">
@@ -1591,7 +1626,7 @@ if ($user->isLoggedIn()) {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </form>
+                                                    </form> -->
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -1657,6 +1692,13 @@ if ($user->isLoggedIn()) {
                                                     </tr>
                                                 </tfoot>
                                             </table>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <input type="submit" name="download_alls_data" value="Download Data" class="btn btn-primary">
+                                                </div>
+                                            </div>
                                         </div>
                                     </form>
 

@@ -1629,9 +1629,9 @@ if ($user->isLoggedIn()) {
                                                             <td>
                                                                 <input type="hidden" name="table_id" value="<?= $tables['Tables_in_penplus']; ?>">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" name="currently_smoking" id="currently_smoking1" value="<?= $tables['Tables_in_penplus']; ?>" <?php if ($tables['Tables_in_penplus'] != '') {
-                                                                                                                                                                                                                        echo 'checked';
-                                                                                                                                                                                                                    } ?>>
+                                                                    <input class="form-check-input" type="checkbox" name="table_name[]" id="table_name[]" value="<?= $tables['Tables_in_penplus']; ?>" <?php if ($tables['Tables_in_penplus'] != '') {
+                                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                                    } ?>>
                                                                     <label class="form-check-label"><?= $tables['Tables_in_penplus']; ?></label>
                                                                 </div>
                                                             </td>

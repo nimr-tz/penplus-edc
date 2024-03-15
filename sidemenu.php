@@ -756,7 +756,7 @@ if ($user->isLoggedIn()) {
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="data.php?id=1&status=1&data=1" class="nav-link">
+                                <a href="data.php?id=4&status=1&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $all; ?></span>
                                     <p>ALL</p>
@@ -925,7 +925,7 @@ if ($user->isLoggedIn()) {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="data.php?id=3&status=24&data=24" class="nav-link">
+                                <a href="data.php?id=2&status=24&data=24" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $summary; ?></span>
                                     <p>Summary</p>

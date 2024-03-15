@@ -364,11 +364,11 @@ if ($user->isLoggedIn()) {
                     } else {
                         $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $user->data()->site_id);
                     }
-                }
+                    $filename = $tables['Tables_in_penplus'] . ' Data';
+                    $user->exportData($data, $filename);
 
-                $filename = $tables['Tables_in_penplus'] . ' Data';
+                }
             }
-            $user->exportData($data, $filename);
         }
     }
 } else {
@@ -882,7 +882,16 @@ if ($user->isLoggedIn()) {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <input type="hidden" name="data" value="<?= $_GET['status']; ?>">
+                                                                            <input type="submit" name="download_all" value="Download ALL" class="btn btn-info">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
+
                                                         </form>
                                                     <?php } ?>
                                                 </div>
@@ -1099,6 +1108,14 @@ if ($user->isLoggedIn()) {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="row-form clearfix">
+                                                                        <div class="form-group">
+                                                                            <input type="hidden" name="data" value="<?= $_GET['status']; ?>">
+                                                                            <input type="submit" name="download_all" value="Download ALL" class="btn btn-primary">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </form>
                                                     <?php } ?>
@@ -1137,18 +1154,24 @@ if ($user->isLoggedIn()) {
                                                 $x = 1;
                                                 foreach ($clients as $value) {
                                                     $sites = $override->getNews('site', 'status', 1, 'id', $value['site_id'])[0];
+                                                    $age = $override->getNews('clients', 'status', 1, 'id', $value['patinet_id'])[0];
+                                                    $gender = $override->getNews('clients', 'status', 1, 'id', $value['patinet_id'])[0];
+                                                    $dignosis_type = $override->getNews('clients', 'status', 1, 'id', $value['patinet_id'])[0];
+                                                    $study_id = $override->getNews('clients', 'status', 1, 'id', $value['patinet_id'])[0];
+
+
                                                 ?>
                                                     <tr>
                                                         <td class="table-user">
-                                                            <?= $value['study_id']; ?>
+                                                            <?= $study_id['study_id']; ?>
                                                         </td>
-                                                        <?php if ($value['dignosis_type'] == 1) { ?>
+                                                        <?php if ($dignosis_type['dignosis_type'] == 1) { ?>
                                                             <td class="table-user">
                                                                 Cardiac </td>
-                                                        <?php } elseif ($value['dignosis_type'] == 2) { ?>
+                                                        <?php } elseif ($dignosis_type['dignosis_type'] == 2) { ?>
                                                             <td class="table-user">
                                                                 Diabetes </td>
-                                                        <?php } elseif ($value['dignosis_type'] == 3) { ?>
+                                                        <?php } elseif ($dignosis_type['dignosis_type'] == 3) { ?>
                                                             <td class="table-user">
                                                                 Sickle Cell </td>
                                                         <?php } else { ?>
@@ -1157,13 +1180,13 @@ if ($user->isLoggedIn()) {
                                                             </td>
                                                         <?php } ?>
                                                         <td class="table-user">
-                                                            <?= $value['age']; ?>
+                                                            <?= $age['age']; ?>
                                                         </td>
-                                                        <?php if ($value['gender'] == 1) { ?>
+                                                        <?php if ($gender['gender'] == 1) { ?>
                                                             <td class="table-user">
                                                                 Male
                                                             </td>
-                                                        <?php } elseif ($value['gender'] == 2) { ?>
+                                                        <?php } elseif ($gender['gender'] == 2) { ?>
                                                             <td class="table-user">
                                                                 Female
                                                             </td>

@@ -14770,7 +14770,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
-                                                        <label>Any Chemistry Test today?:</label>
+                                                        <label>Any Chemistry Test today ?</label>
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
@@ -14867,12 +14867,12 @@ if ($user->isLoggedIn()) {
                                                             <span>( N /A = 98 ), <br>  ( Missing = 99 )</span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-4" id="other_lab_diabetes">
+                                                        <div class="col-sm-4" id="other_lab_diabetes9_9_9">
                                                             <label>Any Other Chemistry Test today?:</label>
                                                             <div class="row-form clearfix">
                                                                 <div class="form-group">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="other_lab_diabetes" id="other_lab_diabetes1" value="1" <?php if ($lab_details['other_lab_diabetes'] == 1) {
+                                                                        <input class="form-check-input" type="radio" name="other_lab_diabetes" id="other_lab_diabetes1_1_1_1_1" value="1" <?php if ($lab_details['other_lab_diabetes'] == 1) {
                                                                                                                                                                                         echo 'checked';
                                                                                                                                                                                     } ?>>
                                                                         <label class="form-check-label">Yes</label>                                                                
@@ -14880,7 +14880,7 @@ if ($user->isLoggedIn()) {
 
 
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="other_lab_diabetes" id="other_lab_diabetes2" value="2" <?php if ($lab_details['other_lab_diabetes'] == 2) {
+                                                                        <input class="form-check-input" type="radio" name="other_lab_diabetes" id="other_lab_diabetes2_2_2_2_2" value="2" <?php if ($lab_details['other_lab_diabetes'] == 2) {
                                                                                                                                                                                         echo 'checked';
                                                                                                                                                                                     } ?>>
                                                                         <label class="form-check-label">No</label>
@@ -14890,12 +14890,12 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>                                                        
 
-                                                        <div class="col-sm-4" id="specify_lab_diabetes1">
+                                                        <div class="col-sm-4" id="specify_lab_diabetes3_3_3_3_3">
                                                             <div class="row-form clearfix">
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Specify:</label>
-                                                                    <input type="text" name="specify_lab_diabetes" id="specify_lab_diabetes" class="form-control" value="<?php if ($lab_details['specify_lab_diabetes']) {
+                                                                    <input type="text" name="specify_lab_diabetes" id="specify_lab_diabetes2_2_2_2_2" class="form-control" value="<?php if ($lab_details['specify_lab_diabetes']) {
                                                                                                                                                     print_r($lab_details['specify_lab_diabetes']);
                                                                                                                                                 }  ?>" />
                                                                 </div>
@@ -15205,6 +15205,8 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
+
+
                                                 <div class="col-sm-3">
                                                     <label>Type of diagnosis</label>
                                                     <!-- radio -->
@@ -15273,7 +15275,7 @@ if ($user->isLoggedIn()) {
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Comments</label>
-                                                            <textarea class="form-control" name="comments" rows="3">
+                                                            <textarea class="form-control" name="comments" rows="3" placeholder="Write details comments here..." required>
                                                                 <?php if ($summary['comments']) {
                                                                     print_r($summary['comments']);
                                                                 }  ?>
@@ -15284,6 +15286,7 @@ if ($user->isLoggedIn()) {
                                             </div>
 
                                             <hr>
+
                                             <div class="row">
                                                 <div class="col-sm-2">
                                                     <label>Outcome</label>
@@ -15400,7 +15403,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                 <div class="col-sm-6" id="comments">
+                                                <div class="col-sm-6" id="comments">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">

@@ -758,6 +758,13 @@ if ($user->isLoggedIn()) {
                             <li class="nav-item">
                                 <a href="data.php?id=1&status=1&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $all; ?></span>
+                                    <p>ALL</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="data.php?id=1&status=1&data=1" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $clients; ?></span>
                                     <p>Registration</p>
                                 </a>
@@ -806,7 +813,7 @@ if ($user->isLoggedIn()) {
                             </li>
 
                             <li class="nav-item">
-                                <a href="data.php?id=2&status=9&data=8" class="nav-link">
+                                <a href="data.php?id=2&status=8&data=8" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $cardiac; ?></span>
                                     <p>Main diagnosis 1 ( Cardiac )</p>

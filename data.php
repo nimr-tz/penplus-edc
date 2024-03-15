@@ -357,12 +357,12 @@ if ($user->isLoggedIn()) {
                 ) {
                     if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                         if ($_GET['site_id'] != null) {
-                            $data = $override->getNews('clients', 'status', 1, 'site_id', $_GET['site_id']);
+                            $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $_GET['site_id']);
                         } else {
-                            $data = $override->get('clients', 'status', 1);
+                            $data = $override->get($tables['Tables_in_penplus'], 'status', 1);
                         }
                     } else {
-                        $data = $override->getNews('clients', 'status', 1, 'site_id', $user->data()->site_id);
+                        $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $user->data()->site_id);
                     }
                 }
 
@@ -447,7 +447,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 7) {
                     $pagNum = $override->countData('symptoms', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 8) {
-                    $pagNum = $override->countData('diagnosis', 'status', 1, 'site_id', $_GET['site_id']);
+                    $pagNum = $override->countData('cardiac', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 9) {
                     $pagNum = $override->countData('diabetic', 'status', 1, 'site_id', $_GET['site_id']);
                 } elseif ($_GET['status'] == 10) {
@@ -516,7 +516,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 7) {
                     $clients = $override->getWithLimit1('symptoms', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 8) {
-                    $clients = $override->getWithLimit1('diagnosis', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                    $clients = $override->getWithLimit1('cardiac', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 9) {
                     $clients = $override->getWithLimit1('diabetic', 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
                 } elseif ($_GET['status'] == 10) {
@@ -574,7 +574,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 7) {
                     $pagNum = $override->getCount('symptoms', 'status', 1);
                 } elseif ($_GET['status'] == 8) {
-                    $pagNum = $override->getCount('diagnosis', 'status', 1);
+                    $pagNum = $override->getCount('cardiac', 'status', 1);
                 } elseif ($_GET['status'] == 9) {
                     $pagNum = $override->getCount('diabetic', 'status', 1);
                 } elseif ($_GET['status'] == 10) {
@@ -636,7 +636,7 @@ if ($user->isLoggedIn()) {
                 } elseif ($_GET['status'] == 7) {
                     $clients = $override->getWithLimit('symptoms', 'status', 1,  $page, $numRec);
                 } elseif ($_GET['status'] == 8) {
-                    $clients = $override->getWithLimit('diagnosis', 'status', 1, $page, $numRec);
+                    $clients = $override->getWithLimit('cardiac', 'status', 1, $page, $numRec);
                 } elseif ($_GET['status'] == 9) {
                     $clients = $override->getWithLimit('diabetic', 'status', 1,  $page, $numRec);
                 } elseif ($_GET['status'] == 10) {
@@ -694,7 +694,7 @@ if ($user->isLoggedIn()) {
             } elseif ($_GET['status'] == 7) {
                 $pagNum = $override->countData('symptoms', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 8) {
-                $pagNum = $override->countData('diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
+                $pagNum = $override->countData('cardiac', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 9) {
                 $pagNum = $override->countData('diabetic', 'status', 1, 'site_id', $user->data()->site_id);
             } elseif ($_GET['status'] == 10) {
@@ -757,7 +757,7 @@ if ($user->isLoggedIn()) {
             } elseif ($_GET['status'] == 7) {
                 $clients = $override->getWithLimit1('symptoms', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 8) {
-                $clients = $override->getWithLimit1('diagnosis', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                $clients = $override->getWithLimit1('cardiac', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 9) {
                 $clients = $override->getWithLimit1('diabetic', 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
             } elseif ($_GET['status'] == 10) {

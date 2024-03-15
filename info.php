@@ -217,7 +217,7 @@ if ($user->isLoggedIn()) {
                         }
                     }
 
-                    
+
 
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
@@ -1568,6 +1568,68 @@ if ($user->isLoggedIn()) {
                                                 $summary = $override->getlastRow1('summary', 'status', 1, 'patient_id', $client['id'], 'id')[0];
 
 
+
+                                                $category = 0;
+
+                                                if ($type['cardiac'] == 1) {
+                                                    $category =  $override->countData('cardiac', 'patient_id', $client['id'], 'status', 1);
+                                                } elseif ($type['diabetes'] == 1) {
+                                                    $category =  $override->countData('diabetic', 'patient_id', $client['id'], 'status', 1);
+                                                } elseif ($type['sickle_cell'] == 1) {
+                                                    $category =  $override->countData('sickle_cell', 'patient_id', $client['id'], 'status', 1);
+                                                } else {
+                                                    $category = 0;
+                                                }
+
+
+                                                $demographic = $override->countData('demographic', 'patient_id', $client['id'], 'status', 1);
+                                                $vital = $override->countData('vital', 'patient_id', $client['id'], 'status', 1);
+                                                $history = $override->countData('history', 'patient_id',  $client['id'], 'status', 1);
+                                                $symptoms = $override->countData('symptoms', 'patient_id', $client['id'], 'status', 1);
+                                                $diagnosis = $override->countData('main_diagnosis', 'patient_id', $client['id'], 'status', 1);
+                                                $results = $override->countData('results', 'patient_id', $client['id'], 'status', 1);
+                                                $hospitalization = $override->countData('hospitalization', 'patient_id', $client['id'], 'status', 1);
+                                                $treatment_plan = $override->countData('treatment_plan', 'patient_id', $client['id'], 'status', 1);
+                                                $dgns_complctns_comorbdts = $override->countData('dgns_complctns_comorbdts', 'patient_id', $client['id'], 'status', 1);
+                                                $risks = $override->countData('risks', 'patient_id', $client['id'], 'status', 1);
+                                                $hospitalization_details = $override->countData('hospitalization_details', 'patient_id', $client['id'], 'status', 1);
+                                                $lab_details = $override->countData('lab_details', 'patient_id', $client['id'], 'status', 1);
+                                                $summary = $override->countData('summary', 'patient_id', $client['id'], 'status', 1);
+                                                $social_economic = $override->countData('social_economic', 'patient_id', $client['id'], 'status', 1);
+
+                                                $all_visit = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
+
+                                                if ($all_visit == 1) {
+                                                    $all_visit1 = intval($all_visit);
+
+                                                    $total1 = intval($category) + intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                        + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                        + intval($summary) + intval($social_economic);
+
+                                                    $progress1 = (intval($all_visit) * 15);
+                                                } elseif ($all_visit > 1) {
+                                                    $all_visit1 = intval($all_visit) - 1;
+
+                                                    $total1 = intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                                        + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                        + intval($summary);
+
+                                                    $progress1 = (intval($all_visit1) * 11) + 15;
+                                                }
+                                                //  else {
+                                                //     $total1 = 1;
+
+                                                //     $progress1 = 1;
+                                                // }
+
+
+                                                $progress = intval(intval($total1) / intval($progress1) * 100);
+
+                                                // $progress = $total1;
+
+
+
+
                                                 $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
 
                                                 $screened = 0;
@@ -1761,10 +1823,17 @@ if ($user->isLoggedIn()) {
                                                 <?php if ($enrollment == 1) { ?>
                                                     <td>
                                                         <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
+                                                        <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+
+                                                            <span class="badge bg-danger">
+                                                                <?= $progress; ?>%
+                                                            </span>
+                                                        <?php }
+                                                        ?>
+
                                                     </td>
-
-
-                                            <?php }
+                                            <?php
+                                                    }
                                                 } ?>
 
                                             <?php if ($_GET['status'] == 3) { ?>
@@ -1775,7 +1844,6 @@ if ($user->isLoggedIn()) {
 
                                             <?php }
                                                 } ?>
-                                            <!-- <td><span class="badge bg-danger">55%</span></td> -->
                                                 </tr>
                                                 <div class="modal fade" id="addScreening<?= $client['id'] ?>">
                                                     <div class="modal-dialog">
@@ -2146,6 +2214,71 @@ if ($user->isLoggedIn()) {
                                                     $social_economic = $override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $visit['seq_no'], 'visit_code', $visit['visit_code']);
 
 
+
+                                                    $category = 0;
+
+                                                    if ($diagnosis[0]['cardiac'] == 1) {
+                                                        $category =  $override->countData('cardiac', 'patient_id', $visit['client_id'], 'status', 1);
+                                                    } elseif ($diagnosis[0]['diabetes'] == 1) {
+                                                        $category =  $override->countData('diabetic', 'patient_id', $visit['client_id'], 'status', 1);
+                                                    } elseif ($diagnosis[0]['sickle_cell'] == 1) {
+                                                        $category =  $override->countData('sickle_cell', 'patient_id', $visit['client_id'], 'status', 1);
+                                                    } else {
+                                                        $category = 0;
+                                                    }
+
+
+                                                    $demographic1 = $override->countData('demographic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $vital1 = $override->countData('vital', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $history1 = $override->countData('history', 'patient_id',  $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $symptoms1 = $override->countData('symptoms', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $diagnosis1 = $override->countData('main_diagnosis', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $results1 = $override->countData('results', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $hospitalization1 = $override->countData('hospitalization', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $treatment_plan1 = $override->countData('treatment_plan', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $dgns_complctns_comorbdts1 = $override->countData('dgns_complctns_comorbdts', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $risks1 = $override->countData('risks', 'patient_id', $visit['client_id'], 'status', 1);
+                                                    $hospitalization_details1 = $override->countData('hospitalization_details', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $lab_details1 = $override->countData('lab_details', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $summary1 = $override->countData('summary', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $social_economic1 = $override->countData('social_economic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+
+
+                                                    if ($visit['seq_no'] == 1) {
+                                                        $all_visit = intval($override->getCount1('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
+
+                                                        $total1 = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
+                                                            + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
+                                                            + intval($summary1) + intval($social_economic1);
+
+                                                        $progress1 = (intval($all_visit) * 15);
+                                                    } elseif ($visit['seq_no'] > 1) {
+                                                        $all_visit = intval($override->getCount0('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
+
+                                                        $all_visit1 = intval($all_visit);
+
+                                                        $total1 = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
+                                                            + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
+                                                            + intval($summary1);
+
+                                                        $progress1 = (intval($all_visit1) * 11) + 15;
+                                                    }
+                                                    //  else {
+                                                    //     $total1 = 1;
+
+                                                    //     $progress1 = 1;
+                                                    // }
+
+
+                                                    $progress = intval(intval($total1) / intval($progress1) * 100);
+
+                                                    // $progress2 = intval(intval($total1) / intval($progress1) * 100);
+
+
+                                                // $progress = $total1;
+
+
+
                                                     if ($visit['status'] == 0) {
                                                         $btnV = 'Add';
                                                     } elseif ($visit['status'] == 1) {
@@ -2176,14 +2309,26 @@ if ($user->isLoggedIn()) {
 
                                                                 <?php if ($visit['visit_status'] == 1 && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
 
-                                                                    <?php if ($demographic && $vital && $history && $symptoms && $diagnosis && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $social_economic) { ?>
+                                                                    <?php if ($demographic && $vital && $history && $symptoms && $diagnosis && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $social_economic && $summary) { ?>
 
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-info"> Edit Study Forms </a>
+                                                                        <?php if ($user->data()->power == 1) { ?>
 
+                                                                            <span class="badge bg-danger">
+                                                                                <?= $progress; ?>%
+                                                                            </span>
+                                                                        <?php }
+                                                                        ?>
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <?php if ($user->data()->power == 1) { ?>
 
+                                                                            <span class="badge bg-danger">
+                                                                                <?= $progress; ?>%
+                                                                            </span>
+                                                                        <?php }
+                                                                        ?>
                                                                     <?php }
                                                                 }
 
@@ -2193,6 +2338,7 @@ if ($user->isLoggedIn()) {
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
                                                                     <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                                    <hr>
                                                             <?php }
                                                             } ?>
 
@@ -2201,19 +2347,32 @@ if ($user->isLoggedIn()) {
 
                                                                 <?php if ($visit['visit_status'] == 1 && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
 
-                                                                    <?php if ($vital && $symptoms && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details) { ?>
+                                                                    <?php if ($vital && $symptoms && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $summary) { ?>
 
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
+                                                                        <?php if ($user->data()->power == 1) { ?>
 
+                                                                            <span class="badge bg-danger">
+                                                                                <?= $progress; ?>%
+                                                                            </span>
+                                                                        <?php }
+                                                                        ?>
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <?php if ($user->data()->power == 1) { ?>
+
+                                                                            <span class="badge bg-danger">
+                                                                                <?= $progress; ?>%
+                                                                            </span>
+                                                                        <?php }
+                                                                        ?>
                                                                         <hr>
 
                                                                     <?php }
                                                                 }
                                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
-                                                                <hr>
+                                                                    <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
                                                                     <hr>
                                                                     <?php if ($user->data()->power == 1) { ?>

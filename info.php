@@ -2231,10 +2231,10 @@ if ($user->isLoggedIn()) {
                                                     $demographic1 = $override->countData('demographic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     $vital1 = $override->countData('vital', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     $history1 = $override->countData('history', 'patient_id',  $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $symptoms1 = $override->countData('symptoms', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
-                                                    $diagnosis1 = $override->countData('main_diagnosis', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
-                                                    $results1 = $override->countData('results', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
-                                                    $hospitalization1 = $override->countData('hospitalization', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $symptoms1 = $override->countData('symptoms', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $diagnosis1 = $override->countData('main_diagnosis', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $results1 = $override->countData('results', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $hospitalization1 = $override->countData('hospitalization', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     $treatment_plan1 = $override->countData('treatment_plan', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     $dgns_complctns_comorbdts1 = $override->countData('dgns_complctns_comorbdts', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     $risks1 = $override->countData('risks', 'patient_id', $visit['client_id'], 'status', 1);
@@ -2275,7 +2275,7 @@ if ($user->isLoggedIn()) {
                                                     // $progress2 = intval(intval($total1) / intval($progress1) * 100);
 
 
-                                                // $progress = $total1;
+                                                    // $progress = $total1;
 
 
 
@@ -2579,8 +2579,8 @@ if ($user->isLoggedIn()) {
                 <section class="content">
                     <div class="container-fluid">
                         <div class="row">
-                            <!-- right column -->
-                            <div class="col-md-12">
+                            <!-- left column -->
+                            <div class="col-md-6">
                                 <!-- general form elements disabled -->
                                 <div class="card card-warning">
                                     <div class="card-header">
@@ -2590,7 +2590,7 @@ if ($user->isLoggedIn()) {
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="forms">FULL NAME ( STUDY ID )</label>
@@ -2608,7 +2608,45 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='index1.php' class="btn btn-default">Back</a>
+                                            <input type="hidden" name="study_id" value="<?= $client['id']; ?>">
                                             <input type="submit" name="set_study_id" value="Submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (left) -->
+
+                            <!-- right column -->
+                            <div class="col-md-6">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Update STUDY ID </h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label for="forms">FULL NAME ( STUDY ID )</label>
+                                                            <select name="client_id" class="form-control" style="width: 100%;" required>
+                                                                <option value="">Select Name</option>
+                                                                <?php foreach ($override->get('clients', 'status', 1) as $client) { ?>
+                                                                    <option value="<?= $client['id'] ?>"><?= $client['id'] . ' - ( ' . $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['middelname'] . ' - ' . $client['lastname'] . ' ) ' ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='index1.php' class="btn btn-default">Back</a>
+                                            <input type="submit" name="update_study_id" value="Submit" class="btn btn-primary">
                                         </div>
                                     </form>
                                 </div>

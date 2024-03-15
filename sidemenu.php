@@ -973,6 +973,12 @@ if ($user->isLoggedIn()) {
                                     <p>UnSet Study Id</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=5" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Update Study Id</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

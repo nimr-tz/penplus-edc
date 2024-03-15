@@ -495,6 +495,50 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('update_study_id')) {
+
+            $validate = $validate->check($_POST, array(
+                'client_id' => array(
+                    'required' => true,
+                ),
+                'table_name' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    if (Input::get('client_id')) {
+
+                        $client_id = '';
+
+                        if (Input::get('table_name') == 'visit') {
+                            $client_id = 'client_id';
+                        } else {
+                            $client_id = 'patient_id';
+                        }
+
+                        print_r($client_id);
+
+                        $clients = $override->get('clients', 'id', Input::get('client_id'));
+                        $tables = $override->get(Input::get('table_name'), $client_id, Input::get('client_id'));
+
+                        foreach ($tables as $table) {
+                            $user->updateRecord(Input::get('table_name'), array(
+                                'study_id' => $clients[0]['study_id'],
+                                'site_id' => $clients[0]['site_id'],
+                            ), $table['id']);
+                        }
+
+                        $successMessage = 'STUDY ID Updated Successfull';
+                    } else {
+                        $errorMessage = 'Error on updating Table  ' . Input::get('table_name');
+                    }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         } elseif (Input::get('unset_study_id')) {
 
             $validate = $validate->check($_POST, array(
@@ -2556,6 +2600,9 @@ if ($user->isLoggedIn()) {
             </div>
             <!-- /.content-wrapper -->
         <?php } elseif ($_GET['id'] == 5) { ?>
+            <?php
+            $AllTables = $override->AllTables();
+            ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
@@ -2579,6 +2626,7 @@ if ($user->isLoggedIn()) {
                 <section class="content">
                     <div class="container-fluid">
                         <div class="row">
+                            <?php if($user->data()->power == 1){ ?>
                             <!-- left column -->
                             <div class="col-md-6">
                                 <!-- general form elements disabled -->
@@ -2616,6 +2664,7 @@ if ($user->isLoggedIn()) {
                                 <!-- /.card -->
                             </div>
                             <!--/.col (left) -->
+                            <?php } ?>
 
                             <!-- right column -->
                             <div class="col-md-6">
@@ -2628,7 +2677,36 @@ if ($user->isLoggedIn()) {
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-sm-12">
+                                                <div class="col-6">
+                                                    <div class="mb-3">
+                                                        <label for="table_name" class="form-label">TABLE NAME</label>
+                                                        <select name="table_name" id="table_name" class="form-control" required>
+                                                            <option value="">Select Table</option>
+                                                            <?php $x = 1;
+                                                            foreach ($AllTables as $tables) {
+                                                                if (
+                                                                    $tables['Tables_in_penplus'] == 'clients' || $tables['Tables_in_penplus'] == 'screening' ||
+                                                                    $tables['Tables_in_penplus'] == 'demographic' || $tables['Tables_in_penplus'] == 'vitals' ||
+                                                                    $tables['Tables_in_penplus'] == 'main_diagnosis' || $tables['Tables_in_penplus'] == 'history' ||
+                                                                    $tables['Tables_in_penplus'] == 'symptoms' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                                                                    $tables['Tables_in_penplus'] == 'diabetic' || $tables['Tables_in_penplus'] == 'sickle_cell' ||
+                                                                    $tables['Tables_in_penplus'] == 'results' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                                                                    $tables['Tables_in_penplus'] == 'hospitalization' || $tables['Tables_in_penplus'] == 'hospitalization_details' ||
+                                                                    $tables['Tables_in_penplus'] == 'treatment_plan' || $tables['Tables_in_penplus'] == 'dgns_complctns_comorbdts' ||
+                                                                    $tables['Tables_in_penplus'] == 'risks' || $tables['Tables_in_penplus'] == 'lab_details' ||
+                                                                    $tables['Tables_in_penplus'] == 'social_economic' || $tables['Tables_in_penplus'] == 'summary' ||
+                                                                    $tables['Tables_in_penplus'] == 'medication_treatments' || $tables['Tables_in_penplus'] == 'hospitalization_detail_id' ||
+                                                                    $tables['Tables_in_penplus'] == 'sickle_cell_status_table' || $tables['Tables_in_penplus'] == 'visit' ||
+                                                                    $tables['Tables_in_penplus'] == 'lab_requests'
+                                                                ) { ?>
+                                                                    <option value="<?= $tables['Tables_in_penplus'] ?>"><?= $x . ' - ' . $tables['Tables_in_penplus'] ?></option>
+                                                            <?php }
+                                                                $x++;
+                                                            } ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <label for="forms">FULL NAME ( STUDY ID )</label>

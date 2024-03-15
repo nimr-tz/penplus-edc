@@ -949,17 +949,18 @@ if ($user->isLoggedIn()) {
                     </li>
 
                 <?php } ?>
-                <?php
-                if ($user->data()->power == 1) {
-                ?>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-copy"></i>
-                            <p>
-                                Study ID <i class="fas fa-angle-left right"></i>
 
-                            </p>
-                        </a>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Study ID <i class="fas fa-angle-left right"></i>
+
+                        </p>
+                    </a>
+                    <?php
+                    if ($user->data()->power == 1) {
+                    ?>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="info.php?id=5" class="nav-link">
@@ -973,16 +974,19 @@ if ($user->isLoggedIn()) {
                                     <p>UnSet Study Id</p>
                                 </a>
                             </li>
+                        <?php } ?>
+                        <?php
+                        if ($user->data()->power == 1 || $user->data()->accessLevel == 1) {
+                        ?>
                             <li class="nav-item">
                                 <a href="info.php?id=5" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Update Study Id</p>
                                 </a>
                             </li>
+                        <?php } ?>
                         </ul>
-                    </li>
-
-                <?php } ?>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>

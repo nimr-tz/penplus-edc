@@ -958,10 +958,11 @@ if ($user->isLoggedIn()) {
 
                         </p>
                     </a>
-                    <?php
-                    if ($user->data()->power == 1) {
-                    ?>
-                        <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview">
+
+                        <?php
+                        if ($user->data()->power == 1) {
+                        ?>
                             <li class="nav-item">
                                 <a href="info.php?id=5" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -985,7 +986,7 @@ if ($user->isLoggedIn()) {
                                 </a>
                             </li>
                         <?php } ?>
-                        </ul>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">

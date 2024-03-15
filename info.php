@@ -2228,37 +2228,38 @@ if ($user->isLoggedIn()) {
                                                     }
 
 
-                                                    $demographic = $override->countData('demographic', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $vital = $override->countData('vital', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $history = $override->countData('history', 'patient_id',  $visit['client_id'], 'status', 1);
-                                                    $symptoms = $override->countData('symptoms', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $diagnosis = $override->countData('main_diagnosis', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $results = $override->countData('results', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $hospitalization = $override->countData('hospitalization', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $treatment_plan = $override->countData('treatment_plan', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $dgns_complctns_comorbdts = $override->countData('dgns_complctns_comorbdts', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $risks = $override->countData('risks', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $hospitalization_details = $override->countData('hospitalization_details', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $lab_details = $override->countData('lab_details', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $summary = $override->countData('summary', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $social_economic = $override->countData('social_economic', 'patient_id', $visit['client_id'], 'status', 1);
+                                                    $demographic1 = $override->countData('demographic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $vital1 = $override->countData('vital', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $history1 = $override->countData('history', 'patient_id',  $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $symptoms1 = $override->countData('symptoms', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $diagnosis1 = $override->countData('main_diagnosis', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $results1 = $override->countData('results', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $hospitalization1 = $override->countData('hospitalization', 'patient_id', $visit['client_id'], 'status', 1 ,'seq_no', $visit['seq_no']);
+                                                    $treatment_plan1 = $override->countData('treatment_plan', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $dgns_complctns_comorbdts1 = $override->countData('dgns_complctns_comorbdts', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $risks1 = $override->countData('risks', 'patient_id', $visit['client_id'], 'status', 1);
+                                                    $hospitalization_details1 = $override->countData('hospitalization_details', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $lab_details1 = $override->countData('lab_details', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $summary1 = $override->countData('summary', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $social_economic1 = $override->countData('social_economic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
 
-                                                    $all_visit = intval($override->getCount0('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
 
-                                                    if ($all_visit == 1) {
-                                                        $all_visit1 = intval($all_visit);
+                                                    if ($visit['seq_no'] == 1) {
+                                                        $all_visit = intval($override->getCount1('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
 
-                                                        $total1 = intval($category) + intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
-                                                            + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                            + intval($summary) + intval($social_economic);
+                                                        $total1 = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
+                                                            + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
+                                                            + intval($summary1) + intval($social_economic1);
 
                                                         $progress1 = (intval($all_visit) * 15);
-                                                    } elseif ($all_visit > 1) {
-                                                        $all_visit1 = intval($all_visit) - 1;
+                                                    } elseif ($visit['seq_no'] > 1) {
+                                                        $all_visit = intval($override->getCount0('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
 
-                                                        $total1 = intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
-                                                            + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                            + intval($summary);
+                                                        $all_visit1 = intval($all_visit);
+
+                                                        $total1 = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
+                                                            + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
+                                                            + intval($summary1);
 
                                                         $progress1 = (intval($all_visit1) * 11) + 15;
                                                     }

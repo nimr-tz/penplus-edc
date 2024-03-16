@@ -1873,13 +1873,20 @@ if ($user->isLoggedIn()) {
                                                                     <?= $client_progress ?>%
                                                                 </span>
                                                             <?php } elseif ($client_progress > 100) { ?>
-                                                                <span class="badge badge-warning right">
+                                                                <span class="badge badge-secondary right">
                                                                     <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
                                                                 </span>
-                                                                <span class="badge badge-warning right">
+                                                                <span class="badge badge-secondary right">
                                                                     <?= $client_progress ?>%
                                                                 </span>
-                                                            <?php } elseif ($client_progress < 100) { ?>
+                                                            <?php } elseif ($client_progress >= 50 && $client_progress < 100) { ?>
+                                                                <span class="badge badge-secondary right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-secondary right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } elseif ($client_progress < 50) { ?>
                                                                 <span class="badge badge-danger right">
                                                                     <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
                                                                 </span>

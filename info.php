@@ -2337,7 +2337,7 @@ if ($user->isLoggedIn()) {
                                                                     <?php if ($demographic && $vital && $history && $symptoms && $diagnosis && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $social_economic && $summary) { ?>
 
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-info"> Edit Study Forms </a>
-                                                                        <?php if ($user->data()->power == 1) { ?>
+                                                                        <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
                                                                                 <span class="badge badge-primary right">
@@ -2366,7 +2366,7 @@ if ($user->isLoggedIn()) {
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
-                                                                        <?php if ($user->data()->power == 1) { ?>
+                                                                        <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
                                                                                 <span class="badge badge-primary right">
@@ -2396,12 +2396,14 @@ if ($user->isLoggedIn()) {
                                                                 }
 
 
-                                                                if ($user->data()->power == 1) { ?>
+                                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                                     <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
-                                                                    <hr>
-                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
-                                                                    <hr>
+                                                                    <?php if ($user->data()->power == 1) { ?>
+                                                                        <hr>
+                                                                        <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                                        <hr>
+                                                                    <?php } ?>
                                                             <?php }
                                                             } ?>
 
@@ -2413,7 +2415,7 @@ if ($user->isLoggedIn()) {
                                                                     <?php if ($vital && $symptoms && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $summary) { ?>
 
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
-                                                                        <?php if ($user->data()->power == 1) { ?>
+                                                                        <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
                                                                                 <span class="badge badge-primary right">
@@ -2442,8 +2444,7 @@ if ($user->isLoggedIn()) {
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
-                                                                        <?php if ($user->data()->power == 1) { ?>
-
+                                                                        <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
                                                                                 <span class="badge badge-primary right">
@@ -2469,15 +2470,14 @@ if ($user->isLoggedIn()) {
                                                                             <?php } ?>
                                                                         <?php }
                                                                         ?>
-                                                                        <hr>
-
                                                                     <?php }
                                                                 }
                                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                                     <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
-                                                                    <hr>
                                                                     <?php if ($user->data()->power == 1) { ?>
+                                                                        <hr>
+
                                                                         <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
                                                             <?php
                                                                     }

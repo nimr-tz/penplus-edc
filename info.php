@@ -1652,7 +1652,7 @@ if ($user->isLoggedIn()) {
                                                 } elseif ($Total_visit_available == 1) {
                                                     $Total_visit_available = intval($Total_visit_available);
 
-                                                    $Total_CRF_available = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                                    $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
                                                         + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
                                                         + intval($summary));
 
@@ -1664,7 +1664,7 @@ if ($user->isLoggedIn()) {
                                                         + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
                                                         + intval($summary));
 
-                                                    $Total_CRF_required = intval((intval($Total_visit_available) * 11) + 15);
+                                                    $Total_CRF_required = intval((intval($Total_visit_available) * 10) + 15);
                                                 }
 
                                                 $client_progress = intval(intval($Total_CRF_available) / intval($Total_CRF_required) * 100);
@@ -1880,17 +1880,17 @@ if ($user->isLoggedIn()) {
                                                                     <?= $client_progress ?>%
                                                                 </span>
                                                             <?php } elseif ($client_progress >= 80 && $client_progress < 100) { ?>
-                                                                <span class="badge badge-secondary right">
+                                                                <span class="badge badge-info right">
                                                                     <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
                                                                 </span>
-                                                                <span class="badge badge-secondary right">
+                                                                <span class="badge badge-info right">
                                                                     <?= $client_progress ?>%
                                                                 </span>
                                                             <?php } elseif ($client_progress >= 50 && $client_progress < 80) { ?>
-                                                                <span class="badge badge-info right">
+                                                                <span class="badge badge-secondary right">
                                                                     <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
                                                                 </span>
-                                                                <span class="badge badge-info right">
+                                                                <span class="badge badge-secondary right">
                                                                     <?= $client_progress ?>%
                                                                 </span>
                                                             <?php } elseif ($client_progress < 50) { ?>

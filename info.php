@@ -1873,17 +1873,24 @@ if ($user->isLoggedIn()) {
                                                                     <?= $client_progress ?>%
                                                                 </span>
                                                             <?php } elseif ($client_progress > 100) { ?>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } elseif ($client_progress >= 80 && $client_progress < 100) { ?>
                                                                 <span class="badge badge-secondary right">
                                                                     <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
                                                                 </span>
                                                                 <span class="badge badge-secondary right">
                                                                     <?= $client_progress ?>%
                                                                 </span>
-                                                            <?php } elseif ($client_progress >= 50 && $client_progress < 100) { ?>
-                                                                <span class="badge badge-secondary right">
+                                                            <?php } elseif ($client_progress >= 50 && $client_progress < 80) { ?>
+                                                                <span class="badge badge-info right">
                                                                     <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
                                                                 </span>
-                                                                <span class="badge badge-secondary right">
+                                                                <span class="badge badge-info right">
                                                                     <?= $client_progress ?>%
                                                                 </span>
                                                             <?php } elseif ($client_progress < 50) { ?>

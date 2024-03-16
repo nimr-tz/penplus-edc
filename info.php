@@ -1587,7 +1587,7 @@ if ($user->isLoggedIn()) {
                                                     <th> Reason </th>
                                                     <th>Comments </th>
                                                 <?php } else { ?>
-                                                    <th>Action</th>
+                                                    <th>Action ( Progress )</th>
                                                 <?php } ?>
 
                                                 <?php if ($_GET['status'] == 3) { ?>
@@ -1639,37 +1639,35 @@ if ($user->isLoggedIn()) {
                                                 $summary = $override->countData('summary', 'patient_id', $client['id'], 'status', 1);
                                                 $social_economic = $override->countData('social_economic', 'patient_id', $client['id'], 'status', 1);
 
-                                                $all_visit = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
+                                                $Total_visit_available = 0;
+                                                $Total_CRF_available = 0;
+                                                $Total_CRF_required = 0;
+                                                $progress = 0;
 
-                                                if ($all_visit == 1) {
-                                                    $all_visit1 = intval($all_visit);
+                                                $Total_visit_available = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
+                                                if ($Total_visit_available < 1) {
+                                                    $Total_visit_available = 0;
+                                                    $Total_CRF_available = 0;
+                                                    $Total_CRF_required = 0;
+                                                } elseif ($Total_visit_available == 1) {
+                                                    $Total_visit_available = intval($Total_visit_available);
 
-                                                    $total1 = intval($category) + intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                    $Total_CRF_available = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
                                                         + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                        + intval($summary) + intval($social_economic);
+                                                        + intval($summary));
 
-                                                    $progress1 = (intval($all_visit) * 15);
-                                                } elseif ($all_visit > 1) {
-                                                    $all_visit1 = intval($all_visit) - 1;
+                                                    $Total_CRF_required = intval(intval($Total_visit_available) * 15);
+                                                } elseif ($Total_visit_available > 1) {
+                                                    $Total_visit_available = intval(intval($Total_visit_available) - 1);
 
-                                                    $total1 = intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                                    $Total_CRF_available = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
                                                         + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                        + intval($summary);
+                                                        + intval($summary));
 
-                                                    $progress1 = (intval($all_visit1) * 11) + 15;
+                                                    $Total_CRF_required = intval((intval($Total_visit_available) * 11) + 15);
                                                 }
-                                                //  else {
-                                                //     $total1 = 1;
 
-                                                //     $progress1 = 1;
-                                                // }
-
-
-                                                $progress = intval(intval($total1) / intval($progress1) * 100);
-
-                                                // $progress = $total1;
-
-
+                                                $client_progress = intval(intval($Total_CRF_available) / intval($Total_CRF_required) * 100);
 
 
                                                 $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
@@ -1866,10 +1864,29 @@ if ($user->isLoggedIn()) {
                                                     <td>
                                                         <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
                                                         <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
-
-                                                            <span class="badge bg-danger">
-                                                                <?= $progress; ?>%
-                                                            </span>
+                                                            <hr>
+                                                            <?php if ($client_progress == 100) { ?>
+                                                                <span class="badge badge-primary right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-primary right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } elseif ($client_progress > 100) { ?>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } elseif ($client_progress < 100) { ?>
+                                                                <span class="badge badge-danger right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-danger right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } ?>
                                                         <?php }
                                                         ?>
 

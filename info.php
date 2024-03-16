@@ -2331,7 +2331,7 @@ if ($user->isLoggedIn()) {
                                                             + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                             + intval($summary1);
 
-                                                        $progress = intval((intval($total_available) / 11) * 100);
+                                                        $progress = intval((intval($total_available) / 10) * 100);
                                                     }
 
 
@@ -2384,7 +2384,21 @@ if ($user->isLoggedIn()) {
                                                                                 <span class="badge badge-warning right">
                                                                                     <?= $progress ?>%
                                                                                 </span>
-                                                                            <?php } else { ?>
+                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress < 50) { ?>
                                                                                 <span class="badge badge-danger right">
                                                                                     <?= $total_available ?> out of 15
                                                                                 </span>
@@ -2413,7 +2427,21 @@ if ($user->isLoggedIn()) {
                                                                                 <span class="badge badge-warning right">
                                                                                     <?= $progress ?>%
                                                                                 </span>
-                                                                            <?php } else { ?>
+                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress < 50) { ?>
                                                                                 <span class="badge badge-danger right">
                                                                                     <?= $total_available ?> out of 15
                                                                                 </span>
@@ -2462,7 +2490,21 @@ if ($user->isLoggedIn()) {
                                                                                 <span class="badge badge-warning right">
                                                                                     <?= $progress ?>%
                                                                                 </span>
-                                                                            <?php } else { ?>
+                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress < 50) { ?>
                                                                                 <span class="badge badge-danger right">
                                                                                     <?= $total_available ?> out of 15
                                                                                 </span>
@@ -2491,7 +2533,21 @@ if ($user->isLoggedIn()) {
                                                                                 <span class="badge badge-warning right">
                                                                                     <?= $progress ?>%
                                                                                 </span>
-                                                                            <?php } else { ?>
+                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress < 50) { ?>
                                                                                 <span class="badge badge-danger right">
                                                                                     <?= $total_available ?> out of 15
                                                                                 </span>

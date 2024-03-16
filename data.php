@@ -332,7 +332,7 @@ if ($user->isLoggedIn()) {
                 $filename = 'Sites List Data';
             }
 
-            $user->exportData($data, $filename);
+            $user->exportDataXls($data, $filename);
         } elseif (Input::get('download_all')) {
             $data = null;
             $filename = null;
@@ -365,7 +365,7 @@ if ($user->isLoggedIn()) {
                         $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $user->data()->site_id);
                     }
                     $filename = $tables['Tables_in_penplus'] . ' Data';
-                    $user->exportData($data, $filename);
+                    $user->exportDataXls($data, $filename);
                 }
             }
         } elseif (Input::get('download_alls_data')) {
@@ -374,35 +374,70 @@ if ($user->isLoggedIn()) {
 
             foreach (Input::get('table_name') as $tables) {
                 if (
-                    $tables['Tables_in_penplus'] == 'clients' || $tables['Tables_in_penplus'] == 'screening' ||
-                    $tables['Tables_in_penplus'] == 'demographic' || $tables['Tables_in_penplus'] == 'vitals' ||
-                    $tables['Tables_in_penplus'] == 'main_diagnosis' || $tables['Tables_in_penplus'] == 'history' ||
-                    $tables['Tables_in_penplus'] == 'symptoms' || $tables['Tables_in_penplus'] == 'cardiac' ||
-                    $tables['Tables_in_penplus'] == 'diabetic' || $tables['Tables_in_penplus'] == 'sickle_cell' ||
-                    $tables['Tables_in_penplus'] == 'results' || $tables['Tables_in_penplus'] == 'cardiac' ||
-                    $tables['Tables_in_penplus'] == 'hospitalization' || $tables['Tables_in_penplus'] == 'hospitalization_details' ||
-                    $tables['Tables_in_penplus'] == 'treatment_plan' || $tables['Tables_in_penplus'] == 'dgns_complctns_comorbdts' ||
-                    $tables['Tables_in_penplus'] == 'risks' || $tables['Tables_in_penplus'] == 'lab_details' ||
-                    $tables['Tables_in_penplus'] == 'social_economic' || $tables['Tables_in_penplus'] == 'summary' ||
-                    $tables['Tables_in_penplus'] == 'medication_treatments' || $tables['Tables_in_penplus'] == 'hospitalization_detail_id' ||
-                    $tables['Tables_in_penplus'] == 'sickle_cell_status_table' || $tables['Tables_in_penplus'] == 'visit' ||
-                    $tables['Tables_in_penplus'] == 'lab_requests'
+                    $tables == 'clients' || $tables == 'screening'  ||
+                    $tables == 'demographic' || $tables == 'vital' ||
+                    $tables == 'main_diagnosis' || $tables == 'history' ||
+                    $tables == 'symptoms' || $tables == 'cardiac' ||
+                    $tables == 'diabetic' || $tables == 'sickle_cell' ||
+                    $tables == 'results' || $tables == 'cardiac' ||
+                    $tables == 'hospitalization' || $tables == 'hospitalization_details' ||
+                    $tables == 'treatment_plan' || $tables == 'dgns_complctns_comorbdts' ||
+                    $tables == 'risks' || $tables == 'lab_details' ||
+                    $tables == 'social_economic' || $tables == 'summary' ||
+                    $tables == 'medication_treatments' || $tables == 'hospitalization_detail_id' ||
+                    $tables == 'sickle_cell_status_table' || $tables == 'visit' ||
+                    $tables == 'lab_requests'
                 ) {
                     if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                         if ($_GET['site_id'] != null) {
-                            $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $_GET['site_id']);
+                            $data = $override->getNews($tables, 'status', 1, 'site_id', $_GET['site_id']);
                         } else {
-                            $data = $override->get($tables['Tables_in_penplus'], 'status', 1);
+                            $data = $override->get($tables, 'status', 1);
                         }
                     } else {
-                        $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $user->data()->site_id);
+                        $data = $override->getNews($tables, 'status', 1, 'site_id', $user->data()->site_id);
                     }
-                    $filename = $tables['Tables_in_penplus'] . ' Data';
-                    print_r($filename);
-                    $user->exportData($data, $filename);
+                    $filename = $tables . ' Data';
                 }
+
+                $user->exportDataXls($data, $filename);
             }
+        } elseif (Input::get('download_alls_data_xls')) {
+            $data = null;
+            $filename = null;
+
+            // foreach (Input::get('table_name') as $tables) {
+            //     if (
+            //         $tables == 'clients' || $tables == 'screening'  ||
+            //         $tables == 'demographic' || $tables == 'vital' ||
+            //         $tables == 'main_diagnosis' || $tables == 'history' ||
+            //         $tables == 'symptoms' || $tables == 'cardiac' ||
+            //         $tables == 'diabetic' || $tables == 'sickle_cell' ||
+            //         $tables == 'results' || $tables == 'cardiac' ||
+            //         $tables == 'hospitalization' || $tables == 'hospitalization_details' ||
+            //         $tables == 'treatment_plan' || $tables == 'dgns_complctns_comorbdts' ||
+            //         $tables == 'risks' || $tables == 'lab_details' ||
+            //         $tables == 'social_economic' || $tables == 'summary' ||
+            //         $tables == 'medication_treatments' || $tables == 'hospitalization_detail_id' ||
+            //         $tables == 'sickle_cell_status_table' || $tables == 'visit' ||
+            //         $tables == 'lab_requests'
+            //     ) {
+            if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                if ($_GET['site_id'] != null) {
+                    $data = $override->getNews(Input::get('table_id'), 'status', 1, 'site_id', $_GET['site_id']);
+                } else {
+                    $data = $override->get(Input::get('table_id'), 'status', 1);
+                }
+            } else {
+                $data = $override->getNews(Input::get('table_id'), 'status', 1, 'site_id', $user->data()->site_id);
+            }
+            $filename = Input::get('table_id') . ' Data';
+            $user->exportDataXls($data, $filename);
+
         }
+
+        // }
+        // }
     }
 } else {
     Redirect::to('index.php');
@@ -416,7 +451,7 @@ if ($user->isLoggedIn()) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Penplus Database | Info</title>
+    <title>Penplus Database | Data</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -1534,7 +1569,7 @@ if ($user->isLoggedIn()) {
                                     // } 
                                     ?>
                                     List of Data Tables
-                                 </h1>
+                                </h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
@@ -1637,6 +1672,7 @@ if ($user->isLoggedIn()) {
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Table Name</th>
+                                                        <th>Download</th>
                                                         <th>Data</th>
                                                     </tr>
                                                 </thead>
@@ -1677,6 +1713,10 @@ if ($user->isLoggedIn()) {
                                                                     </div>
                                                                 </td>
                                                                 <td class="table-user">
+                                                                    <input type="hidden" name="data" value="<?= $x; ?>">
+                                                                    <input type="submit" name="download_alls_data_xls" value="Download Data">
+                                                                </td>
+                                                                <td class="table-user">
                                                                     <?= $override->getCount($tables['Tables_in_penplus'], 'status', 1); ?>
                                                                 </td>
                                                             </tr>
@@ -1688,6 +1728,7 @@ if ($user->isLoggedIn()) {
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Table Name</th>
+                                                        <th>Download</th>
                                                         <th>Data</th>
                                                     </tr>
                                                 </tfoot>

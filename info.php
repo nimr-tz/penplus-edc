@@ -2234,7 +2234,7 @@ if ($user->isLoggedIn()) {
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>
                                                     <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th>Action ( Completion )</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -2340,7 +2340,7 @@ if ($user->isLoggedIn()) {
                                                                         <?php if ($user->data()->power == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
-                                                                                <span class="badge badge-warning right">
+                                                                                <span class="badge badge-primary right">
                                                                                     <?= $total_available ?> out of 15
                                                                                 </span>
                                                                                 <span class="badge badge-primary right">
@@ -2369,7 +2369,7 @@ if ($user->isLoggedIn()) {
                                                                         <?php if ($user->data()->power == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
-                                                                                <span class="badge badge-warning right">
+                                                                                <span class="badge badge-primary right">
                                                                                     <?= $total_available ?> out of 15
                                                                                 </span>
                                                                                 <span class="badge badge-primary right">
@@ -2416,7 +2416,7 @@ if ($user->isLoggedIn()) {
                                                                         <?php if ($user->data()->power == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
-                                                                                <span class="badge badge-warning right">
+                                                                                <span class="badge badge-primary right">
                                                                                     <?= $total_available ?> out of 15
                                                                                 </span>
                                                                                 <span class="badge badge-primary right">
@@ -2446,7 +2446,7 @@ if ($user->isLoggedIn()) {
 
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
-                                                                                <span class="badge badge-warning right">
+                                                                                <span class="badge badge-primary right">
                                                                                     <?= $total_available ?> out of 15
                                                                                 </span>
                                                                                 <span class="badge badge-primary right">

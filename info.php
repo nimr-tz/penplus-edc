@@ -2290,38 +2290,18 @@ if ($user->isLoggedIn()) {
 
 
                                                     if ($visit['seq_no'] == 1) {
-                                                        $all_visit = intval($override->getCount1('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
-
                                                         $total_available = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
                                                             + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                             + intval($summary1) + intval($social_economic1);
 
                                                         $progress = intval((intval($total_available) / 15) * 100);
                                                     } elseif ($visit['seq_no'] > 1) {
-                                                        $all_visit = intval($override->getCount0('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
-
-                                                        $all_visit1 = intval($all_visit);
-
                                                         $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
                                                             + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                             + intval($summary1);
 
                                                         $progress = intval((intval($total_available) / 11) * 100);
                                                     }
-                                                    //  else {
-                                                    //     $total1 = 1;
-
-                                                    //     $progress1 = 1;
-                                                    // }
-
-
-                                                    // $progress = intval(intval($total1) / intval($progress1) * 100);
-
-                                                    // $progress2 = intval(intval($total1) / intval($progress1) * 100);
-
-
-                                                    // $progress = $total1;
-
 
 
                                                     if ($visit['status'] == 0) {
@@ -2358,20 +2338,58 @@ if ($user->isLoggedIn()) {
 
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-info"> Edit Study Forms </a>
                                                                         <?php if ($user->data()->power == 1) { ?>
-
-                                                                            <span class="badge bg-danger">
-                                                                                <?= $progress; ?>%
-                                                                            </span>
+                                                                            <hr>
+                                                                            <?php if ($progress == 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress > 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } else { ?>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } ?>
                                                                         <?php }
                                                                         ?>
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
                                                                         <?php if ($user->data()->power == 1) { ?>
-
-                                                                            <span class="badge bg-danger">
-                                                                                <?= $progress; ?>%
-                                                                            </span>
+                                                                            <hr>
+                                                                            <?php if ($progress == 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress > 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } else { ?>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } ?>
                                                                         <?php }
                                                                         ?>
                                                                     <?php }
@@ -2396,10 +2414,29 @@ if ($user->isLoggedIn()) {
 
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
                                                                         <?php if ($user->data()->power == 1) { ?>
-
-                                                                            <span class="badge bg-danger">
-                                                                                <?= $progress; ?>%
-                                                                            </span>
+                                                                            <hr>
+                                                                            <?php if ($progress == 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress > 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } else { ?>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } ?>
                                                                         <?php }
                                                                         ?>
 
@@ -2407,9 +2444,29 @@ if ($user->isLoggedIn()) {
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
                                                                         <?php if ($user->data()->power == 1) { ?>
 
-                                                                            <span class="badge bg-danger">
-                                                                                <?= $progress; ?>%
-                                                                            </span>
+                                                                            <hr>
+                                                                            <?php if ($progress == 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress > 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } else { ?>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } ?>
                                                                         <?php }
                                                                         ?>
                                                                         <hr>

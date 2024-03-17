@@ -9373,12 +9373,12 @@ if ($user->isLoggedIn()) {
                                                 </div> 
                                                 
 
-                                                <div class="col-sm-8" id="diagnosis_specify2">
+                                                <div class="col-sm-8" id="diagnosis_specify111111">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Other Diagnosis specify</label>
-                                                            <textarea name="diagnosis_specify" class="form-control" rows="3"><?php if ($diagnosis['diagnosis_specify']) {
+                                                            <textarea name="diagnosis_specify" id="diagnosis_specify22222" class="form-control" rows="3"><?php if ($diagnosis['diagnosis_specify']) {
                                                                                                                                     print_r($diagnosis['diagnosis_specify']);
                                                                                                                                 }  ?></textarea>
                                                         </div>

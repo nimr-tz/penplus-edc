@@ -1,26 +1,29 @@
-const diagnosis_other2 = document.getElementById("diagnosis_other2");
-const diagnosis_specify2 = document.getElementById("diagnosis_specify2");
+const diagnosis_other_cardiac1 = document.getElementById(
+  "diagnosis_other_cardiac1"
+);
+const diagnosis_other_cardiac2 = document.getElementById(
+  "diagnosis_other_cardiac2"
+);
 
-function showElement() {
-  if (diagnosis_other2.value === "1") {
-    diagnosis_specify2.style.display = "block";
+const diagnosis_specify111111 = document.getElementById(
+  "diagnosis_specify111111"
+);
+const diagnosis_specify22222 = document.getElementById(
+  "diagnosis_specify22222"
+);
+
+function toggleElementVisibility() {
+  if (thromboembolic1.checked) {
+    diagnosis_specify111111.style.display = "block";
+    diagnosis_specify22222.setAttribute("required", "required");
   } else {
-    diagnosis_specify2.style.display = "none";
+    diagnosis_specify111111.style.display = "none";
+    diagnosis_specify22222.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", diagnosis_other2.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const diagnosis_other2Value = localStorage.getItem("selectedValue");
+diagnosis_other_cardiac1.addEventListener("change", toggleElementVisibility);
+diagnosis_other_cardiac2.addEventListener("change", toggleElementVisibility);
 
-if (diagnosis_other2Value) {
-  diagnosis_other2.value = diagnosis_other2Value;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-diagnosis_other2.addEventListener("change", showElement);
+// Initial check
+toggleElementVisibility();

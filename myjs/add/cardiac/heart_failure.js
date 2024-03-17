@@ -1,26 +1,24 @@
-const heart_failure = document.getElementById("heart_failure");
-const sub_heart_failure = document.getElementById("sub_heart_failure");
+const heart_failure1 = document.getElementById("heart_failure1");
+const heart_failure2 = document.getElementById("heart_failure2");
 
-function showElement() {
-  if (heart_failure.value === "1") {
+const sub_heart_failure = document.getElementById("sub_heart_failure");
+const sub_heart_failure1_1 = document.getElementById("sub_heart_failure1");
+
+
+function toggleElementVisibility() {
+  if (heart_failure1.checked) {
     sub_heart_failure.style.display = "block";
+    sub_heart_failure1_1.setAttribute("required", "required");
   } else {
     sub_heart_failure.style.display = "none";
+    sub_heart_failure1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", heart_failure.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const heart_failureValue = localStorage.getItem("selectedValue");
+heart_failure1.addEventListener("change", toggleElementVisibility);
+heart_failure2.addEventListener("change", toggleElementVisibility);
 
-if (heart_failureValue) {
-  heart_failure.value = heart_failureValue;
-}
+// Initial check
+toggleElementVisibility();
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-heart_failure.addEventListener("change", showElement);

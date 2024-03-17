@@ -13,7 +13,7 @@ const diagnosis_specify22222 = document.getElementById(
 );
 
 function toggleElementVisibility() {
-  if (thromboembolic1.checked) {
+  if (diagnosis_other_cardiac1.checked) {
     diagnosis_specify111111.style.display = "block";
     diagnosis_specify22222.setAttribute("required", "required");
   } else {

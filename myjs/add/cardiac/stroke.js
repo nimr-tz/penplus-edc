@@ -1,26 +1,24 @@
-const stroke = document.getElementById("stroke");
+const stroke1 = document.getElementById("stroke1");
+const stroke2 = document.getElementById("stroke2");
+
+const sub_stroke1_1 = document.getElementById("sub_stroke1");
 const sub_stroke = document.getElementById("sub_stroke");
 
-function showElement() {
-  if (stroke.value === "1") {
+function toggleElementVisibility() {
+  if (stroke1.checked) {
     sub_stroke.style.display = "block";
+    sub_stroke1_1.setAttribute("required", "required");
   } else {
     sub_stroke.style.display = "none";
+    sub_stroke1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", stroke.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const strokeValue = localStorage.getItem("selectedValue");
+stroke1.addEventListener("change", toggleElementVisibility);
+stroke2.addEventListener("change", toggleElementVisibility);
 
-if (strokeValue) {
-  stroke.value = strokeValue;
-}
+// Initial check
+toggleElementVisibility();
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-stroke.addEventListener("change", showElement);
+

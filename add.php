@@ -8847,7 +8847,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>    
                                                 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_cardiomyopathy">
                                                     <label>If Cardiomyopathy</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -8855,7 +8855,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy1" value="1" <?php if ($diagnosis['sub_cardiomyopathy'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">Ischemic</label>
                                                             </div>
 

@@ -1,26 +1,29 @@
-const cardiomyopathy = document.getElementById("cardiomyopathy");
-const sub_cardiomyopathy1 = document.getElementById("sub_cardiomyopathy1");
+const cardiomyopathy1 = document.getElementById("cardiomyopathy1");
+const cardiomyopathy2 = document.getElementById("cardiomyopathy2");
 
-function showElement() {
-  if (cardiomyopathy.value === "1") {
-    sub_cardiomyopathy1.style.display = "block";
+const sub_cardiomyopathy = document.getElementById("sub_cardiomyopathy");
+const sub_cardiomyopathy1_1 = document.getElementById("sub_cardiomyopathy1");
+
+function toggleElementVisibility() {
+  if (cardiomyopathy1.checked) {
+    sub_cardiomyopathy.style.display = "block";
+    sub_cardiomyopathy1_1.setAttribute("required", "required");
   } else {
-    sub_cardiomyopathy1.style.display = "none";
+    sub_cardiomyopathy.style.display = "none";
+    sub_cardiomyopathy1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", cardiomyopathy.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const cardiomyopathyValue = localStorage.getItem("selectedValue");
+cardiomyopathy1.addEventListener("change", toggleElementVisibility);
+cardiomyopathy2.addEventListener("change", toggleElementVisibility);
 
-if (cardiomyopathyValue) {
-  cardiomyopathy.value = cardiomyopathyValue;
+// Initial check
+toggleElementVisibility();
+
+function unsetSub_cardiomyopathy() {
+  var unsetSub_cardiomyopathys =
+    document.getElementsByName("sub_cardiomyopathy");
+  unsetSub_cardiomyopathys.forEach(function (unsetSub_cardiomyopathy) {
+    unsetSub_cardiomyopathy.checked = false;
+  });
 }
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-cardiomyopathy.addEventListener("change", showElement);

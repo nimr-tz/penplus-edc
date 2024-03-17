@@ -1,26 +1,35 @@
-const sub_congenital = document.getElementById("sub_congenital");
+const sub_congenital1 = document.getElementById("sub_congenital1");
+const sub_congenital2 = document.getElementById("sub_congenital2");
+const sub_congenital3 = document.getElementById("sub_congenital3");
+const sub_congenital4 = document.getElementById("sub_congenital4");
+const sub_congenital5 = document.getElementById("sub_congenital5");
+const sub_congenital96 = document.getElementById("sub_congenital96");
+
 const congenital_other = document.getElementById("congenital_other");
 
-function showElement() {
-  if (sub_congenital.value === "96") {
+function toggleElementVisibility() {
+  if (sub_congenital96.checked) {
     congenital_other.style.display = "block";
+    congenital_other.setAttribute("required", "required");
   } else {
     congenital_other.style.display = "none";
+    congenital_other.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", sub_congenital.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const sub_congenitalValue = localStorage.getItem("selectedValue");
+sub_congenital1.addEventListener("change", toggleElementVisibility);
+sub_congenital2.addEventListener("change", toggleElementVisibility);
+sub_congenital3.addEventListener("change", toggleElementVisibility);
+sub_congenital4.addEventListener("change", toggleElementVisibility);
+sub_congenital5.addEventListener("change", toggleElementVisibility);
+sub_congenital96.addEventListener("change", toggleElementVisibility);
 
-if (sub_congenitalValue) {
-  sub_congenital.value = sub_congenitalValue;
+// Initial check
+toggleElementVisibility();
+
+function unsetSub_congenital() {
+  var unsetSub_congenitals = document.getElementsByName("sub_congenital");
+  unsetSub_congenitals.forEach(function (unsetSub_congenital) {
+    unsetSub_congenital.checked = false;
+  });
 }
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-sub_congenital.addEventListener("change", showElement);

@@ -1,26 +1,36 @@
-const sub_heumatic = document.getElementById("sub_heumatic");
+const sub_heumatic1 = document.getElementById("sub_heumatic1");
+const sub_heumatic2 = document.getElementById("sub_heumatic2");
+const sub_heumatic3 = document.getElementById("sub_heumatic3");
+const sub_heumatic4 = document.getElementById("sub_heumatic4");
+const sub_heumatic5 = document.getElementById("sub_heumatic5");
+const sub_heumatic96 = document.getElementById("sub_heumatic96");
+
 const heumatic_other = document.getElementById("heumatic_other");
 
-function showElement() {
-  if (sub_heumatic.value === "96") {
+function toggleElementVisibility() {
+  if (sub_heumatic96.checked) {
     heumatic_other.style.display = "block";
+    heumatic_other.setAttribute("required", "required");
   } else {
     heumatic_other.style.display = "none";
+    heumatic_other.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", sub_heumatic.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const sub_heumaticValue = localStorage.getItem("selectedValue");
+sub_heumatic1.addEventListener("change", toggleElementVisibility);
+sub_heumatic2.addEventListener("change", toggleElementVisibility);
+sub_heumatic3.addEventListener("change", toggleElementVisibility);
+sub_heumatic4.addEventListener("change", toggleElementVisibility);
+sub_heumatic5.addEventListener("change", toggleElementVisibility);
+sub_heumatic96.addEventListener("change", toggleElementVisibility);
 
-if (sub_heumaticValue) {
-  sub_heumatic.value = sub_heumaticValue;
+// Initial check
+toggleElementVisibility();
+
+function unsetSub_heumatic() {
+  var unsetSub_heumatics = document.getElementsByName("sub_heumatic");
+  unsetSub_heumatics.forEach(function (unsetSub_heumatic) {
+    unsetSub_heumatic.checked = false;
+  });
 }
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-sub_heumatic.addEventListener("change", showElement);

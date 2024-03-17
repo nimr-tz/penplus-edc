@@ -8936,7 +8936,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_heumatic">
                                                     <label>If Rheumatic Heart Disease</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -8944,7 +8944,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic1" value="1" <?php if ($diagnosis['sub_heumatic'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">Pure mitral stenosis</label>
                                                             </div>
 
@@ -9014,44 +9014,44 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_congenital">
                                                     <label>If Congenital heart Disease</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic1" value="1" <?php if ($diagnosis['sub_heumatic'] == 1) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital1" value="1" <?php if ($diagnosis['sub_congenital'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">ASD</label>
                                                             </div>
 
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic2" value="2" <?php if ($diagnosis['sub_heumatic'] == 2) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital2" value="2" <?php if ($diagnosis['sub_congenital'] == 2) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">VSD</label>
                                                             </div> 
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic3" value="3" <?php if ($diagnosis['sub_heumatic'] == 3) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital3" value="3" <?php if ($diagnosis['sub_congenital'] == 3) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">PDA </label>
                                                             </div>   
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic4" value="4" <?php if ($diagnosis['sub_heumatic'] == 4) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital4" value="4" <?php if ($diagnosis['sub_congenital'] == 4) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Coarctation of aorta</label>
                                                             </div>   
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic5" value="5" <?php if ($diagnosis['sub_heumatic'] == 5) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital5" value="5" <?php if ($diagnosis['sub_congenital'] == 5) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Tetralogy of Fallot</label>
                                                             </div>     
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic96" value="96" <?php if ($diagnosis['sub_heumatic'] == 96) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital96" value="96" <?php if ($diagnosis['sub_congenital'] == 96) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Other</label>

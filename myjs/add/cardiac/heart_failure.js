@@ -21,4 +21,9 @@ heart_failure2.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-
+function unsetSub_heart_failure() {
+  var unsetSub_heart_failures = document.getElementsByName("sub_heart_failure");
+  unsetSub_heart_failures.forEach(function (unsetSub_heart_failure) {
+    unsetSub_heart_failure.checked = false;
+  });
+}

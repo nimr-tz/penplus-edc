@@ -9092,7 +9092,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_heart_failure">
                                                     <label>If Right Heart Failure</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -9133,7 +9133,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6"  id="sub_pericardial">
                                                     <label>If Pericardial disease</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -9141,7 +9141,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_pericardial" id="sub_pericardial1" value="1" <?php if ($diagnosis['sub_pericardial'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">Tuberculosis</label>
                                                             </div>
 

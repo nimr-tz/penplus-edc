@@ -1,26 +1,33 @@
-const sub_thromboembolic = document.getElementById("sub_thromboembolic");
+const sub_thromboembolic1 = document.getElementById("sub_thromboembolic1");
+const sub_thromboembolic2 = document.getElementById("sub_thromboembolic2");
+const sub_thromboembolic96 = document.getElementById("sub_thromboembolic96");
+
 const thromboembolic_other = document.getElementById("thromboembolic_other");
 
-function showElement() {
-  if (sub_thromboembolic.value === "96") {
+function toggleElementVisibility() {
+  if (sub_thromboembolic96.checked) {
     thromboembolic_other.style.display = "block";
+    thromboembolic_other.setAttribute("required", "required");
   } else {
     thromboembolic_other.style.display = "none";
+    thromboembolic_other.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", sub_thromboembolic.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const sub_thromboembolicValue = localStorage.getItem("selectedValue");
+sub_thromboembolic1.addEventListener("change", toggleElementVisibility);
+sub_thromboembolic2.addEventListener("change", toggleElementVisibility);
+sub_thromboembolic96.addEventListener("change", toggleElementVisibility);
 
-if (sub_thromboembolicValue) {
-  sub_thromboembolic.value = sub_thromboembolicValue;
+// Initial check
+toggleElementVisibility();
+
+function unsetSub_thromboembolic() {
+  var unsetSub_thromboembolics =
+    document.getElementsByName("sub_thromboembolic");
+  unsetSub_thromboembolics.forEach(function (unsetSub_thromboembolic) {
+    unsetSub_thromboembolic.checked = false;
+  });
 }
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-sub_thromboembolic.addEventListener("change", showElement);
+

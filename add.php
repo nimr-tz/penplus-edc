@@ -8907,6 +8907,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_cardiomyopathy()">Unset</button>                                                                                                             
                                                     </div>
                                                 </div>                                                  
                                             </div>
@@ -8984,6 +8985,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_heumatic()">Unset</button>                                                                                                             
                                                     </div>
                                                 </div>                                          
                                               
@@ -9062,6 +9064,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_congenital()">Unset</button>                                                                                                             
                                                     </div>
                                                 </div>                                     
                                                 
@@ -9102,7 +9105,8 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class=" form-check-label">Chronic Lung Disease</label>
-                                                            </div>                                                                                                                              
+                                                            </div>  
+                                                            <button onclick="unsetSub_heart_failure()">Unset</button>                                                                                                                                                                                                                                         
                                                         </div>
                                                     </div>
                                                 </div>                                                 
@@ -9169,6 +9173,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_pericardial()">Unset</button>                                                                                                                                                                                                                                         
                                                     </div>
                                                 </div>                                                 
                                             </div>
@@ -9221,7 +9226,8 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">unknown </label>
-                                                            </div>                                                                             
+                                                            </div>  
+                                                            <button onclick="unsetSub_stroke()">Unset</button>                                                                                                                                                                                                                                                                                                                    
                                                         </div>
                                                     </div>
                                                 </div>                                               
@@ -9275,6 +9281,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_arrhythmia()">Unset</button>                                                                                                                                                                                                                                                                                                                    
                                                     </div>
                                                 </div>                                         
                                             </div>
@@ -9333,6 +9340,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_thromboembolic()">Unset</button>                                                                                                                                                                                                                                                                                                                    
                                                     </div>
                                                 </div>                                                   
                                                

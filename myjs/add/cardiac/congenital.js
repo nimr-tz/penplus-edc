@@ -1,26 +1,23 @@
-const congenital = document.getElementById("congenital");
-const sub_congenital1 = document.getElementById("sub_congenital1");
+const congenital1 = document.getElementById("congenital1");
+const congenital2 = document.getElementById("congenital2");
 
-function showElement() {
-  if (congenital.value === "1") {
-    sub_congenital1.style.display = "block";
+const sub_congenital = document.getElementById("sub_congenital");
+const sub_congenital1_1 = document.getElementById("sub_congenital1");
+
+
+function toggleElementVisibility() {
+  if (congenital1.checked) {
+    sub_congenital.style.display = "block";
+    sub_congenital1_1.setAttribute("required", "required");
   } else {
-    sub_congenital1.style.display = "none";
+    sub_congenital.style.display = "none";
+    sub_congenital1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", congenital.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const congenitalValue = localStorage.getItem("selectedValue");
+congenital1.addEventListener("change", toggleElementVisibility);
+congenital2.addEventListener("change", toggleElementVisibility);
 
-if (congenitalValue) {
-  congenital.value = congenitalValue;
-}
+// Initial check
+toggleElementVisibility();
 
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-congenital.addEventListener("change", showElement);

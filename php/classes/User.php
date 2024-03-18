@@ -281,6 +281,25 @@ class User
         exit();
     }
 
+    function exportDataXls($data, $file)
+    {
+        $timestamp = time();
+        $filename = $file . '_' . $timestamp . '.xls';
+
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+
+        $isPrintHeader = false;
+        foreach ($data as $row) {
+            if (!$isPrintHeader) {
+                echo implode("\t", array_keys($row)) . "\n";
+                $isPrintHeader = true;
+            }
+            echo implode("\t", array_values($row)) . "\n";
+        }
+        exit();
+    }
+
     public function update($fields = array(), $id = null)
     {
         if (!$id && $this->isLoggedIn()) {

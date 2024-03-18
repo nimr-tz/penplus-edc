@@ -1,26 +1,24 @@
-const pericardial = document.getElementById("pericardial");
-const sub_pericardial1 = document.getElementById("sub_pericardial1");
+const pericardial1 = document.getElementById("pericardial1");
+const pericardial2 = document.getElementById("pericardial2");
 
-function showElement() {
-  if (pericardial.value === "1") {
-    sub_pericardial1.style.display = "block";
+const sub_pericardial1_1 = document.getElementById("sub_pericardial1");
+const sub_pericardial = document.getElementById("sub_pericardial");
+
+
+function toggleElementVisibility() {
+  if (pericardial1.checked) {
+    sub_pericardial.style.display = "block";
+    sub_pericardial1_1.setAttribute("required", "required");
   } else {
-    sub_pericardial1.style.display = "none";
+    sub_pericardial.style.display = "none";
+    sub_pericardial1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", pericardial.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const pericardialValue = localStorage.getItem("selectedValue");
+pericardial1.addEventListener("change", toggleElementVisibility);
+pericardial2.addEventListener("change", toggleElementVisibility);
 
-if (pericardialValue) {
-  pericardial.value = pericardialValue;
-}
+// Initial check
+toggleElementVisibility();
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-pericardial.addEventListener("change", showElement);

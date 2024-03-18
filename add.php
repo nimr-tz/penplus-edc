@@ -8,7 +8,7 @@ $validate = new validate();
 $successMessage = null;
 $pageError = null;
 $errorMessage = null;
-$numRec = 15;
+$numRec = 12;
 
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
@@ -8847,7 +8847,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>    
                                                 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_cardiomyopathy">
                                                     <label>If Cardiomyopathy</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -8855,7 +8855,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_cardiomyopathy" id="sub_cardiomyopathy1" value="1" <?php if ($diagnosis['sub_cardiomyopathy'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">Ischemic</label>
                                                             </div>
 
@@ -8907,6 +8907,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_cardiomyopathy()">Unset</button>                                                                                                             
                                                     </div>
                                                 </div>                                                  
                                             </div>
@@ -8936,7 +8937,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_heumatic">
                                                     <label>If Rheumatic Heart Disease</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -8944,7 +8945,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_heumatic" id="sub_heumatic1" value="1" <?php if ($diagnosis['sub_heumatic'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">Pure mitral stenosis</label>
                                                             </div>
 
@@ -8984,6 +8985,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_heumatic()">Unset</button>                                                                                                             
                                                     </div>
                                                 </div>                                          
                                               
@@ -9014,44 +9016,44 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_congenital">
                                                     <label>If Congenital heart Disease</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic1" value="1" <?php if ($diagnosis['sub_heumatic'] == 1) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital1" value="1" <?php if ($diagnosis['sub_congenital'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">ASD</label>
                                                             </div>
 
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic2" value="2" <?php if ($diagnosis['sub_heumatic'] == 2) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital2" value="2" <?php if ($diagnosis['sub_congenital'] == 2) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">VSD</label>
                                                             </div> 
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic3" value="3" <?php if ($diagnosis['sub_heumatic'] == 3) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital3" value="3" <?php if ($diagnosis['sub_congenital'] == 3) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">PDA </label>
                                                             </div>   
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic4" value="4" <?php if ($diagnosis['sub_heumatic'] == 4) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital4" value="4" <?php if ($diagnosis['sub_congenital'] == 4) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Coarctation of aorta</label>
                                                             </div>   
                                                                 <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic5" value="5" <?php if ($diagnosis['sub_heumatic'] == 5) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital5" value="5" <?php if ($diagnosis['sub_congenital'] == 5) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Tetralogy of Fallot</label>
                                                             </div>     
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_heumatic96" value="96" <?php if ($diagnosis['sub_heumatic'] == 96) {
+                                                                <input class="form-check-input" type="radio" name="sub_congenital" id="sub_congenital96" value="96" <?php if ($diagnosis['sub_congenital'] == 96) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Other</label>
@@ -9062,6 +9064,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_congenital()">Unset</button>                                                                                                             
                                                     </div>
                                                 </div>                                     
                                                 
@@ -9092,7 +9095,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_heart_failure">
                                                     <label>If Right Heart Failure</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -9102,7 +9105,8 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class=" form-check-label">Chronic Lung Disease</label>
-                                                            </div>                                                                                                                              
+                                                            </div>  
+                                                            <button onclick="unsetSub_heart_failure()">Unset</button>                                                                                                                                                                                                                                         
                                                         </div>
                                                     </div>
                                                 </div>                                                 
@@ -9133,7 +9137,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6"  id="sub_pericardial">
                                                     <label>If Pericardial disease</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -9141,7 +9145,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_pericardial" id="sub_pericardial1" value="1" <?php if ($diagnosis['sub_pericardial'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">Tuberculosis</label>
                                                             </div>
 
@@ -9169,6 +9173,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_pericardial()">Unset</button>                                                                                                                                                                                                                                         
                                                     </div>
                                                 </div>                                                 
                                             </div>
@@ -9198,7 +9203,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>  
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_stroke">
                                                     <label>If Stroke</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -9221,7 +9226,8 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                 echo 'checked';
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">unknown </label>
-                                                            </div>                                                                             
+                                                            </div>  
+                                                            <button onclick="unsetSub_stroke()">Unset</button>                                                                                                                                                                                                                                                                                                                    
                                                         </div>
                                                     </div>
                                                 </div>                                               
@@ -9251,7 +9257,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div> 
 
-                                                 <div class="col-sm-6">
+                                                 <div class="col-sm-6" id="sub_arrhythmia">
                                                     <label>If Arrhythmia</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -9259,7 +9265,7 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_arrhythmia" id="sub_arrhythmia1" value="1" <?php if ($diagnosis['sub_arrhythmia'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">Atrial fibrillation </label>
                                                             </div>
                                                                   
@@ -9275,6 +9281,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_arrhythmia()">Unset</button>                                                                                                                                                                                                                                                                                                                    
                                                     </div>
                                                 </div>                                         
                                             </div>
@@ -9303,7 +9310,7 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div> 
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6" id="sub_thromboembolic">
                                                     <label>If Thromboembolic</label>
                                                     <!-- radio -->
                                                     <div class="row-form clearfix">
@@ -9311,13 +9318,13 @@ if ($user->isLoggedIn()) {
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_thromboembolic" id="sub_thromboembolic1" value="1" <?php if ($diagnosis['sub_thromboembolic'] == 1) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">pulmonary embolism </label>
                                                             </div>
                                                              <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="sub_thromboembolic" id="sub_thromboembolic2" value="2" <?php if ($diagnosis['sub_thromboembolic'] == 2) {
                                                                                                                                                                 echo 'checked';
-                                                                                                                                                            } ?> required>
+                                                                                                                                                            } ?>>
                                                                 <label class=" form-check-label">DVT </label>
                                                             </div>
                                                                   
@@ -9333,6 +9340,7 @@ if ($user->isLoggedIn()) {
                                                                 }  ?>
                                                             </textarea>                                                                    
                                                         </div>
+                                                        <button onclick="unsetSub_thromboembolic()">Unset</button>                                                                                                                                                                                                                                                                                                                    
                                                     </div>
                                                 </div>                                                   
                                                
@@ -9373,12 +9381,12 @@ if ($user->isLoggedIn()) {
                                                 </div> 
                                                 
 
-                                                <div class="col-sm-8" id="diagnosis_specify2">
+                                                <div class="col-sm-8" id="diagnosis_specify111111">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
                                                         <div class="form-group">
                                                             <label>Other Diagnosis specify</label>
-                                                            <textarea name="diagnosis_specify" class="form-control" rows="3"><?php if ($diagnosis['diagnosis_specify']) {
+                                                            <textarea name="diagnosis_specify" id="diagnosis_specify22222" class="form-control" rows="3"><?php if ($diagnosis['diagnosis_specify']) {
                                                                                                                                     print_r($diagnosis['diagnosis_specify']);
                                                                                                                                 }  ?></textarea>
                                                         </div>
@@ -15261,6 +15269,12 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                     } ?>>
                                                                 <label class="form-check-label">Other</label>
                                                             </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_summary98" value="98" <?php if ($summary['diagnosis'] == 98) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">N / A</label>
+                                                            </div>
                                                             <textarea class="form-control" id="diagnosis_summary_other" name="diagnosis_other" rows="2">
                                                                 <?php if ($summary['diagnosis_other']) {
                                                                     print_r($summary['diagnosis_other']);
@@ -15324,7 +15338,12 @@ if ($user->isLoggedIn()) {
                                                                                                                                                     } ?>>
                                                                 <label class="form-check-label">Death</label>                                                                
                                                             </div>
-                                                            
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="outcome" id="outcome98" value="98" <?php if ($summary['outcome'] == 98) {
+                                                                                                                                                        echo 'checked';
+                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">N / A</label>                                                                
+                                                            </div>                                                            
                                                         </div>
                                                         <label id="death_date_label">Date of Death</label>
                                                         <input class="form-control" type="date" name="death_date" id="death_date" max="<?= date('Y-m-d') ?>" value="<?php if ($summary['death_date']) {

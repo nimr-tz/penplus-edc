@@ -21,9 +21,9 @@ cause_death96.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-function unsetRadio() {
-  var unsetRadios = document.getElementsByName("cause_death");
-  unsetRadios.forEach(function (unsetRadio) {
-    unsetRadio.checked = false;
+function unsetCause_death() {
+  var unsetCause_deaths = document.getElementsByName("cause_death");
+  unsetCause_deaths.forEach(function (unsetCause_death) {
+    unsetCause_death.checked = false;
   });
 }

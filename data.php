@@ -332,7 +332,7 @@ if ($user->isLoggedIn()) {
                 $filename = 'Sites List Data';
             }
 
-            $user->exportData($data, $filename);
+            $user->exportDataXls($data, $filename);
         } elseif (Input::get('download_all')) {
             $data = null;
             $filename = null;
@@ -365,11 +365,79 @@ if ($user->isLoggedIn()) {
                         $data = $override->getNews($tables['Tables_in_penplus'], 'status', 1, 'site_id', $user->data()->site_id);
                     }
                     $filename = $tables['Tables_in_penplus'] . ' Data';
-                    $user->exportData($data, $filename);
-
+                    $user->exportDataXls($data, $filename);
                 }
             }
+        } elseif (Input::get('download_alls_data')) {
+            $data = null;
+            $filename = null;
+
+            foreach (Input::get('table_name') as $tables) {
+                if (
+                    $tables == 'clients' || $tables == 'screening'  ||
+                    $tables == 'demographic' || $tables == 'vital' ||
+                    $tables == 'main_diagnosis' || $tables == 'history' ||
+                    $tables == 'symptoms' || $tables == 'cardiac' ||
+                    $tables == 'diabetic' || $tables == 'sickle_cell' ||
+                    $tables == 'results' || $tables == 'cardiac' ||
+                    $tables == 'hospitalization' || $tables == 'hospitalization_details' ||
+                    $tables == 'treatment_plan' || $tables == 'dgns_complctns_comorbdts' ||
+                    $tables == 'risks' || $tables == 'lab_details' ||
+                    $tables == 'social_economic' || $tables == 'summary' ||
+                    $tables == 'medication_treatments' || $tables == 'hospitalization_detail_id' ||
+                    $tables == 'sickle_cell_status_table' || $tables == 'visit' ||
+                    $tables == 'lab_requests'
+                ) {
+                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                        if ($_GET['site_id'] != null) {
+                            $data = $override->getNews($tables, 'status', 1, 'site_id', $_GET['site_id']);
+                        } else {
+                            $data = $override->get($tables, 'status', 1);
+                        }
+                    } else {
+                        $data = $override->getNews($tables, 'status', 1, 'site_id', $user->data()->site_id);
+                    }
+                    $filename = $tables . ' Data';
+                }
+
+                $user->exportDataXls($data, $filename);
+            }
+        } elseif (Input::get('download_alls_data_xls')) {
+            $data = null;
+            $filename = null;
+
+            // foreach (Input::get('table_name') as $tables) {
+            //     if (
+            //         $tables == 'clients' || $tables == 'screening'  ||
+            //         $tables == 'demographic' || $tables == 'vital' ||
+            //         $tables == 'main_diagnosis' || $tables == 'history' ||
+            //         $tables == 'symptoms' || $tables == 'cardiac' ||
+            //         $tables == 'diabetic' || $tables == 'sickle_cell' ||
+            //         $tables == 'results' || $tables == 'cardiac' ||
+            //         $tables == 'hospitalization' || $tables == 'hospitalization_details' ||
+            //         $tables == 'treatment_plan' || $tables == 'dgns_complctns_comorbdts' ||
+            //         $tables == 'risks' || $tables == 'lab_details' ||
+            //         $tables == 'social_economic' || $tables == 'summary' ||
+            //         $tables == 'medication_treatments' || $tables == 'hospitalization_detail_id' ||
+            //         $tables == 'sickle_cell_status_table' || $tables == 'visit' ||
+            //         $tables == 'lab_requests'
+            //     ) {
+            if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                if ($_GET['site_id'] != null) {
+                    $data = $override->getNews(Input::get('table_id'), 'status', 1, 'site_id', $_GET['site_id']);
+                } else {
+                    $data = $override->get(Input::get('table_id'), 'status', 1);
+                }
+            } else {
+                $data = $override->getNews(Input::get('table_id'), 'status', 1, 'site_id', $user->data()->site_id);
+            }
+            $filename = Input::get('table_id') . ' Data';
+            $user->exportDataXls($data, $filename);
+
         }
+
+        // }
+        // }
     }
 } else {
     Redirect::to('index.php');
@@ -383,7 +451,7 @@ if ($user->isLoggedIn()) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Penplus Database | Info</title>
+    <title>Penplus Database | Data</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -1490,22 +1558,23 @@ if ($user->isLoggedIn()) {
                             <div class="col-sm-6">
                                 <h1>
                                     <?php
-                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                        if ($_GET['site_id'] != null) {
-                                            $clients = $override->getDataDesc1('study_id', 'site_id', $_GET['site_id'],  'id');
-                                        } else {
-                                            $clients = $override->getDataDesc('study_id', 'id');
-                                        }
-                                    } else {
-                                        $clients = $override->getDataDesc1('visit', 'site_id', $user->data()->site_id,  'id');
-                                    } ?>
-                                    Study ID
+                                    // if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                    //     if ($_GET['site_id'] != null) {
+                                    //         $clients = $override->getDataDesc1('study_id', 'site_id', $_GET['site_id'],  'id');
+                                    //     } else {
+                                    //         $clients = $override->getDataDesc('study_id', 'id');
+                                    //     }
+                                    // } else {
+                                    //     $clients = $override->getDataDesc1('visit', 'site_id', $user->data()->site_id,  'id');
+                                    // } 
+                                    ?>
+                                    List of Data Tables
                                 </h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">Study ID</li>
+                                    <li class="breadcrumb-item active">List of Data Tables<< /li>
                                 </ol>
                             </div>
                         </div>
@@ -1521,59 +1590,13 @@ if ($user->isLoggedIn()) {
                                     <section class="content-header">
                                         <div class="container-fluid">
                                             <div class="row mb-2">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-12">
                                                     <div class="card-header">
-                                                        <h3 class="card-title">List of Study ID's</h3>&nbsp;&nbsp;
+                                                        <h3 class="card-title">List of Data Tables</h3>&nbsp;&nbsp;
                                                         <span class="badge badge-info right"><?= $visit; ?></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
-                                                                                <option value="">Select Site</option>
-                                                                                <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
-                                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                                <?php } ?>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <?php
-                                                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                    ?>
-                                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="row-form clearfix">
-                                                                        <div class="form-group">
-                                                                            <input type="submit" name="download_study_id" value="Download" class="btn btn-info">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-6">
                                                     <ol class="breadcrumb float-sm-right">
                                                         <li class="breadcrumb-item">
                                                             <a href="index1.php">
@@ -1591,58 +1614,135 @@ if ($user->isLoggedIn()) {
                                         </div><!-- /.container-fluid -->
                                     </section>
                                     <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <table id="search-results" class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Client Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="row">
+
+                                            <div class="col-sm-6">
                                                 <?php
-                                                $x = 1;
-                                                foreach ($clients as $value) {
-                                                    $sites = $override->getNews('site', 'status', 1, 'id', $value['site_id'])[0];
+                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                                                 ?>
+                                                    <!-- <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="row-form clearfix">
+                                                                    <div class="form-group">
+                                                                        <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
+                                                                            <option value="">Select Site</option>
+                                                                            <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
+                                                                                <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
+                                                                            <?php } ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="row-form clearfix">
+                                                                    <div class="form-group">
+                                                                        <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form> -->
+                                                <?php } ?>
+                                            </div>
+                                            <div class="col-sm-6">
+
+                                                <?php
+                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                                ?>
+                                                    <!-- <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="row-form clearfix">
+                                                                    <div class="form-group">
+                                                                        <input type="submit" name="download_all_data" value="Download Data" class="btn btn-info">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form> -->
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <table id="search-results" class="table table-bordered">
+                                                <thead>
                                                     <tr>
-                                                        <td class="table-user">
-                                                            <?= $value['study_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $value['client_id']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?= $sites['name']; ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <?php if ($value['status'] == 1) { ?>
-                                                                <a href="#" class="btn btn-success">Taken</a>
-                                                            <?php } elseif ($value['status'] == 0) { ?>
-                                                                <a href="#" class="btn btn-warning">Free</a>
-                                                            <?php } ?>
-                                                        </td>
-                                                        <td class="table-user">
-                                                            <a href="#" class="btn btn-info">Update</a>
-                                                        </td>
+                                                        <th>#</th>
+                                                        <th>Table Name</th>
+                                                        <th>Download</th>
+                                                        <th>Data</th>
                                                     </tr>
-                                                <?php $x++;
-                                                } ?>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Study Id</th>
-                                                    <th>Client Id</th>
-                                                    <th>Site</th>
-                                                    <th>Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $x = 1;
+                                                    foreach ($override->AllTables() as $tables) {
+
+                                                        $sites = $override->getNews('site', 'status', 1, 'id', $value['site_id'])[0];
+
+                                                        if (
+                                                            $tables['Tables_in_penplus'] == 'clients' || $tables['Tables_in_penplus'] == 'screening' ||
+                                                            $tables['Tables_in_penplus'] == 'demographic' || $tables['Tables_in_penplus'] == 'vital' ||
+                                                            $tables['Tables_in_penplus'] == 'main_diagnosis' || $tables['Tables_in_penplus'] == 'history' ||
+                                                            $tables['Tables_in_penplus'] == 'symptoms' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                                                            $tables['Tables_in_penplus'] == 'diabetic' || $tables['Tables_in_penplus'] == 'sickle_cell' ||
+                                                            $tables['Tables_in_penplus'] == 'results' || $tables['Tables_in_penplus'] == 'cardiac' ||
+                                                            $tables['Tables_in_penplus'] == 'hospitalization' || $tables['Tables_in_penplus'] == 'hospitalization_details' ||
+                                                            $tables['Tables_in_penplus'] == 'treatment_plan' || $tables['Tables_in_penplus'] == 'dgns_complctns_comorbdts' ||
+                                                            $tables['Tables_in_penplus'] == 'risks' || $tables['Tables_in_penplus'] == 'lab_details' ||
+                                                            $tables['Tables_in_penplus'] == 'social_economic' || $tables['Tables_in_penplus'] == 'summary' ||
+                                                            $tables['Tables_in_penplus'] == 'medication_treatments' || $tables['Tables_in_penplus'] == 'hospitalization_detail_id' ||
+                                                            $tables['Tables_in_penplus'] == 'sickle_cell_status_table' || $tables['Tables_in_penplus'] == 'visit' ||
+                                                            $tables['Tables_in_penplus'] == 'lab_requests'
+                                                        ) {
+                                                    ?>
+                                                            <tr>
+                                                                <td class="table-user">
+                                                                    <?= $x; ?>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" name="table_id" value="<?= $tables['Tables_in_penplus']; ?>">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox" name="table_name[]" id="table_name[]" value="<?= $tables['Tables_in_penplus']; ?>" <?php if ($tables['Tables_in_penplus'] != '') {
+                                                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                                                            } ?>>
+                                                                        <label class="form-check-label"><?= $tables['Tables_in_penplus']; ?></label>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="table-user">
+                                                                    <input type="hidden" name="data" value="<?= $x; ?>">
+                                                                    <input type="submit" name="download_alls_data_xls" value="Download Data">
+                                                                </td>
+                                                                <td class="table-user">
+                                                                    <?= $override->getCount($tables['Tables_in_penplus'], 'status', 1); ?>
+                                                                </td>
+                                                            </tr>
+                                                    <?php $x++;
+                                                        }
+                                                    } ?>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Table Name</th>
+                                                        <th>Download</th>
+                                                        <th>Data</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row-form clearfix">
+                                                <div class="form-group">
+                                                    <input type="submit" name="download_alls_data" value="Download Data" class="btn btn-primary">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
                                     <!-- /.card-body -->
                                     <div class="card-footer clearfix">
                                         <ul class="pagination pagination-sm m-0 float-right">

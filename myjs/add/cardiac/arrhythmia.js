@@ -1,26 +1,25 @@
-const arrhythmia = document.getElementById("arrhythmia");
-const sub_arrhythmia1 = document.getElementById("sub_arrhythmia1");
+const arrhythmia1 = document.getElementById("arrhythmia1");
+const arrhythmia2 = document.getElementById("arrhythmia2");
 
-function showElement() {
-  if (arrhythmia.value === "1") {
-    sub_arrhythmia1.style.display = "block";
+const sub_arrhythmia1_1 = document.getElementById("sub_arrhythmia1");
+const sub_arrhythmia = document.getElementById("sub_arrhythmia");
+
+function toggleElementVisibility() {
+  if (arrhythmia1.checked) {
+    sub_arrhythmia.style.display = "block";
+    sub_arrhythmia1_1.setAttribute("required", "required");
   } else {
-    sub_arrhythmia1.style.display = "none";
+    sub_arrhythmia.style.display = "none";
+    sub_arrhythmia1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", arrhythmia.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const arrhythmiaValue = localStorage.getItem("selectedValue");
+arrhythmia1.addEventListener("change", toggleElementVisibility);
+arrhythmia2.addEventListener("change", toggleElementVisibility);
 
-if (arrhythmiaValue) {
-  arrhythmia.value = arrhythmiaValue;
-}
+// Initial check
+toggleElementVisibility();
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-arrhythmia.addEventListener("change", showElement);
+
+

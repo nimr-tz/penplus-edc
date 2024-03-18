@@ -1,26 +1,23 @@
-const heumatic = document.getElementById("heumatic");
-const sub_heumatic1 = document.getElementById("sub_heumatic1");
+const heumatic1 = document.getElementById("heumatic1");
+const heumatic2 = document.getElementById("heumatic2");
 
-function showElement() {
-  if (heumatic.value === "1") {
-    sub_heumatic1.style.display = "block";
+const sub_heumatic = document.getElementById("sub_heumatic");
+const sub_heumatic1_1 = document.getElementById("sub_heumatic1");
+
+function toggleElementVisibility() {
+  if (heumatic1.checked) {
+    sub_heumatic.style.display = "block";
+    sub_heumatic1_1.setAttribute("required", "required");
   } else {
-    sub_heumatic1.style.display = "none";
+    sub_heumatic.style.display = "none";
+    sub_heumatic1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", heumatic.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const heumaticValue = localStorage.getItem("selectedValue");
+heumatic1.addEventListener("change", toggleElementVisibility);
+heumatic2.addEventListener("change", toggleElementVisibility);
 
-if (heumaticValue) {
-  heumatic.value = heumaticValue;
-}
+// Initial check
+toggleElementVisibility();
 
-// Show element if Option 2 is selected
-showElement();
 
-// Listen for changes in the dropdown
-heumatic.addEventListener("change", showElement);

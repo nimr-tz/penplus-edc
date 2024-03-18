@@ -1,26 +1,21 @@
-const thromboembolic = document.getElementById("thromboembolic");
-const sub_thromboembolic1 = document.getElementById("sub_thromboembolic1");
+const thromboembolic1 = document.getElementById("thromboembolic1");
+const thromboembolic2 = document.getElementById("thromboembolic2");
 
-function showElement() {
-  if (thromboembolic.value === "1") {
-    sub_thromboembolic1.style.display = "block";
+const sub_thromboembolic = document.getElementById("sub_thromboembolic");
+const sub_thromboembolic1_1 = document.getElementById("sub_thromboembolic1");
+
+function toggleElementVisibility() {
+  if (thromboembolic1.checked) {
+    sub_thromboembolic.style.display = "block";
+    sub_thromboembolic1_1.setAttribute("required", "required");
   } else {
-    sub_thromboembolic1.style.display = "none";
+    sub_thromboembolic.style.display = "none";
+    sub_thromboembolic1_1.removeAttribute("required");
   }
-
-  // Save the selected value in localStorage
-  localStorage.setItem("selectedValue", thromboembolic.value);
 }
 
-// Check if there's a previously selected value in localStorage
-const thromboembolicValue = localStorage.getItem("selectedValue");
+thromboembolic1.addEventListener("change", toggleElementVisibility);
+thromboembolic2.addEventListener("change", toggleElementVisibility);
 
-if (thromboembolicValue) {
-  thromboembolic.value = thromboembolicValue;
-}
-
-// Show element if Option 2 is selected
-showElement();
-
-// Listen for changes in the dropdown
-thromboembolic.addEventListener("change", showElement);
+// Initial check
+toggleElementVisibility();

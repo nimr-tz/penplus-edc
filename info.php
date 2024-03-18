@@ -116,75 +116,6 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('edit_client')) {
-            $validate = $validate->check($_POST, array(
-                'clinic_date' => array(
-                    'required' => true,
-                ),
-                'firstname' => array(
-                    'required' => true,
-                ),
-                'lastname' => array(
-                    'required' => true,
-                ),
-                'dob' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $attachment_file = Input::get('image');
-                    if (!empty($_FILES['image']["tmp_name"])) {
-                        $attach_file = $_FILES['image']['type'];
-                        if ($attach_file == "image/jpeg" || $attach_file == "image/jpg" || $attach_file == "image/png" || $attach_file == "image/gif") {
-                            $folderName = 'clients/';
-                            $attachment_file = $folderName . basename($_FILES['image']['name']);
-                            if (@move_uploaded_file($_FILES['image']["tmp_name"], $attachment_file)) {
-                                $file = true;
-                            } else { {
-                                    $errorM = true;
-                                    $errorMessage = 'Your profile Picture Not Uploaded ,';
-                                }
-                            }
-                        } else {
-                            $errorM = true;
-                            $errorMessage = 'None supported file format';
-                        } //not supported format
-                    } else {
-                        $attachment_file = '';
-                    }
-                    if (!empty($_FILES['image']["tmp_name"])) {
-                        $image = $attachment_file;
-                    } else {
-                        $image = Input::get('client_image');
-                    }
-                    if ($errorM == false) {
-                        $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
-                        $user->updateRecord('clients', array(
-                            'hospital_id' => Input::get('hospital_id'),
-                            'clinic_date' => Input::get('clinic_date'),
-                            'firstname' => Input::get('firstname'),
-                            'middlename' => Input::get('middlename'),
-                            'lastname' => Input::get('lastname'),
-                            'dob' => Input::get('dob'),
-                            'age' => $age,
-                            'gender' => Input::get('gender'),
-                            'site_id' => $user->data()->site_id,
-                            'staff_id' => $user->data()->id,
-                            'client_image' => $attachment_file,
-                            'comments' => Input::get('comments'),
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                        ), Input::get('id'));
-
-                        $successMessage = 'Client Updated Successful';
-                    }
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
         } elseif (Input::get('add_screening')) {
             $validate = $validate->check($_POST, array(
                 'screening_date' => array(
@@ -242,6 +173,9 @@ if ($user->isLoggedIn()) {
                             'expected_date' => Input::get('screening_date'),
                             'visit_date' => Input::get('screening_date'),
                         ), $visit['id']);
+
+                        $successMessage = 'Screening Successful Updated';
+
                     } else {
                         $user->createRecord('screening', array(
                             'screening_date' => Input::get('screening_date'),
@@ -283,13 +217,13 @@ if ($user->isLoggedIn()) {
                         'screened' => 1,
                     ), Input::get('id'));
 
-                    $successMessage = 'Patient Successful Screened';
+                    $successMessage = 'Screening Successful Added';
 
                     if ($eligibility) {
                         Redirect::to('info.php?id=3&status=2');
                     } else {
                         // Redirect::to('info.php?id=3&status=' . $_GET['status']);
-                        Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1');
+                        Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1&msg='. $successMessage);
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -304,55 +238,49 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
-                $visit_id = $override->get('visit', 'client_id', Input::get('id'))[0];
-                $last_visit = $override->getlastRow('visit', 'client_id', Input::get('id'), 'id')[0];
-                $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'));
-                $visit_id = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
-
-                if (Input::get('visit_name') == 'Registration Visit') {
-                    $visit_code = 'RV';
-                } elseif (Input::get('visit_name') == 'Screening Visit') {
-                    $visit_code = 'SV';
-                } elseif (Input::get('visit_name') == 'Enrollment Visit') {
-                    $visit_code = 'EV';
-                } elseif (Input::get('visit_name') == 'Follow Up Visit') {
-                    $visit_code = 'FV';
-                } elseif (Input::get('visit_name') == 'Study Termination Visit') {
-                    $visit_code = 'TV';
-                } elseif (Input::get('visit_name') == 'Unschedule Visit') {
-                    $visit_code = 'UV';
-                }
+                $visit = $override->getNews('visit', 'client_id', Input::get('id'), 'seq_no', 1);
 
                 if ($visit) {
-                    $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
+                    $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit[0]['id']);
 
                     foreach ($override->get('visit', 'client_id', Input::get('id')) as $visit_client) {
-                        $user->updateRecord('visit', array('study_id' => Input::get('study_id')), $visit_client['id']);
+                        $user->updateRecord('visit', array('study_id' => Input::get('study_id'), 'site_id' => Input::get('site_id')), $visit_client['id']);
                     }
+
+                    $successMessage = 'Enrollment  Updated Successful';
+
+
                 } else {
+
                     $user->createRecord('visit', array(
+                        'summary_id' => 0,
                         'study_id' => Input::get('study_id'),
-                        'visit_name' => Input::get('visit_name'),
-                        'visit_code' => $visit_code,
+                        'visit_name' => 'Enrollment Visit',
+                        'visit_code' => 'EV',
                         'visit_day' => 'Day 1',
                         'expected_date' => Input::get('visit_date'),
                         'visit_date' => '',
                         'visit_window' => 0,
-                        'status' => 0,
+                        'status' => 1,
                         'client_id' => Input::get('id'),
                         'created_on' => date('Y-m-d'),
                         'seq_no' => 1,
                         'reasons' => Input::get('reasons'),
-                        'visit_status' => 1,
-                        'site_id' => $user->data()->site_id,
+                        'visit_status' => 0,
+                        'site_id' => Input::get('site_id'),
                     ));
+
+                    foreach ($override->get('visit', 'client_id', Input::get('id')) as $visit_client) {
+                        $user->updateRecord('visit', array('study_id' => Input::get('study_id'), 'site_id' => Input::get('site_id')), $visit_client['id']);
+                    }
 
                     $user->updateRecord('clients', array('enrolled' => 1), Input::get('id'));
 
 
                     $successMessage = 'Enrollment  Added Successful';
-                    Redirect::to('info.php?id=3&status=3');
                 }
+                Redirect::to('info.php?id=3&status=3&msg=' . $successMessage);
+
             } else {
                 $pageError = $validate->errors();
             }
@@ -886,10 +814,10 @@ if ($user->isLoggedIn()) {
                     echo $error . ' , ';
                 } ?>
             </div>
-        <?php } elseif ($successMessage) { ?>
+        <?php } elseif ($_GET['msg']) { ?>
             <div class="alert alert-success text-center">
                 <h4>Success!</h4>
-                <?= $successMessage ?>
+                <?= $_GET['msg'] ?>
             </div>
         <?php } ?>
 
@@ -1587,7 +1515,7 @@ if ($user->isLoggedIn()) {
                                                     <th> Reason </th>
                                                     <th>Comments </th>
                                                 <?php } else { ?>
-                                                    <th>Action</th>
+                                                    <th>Action ( Progress )</th>
                                                 <?php } ?>
 
                                                 <?php if ($_GET['status'] == 3) { ?>
@@ -1639,37 +1567,35 @@ if ($user->isLoggedIn()) {
                                                 $summary = $override->countData('summary', 'patient_id', $client['id'], 'status', 1);
                                                 $social_economic = $override->countData('social_economic', 'patient_id', $client['id'], 'status', 1);
 
-                                                $all_visit = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
+                                                $Total_visit_available = 0;
+                                                $Total_CRF_available = 0;
+                                                $Total_CRF_required = 0;
+                                                $progress = 0;
 
-                                                if ($all_visit == 1) {
-                                                    $all_visit1 = intval($all_visit);
+                                                $Total_visit_available = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
+                                                if ($Total_visit_available < 1) {
+                                                    $Total_visit_available = 0;
+                                                    $Total_CRF_available = 0;
+                                                    $Total_CRF_required = 0;
+                                                } elseif ($Total_visit_available == 1) {
+                                                    $Total_visit_available = intval($Total_visit_available);
 
-                                                    $total1 = intval($category) + intval($demographic) + intval($vital) + intval($history) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                    $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
                                                         + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                        + intval($summary) + intval($social_economic);
+                                                        + intval($summary));
 
-                                                    $progress1 = (intval($all_visit) * 15);
-                                                } elseif ($all_visit > 1) {
-                                                    $all_visit1 = intval($all_visit) - 1;
+                                                    $Total_CRF_required = intval(intval($Total_visit_available) * 15);
+                                                } elseif ($Total_visit_available > 1) {
+                                                    $Total_visit_available = intval(intval($Total_visit_available) - 1);
 
-                                                    $total1 = intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                                    $Total_CRF_available = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
                                                         + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                        + intval($summary);
+                                                        + intval($summary));
 
-                                                    $progress1 = (intval($all_visit1) * 11) + 15;
+                                                    $Total_CRF_required = intval((intval($Total_visit_available) * 10) + 15);
                                                 }
-                                                //  else {
-                                                //     $total1 = 1;
 
-                                                //     $progress1 = 1;
-                                                // }
-
-
-                                                $progress = intval(intval($total1) / intval($progress1) * 100);
-
-                                                // $progress = $total1;
-
-
+                                                $client_progress = intval(intval($Total_CRF_available) / intval($Total_CRF_required) * 100);
 
 
                                                 $enrollment_date = $override->firstRow2('visit', 'visit_date', 'id', 'client_id', $client['id'], 'seq_no', 1, 'visit_code', 'EV')[0]['visit_date'];
@@ -1866,10 +1792,43 @@ if ($user->isLoggedIn()) {
                                                     <td>
                                                         <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
                                                         <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
-
-                                                            <span class="badge bg-danger">
-                                                                <?= $progress; ?>%
-                                                            </span>
+                                                            <hr>
+                                                            <?php if ($client_progress == 100) { ?>
+                                                                <span class="badge badge-primary right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-primary right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } elseif ($client_progress > 100) { ?>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } elseif ($client_progress >= 80 && $client_progress < 100) { ?>
+                                                                <span class="badge badge-info right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-info right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } elseif ($client_progress >= 50 && $client_progress < 80) { ?>
+                                                                <span class="badge badge-secondary right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-secondary right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } elseif ($client_progress < 50) { ?>
+                                                                <span class="badge badge-danger right">
+                                                                    <?= $Total_CRF_available ?> out of <?= $Total_CRF_required ?>
+                                                                </span>
+                                                                <span class="badge badge-danger right">
+                                                                    <?= $client_progress ?>%
+                                                                </span>
+                                                            <?php } ?>
                                                         <?php }
                                                         ?>
 
@@ -1972,7 +1931,7 @@ if ($user->isLoggedIn()) {
                                                                                 <div class="form-group">
                                                                                     <label>Known NCD?</label>
                                                                                     <select class="form-control" name="ncd" style="width: 100%;" required>
-                                                                                        <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
+                                                                                        <option value="<?= $screening['ncd'] ?>"><?php if ($screening) {
                                                                                                                                         if ($screening['ncd'] == 1) {
                                                                                                                                             echo 'Yes';
                                                                                                                                         } elseif ($screening['ncd'] == 2) {
@@ -2017,8 +1976,7 @@ if ($user->isLoggedIn()) {
                                                                     </button>
                                                                 </div>
                                                                 <?php
-                                                                $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
-                                                                $visits_reason = $override->firstRow1('visit', 'reasons', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
+                                                                $enrollment = $override->getNews('visit', 'client_id', $client['id'], 'seq_no', 1)[0];
                                                                 ?>
                                                                 <div class="modal-body">
                                                                     <div class="row">
@@ -2027,8 +1985,8 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Date of Enrollment</label>
-                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($visits_date['visit_date']) {
-                                                                                                                                                                                                                                            print_r($visits_date['visit_date']);
+                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($enrollment['visit_date']) {
+                                                                                                                                                                                                                                            print_r($enrollment['visit_date']);
                                                                                                                                                                                                                                         }  ?>" required />
                                                                                 </div>
                                                                             </div>
@@ -2040,8 +1998,8 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control" name="reasons" rows="3">
                                                                                  <?php
-                                                                                    if ($visits_reason['reasons']) {
-                                                                                        print_r($visits_reason['reasons']);
+                                                                                    if ($enrollment['reasons']) {
+                                                                                        print_r($enrollment['reasons']);
                                                                                     } ?>
                                                                                 </textarea>
                                                                                 </div>
@@ -2055,6 +2013,7 @@ if ($user->isLoggedIn()) {
                                                                     <input type="hidden" name="id" value="<?= $client['id'] ?>">
                                                                     <input type="hidden" name="visit_name" value="Enrollment Visit">
                                                                     <input type="hidden" name="study_id" value="<?= $client['study_id'] ?>">
+                                                                    <input type="hidden" name="site_id" value="<?= $client['site_id'] ?>">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                     <input type="submit" name="add_Enrollment" class="btn btn-primary" value="Save changes">
                                                                 </div>
@@ -2163,6 +2122,9 @@ if ($user->isLoggedIn()) {
                                         $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                                         $visits_status = $override->firstRow1('visit', 'status', 'id', 'client_id', $_GET['cid'], 'visit_code', 'EV')[0]['status'];
 
+                                        $required_visit = $override->countData1('visit', 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $_GET['seq']);
+
+
                                         $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                                         $cat = '';
 
@@ -2231,7 +2193,7 @@ if ($user->isLoggedIn()) {
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>
                                                     <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th>Action ( Completion )</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -2260,65 +2222,45 @@ if ($user->isLoggedIn()) {
                                                     $category = 0;
 
                                                     if ($diagnosis[0]['cardiac'] == 1) {
-                                                        $category =  $override->countData('cardiac', 'patient_id', $visit['client_id'], 'status', 1);
+                                                        $category =  $override->countData1('cardiac', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     } elseif ($diagnosis[0]['diabetes'] == 1) {
-                                                        $category =  $override->countData('diabetic', 'patient_id', $visit['client_id'], 'status', 1);
+                                                        $category =  $override->countData('diabetic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     } elseif ($diagnosis[0]['sickle_cell'] == 1) {
-                                                        $category =  $override->countData('sickle_cell', 'patient_id', $visit['client_id'], 'status', 1);
+                                                        $category =  $override->countData('sickle_cell', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     } else {
                                                         $category = 0;
                                                     }
 
 
-                                                    $demographic1 = $override->countData('demographic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $vital1 = $override->countData('vital', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $history1 = $override->countData('history', 'patient_id',  $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $symptoms1 = $override->countData('symptoms', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $diagnosis1 = $override->countData('main_diagnosis', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $results1 = $override->countData('results', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $hospitalization1 = $override->countData('hospitalization', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $treatment_plan1 = $override->countData('treatment_plan', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $dgns_complctns_comorbdts1 = $override->countData('dgns_complctns_comorbdts', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $risks1 = $override->countData('risks', 'patient_id', $visit['client_id'], 'status', 1);
-                                                    $hospitalization_details1 = $override->countData('hospitalization_details', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $lab_details1 = $override->countData('lab_details', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $summary1 = $override->countData('summary', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
-                                                    $social_economic1 = $override->countData('social_economic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $demographic1 = $override->countData1('demographic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $vital1 = $override->countData1('vital', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $history1 = $override->countData1('history', 'patient_id',  $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $symptoms1 = $override->countData1('symptoms', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $diagnosis1 = $override->countData1('main_diagnosis', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $results1 = $override->countData1('results', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $hospitalization1 = $override->countData1('hospitalization', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $treatment_plan1 = $override->countData1('treatment_plan', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $dgns_complctns_comorbdts1 = $override->countData1('dgns_complctns_comorbdts', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $risks1 = $override->countData1('risks', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $hospitalization_details1 = $override->countData1('hospitalization_details', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $lab_details1 = $override->countData1('lab_details', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $summary1 = $override->countData1('summary', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
+                                                    $social_economic1 = $override->countData1('social_economic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
 
 
                                                     if ($visit['seq_no'] == 1) {
-                                                        $all_visit = intval($override->getCount1('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
-
-                                                        $total1 = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
+                                                        $total_available = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
                                                             + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                             + intval($summary1) + intval($social_economic1);
 
-                                                        $progress1 = (intval($all_visit) * 15);
+                                                        $progress = intval((intval($total_available) / 15) * 100);
                                                     } elseif ($visit['seq_no'] > 1) {
-                                                        $all_visit = intval($override->getCount0('visit', 'client_id', $visit['client_id'], 'seq_no', 1));
-
-                                                        $all_visit1 = intval($all_visit);
-
-                                                        $total1 = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
+                                                        $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
                                                             + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                             + intval($summary1);
 
-                                                        $progress1 = (intval($all_visit1) * 11) + 15;
+                                                        $progress = intval((intval($total_available) / 10) * 100);
                                                     }
-                                                    //  else {
-                                                    //     $total1 = 1;
-
-                                                    //     $progress1 = 1;
-                                                    // }
-
-
-                                                    $progress = intval(intval($total1) / intval($progress1) * 100);
-
-                                                    // $progress2 = intval(intval($total1) / intval($progress1) * 100);
-
-
-                                                    // $progress = $total1;
-
 
 
                                                     if ($visit['status'] == 0) {
@@ -2349,75 +2291,208 @@ if ($user->isLoggedIn()) {
                                                         <td>
                                                             <?php if ($visit['visit_code'] == 'EV') { ?>
 
-                                                                <?php if ($visit['visit_status'] == 1 && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
+                                                                <?php if (($visit['visit_status'] == 1 || $visit['visit_status'] == 2)  && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
 
                                                                     <?php if ($demographic && $vital && $history && $symptoms && $diagnosis && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $social_economic && $summary) { ?>
 
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-info"> Edit Study Forms </a>
-                                                                        <?php if ($user->data()->power == 1) { ?>
-
-                                                                            <span class="badge bg-danger">
-                                                                                <?= $progress; ?>%
-                                                                            </span>
+                                                                        <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
+                                                                            <hr>
+                                                                            <?php if ($progress == 100) { ?>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress > 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress < 50) { ?>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } ?>
                                                                         <?php }
                                                                         ?>
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
-                                                                        <?php if ($user->data()->power == 1) { ?>
-
-                                                                            <span class="badge bg-danger">
-                                                                                <?= $progress; ?>%
-                                                                            </span>
+                                                                        <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
+                                                                            <hr>
+                                                                            <?php if ($progress == 100) { ?>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress > 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress < 50) { ?>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } ?>
                                                                         <?php }
                                                                         ?>
                                                                     <?php }
                                                                 }
 
 
-                                                                if ($user->data()->power == 1) { ?>
+                                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                                     <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
-                                                                    <hr>
-                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
-                                                                    <hr>
+                                                                    <?php if ($user->data()->power == 1) { ?>
+                                                                        <hr>
+                                                                        <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                                        <hr>
+                                                                    <?php } ?>
                                                             <?php }
                                                             } ?>
 
 
                                                             <?php if (($visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
 
-                                                                <?php if ($visit['visit_status'] == 1 && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
+                                                                <?php if (($visit['visit_status'] == 1 || $visit['visit_status'] == 2) && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
 
                                                                     <?php if ($vital && $symptoms && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $summary) { ?>
 
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
-                                                                        <?php if ($user->data()->power == 1) { ?>
-
-                                                                            <span class="badge bg-danger">
-                                                                                <?= $progress; ?>%
-                                                                            </span>
+                                                                        <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
+                                                                            <hr>
+                                                                            <?php if ($progress == 100) { ?>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress > 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress < 50) { ?>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } ?>
                                                                         <?php }
                                                                         ?>
 
                                                                     <?php } else { ?>
                                                                         <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
-                                                                        <?php if ($user->data()->power == 1) { ?>
-
-                                                                            <span class="badge bg-danger">
-                                                                                <?= $progress; ?>%
-                                                                            </span>
+                                                                        <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
+                                                                            <hr>
+                                                                            <?php if ($progress == 100) { ?>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-primary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress > 100) { ?>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-warning right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-info right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-secondary right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } elseif ($progress < 50) { ?>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $total_available ?> out of 15
+                                                                                </span>
+                                                                                <span class="badge badge-danger right">
+                                                                                    <?= $progress ?>%
+                                                                                </span>
+                                                                            <?php } ?>
                                                                         <?php }
                                                                         ?>
-                                                                        <hr>
-
                                                                     <?php }
                                                                 }
                                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                                     <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
-                                                                    <hr>
                                                                     <?php if ($user->data()->power == 1) { ?>
+                                                                        <hr>
+
                                                                         <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
                                                             <?php
                                                                     }
@@ -2624,44 +2699,44 @@ if ($user->isLoggedIn()) {
                 <section class="content">
                     <div class="container-fluid">
                         <div class="row">
-                            <?php if($user->data()->power == 1){ ?>
-                            <!-- left column -->
-                            <div class="col-md-6">
-                                <!-- general form elements disabled -->
-                                <div class="card card-warning">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Add STUDY ID </h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="row-form clearfix">
-                                                        <div class="form-group">
-                                                            <label for="forms">FULL NAME ( STUDY ID )</label>
-                                                            <select name="client_id" class="form-control" style="width: 100%;" required>
-                                                                <option value="">Select Name</option>
-                                                                <?php foreach ($override->get('clients', 'status', 1) as $client) { ?>
-                                                                    <option value="<?= $client['id'] ?>"><?= $client['id'] . ' - ( ' . $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['middelname'] . ' - ' . $client['lastname'] . ' ) ' ?></option>
-                                                                <?php } ?>
-                                                            </select>
+                            <?php if ($user->data()->power == 1) { ?>
+                                <!-- left column -->
+                                <div class="col-md-6">
+                                    <!-- general form elements disabled -->
+                                    <div class="card card-warning">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Add STUDY ID </h3>
+                                        </div>
+                                        <!-- /.card-header -->
+                                        <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <label for="forms">FULL NAME ( STUDY ID )</label>
+                                                                <select name="client_id" class="form-control" style="width: 100%;" required>
+                                                                    <option value="">Select Name</option>
+                                                                    <?php foreach ($override->get('clients', 'status', 1) as $client) { ?>
+                                                                        <option value="<?= $client['id'] ?>"><?= $client['id'] . ' - ( ' . $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['middelname'] . ' - ' . $client['lastname'] . ' ) ' ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- /.card-body -->
-                                        <div class="card-footer">
-                                            <a href='index1.php' class="btn btn-default">Back</a>
-                                            <input type="hidden" name="study_id" value="<?= $client['id']; ?>">
-                                            <input type="submit" name="set_study_id" value="Submit" class="btn btn-primary">
-                                        </div>
-                                    </form>
+                                            <!-- /.card-body -->
+                                            <div class="card-footer">
+                                                <a href='index1.php' class="btn btn-default">Back</a>
+                                                <input type="hidden" name="study_id" value="<?= $client['id']; ?>">
+                                                <input type="submit" name="set_study_id" value="Submit" class="btn btn-primary">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.card -->
                                 </div>
-                                <!-- /.card -->
-                            </div>
-                            <!--/.col (left) -->
+                                <!--/.col (left) -->
                             <?php } ?>
 
                             <!-- right column -->
@@ -2852,6 +2927,9 @@ if ($user->isLoggedIn()) {
                                         $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                                         $visits_status = $override->firstRow1('visit', 'status', 'id', 'client_id', $_GET['cid'], 'visit_code', 'EV')[0]['status'];
 
+                                        $required_visit = $override->countData1('visit', 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $_GET['seq']);
+
+
                                         // $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                                         $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                                         $cat = '';
@@ -2901,345 +2979,601 @@ if ($user->isLoggedIn()) {
                                                 <tr>
                                                     <th>#</th>
                                                     <th>CRF</th>
-                                                    <th>Records</th>
+                                                    <th>Records ( Completion )</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php if ($visit['visit_status'] == 1 || $visit['visit_status'] == 2) { ?>
 
-                                                <tr>
-                                                    <?php if ($_GET['seq'] == 1) { ?>
+                                                    <tr>
+                                                        <?php if ($_GET['seq'] == 1) { ?>
 
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Demographic</td>
-                                                    <td>
-                                                        <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                        <span class="badge badge-info right">
-                                                            <?= $override->countData('demographic', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                        </span>
-                                                    </td>
-                                                    <?php if ($override->get3('demographic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-                                                        <td><a href="add.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                    <?php } else { ?>
-                                                        <td><a href="add.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                    <?php } ?>
-                                                </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>Demographic</td>
+                                                        <td>
+                                                            <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                            <?php $demographic = intval($override->countData1('demographic', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                            <span class="badge badge-info right">
+                                                                <?= $demographic ?> out of 1
+                                                            </span>
+                                                            <?php $demographic = intval($demographic / 1) * 100 ?>
+                                                            <?php if ($demographic == 100) { ?>
+                                                                <span class="badge badge-primary right">
+                                                                    <?= $demographic ?>%
+                                                                </span>
+                                                            <?php } elseif ($demographic > 100) { ?>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $demographic ?>%
+                                                                </span>
+                                                            <?php } else { ?>
+                                                                <span class="badge badge-danger right">
+                                                                    <?= $demographic ?>%
+                                                                </span>
+                                                            <?php } ?>
+                                                        </td>
+                                                        <?php if ($override->get3('demographic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                            <td><a href="add.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                        <?php } else { ?>
+                                                            <td><a href="add.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <?php } ?>
+                                                    </tr>
 
-                                            <?php }  ?>
-
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Vitals</td>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('vital', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
-                                                <?php if ($override->get3('vital', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-                                                    <td><a href="add.php?id=8&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=8&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-                                            </tr>
-
-                                            <?php if ($_GET['seq'] == 1) { ?>
+                                                <?php }  ?>
 
                                                 <tr>
                                                     <td>2</td>
-                                                    <td>Pateint Category</td>
+                                                    <td>Vitals</td>
                                                     <td>
                                                         <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $vital = intval($override->countData1('vital', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
                                                         <span class="badge badge-info right">
-                                                            <?= $override->countData('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id) ?>
+                                                            <?= $vital ?> out of 1
                                                         </span>
+                                                        <?php $vital = intval($vital / 1) * 100 ?>
+                                                        <?php if ($vital == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $vital ?>%
+                                                            </span>
+                                                        <?php } elseif ($vital > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $vital ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $vital ?>%
+                                                            </span>
+                                                        <?php } ?>
                                                     </td>
-                                                    <?php if ($override->get3('main_diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-                                                        <td><a href="add.php?id=9&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                    <?php if ($override->get3('vital', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                        <td><a href="add.php?id=8&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
                                                     <?php } else { ?>
-                                                        <td><a href="add.php?id=9&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <td><a href="add.php?id=8&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
                                                     <?php } ?>
                                                 </tr>
 
-                                            <?php }  ?>
+                                                <?php if ($_GET['seq'] == 1) { ?>
+
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>Pateint Category</td>
+                                                        <td>
+                                                            <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                            <?php $main_diagnosis = intval($override->countData1('main_diagnosis', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                            <span class="badge badge-info right">
+                                                                <?= $main_diagnosis ?> out of 1
+                                                            </span>
+                                                            <?php $main_diagnosis = intval($main_diagnosis / 1) * 100 ?>
+                                                            <?php if ($main_diagnosis == 100) { ?>
+                                                                <span class="badge badge-primary right">
+                                                                    <?= $main_diagnosis ?>%
+                                                                </span>
+                                                            <?php } elseif ($main_diagnosis > 100) { ?>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $main_diagnosis ?>%
+                                                                </span>
+                                                            <?php } else { ?>
+                                                                <span class="badge badge-danger right">
+                                                                    <?= $main_diagnosis ?>%
+                                                                </span>
+                                                            <?php } ?>
+                                                        </td>
+                                                        <?php if ($override->get3('main_diagnosis', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                            <td><a href="add.php?id=9&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                        <?php } else { ?>
+                                                            <td><a href="add.php?id=9&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <?php } ?>
+                                                    </tr>
+
+                                                <?php }  ?>
 
 
-                                            <?php if ($_GET['seq'] == 1) { ?>
+                                                <?php if ($_GET['seq'] == 1) { ?>
+
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>Patient Hitory & Family History & Complication</td>
+                                                        <td>
+                                                            <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                            <?php $history = intval($override->countData1('history', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                            <span class="badge badge-info right">
+                                                                <?= $history ?> out of 1
+                                                            </span>
+                                                            <?php $history = intval($history / 1) * 100 ?>
+                                                            <?php if ($history == 100) { ?>
+                                                                <span class="badge badge-primary right">
+                                                                    <?= $history ?>%
+                                                                </span>
+                                                            <?php } elseif ($history > 100) { ?>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $history ?>%
+                                                                </span>
+                                                            <?php } else { ?>
+                                                                <span class="badge badge-danger right">
+                                                                    <?= $history ?>%
+                                                                </span>
+                                                            <?php } ?>
+                                                        </td>
+                                                        <?php if ($override->get3('history', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                            <td><a href="add.php?id=10&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                        <?php } else { ?>
+                                                            <td><a href="add.php?id=10&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <?php } ?>
+                                                    </tr>
+
+                                                <?php }  ?>
+
 
                                                 <tr>
-                                                    <td>3</td>
-                                                    <td>Patient Hitory & Family History & Complication</td>
+                                                    <td>5</td>
+                                                    <td>History, Symtom & Exam</td>
                                                     <td>
                                                         <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $symptoms = intval($override->countData1('symptoms', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
                                                         <span class="badge badge-info right">
-                                                            <?= $override->countData('history', 'status', 1, 'site_id', $user->data()->site_id) ?>
+                                                            <?= $symptoms ?> out of 1
                                                         </span>
+                                                        <?php $symptoms = intval($symptoms / 1) * 100 ?>
+                                                        <?php if ($symptoms == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $symptoms ?>%
+                                                            </span>
+                                                        <?php } elseif ($symptoms > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $symptoms ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $symptoms ?>%
+                                                            </span>
+                                                        <?php } ?>
                                                     </td>
-                                                    <?php if ($override->get3('history', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                    <?php if ($override->get3('symptoms', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                        <td><a href="add.php?id=10&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                        <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
                                                     <?php } else { ?>
-                                                        <td><a href="add.php?id=10&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
                                                     <?php } ?>
                                                 </tr>
 
-                                            <?php }  ?>
 
-
-                                            <tr>
-                                                <td>4</td>
-                                                <td>History, Symtom & Exam</td>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('symptoms', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
-                                                <?php if ($override->get3('symptoms', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                    <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=11&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-                                            </tr>
-
-
-                                            <?php if ($_GET['seq'] == 1) { ?>
-
-                                                <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
-
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>Main diagnosis 1 ( Cardiac )</td>
-                                                        <td>
-                                                            <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                            <span class="badge badge-info right">
-                                                                <?= $override->countData('cardiac', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                            </span>
-                                                        </td>
-                                                        <?php if ($override->get3('cardiac', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                            <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                        <?php } else { ?>
-                                                            <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                        <?php } ?>
-                                                    </tr>
-                                                <?php } ?>
-
-
-                                                <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
-
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>Main diagnosis 2 ( Diabetes )</td>
-                                                        <td>
-                                                            <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                            <span class="badge badge-info right">
-                                                                <?= $override->countData('diabetic', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                            </span>
-                                                        </td>
-                                                        <?php if ($override->get3('diabetic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                            <td><a href="add.php?id=13&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                        <?php } else { ?>
-                                                            <td><a href="add.php?id=13&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                        <?php } ?>
-                                                    </tr>
-                                                <?php } ?>
-
-
-                                                <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
-
-
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>Main diagnosis 3 ( Sickle Cell )</td>
-                                                        <td>
-                                                            <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                            <span class="badge badge-info right">
-                                                                <?= $override->countData('sickle_cell', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                            </span>
-                                                        </td>
-                                                        <?php if ($override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                            <td><a href="add.php?id=14&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                        <?php } else { ?>
-                                                            <td><a href="add.php?id=14&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                        <?php } ?>
-                                                    </tr>
-
-                                                <?php } ?>
-
-                                            <?php }  ?>
-
-
-                                            <?php
-                                            //  if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1) || $override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { 
-                                            ?>
-                                            <tr>
-                                                <td>6</td>
                                                 <?php if ($_GET['seq'] == 1) { ?>
-                                                    <td>Results at enrollment</td>
-                                                <?php } else { ?>
-                                                    <td>Results at Follow Up</td>
-                                                <?php } ?>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('results', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
 
-                                                <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
 
-                                                    <td><a href="add.php?id=15&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=15&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td>Main diagnosis 1 ( Cardiac )</td>
+                                                            <td>
+                                                                <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                                <?php $cardiac = intval($override->countData1('cardiac', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                                <span class="badge badge-info right">
+                                                                    <?= $cardiac ?> out of 1
+                                                                </span>
+                                                                <?php $cardiac = intval($cardiac / 1) * 100 ?>
+                                                                <?php if ($cardiac == 100) { ?>
+                                                                    <span class="badge badge-primary right">
+                                                                        <?= $cardiac ?>%
+                                                                    </span>
+                                                                <?php } elseif ($cardiac > 100) { ?>
+                                                                    <span class="badge badge-warning right">
+                                                                        <?= $cardiac ?>%
+                                                                    </span>
+                                                                <?php } else { ?>
+                                                                    <span class="badge badge-danger right">
+                                                                        <?= $cardiac ?>%
+                                                                    </span>
+                                                                <?php } ?>
+                                                            </td>
+                                                            <?php if ($override->get3('cardiac', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                            </tr>
-
-                                            <?php
-                                            //  }
-                                            ?>
-
-                                            <tr>
-                                                <td>7</td>
-                                                <td>Hospitalization</td>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('hospitalization', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
-                                                <?php if ($override->get3('hospitalization', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                    <td><a href="add.php?id=16&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=16&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-
-                                            </tr>
-                                            <tr>
-                                                <td>8</td>
-                                                <td>Hospitalization Details</td>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('hospitalization_details', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
-                                                <?php if ($override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                    <td><a href="add.php?id=17&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=17&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>9</td>
-                                                <td>Treatment Plan</td>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('treatment_plan', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
-                                                <?php if ($override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                    <td><a href="add.php?id=18&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=18&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>10</td>
-                                                <td>Diagnosis, Complications, & Comorbidities</td>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('dgns_complctns_comorbdts', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
-                                                <?php if ($override->get3('dgns_complctns_comorbdts', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                    <td><a href="add.php?id=19&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=19&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>11</td>
-                                                <td>RISK</td>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('risks', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
-                                                <?php if ($override->get3('risks', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
-
-                                                    <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
-
-                                            </tr>
+                                                                <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                            <?php } else { ?>
+                                                                <td><a href="add.php?id=12&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                            <?php } ?>
+                                                        </tr>
+                                                    <?php } ?>
 
 
+                                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'diabetes', 1)) { ?>
 
-                                            <tr>
-                                                <td>12</td>
-                                                <td>Lab Details</td>
-                                                <td>
-                                                    <!-- <i class="nav-icon fas fa-th"></i> -->
-                                                    <span class="badge badge-info right">
-                                                        <?= $override->countData('lab_details', 'status', 1, 'site_id', $user->data()->site_id) ?>
-                                                    </span>
-                                                </td>
-                                                <?php if ($override->get3('lab_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td>Main diagnosis 2 ( Diabetes )</td>
+                                                            <td>
+                                                                <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                                <?php $diabetic = intval($override->countData1('diabetic', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                                <span class="badge badge-info right">
+                                                                    <?= $diabetic ?> out of 1
+                                                                </span>
+                                                                <?php $diabetic = intval($diabetic / 1) * 100 ?>
+                                                                <?php if ($diabetic == 100) { ?>
+                                                                    <span class="badge badge-primary right">
+                                                                        <?= $diabetic ?>%
+                                                                    </span>
+                                                                <?php } elseif ($diabetic > 100) { ?>
+                                                                    <span class="badge badge-warning right">
+                                                                        <?= $diabetic ?>%
+                                                                    </span>
+                                                                <?php } else { ?>
+                                                                    <span class="badge badge-danger right">
+                                                                        <?= $diabetic ?>%
+                                                                    </span>
+                                                                <?php } ?>
+                                                            </td>
+                                                            <?php if ($override->get3('diabetic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                    <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                <?php } else { ?>
-                                                    <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                <?php } ?>
+                                                                <td><a href="add.php?id=13&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                            <?php } else { ?>
+                                                                <td><a href="add.php?id=13&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                            <?php } ?>
+                                                        </tr>
+                                                    <?php } ?>
 
-                                            </tr>
-                                            <?php if ($_GET['seq'] == 1) { ?>
+
+                                                    <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td>Main diagnosis 3 ( Sickle Cell )</td>
+                                                            <td>
+                                                                <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                                <?php $sickle_cell = intval($override->countData1('sickle_cell', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                                <span class="badge badge-info right">
+                                                                    <?= $sickle_cell ?> out of 1
+                                                                </span>
+                                                                <?php $sickle_cell = intval($sickle_cell / 1) * 100 ?>
+                                                                <?php if ($sickle_cell == 100) { ?>
+                                                                    <span class="badge badge-primary right">
+                                                                        <?= $sickle_cell ?>%
+                                                                    </span>
+                                                                <?php } elseif ($sickle_cell > 100) { ?>
+                                                                    <span class="badge badge-warning right">
+                                                                        <?= $sickle_cell ?>%
+                                                                    </span>
+                                                                <?php } else { ?>
+                                                                    <span class="badge badge-danger right">
+                                                                        <?= $sickle_cell ?>%
+                                                                    </span>
+                                                                <?php } ?>
+                                                            </td>
+                                                            <?php if ($override->get3('sickle_cell', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                                <td><a href="add.php?id=14&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                            <?php } else { ?>
+                                                                <td><a href="add.php?id=14&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                            <?php } ?>
+                                                        </tr>
+
+                                                    <?php } ?>
+
+                                                <?php }  ?>
+
+
+                                                <?php
+                                                    //  if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1) || $override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { 
+                                                ?>
+                                                <tr>
+                                                    <td>7</td>
+                                                    <?php if ($_GET['seq'] == 1) { ?>
+                                                        <td>Results at enrollment</td>
+                                                    <?php } else { ?>
+                                                        <td>Results at Follow Up</td>
+                                                    <?php } ?>
+                                                    <td>
+                                                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $results = intval($override->countData1('results', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                        <span class="badge badge-info right">
+                                                            <?= $results ?> out of 1
+                                                        </span>
+                                                        <?php $results = intval($results / 1) * 100 ?>
+                                                        <?php if ($results == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $results ?>%
+                                                            </span>
+                                                        <?php } elseif ($results > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $results ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $results ?>%
+                                                            </span>
+                                                        <?php } ?>
+                                                    </td>
+
+                                                    <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                        <td><a href="add.php?id=15&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                    <?php } else { ?>
+                                                        <td><a href="add.php?id=15&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                    <?php } ?>
+
+                                                </tr>
+
+                                                <?php
+                                                    //  }
+                                                ?>
+
+                                                <tr>
+                                                    <td>8</td>
+                                                    <td>Hospitalization</td>
+                                                    <td>
+                                                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $hospitalization = intval($override->countData1('hospitalization', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                        <span class="badge badge-info right">
+                                                            <?= $hospitalization ?> out of 1
+                                                        </span>
+                                                        <?php $hospitalization = intval($hospitalization / 1) * 100 ?>
+                                                        <?php if ($hospitalization == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $hospitalization ?>%
+                                                            </span>
+                                                        <?php } elseif ($vital > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $hospitalization ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $hospitalization ?>%
+                                                            </span>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <?php if ($override->get3('hospitalization', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                        <td><a href="add.php?id=16&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                    <?php } else { ?>
+                                                        <td><a href="add.php?id=16&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                    <?php } ?>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>9</td>
+                                                    <td>Hospitalization Details</td>
+                                                    <td>
+                                                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $hospitalization_details = intval($override->countData1('hospitalization_details', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                        <span class="badge badge-info right">
+                                                            <?= $hospitalization_details ?> out of 1
+                                                        </span>
+                                                        <?php $hospitalization_details = intval($hospitalization_details / 1) * 100 ?>
+                                                        <?php if ($hospitalization_details == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $hospitalization_details ?>%
+                                                            </span>
+                                                        <?php } elseif ($hospitalization_details > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $hospitalization_details ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $hospitalization_details ?>%
+                                                            </span>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <?php if ($override->get3('hospitalization_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                        <td><a href="add.php?id=17&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                    <?php } else { ?>
+                                                        <td><a href="add.php?id=17&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                    <?php } ?>
+
+                                                </tr>
+
+                                                <tr>
+                                                    <td>10</td>
+                                                    <td>Treatment Plan</td>
+                                                    <td>
+                                                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $treatment_plan = intval($override->countData1('treatment_plan', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                        <span class="badge badge-info right">
+                                                            <?= $treatment_plan ?> out of 1
+                                                        </span>
+                                                        <?php $treatment_plan = intval($treatment_plan / 1) * 100 ?>
+                                                        <?php if ($treatment_plan == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $treatment_plan ?>%
+                                                            </span>
+                                                        <?php } elseif ($treatment_plan > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $treatment_plan ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $treatment_plan ?>%
+                                                            </span>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <?php if ($override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                        <td><a href="add.php?id=18&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                    <?php } else { ?>
+                                                        <td><a href="add.php?id=18&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                    <?php } ?>
+
+                                                </tr>
+
+                                                <tr>
+                                                    <td>11</td>
+                                                    <td>Diagnosis, Complications, & Comorbidities</td>
+                                                    <td>
+                                                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $dgns_complctns_comorbdts = intval($override->countData1('dgns_complctns_comorbdts', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                        <span class="badge badge-info right">
+                                                            <?= $dgns_complctns_comorbdts ?> out of 1
+                                                        </span>
+                                                        <?php $dgns_complctns_comorbdts = intval($dgns_complctns_comorbdts / 1) * 100 ?>
+                                                        <?php if ($dgns_complctns_comorbdts == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $dgns_complctns_comorbdts ?>%
+                                                            </span>
+                                                        <?php } elseif ($dgns_complctns_comorbdts > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $dgns_complctns_comorbdts ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $dgns_complctns_comorbdts ?>%
+                                                            </span>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <?php if ($override->get3('dgns_complctns_comorbdts', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                        <td><a href="add.php?id=19&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                    <?php } else { ?>
+                                                        <td><a href="add.php?id=19&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                    <?php } ?>
+
+                                                </tr>
+
+                                                <tr>
+                                                    <td>12</td>
+                                                    <td>RISK</td>
+                                                    <td>
+                                                        <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $risks = intval($override->countData1('risks', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                        <span class="badge badge-info right">
+                                                            <?= $risks ?> out of 1
+                                                        </span>
+                                                        <?php $risks = intval($risks / 1) * 100 ?>
+                                                        <?php if ($risks == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $risks ?>%
+                                                            </span>
+                                                        <?php } elseif ($risks > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $risks ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $risks ?>%
+                                                            </span>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <?php if ($override->get3('risks', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                        <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                    <?php } else { ?>
+                                                        <td><a href="add.php?id=20&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                    <?php } ?>
+
+                                                </tr>
+
+
 
                                                 <tr>
                                                     <td>13</td>
-                                                    <td>Socioeconomic Status</td>
+                                                    <td>Lab Details</td>
                                                     <td>
                                                         <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                        <?php $lab_details = intval($override->countData1('lab_details', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
                                                         <span class="badge badge-info right">
-                                                            <?= $override->countData('social_economic', 'status', 1, 'site_id', $user->data()->site_id) ?>
+                                                            <?= $lab_details ?> out of 1
                                                         </span>
+                                                        <?php $lab_details = intval($lab_details / 1) * 100 ?>
+                                                        <?php if ($lab_details == 100) { ?>
+                                                            <span class="badge badge-primary right">
+                                                                <?= $lab_details ?>%
+                                                            </span>
+                                                        <?php } elseif ($lab_details > 100) { ?>
+                                                            <span class="badge badge-warning right">
+                                                                <?= $lab_details ?>%
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-danger right">
+                                                                <?= $lab_details ?>%
+                                                            </span>
+                                                        <?php } ?>
                                                     </td>
-                                                    <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                    <?php if ($override->get3('lab_details', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                        <td><a href="add.php?id=23&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                        <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
                                                     <?php } else { ?>
-                                                        <td><a href="add.php?id=23&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <td><a href="add.php?id=21&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
                                                     <?php } ?>
 
                                                 </tr>
+                                                <?php if ($_GET['seq'] == 1) { ?>
+
+                                                    <tr>
+                                                        <td>14</td>
+                                                        <td>Socioeconomic Status</td>
+                                                        <td>
+                                                            <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                            <?php $social_economic = intval($override->countData1('social_economic', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
+                                                            <span class="badge badge-info right">
+                                                                <?= $social_economic ?> out of 1
+                                                            </span>
+                                                            <?php $social_economic = intval($social_economic / 1) * 100 ?>
+                                                            <?php if ($social_economic == 100) { ?>
+                                                                <span class="badge badge-primary right">
+                                                                    <?= $social_economic ?>%
+                                                                </span>
+                                                            <?php } elseif ($social_economic > 100) { ?>
+                                                                <span class="badge badge-warning right">
+                                                                    <?= $social_economic ?>%
+                                                                </span>
+                                                            <?php } else { ?>
+                                                                <span class="badge badge-danger right">
+                                                                    <?= $social_economic ?>%
+                                                                </span>
+                                                            <?php } ?>
+                                                        </td>
+                                                        <?php if ($override->get3('social_economic', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                            <td><a href="add.php?id=23&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
+                                                        <?php } else { ?>
+                                                            <td><a href="add.php?id=23&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
+                                                        <?php } ?>
+
+                                                    </tr>
+                                                <?php } ?>
                                             <?php } ?>
+
                                             <tr>
-                                                <td>14</td>
+                                                <td>15</td>
                                                 <td>Next Visit Summary</td>
                                                 <td>
                                                     <!-- <i class="nav-icon fas fa-th"></i> -->
+                                                    <?php $summary = intval($override->countData1('summary', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'])) ?>
                                                     <span class="badge badge-info right">
-                                                        <?= $override->countData('summary', 'status', 1, 'site_id', $user->data()->site_id) ?>
+                                                        <?= $summary ?> out of 1
                                                     </span>
+                                                    <?php $summary = intval($summary / 1) * 100 ?>
+                                                    <?php if ($summary == 100) { ?>
+                                                        <span class="badge badge-primary right">
+                                                            <?= $summary ?>%
+                                                        </span>
+                                                    <?php } elseif ($summary > 100) { ?>
+                                                        <span class="badge badge-warning right">
+                                                            <?= $summary ?>%
+                                                        </span>
+                                                    <?php } else { ?>
+                                                        <span class="badge badge-danger right">
+                                                            <?= $summary ?>%
+                                                        </span>
+                                                    <?php } ?>
                                                 </td>
                                                 <?php if ($override->get3('summary', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
@@ -3877,7 +4211,6 @@ if ($user->isLoggedIn()) {
         <?php } ?>
 
         <?php include 'footer.php'; ?>
-
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

@@ -116,75 +116,6 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        } elseif (Input::get('edit_client')) {
-            $validate = $validate->check($_POST, array(
-                'clinic_date' => array(
-                    'required' => true,
-                ),
-                'firstname' => array(
-                    'required' => true,
-                ),
-                'lastname' => array(
-                    'required' => true,
-                ),
-                'dob' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                try {
-                    $attachment_file = Input::get('image');
-                    if (!empty($_FILES['image']["tmp_name"])) {
-                        $attach_file = $_FILES['image']['type'];
-                        if ($attach_file == "image/jpeg" || $attach_file == "image/jpg" || $attach_file == "image/png" || $attach_file == "image/gif") {
-                            $folderName = 'clients/';
-                            $attachment_file = $folderName . basename($_FILES['image']['name']);
-                            if (@move_uploaded_file($_FILES['image']["tmp_name"], $attachment_file)) {
-                                $file = true;
-                            } else { {
-                                    $errorM = true;
-                                    $errorMessage = 'Your profile Picture Not Uploaded ,';
-                                }
-                            }
-                        } else {
-                            $errorM = true;
-                            $errorMessage = 'None supported file format';
-                        } //not supported format
-                    } else {
-                        $attachment_file = '';
-                    }
-                    if (!empty($_FILES['image']["tmp_name"])) {
-                        $image = $attachment_file;
-                    } else {
-                        $image = Input::get('client_image');
-                    }
-                    if ($errorM == false) {
-                        $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
-                        $user->updateRecord('clients', array(
-                            'hospital_id' => Input::get('hospital_id'),
-                            'clinic_date' => Input::get('clinic_date'),
-                            'firstname' => Input::get('firstname'),
-                            'middlename' => Input::get('middlename'),
-                            'lastname' => Input::get('lastname'),
-                            'dob' => Input::get('dob'),
-                            'age' => $age,
-                            'gender' => Input::get('gender'),
-                            'site_id' => $user->data()->site_id,
-                            'staff_id' => $user->data()->id,
-                            'client_image' => $attachment_file,
-                            'comments' => Input::get('comments'),
-                            'status' => 1,
-                            'created_on' => date('Y-m-d'),
-                        ), Input::get('id'));
-
-                        $successMessage = 'Client Updated Successful';
-                    }
-                } catch (Exception $e) {
-                    die($e->getMessage());
-                }
-            } else {
-                $pageError = $validate->errors();
-            }
         } elseif (Input::get('add_screening')) {
             $validate = $validate->check($_POST, array(
                 'screening_date' => array(
@@ -242,6 +173,9 @@ if ($user->isLoggedIn()) {
                             'expected_date' => Input::get('screening_date'),
                             'visit_date' => Input::get('screening_date'),
                         ), $visit['id']);
+
+                        $successMessage = 'Screening Successful Updated';
+
                     } else {
                         $user->createRecord('screening', array(
                             'screening_date' => Input::get('screening_date'),
@@ -283,13 +217,13 @@ if ($user->isLoggedIn()) {
                         'screened' => 1,
                     ), Input::get('id'));
 
-                    $successMessage = 'Patient Successful Screened';
+                    $successMessage = 'Screening Successful Added';
 
                     if ($eligibility) {
                         Redirect::to('info.php?id=3&status=2');
                     } else {
                         // Redirect::to('info.php?id=3&status=' . $_GET['status']);
-                        Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1');
+                        Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1&msg='. $successMessage);
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -304,54 +238,47 @@ if ($user->isLoggedIn()) {
                 ),
             ));
             if ($validate->passed()) {
-                $visit_id = $override->get('visit', 'client_id', Input::get('id'))[0];
-                $last_visit = $override->getlastRow('visit', 'client_id', Input::get('id'), 'id')[0];
-                $visit = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'));
-                $visit_id = $override->get3('visit', 'client_id', Input::get('id'), 'seq_no', 1, 'visit_name', Input::get('visit_name'))[0];
-
-                if (Input::get('visit_name') == 'Registration Visit') {
-                    $visit_code = 'RV';
-                } elseif (Input::get('visit_name') == 'Screening Visit') {
-                    $visit_code = 'SV';
-                } elseif (Input::get('visit_name') == 'Enrollment Visit') {
-                    $visit_code = 'EV';
-                } elseif (Input::get('visit_name') == 'Follow Up Visit') {
-                    $visit_code = 'FV';
-                } elseif (Input::get('visit_name') == 'Study Termination Visit') {
-                    $visit_code = 'TV';
-                } elseif (Input::get('visit_name') == 'Unschedule Visit') {
-                    $visit_code = 'UV';
-                }
+                $visit = $override->getNews('visit', 'client_id', Input::get('id'), 'seq_no', 1);
 
                 if ($visit) {
-                    $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit_id['id']);
+                    $user->updateRecord('visit', array('expected_date' => Input::get('visit_date'), 'reasons' => Input::get('reasons')), $visit[0]['id']);
 
                     foreach ($override->get('visit', 'client_id', Input::get('id')) as $visit_client) {
-                        $user->updateRecord('visit', array('study_id' => Input::get('study_id')), $visit_client['id']);
+                        $user->updateRecord('visit', array('study_id' => Input::get('study_id'), 'site_id' => Input::get('site_id')), $visit_client['id']);
                     }
+
+                    $successMessage = 'Enrollment  Updated Successful';
+
+
                 } else {
+
                     $user->createRecord('visit', array(
+                        'summary_id' => 0,
                         'study_id' => Input::get('study_id'),
-                        'visit_name' => Input::get('visit_name'),
-                        'visit_code' => $visit_code,
+                        'visit_name' => 'Enrollment Visit',
+                        'visit_code' => 'EV',
                         'visit_day' => 'Day 1',
                         'expected_date' => Input::get('visit_date'),
                         'visit_date' => '',
                         'visit_window' => 0,
-                        'status' => 0,
+                        'status' => 1,
                         'client_id' => Input::get('id'),
                         'created_on' => date('Y-m-d'),
                         'seq_no' => 1,
                         'reasons' => Input::get('reasons'),
-                        'visit_status' => 1,
-                        'site_id' => $user->data()->site_id,
+                        'visit_status' => 0,
+                        'site_id' => Input::get('site_id'),
                     ));
+
+                    foreach ($override->get('visit', 'client_id', Input::get('id')) as $visit_client) {
+                        $user->updateRecord('visit', array('study_id' => Input::get('study_id'), 'site_id' => Input::get('site_id')), $visit_client['id']);
+                    }
 
                     $user->updateRecord('clients', array('enrolled' => 1), Input::get('id'));
 
 
                     $successMessage = 'Enrollment  Added Successful';
-                    Redirect::to('info.php?id=3&status=3');
+                    Redirect::to('info.php?id=3&status=3&msg='. $successMessage);
                 }
             } else {
                 $pageError = $validate->errors();
@@ -2086,6 +2013,7 @@ if ($user->isLoggedIn()) {
                                                                     <input type="hidden" name="id" value="<?= $client['id'] ?>">
                                                                     <input type="hidden" name="visit_name" value="Enrollment Visit">
                                                                     <input type="hidden" name="study_id" value="<?= $client['study_id'] ?>">
+                                                                    <input type="hidden" name="site_id" value="<?= $client['site_id'] ?>">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                                     <input type="submit" name="add_Enrollment" class="btn btn-primary" value="Save changes">
                                                                 </div>

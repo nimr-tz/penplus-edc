@@ -8,7 +8,7 @@ $validate = new validate();
 $successMessage = null;
 $pageError = null;
 $errorMessage = null;
-$numRec = 15;
+$numRec = 12;
 
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {

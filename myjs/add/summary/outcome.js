@@ -3,6 +3,8 @@ const outcome2 = document.getElementById("outcome2");
 const outcome3 = document.getElementById("outcome3");
 const outcome4 = document.getElementById("outcome4");
 const outcome5 = document.getElementById("outcome5");
+const outcome98 = document.getElementById("outcome98");
+
 
 const transfer_out1_1 = document.getElementById("transfer_out1");
 const transfer_out = document.getElementById("transfer_out");
@@ -63,6 +65,7 @@ outcome2.addEventListener("change", toggleElementVisibility);
 outcome3.addEventListener("change", toggleElementVisibility);
 outcome4.addEventListener("change", toggleElementVisibility);
 outcome5.addEventListener("change", toggleElementVisibility);
+outcome98.addEventListener("change", toggleElementVisibility);
 
 // Initial check
 toggleElementVisibility();

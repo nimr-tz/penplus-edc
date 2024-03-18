@@ -6,6 +6,8 @@ const diagnosis_summary5 = document.getElementById("diagnosis_summary5");
 const diagnosis_summary6 = document.getElementById("diagnosis_summary6");
 const diagnosis_summary7 = document.getElementById("diagnosis_summary7");
 const diagnosis_summary96 = document.getElementById("diagnosis_summary96");
+const diagnosis_summary98 = document.getElementById("diagnosis_summary98");
+
 
 const diagnosis_summary_other = document.getElementById(
   "diagnosis_summary_other"
@@ -29,6 +31,8 @@ diagnosis_summary5.addEventListener("change", toggleElementVisibility);
 diagnosis_summary6.addEventListener("change", toggleElementVisibility);
 diagnosis_summary7.addEventListener("change", toggleElementVisibility);
 diagnosis_summary96.addEventListener("change", toggleElementVisibility);
+diagnosis_summary98.addEventListener("change", toggleElementVisibility);
+
 
 // Initial check
 toggleElementVisibility();

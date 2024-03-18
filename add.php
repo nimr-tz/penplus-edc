@@ -15269,6 +15269,12 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                     } ?>>
                                                                 <label class="form-check-label">Other</label>
                                                             </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="diagnosis" id="diagnosis_summary98" value="98" <?php if ($summary['diagnosis'] == 98) {
+                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">N / A</label>
+                                                            </div>
                                                             <textarea class="form-control" id="diagnosis_summary_other" name="diagnosis_other" rows="2">
                                                                 <?php if ($summary['diagnosis_other']) {
                                                                     print_r($summary['diagnosis_other']);
@@ -15332,7 +15338,12 @@ if ($user->isLoggedIn()) {
                                                                                                                                                     } ?>>
                                                                 <label class="form-check-label">Death</label>                                                                
                                                             </div>
-                                                            
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="outcome" id="outcome98" value="98" <?php if ($summary['outcome'] == 98) {
+                                                                                                                                                        echo 'checked';
+                                                                                                                                                    } ?>>
+                                                                <label class="form-check-label">N / A</label>                                                                
+                                                            </div>                                                            
                                                         </div>
                                                         <label id="death_date_label">Date of Death</label>
                                                         <input class="form-control" type="date" name="death_date" id="death_date" max="<?= date('Y-m-d') ?>" value="<?php if ($summary['death_date']) {

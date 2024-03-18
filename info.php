@@ -1931,7 +1931,7 @@ if ($user->isLoggedIn()) {
                                                                                 <div class="form-group">
                                                                                     <label>Known NCD?</label>
                                                                                     <select class="form-control" name="ncd" style="width: 100%;" required>
-                                                                                        <option value="<?= $screening['scd'] ?>"><?php if ($screening) {
+                                                                                        <option value="<?= $screening['ncd'] ?>"><?php if ($screening) {
                                                                                                                                         if ($screening['ncd'] == 1) {
                                                                                                                                             echo 'Yes';
                                                                                                                                         } elseif ($screening['ncd'] == 2) {

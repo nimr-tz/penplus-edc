@@ -278,8 +278,9 @@ if ($user->isLoggedIn()) {
 
 
                     $successMessage = 'Enrollment  Added Successful';
-                    Redirect::to('info.php?id=3&status=3&msg='. $successMessage);
                 }
+                Redirect::to('info.php?id=3&status=3&msg=' . $successMessage);
+
             } else {
                 $pageError = $validate->errors();
             }
@@ -813,10 +814,10 @@ if ($user->isLoggedIn()) {
                     echo $error . ' , ';
                 } ?>
             </div>
-        <?php } elseif ($successMessage) { ?>
+        <?php } elseif ($_GET['msg']) { ?>
             <div class="alert alert-success text-center">
                 <h4>Success!</h4>
-                <?= $successMessage ?>
+                <?= $_GET['msg'] ?>
             </div>
         <?php } ?>
 

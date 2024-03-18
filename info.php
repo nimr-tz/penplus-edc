@@ -2929,6 +2929,8 @@ if ($user->isLoggedIn()) {
 
                                         $required_visit = $override->countData1('visit', 'status', 1, 'client_id', $_GET['cid'], 'seq_no', $_GET['seq']);
 
+                                        $status = $override->get3('visit', 'client_id', $_GET['cid'], 'seq_no', $_GET['seq'],'id', $_GET['vid'])[0];
+
 
                                         // $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                                         $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
@@ -2984,11 +2986,9 @@ if ($user->isLoggedIn()) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php if ($visit['visit_status'] == 1 || $visit['visit_status'] == 2) { ?>
-
+                                                <?php if ($status['visit_status'] == 1) { ?>
                                                     <tr>
                                                         <?php if ($_GET['seq'] == 1) { ?>
-
                                                     <tr>
                                                         <td>1</td>
                                                         <td>Demographic</td>

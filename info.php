@@ -1976,8 +1976,7 @@ if ($user->isLoggedIn()) {
                                                                     </button>
                                                                 </div>
                                                                 <?php
-                                                                $visits_date = $override->firstRow1('visit', 'visit_date', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
-                                                                $visits_reason = $override->firstRow1('visit', 'reasons', 'id', 'client_id', $client['id'], 'visit_code', 'EV')[0];
+                                                                $enrollment = $override->getNews('visit', 'client_id', $client['id'], 'seq_no', 1)[0];
                                                                 ?>
                                                                 <div class="modal-body">
                                                                     <div class="row">
@@ -1986,8 +1985,8 @@ if ($user->isLoggedIn()) {
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Date of Enrollment</label>
-                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($visits_date['visit_date']) {
-                                                                                                                                                                                                                                            print_r($visits_date['visit_date']);
+                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="visit_date" name="visit_date" id="visit_date" style="width: 100%;" value="<?php if ($enrollment['visit_date']) {
+                                                                                                                                                                                                                                            print_r($enrollment['visit_date']);
                                                                                                                                                                                                                                         }  ?>" required />
                                                                                 </div>
                                                                             </div>
@@ -1999,8 +1998,8 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control" name="reasons" rows="3">
                                                                                  <?php
-                                                                                    if ($visits_reason['reasons']) {
-                                                                                        print_r($visits_reason['reasons']);
+                                                                                    if ($enrollment['reasons']) {
+                                                                                        print_r($enrollment['reasons']);
                                                                                     } ?>
                                                                                 </textarea>
                                                                                 </div>

@@ -1289,9 +1289,9 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $x = 1;
                                             // $medications = $override->getNewsAsc1('medication_treatments', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $x, 'seq_no');
-                                            $medications = $override->getNewsAsc('medication_treatments', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no');
+                                            // $medications = );
 
-                                            foreach ($medications as $medication) {
+                                            foreach ($override->get3('medication_treatments', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $x) as $medication) {
                                                 $medications_name = $override->getNews('medications', 'status', 1, 'id', $medication['medication_type'])[0];
 
 

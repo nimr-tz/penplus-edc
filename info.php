@@ -1571,7 +1571,7 @@ if ($user->isLoggedIn()) {
                                                 $Total_visit_available1 = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
                                                 $Total_visit_available2 = intval($override->getCountStatus('visit', 'client_id', $client['id'], 'seq_no', 1, 'visit_status', 1));
                                                 $Total_visit_available3 = intval($override->getCountStatus('visit', 'client_id', $client['id'], 'seq_no', 1, 'visit_status', 2));
-                                                $Total_visit_available4 = intval($override->getCountStatus1('visit', 'client_id', $client['id'], 'seq_no', 1, 'visit_status', 0,'expected_date', date('Y-m-d')));
+                                                $Total_visit_available4 = intval($override->getCountStatus1('visit', 'client_id', $client['id'], 'seq_no', 1, 'visit_status', 0, 'expected_date', date('Y-m-d')));
                                                 $Total_visit_available5 = intval($override->getCountStatus1('visit', 'client_id', $client['id'], 'seq_no', 1, 'visit_status', 0, 'expected_date', date('Y-m-d')));
 
 
@@ -2375,14 +2375,18 @@ if ($user->isLoggedIn()) {
 
                                                 ?>
                                                     <tr>
-                                                        <td> <?= $visit['visit_day'] ?><br><?php if($visit['seq_no'] == -1){ echo 'Registration'; }elseif($visit['seq_no'] == 0) {
-                                                                                                echo 'Screening';
-                                                                                            } elseif ($visit['seq_no'] == 0) {
-                                                                                                echo 'Enrollment';
-                                                                                            } elseif ($visit['seq_no'] == 0) {
-                                                                                                echo 'Follow Up';
-                                                                                            }?>
-                                                                                            </td>
+                                                        <td>
+                                                            <?= $visit['visit_day'] ?><br>
+                                                            <?php if ($visit['seq_no'] == -1) {
+                                                                echo '( Registration )';
+                                                            } elseif ($visit['seq_no'] == 0) {
+                                                                echo '( Screening )';
+                                                            } elseif ($visit['seq_no'] == 1) {
+                                                                echo '( Enrollment )';
+                                                            } elseif ($visit['seq_no'] > 1) {
+                                                                echo '( Follow Up )';
+                                                            } ?>
+                                                        </td>
                                                         <td> <?= $visit['expected_date'] ?></td>
                                                         <td> <?= $visit['visit_date'] ?> </td>
                                                         <td>

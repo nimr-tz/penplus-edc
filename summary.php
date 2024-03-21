@@ -1291,7 +1291,11 @@ if ($user->isLoggedIn()) {
                                             // $medications = $override->getNewsAsc1('medication_treatments', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no', $x, 'seq_no');
                                             $medications = $override->getNewsAsc('medication_treatments', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no');
 
-                                            foreach ($medications as $medication) { ?>
+                                            foreach ($medications as $medication) {
+                                                $medications_name = $override->getNews('medications', 'status', 1, 'id', $medication['medication_type'])[0];
+
+                                                
+                                                ?>
                                                 <!-- The timeline -->
                                                 <div class="timeline timeline-inverse">
                                                     <!-- timeline time label -->
@@ -1325,7 +1329,7 @@ if ($user->isLoggedIn()) {
                                                                     <tbody>
                                                                         <tr>
                                                                             <td><?= $x; ?> .</td>
-                                                                            <td><?= $medication['medication_type']; ?></td>
+                                                                            <td><?= $medications_name['name']; ?></td>
                                                                             <?php if ($medication['medication_action'] == 1) { ?>
                                                                                 <td><span class="badge bg-primary">Continue </span></td>
 

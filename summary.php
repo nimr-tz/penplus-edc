@@ -12,6 +12,8 @@ $numRec = 50;
 if ($user->isLoggedIn()) {
 
     $profile = $override->getNews('clients', 'status', 1, 'id', $_GET['cid'])[0];
+    $clients = $override->getNews('clients', 'status', 1, 'id', $_GET['cid']);
+
     $category = $override->getNews('main_diagnosis', 'status', 1, 'patient_id', $_GET['cid'])[0];
 
     if (Input::exists('post')) {
@@ -166,7 +168,6 @@ if ($user->isLoggedIn()) {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-3">
-
                             <!-- Profile Image -->
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
@@ -324,6 +325,210 @@ if ($user->isLoggedIn()) {
                                     </ul>
                                 </div>
                                 <!-- /.card-header -->
+                                <?php
+
+                                // $x = 1;
+                                // foreach ($clients as $client) {
+                                    // $screening = $override->get('screening', 'patient_id', $client['id'])[0];
+                                    // $visit = $override->getCount('visit', 'client_id', $client['id']);
+                                    // $visits = $override->get('visit', 'client_id', $client['id'])[0];
+                                    // $end_study = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
+                                    // $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
+                                    // $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
+                                    // $site = $override->get('site', 'id', $client['site_id'])[0];
+                                    // $summary = $override->getlastRow1('summary', 'status', 1, 'patient_id', $client['id'], 'id')[0];
+
+
+                                    // $category = 0;
+
+                                    // if ($type['cardiac'] == 1) {
+                                    //     $category =  $override->countData('cardiac', 'patient_id', $client['id'], 'status', 1);
+                                    // } elseif ($type['diabetes'] == 1) {
+                                    //     $category =  $override->countData('diabetic', 'patient_id', $client['id'], 'status', 1);
+                                    // } elseif ($type['sickle_cell'] == 1) {
+                                    //     $category =  $override->countData('sickle_cell', 'patient_id', $client['id'], 'status', 1);
+                                    // } else {
+                                    //     $category = 0;
+                                    // }
+
+
+                                    // $demographic = $override->countData('demographic', 'patient_id', $client['id'], 'status', 1);
+                                    // $vital = $override->countData('vital', 'patient_id', $client['id'], 'status', 1);
+                                    // $history = $override->countData('history', 'patient_id',  $client['id'], 'status', 1);
+                                    // $symptoms = $override->countData('symptoms', 'patient_id', $client['id'], 'status', 1);
+                                    // $diagnosis = $override->countData('main_diagnosis', 'patient_id', $client['id'], 'status', 1);
+                                    // $results = $override->countData('results', 'patient_id', $client['id'], 'status', 1);
+                                    // $hospitalization = $override->countData('hospitalization', 'patient_id', $client['id'], 'status', 1);
+                                    // $treatment_plan = $override->countData('treatment_plan', 'patient_id', $client['id'], 'status', 1);
+                                    // $dgns_complctns_comorbdts = $override->countData('dgns_complctns_comorbdts', 'patient_id', $client['id'], 'status', 1);
+                                    // $risks = $override->countData('risks', 'patient_id', $client['id'], 'status', 1);
+                                    // $hospitalization_details = $override->countData('hospitalization_details', 'patient_id', $client['id'], 'status', 1);
+                                    // $lab_details = $override->countData('lab_details', 'patient_id', $client['id'], 'status', 1);
+                                    // $summary = $override->countData('summary', 'patient_id', $client['id'], 'status', 1);
+                                    // $social_economic = $override->countData('social_economic', 'patient_id', $client['id'], 'status', 1);
+
+                                    // $Total_visit_available = 0;
+                                    // $Total_CRF_available = 0;
+                                    // $Total_CRF_required = 0;
+                                    // $progress = 0;
+
+                                    $Total_visit_available1 = intval($override->getCount0('visit', 'client_id', $_GET['cid'], 'seq_no', 1));
+                                    $Total_visit_available2 = intval($override->getCountStatus('visit', 'client_id', $_GET['cid'], 'seq_no', 1, 'visit_status', 1));
+                                    $Total_visit_available3 = intval($override->getCountStatus('visit', 'client_id', $_GET['cid'], 'seq_no', 1, 'visit_status', 2));
+                                    $Total_visit_available4 = intval($override->getCountStatus1('visit', 'client_id', $_GET['cid'], 'seq_no', 1, 'visit_status', 0, 'expected_date', date('Y-m-d')));
+                                    $Total_visit_available5 = intval($override->getCountStatus1('visit', 'client_id', $_GET['cid'], 'seq_no', 1, 'visit_status', 0, 'expected_date', date('Y-m-d')));
+
+
+
+                                    // $All_visits = $override->get0('visit', 'client_id', $client['id'], 'seq_no', 1);
+
+
+                                    // if ($Total_visit_available1 < 1) {
+                                    //     $Total_visit_available = 0;
+                                    //     $Total_CRF_available = 0;
+                                    //     $Total_CRF_available1 = 0;
+                                    //     $Total_CRF_available2 = 0;
+                                    //     $Total_CRF_required = 0;
+                                    // } elseif ($Total_visit_available1 == 1) {
+
+                                    //     if ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] <= date('Y-m-d')) {
+                                    //         $Total_visit_available = intval($Total_visit_available1);
+
+                                    //         $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                    //             + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //             + intval($summary));
+
+                                    //         $Total_CRF_required = 15;
+                                    //     } elseif ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] > date('Y-m-d')) {
+                                    //         $Total_visit_available = intval($Total_visit_available1);
+
+                                    //         $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                    //             + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //             + intval($summary));
+
+                                    //         $Total_CRF_required = 15;
+                                    //     } elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] <= date('Y-m-d')) {
+                                    //         $Total_visit_available = intval($Total_visit_available1);
+
+                                    //         $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                    //             + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //             + intval($summary));
+
+                                    //         $Total_CRF_required = 15;
+                                    //     } elseif ($visit_day['visit_status'] == 2) {
+                                    //         $Total_visit_available = 1;
+
+                                    //         $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                    //             + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //             + intval($summary));
+
+                                    //         $Total_CRF_required = 1;
+                                    //     } elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] > date('Y-m-d')) {
+                                    //         $Total_visit_available = 0;
+
+                                    //         $Total_CRF_available = 0;
+
+                                    //         $Total_CRF_required = 0;
+                                    //     }
+                                    // } elseif ($Total_visit_available1 > 1) {
+                                    //     foreach ($All_visits as $visit_day) {
+                                    //         if ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] <= date('Y-m-d')) {
+                                    //             $Total_visit_available++;
+                                    //             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
+
+                                    //             $Total_CRF_available2 = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                    //                 + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //                 + intval($summary));
+
+                                    //             $Total_CRF_available1 = $Total_CRF_available + $Total_CRF_available1;
+                                    //             $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
+
+                                    //             $Total_CRF_required = $Total_CRF_required + 10;
+                                    //         } elseif ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] > date('Y-m-d')) {
+                                    //             $Total_visit_available++;
+                                    //             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
+
+                                    //             $Total_CRF_available2 = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                    //                 + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //                 + intval($summary));
+
+                                    //             $Total_CRF_available1 = $Total_CRF_available + $Total_CRF_available1;
+                                    //             $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
+
+                                    //             $Total_CRF_required = $Total_CRF_required + 10;
+                                    //         } elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] <= date('Y-m-d')) {
+                                    //             $Total_visit_available++;
+
+                                    //             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
+
+                                    //             $Total_CRF_available2 = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                    //                 + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //                 + intval($summary));
+
+                                    //             $Total_CRF_available1 = $Total_CRF_available + $Total_CRF_available1;
+                                    //             $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
+
+                                    //             $Total_CRF_required = $Total_CRF_required + 10;
+                                    //         } elseif ($visit_day['visit_status'] == 2) {
+                                    //             $Total_visit_available++;
+
+                                    //             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
+
+                                    //             $Total_CRF_available2 = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                    //                 + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //                 + intval($summary));
+
+                                    //             $Total_CRF_available1 = $Total_CRF_available + $Total_CRF_available1;
+                                    //             $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
+
+                                    //             $Total_CRF_required = $Total_CRF_required + 1;
+                                    //         } elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] > date('Y-m-d')) {
+                                    //             $Total_visit_available = $Total_visit_available + 0;
+
+                                    //             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
+
+                                    //             $Total_CRF_available2 = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                    //                 + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                    //                 + intval($summary));
+
+                                    //             $Total_CRF_available1 = $Total_CRF_available + $Total_CRF_available1;
+                                    //             $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
+
+                                    //             $Total_CRF_required = $Total_CRF_required + 0;
+                                    //         }
+                                    //     }
+
+                                    //     $Total_CRF_required = $Total_CRF_required + 5;
+
+
+                                    //     $Total_CRF_available = intval($Total_CRF_available1) + intval($Total_CRF_available2);
+                                    // }
+
+                                    // $client_progress = intval(intval($Total_CRF_available) / intval($Total_CRF_required) * 100);
+                                ?>
+                                    <!-- <hr> -->
+                                    <div class="card-header p-3 text-center">
+                                        <span class="badge badge-secondary right">
+                                            Visits Expected&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available1 ?> <br>
+                                        </span>
+                                        <span class="badge badge-info right">
+                                            Visits Done&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available2 ?> <br>
+                                        </span>
+                                        <span class="badge badge-danger right">
+                                            Visits Missed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available3 ?> <br>
+                                        </span>
+                                        <span class="badge badge-warning right">
+                                            Visits Pending&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available4 ?> <br>
+                                        </span>
+                                        <span class="badge badge-default right">
+                                            Next Follow Up&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;<?= $Total_visit_available5 ?> <br>
+                                        </span>
+                                    </div>
+                                    <!-- <hr> -->
+
+                                <?php
+                                // }
+                                ?>
                                 <div class="card-body">
                                     <div class="tab-content">
                                         <div class="active tab-pane" id="historys">

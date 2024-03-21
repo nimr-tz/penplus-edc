@@ -1900,16 +1900,19 @@ if ($user->isLoggedIn()) {
                                                         <a href="summary.php?cid=<?= $client['id'] ?>" role="button" class="btn btn-primary">Patient Summary</a>
                                                         <hr>
                                                         <span class="badge badge-secondary right">
-                                                            Visits Expected : <?= $Total_visit_available1 ?> <br>
+                                                            Visits Expected&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available1 ?> <br>
                                                         </span><br>
                                                         <span class="badge badge-info right">
-                                                            Visits Done : <?= $Total_visit_available2 ?> <br>
+                                                            Visits Done&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available2 ?> <br>
                                                         </span><br>
                                                         <span class="badge badge-danger right">
-                                                            Visits Missed : <?= $Total_visit_available3 ?> <br>
+                                                            Visits Missed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available3 ?> <br>
                                                         </span><br>
                                                         <span class="badge badge-warning right">
-                                                            Visits Pending : <?= $Total_visit_available4 ?> <br>
+                                                            Visits Pending&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available4 ?> <br>
+                                                        </span><br>
+                                                        <span class="badge badge-default right">
+                                                            Next Follow Up&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;<?= $Total_visit_available5 ?> <br>
                                                         </span>
                                                     </td>
 

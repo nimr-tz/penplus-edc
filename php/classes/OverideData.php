@@ -33,6 +33,14 @@ class OverideData
         return $num;
     }
 
+    public function getCountStatus($table, $field, $value, $field1, $value1,$field2, $value2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 >= '$value1' AND  $field2 = '$value2'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
     public function getCount($table, $field, $value)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value'");

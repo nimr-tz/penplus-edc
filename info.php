@@ -1595,7 +1595,7 @@ if ($user->isLoggedIn()) {
                                                     $Total_CRF_required = 15;
                                                 } elseif ($Total_visit_available1 > 1) {
                                                     foreach ($All_visits as $visit_day) {
-                                                        if ($visit_day['visit_status'] == 1 || $visit_day['expected_date'] <= date('Y-m-d')) {
+                                                        if ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] <= date('Y-m-d')) {
                                                             $Total_visit_available++;
                                                             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
 
@@ -2323,40 +2323,43 @@ if ($user->isLoggedIn()) {
                                                     $social_economic1 = $override->countData1('social_economic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
 
 
+                                                    $total_required = 0;
+
                                                     if ($visit['seq_no'] == 1) {
                                                         $total_required = 15;
-
-                                                        if ($visit['visit_status'] == 1 || $visit['expected_date'] <= date('Y-m-d')) {
+                                                        if ($visit['visit_status'] == 1 && $visit['expected_date'] <= date('Y-m-d')) {
                                                             $total_available = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1) + intval($social_economic1);
-                                                        } elseif (($visit['visit_status'] != 1 && $visit['expected_date'] <= date('Y-m-d'))) {
+                                                        } elseif (($visit['visit_status'] == 0 && $visit['expected_date'] <= date('Y-m-d'))) {
                                                             $total_available = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1) + intval($social_economic1);
                                                         } elseif ($visit['visit_status'] == 2) {
                                                             $total_available = intval($summary1);
                                                             $total_required = 1;
-                                                        } elseif ($visit['visit_status'] != 1 && $visit['expected_date'] > date('Y-m-d')) {
+                                                        } elseif ($visit['visit_status'] == 0 && $visit['expected_date'] > date('Y-m-d')) {
                                                             $total_available = 0;
+                                                            $total_required = 0;
                                                         }
 
                                                         $progress = intval((intval($total_available) / $total_required) * 100);
                                                     } elseif ($visit['seq_no'] > 1) {
                                                         $total_required = 10;
-                                                        if ($visit['visit_status'] == 1 || $visit['expected_date'] <= date('Y-m-d')) {
+                                                        if ($visit['visit_status'] == 1 && $visit['expected_date'] <= date('Y-m-d')) {
                                                             $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1);
-                                                        } elseif (($visit['visit_status'] != 1 && $visit['expected_date'] <= date('Y-m-d'))) {
+                                                        } elseif (($visit['visit_status'] == 0 && $visit['expected_date'] <= date('Y-m-d'))) {
                                                             $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1);
                                                         } elseif ($visit['visit_status'] == 2) {
                                                             $total_available = intval($summary1);
                                                             $total_required = 1;
-                                                        } elseif ($visit['visit_status'] != 1 && $visit['expected_date'] > date('Y-m-d')) {
+                                                        } elseif ($visit['visit_status'] == 0 && $visit['expected_date'] > date('Y-m-d')) {
                                                             $total_available = 0;
+                                                            $total_required = 0;
                                                         }
                                                         $progress = intval((intval($total_available) / $total_required) * 100);
                                                     }
@@ -2372,7 +2375,14 @@ if ($user->isLoggedIn()) {
 
                                                 ?>
                                                     <tr>
-                                                        <td> <?= $visit['visit_day'] ?></td>
+                                                        <td> <?= $visit['visit_day'] ?><br><?php if($visit['seq_no'] == -1){ echo 'Registration'; }elseif($visit['seq_no'] == 0) {
+                                                                                                echo 'Screening';
+                                                                                            } elseif ($visit['seq_no'] == 0) {
+                                                                                                echo 'Enrollment';
+                                                                                            } elseif ($visit['seq_no'] == 0) {
+                                                                                                echo 'Follow Up';
+                                                                                            }?>
+                                                                                            </td>
                                                         <td> <?= $visit['expected_date'] ?></td>
                                                         <td> <?= $visit['visit_date'] ?> </td>
                                                         <td>

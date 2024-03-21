@@ -2384,15 +2384,12 @@ if ($user->isLoggedIn()) {
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1) + intval($social_economic1);
                                                         } elseif ($visit['visit_status'] == 1 && $visit['expected_date'] > date('Y-m-d')) {
-                                                            $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
+                                                            $total_available = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
-                                                                + intval($summary1);
+                                                                + intval($summary1) + intval($social_economic1);
                                                         } elseif ($visit['visit_status'] == 2) {
                                                             $total_available = intval($summary1);
                                                             $total_required = 1;
-                                                        } elseif ($visit['expected_date'] > date('Y-m-d')) {
-                                                            $total_available = 0;
-                                                            $total_required = 0;
                                                         } elseif ($visit['visit_status'] == 0 && $visit['expected_date'] > date('Y-m-d')) {
                                                             $total_available = 0;
                                                             $total_required = 0;
@@ -2416,9 +2413,6 @@ if ($user->isLoggedIn()) {
                                                         } elseif ($visit['visit_status'] == 2) {
                                                             $total_available = intval($summary1);
                                                             $total_required = 1;
-                                                        } elseif ($visit['expected_date'] > date('Y-m-d')) {
-                                                            $total_available = 0;
-                                                            $total_required = 0;
                                                         } elseif ($visit['visit_status'] == 0 && $visit['expected_date'] > date('Y-m-d')) {
                                                             $total_available = 0;
                                                             $total_required = 0;

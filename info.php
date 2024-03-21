@@ -1586,16 +1586,49 @@ if ($user->isLoggedIn()) {
                                                     $Total_CRF_available2 = 0;
                                                     $Total_CRF_required = 0;
                                                 } elseif ($Total_visit_available1 == 1) {
-                                                    $Total_visit_available = intval($Total_visit_available1);
 
-                                                    $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
-                                                        + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                        + intval($summary));
+                                                    if ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] <= date('Y-m-d')) {
+                                                        $Total_visit_available = intval($Total_visit_available1);
 
-                                                    $Total_CRF_required = 15;
+                                                        $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                            + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                            + intval($summary));
+
+                                                        $Total_CRF_required = 15;
+                                                    } elseif ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] > date('Y-m-d')) {
+                                                        $Total_visit_available = intval($Total_visit_available1);
+
+                                                        $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                            + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                            + intval($summary));
+
+                                                        $Total_CRF_required = 15;
+                                                    } elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] <= date('Y-m-d')) {
+                                                        $Total_visit_available = intval($Total_visit_available1);
+
+                                                        $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                            + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                            + intval($summary));
+
+                                                        $Total_CRF_required = 15;
+                                                    } elseif ($visit_day['visit_status'] == 2) {
+                                                        $Total_visit_available = 1;
+
+                                                        $Total_CRF_available = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($vital) + intval($symptoms) + intval($diagnosis) + intval($results) + intval($hospitalization)
+                                                            + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                            + intval($summary));
+
+                                                        $Total_CRF_required = 1;
+                                                    } elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] > date('Y-m-d')) {
+                                                        $Total_visit_available = 0;
+
+                                                        $Total_CRF_available = 0;
+
+                                                        $Total_CRF_required = 0;
+                                                    }
                                                 } elseif ($Total_visit_available1 > 1) {
                                                     foreach ($All_visits as $visit_day) {
-                                                        if ($visit_day['visit_status'] == 1) {
+                                                        if ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] <= date('Y-m-d')) {
                                                             $Total_visit_available++;
                                                             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
 
@@ -1607,8 +1640,21 @@ if ($user->isLoggedIn()) {
                                                             $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
 
                                                             $Total_CRF_required = $Total_CRF_required + 10;
-                                                        } elseif ($visit_day['expected_date'] <= date('Y-m-d')) {
+                                                        } elseif ($visit_day['visit_status'] == 1 && $visit_day['expected_date'] > date('Y-m-d')) {
                                                             $Total_visit_available++;
+                                                            $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
+
+                                                            $Total_CRF_available2 = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
+                                                                + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
+                                                                + intval($summary));
+
+                                                            $Total_CRF_available1 = $Total_CRF_available + $Total_CRF_available1;
+                                                            $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
+
+                                                            $Total_CRF_required = $Total_CRF_required + 10;
+                                                        } elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] <= date('Y-m-d')) {
+                                                            $Total_visit_available++;
+
                                                             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
 
                                                             $Total_CRF_available2 = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
@@ -1632,20 +1678,7 @@ if ($user->isLoggedIn()) {
                                                             $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
 
                                                             $Total_CRF_required = $Total_CRF_required + 1;
-                                                        } elseif ($visit_day['expected_date'] > date('Y-m-d')) {
-                                                            $Total_visit_available = $Total_visit_available + 0;
-
-                                                            $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
-
-                                                            $Total_CRF_available2 = intval(intval($vital) + intval($symptoms) + intval($results) + intval($hospitalization)
-                                                                + intval($treatment_plan) + intval($dgns_complctns_comorbdts) + intval($risks) + intval($hospitalization_details) + intval($lab_details)
-                                                                + intval($summary));
-
-                                                            $Total_CRF_available1 = $Total_CRF_available + $Total_CRF_available1;
-                                                            $Total_CRF_available2 = $Total_CRF_available + $Total_CRF_available2;
-
-                                                            $Total_CRF_required = $Total_CRF_required + 0;
-                                                        } elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] > date('Y-m-d')) {
+                                                        }  elseif ($visit_day['visit_status'] == 0 && $visit_day['expected_date'] > date('Y-m-d')) {
                                                             $Total_visit_available = $Total_visit_available + 0;
 
                                                             $Total_CRF_available1 = intval(intval($demographic) + intval($history) + intval($category) + intval($social_economic) + intval($diagnosis));
@@ -2340,15 +2373,15 @@ if ($user->isLoggedIn()) {
 
                                                     if ($visit['seq_no'] == 1) {
                                                         $total_required = 15;
-                                                        if ($visit['visit_status'] == 1) {
-                                                            $total_available = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
-                                                                + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
-                                                                + intval($summary1) + intval($social_economic1);
-                                                        } elseif ($visit['expected_date'] <= date('Y-m-d')) {
+                                                        if ($visit['visit_status'] ==1 && $visit['expected_date'] <= date('Y-m-d')) {
                                                             $total_available = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1) + intval($social_economic1);
                                                         } elseif ($visit['visit_status'] == 0 && $visit['expected_date'] <= date('Y-m-d')) {
+                                                            $total_available = intval($category) + intval($demographic1) + intval($vital1) + intval($history1) + intval($symptoms1) + intval($diagnosis1) + intval($results1) + intval($hospitalization1)
+                                                                + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
+                                                                + intval($summary1) + intval($social_economic1);
+                                                        } elseif ($visit['visit_status'] == 1 && $visit['expected_date'] > date('Y-m-d')) {
                                                             $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1);
@@ -2366,15 +2399,15 @@ if ($user->isLoggedIn()) {
                                                         $progress = intval((intval($total_available) / $total_required) * 100);
                                                     } elseif ($visit['seq_no'] > 1) {
                                                         $total_required = 10;
-                                                        if ($visit['visit_status'] == 1) {
-                                                            $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
-                                                                + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
-                                                                + intval($summary1);
-                                                        } elseif ($visit['expected_date'] <= date('Y-m-d')) {
+                                                        if ($visit['visit_status'] == 1 && $visit['expected_date'] <= date('Y-m-d')) {
                                                             $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1);
                                                         } elseif ($visit['visit_status'] == 0 && $visit['expected_date'] <= date('Y-m-d')) {
+                                                            $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
+                                                                + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
+                                                                + intval($summary1);
+                                                        } elseif ($visit['visit_status'] == 1 && $visit['expected_date'] > date('Y-m-d')) {
                                                             $total_available = intval($vital1) + intval($symptoms1) + intval($results1) + intval($hospitalization1)
                                                                 + intval($treatment_plan1) + intval($dgns_complctns_comorbdts1) + intval($risks1) + intval($hospitalization_details1) + intval($lab_details1)
                                                                 + intval($summary1);

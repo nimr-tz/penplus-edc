@@ -1320,11 +1320,11 @@ if ($user->isLoggedIn()) {
                                                                     <thead>
                                                                         <tr>
                                                                             <th style="width: 10px">#</th>
-                                                                            <th>Entry Date</th>
-                                                                            <th>Start Date</th>
+                                                                            <!-- <th>Entry Date</th>
+                                                                            <th>Start Date</th> -->
                                                                             <th>Medication name</th>
                                                                             <th>Action</th>
-                                                                            <th>End Date</th>
+                                                                            <!-- <th>End Date</th> -->
                                                                             <th>Medication Dose</th>
                                                                             <th>Medication Descriptions</th>
                                                                             <!-- <th style="width: 40px">Units</th> -->
@@ -1333,8 +1333,8 @@ if ($user->isLoggedIn()) {
                                                                     <tbody>
                                                                         <tr>
                                                                             <td><?= $x; ?> .</td>
-                                                                            <td><?= $medications_name['entry_date']; ?></td>
-                                                                            <td><?= $medications_name['start_date']; ?></td>
+                                                                            <!-- <td><?= $medications_name['entry_date']; ?></td> -->
+                                                                            <!-- <td><?= $medications_name['start_date']; ?></td> -->
                                                                             <td><?= $medications_name['name']; ?></td>
                                                                             <?php if ($medication['medication_action'] == 1) { ?>
                                                                                 <td><span class="badge bg-primary">Continue </span></td>
@@ -1349,7 +1349,7 @@ if ($user->isLoggedIn()) {
                                                                                 <td><span class="badge bg-warning">Not elgible </span></td>
 
                                                                             <?php } ?>
-                                                                            <td><?= $medications_name['end_date']; ?></td>
+                                                                            <!-- <td><?= $medications_name['end_date']; ?></td> -->
                                                                             <td><span class="badge bg-primary"><?= $medication['medication_dose']; ?> </span></td>
                                                                             <td><span class="badge bg-primary"><?= $medication['units']; ?> </span></td>
                                                                         </tr>

@@ -219,8 +219,9 @@ if ($user->isLoggedIn()) {
                     if ($eligibility) {
                         Redirect::to('info.php?id=3&status=2');
                     } else {
+                        Redirect::to('info.php?id=3&status=1');
                         // Redirect::to('info.php?id=3&status=' . $_GET['status']);
-                        Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1&msg=' . $successMessage);
+                        // Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1&msg=' . $successMessage);
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());

@@ -148,8 +148,6 @@ if ($user->isLoggedIn()) {
                         }
                     }
 
-
-
                     if ($override->get('screening', 'patient_id', Input::get('id'))) {
                         $user->updateRecord('screening', array(
                             'study_id' => Input::get('study_id'),
@@ -221,8 +219,9 @@ if ($user->isLoggedIn()) {
                     if ($eligibility) {
                         Redirect::to('info.php?id=3&status=2');
                     } else {
+                        Redirect::to('info.php?id=3&status=1');
                         // Redirect::to('info.php?id=3&status=' . $_GET['status']);
-                        Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1&msg=' . $successMessage);
+                        // Redirect::to('add_lab.php?cid=' . Input::get('id') . '&status=1&msg=' . $successMessage);
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -1965,7 +1964,6 @@ if ($user->isLoggedIn()) {
                                                             Next Follow Up&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;<?= $Total_visit_available5 ?> <br>
                                                         </span>
                                                     </td>
-
                                             <?php }
                                                 } ?>
                                                 </tr>
@@ -3072,7 +3070,7 @@ if ($user->isLoggedIn()) {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <?php if ($errorMessage) { ?>
+                                <!-- <?php if ($errorMessage) { ?>
                                     <div class="alert alert-danger text-center">
                                         <h4>Error!</h4>
                                         <?= $errorMessage ?>
@@ -3089,7 +3087,7 @@ if ($user->isLoggedIn()) {
                                         <h4>Success!</h4>
                                         <?= $_GET['msg'] ?>
                                     </div>
-                                <?php } ?>
+                                <?php } ?> -->
                                 <div class="card">
                                     <div class="card-header">
                                         <?php
@@ -3471,13 +3469,27 @@ if ($user->isLoggedIn()) {
                                                             </span>
                                                         <?php } ?>
                                                     </td>
+                                                    <td>
 
-                                                    <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+                                                        <?php if ($override->get3('results', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
 
-                                                        <td><a href="add.php?id=15&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a> </td>
-                                                    <?php } else { ?>
-                                                        <td><a href="add.php?id=15&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a> </td>
-                                                    <?php } ?>
+                                                            <a href="add.php?id=15&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change </a>
+
+                                                        <?php } else { ?>
+                                                            <a href="add.php?id=15&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add </a>
+
+                                                        <?php } ?>
+
+                                                        <!-- <?php if ($override->get3('lab_requests', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])) { ?>
+
+                                                            <a href="add_lab_request.php?id=1&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-success"> Change Lab Requests</a>
+
+                                                        <?php } else { ?>
+                                                            <a href="add_lab_request.php?id=1&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>" class="btn btn-warning"> Add Lab Requests</a>
+
+                                                        <?php } ?> -->
+                                                    </td>
+
 
                                                 </tr>
 

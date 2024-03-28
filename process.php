@@ -44,6 +44,22 @@ if ($_GET['content'] == 'category') {
         <option value="">Select Wards</option>
         <?php foreach ($wards as $ward) { ?>
             <option value="<?= $ward['id'] ?>"><?= $ward['name'] ?></option>
-<?php }
+        <?php }
+    }
+} elseif ($_GET['content'] == 'category_id') {
+    if ($_GET['category_id']) {
+        $test_list = $override->getNews('test_list', 'status', 1, 'category', $_GET['category_id']);
+        ?>
+        <?php foreach ($test_lists as $test_list) { ?>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="test_name[]" id="test_name<?= $test_list['id']; ?>" value="<?= $test_list['id']; ?>" <?php foreach ($override->get('lab_requests', 'patient_id', $_GET['cid']) as $lab_request) {
+                                                                                                                                                                if ($test_list['id'] == $lab_request['test_name']) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                }
+                                                                                                                                                            } ?> onclick="add_lab(this)">
+                <label class="form-check-label" for="test_name"><?= $test1['name']; ?></label>
+            </div>
+<?php
+        }
     }
 }

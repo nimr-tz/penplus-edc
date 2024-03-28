@@ -67,7 +67,6 @@ if ($user->isLoggedIn()) {
             $thromboembolic = $override->countData1('cardiac', 'status', 1, 'thromboembolic', 1, 'site_id', $_GET['site_id']);
 
 
-
             // DATA
             $clients = $override->countData('clients', 'status', 1, 'site_id', $_GET['site_id']);
             $screening = $override->countData('screening', 'status', 1, 'site_id', $_GET['site_id']);

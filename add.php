@@ -106,10 +106,10 @@ if ($user->isLoggedIn()) {
                             'email_address' => Input::get('email_address'),
                             'sex' => Input::get('sex'),
                             'position' => Input::get('position'),
-                            'accessLevel' => $accessLevel,
+                            'accessLevel' => Input::get('accessLevel'),
                             'power' => Input::get('power'),
-                            'password' => Hash::make($password, $salt),
-                            'salt' => $salt,
+                            // 'password' => Hash::make($password, $salt),
+                            // 'salt' => $salt,
                             'site_id' => Input::get('site_id'),
                         ), $_GET['staff_id']);
 
@@ -257,8 +257,8 @@ if ($user->isLoggedIn()) {
                         }
 
                         $age = $user->dateDiffYears(date('Y-m-d'), Input::get('dob'));
-                        if ($override->get('clients', 'id', $_GET['cid'])) {
-
+                        $clients = $override->get('clients', 'id', $_GET['cid']);
+                        if ($clients) {
                             $user->updateRecord('clients', array(
                                 'hospital_id' => Input::get('hospital_id'),
                                 'clinic_date' => Input::get('clinic_date'),
@@ -296,7 +296,6 @@ if ($user->isLoggedIn()) {
                             ), $_GET['cid']);
 
                             $successMessage = 'Client Updated Successful';
-                            Redirect::to('info.php?id=3&site_id=' . $user->data()->site_id . '&status=5');
                         } else {
 
                             $check_clients = $override->countData3('clients', 'firstname', Input::get('firstname'), 'middlename', Input::get('middlename'), 'lastname', Input::get('lastname'));
@@ -363,6 +362,7 @@ if ($user->isLoggedIn()) {
 
 
                                 $user->createRecord('visit', array(
+                                    'summary_id' => 0,
                                     'study_id' => $std_id['study_id'],
                                     'visit_name' => 'Registration Visit',
                                     'visit_code' => 'RV',
@@ -380,10 +380,10 @@ if ($user->isLoggedIn()) {
                                 ));
 
                                 $successMessage = 'Client Added Successful';
-                                Redirect::to('info.php?id=3&site_id=' . $user->data()->site_id . '&status=5');
                             }
                         }
                     }
+                    Redirect::to('info.php?id=3&site_id=' . $user->data()->site_id . '&status=5&msg='.$successMessage);
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -12252,14 +12252,14 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="basal_changed2" id="basal_changed1" value="1" <?php if ($treatment_plan['basal_changed2'] == 1) {
+                                                                    <input class="form-check-input" type="radio" name="basal_changed" id="basal_changed1" value="1" <?php if ($treatment_plan['basal_changed'] == 1) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?> required>
                                                                     <label class="form-check-label">Yes</label>
                                                                 </div>
 
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="basal_changed2" id="basal_changed2" value="2" <?php if ($treatment_plan['basal_changed2'] == 2) {
+                                                                    <input class="form-check-input" type="radio" name="basal_changed" id="basal_changed2" value="2" <?php if ($treatment_plan['basal_changed'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">No</label>
@@ -12291,6 +12291,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <hr>
 
                                                 <div class="row">
@@ -12310,14 +12311,14 @@ if ($user->isLoggedIn()) {
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="prandial_changed2" id="prandial_changed1" value="1" <?php if ($treatment_plan['prandial_changed2'] == 1) {
+                                                                    <input class="form-check-input" type="radio" name="prandial_changed" id="prandial_changed1" value="1" <?php if ($treatment_plan['prandial_changed'] == 1) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?> required>
                                                                     <label class="form-check-label">Yes</label>
                                                                 </div>
 
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="prandial_changed2" id="prandial_changed2" value="2" <?php if ($treatment_plan['prandial_changed2'] == 2) {
+                                                                    <input class="form-check-input" type="radio" name="prandial_changed" id="prandial_changed2" value="2" <?php if ($treatment_plan['prandial_changed'] == 2) {
                                                                                                                                                                     echo 'checked';
                                                                                                                                                                 } ?>>
                                                                     <label class="form-check-label">No</label>

@@ -12,66 +12,158 @@ $errorMessage = null;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
-        if (Input::get('add_test')) {
-            $date_requested = date("Y-m-d", strtotime(Input::get('date_requested')));
+        if (Input::get('add_lab_request')) {
+            $validate = $validate->check($_POST, array(
+                'lab_date' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                print_r($_POST);
+                try {
 
-            $client_request = $override->get('appointment_list', 'client_id', $_GET['cid']);
-            if (!$client_request) {
-                $i = 0;
-                $selected_test = Input::get('test_name');
-                $tests = implode(",", $selected_test);
-                $date = date("Y-m-d\TH:i");
-                $user->createRecord('appointment_list', array(
-                    'date_requested' => $date_requested,
-                    'schedule' => date("Y-m-d\TH:i", strtotime($date)),
-                    'code' => 111,
-                    'client_id' => $_GET['cid'],
-                    'test_id' => $tests,
-                    'prescription_path' => 'N/A',
-                    'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                    'date_updated' => date("Y-m-d\TH:i", strtotime($date)),
-                    'staff_id' => $user->data()->id,
-                    'status' => 0,
-                    'request_status' => 0,
-                    'site_id' => $user->data()->site_id,
-                ));
+                    // if (in_array($id, $checked_array)) {
+                    //     $status = 1;
+                    // }
 
+                    $test_names = $override->getNews('lab_requests', 'status', 1, 'patient_id', $_GET['cid'])[0];
+                    // if (Input::get('test_name')) {
+                    // for ($i = 0; $i < count(Input::get('test_name')); $i++) {
+                    $i = 0;
+                    foreach (Input::get('test_name') as $test_name) {
+                        if (in_array($test_name, $test_names)) {
+                            // $user->updateRecord('lab_requests', array(
+                            //     'visit_date' => Input::get('lab_date'),
+                            //     'study_id' => $_GET['sid'],
+                            //     'visit_code' => $_GET['vcode'],
+                            //     'visit_day' => $_GET['vday'],
+                            //     'seq_no' => $_GET['seq'],
+                            //     'vid' => $_GET['vid'],
+                            //     'lab_date' => Input::get('lab_date'),
+                            //     'category' => Input::get('category')[$i],
+                            //     // 'sub_category' => Input::get('sub_category')[$i],
+                            //     'test_name' => Input::get('test_name')[$i],
+                            //     'test_value' => '',
+                            //     'patient_id' => $_GET['cid'],
+                            //     'staff_id' => $user->data()->id,
+                            //     'patient_id' => $_GET['cid'],
+                            //     'staff_id' => $user->data()->id,
+                            //     'status' => 1,
+                            //     'created_on' => date('Y-m-d'),
+                            //     'site_id' => $user->data()->site_id,
+                            // ), $test_name['id']);
+                        } else {
+                            $user->createRecord('lab_requests', array(
+                                'visit_date' => Input::get('lab_date'),
+                                'study_id' => $_GET['sid'],
+                                'visit_code' => $_GET['vcode'],
+                                'visit_day' => $_GET['vday'],
+                                'seq_no' => $_GET['seq'],
+                                'vid' => $_GET['vid'],
+                                'lab_date' => Input::get('lab_date'),
+                                'category' => Input::get('category')[$i],
+                                // 'sub_category' => Input::get('sub_category')[$i],
+                                'test_name' => Input::get('test_name')[$i],
+                                'test_value' => '',
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'patient_id' => $_GET['cid'],
+                                'staff_id' => $user->data()->id,
+                                'status' => 1,
+                                'created_on' => date('Y-m-d'),
+                                'site_id' => $user->data()->site_id,
+                            ));
+                        }
+                        $i++;
+                    }
+                    // }
 
+                    // foreach ($checked_array as $test_id) {
+                    // $status = 0;
+                    // if (in_array($test_name, $checked_array)) {
+                    //     $status = 1;
+                    // }
+                    // $user->updateRecord('lab_requests', array(
+                    //     'test_name' => $test_id,
+                    //     'test_value' => '',
+                    //     'staff_id' => $user->data()->id,
+                    //     'status' => $status,
+                    // ));
+                    // $user->createRecord('lab_requests', array(
+                    //     'visit_date' => Input::get('lab_date'),                            
+                    //     'study_id' => $_GET['sid'],
+                    //     'visit_code' => $_GET['vcode'],
+                    //     'visit_day' => $_GET['vday'],
+                    //     'seq_no' => $_GET['seq'],
+                    //     'vid' => $_GET['vid'],
+                    //     'lab_date' => Input::get('lab_date'),
+                    //     'test_name' => $test_id,
+                    //     'test_value' => '',
+                    //     'patient_id' => $_GET['cid'],
+                    //     'staff_id' => $user->data()->id,
+                    //     'status' => $status,
+                    // ));
+                    // $i++;
+                    // }
 
-                $appointment_list = $override->getlastRow('appointment_list', 'client_id', $_GET['cid'], 'id')[0];
+                    // $user->createRecord('history_list', array(
+                    //     'appointment_id' => $appointment_list['id'],
+                    //     'staff_id' => $user->data()->id,
+                    //     'status' => 0,
+                    //     'site_id' => $user->data()->site_id,
+                    //     'date_created' => date("Y-m-d\TH:i", strtotime($date)),
+                    //     'remarks' => 'Lab test requested',
+                    //     'client_id' => $_GET['cid'],
+                    // ));
 
-                foreach (Input::get('test_name') as $value) {
-                    $test = $override->getNews('test_list', 'status', 1, 'id', $value)[0];
-                    $user->createRecord('appointment_test_list', array(
-                        'appointment_id' => $appointment_list['id'],
-                        'date_requested' => $date_requested,
-                        'test_id' => $value,
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'status' => 0,
-                        'request_status' => 0,
-                        'site_id' => $user->data()->site_id,
-                        'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                        'created_on' => date("Y-m-d"),
-                    ));
+                    // Redirect::to('add_results.php?status=' . $_GET['status']);
+                    $successMessage = 'Lab Request added Successful';
+                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    // die;
+                } catch (Exception $e) {
+                    die($e->getMessage());
                 }
-                $user->createRecord('history_list', array(
-                    'appointment_id' => $appointment_list['id'],
-                    'staff_id' => $user->data()->id,
-                    'status' => 0,
-                    'site_id' => $user->data()->site_id,
-                    'date_created' => date("Y-m-d\TH:i", strtotime($date)),
-                    'remarks' => 'Lab test requested',
-                    'client_id' => $_GET['cid'],
-                ));
-
-                // Redirect::to('info.php?id=' . $_GET['id'] . '&status=' . $_GET['status']);
-                Redirect::to('appointments.php?status=0');
-                // Redirect::to('view_appointment_list.php?appointment_id=' . $_GET['appointment_id'] . '&cid=' . $_GET['cid'] . '&status=' . $_GET['status']);
-
             } else {
-                $errorMessage = 'Client already have a request.';
+                $pageError = $validate->errors();
             }
+        } elseif (Input::get('add_results')) {
+            $validate = $validate->check($_POST, array(
+                // 'lab_date' => array(
+                //     'required' => true,
+                // ),
+
+            ));
+            if ($validate->passed()) {
+                try {
+                    $i = 0;
+                    $checked_array = Input::get('status');
+                    foreach (Input::get('id') as $id) {
+                        $status = 0;
+                        if (in_array($id, $checked_array)) {
+                            $status = 1;
+                        }
+                        $user->updateRecord('lab_requests', array(
+                            'test_value' => Input::get('test_value')[$i],
+                            'staff_id' => $user->data()->id,
+                            'status' => $status,
+                        ), $id);
+                        $i++;
+                    }
+                    Redirect::to('add_results.php?status=' . $_GET['status']);
+                    $successMessage = 'Lab Request added Successful';
+                    // Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday']);
+                    die;
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('delete_test_name')) {
+            $user->updateRecord('lab_requests', array(
+                'status' => 0,
+            ), Input::get('id'));
+            $successMessage = 'Test Deleted Successful';
         } elseif (Input::get('update_category')) {
             $validate = $validate->check($_POST, array(
                 // 'name' => array(
@@ -239,7 +331,7 @@ if ($user->isLoggedIn()) {
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Date requested:</label>
-                                    <input type="date" name="lab_date" class="form-control" value="<?= $lab_requests[0]['date_requested']; ?>" />
+                                    <input type="date" name="lab_date" class="form-control" value="<?= $lab_requests[0]['visit_date']; ?>" required />
                                 </div>
                             </div>
 
@@ -251,10 +343,12 @@ if ($user->isLoggedIn()) {
                                     $categorys = $override->get("category", "status", 1);
                                     foreach ($categorys as $category1) { ?>
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" name="category[]" id="category_id<?= $category1['id']; ?>" <?php if ($category1['id']) {
-                                                                                                                                                            echo 'checked';
-                                                                                                                                                        } ?>>
-                                            <label class="form-check-label" for="exampleCheck1"><?= $category1['name']; ?></label>
+                                            <input type="checkbox" class="form-check-input myCheckbox" name="category[]" id="category_id<?= $category1['id']; ?>" value="<?= $category1['id']; ?>" <?php foreach ($lab_requests as $lab_request) {
+                                                                                                                                                                                                        if ($category1['id'] == $lab_request['category']) {
+                                                                                                                                                                                                            echo 'checked';
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                    } ?> onclick="add_test(this)">
+                                            <label class="form-check-label" for="category_id"><?= $category1['name']; ?></label>
                                         </div>
                                     <?php } ?>
                                 </div>
@@ -264,18 +358,12 @@ if ($user->isLoggedIn()) {
                             <div class="col-md-4">
                                 <label>Test Name</label>
                                 <div class="form-group">
-                                    <?php
-                                    $tests = $override->get("test_list", "status", 1);
-                                    foreach ($tests as $test1) { ?>
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" name="test_name[]" id="test_name[]" value="<?= $test1['name']; ?>" <?php if ($test1['id'] == 1) {
-                                                                                                                                                                    echo 'checked';
-                                                                                                                                                                } ?> onclick="add_lab(this)">
-                                            <label class="form-check-label" for="exampleCheck1"><?= $test1['name']; ?></label>
-                                        </div>
-                                    <?php } ?>
+                                    <div class="form-check" id="test_id">
+
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="col-md-4">
                                 <label>List of Lab requests for ( <?= $_GET['vday']; ?> )</label>
                                 <div class="form-group">
@@ -354,7 +442,7 @@ if ($user->isLoggedIn()) {
                                                     ?>
                                                         <tr>
                                                             <td><?= $x; ?></td>
-                                                            <td><?= $treatment['date'] ?></td>
+                                                            <td><?= $treatment['visit_date'] ?></td>
                                                             <td><?= $medications[0]['name']; ?></td>
                                                             <td>
                                                                 <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
@@ -369,7 +457,7 @@ if ($user->isLoggedIn()) {
                                                             </td>
                                                             <!-- <input type="button" class="ibtnDel1 btn btn-md btn-warning" value="Remove"> -->
                                                         </tr>
-                                                        <div class="modal fade" id="update_med<?= $treatment['id'] ?>">
+                                                        <!-- <div class="modal fade" id="update_med<?= $treatment['id'] ?>">
                                                             <div class="modal-dialog">
                                                                 <form method="post">
                                                                     <div class="modal-content">
@@ -496,9 +584,9 @@ if ($user->isLoggedIn()) {
                                                                     </div>
                                                                 </form>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                         <!-- /.modal -->
-                                                        <div class="modal fade" id="delete_med<?= $treatment['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <!-- <div class="modal fade" id="delete_med<?= $treatment['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <form method="post">
                                                                     <div class="modal-content">
@@ -519,7 +607,7 @@ if ($user->isLoggedIn()) {
                                                                     </div>
                                                                 </form>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     <?php $x++;
                                                     } ?>
                                                 </tbody>
@@ -552,7 +640,7 @@ if ($user->isLoggedIn()) {
 
                     <div class="card-footer">
                         <a href="info.php?id=3&status=1" class="btn btn-danger">Back</a>
-                        <input type="submit" name="add_test" value="Submit" class="btn btn-info">
+                        <input type="submit" name="add_lab_request" value="Submit" class="btn btn-info">
                     </div>
                 </form>
             </div>
@@ -675,7 +763,72 @@ if ($user->isLoggedIn()) {
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             })
 
+
+            // $('#category').change(function() {
+            // var district_id = $(this).val();
+            // $.ajax({
+            //     url: "process.php?content=district_id",
+            //     method: "GET",
+            //     data: {
+            //         district_id: district_id
+            //     },
+            //     dataType: "text",
+            //     success: function(data) {
+            //         $('#ward').html(data);
+            //     }
+            // });
+            // });
+
+            // for ($i = 1; $i <= 6; $i++) {
+            // const category = `category_id${i}`;
+            const category_id1 = document.getElementById('category_id1');
+            const category_id2 = document.getElementById('category_id2');
+            const category_id3 = document.getElementById('category_id3');
+            const category_id4 = document.getElementById('category_id4');
+            const category_id5 = document.getElementById('category_id5');
+            const category_id6 = document.getElementById('category_id6');
+
+
+            category_id1.addEventListener('change', function() {
+                if (this.checked) {
+                    const category_id = this.value;
+                    $.ajax({
+                        url: "process.php?content=category_id",
+                        method: "GET",
+                        data: {
+                            category_id: category_id
+                        },
+                        dataType: "text",
+                        success: function(data) {
+                            $('#test_id').html(data);
+                            // alert(data);
+                        }
+                    });
+                    // console.log(value); // or pass the value to a function
+                    // alert(value);
+                } else {
+                    $('#test_id').html('');
+                }
+            });
+            // }
+
+            // const checkboxes = document.querySelectorAll('.myCheckbox');
+
+            // checkboxes.forEach(function(checkbox) {
+            //     checkbox.addEventListener('change', function() {
+            //         let checkedValues = [];
+            //         checkboxes.forEach(function(cb) {
+            //             if (cb.checked) {
+            //                 checkedValues.push(cb.value);
+            //             }
+            //         });
+            //         // console.log(checkedValues); // or pass the values to a function
+            //         alert(checkedValues);
+            //     });
+            // });
+
         })
+
         // BS-Stepper Init
         document.addEventListener('DOMContentLoaded', function() {
             window.stepper = new Stepper(document.querySelector('.bs-stepper'))
@@ -744,7 +897,7 @@ if ($user->isLoggedIn()) {
 
             var html = "<tr>";
             html += "<td>" + items + "</td>";
-            html += '<td><input type="hidden" name="test_name[]" value="">' + test_name + '</td>';
+            html += '<td>' + test_name + '</td>';
             html += "<td><button type='button' onclick='deleteRow(this);'>Remove</button></td>"
             html += "</tr>";
 

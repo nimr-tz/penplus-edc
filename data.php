@@ -87,7 +87,7 @@ if ($user->isLoggedIn()) {
                 } else {
                     $data = $override->getNews('main_diagnosis', 'status', 1, 'site_id', $user->data()->site_id);
                 }
-                $filename = 'Main diagnosis Data';
+                $filename = 'Patient Category Data';
             } elseif (Input::get('data') == 6) {
                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                     if ($_GET['site_id'] != null) {

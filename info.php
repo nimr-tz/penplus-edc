@@ -290,6 +290,9 @@ if ($user->isLoggedIn()) {
                 'visit_date' => array(
                     'required' => true,
                 ),
+                // 'visit_status' => array(
+                //     'required' => true,
+                // ),
             ));
             if ($validate->passed()) {
                 try {
@@ -914,6 +917,7 @@ if ($user->isLoggedIn()) {
                                                     <th>Name</th>
                                                     <th>username</th>
                                                     <th>Position</th>
+                                                    <th>Access Level</th>
                                                     <th>Sex</th>
                                                     <th>Site</th>
                                                     <th>Status</th>
@@ -940,6 +944,9 @@ if ($user->isLoggedIn()) {
                                                         </td>
                                                         <td class="table-user">
                                                             <?= $position['name']; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $staff['accessLevel']; ?>
                                                         </td>
                                                         <?php if ($staff['sex'] == 1) { ?>
                                                             <td class="table-user">
@@ -2617,7 +2624,7 @@ if ($user->isLoggedIn()) {
                                             </thead>
                                             <tbody>
                                                 <?php $x = 1;
-                                                foreach ($override->getDataAsc('visit', 'client_id', $_GET['cid'],'id') as $visit) {
+                                                foreach ($override->getDataAsc('visit', 'client_id', $_GET['cid'], 'id') as $visit) {
                                                     $clnt = $override->get('clients', 'id', $_GET['cid'])[0];
                                                     $cntV = $override->getCount('visit', 'client_id', $visit['client_id']);
 
@@ -3005,7 +3012,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                         echo 'Pending';
                                                                                                                                     }
                                                                                                                                 } else {
-                                                                                                                                    echo 'Select Status';
+                                                                                                                                    echo 'Select';
                                                                                                                                 } ?>
                                                                                             </option>
                                                                                             <option value="1">Attended</option>
@@ -3037,7 +3044,7 @@ if ($user->isLoggedIn()) {
                                                                     <div class="modal-footer justify-content-between">
                                                                         <input type="hidden" name="id" value="<?= $visit['id'] ?>">
                                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                        <input type="submit" name="add_visit" class="btn btn-primary" value="Save changes">
+                                                                        <input type="submit" name="add_visit" class="btn btn-primary" value="Submit">
                                                                     </div>
                                                                 </div>
                                                                 <!-- /.modal-content -->

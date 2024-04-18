@@ -155,10 +155,20 @@ if ($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $user->createRecord('position', array(
-                        'name' => Input::get('name'),
-                    ));
-                    $successMessage = 'Position Successful Added';
+                    $position = $override->getNews('position', 'status', 1, 'id', $_GET['position_id']);
+                    if($position){
+                        $user->updateRecord('position', array(
+                            'name' => Input::get('name'),
+                        ),$position[0]['id']);
+                        $successMessage = 'Position Successful Updated';
+                    }else{
+                        $user->createRecord('position', array(
+                            'name' => Input::get('name'),
+                            'access_level' => 1,
+                            'status' => 1,
+                        ));
+                        $successMessage = 'Position Successful Added';
+                    }
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -2396,6 +2406,8 @@ if ($user->isLoggedIn()) {
                             if ($visit_id) {
                                 $user->updateRecord('visit', array(
                                     'summary_id' => $summary[0]['id'],
+                                    'visit_code' => $visit_code,
+                                    'visit_name' => $visit_name,
                                     'expected_date' => Input::get('next_appointment_date'),
                                     'summary_date' => Input::get('summary_date'),
                                     'comments' => Input::get('comments'),
@@ -2499,6 +2511,8 @@ if ($user->isLoggedIn()) {
                         if ($visit_id) {
                             $user->updateRecord('visit', array(
                                 'summary_id' => $last_row['id'],
+                                'visit_code' => $visit_code,
+                                'visit_name' => $visit_name,
                                 'expected_date' => Input::get('next_appointment_date'),
                                 'summary_date' => Input::get('summary_date'),
                                 'comments' => Input::get('comments'),
@@ -4007,6 +4021,85 @@ if ($user->isLoggedIn()) {
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
+        <?php }elseif ($_GET['id'] == 2 && ($user->data()->position == 1 || $user->data()->position == 2)) { ?>
+                                    <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Add New Position</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="info.php?id=2">
+                                            < Back </a>
+                                    </li>&nbsp;&nbsp;
+                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>&nbsp;&nbsp;
+                                    <li class="breadcrumb-item">
+                                        <a href="info.php?id=2">
+                                            Go to Position list >
+                                        </a>
+                                    </li>&nbsp;&nbsp;
+                                    <li class="breadcrumb-item active">Add New Position</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <?php
+                            // $staff = $override->getNews('user', 'status', 1, 'id', $_GET['staff_id'])[0];
+                            // $site = $override->get('site', 'id', $staff['site_id'])[0];
+                            $position = $override->get('position', 'id', $_GET['position_id'])[0];
+                            ?>
+                            <!-- right column -->
+                            <div class="col-md-12">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Positions</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label>Position Name</label>
+                                                            <input class="form-control" type="text" name="name" id="name" value="<?php if ($position['name']) {
+                                                                                                                                                print_r($position['name']);
+                                                                                                                                            }  ?>" required />
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href="info.php?id=2" class="btn btn-default">Back</a>
+                                            <input type="submit" name="add_position" value="Submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+
         <?php } elseif ($_GET['id'] == 4) { ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
@@ -4043,7 +4136,6 @@ if ($user->isLoggedIn()) {
                             $districts = $override->get('districts', 'id', $client['district'])[0];
                             $wards = $override->get('wards', 'id', $client['ward'])[0];
                             $relations = $override->get('relation', 'id', $client['relation'])[0];
-
                              ?>
 
                             <!-- right column -->
@@ -4052,11 +4144,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
 
-                                        <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                             <h3 class="card-title">Add Client  ( PATIENT DETAILS )</h3>
                                         <?php } ?>
 
-                                        <?php if ($user->data()->position == 2) { ?>
+                                        <?php if ($user->data()->accessLevel == 3) { ?>
                                             <h3 class="card-title">View clients info ( PATIENT DETAILS )</h3>
                                         <?php } ?>
                                     </div>
@@ -4617,7 +4709,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='index1.php' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <input type="submit" name="add_client" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -4674,11 +4766,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
 
-                                        <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                             <h3 class="card-title">Add / Update Medication</h3>
                                         <?php } ?>
 
-                                        <?php if ($user->data()->position == 2) { ?>
+                                        <?php if ($user->data()->accessLevel == 3) { ?>
                                             <h3 class="card-title">Add / Update Medication</h3>
                                         <?php } ?>
                                     </div>
@@ -4835,7 +4927,7 @@ if ($user->isLoggedIn()) {
                                         <div class="card-footer">
                                             <a href='index1.php' class="btn btn-default">Back</a>
                                             <input type="hidden" name="id" value="<?= $_GET['medication_id'] ?>">
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <input type="submit" name="add_medications" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -4889,12 +4981,12 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
 
-                                        <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                             <h3 class="card-title">Add / Update Medication Batch / Serial</h3>
                                         <?php } ?>
 
-                                        <?php if ($user->data()->position == 2) { ?>
-                                            <h3 class="card-title">Add / Update Medication Batch / Serial</h3>
+                                        <?php if ($user->data()->accessLevel == 3) { ?>
+                                            <h3 class="card-title">View Medication Batch / Serial</h3>
                                         <?php } ?>
                                     </div>
                                     <!-- /.card-header -->
@@ -5000,7 +5092,7 @@ if ($user->isLoggedIn()) {
                                         <div class="card-footer">
                                             <a href='index1.php' class="btn btn-default">Back</a>
                                             <input type="hidden" name="id" value="<?= $_GET['batch_id'] ?>">
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <input type="submit" name="add_batch" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -5336,7 +5428,7 @@ if ($user->isLoggedIn()) {
 
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="hidden" name="sid" value="<?= $_GET['sid'] ?>">
                                                 <input type="hidden" name="vday" value="<?= $_GET['vday'] ?>">
                                                 <input type="submit" name="add_demographic" value="Submit" class="btn btn-primary">
@@ -5560,7 +5652,7 @@ if ($user->isLoggedIn()) {
 
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_vital" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>
@@ -5802,7 +5894,7 @@ if ($user->isLoggedIn()) {
 
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_main_diagnosis" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>
@@ -7313,8 +7405,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
-
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_history" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>
@@ -8587,7 +8678,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <input type="submit" name="add_symptoms" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -9414,7 +9505,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <input type="submit" name="add_cardiac" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -9668,7 +9759,7 @@ if ($user->isLoggedIn()) {
                                             <!-- /.card-body -->
                                             <div class="card-footer">
                                                 <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                     <input type="submit" name="add_diabetic" value="Submit" class="btn btn-primary">
                                                 <?php } ?>
@@ -9860,11 +9951,11 @@ if ($user->isLoggedIn()) {
                                             <!-- /.card-body -->
                                             <div class="card-footer">
                                                 <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                                <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
-
+                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                     <input type="submit" name="add_scd" value="Submit" class="btn btn-primary">
                                                 <?php } ?>
                                             </div>
+                                        </div>
                                     </form>
                                 </div>
                                 <!-- /.card -->
@@ -10592,8 +10683,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
-
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_results" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>
@@ -11473,8 +11563,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
-
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_hospitalizaion" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>
@@ -11846,8 +11935,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
-
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_hospitalization_details" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>
@@ -12955,7 +13043,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_treatment_plan" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>
@@ -13871,7 +13959,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <input type="submit" name="add_dgns_complctns_comorbdts" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -14264,7 +14352,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <input type="submit" name="add_risks" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -15068,7 +15156,7 @@ if ($user->isLoggedIn()) {
                                         <!-- /.card-body -->
                                         <div class="card-footer">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <input type="submit" name="add_lab_details" value="Submit" class="btn btn-primary">
                                             <?php } ?>
@@ -15459,11 +15547,6 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                             </div>                                               
-
-                                            <?php 
-                                            // if ($summary['next_appointment_notes']) { 
-
-                                                ?>
                                                 <hr>
                                             <div class="row">
 
@@ -15492,9 +15575,6 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>                                                                                                              
-                                            <?php 
-                                        // }
-                                          ?>
                                            </div>
                                             <hr>
 
@@ -15505,7 +15585,7 @@ if ($user->isLoggedIn()) {
                                             <input type="hidden" name="btn" value="<?= $_GET['btn'] ?>">
                                             <a href='info.php?id=3&status=4' class="btn btn-default">Go To Termination List</a>
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back To Forms List</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_summary" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>
@@ -17689,7 +17769,7 @@ if ($user->isLoggedIn()) {
                                         <div class="card-footer">
                                             <input type="hidden" name="btn" value="<?= $_GET['btn'] ?>">
                                             <a href='info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $_GET['vid'] ?>&vcode=<?= $_GET['vcode'] ?>&seq=<?= $_GET['seq'] ?>&sid=<?= $_GET['sid'] ?>&vday=<?= $_GET['vday'] ?>&status=<?= $_GET['status'] ?>' class="btn btn-default">Back</a>
-                                            <?php if ($user->data()->position == 1 || $user->data()->position == 3 || $user->data()->position == 4 || $user->data()->position == 5) { ?>
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                 <input type="submit" name="add_social_economic" value="Submit" class="btn btn-primary">
                                             <?php } ?>
                                         </div>

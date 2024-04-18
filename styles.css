@@ -1,0 +1,9 @@
+.category1,
+.category2,
+.category3 {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}

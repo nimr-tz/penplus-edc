@@ -46,7 +46,7 @@ if ($user->isLoggedIn()) {
 
 
 
-    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+    if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
         if ($_GET['site_id'] != null) {
 
             // DISEASE ALL
@@ -262,7 +262,7 @@ if ($user->isLoggedIn()) {
                with font-awesome or any other icon font library -->
                 <?php
                 $Site = '';
-                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
                     $Site = ' ALL SITES';
                     if ($_GET['site_id']) {
                         $Site = ' ' . ' ' . $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
@@ -300,8 +300,7 @@ if ($user->isLoggedIn()) {
                         </li> -->
                     </ul>
                 </li>
-                <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                ?>
+                <?php if ($user->data()->accessLevel == 1) { ?>
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -352,6 +351,34 @@ if ($user->isLoggedIn()) {
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <span class="badge badge-info right"><?= $Position; ?></span>
+                            <p>
+                                Positions <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="add.php?id=2" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        Add
+                                        <span class="right badge badge-danger">New Position</span>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=2" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $Position; ?></span>
+                                    <p>List of Positions</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 <?php } ?>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -362,15 +389,19 @@ if ($user->isLoggedIn()) {
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="add.php?id=4" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Register
-                                    <span class="right badge badge-danger">New Client</span>
-                                </p>
-                            </a>
-                        </li>
+                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                            <li class="nav-item">
+                                <a href="add.php?id=4" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        Register
+                                        <span class="right badge badge-danger">New Client</span>
+                                    </p>
+                                </a>
+                            </li>
+                        <?php } ?>
+
                         <li class="nav-item">
                             <!-- <a href="info.php?id=3&site_id=<?= $user->data()->site_id; ?>&status=5" class="nav-link"> -->
                             <a href="info.php?id=3&status=5" class="nav-link">
@@ -381,54 +412,58 @@ if ($user->isLoggedIn()) {
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="info.php?id=8" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Medications <i class="fas fa-angle-left right"></i>
 
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="add.php?id=5&btn=Add" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add New Name</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="add.php?id=6&btn=Add" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add New Batch</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="info.php?id=8" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List of Names
-                                    <span class="badge badge-info right"><?= $override->getCount('medications', 'status', 1) ?></span>
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="info.php?id=10" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List of Batches
-                                    <span class="badge badge-info right"><?= $override->getCount('batch', 'status', 1) ?></span>
-                                </p>
-                            </a>
-                        </li>
+                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
-                        <li class="nav-item">
-                            <a href="info.php?id=8" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Expired Batches</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <!-- <a href="info.php?id=3&status=5" class="nav-link">
+                    <li class="nav-item">
+                        <a href="info.php?id=8" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Medications <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="add.php?id=5&btn=Add" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add New Name</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="add.php?id=6&btn=Add" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add New Batch</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=8" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List of Names
+                                        <span class="badge badge-info right"><?= $override->getCount('medications', 'status', 1) ?></span>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=10" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List of Batches
+                                        <span class="badge badge-info right"><?= $override->getCount('batch', 'status', 1) ?></span>
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="info.php?id=8" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Expired Batches</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <!-- <a href="info.php?id=3&status=5" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Tests
@@ -436,22 +471,22 @@ if ($user->isLoggedIn()) {
                             <span class="badge badge-info right"><?= $override->getCount('test_list', 'status', 1) ?></span>
                         </p>
                     </a> -->
-                    <ul class="nav nav-treeview">
-                        <?php foreach ($override->getData('site') as $test_list) { ?>
-                            <li class="nav-item">
-                                <a href="info.php?id=3&status=5&site_id=<?= $test_list['id']; ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p><?= $test_list['name'] ?></p>
-                                    <span class="badge badge-info right">
-                                        <?= $override->getCount('test_list', 'status', 1) ?>
-                                    </span>
-                                </a>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <!-- <a href="info.php?id=3&status=5" class="nav-link">
+                        <ul class="nav nav-treeview">
+                            <?php foreach ($override->getData('site') as $test_list) { ?>
+                                <li class="nav-item">
+                                    <a href="info.php?id=3&status=5&site_id=<?= $test_list['id']; ?>" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p><?= $test_list['name'] ?></p>
+                                        <span class="badge badge-info right">
+                                            <?= $override->getCount('test_list', 'status', 1) ?>
+                                        </span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <!-- <a href="info.php?id=3&status=5" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Log book
@@ -459,24 +494,25 @@ if ($user->isLoggedIn()) {
                             <span class="badge badge-info right"><?= $override->getCount('test_list', 'status', 1) ?></span>
                         </p>
                     </a> -->
-                    <ul class="nav nav-treeview">
-                        <?php foreach ($override->getData('site') as $log_book) { ?>
-                            <li class="nav-item">
-                                <a href="info.php?id=3&status=5&site_id=<?= $log_book['id']; ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p><?= $log_book['name'] ?></p>
-                                    <span class="badge badge-info right">
-                                        <?= $override->getCount('test_list', 'status', 1) ?>
-                                    </span>
-                                </a>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                </li>
+                        <ul class="nav nav-treeview">
+                            <?php foreach ($override->getData('site') as $log_book) { ?>
+                                <li class="nav-item">
+                                    <a href="info.php?id=3&status=5&site_id=<?= $log_book['id']; ?>" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p><?= $log_book['name'] ?></p>
+                                        <span class="badge badge-info right">
+                                            <?= $override->getCount('test_list', 'status', 1) ?>
+                                        </span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+                <?php } ?>
 
-                <?php
-                if ($user->data()->position == 1 || $user->data()->position == 2) {
-                ?>
+
+                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
 
                     <li class="nav-item">
                         <a href="info.php?id=8" class="nav-link">
@@ -568,9 +604,8 @@ if ($user->isLoggedIn()) {
                     </ul>
                 </li>
 
-                <?php
-                if ($user->data()->position == 1 || $user->data()->position == 2) {
-                ?>
+                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) { ?>
+
                     <li class="nav-item">
                         <a href="info.php?id=8" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
@@ -742,9 +777,8 @@ if ($user->isLoggedIn()) {
                     </li>
                 <?php } ?>
 
-                <?php
-                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                ?>
+                <?php if ($user->data()->accessLevel == 1) { ?>
+
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
@@ -954,75 +988,75 @@ if ($user->isLoggedIn()) {
                         </ul>
                     </li>
 
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Study ID <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <?php
+                            if ($user->data()->power == 1) {
+                            ?>
+                                <li class="nav-item">
+                                    <a href="info.php?id=5" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Set Study Id</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="info.php?id=6" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>UnSet Study Id</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                <li class="nav-item">
+                                    <a href="info.php?id=5" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Update Study Id</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Extra <i class="fas fa-angle-left right"></i>
+
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="add.php?id=24" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Regions</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="add.php?id=25" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Disricts</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="add.php?id=26" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Wards</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 <?php } ?>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Study ID <i class="fas fa-angle-left right"></i>
-
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-
-                        <?php
-                        if ($user->data()->power == 1) {
-                        ?>
-                            <li class="nav-item">
-                                <a href="info.php?id=5" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Set Study Id</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="info.php?id=6" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>UnSet Study Id</p>
-                                </a>
-                            </li>
-                        <?php } ?>
-                        <?php
-                        if ($user->data()->power == 1 || $user->data()->accessLevel == 1) {
-                        ?>
-                            <li class="nav-item">
-                                <a href="info.php?id=5" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Update Study Id</p>
-                                </a>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Extra <i class="fas fa-angle-left right"></i>
-
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="add.php?id=24" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Regions</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="add.php?id=25" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Disricts</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="add.php?id=26" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Wards</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

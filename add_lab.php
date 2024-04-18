@@ -221,6 +221,14 @@ if ($user->isLoggedIn()) {
                     object-fit: scale-down;
                     object-position: center center;
                 }
+
+                .category {
+                    display: block;
+                }
+
+                .test_name {
+                    display: none;
+                }
             </style>
 
             <div class="card card-primary">
@@ -251,9 +259,9 @@ if ($user->isLoggedIn()) {
                                     $categorys = $override->get("category", "status", 1);
                                     foreach ($categorys as $category1) { ?>
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" name="category[]" id="category_id<?= $category1['id']; ?>" <?php if ($category1['id']) {
-                                                                                                                                                            echo 'checked';
-                                                                                                                                                        } ?>>
+                                            <input type="checkbox" class="form-check-input category" name="category[]" id="category_id<?= $category1['id']; ?>" <?php if ($category1['id'] == $lab_requests['id']) {
+                                                                                                                                                                    echo 'checked';
+                                                                                                                                                                } ?>>
                                             <label class="form-check-label" for="exampleCheck1"><?= $category1['name']; ?></label>
                                         </div>
                                     <?php } ?>
@@ -268,10 +276,10 @@ if ($user->isLoggedIn()) {
                                     $tests = $override->get("test_list", "status", 1);
                                     foreach ($tests as $test1) { ?>
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" name="test_name[]" id="test_name[]" value="<?= $test1['name']; ?>" <?php if ($test1['id'] == 1) {
-                                                                                                                                                                    echo 'checked';
-                                                                                                                                                                } ?> onclick="add_lab(this)">
-                                            <label class="form-check-label" for="exampleCheck1"><?= $test1['name']; ?></label>
+                                            <input type="checkbox" class="form-check-input test_name" name="test_name[]" id="test_name[]" value="<?= $test1['name']; ?>" <?php if ($test1['id'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> onclick="add_lab(this)">
+                                            <label class="form-check-label test_name" for="exampleCheck1"><?= $test1['name']; ?></label>
                                         </div>
                                     <?php } ?>
                                 </div>
@@ -675,7 +683,30 @@ if ($user->isLoggedIn()) {
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             })
 
+
         })
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const categories = document.querySelectorAll(".category");
+            categories.forEach(function(category) {
+                category.addEventListener("change", function() {
+                    const categoryName = category.value;
+                    const categoryItems = document.querySelectorAll("." + categoryName);
+                    if (category.checked) {
+                        categoryItems.forEach(function(item) {
+                            item.classList.remove("test_name");
+                        });
+                    } else {
+                        categoryItems.forEach(function(item) {
+                            item.classList.add("test_name");
+                        });
+                    }
+                });
+            });
+        });
+
+
         // BS-Stepper Init
         document.addEventListener('DOMContentLoaded', function() {
             window.stepper = new Stepper(document.querySelector('.bs-stepper'))

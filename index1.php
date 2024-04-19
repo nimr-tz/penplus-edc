@@ -27,7 +27,7 @@ if (Input::exists('post')) {
 
 if ($user->isLoggedIn()) {
 
-  if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+  if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
     if ($_GET['site_id'] != null) {
       $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
       $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
@@ -103,7 +103,7 @@ if ($user->isLoggedIn()) {
       <div class="content-header">
         <?php
         $Site = '';
-        if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+        if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
           $Site = ' ALL SITES';
           if ($_GET['site_id']) {
             $Site = ' ' . ' '. $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
@@ -120,7 +120,7 @@ if ($user->isLoggedIn()) {
             <div class="col-sm-3">
 
               <?php
-              if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+              if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
               ?>
                 <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                   <div class="row">

@@ -121,9 +121,9 @@ if ($user->isLoggedIn()) {
                 'screening_date' => array(
                     'required' => true,
                 ),
-                // 'conset_date' => array(
-                //     'required' => true,
-                // ),
+                'lab_request' => array(
+                    'required' => true,
+                ),
                 'ncd' => array(
                     'required' => true,
                 ),
@@ -148,24 +148,27 @@ if ($user->isLoggedIn()) {
                         }
                     }
 
-                    if ($override->get('screening', 'patient_id', Input::get('id'))) {
+                    if ($override->getNews('screening', 'status', 1, 'patient_id', Input::get('cid'))) {
                         $user->updateRecord('screening', array(
                             'study_id' => Input::get('study_id'),
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
                             'ncd' => Input::get('ncd'),
+                            'lab_request' => Input::get('lab_request'),
+                            'lab_request_date' => Input::get('lab_request_date'),
+                            'screening_type' => Input::get('screening_type'),
                             'consent' => Input::get('consent'),
                             'residence' => Input::get('residence'),
                             'created_on' => date('Y-m-d'),
-                            'patient_id' => Input::get('id'),
+                            'patient_id' => Input::get('cid'),
                             'staff_id' => $user->data()->id,
                             'eligibility' => $eligibility,
                             'doctor_confirm' => $doctor_confirm,
                             'status' => 1,
                             'site_id' => $user->data()->site_id,
-                        ), Input::get('scrrening_id'));
+                        ), Input::get('id'));
 
-                        $visit = $override->getNews('visit', 'client_id', Input::get('id'), 'seq_no', 0, 'visit_name', 'Screening')[0];
+                        $visit = $override->getNews('visit', 'client_id', Input::get('cid'), 'seq_no', 0, 'visit_name', 'Screening')[0];
 
                         $user->updateRecord('visit', array(
                             'expected_date' => Input::get('screening_date'),
@@ -179,10 +182,13 @@ if ($user->isLoggedIn()) {
                             'conset_date' => Input::get('conset_date'),
                             'consent' => Input::get('consent'),
                             'ncd' => Input::get('ncd'),
+                            'lab_request' => Input::get('lab_request'),
+                            'lab_request_date' => Input::get('lab_request_date'),
+                            'screening_type' => Input::get('screening_type'),
                             'study_id' => Input::get('study_id'),
                             'residence' => Input::get('residence'),
                             'created_on' => date('Y-m-d'),
-                            'patient_id' => Input::get('id'),
+                            'patient_id' => Input::get('cid'),
                             'staff_id' => $user->data()->id,
                             'eligibility' => $eligibility,
                             'status' => 1,
@@ -200,7 +206,7 @@ if ($user->isLoggedIn()) {
                             'visit_window' => 0,
                             'status' => 1,
                             'seq_no' => 0,
-                            'client_id' => Input::get('id'),
+                            'client_id' => Input::get('cid'),
                             'created_on' => date('Y-m-d'),
                             'reasons' => '',
                             'visit_status' => 1,
@@ -212,7 +218,7 @@ if ($user->isLoggedIn()) {
                         'eligible' => $eligibility,
                         // 'enrolled' => $eligibility,
                         'screened' => 1,
-                    ), Input::get('id'));
+                    ), Input::get('cid'));
 
                     $successMessage = 'Screening Successful Added';
 
@@ -284,6 +290,9 @@ if ($user->isLoggedIn()) {
                 'visit_date' => array(
                     'required' => true,
                 ),
+                // 'visit_status' => array(
+                //     'required' => true,
+                // ),
             ));
             if ($validate->passed()) {
                 try {
@@ -817,7 +826,7 @@ if ($user->isLoggedIn()) {
         <?php } ?>
 
 
-        <?php if ($_GET['id'] == 1 && ($user->data()->position == 1 || $user->data()->position == 2 || $user->data()->position == 3)) { ?>
+        <?php if ($_GET['id'] == 1 && ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2)) { ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
@@ -827,18 +836,32 @@ if ($user->isLoggedIn()) {
                             <div class="col-sm-6">
                                 <h1>
                                     <?php
+                                    $pagNum = 0;
                                     if ($_GET['status'] == 1) {
-                                        if ($user->data()->power == 1) {
-                                            $data = $override->getData('user');
-                                        } else {
-                                            $data = $override->getDataStaff('user', 'status', 1, 'power', 0, 'count', 4, 'id');
-                                        }
+                                        $pagNum = $override->countData2Active('user', 'status', 1, 'power', 0, 'count', 4);
                                     } elseif ($_GET['status'] == 2) {
-                                        $data = $override->getDataStaff('user', 'status', 0, 'power', 0, 'count', 4, 'id');
+                                        $pagNum = $override->countData2Active('user', 'status', 0, 'power', 0, 'count', 4);
                                     } elseif ($_GET['status'] == 3) {
-                                        $data = $override->getDataStaff1('user', 'status', 1, 'power', 0, 'count', 4, 'id');
+                                        $pagNum = $override->countData2Locked('user', 'status', 1, 'power', 0, 'count', 4);
                                     } elseif ($_GET['status'] == 4) {
-                                        $data = $override->getDataStaff1('user', 'status', 0, 'power', 0, 'count', 4, 'id');
+                                        $pagNum = $override->countData2Locked('user', 'status', 0, 'power', 0, 'count', 4);
+                                    }
+
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+
+                                    if ($_GET['status'] == 1) {
+                                        $data = $override->getWithLimit3Active('user', 'status', 1, 'power', 0, 'count', 4, $page, $numRec);
+                                    } elseif ($_GET['status'] == 2) {
+                                        $data = $override->getWithLimit3Active('user', 'status', 0, 'power', 0, 'count', 4, $page, $numRec);
+                                    } elseif ($_GET['status'] == 3) {
+                                        $data = $override->getWithLimit3Locked('user', 'status', 1, 'power', 0, 'count', 4, $page, $numRec);
+                                    } elseif ($_GET['status'] == 4) {
+                                        $data = $override->getWithLimit3Locked('user', 'status', 0, 'power', 0, 'count', 4, $page, $numRec);
                                     }
                                     ?>
                                     List of Staff
@@ -887,12 +910,14 @@ if ($user->isLoggedIn()) {
                                     </section>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="search-results" class="table table-bordered">
                                             <thead>
                                                 <tr>
+                                                    <th>#</th>
                                                     <th>Name</th>
                                                     <th>username</th>
                                                     <th>Position</th>
+                                                    <th>Access Level</th>
                                                     <th>Sex</th>
                                                     <th>Site</th>
                                                     <th>Status</th>
@@ -908,6 +933,9 @@ if ($user->isLoggedIn()) {
 
                                                 ?>
                                                     <tr>
+                                                        <td>
+                                                            <?= $x; ?>
+                                                        </td>
                                                         <td class="table-user">
                                                             <?= $staff['firstname'] . '  ' . $staff['middlename'] . ' ' . $staff['lastname']; ?>
                                                         </td>
@@ -916,6 +944,9 @@ if ($user->isLoggedIn()) {
                                                         </td>
                                                         <td class="table-user">
                                                             <?= $position['name']; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $staff['accessLevel']; ?>
                                                         </td>
                                                         <?php if ($staff['sex'] == 1) { ?>
                                                             <td class="table-user">
@@ -956,7 +987,7 @@ if ($user->isLoggedIn()) {
                                                                 <a href="#" class="btn btn-warning"> <i class="ri-edit-box-line"></i>Locked</a>
                                                             </td>
                                                         <?php } ?>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <a href="add.php?id=1&staff_id=<?= $staff['id'] ?>" class="btn btn-info">Update</a>
                                                             <a href="#reset<?= $staff['id'] ?>" role="button" class="btn btn-default" data-toggle="modal">Reset</a>
                                                             <a href="#lock<?= $staff['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Lock</a>
@@ -1077,6 +1108,7 @@ if ($user->isLoggedIn()) {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                    <th>#</th>
                                                     <th>Name</th>
                                                     <th>username</th>
                                                     <th>Position</th>
@@ -1089,6 +1121,190 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="info.php?id=1&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="info.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="info.php?id=1&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $i - 1;
+                                                                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+        <?php } elseif ($_GET['id'] == 2 && ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2)) { ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>
+                                    <?php
+                                    $pagNum = 0;
+                                    $pagNum = $override->getCount('position', 'status', 1);
+
+                                    $pages = ceil($pagNum / $numRec);
+                                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        $page = 0;
+                                    } else {
+                                        $page = ($_GET['page'] * $numRec) - $numRec;
+                                    }
+
+                                    $data = $override->getWithLimit('position', 'status', 1, $page, $numRec);
+
+                                    ?>
+                                    List of Posiitions
+                                </h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
+                                    <li class="breadcrumb-item active">List of Posiitions</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <section class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-6">
+                                                    <div class="card-header">
+                                                        List of Posiitions
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <ol class="breadcrumb float-sm-right">
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                < Back</a>
+                                                        </li>
+                                                        &nbsp;
+                                                        <li class="breadcrumb-item">
+                                                            <a href="index1.php">
+                                                                Go Home > </a>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div><!-- /.container-fluid -->
+                                    </section>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="search-results" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Access Level</th>
+                                                    <!-- <th>Status</th> -->
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $x = 1;
+                                                foreach ($data as $value) {
+                                                    $position = $override->getNews('position', 'status', 1, 'id', $staff['position'])[0];
+                                                    $access_level = $override->getNews('site', 'status', 1, 'id', $staff['site_id'])[0];
+
+                                                ?>
+                                                    <tr>
+                                                        <td>
+                                                            <?= $x; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $value['name']; ?>
+                                                        </td>
+                                                        <td class="table-user">
+                                                            <?= $value['access_level']; ?>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="add.php?id=2&position_id=<?= $value['id'] ?>" class="btn btn-info">Update</a>
+                                                            <a href="#delete<?= $staff['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete</a>
+                                                        </td>
+                                                    </tr>
+                                                <?php $x++;
+                                                } ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Access Level</th>
+                                                    <!-- <th>Status</th> -->
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="info.php?id=2&status=<?= $_GET['status'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo 1;
+                                                                                                                                                            } ?>">&laquo;
+                                                </a>
+                                            </li>
+                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+                                                <li class="page-item">
+                                                    <a class="page-link <?php if ($i == $_GET['page']) {
+                                                                            echo 'active';
+                                                                        } ?>" href="info.php?id=2&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="info.php?id=2&status=<?= $_GET['status'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $i - 1;
+                                                                                                                                                            } ?>">&raquo;
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -1108,7 +1324,7 @@ if ($user->isLoggedIn()) {
                 <section class="content-header">
                     <?php
                     $Site = '';
-                    if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
                         $Site = 'ALL SITES';
                         if ($_GET['site_id']) {
                             $Site = $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
@@ -1160,7 +1376,7 @@ if ($user->isLoggedIn()) {
                         <div class="row">
                             <div class="col-md-12">
                                 <?php
-                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
                                     if ($_GET['site_id'] != null) {
                                         $pagNum = 0;
                                         if ($_GET['status'] == 1) {
@@ -1454,7 +1670,7 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <?php
-                                            if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                                            if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
                                             ?>
                                                 <div class="card-tools">
                                                     <div class="input-group input-group-sm float-left" style="width: 350px;">
@@ -1500,17 +1716,20 @@ if ($user->isLoggedIn()) {
                                             <tr>
                                                 <th>Registered Date</th>
                                                 <th>Patient ID</th>
-                                                <th>Patient Name</th>
+                                                <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                    <th>Patient Name</th>
+                                                <?php } ?>
+
                                                 <th>Type</th>
-                                                <?php if ($user->data()->power = 1 || $user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 3) { ?>
                                                     <th>Site</th>
                                                 <?php } ?>
                                                 <th>Status</th>
                                                 <?php if ($_GET['status'] == 4) { ?>
-                                                    <th> Reason </th>
+                                                    <th class="text-center"> Reason </th>
                                                     <th>Comments </th>
                                                 <?php } else { ?>
-                                                    <th>Action ( Progress )</th>
+                                                    <th class="text-center">Action ( Progress )</th>
                                                 <?php } ?>
 
                                                 <?php if ($_GET['status'] == 3) { ?>
@@ -1523,16 +1742,14 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $x = 1;
                                             foreach ($clients as $client) {
-                                                $screening = $override->get('screening', 'patient_id', $client['id'])[0];
+                                                $screening = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
                                                 $visit = $override->getCount('visit', 'client_id', $client['id']);
                                                 $visits = $override->get('visit', 'client_id', $client['id'])[0];
-                                                $end_study = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
                                                 $termination = $override->firstRow1('visit', 'outcome', 'id', 'client_id', $client['id'], 'visit_code', 'TV')[0]['outcome'];
                                                 $type = $override->get('main_diagnosis', 'patient_id', $client['id'])[0];
                                                 $site = $override->get('site', 'id', $client['site_id'])[0];
-                                                $summary = $override->getlastRow1('summary', 'status', 1, 'patient_id', $client['id'], 'id')[0];
-
-
+                                                $summary = $override->get3('summary', 'status', 1, 'patient_id', $client['id'], 'visit_type', 5)[0];
+                                                $schedule = $override->get('schedule', 'id', $summary['visit_type'])[0];
 
                                                 $category = 0;
 
@@ -1731,7 +1948,10 @@ if ($user->isLoggedIn()) {
                                                 <tr>
                                                     <td><?= $client['clinic_date'] ?></td>
                                                     <td><?= $client['study_id'] ?></td>
-                                                    <td><?= $client['firstname'] . ' - ' . $client['middlename'] . ' - ' . $client['lastname'] ?></td>
+                                                    <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                        <td><?= $client['firstname'] . ' - ' . $client['middlename'] . ' - ' . $client['lastname'] ?></td>
+                                                    <?php
+                                                    } ?>
 
                                                     <?php if ($type['cardiac'] == 1) { ?>
                                                         <td>
@@ -1752,17 +1972,17 @@ if ($user->isLoggedIn()) {
                                                     <?php
                                                     } ?>
 
-                                                    <?php if ($user->data()->power = 1 || $user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                    <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 3) { ?>
                                                         <td><?= $site['name'] ?></td>
                                                     <?php } ?>
                                                     <?php if ($_GET['status'] == 1) { ?>
 
                                                         <?php if ($client['eligible'] == 1) { ?>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <a href="#" class="btn btn-success">Eligible</a>
                                                             </td>
                                                         <?php } else { ?>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <a href="#" class="btn btn-danger">Not Eligible</a>
                                                             </td>
                                                     <?php }
@@ -1771,11 +1991,11 @@ if ($user->isLoggedIn()) {
                                                     <?php if ($_GET['status'] == 2) { ?>
 
                                                         <?php if ($client['enrolled'] == 1) { ?>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <a href="#" class="btn btn-success">Enrolled</a>
                                                             </td>
                                                         <?php } else { ?>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <a href="#" class="btn btn-danger">Not Enrolled</a>
                                                             </td>
                                                     <?php }
@@ -1784,11 +2004,11 @@ if ($user->isLoggedIn()) {
                                                     <?php if ($_GET['status'] == 3) { ?>
 
                                                         <?php if ($client['enrolled'] == 1) { ?>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <a href="#" class="btn btn-success">Enrolled</a>
                                                             </td>
                                                         <?php } else { ?>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <a href="#" class="btn btn-danger">Not Enrolled</a>
                                                             </td>
                                                     <?php }
@@ -1797,45 +2017,47 @@ if ($user->isLoggedIn()) {
 
 
                                                     <?php if ($_GET['status'] == 4) { ?>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <?php if ($client['end_study'] == 1) { ?>
                                                                 <a href="#" class="btn btn-danger">Terminated</a>
                                                         </td>
 
-                                                        <td>
-                                                            <?php if ($termination == 1) { ?>
+                                                        <td class="text-center">
+                                                            <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info"><?= $summary['name'] ?></a>
+
+                                                            <!-- <?php if ($termination == 1) { ?>
                                                                 <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">On Treatment</a>
                                                             <?php } elseif ($termination == '2') { ?>
 
                                                                 <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Default</a>
                                                             <?php
-                                                                } elseif ($termination == 3) { ?>
+                                                                    } elseif ($termination == 3) { ?>
                                                                 <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Stop treatment</a>
                                                             <?php
-                                                                } elseif ($termination == 4) { ?>
+                                                                    } elseif ($termination == 4) { ?>
                                                                 <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Trnasfer Out</a>
                                                             <?php
-                                                                } elseif ($termination == 5) { ?>
+                                                                    } elseif ($termination == 5) { ?>
                                                                 <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Death</a>
                                                             <?php
-                                                                } else { ?>
+                                                                    } else { ?>
                                                                 <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Other</a>
                                                             <?php
-                                                                } ?>
+                                                                    } ?> -->
 
                                                         <?php } else { ?>
                                                             <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-success">ACTIVE</a>
                                                         </td>
-                                                        <td><?= $summary['comments'] . ' , ' . $summary['remarks'] ?></td>
+                                                    <?php } ?>
+                                                    <td><?= $summary['comments'] . ' , ' . $summary['remarks'] ?></td>
 
-                                                <?php }
-                                                        } ?>
+                                                <?php     } ?>
 
 
                                                 <?php if ($_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
 
                                                     <?php if ($client['screened'] == 1) { ?>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <a href="#" class="btn btn-success">SCREENED</a>
                                                         </td>
                                                     <?php } else { ?>
@@ -1846,10 +2068,13 @@ if ($user->isLoggedIn()) {
                                                 } ?>
 
                                                 <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
-                                                    <td>
+                                                    <td class="text-center">
 
                                                         <?php if ($_GET['status'] == 5) { ?>
-                                                            <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">Update Registration</a>
+                                                            <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">
+                                                                <?php
+                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Update <?php } else { ?> View<?php } ?>Registration Details
+                                                            </a>
                                                             <br>
                                                             <hr>
                                                         <?php
@@ -1858,13 +2083,22 @@ if ($user->isLoggedIn()) {
                                                         <?php if ($screened) { ?>
 
                                                             <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
-                                                                Edit Screening
+                                                                <?php
+                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Update <?php } else { ?> View<?php } ?>
+                                                                Screening Details
+                                                            </a>
+
+                                                            <a href="add_lab.php?cid=<?= $client['id'] ?>" class="btn btn-warning">
+                                                                <?php
+                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                                Lab
                                                             </a>
                                                         <?php } else {  ?>
 
                                                             <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
-                                                                Add Screening
-                                                            </a>
+                                                                <?php
+                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                                Screening Details </a>
                                                     <?php }
                                                     } ?>
 
@@ -1878,15 +2112,19 @@ if ($user->isLoggedIn()) {
                                                     } ?>
 
                                                     <?php if ($_GET['status'] == 2) { ?>
-                                                    <td>
+                                                    <td class="text-center">
 
                                                         <?php if ($enrollment == 1) { ?>
                                                             <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
-                                                                Edit Enrollment
+                                                                <?php
+                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Update <?php } else { ?> View<?php } ?>
+                                                                Enrollment Details
                                                             </a>
                                                         <?php } else {  ?>
                                                             <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
-                                                                Add Enrollment
+                                                                <?php
+                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                                Enrollment Details
                                                             </a>
                                                     </td>
 
@@ -1895,8 +2133,11 @@ if ($user->isLoggedIn()) {
                                             <?php } ?>
                                             <?php if ($_GET['status'] == 3) { ?>
                                                 <?php if ($enrollment == 1) { ?>
-                                                    <td>
-                                                        <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">Study Crf</a>
+                                                    <td class="text-center">
+                                                        <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">
+                                                            <?php
+                                                            if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                            Study CRF's </a>
                                                         <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                             <hr>
                                                             <?php if ($client_progress == 100) { ?>
@@ -1945,8 +2186,8 @@ if ($user->isLoggedIn()) {
 
                                             <?php if ($_GET['status'] == 3) { ?>
                                                 <?php if ($enrollment == 1) { ?>
-                                                    <td>
-                                                        <a href="summary.php?cid=<?= $client['id'] ?>" role="button" class="btn btn-primary">Patient Summary</a>
+                                                    <td class="text-center">
+                                                        <a href="summary.php?cid=<?= $client['id'] ?>" role="button" class="btn btn-primary">View Patient Summary</a>
                                                         <hr>
                                                         <span class="badge badge-secondary right">
                                                             Visits Expected&nbsp; : &nbsp;&nbsp;&nbsp;<?= $Total_visit_available1 ?> <br>
@@ -1977,9 +2218,8 @@ if ($user->isLoggedIn()) {
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <?php $screening = $override->get('screening', 'patient_id', $client['id'])[0];
-                                                                ?>
                                                                 <div class="modal-body">
+                                                                    <hr>
                                                                     <div class="row">
                                                                         <div class="col-sm-6">
                                                                             <div class="row-form clearfix">
@@ -1997,7 +2237,7 @@ if ($user->isLoggedIn()) {
                                                                                 <div class="form-group">
                                                                                     <label>Consenting individuals?</label>
                                                                                     <select class="form-control" name="consent" id="consent" style="width: 100%;" onchange="checkQuestionValue1('consent','conset_date')" required>
-                                                                                        <option value="<?= $screening['consent'] ?>"><?php if ($screening) {
+                                                                                        <option value="<?= $screening['consent'] ?>"><?php if ($screening['consent']) {
                                                                                                                                             if ($screening['consent'] == 1) {
                                                                                                                                                 echo 'Yes';
                                                                                                                                             } elseif ($screening['consent'] == 2) {
@@ -2013,8 +2253,9 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    <hr>
                                                                     <div class="row">
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-6">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
@@ -2026,12 +2267,12 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
 
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-6">
                                                                             <div class="row-form clearfix">
                                                                                 <div class="form-group">
                                                                                     <label>Permanent resident?</label>
                                                                                     <select class="form-control" name="residence" style="width: 100%;" required>
-                                                                                        <option value="<?= $screening['residence'] ?>"><?php if ($screening) {
+                                                                                        <option value="<?= $screening['residence'] ?>"><?php if ($screening['residence']) {
                                                                                                                                             if ($screening['residence'] == 1) {
                                                                                                                                                 echo 'Yes';
                                                                                                                                             } elseif ($screening['residence'] == 2) {
@@ -2046,13 +2287,15 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-
-                                                                        <div class="col-sm-4">
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
                                                                             <div class="row-form clearfix">
                                                                                 <div class="form-group">
                                                                                     <label>Known NCD?</label>
                                                                                     <select class="form-control" name="ncd" style="width: 100%;" required>
-                                                                                        <option value="<?= $screening['ncd'] ?>"><?php if ($screening) {
+                                                                                        <option value="<?= $screening['ncd'] ?>"><?php if ($screening['ncd']) {
                                                                                                                                         if ($screening['ncd'] == 1) {
                                                                                                                                             echo 'Yes';
                                                                                                                                         } elseif ($screening['ncd'] == 2) {
@@ -2067,16 +2310,72 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-
+                                                                        <div class="col-sm-6">
+                                                                            <div class="row-form clearfix">
+                                                                                <div class="form-group">
+                                                                                    <label>Request Lab Test ?</label>
+                                                                                    <select class="form-control" name="lab_request" style="width: 100%;" required>
+                                                                                        <option value="<?= $screening['lab_request'] ?>"><?php if ($screening['lab_request']) {
+                                                                                                                                                if ($screening['lab_request'] == 1) {
+                                                                                                                                                    echo 'Yes';
+                                                                                                                                                } elseif ($screening['ncd'] == 2) {
+                                                                                                                                                    echo 'No';
+                                                                                                                                                }
+                                                                                                                                            } else {
+                                                                                                                                                echo 'Select';
+                                                                                                                                            } ?></option>
+                                                                                        <option value="1">Yes</option>
+                                                                                        <option value="2">No</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="row-form clearfix">
+                                                                                <!-- select -->
+                                                                                <div class="form-group">
+                                                                                    <label>Date of Request</label>
+                                                                                    <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="lab_request_date" name="lab_request_date" id="lab_request_date" style="width: 100%;" value="<?php if ($screening['lab_request_date']) {
+                                                                                                                                                                                                                                                                print_r($screening['lab_request_date']);
+                                                                                                                                                                                                                                                            }  ?>" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="row-form clearfix">
+                                                                                <div class="form-group">
+                                                                                    <label>Type of Screening</label>
+                                                                                    <select class="form-control" name="screening_type" style="width: 100%;" required>
+                                                                                        <option value="<?= $screening['screening_type'] ?>"><?php if ($screening['screening_type']) {
+                                                                                                                                                if ($screening['screening_type'] == 1) {
+                                                                                                                                                    echo 'Facility';
+                                                                                                                                                } elseif ($screening['ncd'] == 2) {
+                                                                                                                                                    echo 'Community';
+                                                                                                                                                }
+                                                                                                                                            } else {
+                                                                                                                                                echo 'Select';
+                                                                                                                                            } ?></option>
+                                                                                        <option value="1">Facility</option>
+                                                                                        <option value="2">Community</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr>
                                                                 </div>
                                                                 <div class="modal-footer justify-content-between">
-                                                                    <input type="hidden" name="id" value="<?= $client['id'] ?>">
-                                                                    <input type="hidden" name="screening_id" value="<?= $screening['id'] ?>">
+                                                                    <input type="hidden" name="id" value="<?= $screening['id'] ?>">
+                                                                    <input type="hidden" name="cid" value="<?= $client['id'] ?>">
                                                                     <input type="hidden" name="gender" value="<?= $client['gender'] ?>">
                                                                     <input type="hidden" name="study_id" value="<?= $client['study_id'] ?>">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                    <input type="submit" name="add_screening" class="btn btn-primary" value="Save changes">
+                                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                                        <input type="submit" name="add_screening" class="btn btn-primary" value="Submit">
+                                                                    <?php } ?>
                                                                 </div>
                                                             </div>
                                                             <!-- /.modal-content -->
@@ -2136,7 +2435,9 @@ if ($user->isLoggedIn()) {
                                                                     <input type="hidden" name="study_id" value="<?= $client['study_id'] ?>">
                                                                     <input type="hidden" name="site_id" value="<?= $client['site_id'] ?>">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                    <input type="submit" name="add_Enrollment" class="btn btn-primary" value="Save changes">
+                                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                                        <input type="submit" name="add_Enrollment" class="btn btn-primary" value="Submit">
+                                                                    <?php } ?>
                                                                 </div>
                                                             </div>
                                                             <!-- /.modal-content -->
@@ -2161,7 +2462,9 @@ if ($user->isLoggedIn()) {
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <input type="hidden" name="id" value="<?= $client['id'] ?>">
-                                                                    <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
+                                                                    <?php if ($user->data()->accessLevel == 1) { ?>
+                                                                        <input type="submit" name="delete_client" value="Delete" class="btn btn-danger">
+                                                                    <?php } ?>
                                                                     <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                 </div>
                                                             </div>
@@ -2274,7 +2577,9 @@ if ($user->isLoggedIn()) {
                                         <div class="row mb-2">
                                             <div class="col-sm-6">
                                                 <h1>Study ID: <?= $patient['study_id'] ?></h1>
-                                                <h4>Name: <?= $name ?></h4>
+                                                <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                    <h4>Name: <?= $name ?></h4>
+                                                <?php } ?>
                                                 <h4>Age: <?= $patient['age'] ?></h4>
                                                 <h4>Gender: <?= $gender ?></h4>
                                                 <h4>Category: <?= $cat ?></h4>
@@ -2319,7 +2624,7 @@ if ($user->isLoggedIn()) {
                                             </thead>
                                             <tbody>
                                                 <?php $x = 1;
-                                                foreach ($override->get('visit', 'client_id', $_GET['cid']) as $visit) {
+                                                foreach ($override->getDataAsc('visit', 'client_id', $_GET['cid'], 'id') as $visit) {
                                                     $clnt = $override->get('clients', 'id', $_GET['cid'])[0];
                                                     $cntV = $override->getCount('visit', 'client_id', $visit['client_id']);
 
@@ -2461,8 +2766,11 @@ if ($user->isLoggedIn()) {
                                                                 <?php if (($visit['visit_status'] == 1 || $visit['visit_status'] == 2)  && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
 
                                                                     <?php if ($demographic && $vital && $history && $symptoms && $diagnosis && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $social_economic && $summary) { ?>
-
-                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-info"> Edit Study Forms </a>
+                                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                                            <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-info"> Edit Study Forms </a>
+                                                                        <?php } else { ?>
+                                                                            <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-info"> View Study Forms </a>
+                                                                        <?php } ?>
                                                                         <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
@@ -2505,7 +2813,11 @@ if ($user->isLoggedIn()) {
                                                                         ?>
 
                                                                     <?php } else { ?>
-                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                                            <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <?php } else { ?>
+                                                                            <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role=" button" class="btn btn-warning"> View Study Forms </a>
+                                                                        <?php } ?>
                                                                         <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
@@ -2567,8 +2879,11 @@ if ($user->isLoggedIn()) {
                                                                 <?php if (($visit['visit_status'] == 1 || $visit['visit_status'] == 2) && ($visit['visit_code'] == 'EV' || $visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
 
                                                                     <?php if ($vital && $symptoms && $results && $hospitalization && $treatment_plan && $dgns_complctns_comorbdts && $risks && $hospitalization_details  && $lab_details && $summary) { ?>
-
-                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
+                                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                                            <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-info"> Edit Study Forms </a>
+                                                                        <?php } else { ?>
+                                                                            <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-info"> View Study Forms </a>
+                                                                        <?php } ?>
                                                                         <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
@@ -2611,7 +2926,11 @@ if ($user->isLoggedIn()) {
                                                                         ?>
 
                                                                     <?php } else { ?>
-                                                                        <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                                            <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> Fill Study Forms </a>
+                                                                        <?php } else { ?>
+                                                                            <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning"> View Study Forms </a>
+                                                                        <?php } ?>
                                                                         <?php if ($user->data()->power == 1  || $user->data()->accessLevel == 1) { ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
@@ -2707,7 +3026,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                         echo 'Pending';
                                                                                                                                     }
                                                                                                                                 } else {
-                                                                                                                                    echo 'Select Status';
+                                                                                                                                    echo 'Select';
                                                                                                                                 } ?>
                                                                                             </option>
                                                                                             <option value="1">Attended</option>
@@ -2739,7 +3058,9 @@ if ($user->isLoggedIn()) {
                                                                     <div class="modal-footer justify-content-between">
                                                                         <input type="hidden" name="id" value="<?= $visit['id'] ?>">
                                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                        <input type="submit" name="add_visit" class="btn btn-primary" value="Save changes">
+                                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                                            <input type="submit" name="add_visit" class="btn btn-primary" value="Submit">
+                                                                        <?php } ?>
                                                                     </div>
                                                                 </div>
                                                                 <!-- /.modal-content -->
@@ -3079,8 +3400,8 @@ if ($user->isLoggedIn()) {
                                     <div class="alert alert-danger text-center">
                                         <h4>Error!</h4>
                                         <?php foreach ($pageError as $error) {
-                                            echo $error . ' , ';
-                                        } ?>
+                                                echo $error . ' , ';
+                                            } ?>
                                     </div>
                                 <?php } elseif ($_GET['msg']) { ?>
                                     <div class="alert alert-success text-center">

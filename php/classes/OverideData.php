@@ -90,6 +90,20 @@ class OverideData
         return $num;
     }
 
+    public function countData2Active($table, $field, $value, $field1, $value1, $field2, $value2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1' AND $field2 < '$value2'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function countData2Locked($table, $field, $value, $field1, $value1, $field2, $value2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1' AND $field2 >= '$value2'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
     public function countData4($table, $field, $value, $field1, $value1, $field2, $value2, $field3, $value3, $field4, $value4)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND ($field1 = '$value1' OR $field2 = '$value2' OR $field3 = '$value3') AND $field4 = '$value4'");
@@ -322,6 +336,20 @@ class OverideData
     public function getWithLimit3($table, $where, $id, $where2, $id2, $where3, $id3, $page, $numRec)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 = '$id3' limit $page,$numRec");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getWithLimit3Active($table, $where, $id, $where2, $id2, $where3, $id3, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 < '$id3' limit $page,$numRec");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getWithLimit3Locked($table, $where, $id, $where2, $id2, $where3, $id3, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 >= '$id3' limit $page,$numRec");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
@@ -634,6 +662,13 @@ class OverideData
     public function getDataAsc($table, $where, $id, $name)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' ORDER BY $name ASC");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataAsc1($table,$where, $id, $where1, $id1, $name)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where1 = '$id1' ORDER BY $name ASC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

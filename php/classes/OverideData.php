@@ -33,14 +33,14 @@ class OverideData
         return $num;
     }
 
-    public function getCountStatus($table, $field, $value, $field1, $value1,$field2, $value2)
+    public function getCountStatus($table, $field, $value, $field1, $value1, $field2, $value2)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 >= '$value1' AND  $field2 = '$value2'");
         $num = $query->rowCount();
         return $num;
     }
 
-    public function getCountStatus1($table, $field, $value, $field1, $value1, $field2, $value2,$field3, $value3)
+    public function getCountStatus1($table, $field, $value, $field1, $value1, $field2, $value2, $field3, $value3)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 >= '$value1' AND  $field2 = '$value2' AND  $field3 <= '$value3'");
         $num = $query->rowCount();
@@ -666,7 +666,7 @@ class OverideData
         return $result;
     }
 
-    public function getDataAsc1($table,$where, $id, $where1, $id1, $name)
+    public function getDataAsc1($table, $where, $id, $where1, $id1, $name)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where1 = '$id1' ORDER BY $name ASC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -735,6 +735,15 @@ class OverideData
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function getWithLimitSearchCount($table, $where, $id, $searchTerm, $where3, $where4, $where5, $where6)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE ($where3 LIKE '%$searchTerm%' OR $where4 LIKE '%$searchTerm%' OR $where5 LIKE '%$searchTerm%' OR $where6 LIKE '%$searchTerm%') AND ($where = '$id')");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
 
     public function getDataLimitSearch($table, $page, $numRec, $searchTerm, $where3, $where4, $where5, $where6)
     {

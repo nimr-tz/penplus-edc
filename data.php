@@ -966,57 +966,7 @@ if ($user->isLoggedIn()) {
                                         </div><!-- /.container-fluid -->
                                     </section>
                                     <!-- /.card-header -->
-                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                        <div class="row">
-
-                                            <div class="col-sm-6">
-                                                <?php
-                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                ?>
-                                                    <!-- <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <select class="form-control" name="site_id" style="width: 100%;" autocomplete="off">
-                                                                            <option value="">Select Site</option>
-                                                                            <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
-                                                                                <option value="<?= $site['id'] ?>"><?= $site['name'] ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <input type="submit" name="search_by_site" value="Search" class="btn btn-primary">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form> -->
-                                                <?php } ?>
-                                            </div>
-                                            <div class="col-sm-6">
-
-                                                <?php
-                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                                                ?>
-                                                    <!-- <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="row-form clearfix">
-                                                                    <div class="form-group">
-                                                                        <input type="submit" name="download_all_data" value="Download Data" class="btn btn-info">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form> -->
-                                                <?php } ?>
-                                            </div>
-                                        </div>
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">                                      
 
                                         <div class="card-body">
                                             <table id="search-results" class="table table-bordered">
@@ -1200,10 +1150,6 @@ if ($user->isLoggedIn()) {
                     $pagNum = 0;
                     $pagNum = $override->countData($table_name, 'status', 1, 'site_id', $_GET['site_id']);
 
-                    if ($_GET['status'] == 1) {
-                        $pagNum = $override->countData($table_name, 'status', 1, 'site_id', $_GET['site_id']);
-                    }
-
                     $pages = ceil($pagNum / $numRec);
                     if (!$_GET['page'] || $_GET['page'] == 1) {
                         $page = 0;
@@ -1211,8 +1157,12 @@ if ($user->isLoggedIn()) {
                         $page = ($_GET['page'] * $numRec) - $numRec;
                     }
 
-
-                    $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec);
+                    if ($_GET['search_item']) {
+                        $searchTerm = $_GET['search_item'];
+                        $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    } else {
+                        $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                    }
                 } else {
 
                     $pagNum = 0;
@@ -1224,7 +1174,33 @@ if ($user->isLoggedIn()) {
                         $page = ($_GET['page'] * $numRec) - $numRec;
                     }
 
-                    $data = $override->getWithLimit($table_name, 'status', 1,  $page, $numRec);
+                    if ($_GET['search_item']) {
+                        // print_r('HI');
+                        // $searchTerm = $_GET['search_item'];
+                        $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                        // $url = 'data.php?id=2&status=' . $_GET['status'] . '&data=' . $_GET['data'] . '&table=' . $_GET['table'] . '&site_id=' . Input::get('site_id') . '&page=' . $_GET['page'];
+                        // Redirect::to($url);
+                    } else {
+                        $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                    }
+
+                    // $pagNum = 0;
+                    // $pagNum = $override->getWithLimitSearchCount($table_name, 'status', 1, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    // $pages = ceil($pagNum / $numRec);
+                    // if (!$_GET['page'] || $_GET['page'] == 1) {
+                    //     $page = 0;
+                    // } else {
+                    //     $page = ($_GET['page'] * $numRec) - $numRec;
+                    // }
+
+                    // // if ($_GET['search']) {
+                    // //     $searchTerm = $_GET['search'];
+                    // //     $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    // //     // $url = 'info.php?id=' . $_GET['id'] . '&site_id=' . Input::get('site_id');
+                    // //     // Redirect::to($url);
+                    // // } else {
+                    // $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                    // // }
                 }
             } else {
                 $pagNum = 0;
@@ -1237,7 +1213,12 @@ if ($user->isLoggedIn()) {
                     $page = ($_GET['page'] * $numRec) - $numRec;
                 }
 
-                $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                if ($_GET['search_item']) {
+                    $searchTerm = $_GET['search_item'];
+                    $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                } else {
+                    $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                }
             }
             ?>
             <!-- Content Wrapper. Contains page content -->
@@ -1311,9 +1292,8 @@ if ($user->isLoggedIn()) {
                                                     <form method="get">
                                                         <div class="form-inline">
                                                             <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
-                                                            <!-- <input type="hidden" name="site_id" value="<?= $_GET['site_id'] ?>"> -->
                                                             <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
-                                                            <input type="text" name="search_name" id="search_name" class="form-control float-right" placeholder="Search Study ID or Patient ID">
+                                                            <input type="text" name="search_item" id="search_item" class="form-control float-right" placeholder="Search Study ID or Patient ID">
                                                             <input type="submit" value="Search" class="btn btn-default"><i class="fas fa-search"></i>
                                                         </div>
                                                     </form>

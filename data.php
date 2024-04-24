@@ -256,7 +256,7 @@ if ($user->isLoggedIn()) {
                                                                     <input type="submit" name="download_xls" value="Download xls Data">
                                                                     <input type="submit" name="download_xlsx" value="Download xlsx Data">
                                                                     <input type="submit" name="download_csv" value="Download csv Data">
-                                                                    <a href="data.php?id=2&status=<?= $_GET['status'] ?>&data=<?= $_GET['data'] ?>&table=<?= $tables['Tables_in_penplus'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $_GET['page'] ?>&search_item=<?= $_GET['search_item'] ?>" role=" button" class="btn btn-info"> View Recoreds </a>
+                                                                    <a href="data.php?id=2&table=<?= $tables['Tables_in_penplus'] ?>" role=" button" class="btn btn-info"> View Recoreds </a>
                                                                 </form>
                                                             </td>
                                                         </tr>
@@ -502,7 +502,6 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-inline">
                                                             <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
                                                             <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
-                                                            <input type="hidden" name="data" value="<?= $_GET['data'] ?>">
                                                             <input type="hidden" name="table" value="<?= $_GET['table'] ?>">
                                                             <input type="text" name="search_item" id="search_item" class="form-control float-right" placeholder="Search Study ID or Patient ID">
                                                             <input type="submit" value="Search" class="btn btn-default"><i class="fas fa-search"></i>

@@ -278,7 +278,7 @@ if ($user->isLoggedIn()) {
                                     <div class="card-footer clearfix">
                                         <ul class="pagination pagination-sm m-0 float-right">
                                             <li class="page-item">
-                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&table=<?= $_GET['table'] ?>site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
+                                                <a class="page-link" href="data.php?id=1&table=<?= $_GET['table'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
                                                                                                                                                                                             echo $_GET['page'] - 1;
                                                                                                                                                                                         } else {
                                                                                                                                                                                             echo 1;
@@ -289,12 +289,12 @@ if ($user->isLoggedIn()) {
                                                 <li class="page-item">
                                                     <a class="page-link <?php if ($i == $_GET['page']) {
                                                                             echo 'active';
-                                                                        } ?>" href="data.php?id=1&status=<?= $_GET['status'] ?>&table=<?= $_GET['table'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?= $i ?>"><?= $i ?>
+                                                                        } ?>" href="data.php?id=1&table=<?= $_GET['table'] ?>&page=<?= $i ?>"><?= $i ?>
                                                     </a>
                                                 </li>
                                             <?php } ?>
                                             <li class="page-item">
-                                                <a class="page-link" href="data.php?id=1&status=<?= $_GET['status'] ?>&table=<?= $_GET['table'] ?>&site_id=<?= $_GET['site_id'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
+                                                <a class="page-link" href="data.php?id=1&table=<?= $_GET['table'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
                                                                                                                                                                                             echo $_GET['page'] + 1;
                                                                                                                                                                                         } else {
                                                                                                                                                                                             echo $i - 1;
@@ -393,7 +393,7 @@ if ($user->isLoggedIn()) {
                 } else {
 
                     $pagNum = 0;
-                    $pagNum = $override->getCount($table_name, 'status', 1);
+                    $pagNum = $override->getWithLimitSearchCount($table_name, 'status', 1, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                     $pages = ceil($pagNum / $numRec);
                     if (!$_GET['page'] || $_GET['page'] == 1) {
                         $page = 0;
@@ -402,11 +402,8 @@ if ($user->isLoggedIn()) {
                     }
 
                     if ($_GET['search_item']) {
-                        // print_r('HI');
                         $searchTerm = $_GET['search_item'];
                         $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
-                        // $url = 'data.php?id=2&status=' . $_GET['status'] . '&data=' . $_GET['data'] . '&table=' . $_GET['table'] . '&site_id=' . Input::get('site_id') . '&page=' . $_GET['page'];
-                        // Redirect::to($url);
                     } else {
                         $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
                     }
@@ -501,7 +498,6 @@ if ($user->isLoggedIn()) {
                                                     <form method="get" action="">
                                                         <div class="form-inline">
                                                             <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
-                                                            <input type="hidden" name="status" value="<?= $_GET['status'] ?>">
                                                             <input type="hidden" name="table" value="<?= $_GET['table'] ?>">
                                                             <input type="text" name="search_item" id="search_item" class="form-control float-right" placeholder="Search Study ID or Patient ID">
                                                             <input type="submit" value="Search" class="btn btn-default"><i class="fas fa-search"></i>
@@ -600,11 +596,8 @@ if ($user->isLoggedIn()) {
                                                         <a href="#" class="btn btn-success">Active</a>
                                                     </td>
                                                     <td class="table-user text-center">
-                                                        <!-- <a href="add.php?id=4&cid=<?= $value['id'] ?>" class="btn btn-info">Update Record</a> -->
                                                         <a href="add.php?id=<?= $form_id ?>&cid=<?= $value['patient_id'] ?>&vid=<?= $value['vid'] ?>&vcode=<?= $value['visit_code'] ?>&seq=<?= $value['seq_no'] ?>&sid=<?= $value['study_id'] ?>&vday=<?= $value['visit_day'] ?>&status=3" class="btn btn-info">Update Record</a>
-                                                        <!-- add.php?id=7&cid=4&vid=12&vcode=EV&seq=1&sid=1-004&vday=Day%201&status=3 -->
                                                         <a href="#delete_record<?= $value['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Record</a>
-
                                                     </td>
                                                 </tr>
                                                 <div class="modal fade" id="delete_record<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

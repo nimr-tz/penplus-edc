@@ -469,6 +469,253 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('update_study_id_all_tables')) {
+            $validate = $validate->check($_POST, array(
+                'patient_id' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $patient_id = '';
+                    if (Input::get('patient_id')) {
+                        $patient_id = 'patient_id';
+                        $clients = $override->get('clients', 'id', Input::get('patient_id'))[0];
+
+                        foreach ($override->AllTables() as $tables) {
+
+                            // print_r($tables);
+
+                            if ($tables['Tables_in_penplus'] == 'screening') {
+                                $table = $override->get('screening', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('screening', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+                            if ($tables['Tables_in_penplus'] == 'demographic') {
+                                $table = $override->get('demographic', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('demographic', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+                            if ($tables['Tables_in_penplus'] == 'vitals') {
+                                $table = $override->get('vitals', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('vitals', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'main_diagnosis') {
+                                $table = $override->get('main_diagnosis', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('main_diagnosis', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'history') {
+                                $table = $override->get('history', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('history', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'symptoms') {
+                                $table = $override->get('symptoms', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('symptoms', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'cardiac') {
+                                $table = $override->get('cardiac', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('cardiac', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'diabetic') {
+                                $table = $override->get('diabetic', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('diabetic', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'sickle_cell') {
+                                $table = $override->get('sickle_cell', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('sickle_cell', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'results') {
+                                $table = $override->get('results', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('results', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'hospitalization') {
+                                $table = $override->get('hospitalization', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('hospitalization', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'hospitalization_details') {
+                                $table = $override->get('hospitalization_details', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('hospitalization_details', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'treatment_plan') {
+                                $table = $override->get('treatment_plan', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('treatment_plan', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'dgns_complctns_comorbdts') {
+                                $table = $override->get('dgns_complctns_comorbdts', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('dgns_complctns_comorbdts', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'risks') {
+                                $table = $override->get('risks', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('risks', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'lab_details') {
+                                $table = $override->get('lab_details', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('lab_details', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'social_economic') {
+                                $table = $override->get('social_economic', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('social_economic', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'summary') {
+                                $table = $override->get('summary', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('summary', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'medication_treatments') {
+                                $table = $override->get('medication_treatments', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('medication_treatments', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'hospitalization_detail_id') {
+                                $table = $override->get('hospitalization_detail_id', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('hospitalization_detail_id', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'sickle_cell_status_table') {
+                                $table = $override->get('sickle_cell_status_table', $patient_id, Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('sickle_cell_status_table', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            if ($tables['Tables_in_penplus'] == 'visit') {
+                                $table = $override->get('visit', 'client_id', Input::get('patient_id'));
+                                foreach ($table as $value) {
+                                    $user->updateRecord('visit', array(
+                                        'study_id' => $clients['study_id'],
+                                        'site_id' => $clients['site_id'],
+                                    ), $value['id']);
+                                }
+                            }
+
+                            $successMessage = 'STUDY ID Updated Successfull On All Tables';
+                            Redirect::to('info.php?id=' . $_GET['id'] . '&msg=' . $successMessage);
+                        }
+                    } else {
+                        $errorMessage = 'Please select Patient Study ID';
+                    }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         } elseif (Input::get('unset_study_id')) {
 
             $validate = $validate->check($_POST, array(
@@ -3189,7 +3436,7 @@ if ($user->isLoggedIn()) {
                         <div class="row">
                             <?php if ($user->data()->power == 1) { ?>
                                 <!-- left column -->
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <!-- general form elements disabled -->
                                     <div class="card card-warning">
                                         <div class="card-header">
@@ -3227,8 +3474,8 @@ if ($user->isLoggedIn()) {
                                 <!--/.col (left) -->
                             <?php } ?>
 
-                            <!-- right column -->
-                            <div class="col-md-6">
+                            <!-- Center column -->
+                            <div class="col-md-4">
                                 <!-- general form elements disabled -->
                                 <div class="card card-warning">
                                     <div class="card-header">
@@ -3286,6 +3533,43 @@ if ($user->isLoggedIn()) {
                                         <div class="card-footer">
                                             <a href='index1.php' class="btn btn-default">Back</a>
                                             <input type="submit" name="update_study_id" value="Submit" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (Center) -->
+
+                            <!-- right column -->
+                            <div class="col-md-4">
+                                <!-- general form elements disabled -->
+                                <div class="card card-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Update STUDY ID (ALL TABLES) </h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row-form clearfix">
+                                                        <div class="form-group">
+                                                            <label for="forms">( PATIENT ID ) FULL NAME ( STUDY ID )</label>
+                                                            <select name="patient_id" class="form-control" style="width: 100%;" required>
+                                                                <option value="">Select Name</option>
+                                                                <?php foreach ($override->get('clients', 'status', 1) as $client) { ?>
+                                                                    <option value="<?= $client['id'] ?>"><?= $client['id'] . ' - ( ' . $client['study_id'] . ' - ' . $client['firstname'] . ' - ' . $client['middelname'] . ' - ' . $client['lastname'] . ' ) ' ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <a href='index1.php' class="btn btn-default">Back</a>
+                                            <input type="submit" name="update_study_id_all_tables" value="Submit" class="btn btn-primary">
                                         </div>
                                     </form>
                                 </div>

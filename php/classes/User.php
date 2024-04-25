@@ -350,57 +350,55 @@ class User
         $isPrintHeader = false;
         foreach ($data as $row) {
             if (!$isPrintHeader) {
-                if (strpos($row, ',') !== false) {
-                    echo implode("\t", array_keys($row)) . "\n";
-                    $isPrintHeader = true;
-                    $row = '"' . str_replace('"', '""', $row) . '"';
-                }
+                echo implode("\t", array_keys($row)) . "\n";
+                $isPrintHeader = true;
             }
             echo implode("\t", array_values($row)) . "\n";
+            if (strpos($row, ',') !== false) {
+                $row = '"' . str_replace('"', '""', $row) . '"';
+            }
         }
         exit();
     }
 
-    // function exportDataCsv2($data, $file)
-    // {
+    function exportDataCsv2($data, $file)
+    {
 
-    //     $timestamp = time();
-    //     $filename = $file . '_' . $timestamp . '.dta';
+        // Query data
+        $sql = "SELECT * FROM your_table";
+        $result = $conn->query($sql);
 
-    //     // Query data
-    //     $result = $data;
+        // Set headers for CSV download
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="data.csv"');
 
-    //     // Set headers for CSV download
-    //     header('Content-Type: text/csv');
-    //     header('Content-Disposition: attachment; filename="data.csv"');
+        // Open output stream
+        $fp = fopen('php://output', 'w');
 
-    //     // Open output stream
-    //     $fp = fopen($filename, 'w');
+        // Output column headers
+        fputcsv($fp, ['Column1', 'Column2', 'Column3']);
 
-    //     // Output column headers
-    //     fputcsv($fp, $result);
+        // Output data as CSV
+        while ($row = $result->fetch_assoc()) {
+            // Process each row to handle commas in text
+            $processed_row = [];
+            foreach ($row as $value) {
+                // If the value contains a comma, enclose it in quotes
+                if (strpos($value, ',') !== false) {
+                    $value = '"' . str_replace('"', '""', $value) . '"';
+                }
+                $processed_row[] = $value;
+            }
+            fputcsv($fp, $processed_row);
+        }
 
-    //     // Output data as CSV
-    //     while ($row = $result) {
-    //         // Process each row to handle commas in text
-    //         $processed_row = [];
-    //         foreach ($row as $value) {
-    //             // If the value contains a comma, enclose it in quotes
-    //             if (strpos($value, ',') !== false) {
-    //                 $value = '"' . str_replace('"', '""', $value) . '"';
-    //             }
-    //             $processed_row[] = $value;
-    //         }
-    //         fputcsv($fp, $processed_row);
-    //     }
+        // Close the file pointer
+        fclose($fp);
 
-    //     // Close the file pointer
-    //     fclose($fp);
+        // Close MySQL connection
+        $conn->close();
 
-    //     // Close MySQL connection
-    //     $conn->close();
-       
-    // }
+    }
 
 
 

@@ -339,39 +339,68 @@ class User
         exit();
     }
 
-    function exportDataCsv2($data, $file)
+    function exportDataCsv1($data, $file)
     {
+        $timestamp = time();
+        $filename = $file . '_' . $timestamp . '.csv';
 
-        // // Set headers for CSV download
-        // header('Content-Type: text/csv');
-        // header('Content-Disposition: attachment; filename="data.csv"');
+        header('Content-Type: text/csv');
+        header("Content-Disposition: attachment; filename=\"$filename\"");
 
-        // // Open output stream
-        // $fp = fopen('php://output', 'w');
-
-        // // Output column headers
-        // fputcsv($fp, ['Column1', 'Column2', 'Column3']);
-
-        // // Output data as CSV
-        // while ($row = $result->fetch_assoc()) {
-        //     // Process data to handle commas
-        //     $processed_row = [];
-        //     foreach ($row as $value) {
-        //         // Enclose text containing commas in quotes
-        //         if (strpos($value, ',') !== false) {
-        //             $value = '"' . $value . '"';
-        //         }
-        //         $processed_row[] = $value;
-        //     }
-        //     fputcsv($fp, $processed_row);
-        // }
-
-        // // Close the file pointer
-        // fclose($fp);
-
-        // // Close MySQL connection
-        // $conn->close();
+        $isPrintHeader = false;
+        foreach ($data as $row) {
+            if (!$isPrintHeader) {
+                if (strpos($row, ',') !== false) {
+                    echo implode("\t", array_keys($row)) . "\n";
+                    $isPrintHeader = true;
+                    $row = '"' . str_replace('"', '""', $row) . '"';
+                }
+            }
+            echo implode("\t", array_values($row)) . "\n";
+        }
+        exit();
     }
+
+    // function exportDataCsv2($data, $file)
+    // {
+
+    //     $timestamp = time();
+    //     $filename = $file . '_' . $timestamp . '.dta';
+
+    //     // Query data
+    //     $result = $data;
+
+    //     // Set headers for CSV download
+    //     header('Content-Type: text/csv');
+    //     header('Content-Disposition: attachment; filename="data.csv"');
+
+    //     // Open output stream
+    //     $fp = fopen($filename, 'w');
+
+    //     // Output column headers
+    //     fputcsv($fp, $result);
+
+    //     // Output data as CSV
+    //     while ($row = $result) {
+    //         // Process each row to handle commas in text
+    //         $processed_row = [];
+    //         foreach ($row as $value) {
+    //             // If the value contains a comma, enclose it in quotes
+    //             if (strpos($value, ',') !== false) {
+    //                 $value = '"' . str_replace('"', '""', $value) . '"';
+    //             }
+    //             $processed_row[] = $value;
+    //         }
+    //         fputcsv($fp, $processed_row);
+    //     }
+
+    //     // Close the file pointer
+    //     fclose($fp);
+
+    //     // Close MySQL connection
+    //     $conn->close();
+       
+    // }
 
 
 

@@ -87,7 +87,7 @@ if ($user->isLoggedIn()) {
                     $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $user->data()->site_id);
                 }
                 $filename = Input::get('table_name') . ' Data';
-                $user->exportDataCsv($data, $filename);
+                $user->exportDataCsv1($data, $filename);
             }
         } elseif (Input::get('download_stata')) {
             $data = null;

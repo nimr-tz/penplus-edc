@@ -305,7 +305,8 @@ class User
         $timestamp = time();
         $filename = $file . '_' . $timestamp . '.csv';
 
-        header("Content-Type: application/vnd.ms-csv");
+        // header("Content-Type: application/vnd.ms-csv");
+        header('Content-Type: text/csv');
         header("Content-Disposition: attachment; filename=\"$filename\"");
 
         $isPrintHeader = false;
@@ -318,6 +319,64 @@ class User
         }
         exit();
     }
+
+    function exportDataStata($data, $file)
+    {
+        $timestamp = time();
+        $filename = $file . '_' . $timestamp . '.dta';
+
+        header('Content-Type: application/octet-stream');
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+
+        $isPrintHeader = false;
+        foreach ($data as $row) {
+            if (!$isPrintHeader) {
+                echo implode("\t", array_keys($row)) . "\n";
+                $isPrintHeader = true;
+            }
+            echo implode("\t", array_values($row)) . "\n";
+        }
+        exit();
+    }
+
+    function exportDataCsv2($data, $file)
+    {
+
+        // // Set headers for CSV download
+        // header('Content-Type: text/csv');
+        // header('Content-Disposition: attachment; filename="data.csv"');
+
+        // // Open output stream
+        // $fp = fopen('php://output', 'w');
+
+        // // Output column headers
+        // fputcsv($fp, ['Column1', 'Column2', 'Column3']);
+
+        // // Output data as CSV
+        // while ($row = $result->fetch_assoc()) {
+        //     // Process data to handle commas
+        //     $processed_row = [];
+        //     foreach ($row as $value) {
+        //         // Enclose text containing commas in quotes
+        //         if (strpos($value, ',') !== false) {
+        //             $value = '"' . $value . '"';
+        //         }
+        //         $processed_row[] = $value;
+        //     }
+        //     fputcsv($fp, $processed_row);
+        // }
+
+        // // Close the file pointer
+        // fclose($fp);
+
+        // // Close MySQL connection
+        // $conn->close();
+    }
+
+
+
+
+
 
     public function update($fields = array(), $id = null)
     {

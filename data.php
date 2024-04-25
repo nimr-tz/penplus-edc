@@ -89,6 +89,23 @@ if ($user->isLoggedIn()) {
                 $filename = Input::get('table_name') . ' Data';
                 $user->exportDataCsv($data, $filename);
             }
+        } elseif (Input::get('download_stata')) {
+            $data = null;
+            $filename = null;
+
+            if (Input::get('table_name')) {
+                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+                    if ($_GET['site_id'] != null) {
+                        $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $_GET['site_id']);
+                    } else {
+                        $data = $override->get(Input::get('table_name'), 'status', 1);
+                    }
+                } else {
+                    $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $user->data()->site_id);
+                }
+                $filename = Input::get('table_name') . ' Data';
+                $user->exportDataStata($data, $filename);
+            }
         }
     }
 } else {
@@ -256,6 +273,7 @@ if ($user->isLoggedIn()) {
                                                                     <input type="submit" name="download_xls" value="Download xls Data">
                                                                     <input type="submit" name="download_xlsx" value="Download xlsx Data">
                                                                     <input type="submit" name="download_csv" value="Download csv Data">
+                                                                    <input type="submit" name="download_stata" value="Download stata Data">
                                                                     <a href="data.php?id=2&table=<?= $tables['Tables_in_penplus'] ?>" role=" button" class="btn btn-info"> View Recoreds </a>
                                                                 </form>
                                                             </td>
@@ -279,10 +297,10 @@ if ($user->isLoggedIn()) {
                                         <ul class="pagination pagination-sm m-0 float-right">
                                             <li class="page-item">
                                                 <a class="page-link" href="data.php?id=1&table=<?= $_GET['table'] ?>&page=<?php if (($_GET['page'] - 1) > 0) {
-                                                                                                                                                                                            echo $_GET['page'] - 1;
-                                                                                                                                                                                        } else {
-                                                                                                                                                                                            echo 1;
-                                                                                                                                                                                        } ?>">&laquo;
+                                                                                                                                echo $_GET['page'] - 1;
+                                                                                                                            } else {
+                                                                                                                                echo 1;
+                                                                                                                            } ?>">&laquo;
                                                 </a>
                                             </li>
                                             <?php for ($i = 1; $i <= $pages; $i++) { ?>
@@ -295,10 +313,10 @@ if ($user->isLoggedIn()) {
                                             <?php } ?>
                                             <li class="page-item">
                                                 <a class="page-link" href="data.php?id=1&table=<?= $_GET['table'] ?>&page=<?php if (($_GET['page'] + 1) <= $pages) {
-                                                                                                                                                                                            echo $_GET['page'] + 1;
-                                                                                                                                                                                        } else {
-                                                                                                                                                                                            echo $i - 1;
-                                                                                                                                                                                        } ?>">&raquo;
+                                                                                                                                echo $_GET['page'] + 1;
+                                                                                                                            } else {
+                                                                                                                                echo $i - 1;
+                                                                                                                            } ?>">&raquo;
                                                 </a>
                                             </li>
                                         </ul>

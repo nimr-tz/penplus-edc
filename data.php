@@ -393,7 +393,7 @@ if ($user->isLoggedIn()) {
             if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                 if ($_GET['site_id'] != null) {
                     $pagNum = 0;
-                    $pagNum = $override->countData($table_name, 'status', 1, 'site_id', $_GET['site_id']);
+                    $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
 
                     $pages = ceil($pagNum / $numRec);
                     if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -428,7 +428,7 @@ if ($user->isLoggedIn()) {
                 }
             } else {
                 $pagNum = 0;
-                $pagNum = $override->countData($table_name, 'status', 1, 'site_id', $user->data()->site_id);
+                $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
 
                 $pages = ceil($pagNum / $numRec);
                 if (!$_GET['page'] || $_GET['page'] == 1) {

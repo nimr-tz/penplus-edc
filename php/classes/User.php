@@ -395,7 +395,7 @@ class User
         fclose($fp);
 
         // Close MySQL connection
-        $conn->close();
+        // $conn->close();
 
     }
 

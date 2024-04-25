@@ -365,8 +365,7 @@ class User
     {
 
         // Query data
-        $sql = "SELECT * FROM your_table";
-        $result = $conn->query($sql);
+        $result = $data;
 
         // Set headers for CSV download
         header('Content-Type: text/csv');

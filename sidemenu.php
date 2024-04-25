@@ -44,8 +44,6 @@ if ($user->isLoggedIn()) {
     $staff_lock_active = $override->getDataStaff1Count('user', 'status', 1, 'power', 0, 'count', 4, 'id');
     $staff_lock_inactive = $override->getDataStaff1Count('user', 'status', 0, 'power', 0, 'count', 4, 'id');
 
-
-
     if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
         if ($_GET['site_id'] != null) {
 
@@ -513,7 +511,6 @@ if ($user->isLoggedIn()) {
 
                 <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
-
                     <li class="nav-item">
                         <a href="info.php?id=8" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
@@ -789,13 +786,15 @@ if ($user->isLoggedIn()) {
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="data.php?id=4&status=1&data=1" class="nav-link">
+                                <a href="data.php?id=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $all; ?></span>
-                                    <p>ALL</p>
+                                    <!-- <span class="badge badge-info right"> -->
+                                        <!-- <?= $all; ?> -->
+                                    <!-- </span> -->
+                                    <p>Download Data</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="data.php?id=1&status=1&data=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $clients; ?></span>
@@ -984,10 +983,9 @@ if ($user->isLoggedIn()) {
                                     <span class="badge badge-info right"><?= $sites; ?></span>
                                     <p>Sites</p>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
-                    </li>
-
+                    </li> 
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -1056,6 +1054,7 @@ if ($user->isLoggedIn()) {
                             </li>
                         </ul>
                     </li>
+
                 <?php } ?>
             </ul>
         </nav>

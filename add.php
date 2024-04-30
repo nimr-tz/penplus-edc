@@ -4170,6 +4170,8 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
+                                                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
@@ -4201,6 +4203,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <?php } ?>
                                             </div>
                                             <hr>
 
@@ -4248,6 +4251,8 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
+                                                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -4259,6 +4264,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <?php } ?>
 
                                                 <div class="col-sm-3">
                                                     <label>Occupational Exposures</label>
@@ -4302,6 +4308,8 @@ if ($user->isLoggedIn()) {
                                             ?>
                                             <div id="adult">
                                                 <div class="row">
+                                                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
                                                             <!-- select -->
@@ -4324,6 +4332,7 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <?php } ?>
                                                     
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
@@ -4454,6 +4463,7 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
                                                     </div>
+                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                     <div class="col-sm-3">
                                                         <div class="row-form clearfix">
@@ -4468,6 +4478,8 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                         </div>
                                                     </div>   
+
+                                                    <?php } ?>
                                                 </div>
                                             </div>
 
@@ -4483,6 +4495,7 @@ if ($user->isLoggedIn()) {
                                             </div>
                                             <hr>
                                             <div class="row">
+                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
@@ -4519,6 +4532,8 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>  
+
+                                                <?php } ?>
                                                 
                                                 <div class="col-sm-3">
                                                     <label>Relation to patient ( Supporter )</label>
@@ -4566,7 +4581,8 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+                                                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
                                                 <div class="col-sm-3">
                                                     <div class="row-form clearfix">
                                                         <!-- select -->
@@ -4590,6 +4606,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <?php } ?>
                                             </div>
                                             <hr>
                                             <div class="row">
@@ -5169,7 +5186,10 @@ if ($user->isLoggedIn()) {
                                     <div class="card-header">
                                          <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -5507,8 +5527,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                      <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                      <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -5726,8 +5749,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -5967,8 +5993,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?>   ( Diseases History ) ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>                                    
@@ -7480,9 +7509,12 @@ if ($user->isLoggedIn()) {
 
                                     <div class="card-header">
                                        <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
-                                           </strong>
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
+                                            </strong>
                                         </h3> 
                                     </div>
                                     <!-- Content Header (Page header) -->
@@ -8753,8 +8785,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                    <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -9581,8 +9616,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                   <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                        <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -9836,7 +9874,10 @@ if ($user->isLoggedIn()) {
                                    <div class="card-header">
                                          <h3 class="card-title">
                                             <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -10032,8 +10073,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                      <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -10759,8 +10803,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( Hospitalizations )  ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -11636,8 +11683,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -12019,11 +12069,14 @@ if ($user->isLoggedIn()) {
                                         <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'sickle_cell', 1)) { ?>
                                             <h3 class="card-title">Medications ( Sickle Cell )</h3>
                                         <?php } ?>
-                                        <!-- <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                                <?= $name ?>
+                                         <h3 class="card-title">
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
-                                        </h3> -->
+                                        </h3>
                                     </div>
                                     <!-- Content Header (Page header) -->
                                     <section class="content-header">
@@ -13116,8 +13169,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                      <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -14033,8 +14089,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                      <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -14426,8 +14485,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                        <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -15233,8 +15295,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>
@@ -15662,8 +15727,11 @@ if ($user->isLoggedIn()) {
                                 <div class="card card-warning">
                                     <div class="card-header">
                                          <h3 class="card-title">
-                                            <strong style="font-size: larger">
-                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> ( <?= $_GET['vday']; ?>) 
+                                                                                       <strong style="font-size: larger">
+                                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                            <?= 'Name :- ' . $patient['firstname'] . ' - ' . $patient['middlename']  . ' - ' . $patient['lastname'] ?> 
+                                            <?php } ?>( <?= $_GET['vday']; ?>) 
                                             </strong>
                                         </h3> 
                                     </div>

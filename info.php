@@ -1963,12 +1963,12 @@ if ($user->isLoggedIn()) {
                                             <tr>
                                                 <th>Registered Date</th>
                                                 <th>Patient ID</th>
-                                                <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                     <th>Patient Name</th>
                                                 <?php } ?>
 
                                                 <th>Type</th>
-                                                <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 3) { ?>
+                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) { ?>
                                                     <th>Site</th>
                                                 <?php } ?>
                                                 <th>Status</th>
@@ -2195,7 +2195,7 @@ if ($user->isLoggedIn()) {
                                                 <tr>
                                                     <td><?= $client['clinic_date'] ?></td>
                                                     <td><?= $client['study_id'] ?></td>
-                                                    <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                         <td><?= $client['firstname'] . ' - ' . $client['middlename'] . ' - ' . $client['lastname'] ?></td>
                                                     <?php
                                                     } ?>
@@ -2219,7 +2219,7 @@ if ($user->isLoggedIn()) {
                                                     <?php
                                                     } ?>
 
-                                                    <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 3) { ?>
+                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) { ?>
                                                         <td><?= $site['name'] ?></td>
                                                     <?php } ?>
                                                     <?php if ($_GET['status'] == 1) { ?>
@@ -2320,7 +2320,7 @@ if ($user->isLoggedIn()) {
                                                         <?php if ($_GET['status'] == 5) { ?>
                                                             <a href="add.php?id=4&cid=<?= $client['id'] ?>" role="button" class="btn btn-default">
                                                                 <?php
-                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Update <?php } else { ?> View<?php } ?>Registration Details
+                                                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Update <?php } else { ?> View<?php } ?>Registration Details
                                                             </a>
                                                             <br>
                                                             <hr>
@@ -2331,20 +2331,20 @@ if ($user->isLoggedIn()) {
 
                                                             <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
                                                                 <?php
-                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Update <?php } else { ?> View<?php } ?>
+                                                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Update <?php } else { ?> View<?php } ?>
                                                                 Screening Details
                                                             </a>
 
                                                             <a href="add_lab.php?cid=<?= $client['id'] ?>" class="btn btn-warning">
                                                                 <?php
-                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add <?php } else { ?> View<?php } ?>
                                                                 Lab
                                                             </a>
                                                         <?php } else {  ?>
 
                                                             <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
                                                                 <?php
-                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add <?php } else { ?> View<?php } ?>
                                                                 Screening Details </a>
                                                     <?php }
                                                     } ?>
@@ -2364,13 +2364,13 @@ if ($user->isLoggedIn()) {
                                                         <?php if ($enrollment == 1) { ?>
                                                             <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">
                                                                 <?php
-                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Update <?php } else { ?> View<?php } ?>
+                                                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Update <?php } else { ?> View<?php } ?>
                                                                 Enrollment Details
                                                             </a>
                                                         <?php } else {  ?>
                                                             <a href="#addEnrollment<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
                                                                 <?php
-                                                                if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add <?php } else { ?> View<?php } ?>
                                                                 Enrollment Details
                                                             </a>
                                                     </td>
@@ -2383,7 +2383,7 @@ if ($user->isLoggedIn()) {
                                                     <td class="text-center">
                                                         <a href="info.php?id=4&cid=<?= $client['id'] ?>&status=<?= $_GET['status'] ?>" role="button" class="btn btn-warning">
                                                             <?php
-                                                            if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                            if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add <?php } else { ?> View<?php } ?>
                                                             Study CRF's </a>
                                                         <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                             <hr>
@@ -2824,7 +2824,7 @@ if ($user->isLoggedIn()) {
                                         <div class="row mb-2">
                                             <div class="col-sm-6">
                                                 <h1>Study ID: <?= $patient['study_id'] ?></h1>
-                                                <?php if ($user->data()->accessLevel = 1 || $user->data()->accessLevel = 2) { ?>
+                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
                                                     <h4>Name: <?= $name ?></h4>
                                                 <?php } ?>
                                                 <h4>Age: <?= $patient['age'] ?></h4>
@@ -3732,7 +3732,10 @@ if ($user->isLoggedIn()) {
                                         <div class="row mb-2">
                                             <div class="col-sm-6">
                                                 <h1>Study ID: <?= $patient['study_id'] ?></h1>
-                                                <h4>Name: <?= $name ?></h4>
+                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                    <h4>Name: <?= $name ?></h4>
+                                                <?php
+                                                } ?>
                                                 <h4>Age: <?= $patient['age'] ?></h4>
                                                 <h4>Gender: <?= $gender ?></h4>
                                                 <h4>Category: <?= $cat ?></h4>

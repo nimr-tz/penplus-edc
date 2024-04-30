@@ -180,10 +180,12 @@ if ($user->isLoggedIn()) {
 
                                         <?php } ?>
                                     </div>
-
-                                    <h3 class="profile-username text-center">
-                                        <?= $profile['firstname'] . ' - ' . $profile['middlename'] . ' - ' . $profile['lastname']; ?>
-                                    </h3>
+                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                        <h3 class="profile-username text-center">
+                                            <?= $profile['firstname'] . ' - ' . $profile['middlename'] . ' - ' . $profile['lastname']; ?>
+                                        </h3>
+                                    <?php
+                                    } ?>
 
                                     <?php if ($category['cardiac'] == 1) { ?>
                                         <p class="text-muted text-center">Cardiac</p>

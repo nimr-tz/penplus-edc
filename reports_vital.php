@@ -279,6 +279,7 @@ if ($user->isLoggedIn()) {
                     ],
                     borderColor: [
                         'rgb(75, 192, 192)',
+                        
                     ],
                     borderWidth: 1
                 }, {

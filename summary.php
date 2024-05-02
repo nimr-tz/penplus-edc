@@ -838,9 +838,9 @@ if ($user->isLoggedIn()) {
                                             <?php
 
                                             foreach ($symptoms as $symptom) {
-                                                $visit_date[] = $symptom['visit_date'];
-                                                $study_id[] = $symptom['study_id'];
-                                                $visit_day[] = $symptom['visit_day'];
+                                                // $visit_date[] = $symptom['visit_date'];
+                                                // $study_id[] = $symptom['study_id'];
+                                                $visit_day_hba1c[] = $symptom['visit_day'];
                                                 $hba1c[] = $symptom['hba1c'];
                                                 // $weight[] = $symptom['weight'];
                                                 // $bmi[] = $symptom['bmi'];
@@ -1650,7 +1650,7 @@ if ($user->isLoggedIn()) {
 
         // HB1AC 
 
-        const labels_hba1c = <?php echo json_encode($visit_day) ?>;
+        const labels_hba1c = <?php echo json_encode($visit_day_hba1c) ?>;
         const data_hba1c = {
             labels: labels_hba1c,
             datasets: [{

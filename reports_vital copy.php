@@ -351,33 +351,57 @@ if ($user->isLoggedIn()) {
 
 
     <?php
-    $result = $override->get('vital', 'patient_id', 23);
-    foreach ($result as $value) {
-        // // $site = $row['site_id'];
-        // // $count = $row['count'];
-        // $visit_date[] = $value['visit_date'];
-        // $study_id[] = $value['study_id'];
-        // $visit_day_hba1c[] = $value['visit_day'];
-        // $hba1c[] = $value['hba1c'];
-        // $weight[] = $value['weight'];
-        // $bmi[] = $value['bmi'];
-        // $muac[] = $value['muac'];
-        // $dystolic[] = $value['dystolic'];
-        // $systolic[] = $value['systolic'];
-        // $pr[] = $value['pr'];
+    // Step 1: Fetch data from the database
+    // Example assumes you have already established a database connection
 
+    // $sql = "SELECT site, COUNT(*) AS count FROM your_table GROUP BY site";
+    // $result = mysqli_query($conn, $sql);
+    $data = array();
+    // $result = $override->getDataRegister('status', 1);
+    $result = $override->get('clients', 'status', 1);
+    foreach ($result as $value) {
         // $site = $row['site_id'];
         // $count = $row['count'];
-        $labels_vital[] = $value['hba1c'];
-        $labels_vital[] = $value['height'];
-        $labels_vital[] = $value['weight'];
-        $labels_vital[] = $value['bmi'];
-        $labels_vital[] = $value['muac'];
-        $labels_vital[] = $value['dystolic'];
-        $labels_vital[] = $value['systolic'];
-        $labels_vital[] = $value['pr'];
+        // $visit_date[] = $symptom['visit_date'];
+        $study_id[] = $value['study_id'];
+        // $visit_day_hba1c[] = $symptom['visit_day'];
+        // $hba1c[] = $symptom['hba1c'];
+        // $weight[] = $symptom['weight'];
+        // $bmi[] = $symptom['bmi'];
+        // $muac[] = $symptom['muac'];
+        // $dystolic[] = $symptom['dystolic'];
+        // $systolic[] = $symptom['systolic'];
+        // $pr[] = $symptom['pr'];                                               
+
+        // Calculate any relevant metrics for each site here, if needed
+
+        // Store the data for each site
+        // $data[] = array(
+        //     'site' => $site,
+        //     'count' => $count
+        //     // Add other metrics here if needed
+        // );
     }
 
+
+    $labels = array_column($data, 'site');
+    $countData = array_column($data, 'count');
+
+    $chartData = array(
+        'labels' => $labels,
+        'datasets' => array(
+            array(
+                'label' => 'Site Counts',
+                'data' => $countData,
+                'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                'borderColor' => 'rgba(54, 162, 235, 1)',
+                'borderWidth' => 1
+            )
+        )
+    );
+
+    // Step 4: Pass data to Charts.js
+    $chartDataJSON = json_encode($chartData);
     ?>
 
 
@@ -499,104 +523,23 @@ if ($user->isLoggedIn()) {
 
             // REGISTARION CHART
 
-            const labels_vital = <?php echo json_encode($labels_vital) ?>;
+            var ctx = document.getElementById('total_vital').getContext('2d');
+            var chartData = <?php echo $chartDataJSON; ?>;
 
-            const data_vital = {
-                labels: labels_vital,
-                datasets: [{
-                    label: 'Height',
-                    data: <?php echo json_encode($height) ?>,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'Weight',
-                    data: <?php echo json_encode($weight) ?>,
-                    backgroundColor: [
-                        'rgba(255, 159, 64, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(255, 159, 64)',
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'BMI',
-                    data: <?php echo json_encode($weight) ?>,
-                    backgroundColor: [
-                        'rgba(255, 205, 86, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(255, 205, 86)',
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'MUC',
-                    data: <?php echo json_encode($muac) ?>,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(75, 192, 192)',
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'Systolic',
-                    data: <?php echo json_encode($systolic) ?>,
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(54, 162, 235)',
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'Dystolic',
-                    data: <?php echo json_encode($dystolic) ?>,
-                    backgroundColor: [
-                        'rgba(201, 203, 207, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgb(201, 203, 207)'
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'PR',
-                    data: <?php echo json_encode($pr) ?>,
-                    backgroundColor: [
-                        'rgba(153, 102, 255, 0.2)',
-                        // 'rgba(201, 203, 207, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgb(153, 102, 255)',
-                        // 'rgb(201, 203, 207)'
-                    ],
-                    borderWidth: 1
-                }]
-            };
-
-            const config_vital = {
-                type: 'line',
-                data: data_vital,
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
                 options: {
                     responsive: true,
                     scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
                     }
-                },
-            };
-
-            // === include 'setup' then 'config' above ===
-
-            var myChart_vital = new Chart(
-                document.getElementById('total_vital'),
-                config_vital
-            );
+                }
+            });
 
         })
         // BS-Stepper Init

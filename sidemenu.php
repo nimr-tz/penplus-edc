@@ -94,6 +94,8 @@ if ($user->isLoggedIn()) {
             $study_id = $override->countData('study_id', 'status', 1, 'site_id', $_GET['site_id']);
             $sites = $override->countData('site', 'status', 1, 'id', $_GET['site_id']);
 
+            $hb1ac = $override->countData('vital', 'status', 1, 'site_id', $_GET['site_id']);
+
             // REPORTS
 
             $registered = $override->getCount1('clients', 'status', 1, 'site_id', $_GET['site_id']);
@@ -607,15 +609,41 @@ if ($user->isLoggedIn()) {
                         <a href="info.php?id=8" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
-                                Summary Reports <i class="fas fa-angle-left right"></i>
+                                Reports <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <!-- <a href="info.php?id=8" class="nav-link">
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>
+                                        Vitals && Hb1AC<i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a> -->
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="reports_vital.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $vital ?></span>
+                                            <p>Vital Signs</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="reports.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $hb1ac ?></span>
+                                            <p>Hb1AC</p>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
                             <li class="nav-item">
                                 <a href="info.php?id=8" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
-                                        Recruitments Reports <i class="fas fa-angle-left right"></i>
+                                        Recruitments <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
@@ -661,7 +689,7 @@ if ($user->isLoggedIn()) {
                                 <a href="info.php?id=8" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
-                                        Diseases Reports <i class="fas fa-angle-left right"></i>
+                                        Diseases <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
@@ -789,7 +817,7 @@ if ($user->isLoggedIn()) {
                                 <a href="data.php?id=1" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <!-- <span class="badge badge-info right"> -->
-                                        <!-- <?= $all; ?> -->
+                                    <!-- <?= $all; ?> -->
                                     <!-- </span> -->
                                     <p>Download Data</p>
                                 </a>
@@ -985,7 +1013,7 @@ if ($user->isLoggedIn()) {
                                 </a>
                             </li> -->
                         </ul>
-                    </li> 
+                    </li>
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">

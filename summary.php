@@ -113,6 +113,24 @@ if ($user->isLoggedIn()) {
     <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <style>
+        #chart-vital {
+            display: inline-block;
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        #chart-hba1c {
+            display: inline-block;
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -180,10 +198,12 @@ if ($user->isLoggedIn()) {
 
                                         <?php } ?>
                                     </div>
-
-                                    <h3 class="profile-username text-center">
-                                        <?= $profile['firstname'] . ' - ' . $profile['middlename'] . ' - ' . $profile['lastname']; ?>
-                                    </h3>
+                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                        <h3 class="profile-username text-center">
+                                            <?= $profile['firstname'] . ' - ' . $profile['middlename'] . ' - ' . $profile['lastname']; ?>
+                                        </h3>
+                                    <?php
+                                    } ?>
 
                                     <?php if ($category['cardiac'] == 1) { ?>
                                         <p class="text-muted text-center">Cardiac</p>
@@ -524,7 +544,6 @@ if ($user->isLoggedIn()) {
                                         Next Follow Up&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;<?= $Total_visit_available5 ?> <br>
                                     </span>
                                 </div>
-                                <!-- <hr> -->
 
                                 <?php
                                 // }
@@ -808,7 +827,29 @@ if ($user->isLoggedIn()) {
                                             $x = 1;
                                             $symptoms = $override->getNewsAsc('symptoms', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no');
 
-                                            foreach ($symptoms as $symptom) { ?>
+                                            ?>
+                                            <div id="chart-hba1c">
+                                                <canvas id="hba1c">
+                                                </canvas>
+                                            </div>
+
+                                            <hr>
+                                            <br>
+                                            <?php
+
+                                            foreach ($symptoms as $symptom) {
+                                                // $visit_date[] = $symptom['visit_date'];
+                                                // $study_id[] = $symptom['study_id'];
+                                                $visit_day_hba1c[] = $symptom['visit_day'];
+                                                $hba1c[] = $symptom['hba1c'];
+                                                // $weight[] = $symptom['weight'];
+                                                // $bmi[] = $symptom['bmi'];
+                                                // $muac[] = $symptom['muac'];
+                                                // $dystolic[] = $symptom['dystolic'];
+                                                // $systolic[] = $symptom['systolic'];
+                                                // $pr[] = $symptom['pr'];                                               
+
+                                            ?>
                                                 <!-- The timeline -->
                                                 <div class="timeline timeline-inverse">
                                                     <!-- timeline time label -->
@@ -820,6 +861,7 @@ if ($user->isLoggedIn()) {
                                                     <!-- /.timeline-label -->
                                                     <!-- timeline item -->
                                                     <div>
+
                                                         <i class="fas fa-envelope bg-primary"></i>
 
                                                         <div class="timeline-item">
@@ -828,6 +870,8 @@ if ($user->isLoggedIn()) {
                                                             <h3 class="timeline-header"><a href="#">List of Patient's</a> Symptoms, & Exam</h3>
 
                                                             <div class="timeline-body">
+                                                                <p class="text-muted">Hba1c : <?= $symptom['hba1c']; ?></p>
+
                                                                 <?php if ($symptom['orthopnea'] == 1) { ?>
                                                                     <p class="text-muted">Orthopnea</p>
                                                                 <?php } ?>
@@ -1062,8 +1106,33 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $x = 1;
                                             $vitals = $override->getNewsAsc('vital', 'status', 1, 'patient_id', $_GET['cid'], 'seq_no');
+                                            ?>
 
-                                            foreach ($vitals as $vital) { ?>
+                                            <div id="chart-vital">
+                                                <canvas id="vital">
+                                                </canvas>
+                                            </div>
+
+                                            <hr>
+                                            <br>
+
+                                            <?php
+
+                                            foreach ($vitals as $vital) {
+                                                $visit_date[] = $vital['visit_date'];
+                                                $study_id[] = $vital['study_id'];
+                                                $visit_day[] = $vital['visit_day'];
+                                                $height[] = $vital['height'];
+                                                $weight[] = $vital['weight'];
+                                                $bmi[] = $vital['bmi'];
+                                                $muac[] = $vital['muac'];
+                                                $dystolic[] = $vital['dystolic'];
+                                                $systolic[] = $vital['systolic'];
+                                                $pr[] = $vital['pr'];
+
+
+
+                                            ?>
                                                 <!-- The timeline -->
                                                 <div class="timeline timeline-inverse">
                                                     <!-- timeline time label -->
@@ -1472,6 +1541,151 @@ if ($user->isLoggedIn()) {
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
+
+
+    <script>
+        // VITAL 
+
+        const labels_vital = <?php echo json_encode($visit_day) ?>;
+
+        const data_vital = {
+            labels: labels_vital,
+            datasets: [{
+                label: 'Height',
+                data: <?php echo json_encode($height) ?>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                ],
+                borderWidth: 1
+            }, {
+                label: 'Weight',
+                data: <?php echo json_encode($weight) ?>,
+                backgroundColor: [
+                    'rgba(255, 159, 64, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(255, 159, 64)',
+                ],
+                borderWidth: 1
+            }, {
+                label: 'BMI',
+                data: <?php echo json_encode($weight) ?>,
+                backgroundColor: [
+                    'rgba(255, 205, 86, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(255, 205, 86)',
+                ],
+                borderWidth: 1
+            }, {
+                label: 'MUC',
+                data: <?php echo json_encode($muac) ?>,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                ],
+                borderWidth: 1
+            }, {
+                label: 'Systolic',
+                data: <?php echo json_encode($systolic) ?>,
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(54, 162, 235)',
+                ],
+                borderWidth: 1
+            }, {
+                label: 'Dystolic',
+                data: <?php echo json_encode($dystolic) ?>,
+                backgroundColor: [
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }, {
+                label: 'PR',
+                data: <?php echo json_encode($pr) ?>,
+                backgroundColor: [
+                    'rgba(153, 102, 255, 0.2)',
+                    // 'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(153, 102, 255)',
+                    // 'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const config_vital = {
+            type: 'line',
+            data: data_vital,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+        };
+
+        // === include 'setup' then 'config' above ===
+
+        var myChart_vital = new Chart(
+            document.getElementById('vital'),
+            config_vital
+        );
+
+
+
+
+        // HB1AC 
+
+        const labels_hba1c = <?php echo json_encode($visit_day_hba1c) ?>;
+        const data_hba1c = {
+            labels: labels_hba1c,
+            datasets: [{
+                label: 'hba1c Values',
+                data: <?php echo json_encode($hba1c) ?>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const config_hba1c = {
+            type: 'line',
+            data: data_hba1c,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+        };
+
+        // === include 'setup' then 'config' above ===
+
+        var myChart_hba1c = new Chart(
+            document.getElementById('hba1c'),
+            config_hba1c
+        );
+    </script>
 </body>
 
 </html>

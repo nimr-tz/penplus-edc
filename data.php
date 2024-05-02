@@ -270,10 +270,10 @@ if ($user->isLoggedIn()) {
                                                                 <form method="post">
                                                                     <input type="hidden" name="data" value="<?= $x; ?>">
                                                                     <input type="hidden" name="table_name" value="<?= $tables['Tables_in_penplus']; ?>">
-                                                                    <input type="submit" name="download_xls" value="Download xls Data">
-                                                                    <input type="submit" name="download_xlsx" value="Download xlsx Data">
-                                                                    <input type="submit" name="download_csv" value="Download csv Data">
-                                                                    <input type="submit" name="download_stata" value="Download stata Data">
+                                                                    <input type="submit" name="download_xls" value="Download xls Data">&nbsp;&nbsp;&nbsp;
+                                                                    <input type="submit" name="download_xlsx" value="Download xlsx Data">&nbsp;&nbsp;&nbsp;<hr>
+                                                                    <input type="submit" name="download_csv" value="Download csv Data">&nbsp;&nbsp;&nbsp;
+                                                                    <input type="submit" name="download_stata" value="Download stata Data">&nbsp;&nbsp;&nbsp;<hr>
                                                                     <a href="data.php?id=2&table=<?= $tables['Tables_in_penplus'] ?>" role=" button" class="btn btn-info"> View Recoreds </a>
                                                                 </form>
                                                             </td>

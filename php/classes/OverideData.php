@@ -630,6 +630,27 @@ class OverideData
         return $result;
     }
 
+    public function getDataRegisterGraphs($where, $value)
+    {
+        $query = $this->_pdo->query("SELECT visit_day ,height ,weight,muac ,bmi ,systolic ,dystolic , pr, site_id FROM vital WHERE $where = '$value' GROUP BY visit_day");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getGraphsTotalVital($where, $value)
+    {
+        $query = $this->_pdo->query("SELECT visit_day as visit_day ,AVG(height) as height ,AVG(weight) as weight,AVG(muac) as muac,AVG(bmi) as bmi,AVG(systolic) as systolic,AVG(dystolic) as dystolic ,AVG(pr) as pr,AVG(site_id) as site_id FROM vital WHERE $where = '$value'  GROUP BY visit_day");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getGraphsTotalHba1c($where, $value)
+    {
+        $query = $this->_pdo->query("SELECT visit_day as visit_day ,AVG(hba1c) as hba1c FROM symptoms WHERE $where = '$value'  GROUP BY visit_day");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function getDataStaff($table, $where, $id, $where2, $id2, $where3, $id3, $name)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' AND $where3 < '$id3' ORDER BY $name ASC");

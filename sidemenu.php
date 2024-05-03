@@ -615,12 +615,12 @@ if ($user->isLoggedIn()) {
                         <ul class="nav nav-treeview">
 
                             <li class="nav-item">
-                                <!-- <a href="info.php?id=8" class="nav-link">
+                                <a href="info.php?id=8" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Vitals && Hb1AC<i class="fas fa-angle-left right"></i>
                                     </p>
-                                </a> -->
+                                </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="reports_vital.php" class="nav-link">
@@ -630,7 +630,7 @@ if ($user->isLoggedIn()) {
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="reports.php" class="nav-link">
+                                        <a href="reports_hb1ac.php" class="nav-link">
                                             <i class="fas fa-circle nav-icon"></i>
                                             <span class="badge badge-info right"><?= $hb1ac ?></span>
                                             <p>Hb1AC</p>

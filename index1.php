@@ -185,7 +185,7 @@ if ($user->isLoggedIn()) {
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3><?= $eligible ?><sup style="font-size: 20px">%</sup></h3>
+                  <h3><?= $eligible ?><sup style="font-size: 20px"></sup></h3>
 
                   <p>Eligible</p>
                 </div>

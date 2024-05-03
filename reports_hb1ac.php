@@ -43,12 +43,12 @@ if ($user->isLoggedIn()) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Vitals</h1>
+                            <h1> HB1AC</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                <li class="breadcrumb-item active">Vitals</li>
+                                <li class="breadcrumb-item active">HB1AC</li>
                             </ol>
                         </div>
                     </div>
@@ -134,39 +134,43 @@ if ($user->isLoggedIn()) {
                 <div class="container-fluid">
 
                     <!-- Main row -->
-                    <div class="row">
-                        <!-- Left col -->
+                    <div class="row">                        
+                        <!-- Right col -->
                         <section class="col-lg-6 connectedSortable">
                             <!-- Custom tabs (Charts with tabs)-->
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="fas fa-chart-pie mr-1"></i>
-                                        Vital Signs
+                                        HBIAC
                                     </h3>
-                                    <div class="card-tools">
+                                    <!-- <div class="card-tools">
                                         <ul class="nav nav-pills ml-auto">
-                                            <!-- <li class="nav-item">
-                                                <a class="nav-link active" href="#total_vital1" data-toggle="tab">Area</a>
-                                            </li> -->
-                                            <!-- <li class="nav-item">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#total_vital0" data-toggle="tab">Area</a>
+                                            </li>
+                                            <li class="nav-item">
                                                 <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                                            </li> -->
+                                            </li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                 </div><!-- /.card-header -->
                                 <div class="card-body">
                                     <div class="tab-content p-0">
-                                        <div id="chart-vital">
-                                            <canvas id="total_vital"></canvas>
+                                        <!-- Morris chart - Sales -->
+                                        <div id="chart-hbiac">
+                                            <canvas id="total_hb1ac"></canvas>
                                         </div>
+                                        <!-- <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+                                            <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                        </div> -->
                                     </div>
                                 </div><!-- /.card-body -->
                             </div>
                             <!-- /.card -->
 
                         </section>
-                        <!-- /.Left col -->                        
+                        <!-- /.right col -->
                     </div>
                     <!-- /.row (main row) -->
                 </div>
@@ -184,18 +188,12 @@ if ($user->isLoggedIn()) {
 
 
     <?php
-    $result = $override->getGraphsTotalVital('status', 1);
+    $result = $override->getGraphsTotalHba1c('status', 1);
     foreach ($result as $value) {
         $visit_day = $value['visit_day'];
         $visit_date[] = $value['visit_date'];
         $study_id[] = $value['study_id'];
-        $height[] = $value['height'];
-        $weight[] = $value['weight'];
-        $bmi[] = $value['bmi'];
-        $muac[] = $value['muac'];
-        $systolic[] = $value['systolic'];
-        $dystolic[] = $value['dystolic'];
-        $pr[] = $value['pr'];
+        $hba1c[] = $value['hba1c'];
     }
 
     ?>
@@ -242,80 +240,16 @@ if ($user->isLoggedIn()) {
         const data = {
             labels: labels,
             datasets: [{
-                    label: 'Height',
-                    data: <?php echo json_encode($height) ?>,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                    ],
-                    borderWidth: 1
-                },{
-                    label: 'Weight',
-                    data: <?php echo json_encode($weight) ?>,
-                    backgroundColor: [
-                        'rgba(255, 159, 64, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(255, 159, 64)',
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'BMI',
-                    data: <?php echo json_encode($bmi) ?>,
-                    backgroundColor: [
-                        'rgba(255, 205, 86, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(255, 205, 86)',
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'MUC',
-                    data: <?php echo json_encode($muac) ?>,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(75, 192, 192)',
-                        
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'Systolic',
-                    data: <?php echo json_encode($systolic) ?>,
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgb(54, 162, 235)',
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'Dystolic',
-                    data: <?php echo json_encode($dystolic) ?>,
-                    backgroundColor: [
-                        'rgba(201, 203, 207, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgb(201, 203, 207)'
-                    ],
-                    borderWidth: 1
-                }, {
-                    label: 'PR',
-                    data: <?php echo json_encode($pr) ?>,
-                    backgroundColor: [
-                        'rgba(153, 102, 255, 0.2)',
-                        // 'rgba(201, 203, 207, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgb(153, 102, 255)',
-                        // 'rgb(201, 203, 207)'
-                    ],
-                    borderWidth: 1
-                }
-            ]
+                label: 'HB1AC',
+                data: <?php echo json_encode($hba1c) ?>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                ],
+                borderWidth: 1
+            }]
         };
 
         const config = {
@@ -334,7 +268,7 @@ if ($user->isLoggedIn()) {
         // === include 'setup' then 'config' above ===
 
         var myChart_vital = new Chart(
-            document.getElementById('total_vital'),
+            document.getElementById('total_hb1ac'),
             config
         );
 

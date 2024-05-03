@@ -504,10 +504,10 @@ if ($user->isLoggedIn()) {
                                     ), $value['id']);
                                 }
                             }
-                            if ($tables['Tables_in_penplus'] == 'vitals') {
-                                $table = $override->get('vitals', $patient_id, Input::get('patient_id'));
+                            if ($tables['Tables_in_penplus'] == 'vital') {
+                                $table = $override->get('vital', $patient_id, Input::get('patient_id'));
                                 foreach ($table as $value) {
-                                    $user->updateRecord('vitals', array(
+                                    $user->updateRecord('vital', array(
                                         'study_id' => $clients['study_id'],
                                         'site_id' => $clients['site_id'],
                                     ), $value['id']);
@@ -3494,7 +3494,7 @@ if ($user->isLoggedIn()) {
                                                             foreach ($AllTables as $tables) {
                                                                 if (
                                                                     $tables['Tables_in_penplus'] == 'clients' || $tables['Tables_in_penplus'] == 'screening' ||
-                                                                    $tables['Tables_in_penplus'] == 'demographic' || $tables['Tables_in_penplus'] == 'vitals' ||
+                                                                    $tables['Tables_in_penplus'] == 'demographic' || $tables['Tables_in_penplus'] == 'vital' ||
                                                                     $tables['Tables_in_penplus'] == 'main_diagnosis' || $tables['Tables_in_penplus'] == 'history' ||
                                                                     $tables['Tables_in_penplus'] == 'symptoms' || $tables['Tables_in_penplus'] == 'cardiac' ||
                                                                     $tables['Tables_in_penplus'] == 'diabetic' || $tables['Tables_in_penplus'] == 'sickle_cell' ||

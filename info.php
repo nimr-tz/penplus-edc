@@ -1092,6 +1092,8 @@ if ($user->isLoggedIn()) {
                                         $pagNum = $override->countData2Locked('user', 'status', 1, 'power', 0, 'count', 4);
                                     } elseif ($_GET['status'] == 4) {
                                         $pagNum = $override->countData2Locked('user', 'status', 0, 'power', 0, 'count', 4);
+                                    } elseif ($_GET['status'] == 5) {
+                                        $pagNum = $override->getCount('user', 'status', 1);
                                     }
 
                                     $pages = ceil($pagNum / $numRec);
@@ -1109,6 +1111,8 @@ if ($user->isLoggedIn()) {
                                         $data = $override->getWithLimit3Locked('user', 'status', 1, 'power', 0, 'count', 4, $page, $numRec);
                                     } elseif ($_GET['status'] == 4) {
                                         $data = $override->getWithLimit3Locked('user', 'status', 0, 'power', 0, 'count', 4, $page, $numRec);
+                                    } elseif ($_GET['status'] == 5) {
+                                        $data = $override->getWithLimit('user', 'status', 1, $page, $numRec);
                                     }
                                     ?>
                                     List of Staff

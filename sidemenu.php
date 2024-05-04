@@ -38,6 +38,7 @@ if ($user->isLoggedIn()) {
     }
 
 
+    $staff_all_active = $override->getCount('user', 'status', 1);
     $staff_all = $override->getNo('user');
     $staff_active = $override->getDataStaffCount('user', 'status', 1, 'power', 0, 'count', 4, 'id');
     $staff_inactive = $override->getDataStaffCount('user', 'status', 0, 'power', 0, 'count', 4, 'id');
@@ -347,6 +348,13 @@ if ($user->isLoggedIn()) {
                                     <i class="far fa-circle nav-icon"></i>
                                     <span class="badge badge-info right"><?= $staff_lock_inactive; ?></span>
                                     <p>Locked And Inactive</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="info.php?id=1&status=5" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $staff_all_active; ?></span>
+                                    <p>All Staff</p>
                                 </a>
                             </li>
                         </ul>

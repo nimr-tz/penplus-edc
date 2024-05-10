@@ -202,6 +202,7 @@ if ($user->isLoggedIn()) {
                         ));
 
                         $user->createRecord('visit', array(
+                            'summary_id' => 0,
                             'study_id' => Input::get('study_id'),
                             'visit_name' => 'Screening',
                             'visit_code' => 'SV',

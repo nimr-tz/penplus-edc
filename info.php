@@ -170,10 +170,30 @@ if ($user->isLoggedIn()) {
 
                         $visit = $override->getNews('visit', 'client_id', Input::get('cid'), 'seq_no', 0, 'visit_name', 'Screening')[0];
 
-                        $user->updateRecord('visit', array(
-                            'expected_date' => Input::get('screening_date'),
-                            'visit_date' => Input::get('screening_date'),
-                        ), $visit['id']);
+                        if($visit){
+                            $user->updateRecord('visit', array(
+                                'expected_date' => Input::get('screening_date'),
+                                'visit_date' => Input::get('screening_date'),
+                            ), $visit['id']);
+                        }else{
+                            $user->createRecord('visit', array(
+                                'summary_id' => 0,
+                                'study_id' => Input::get('study_id'),
+                                'visit_name' => 'Screening',
+                                'visit_code' => 'SV',
+                                'visit_day' => 'Day 0',
+                                'expected_date' => Input::get('screening_date'),
+                                'visit_date' => Input::get('screening_date'),
+                                'visit_window' => 0,
+                                'status' => 1,
+                                'seq_no' => 0,
+                                'client_id' => Input::get('cid'),
+                                'created_on' => date('Y-m-d'),
+                                'reasons' => '',
+                                'visit_status' => 1,
+                                'site_id' => $user->data()->site_id,
+                            ));  
+                        }
 
                         $successMessage = 'Screening Successful Updated';
                     } else {

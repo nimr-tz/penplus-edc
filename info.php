@@ -2514,22 +2514,23 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-6">
+                                                                            <label>Consenting individuals?</label>
+                                                                            <!-- radio -->
                                                                             <div class="row-form clearfix">
                                                                                 <div class="form-group">
-                                                                                    <label>Consenting individuals?</label>
-                                                                                    <select class="form-control" name="consent" id="consent" style="width: 100%;" onchange="checkQuestionValue1('consent','conset_date')" required>
-                                                                                        <option value="<?= $screening['consent'] ?>"><?php if ($screening['consent']) {
-                                                                                                                                            if ($screening['consent'] == 1) {
-                                                                                                                                                echo 'Yes';
-                                                                                                                                            } elseif ($screening['consent'] == 2) {
-                                                                                                                                                echo 'No';
-                                                                                                                                            }
-                                                                                                                                        } else {
-                                                                                                                                            echo 'Select';
-                                                                                                                                        } ?></option>
-                                                                                        <option value="1">Yes</option>
-                                                                                        <option value="2">No</option>
-                                                                                    </select>
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input" type="radio" name="consent" id="consent1" value="1" <?php if ($screening['consent'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                                        <label class="form-check-label">Yes</label>
+                                                                                    </div>
+
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input" type="radio" name="consent" id="consent2" value="2" <?php if ($screening['consent'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                                        <label class="form-check-label">No</label>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

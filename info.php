@@ -178,6 +178,11 @@ if ($user->isLoggedIn()) {
                         $successMessage = 'Screening Successful Updated';
                     } else {
                         $user->createRecord('screening', array(
+                            'study_id' => Input::get('study_id'),
+                            'visit_code' => 'SV',
+                            'visit_day' => 'Day 0',
+                            'seq_no' => 0,
+                            'vid' => 0,
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
                             'consent' => Input::get('consent'),

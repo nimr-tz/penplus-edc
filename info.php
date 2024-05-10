@@ -170,14 +170,39 @@ if ($user->isLoggedIn()) {
 
                         $visit = $override->getNews('visit', 'client_id', Input::get('cid'), 'seq_no', 0, 'visit_name', 'Screening')[0];
 
-                        $user->updateRecord('visit', array(
-                            'expected_date' => Input::get('screening_date'),
-                            'visit_date' => Input::get('screening_date'),
-                        ), $visit['id']);
+                        if ($visit) {
+                            $user->updateRecord('visit', array(
+                                'expected_date' => Input::get('screening_date'),
+                                'visit_date' => Input::get('screening_date'),
+                            ), $visit['id']);
+                        } else {
+                            $user->createRecord('visit', array(
+                                'summary_id' => 0,
+                                'study_id' => Input::get('study_id'),
+                                'visit_name' => 'Screening',
+                                'visit_code' => 'SV',
+                                'visit_day' => 'Day 0',
+                                'expected_date' => Input::get('screening_date'),
+                                'visit_date' => Input::get('screening_date'),
+                                'visit_window' => 0,
+                                'status' => 1,
+                                'seq_no' => 0,
+                                'client_id' => Input::get('cid'),
+                                'created_on' => date('Y-m-d'),
+                                'reasons' => '',
+                                'visit_status' => 1,
+                                'site_id' => $user->data()->site_id,
+                            ));
+                        }
 
                         $successMessage = 'Screening Successful Updated';
                     } else {
                         $user->createRecord('screening', array(
+                            'study_id' => Input::get('study_id'),
+                            'visit_code' => 'SV',
+                            'visit_day' => 'Day 0',
+                            'seq_no' => 0,
+                            'vid' => 0,
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
                             'consent' => Input::get('consent'),
@@ -197,6 +222,7 @@ if ($user->isLoggedIn()) {
                         ));
 
                         $user->createRecord('visit', array(
+                            'summary_id' => 0,
                             'study_id' => Input::get('study_id'),
                             'visit_name' => 'Screening',
                             'visit_code' => 'SV',
@@ -2339,11 +2365,15 @@ if ($user->isLoggedIn()) {
                                                                 Screening Details
                                                             </a>
 
-                                                            <a href="add_lab.php?cid=<?= $client['id'] ?>" class="btn btn-warning">
-                                                                <?php
-                                                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add <?php } else { ?> View<?php } ?>
-                                                                Lab
-                                                            </a>
+                                                            <?php if ($screening['lab_request'] == 1) { ?>
+
+                                                                <a href="add_lab.php?cid=<?= $client['id'] ?>" class="btn btn-warning">
+                                                                    <?php
+                                                                    if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                                    Lab
+                                                                </a>
+                                                            <?php
+                                                            } ?>
                                                         <?php } else {  ?>
 
                                                             <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">
@@ -2484,36 +2514,37 @@ if ($user->isLoggedIn()) {
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-6">
+                                                                            <label>Consenting individuals?</label>
+                                                                            <!-- radio -->
                                                                             <div class="row-form clearfix">
                                                                                 <div class="form-group">
-                                                                                    <label>Consenting individuals?</label>
-                                                                                    <select class="form-control" name="consent" id="consent" style="width: 100%;" onchange="checkQuestionValue1('consent','conset_date')" required>
-                                                                                        <option value="<?= $screening['consent'] ?>"><?php if ($screening['consent']) {
-                                                                                                                                            if ($screening['consent'] == 1) {
-                                                                                                                                                echo 'Yes';
-                                                                                                                                            } elseif ($screening['consent'] == 2) {
-                                                                                                                                                echo 'No';
-                                                                                                                                            }
-                                                                                                                                        } else {
-                                                                                                                                            echo 'Select';
-                                                                                                                                        } ?></option>
-                                                                                        <option value="1">Yes</option>
-                                                                                        <option value="2">No</option>
-                                                                                    </select>
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input" type="radio" name="consent" id="consent1" value="1" <?php if ($screening['consent'] == 1) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?> required>
+                                                                                        <label class="form-check-label">Yes</label>
+                                                                                    </div>
+
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input" type="radio" name="consent" id="consent2" value="2" <?php if ($screening['consent'] == 2) {
+                                                                                                                                                                                echo 'checked';
+                                                                                                                                                                            } ?>>
+                                                                                        <label class="form-check-label">No</label>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <hr>
                                                                     <div class="row">
-                                                                        <div class="col-sm-6">
+                                                                        <div class="col-sm-6" id="conset_date1">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
                                                                                     <label>Date of Conset</label>
                                                                                     <input class="form-control" type="date" max="<?= date('Y-m-d'); ?>" type="conset_date" name="conset_date" id="conset_date" style="width: 100%;" value="<?php if ($screening['conset_date']) {
                                                                                                                                                                                                                                                 print_r($screening['conset_date']);
-                                                                                                                                                                                                                                            }  ?>" required />
+                                                                                                                                                                                                                                            }  ?>" />
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -2561,30 +2592,33 @@ if ($user->isLoggedIn()) {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+
                                                                         <div class="col-sm-6">
+                                                                            <label>Request Lab Test ?</label>
+                                                                            <!-- radio -->
                                                                             <div class="row-form clearfix">
                                                                                 <div class="form-group">
-                                                                                    <label>Request Lab Test ?</label>
-                                                                                    <select class="form-control" name="lab_request" style="width: 100%;" required>
-                                                                                        <option value="<?= $screening['lab_request'] ?>"><?php if ($screening['lab_request']) {
-                                                                                                                                                if ($screening['lab_request'] == 1) {
-                                                                                                                                                    echo 'Yes';
-                                                                                                                                                } elseif ($screening['ncd'] == 2) {
-                                                                                                                                                    echo 'No';
-                                                                                                                                                }
-                                                                                                                                            } else {
-                                                                                                                                                echo 'Select';
-                                                                                                                                            } ?></option>
-                                                                                        <option value="1">Yes</option>
-                                                                                        <option value="2">No</option>
-                                                                                    </select>
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input" type="radio" name="lab_request" id="lab_request1" value="1" <?php if ($screening['lab_request'] == 1) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?> required>
+                                                                                        <label class="form-check-label">Yes</label>
+                                                                                    </div>
+
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input" type="radio" name="lab_request" id="lab_request2" value="2" <?php if ($screening['lab_request'] == 2) {
+                                                                                                                                                                                        echo 'checked';
+                                                                                                                                                                                    } ?>>
+                                                                                        <label class="form-check-label">No</label>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+
                                                                     </div>
                                                                     <hr>
                                                                     <div class="row">
-                                                                        <div class="col-sm-6">
+                                                                        <div class="col-sm-6" id="lab_request_date1">
                                                                             <div class="row-form clearfix">
                                                                                 <!-- select -->
                                                                                 <div class="form-group">
@@ -5034,6 +5068,15 @@ if ($user->isLoggedIn()) {
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
+
+
+
+
+    <!-- Screening -->
+    <script src="myjs/add/screening/screening1.js"></script>
+    <script src="myjs/add/screening/screening2.js"></script>
+
+
 
 
 

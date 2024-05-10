@@ -170,12 +170,12 @@ if ($user->isLoggedIn()) {
 
                         $visit = $override->getNews('visit', 'client_id', Input::get('cid'), 'seq_no', 0, 'visit_name', 'Screening')[0];
 
-                        if($visit){
+                        if ($visit) {
                             $user->updateRecord('visit', array(
                                 'expected_date' => Input::get('screening_date'),
                                 'visit_date' => Input::get('screening_date'),
                             ), $visit['id']);
-                        }else{
+                        } else {
                             $user->createRecord('visit', array(
                                 'summary_id' => 0,
                                 'study_id' => Input::get('study_id'),
@@ -192,7 +192,7 @@ if ($user->isLoggedIn()) {
                                 'reasons' => '',
                                 'visit_status' => 1,
                                 'site_id' => $user->data()->site_id,
-                            ));  
+                            ));
                         }
 
                         $successMessage = 'Screening Successful Updated';
@@ -2365,11 +2365,15 @@ if ($user->isLoggedIn()) {
                                                                 Screening Details
                                                             </a>
 
-                                                            <a href="add_lab.php?cid=<?= $client['id'] ?>" class="btn btn-warning">
-                                                                <?php
-                                                                if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add <?php } else { ?> View<?php } ?>
-                                                                Lab
-                                                            </a>
+                                                            <?php if ($screening['lab_request'] == 1) { ?>
+
+                                                                <a href="add_lab.php?cid=<?= $client['id'] ?>" class="btn btn-warning">
+                                                                    <?php
+                                                                    if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add <?php } else { ?> View<?php } ?>
+                                                                    Lab
+                                                                </a>
+                                                            <?php
+                                                            } ?>
                                                         <?php } else {  ?>
 
                                                             <a href="#addScreening<?= $client['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">

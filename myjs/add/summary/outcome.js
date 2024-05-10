@@ -23,7 +23,7 @@ function toggleElementVisibility() {
   if (outcome4.checked) {
     transfer_out1_1.setAttribute("required", "required");
     transfer_out.style.display = "block";
-    cause_death1_1.setAttribute("required", "required");
+    cause_death1_1.removeAttribute("required");
     cause_death.style.display = "none";
     // comments.style.display = "block";
     // comments.setAttribute("required", "required");
@@ -36,7 +36,7 @@ function toggleElementVisibility() {
   } else if (outcome5.checked) {
     transfer_out1_1.removeAttribute("required");
     transfer_out.style.display = "none";
-    cause_death1_1.removeAttribute("required");
+    cause_death1_1.setAttribute("required", "required");
     cause_death.style.display = "block";
     // comments.style.display = "block";
     // comments.setAttribute("required", "required");

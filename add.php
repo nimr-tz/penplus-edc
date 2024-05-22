@@ -10250,7 +10250,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="row-form clearfix">
                                                         <div class="form-group">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="echo_performed" id="echo_performed1111111111111" value="1" <?php if ($results['echo_performed'] == 1) {
+                                                                <input class="form-check-input" type="radio" name="echo_performed" id="echo_performed1" value="1" <?php if ($results['echo_performed'] == 1) {
                                                                                                                                                                                 echo 'checked';
                                                                                                                                                                             } ?> required>
                                                                 <label class="form-check-label">Yes</label>                                                                
@@ -10258,7 +10258,7 @@ if ($user->isLoggedIn()) {
 
 
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="echo_performed" id="echo_performed2322222" value="2" <?php if ($results['echo_performed'] == 2) {
+                                                                <input class="form-check-input" type="radio" name="echo_performed" id="echo_performed2" value="2" <?php if ($results['echo_performed'] == 2) {
                                                                                                                                                                                 echo 'checked';
                                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">No</label>
@@ -10271,7 +10271,7 @@ if ($user->isLoggedIn()) {
                                             <hr>
 
                                             <!-- <div id="test22"><input type="text" value="Hiiiiiiiiii"></div> -->
-                                            <div id="echo_performed23111111111144">
+                                            <div id="echo_performed">
                                             <?php if ($override->get2('main_diagnosis', 'patient_id', $_GET['cid'], 'cardiac', 1)) { ?>
                                                 <div class="row">
                                                     <div class="col-sm-6">

@@ -151,6 +151,11 @@ if ($user->isLoggedIn()) {
                     if ($override->getNews('screening', 'status', 1, 'patient_id', Input::get('cid'))) {
                         $user->updateRecord('screening', array(
                             'study_id' => Input::get('study_id'),
+                            'visit_code' => 'SV',
+                            'visit_day' => 'Day 0',
+                            'seq_no' => 0,
+                            'vid' => 0,
+                            'study_id' => Input::get('study_id'),
                             'screening_date' => Input::get('screening_date'),
                             'conset_date' => Input::get('conset_date'),
                             'ncd' => Input::get('ncd'),
@@ -210,7 +215,6 @@ if ($user->isLoggedIn()) {
                             'lab_request' => Input::get('lab_request'),
                             'lab_request_date' => Input::get('lab_request_date'),
                             'screening_type' => Input::get('screening_type'),
-                            'study_id' => Input::get('study_id'),
                             'residence' => Input::get('residence'),
                             'created_on' => date('Y-m-d'),
                             'patient_id' => Input::get('cid'),

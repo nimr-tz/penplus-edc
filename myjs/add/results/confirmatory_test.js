@@ -10,7 +10,7 @@ const confirmatory_test_type = document.getElementById(
 );
 
 function toggleElementVisibility() {
-  if (scd_test96.checked) {
+  if (confirmatory_test1.checked) {
     confirmatory_test_type1.style.display = "block";
     confirmatory_test_type.setAttribute("required", "required");
   } else {

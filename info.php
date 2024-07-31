@@ -375,6 +375,35 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
+        } elseif (Input::get('delete_visit')) {
+            $validate = $validate->check($_POST, array(
+                // 'expected_date' => array(
+                //     'required' => true,
+                // ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->updateRecord('visit', array(
+                        'status' => 0,
+                    ), Input::get('id'));
+
+                    $tables = ['demographic', 'vital', 'main_diagnosis', 'history', 'cardiac', 'diabetic', 'sickle_cell', 'results', 'hospitalization', 'hospitalization_details', 'sickle_cell_status_table', 'sickle_cell_status_table', 'treatment_plan', 'medication_treatments', 'dgns_complctns_comorbdts', 'risks', 'lab_details', 'social_economic', 'symptoms', 'summary'];
+                    foreach ($tables as $table) {
+                        // $columns = $override->getNews($table, 'patient_id', Input::get('cid'), 'vid', Input::get('id'), 'seq_no', Input::get('seq_no'));
+                        $columns = $override->getNews($table, 'patient_id', Input::get('cid'), 'vid', Input::get('id'));
+                        foreach ($columns as $column) {
+                            $user->updateRecord($table, array(
+                                'status' => 0,
+                            ), $column['id']);
+                        }
+                    }
+                    $successMessage = 'Visit  Deleted Successful';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
         } elseif (Input::get('search_by_site')) {
 
             $validate = $validate->check($_POST, array(
@@ -2913,7 +2942,9 @@ if ($user->isLoggedIn()) {
                                             </thead>
                                             <tbody>
                                                 <?php $x = 1;
-                                                foreach ($override->getDataAsc('visit', 'client_id', $_GET['cid'], 'id') as $visit) {
+                                                $datas = $override->getNewsAsc022('visit', 'status', 1, 'client_id', $_GET['cid'], 'seq_no');
+                                                print_r($datas);
+                                                foreach ($datas as $visit) {
                                                     $clnt = $override->get('clients', 'id', $_GET['cid'])[0];
                                                     $cntV = $override->getCount('visit', 'client_id', $visit['client_id']);
 
@@ -3047,8 +3078,6 @@ if ($user->isLoggedIn()) {
                                                             <?php } else { ?>
                                                                 <a href="#AddVisit<?= $visit['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Pending</a>
                                                             <?php } ?>
-                                                        </td>
-
                                                         <td>
                                                             <?php if ($visit['visit_code'] == 'EV') { ?>
 
@@ -3149,18 +3178,8 @@ if ($user->isLoggedIn()) {
                                                                         ?>
                                                                     <?php }
                                                                 }
-
-
-                                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
-                                                                    <hr>
-                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
-                                                                    <?php if ($user->data()->power == 1) { ?>
-                                                                        <hr>
-                                                                        <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
-                                                                        <hr>
-                                                                    <?php } ?>
-                                                            <?php }
-                                                            } ?>
+                                                            }
+                                                                 ?>
 
 
                                                             <?php if (($visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
@@ -3262,6 +3281,7 @@ if ($user->isLoggedIn()) {
                                                                         ?>
                                                                     <?php }
                                                                 }
+                                                            }
                                                                 if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                                     <hr>
                                                                     <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
@@ -3272,7 +3292,7 @@ if ($user->isLoggedIn()) {
                                                             <?php
                                                                     }
                                                                 }
-                                                            } ?>
+                                                             ?>
                                                         </td>
                                                     </tr>
 
@@ -3416,6 +3436,8 @@ if ($user->isLoggedIn()) {
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <input type="hidden" name="id" value="<?= $visit['id'] ?>">
+                                                                        <input type="hidden" name="cid" value="<?= $visit['client_id'] ?>">
+                                                                        <input type="hidden" name="seq_no" value="<?= $visit['seq_no'] ?>">
                                                                         <input type="submit" name="delete_visit" value="Delete" class="btn btn-danger">
                                                                         <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                     </div>

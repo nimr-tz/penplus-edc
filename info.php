@@ -3176,10 +3176,10 @@ if ($user->isLoggedIn()) {
                                                                             <?php } ?>
                                                                         <?php }
                                                                         ?>
-                                                                    <?php }
+                                                            <?php }
                                                                 }
                                                             }
-                                                                 ?>
+                                                            ?>
 
 
                                                             <?php if (($visit['visit_code'] == 'FV' || $visit['visit_code'] == 'TV' || $visit['visit_code'] == 'UV')) { ?>
@@ -3279,20 +3279,20 @@ if ($user->isLoggedIn()) {
                                                                             <?php } ?>
                                                                         <?php }
                                                                         ?>
-                                                                    <?php }
+                                                                <?php }
                                                                 }
                                                             }
-                                                                if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                            if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                <hr>
+                                                                <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
+                                                                <?php if ($user->data()->power == 1) { ?>
                                                                     <hr>
-                                                                    <a href="#updateVisit<?= $visit['id'] ?>" role="button" class="btn btn-info" data-toggle="modal">Update Expected Date</a>
-                                                                    <?php if ($user->data()->power == 1) { ?>
-                                                                        <hr>
 
-                                                                        <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
+                                                                    <a href="#deleteVisit<?= $visit['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Visit</a>
                                                             <?php
-                                                                    }
                                                                 }
-                                                             ?>
+                                                            }
+                                                            ?>
                                                         </td>
                                                     </tr>
 

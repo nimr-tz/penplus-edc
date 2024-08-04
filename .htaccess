@@ -1,0 +1,10 @@
+<!-- RewriteEngine On -->
+
+# Redirect to login_check.php if not logged in
+<!-- RewriteCond %{REQUEST_URI} !^/pep/login.php$
+RewriteCond %{REQUEST_URI} !^/pep/login_check.php$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /pep/login_check.php [QSA,L] -->
+
+<!-- RewriteRule ^$ index.php [L] -->

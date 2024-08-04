@@ -2943,9 +2943,9 @@ if ($user->isLoggedIn()) {
                                             <tbody>
                                                 <?php $x = 1;
                                                 $datas = $override->getNewsAsc022('visit', 'status', 1, 'client_id', $_GET['cid'], 'seq_no');
-        //   $datas = sort($datas[0]);
+                                                //   $datas = sort($datas[0]);
 
-        //                                         print_r($datas);
+                                                //                                         print_r($datas);
                                                 foreach ($datas as $visit) {
                                                     $clnt = $override->get('clients', 'id', $_GET['cid'])[0];
                                                     $cntV = $override->getCount('visit', 'client_id', $visit['client_id']);

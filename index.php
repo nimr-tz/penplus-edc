@@ -81,6 +81,25 @@ if (!$user->isLoggedIn()) {
 ?>
 
 
+<?php
+// session_start();
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//     $username = $_POST['username'];
+//     $password = $_POST['password'];
+
+//     // Replace with actual user validation
+//     if ($username === 'your_username' && $password === 'your_password') {
+//         $_SESSION['loggedin'] = true;
+//         $_SESSION['username'] = $username;
+//         header('Location: /protected/file1.php'); // Redirect to a protected page
+//         exit;
+//     } else {
+//         $error = "Invalid username or password";
+//     }
+// }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

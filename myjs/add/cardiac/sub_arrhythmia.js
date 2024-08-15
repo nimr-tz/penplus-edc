@@ -19,11 +19,5 @@ sub_arrhythmia96.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-function unsetSub_arrhythmia() {
-  var unsetSub_arrhythmias = document.getElementsByName("sub_arrhythmia");
-  unsetSub_arrhythmias.forEach(function (unsetSub_arrhythmia) {
-    unsetSub_arrhythmia.checked = false;
-  });
-}
 
 

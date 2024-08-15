@@ -20,10 +20,4 @@ stroke2.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-function unsetSub_stroke() {
-  var unsetSub_strokes = document.getElementsByName("sub_stroke");
-  unsetSub_strokes.forEach(function (unsetSub_stroke) {
-    unsetSub_stroke.checked = false;
-  });
-}
 

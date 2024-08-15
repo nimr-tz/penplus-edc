@@ -27,10 +27,4 @@ sub_heumatic96.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-function unsetSub_heumatic() {
-  var unsetSub_heumatics = document.getElementsByName("sub_heumatic");
-  unsetSub_heumatics.forEach(function (unsetSub_heumatic) {
-    unsetSub_heumatic.checked = false;
-  });
-}
 

@@ -21,11 +21,3 @@ toggleElementVisibility();
 
 foot_exam_finding1.addEventListener("change", toggleElementVisibility);
 foot_exam_finding2.addEventListener("change", toggleElementVisibility);
-
-
-function unsetFootExam() {
-  var unsetRadios = document.getElementsByName("foot_exam_finding");
-  unsetRadios.forEach(function (unsetRadio) {
-    unsetRadio.checked = false;
-  });
-}

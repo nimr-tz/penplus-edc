@@ -21,11 +21,3 @@ toggleElementVisibility();
 
 active_smoker1_1.addEventListener("change", toggleElementVisibility);
 active_smoker2_1.addEventListener("change", toggleElementVisibility);
-
-
-function unsetActive_smoker() {
-  var unsetActive_smokers = document.getElementsByName("active_smoker");
-  unsetActive_smokers.forEach(function (unsetActive_smoker) {
-    unsetActive_smoker.checked = false;
-  });
-}

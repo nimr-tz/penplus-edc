@@ -11,17 +11,17 @@ function toggleElementVisibility() {
   if (hiv1.checked) {
     hiv_test.style.display = "block";
     hiv_test_label.style.display = "block";
-    hiv_test.setAttribute("required", "required");
+    // hiv_test.setAttribute("required", "required");
     art.style.display = "block";
   }else if (hiv2.checked) {
     hiv_test.style.display = "block";
     hiv_test_label.style.display = "block";
-    hiv_test.setAttribute("required", "required");
+    // hiv_test.setAttribute("required", "required");
     art.style.display = "none";
   } else {
     hiv_test.style.display = "none";
     hiv_test_label.style.display = "none";
-    hiv_test.removeAttribute("required");
+    // hiv_test.removeAttribute("required");
     art.style.display = "none";
   }
 }

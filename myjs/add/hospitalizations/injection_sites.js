@@ -21,9 +21,3 @@ toggleElementVisibility();
 issue_injection1.addEventListener("change", toggleElementVisibility);
 issue_injection2.addEventListener("change", toggleElementVisibility);
 
-function unsetIssue_injection() {
-  var unsetIssue_injections = document.getElementsByName("issue_injection_yes");
-  unsetIssue_injections.forEach(function (unsetIssue_injection) {
-    unsetIssue_injection.checked = false;
-  });
-}

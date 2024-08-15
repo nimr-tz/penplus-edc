@@ -6114,7 +6114,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">No</label>
                                                             </div>
-                                                            <button onclick="unsetArt()">Unset</button>
+                                                        <button onclick="unsetRadio('art')">Unset</button>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -6241,7 +6241,7 @@ if ($user->isLoggedIn()) {
                                                                                             } ?>" min="1970" max="<?= date('Y') ?>" name="quit_smoking" id="quit_smoking" class="form-control" placeholder="Enter Year Stoped" />
                                                             </div>
                                                         </div>
-                                                        <button onclick="unsetActive_smoker()">Unset</button>                                                       
+                                                        <button onclick="unsetRadio('active_smoker')">Unset</button>
                                                     </div>
                                                 </div> 
                                             </div>
@@ -6267,7 +6267,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                             } ?>>
                                                                 <label class="form-check-label">Cigarette</label>
                                                             </div>
-                                                            <button onclick="unsetType_smoked()">Unset</button>
+                                                        <button onclick="unsetRadio('type_smoked')">Unset</button>
                                                         </div>
                                                     </div>
                                                 </div>    
@@ -6378,7 +6378,7 @@ if ($user->isLoggedIn()) {
                                                                 </textarea>
                                                             </div>
                                                         </div> 
-                                                        <button onclick="unsetAlcohol_type()">Unset</button>                                                                                                             
+                                                        <button onclick="unsetRadio('alcohol_other')">Unset</button>
                                                     </div>
                                                 </div>                                                
 
@@ -18718,6 +18718,8 @@ if ($user->isLoggedIn()) {
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="../../dist/js/demo.js"></script> -->
     <!-- Page specific script -->
+
+    <script src="myjs/add/radio.js"></script>
 
     <!-- Staff Signs Js -->
     <script src="myjs/add/staff/staff.js"></script>

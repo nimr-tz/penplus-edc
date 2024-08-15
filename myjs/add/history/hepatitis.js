@@ -27,11 +27,3 @@ toggleElementVisibility();
 
 hepatitis_test1.addEventListener("change", toggleElementVisibility);
 hepatitis_test2.addEventListener("change", toggleElementVisibility);
-
-
-function unsetHepatitis_result() {
-  var unsetHepatitis_results = document.getElementsByName("hepatitis_results");
-  unsetHepatitis_results.forEach(function (unsetHepatitis_result) {
-    unsetHepatitis_result.checked = false;
-  });
-}

@@ -20,11 +20,3 @@ transfer_out961.addEventListener("change", toggleElementVisibility);
 
 // Initial check
 toggleElementVisibility();
-
-
-function unsetRadio() {
-  var unsetRadios = document.getElementsByName("transfer_out");
-  unsetRadios.forEach(function (unsetRadio) {
-    unsetRadio.checked = false;
-  });
-}

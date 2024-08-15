@@ -33,11 +33,3 @@ toggleElementVisibility();
 
 type_smoked1_2.addEventListener("change", toggleElementVisibility);
 type_smoked2.addEventListener("change", toggleElementVisibility);
-
-
-function unsetType_smoked() {
-  var unsetType_smokeds = document.getElementsByName("type_smoked");
-  unsetType_smokeds.forEach(function (unsetType_smoked) {
-    unsetType_smoked.checked = false;
-  });
-}

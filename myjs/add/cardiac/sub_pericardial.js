@@ -24,10 +24,4 @@ sub_pericardial96.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-function unsetSub_pericardial() {
-  var unsetSub_pericardials = document.getElementsByName("sub_pericardial");
-  unsetSub_pericardials.forEach(function (unsetSub_pericardial) {
-    unsetSub_pericardial.checked = false;
-  });
-}
 

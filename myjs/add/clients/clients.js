@@ -20,13 +20,6 @@ occupation3.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-function unsetOccupation() {
-  var radioButtons = document.getElementsByName("occupation");
-  radioButtons.forEach(function (radioButton) {
-    radioButton.checked = false;
-  });
-}
-
 function validateClientsForm() {
   var occupationOptions = document.getElementsByName("occupation");
 

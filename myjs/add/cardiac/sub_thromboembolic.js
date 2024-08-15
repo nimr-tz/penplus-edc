@@ -21,13 +21,6 @@ sub_thromboembolic96.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-function unsetSub_thromboembolic() {
-  var unsetSub_thromboembolics =
-    document.getElementsByName("sub_thromboembolic");
-  unsetSub_thromboembolics.forEach(function (unsetSub_thromboembolic) {
-    unsetSub_thromboembolic.checked = false;
-  });
-}
 
 
 

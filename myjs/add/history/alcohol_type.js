@@ -23,9 +23,3 @@ alcohol_type2_1.addEventListener("change", toggleElementVisibility);
 alcohol_type3_1.addEventListener("change", toggleElementVisibility);
 alcohol_type4_1.addEventListener("change", toggleElementVisibility);
 
-function unsetAlcohol_type() {
-  var unsetAlcohol_types = document.getElementsByName("alcohol_type");
-  unsetAlcohol_types.forEach(function (unsetAlcohol_type) {
-    unsetAlcohol_type.checked = false;
-  });
-}

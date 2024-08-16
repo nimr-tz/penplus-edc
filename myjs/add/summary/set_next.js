@@ -26,10 +26,3 @@ set_next2.addEventListener("change", toggleElementVisibility);
 
 // Initial check
 toggleElementVisibility();
-
-function unsetRadio() {
-  var unsetRadios = document.getElementsByName("set_next");
-  unsetRadios.forEach(function (unsetRadio) {
-    unsetRadio.checked = false;
-  });
-}

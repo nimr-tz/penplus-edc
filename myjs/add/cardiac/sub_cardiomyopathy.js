@@ -32,11 +32,3 @@ sub_cardiomyopathy96.addEventListener("change", toggleElementVisibility);
 // Initial check
 toggleElementVisibility();
 
-
-function unsetSub_cardiomyopathy() {
-  var unsetSub_cardiomyopathys =
-    document.getElementsByName("sub_cardiomyopathy");
-  unsetSub_cardiomyopathys.forEach(function (unsetSub_cardiomyopathy) {
-    unsetSub_cardiomyopathy.checked = false;
-  });
-}

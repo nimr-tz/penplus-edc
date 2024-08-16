@@ -21,9 +21,3 @@ toggleElementVisibility();
 risk_art2.addEventListener("change", toggleElementVisibility);
 risk_art2.addEventListener("change", toggleElementVisibility);
 
-function unsetRiskArt() {
-  var unsetRiskArts = document.getElementsByName("risk_art");
-  unsetRiskArts.forEach(function (unsetRiskArt) {
-    unsetRiskArt.checked = false;
-  });
-}

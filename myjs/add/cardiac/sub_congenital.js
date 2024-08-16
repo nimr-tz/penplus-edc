@@ -26,10 +26,3 @@ sub_congenital96.addEventListener("change", toggleElementVisibility);
 
 // Initial check
 toggleElementVisibility();
-
-function unsetSub_congenital() {
-  var unsetSub_congenitals = document.getElementsByName("sub_congenital");
-  unsetSub_congenitals.forEach(function (unsetSub_congenital) {
-    unsetSub_congenital.checked = false;
-  });
-}

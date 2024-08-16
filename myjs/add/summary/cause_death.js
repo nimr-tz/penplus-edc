@@ -20,10 +20,3 @@ cause_death96.addEventListener("change", toggleElementVisibility);
 
 // Initial check
 toggleElementVisibility();
-
-function unsetCause_death() {
-  var unsetCause_deaths = document.getElementsByName("cause_death");
-  unsetCause_deaths.forEach(function (unsetCause_death) {
-    unsetCause_death.checked = false;
-  });
-}

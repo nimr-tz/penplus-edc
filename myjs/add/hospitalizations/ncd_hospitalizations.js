@@ -25,13 +25,4 @@ ncd_hospitalizations1.addEventListener("change", toggleElementVisibility);
 ncd_hospitalizations2.addEventListener("change", toggleElementVisibility);
 
 
-function unsetNcd_hospitalizations() {
-  var unsetNcd_hospitalizations = document.getElementsByName(
-    "ncd_hospitalizations"
-  );
-  unsetNcd_hospitalizations.forEach(function (unsetNcd_hospitalizations) {
-    unsetNcd_hospitalizations.checked = false;
-  });
-}
-
 

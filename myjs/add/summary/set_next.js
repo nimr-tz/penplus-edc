@@ -21,6 +21,11 @@ function toggleElementVisibility() {
     next_appointment_date.removeAttribute("required");
   }
 }
+
+// if (set_next1) {
+//   set_next1.addEventListener("change", toggleElementVisibility);
+//   set_next2.addEventListener("change", toggleElementVisibility);
+// }
 set_next1.addEventListener("change", toggleElementVisibility);
 set_next2.addEventListener("change", toggleElementVisibility);
 

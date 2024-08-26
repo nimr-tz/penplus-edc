@@ -6089,6 +6089,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                 print_r($history['hiv_test']);
                                                                                                                             }  ?>" />
                                                     </div>
+                                                    <button onclick="unsetRadio('hiv')">Unset</button>
                                                 </div> 
                                                 
                                                 <div class="col-sm-3" id="art">
@@ -6162,6 +6163,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                 print_r($history['tb_year']);
                                                                                                                                             }  ?>" />
                                                     </div>
+                                                    <button onclick="unsetRadio('tb')">Unset</button>
                                                 </div> 
                                             </div>
                                             <hr>

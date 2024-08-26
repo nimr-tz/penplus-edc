@@ -8,7 +8,8 @@ class User
         $_sessionTableName,
         $_sessionTable,
         $_cookieName,
-        $_override;
+        $_override,
+        $_xls;
     public $isLoggedIn;
 
     public function __construct($user = null)
@@ -261,6 +262,66 @@ class User
             return $arr[$y];
         }
     }
+
+    // function exportFullData($data, $file, $spreadsheet, $sheet, $ext)
+    // {
+
+    //     // Set the column headers
+    //     $columns = array();
+    //     $columnIndex = 'A';
+
+    //     if ($data->num_rows > 0) {
+    //         // Fetch and set the column names as headers in the first row
+    //         while ($fieldinfo = $data->fetch_field()) {
+    //             $sheet->setCellValue($columnIndex . '1', $fieldinfo->name);
+    //             $columns[$columnIndex] = $fieldinfo->name;
+    //             $columnIndex++;
+    //         }
+
+    //         // Fill data from the second row onward
+    //         $rowNumber = 2;
+    //         while ($row = $data->fetch_assoc()) {
+    //             $columnIndex = 'A';
+    //             foreach ($columns as $column) {
+    //                 $sheet->setCellValue($columnIndex . $rowNumber, $row[$column]);
+    //                 $columnIndex++;
+    //             }
+    //             $rowNumber++;
+    //         }
+    //     }
+
+    //     // Determine the file format (xlsx, xls, csv, etc.)
+    //     $writer = null;
+    //     $filename = $file . '.' . $ext;
+
+    //     switch ($ext) {
+    //         case 'xlsx':
+    //             $writer = new Xlsx($spreadsheet);
+    //             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    //             break;
+    //         case 'xls':
+    //             $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
+    //             header('Content-Type: application/vnd.ms-excel');
+    //             break;
+    //         case 'csv':
+    //             $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+    //             header('Content-Type: text/csv');
+    //             break;
+    //         default:
+    //             throw new Exception('Unsupported file format');
+    //     }
+
+    //     // Set the download headers
+    //     header('Content-Disposition: attachment;filename="' . $filename . '"');
+    //     header('Cache-Control: max-age=0');
+
+    //     // Save the file to output
+    //     $writer->save('php://output');
+    //     exit();
+    // }
+
+
+
 
     function exportData($data, $file)
     {

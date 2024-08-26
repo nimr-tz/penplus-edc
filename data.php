@@ -10,7 +10,17 @@ $successMessage = null;
 $pageError = null;
 $errorMessage = null;
 
-$numRec = 15;
+$numRec = 35;
+
+// require 'vendor/autoload.php';
+
+// use PhpOffice\PhpSpreadsheet\Spreadsheet;
+// use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+// $spreadsheet = new Spreadsheet();
+// $sheet = $spreadsheet->getActiveSheet();
+
+
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
@@ -20,6 +30,13 @@ if ($user->isLoggedIn()) {
                 'status' => 0,
             ), Input::get('id'));
             $successMessage = 'Recored Deleted Successful';
+        }
+
+        if (Input::get('restore_record')) {
+            $user->updateRecord($_GET['table'], array(
+                'status' => 1,
+            ), Input::get('id'));
+            $successMessage = 'Recored Restored Successful';
         }
 
         if (Input::get('search_by_site')) {
@@ -37,76 +54,39 @@ if ($user->isLoggedIn()) {
             }
         }
 
-
-        if (Input::get('download_xls')) {
-            $data = null;
-            $filename = null;
-
-            if (Input::get('table_name')) {
-                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                    if ($_GET['site_id'] != null) {
-                        $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $_GET['site_id']);
-                    } else {
-                        $data = $override->get(Input::get('table_name'), 'status', 1);
-                    }
-                } else {
-                    $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $user->data()->site_id);
-                }
-                $filename = Input::get('table_name') . ' Data';
-                $user->exportDataXls($data, $filename);
-            }
-        } elseif (Input::get('download_xlsx')) {
-            $data = null;
-            $filename = null;
-
-            if (Input::get('table_name')) {
-                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                    if ($_GET['site_id'] != null) {
-                        $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $_GET['site_id']);
-                    } else {
-                        $data = $override->get(Input::get('table_name'), 'status', 1);
-                    }
-                } else {
-                    $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $user->data()->site_id);
-                }
-                $filename = Input::get('table_name') . ' Data';
-                $user->exportData($data, $filename);
-            }
-        } elseif (Input::get('download_csv')) {
-            $data = null;
-            $filename = null;
-
-            if (Input::get('table_name')) {
-                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                    if ($_GET['site_id'] != null) {
-                        $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $_GET['site_id']);
-                    } else {
-                        $data = $override->get(Input::get('table_name'), 'status', 1);
-                    }
-                } else {
-                    $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $user->data()->site_id);
-                }
-                $filename = Input::get('table_name') . ' Data';
-                $user->exportDataCsv1($data, $filename);
-            }
-        } elseif (Input::get('download_stata')) {
-            $data = null;
-            $filename = null;
-
-            if (Input::get('table_name')) {
-                if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
-                    if ($_GET['site_id'] != null) {
-                        $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $_GET['site_id']);
-                    } else {
-                        $data = $override->get(Input::get('table_name'), 'status', 1);
-                    }
-                } else {
-                    $data = $override->getNews(Input::get('table_name'), 'status', 1, 'site_id', $user->data()->site_id);
-                }
-                $filename = Input::get('table_name') . ' Data';
-                $user->exportDataStata($data, $filename);
+        // if (Input::get('download_xls')) {
+        //     $validate = new validate();
+        //     $validate = $validate->check($_POST, array(
+        //         'table' => array(
+        //             'required' => true,
+        //         ),
+        //     ));
+        //     if ($validate->passed()) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['download_xls'])) {
+                $ext = 'xls';
+                $url = 'downloads.php?table=' . Input::get('table') . '&ext=' . $ext;
+                Redirect::to($url);
+                $pageError = $validate->errors();
+            } else if (isset($_POST['download_xlsx'])) {
+                $ext = 'xlsx';
+                $url = 'downloads.php?table=' . Input::get('table') . '&ext=' . $ext;
+                Redirect::to($url);
+                $pageError = $validate->errors();
+            } else if (isset($_POST['download_csv'])) {
+                $ext = 'csv';
+                $url = 'downloads.php?table=' . Input::get('table') . '&ext=' . $ext;
+                Redirect::to($url);
+                $pageError = $validate->errors();
+            } else if (isset($_POST['download_stata'])) {
+                $ext = 'dta';
+                $url = 'downloads.php?table=' . Input::get('table') . '&ext=' . $ext;
+                Redirect::to($url);
+                $pageError = $validate->errors();
             }
         }
+        //     }
+        // }
     }
 } else {
     Redirect::to('index.php');
@@ -269,11 +249,12 @@ if ($user->isLoggedIn()) {
                                                             <td class="table-user text-center">
                                                                 <form method="post">
                                                                     <input type="hidden" name="data" value="<?= $x; ?>">
-                                                                    <input type="hidden" name="table_name" value="<?= $tables['Tables_in_penplus']; ?>">
-                                                                    <input type="submit" name="download_xls" value="Download xls Data">&nbsp;&nbsp;&nbsp;
-                                                                    <input type="submit" name="download_xlsx" value="Download xlsx Data">&nbsp;&nbsp;&nbsp;<hr>
-                                                                    <input type="submit" name="download_csv" value="Download csv Data">&nbsp;&nbsp;&nbsp;
-                                                                    <input type="submit" name="download_stata" value="Download stata Data">&nbsp;&nbsp;&nbsp;<hr>
+                                                                    <input type="hidden" name="table" value="<?= $tables['Tables_in_penplus']; ?>">
+                                                                    <button type="submit" name="download_xls">Download xls</button>&nbsp;&nbsp;&nbsp;
+                                                                    <button type="submit" name="download_xlsx">Download xlsx</button>&nbsp;&nbsp;&nbsp;
+                                                                    <button type="submit" name="download_csv">Download csv</button>&nbsp;&nbsp;&nbsp;
+                                                                    <!-- <button type="submit" name="download_stata">Download stata Data</button>&nbsp;&nbsp;&nbsp; -->
+                                                                    <hr>
                                                                     <a href="data.php?id=2&table=<?= $tables['Tables_in_penplus'] ?>" role=" button" class="btn btn-info"> View Recoreds </a>
                                                                 </form>
                                                             </td>
@@ -390,7 +371,31 @@ if ($user->isLoggedIn()) {
             $form_title = $table_name;
             $form_id = $form_id;
 
-            if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
+            if ($user->data()->power == 1) {
+                if ($_GET['search_item']) {
+                    $searchTerm = $_GET['search_item'];
+                    $pagNum = 0;
+                    $pagNum = $override->getWithLimit0SearchCount($table_name, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    $pages = ceil($pagNum / $numRec);
+                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                        $page = 0;
+                    } else {
+                        $page = ($_GET['page'] * $numRec) - $numRec;
+                    }
+
+                    $data = $override->getWithLimit0Search($table_name, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                } else {
+                    $pagNum = 0;
+                    $pagNum = $override->getNo($table_name);
+                    $pages = ceil($pagNum / $numRec);
+                    if (!$_GET['page'] || $_GET['page'] == 1) {
+                        $page = 0;
+                    } else {
+                        $page = ($_GET['page'] * $numRec) - $numRec;
+                    }
+                    $data = $override->getWithLimit0($table_name, $page, $numRec);
+                }
+            } else if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                 if ($_GET['site_id'] != null) {
                     $pagNum = 0;
                     $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
@@ -611,11 +616,18 @@ if ($user->isLoggedIn()) {
                                                         <?= $sites['name']; ?>
                                                     </td>
                                                     <td class="table-user text-center">
-                                                        <a href="#" class="btn btn-success">Active</a>
+                                                        <?php if ($value['status'] == 1) { ?>
+                                                            <a href="#" class="btn btn-success">Active</a>
+                                                        <?php } else { ?>
+                                                            <a href="#" class="btn btn-danger">Deleted</a>
+                                                        <?php } ?>
                                                     </td>
                                                     <td class="table-user text-center">
                                                         <a href="add.php?id=<?= $form_id ?>&cid=<?= $value['patient_id'] ?>&vid=<?= $value['vid'] ?>&vcode=<?= $value['visit_code'] ?>&seq=<?= $value['seq_no'] ?>&sid=<?= $value['study_id'] ?>&vday=<?= $value['visit_day'] ?>&status=3" class="btn btn-info">Update Record</a>
                                                         <a href="#delete_record<?= $value['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Record</a>
+                                                        <?php if ($user->data()->power == 1) { ?>
+                                                            <a href="#restore_record<?= $value['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Restore Record</a>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
                                                 <div class="modal fade" id="delete_record<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -635,6 +647,30 @@ if ($user->isLoggedIn()) {
                                                                     <input type="hidden" name="id" value="<?= $value['id'] ?>">
                                                                     <?php if ($user->data()->accessLevel == 1) { ?>
                                                                         <input type="submit" name="delete_record" value="Delete" class="btn btn-danger">
+                                                                    <?php } ?>
+                                                                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="restore_record<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <form method="post">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                    <h4>Restore Record</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <strong style="font-weight: bold;color: green">
+                                                                        <p>Are you sure you want to Restore this Record ?</p>
+                                                                    </strong>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                                    <?php if ($user->data()->accessLevel == 1) { ?>
+                                                                        <input type="submit" name="restore_record" value="Restore" class="btn btn-warning">
                                                                     <?php } ?>
                                                                     <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
                                                                 </div>

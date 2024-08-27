@@ -375,9 +375,11 @@ if ($user->isLoggedIn()) {
                 if ($_GET['search_item']) {
                     $searchTerm = $_GET['search_item'];
                     $pagNum = 0;
-                    if($table_name == 'clients'){
+                    if ($table_name == 'clients') {
                         $pagNum = $override->getWithLimit0SearchCount($table_name, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
-                    }else{
+                    } elseif ($table_name == 'visit') {
+                        $pagNum = $override->getWithLimit0SearchCount($table_name, $searchTerm, 'id', 'client_id', 'study_id', 'site_id');
+                    } else {
                         $pagNum = $override->getWithLimit0SearchCount($table_name, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                     }
                     $pages = ceil($pagNum / $numRec);
@@ -388,6 +390,8 @@ if ($user->isLoggedIn()) {
                     }
                     if ($table_name == 'clients') {
                         $data = $override->getWithLimitSearch0($table_name,  $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    } elseif ($table_name == 'visit') {
+                        $data = $override->getWithLimitSearch0($table_name,  $page, $numRec, $searchTerm, 'id', 'client_id', 'study_id', 'site_id');
                     } else {
                         $data = $override->getWithLimitSearch0($table_name,  $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                     }
@@ -408,6 +412,8 @@ if ($user->isLoggedIn()) {
 
                     if ($table_name == 'clients') {
                         $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    } elseif ($table_name == 'visit') {
+                        $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'client_id', 'study_id', 'site_id');
                     } else {
                         $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                     }
@@ -422,6 +428,8 @@ if ($user->isLoggedIn()) {
                         $searchTerm = $_GET['search_item'];
                         if ($table_name == 'clients') {
                             $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                        } elseif ($table_name == 'visit') {
+                            $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'client_id', 'study_id', 'site_id');
                         } else {
                             $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                         }
@@ -437,6 +445,8 @@ if ($user->isLoggedIn()) {
                     $pagNum = 0;
                     if ($table_name == 'clients') {
                         $pagNum = $override->getWithLimitSearchCount($table_name, 'status', 1, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    } elseif ($table_name == 'visit') {
+                        $pagNum = $override->getWithLimitSearchCount($table_name, 'status', 1, $searchTerm, 'id', 'client_id', 'study_id', 'site_id');
                     } else {
                         $pagNum = $override->getWithLimitSearchCount($table_name, 'status', 1, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                     }
@@ -451,11 +461,15 @@ if ($user->isLoggedIn()) {
                         $searchTerm = $_GET['search_item'];
                         if ($table_name == 'clients') {
                             $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                        } elseif ($table_name == 'visit') {
+                            $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'client_id', 'study_id', 'site_id');
                         } else {
                             $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                         }
                     } else {
                         if ($table_name == 'clients') {
+                            $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                        } elseif ($table_name == 'visit') {
                             $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
                         } else {
                             $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
@@ -466,6 +480,8 @@ if ($user->isLoggedIn()) {
                 $pagNum = 0;
                 if ($table_name == 'clients') {
                     $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                } elseif ($table_name == 'visit') {
+                    $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'client_id', 'study_id', 'site_id');
                 } else {
                     $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                 }
@@ -480,11 +496,15 @@ if ($user->isLoggedIn()) {
                     $searchTerm = $_GET['search_item'];
                     if ($table_name == 'clients') {
                         $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    } elseif ($table_name == 'visit') {
+                        $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'client_id', 'study_id', 'site_id');
                     } else {
                         $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                     }
                 } else {
                     if ($table_name == 'clients') {
+                        $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                    } elseif ($table_name == 'visit') {
                         $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
                     } else {
                         $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
@@ -650,9 +670,19 @@ if ($user->isLoggedIn()) {
                                                             </td>
                                                         <?php } ?>
                                                     <?php } else { ?>
-                                                        <td class="table-user">
-                                                            <?= $value['patient_id']; ?>
-                                                        </td>
+                                                        <?php if ($table_name == 'clients') { ?>
+                                                            <td class="table-user text-center">
+                                                                <?= $value['id']; ?>
+                                                            </td>
+                                                        <?php } else if ($table_name == 'visit') { ?>
+                                                            <td class="table-user text-center">
+                                                                <?= $value['client_id']; ?>
+                                                            </td>
+                                                        <?php } else { ?>
+                                                            <td class="table-user text-center">
+                                                                <?= $value['patient_id']; ?>
+                                                            </td>
+                                                        <?php } ?>
                                                     <?php } ?>
                                                     <td class="table-user">
                                                         <?= $sites['name']; ?>

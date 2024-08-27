@@ -382,8 +382,7 @@ if ($user->isLoggedIn()) {
                     } else {
                         $page = ($_GET['page'] * $numRec) - $numRec;
                     }
-
-                    $data = $override->getWithLimit0Search($table_name, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    $data = $override->getWithLimitSearch0($table_name,  $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
                 } else {
                     $pagNum = 0;
                     $pagNum = $override->getNo($table_name);

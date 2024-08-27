@@ -779,6 +779,13 @@ class OverideData
         return $num;
     }
 
+    public function getWithLimitSearch0($table, $page, $numRec, $searchTerm, $where3, $where4, $where5, $where6)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE ($where3 LIKE '%$searchTerm%' OR $where4 LIKE '%$searchTerm%' OR $where5 LIKE '%$searchTerm%' OR $where6 LIKE '%$searchTerm%') limit $page,$numRec");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function getWithLimitSearch($table, $where, $id, $page, $numRec, $searchTerm, $where3, $where4, $where5, $where6)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE ($where3 LIKE '%$searchTerm%' OR $where4 LIKE '%$searchTerm%' OR $where5 LIKE '%$searchTerm%' OR $where6 LIKE '%$searchTerm%') AND ($where = '$id') limit $page,$numRec");
@@ -796,7 +803,7 @@ class OverideData
 
     public function getWithLimit0Search($table, $page, $numRec, $searchTerm, $where3, $where4, $where5, $where6)
     {
-        $query = $this->_pdo->query("SELECT * FROM $table WHERE ($where3 LIKE '%$searchTerm%' OR $where4 LIKE '%$searchTerm%' OR $where5 LIKE '%$searchTerm%' OR $where6 LIKE '%$searchTerm%') AND ($where = '$id') limit $page,$numRec");
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE ($where3 LIKE '%$searchTerm%' OR $where4 LIKE '%$searchTerm%' OR $where5 LIKE '%$searchTerm%' OR $where6 LIKE '%$searchTerm%')) limit $page,$numRec");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

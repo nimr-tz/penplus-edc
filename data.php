@@ -375,14 +375,22 @@ if ($user->isLoggedIn()) {
                 if ($_GET['search_item']) {
                     $searchTerm = $_GET['search_item'];
                     $pagNum = 0;
-                    $pagNum = $override->getWithLimit0SearchCount($table_name, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    if($table_name == 'clients'){
+                        $pagNum = $override->getWithLimit0SearchCount($table_name, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    }else{
+                        $pagNum = $override->getWithLimit0SearchCount($table_name, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    }
                     $pages = ceil($pagNum / $numRec);
                     if (!$_GET['page'] || $_GET['page'] == 1) {
                         $page = 0;
                     } else {
                         $page = ($_GET['page'] * $numRec) - $numRec;
                     }
-                    $data = $override->getWithLimitSearch0($table_name,  $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    if ($table_name == 'clients') {
+                        $data = $override->getWithLimitSearch0($table_name,  $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    } else {
+                        $data = $override->getWithLimitSearch0($table_name,  $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    }
                 } else {
                     $pagNum = 0;
                     $pagNum = $override->getNo($table_name);
@@ -397,8 +405,12 @@ if ($user->isLoggedIn()) {
             } else if ($user->data()->power == 1 || $user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) {
                 if ($_GET['site_id'] != null) {
                     $pagNum = 0;
-                    $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
 
+                    if ($table_name == 'clients') {
+                        $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    } else {
+                        $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    }
                     $pages = ceil($pagNum / $numRec);
                     if (!$_GET['page'] || $_GET['page'] == 1) {
                         $page = 0;
@@ -408,14 +420,26 @@ if ($user->isLoggedIn()) {
 
                     if ($_GET['search_item']) {
                         $searchTerm = $_GET['search_item'];
-                        $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                        if ($table_name == 'clients') {
+                            $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                        } else {
+                            $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $_GET['site_id'], $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                        }
                     } else {
-                        $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                        if ($table_name == 'clients') {
+                            $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                        } else {
+                            $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                        }
                     }
                 } else {
 
                     $pagNum = 0;
-                    $pagNum = $override->getWithLimitSearchCount($table_name, 'status', 1, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    if ($table_name == 'clients') {
+                        $pagNum = $override->getWithLimitSearchCount($table_name, 'status', 1, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    } else {
+                        $pagNum = $override->getWithLimitSearchCount($table_name, 'status', 1, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    }
                     $pages = ceil($pagNum / $numRec);
                     if (!$_GET['page'] || $_GET['page'] == 1) {
                         $page = 0;
@@ -425,15 +449,26 @@ if ($user->isLoggedIn()) {
 
                     if ($_GET['search_item']) {
                         $searchTerm = $_GET['search_item'];
-                        $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                        if ($table_name == 'clients') {
+                            $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                        } else {
+                            $data = $override->getWithLimitSearch($table_name, 'status', 1, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                        }
                     } else {
-                        $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                        if ($table_name == 'clients') {
+                            $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                        } else {
+                            $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                        }
                     }
                 }
             } else {
                 $pagNum = 0;
-                $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
-
+                if ($table_name == 'clients') {
+                    $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                } else {
+                    $pagNum = $override->getWithLimit1SearchCount($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                }
                 $pages = ceil($pagNum / $numRec);
                 if (!$_GET['page'] || $_GET['page'] == 1) {
                     $page = 0;
@@ -443,9 +478,17 @@ if ($user->isLoggedIn()) {
 
                 if ($_GET['search_item']) {
                     $searchTerm = $_GET['search_item'];
-                    $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    if ($table_name == 'clients') {
+                        $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'site_id', 'study_id', 'site_id');
+                    } else {
+                        $data = $override->getWithLimit1Search($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec, $searchTerm, 'id', 'patient_id', 'study_id', 'site_id');
+                    }
                 } else {
-                    $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                    if ($table_name == 'clients') {
+                        $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                    } else {
+                        $data = $override->getWithLimit1($table_name, 'status', 1, 'site_id', $user->data()->site_id, $page, $numRec);
+                    }
                 }
             }
             ?>

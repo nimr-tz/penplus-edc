@@ -605,7 +605,6 @@ if ($user->isLoggedIn()) {
                                                     <th>Visit Day</th>
                                                     <th>Visit Code</th>
                                                 <?php } ?>
-
                                                 <th>Study Id</th>
                                                 <?php if ($_GET['table'] == 'clients') { ?>
                                                     <th>Category</th>
@@ -614,7 +613,6 @@ if ($user->isLoggedIn()) {
                                                 <?php } else { ?>
                                                     <th>Patient ID</th>
                                                 <?php } ?>
-
                                                 <th>Site</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Action</th>

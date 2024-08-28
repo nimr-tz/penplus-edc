@@ -13397,7 +13397,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="diagns_sickle" id="diagns_sickle1" value="1" <?php if ($dgns_complctns_comorbdts['diagns_sickle'] == 1) {
                                                                                                                                                                                     echo 'checked';
-                                                                                                                                                                                } ?> required>
+                                                                                                                                                                                } ?>>
                                                                     <label class="form-check-label">Sickle Cell Disease</label>                                                                
                                                                 </div>
 
@@ -13604,7 +13604,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Cardiovascular</label>
-                                                                    <select name="cmplctn_cardiovascular" id="cmplctn_cardiovascular" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_cardiovascular" id="cmplctn_cardiovascular" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_cardiovascular'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_cardiovascular']) {
                                                                                                                                                         if ($dgns_complctns_comorbdts['cmplctn_cardiovascular'] == 1) {
                                                                                                                                                             echo 'Yes';
@@ -13625,7 +13625,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Neuropathy</label>
-                                                                    <select name="cmplctn_neuropathy" id="cmplctn_neuropathy" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_neuropathy" id="cmplctn_neuropathy" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_neuropathy'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_neuropathy']) {
                                                                                                                                                     if ($dgns_complctns_comorbdts['cmplctn_neuropathy'] == 1) {
                                                                                                                                                         echo 'Yes';
@@ -13647,7 +13647,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Sexual dysfunction</label>
-                                                                    <select name="cmplctn_dysfunction" id="cmplctn_dysfunction" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_dysfunction" id="cmplctn_dysfunction" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_dysfunction'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_dysfunction']) {
                                                                                                                                                     if ($dgns_complctns_comorbdts['cmplctn_dysfunction'] == 1) {
                                                                                                                                                         echo 'Yes';
@@ -13674,7 +13674,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>PVD</label>
-                                                                    <select name="cmplctn_pvd" id="cmplctn_pvd" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_pvd" id="cmplctn_pvd" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_pvd'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_pvd']) {
                                                                                                                                             if ($dgns_complctns_comorbdts['cmplctn_pvd'] == 1) {
                                                                                                                                                 echo 'Yes';
@@ -13696,7 +13696,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Retinopathy</label>
-                                                                    <select name="cmplctn_retinopathy" id="cmplctn_retinopathy" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_retinopathy" id="cmplctn_retinopathy" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_retinopathy'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_retinopathy']) {
                                                                                                                                                     if ($dgns_complctns_comorbdts['cmplctn_retinopathy'] == 1) {
                                                                                                                                                         echo 'Yes';
@@ -13718,7 +13718,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Renal disease</label>
-                                                                    <select name="cmplctn_renal" id="cmplctn_renal" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_renal" id="cmplctn_renal" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_renal'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_renal']) {
                                                                                                                                                 if ($dgns_complctns_comorbdts['cmplctn_renal'] == 1) {
                                                                                                                                                     echo 'Yes';
@@ -13746,7 +13746,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Pain Event</label>
-                                                                    <select name="cmplctn_pain_event" id="cmplctn_pain_event" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_pain_event" id="cmplctn_pain_event" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_pain_event'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_pain_event']) {
                                                                                                                                                     if ($dgns_complctns_comorbdts['cmplctn_pain_event'] == 1) {
                                                                                                                                                         echo 'Yes';
@@ -13767,7 +13767,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Stroke / TIA</label>
-                                                                    <select name="cmplctn_stroke" id="cmplctn_stroke" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_stroke" id="cmplctn_stroke" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_stroke'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_stroke']) {
                                                                                                                                                 if ($dgns_complctns_comorbdts['cmplctn_stroke'] == 1) {
                                                                                                                                                     echo 'Yes';

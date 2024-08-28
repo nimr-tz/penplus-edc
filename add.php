@@ -8635,17 +8635,17 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="card card-warning">
+                                                <!-- <div class="card card-warning">
                                                     <div class="card-header">
                                                         <h3 class="card-title">Labs ( Sickle Cell )</h3>
                                                     </div>
-                                                </div>
-                                                <div class="row">
+                                                </div> -->
+                                                <!-- <div class="row">
 
                                                     <div class="col-sm-3" id="hb">
-                                                        <div class="row-form clearfix">
+                                                        <div class="row-form clearfix"> -->
                                                             <!-- select -->
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label>Hb:</label>
                                                                 <input type="number" step="any" min="0" max="1000" name="hb" class="form-control" value="<?php if ($symptoms['hb']) {
                                                                                                                                 print_r($symptoms['hb']);
@@ -8655,9 +8655,9 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3" id="wbc">
-                                                        <div class="row-form clearfix">
+                                                        <div class="row-form clearfix"> -->
                                                             <!-- select -->
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label>WBC:</label>
                                                                 <input type="number" step="any" min="0" max="1000" name="wbc" class="form-control" value="<?php if ($symptoms['wbc']) {
                                                                                                                                 print_r($symptoms['wbc']);
@@ -8667,9 +8667,9 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3" id="plt">
-                                                        <div class="row-form clearfix">
+                                                        <div class="row-form clearfix"> -->
                                                             <!-- select -->
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label>Plt:</label>
                                                                 <input type="number" step="any" min="0" max="1000" name="plt" class="form-control" value="<?php if ($symptoms['plt']) {
                                                                                                                                 print_r($symptoms['plt']);
@@ -8679,9 +8679,9 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3">
-                                                        <label> Other ( LAB ) ? </label>
+                                                        <label> Other ( LAB ) ? </label> -->
                                                         <!-- radio -->
-                                                        <div class="row-form clearfix">
+                                                        <!-- <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="labs" id="labs1" value="1" <?php if ($symptoms['labs'] == 1) {
@@ -8701,9 +8701,9 @@ if ($user->isLoggedIn()) {
                                                                         print_r($symptoms['labs_other']);
                                                                     } ?>" id="labs_other" name="labs_other" class="form-control" placeholder="Enter other" />                                                            
                                                             </div>
-                                                        </div>
-                                                    </div>                                 
-                                                </div>
+                                                        </div> -->
+                                                    <!-- </div>                                  -->
+                                                <!-- </div> -->
 
 
                                             <?php } ?>

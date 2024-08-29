@@ -7,7 +7,7 @@ const vaccination_specify = document.getElementById(`vaccination_specify`);
 function toggleElementVisibility() {
   if (vaccination1.checked) {
     vaccination_specify1.style.display = "block";
-    vaccination_specify.setAttribute("required", "required");
+    // vaccination_specify.setAttribute("required", "required");
   } else {
     vaccination_specify1.style.display = "none";
     vaccination_specify.removeAttribute("required");

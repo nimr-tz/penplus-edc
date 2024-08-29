@@ -11,11 +11,11 @@ const cardiology_reason = document.getElementById(`cardiology_reason`);
 function toggleElementVisibility() {
   if (cardiology1.checked) {
     completed.style.display = "block";
-    completed1.setAttribute("required", "required");
+    // completed1.setAttribute("required", "required");
     cardiology_date1.style.display = "block";
-    cardiology_date.setAttribute("required", "required");
+    // cardiology_date.setAttribute("required", "required");
     cardiology_reason1.style.display = "block";
-    cardiology_reason.setAttribute("required", "required");
+    // cardiology_reason.setAttribute("required", "required");
   } else {
     completed.style.display = "none";
     completed1.removeAttribute("required");

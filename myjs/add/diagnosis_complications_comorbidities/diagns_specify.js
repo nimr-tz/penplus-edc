@@ -28,13 +28,13 @@ const diagns_specify = document.getElementById("diagns_specify");
 function toggleElementVisibility() {
   if (diagns_cardiac96.checked) {
     diagns_specify1.style.display = "block";
-    diagns_specify.setAttribute("required", "required");
+    // diagns_specify.setAttribute("required", "required");
   } else if (diagns_diabetes96.checked) {
     diagns_specify1.style.display = "block";
-    diagns_specify.setAttribute("required", "required");
+    // diagns_specify.setAttribute("required", "required");
   } else if (diagns_sickle96.checked) {
     diagns_specify1.style.display = "block";
-    diagns_specify.setAttribute("required", "required");
+    // diagns_specify.setAttribute("required", "required");
   } else {
     diagns_specify1.style.display = "none";
     diagns_specify.removeAttribute("required");

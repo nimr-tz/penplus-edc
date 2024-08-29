@@ -6089,6 +6089,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                 print_r($history['hiv_test']);
                                                                                                                             }  ?>" />
                                                     </div>
+                                                    <button onclick="unsetRadio('hiv')">Unset</button>
                                                 </div> 
                                                 
                                                 <div class="col-sm-3" id="art">
@@ -6162,6 +6163,7 @@ if ($user->isLoggedIn()) {
                                                                                                                                                 print_r($history['tb_year']);
                                                                                                                                             }  ?>" />
                                                     </div>
+                                                    <button onclick="unsetRadio('tb')">Unset</button>
                                                 </div> 
                                             </div>
                                             <hr>
@@ -8633,17 +8635,17 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
 
-                                                <div class="card card-warning">
+                                                <!-- <div class="card card-warning">
                                                     <div class="card-header">
                                                         <h3 class="card-title">Labs ( Sickle Cell )</h3>
                                                     </div>
-                                                </div>
-                                                <div class="row">
+                                                </div> -->
+                                                <!-- <div class="row">
 
                                                     <div class="col-sm-3" id="hb">
-                                                        <div class="row-form clearfix">
+                                                        <div class="row-form clearfix"> -->
                                                             <!-- select -->
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label>Hb:</label>
                                                                 <input type="number" step="any" min="0" max="1000" name="hb" class="form-control" value="<?php if ($symptoms['hb']) {
                                                                                                                                 print_r($symptoms['hb']);
@@ -8653,9 +8655,9 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3" id="wbc">
-                                                        <div class="row-form clearfix">
+                                                        <div class="row-form clearfix"> -->
                                                             <!-- select -->
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label>WBC:</label>
                                                                 <input type="number" step="any" min="0" max="1000" name="wbc" class="form-control" value="<?php if ($symptoms['wbc']) {
                                                                                                                                 print_r($symptoms['wbc']);
@@ -8665,9 +8667,9 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3" id="plt">
-                                                        <div class="row-form clearfix">
+                                                        <div class="row-form clearfix"> -->
                                                             <!-- select -->
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label>Plt:</label>
                                                                 <input type="number" step="any" min="0" max="1000" name="plt" class="form-control" value="<?php if ($symptoms['plt']) {
                                                                                                                                 print_r($symptoms['plt']);
@@ -8677,9 +8679,9 @@ if ($user->isLoggedIn()) {
                                                     </div>
 
                                                     <div class="col-sm-3">
-                                                        <label> Other ( LAB ) ? </label>
+                                                        <label> Other ( LAB ) ? </label> -->
                                                         <!-- radio -->
-                                                        <div class="row-form clearfix">
+                                                        <!-- <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="labs" id="labs1" value="1" <?php if ($symptoms['labs'] == 1) {
@@ -8699,9 +8701,9 @@ if ($user->isLoggedIn()) {
                                                                         print_r($symptoms['labs_other']);
                                                                     } ?>" id="labs_other" name="labs_other" class="form-control" placeholder="Enter other" />                                                            
                                                             </div>
-                                                        </div>
-                                                    </div>                                 
-                                                </div>
+                                                        </div> -->
+                                                    <!-- </div>                                  -->
+                                                <!-- </div> -->
 
 
                                             <?php } ?>
@@ -12121,13 +12123,12 @@ if ($user->isLoggedIn()) {
                                                             <label>Date:</label>
                                                             <input class="form-control" type="date" name="visit_date" id="visit_date" value="<?php if ($treatment_plan['visit_date']) {
                                                                                                                                                     print_r($treatment_plan['visit_date']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr>
-
                                             <div class="row-form clearfix">
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -13395,7 +13396,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="diagns_sickle" id="diagns_sickle1" value="1" <?php if ($dgns_complctns_comorbdts['diagns_sickle'] == 1) {
                                                                                                                                                                                     echo 'checked';
-                                                                                                                                                                                } ?> required>
+                                                                                                                                                                                } ?>>
                                                                     <label class="form-check-label">Sickle Cell Disease</label>                                                                
                                                                 </div>
 
@@ -13602,7 +13603,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Cardiovascular</label>
-                                                                    <select name="cmplctn_cardiovascular" id="cmplctn_cardiovascular" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_cardiovascular" id="cmplctn_cardiovascular" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_cardiovascular'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_cardiovascular']) {
                                                                                                                                                         if ($dgns_complctns_comorbdts['cmplctn_cardiovascular'] == 1) {
                                                                                                                                                             echo 'Yes';
@@ -13623,7 +13624,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Neuropathy</label>
-                                                                    <select name="cmplctn_neuropathy" id="cmplctn_neuropathy" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_neuropathy" id="cmplctn_neuropathy" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_neuropathy'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_neuropathy']) {
                                                                                                                                                     if ($dgns_complctns_comorbdts['cmplctn_neuropathy'] == 1) {
                                                                                                                                                         echo 'Yes';
@@ -13645,7 +13646,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Sexual dysfunction</label>
-                                                                    <select name="cmplctn_dysfunction" id="cmplctn_dysfunction" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_dysfunction" id="cmplctn_dysfunction" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_dysfunction'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_dysfunction']) {
                                                                                                                                                     if ($dgns_complctns_comorbdts['cmplctn_dysfunction'] == 1) {
                                                                                                                                                         echo 'Yes';
@@ -13672,7 +13673,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>PVD</label>
-                                                                    <select name="cmplctn_pvd" id="cmplctn_pvd" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_pvd" id="cmplctn_pvd" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_pvd'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_pvd']) {
                                                                                                                                             if ($dgns_complctns_comorbdts['cmplctn_pvd'] == 1) {
                                                                                                                                                 echo 'Yes';
@@ -13694,7 +13695,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Retinopathy</label>
-                                                                    <select name="cmplctn_retinopathy" id="cmplctn_retinopathy" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_retinopathy" id="cmplctn_retinopathy" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_retinopathy'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_retinopathy']) {
                                                                                                                                                     if ($dgns_complctns_comorbdts['cmplctn_retinopathy'] == 1) {
                                                                                                                                                         echo 'Yes';
@@ -13716,7 +13717,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Renal disease</label>
-                                                                    <select name="cmplctn_renal" id="cmplctn_renal" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_renal" id="cmplctn_renal" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_renal'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_renal']) {
                                                                                                                                                 if ($dgns_complctns_comorbdts['cmplctn_renal'] == 1) {
                                                                                                                                                     echo 'Yes';
@@ -13744,7 +13745,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Pain Event</label>
-                                                                    <select name="cmplctn_pain_event" id="cmplctn_pain_event" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_pain_event" id="cmplctn_pain_event" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_pain_event'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_pain_event']) {
                                                                                                                                                     if ($dgns_complctns_comorbdts['cmplctn_pain_event'] == 1) {
                                                                                                                                                         echo 'Yes';
@@ -13765,7 +13766,7 @@ if ($user->isLoggedIn()) {
                                                                 <!-- select -->
                                                                 <div class="form-group">
                                                                     <label>Stroke / TIA</label>
-                                                                    <select name="cmplctn_stroke" id="cmplctn_stroke" class="form-control" style="width: 100%;" required>
+                                                                    <select name="cmplctn_stroke" id="cmplctn_stroke" class="form-control" style="width: 100%;">
                                                                         <option value="<?= $dgns_complctns_comorbdts['cmplctn_stroke'] ?>"><?php if ($dgns_complctns_comorbdts['cmplctn_stroke']) {
                                                                                                                                                 if ($dgns_complctns_comorbdts['cmplctn_stroke'] == 1) {
                                                                                                                                                     echo 'Yes';
@@ -19137,8 +19138,8 @@ if ($user->isLoggedIn()) {
             html += '<td><select class="form-control select2" name="medication_id[]" id="medication_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select></td>';
             // html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' ) : ( ' . $batch['amount'] . ' )'; ?></option> <?php } ?></select></td>';
             html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
-            html += '<textarea class="form-control" name="medication_units" id="medication_units" rows="3" placeholder="Type medication dose here..." required></textarea>'
-            html += '<td><input class="form-control"  min="0" max="10000" type="number" name="medication_dose[]" value="" required></td>';
+            html += '<textarea class="form-control" name="medication_units" id="medication_units" rows="3" placeholder="Type medication dose here..."></textarea>'
+            html += '<td><input class="form-control"  min="0" max="10000" type="number" name="medication_dose[]" value=""></td>';
             html += '<td><input class="form-control"  type="date" name="end_date[]" value=""></td>';
             html += "<td><button type='button' onclick='deleteRow(this);'>Remove</button></td>"
             html += "</tr>";

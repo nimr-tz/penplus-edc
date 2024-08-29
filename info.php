@@ -1180,7 +1180,8 @@ if ($user->isLoggedIn()) {
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="index1.php">Home</a></li>
-                                    <li class="breadcrumb-item active">List of Staff</li>
+                                    <li class="breadcrumb-item active">List of Staff
+                                    </li>
                                 </ol>
                             </div>
                         </div>
@@ -1198,7 +1199,7 @@ if ($user->isLoggedIn()) {
                                             <div class="row mb-2">
                                                 <div class="col-sm-6">
                                                     <div class="card-header">
-                                                        List of Staff
+                                                        <a href="user.php?condition=<?= $_GET['status']; ?>"> List of Staff </a>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">

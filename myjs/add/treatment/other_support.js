@@ -7,7 +7,7 @@ const support_specify = document.getElementById(`support_specify`);
 function toggleElementVisibility() {
   if (other_support1.checked) {
     support_specify1.style.display = "block";
-    support_specify.setAttribute("required", "required");
+    // support_specify.setAttribute("required", "required");
   } else {
     support_specify1.style.display = "none";
     support_specify.removeAttribute("required");

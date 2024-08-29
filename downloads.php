@@ -14,7 +14,6 @@ if ($user->isLoggedIn()) {
 }
 
 
-
 $servername = "localhost";
 $username = "root";
 $password = "Data@2020";

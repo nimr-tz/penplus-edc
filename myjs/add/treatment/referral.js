@@ -7,7 +7,7 @@ const new_referrals_type = document.getElementById(`new_referrals_type`);
 function toggleElementVisibility() {
   if (new_referrals1.checked) {
     new_referrals_type1.style.display = "block";
-    new_referrals_type.setAttribute("required", "required");
+    // new_referrals_type.setAttribute("required", "required");
   } else {
     new_referrals_type1.style.display = "none";
     new_referrals_type.removeAttribute("required");

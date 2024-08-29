@@ -7,7 +7,7 @@ const restriction_specify = document.getElementById(`restriction_specify`);
 function toggleElementVisibility() {
   if (restriction_other1.checked) {
     restriction_specify1.style.display = "block";
-    restriction_specify.setAttribute("required", "required");
+    // restriction_specify.setAttribute("required", "required");
   } else {
     restriction_specify1.style.display = "none";
     restriction_specify1.removeAttribute("required");

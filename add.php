@@ -12123,13 +12123,12 @@ if ($user->isLoggedIn()) {
                                                             <label>Date:</label>
                                                             <input class="form-control" type="date" name="visit_date" id="visit_date" value="<?php if ($treatment_plan['visit_date']) {
                                                                                                                                                     print_r($treatment_plan['visit_date']);
-                                                                                                                                                }  ?>" />
+                                                                                                                                                }  ?>" required />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr>
-
                                             <div class="row-form clearfix">
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -19139,8 +19138,8 @@ if ($user->isLoggedIn()) {
             html += '<td><select class="form-control select2" name="medication_id[]" id="medication_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('medications', 'status', 1) as $medication) { ?><option value="<?= $medication['id']; ?>"><?= $medication['name']; ?></option> <?php } ?></select></td>';
             // html += '<td><select class="form-control select2" name="batch_id[]" id="batch_id[]" style="width: 100%;" required><option value="">Select</option><?php foreach ($override->get('batch', 'status', 1) as $batch) { ?><option value="<?= $batch['id']; ?>"><?= $override->getNews('medications', 'status', 1, 'id', $batch['medication_id'])[0]['name'] . ' - ( ' . $batch['serial_name'] . ' ) : ( ' . $batch['amount'] . ' )'; ?></option> <?php } ?></select></td>';
             html += '<td><select class="form-control" name="medication_action[]" id="medication_action[]" style="width: 100%;" required><option value="">Select</option><option value="1">Continue</option><option value="2">Start</option><option value="3">Stop</option><option value="4">Not Eligible</option></select></td>';
-            html += '<textarea class="form-control" name="medication_units" id="medication_units" rows="3" placeholder="Type medication dose here..." required></textarea>'
-            html += '<td><input class="form-control"  min="0" max="10000" type="number" name="medication_dose[]" value="" required></td>';
+            html += '<textarea class="form-control" name="medication_units" id="medication_units" rows="3" placeholder="Type medication dose here..."></textarea>'
+            html += '<td><input class="form-control"  min="0" max="10000" type="number" name="medication_dose[]" value=""></td>';
             html += '<td><input class="form-control"  type="date" name="end_date[]" value=""></td>';
             html += "<td><button type='button' onclick='deleteRow(this);'>Remove</button></td>"
             html += "</tr>";

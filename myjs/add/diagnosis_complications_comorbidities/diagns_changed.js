@@ -13,11 +13,11 @@ const diagns_sickle1_1 = document.getElementById(`diagns_sickle1`);
 function toggleElementVisibility() {
   if (diagns_changed1.checked) {
     diagns_cardiac2_2.style.display = "block";
-    diagns_cardiac1_1.setAttribute("required", "required");
+    // diagns_cardiac1_1.setAttribute("required", "required");
     diagns_diabetes2_2.style.display = "block";
-    diagns_diabetes1_1.setAttribute("required", "required");
+    // diagns_diabetes1_1.setAttribute("required", "required");
     diagns_sickle2_2.style.display = "block";
-    diagns_sickle1_1.setAttribute("required", "required");
+    // diagns_sickle1_1.setAttribute("required", "required");
   } else {
     diagns_cardiac2_2.style.display = "none";
     diagns_cardiac1_1.removeAttribute("required");

@@ -10,9 +10,9 @@ const basal_pm2 = document.getElementById(`basal_pm2`);
 function toggleElementVisibility() {
   if (basal_changed1.checked) {
     basal_am.style.display = "block";
-    basal_am2.setAttribute("required", "required");
+    // basal_am2.setAttribute("required", "required");
     basal_pm.style.display = "block";
-    basal_pm2.setAttribute("required", "required");
+    // basal_pm2.setAttribute("required", "required");
   } else {
     basal_am.style.display = "none";
     basal_am2.removeAttribute("required");

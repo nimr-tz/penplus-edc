@@ -7,7 +7,7 @@ const transfusion_units = document.getElementById(`transfusion_units`);
 function toggleElementVisibility() {
   if (transfusion_needed1.checked) {
     transfusion_units1.style.display = "block";
-    transfusion_units.setAttribute("required", "required");
+    // transfusion_units.setAttribute("required", "required");
   } else {
     transfusion_units1.style.display = "none";
     transfusion_units.removeAttribute("required");

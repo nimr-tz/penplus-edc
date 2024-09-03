@@ -19,7 +19,7 @@ if ($user->isLoggedIn()) {
     $file = $table;
     $ext = $ext;
 
-$result = $override->getData($table);
+$result = $override->get($table,'status',1);
 
 
     require 'vendor/autoload.php';

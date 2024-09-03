@@ -363,7 +363,7 @@ if ($user->isLoggedIn()) {
             }
             // elseif ($table_name == 'visit') {
             //     $form_id = 24;
-            // } 
+            // }
             elseif ($table_name == 'summary') {
                 $form_id = 22;
             }
@@ -601,6 +601,7 @@ if ($user->isLoggedIn()) {
                                         <thead>
                                             <tr>
                                                 <th>Record Id</th>
+                                                <th>Name</th>
                                                 <?php if ($_GET['table'] != 'clients') { ?>
                                                     <th>Visit Day</th>
                                                     <th>Visit Code</th>
@@ -623,11 +624,26 @@ if ($user->isLoggedIn()) {
                                             $x = 1;
                                             foreach ($data as $value) {
                                                 $sites = $override->getNews('site', 'status', 1, 'id', $value['site_id'])[0];
+                                                $name = $override->get('clients', 'id', $value['patient_id'])[0];
+                                                $name2 = $override->get('clients', 'id', $value['client_id'])[0];
                                             ?>
                                                 <tr>
                                                     <td class="table-user">
                                                         <?= $value['id']; ?>
                                                     </td>
+                                                    <?php if ($_GET['table'] == 'clients') { ?>
+                                                        <td class="table-user">
+                                                            <?= $value['firstname'].' '.$value['middlename'].' '.$value['lastname']; ?>
+                                                        </td>
+                                                    <?php } elseif ($_GET['table'] == 'visit') { ?>
+                                                        <td class="table-user">
+                                                            <?= $name2['firstname'].' '.$name2['middlename'].' '.$name2['lastname']; ?>
+                                                        </td>
+                                                    <?php } else { ?>
+                                                        <td class="table-user">
+                                                            <?= $name['firstname'].' '.$name['middlename'].' '.$name['lastname']; ?>
+                                                        </td>
+                                                    <?php } ?>
                                                     <?php if ($_GET['table'] != 'clients') { ?>
                                                         <td class="table-user">
                                                             <?= $value['visit_day']; ?>

@@ -711,9 +711,7 @@ if ($user->isLoggedIn()) {
                                                     <td class="table-user text-center">
                                                         <a href="add.php?id=<?= $form_id ?>&cid=<?= $value['patient_id'] ?>&vid=<?= $value['vid'] ?>&vcode=<?= $value['visit_code'] ?>&seq=<?= $value['seq_no'] ?>&sid=<?= $value['study_id'] ?>&vday=<?= $value['visit_day'] ?>&status=3" class="btn btn-info">Update Record</a>
                                                         <a href="#delete_record<?= $value['id'] ?>" role="button" class="btn btn-danger" data-toggle="modal">Delete Record</a>
-                                                        <?php if ($user->data()->power == 1) { ?>
-                                                            <a href="#restore_record<?= $value['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Restore Record</a>
-                                                        <?php } ?>
+                                                        <a href="#restore_record<?= $value['id'] ?>" role="button" class="btn btn-warning" data-toggle="modal">Restore Record</a>
                                                     </td>
                                                 </tr>
                                                 <div class="modal fade" id="delete_record<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

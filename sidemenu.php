@@ -1057,6 +1057,13 @@ if ($user->isLoggedIn()) {
                                         <p>Update Study Id</p>
                                     </a>
                                 </li>
+
+                                 <li class="nav-item">
+                                    <a href="info.php?id=12" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>UPDATE ALL TABLES PID</p>
+                                    </a>
+                                </li>
                             <?php } ?>
                         </ul>
                     </li>

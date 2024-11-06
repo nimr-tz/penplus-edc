@@ -1033,9 +1033,8 @@ if ($user->isLoggedIn()) {
                         </a>
                         <ul class="nav nav-treeview">
 
-                            <?php
-                            if ($user->data()->power == 1) {
-                            ?>
+                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
                                 <li class="nav-item">
                                     <a href="info.php?id=5" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -1048,8 +1047,7 @@ if ($user->isLoggedIn()) {
                                         <p>UnSet Study Id</p>
                                     </a>
                                 </li>
-                            <?php } ?>
-                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
 
                                 <li class="nav-item">
                                     <a href="info.php?id=5" class="nav-link">

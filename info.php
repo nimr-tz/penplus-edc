@@ -1069,7 +1069,6 @@ if ($user->isLoggedIn()) {
                         $array2 = $override->AllTables();
                         $array2_values = array_column($array2, 'Tables_in_penplus');
 
-
                         foreach ($array1 as $value) {
                             if (in_array($value, $array2_values)) {
                                 if ($value == 'visit') {

@@ -1065,10 +1065,9 @@ if ($user->isLoggedIn()) {
                     $client_id = $override->get('clients', 'id', Input::get('pid'));
                     
                     if (Input::get('pid')) {
-                        $array1 = ["screening", "demographic", "vital", "main_diagnosis", "history", "symptoms", "cardiac", "diabetic", "sickle_cell", "results", "hospitalization", "hospitalization_details", "dgns_complctns_comorbdts", "risks", "lab_details", "social_economic", "summary", "medication_treatments", "hospitalization_detail_id", "sickle_cell_status_table", "visit"];
+                        $array1 = ["screening", "demographic", "vital", "main_diagnosis", "history", "symptoms", "cardiac", "diabetic", "sickle_cell", "results", "hospitalization", "hospitalization_details","treatment_plan", "dgns_complctns_comorbdts", "risks", "lab_details", "social_economic", "summary", "medication_treatments", "hospitalization_detail_id", "sickle_cell_status_table", "visit"];
                         $array2 = $override->AllTables();
                         $array2_values = array_column($array2, 'Tables_in_penplus');
-
 
                         foreach ($array1 as $value) {
                             if (in_array($value, $array2_values)) {

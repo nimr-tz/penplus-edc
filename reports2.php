@@ -178,6 +178,7 @@ if ($user->isLoggedIn()) {
             <!-- /.content -->
 
         </div>
+        
         <!-- /.content-wrapper -->
         <?php include 'footerBar.php'; ?>
 

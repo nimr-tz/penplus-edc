@@ -180,7 +180,7 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>28%</h3>
+                                    <h3><?= $propotion_T1D_HBA1C_LESS_8_LAST_MEASURE ?>%</h3>
                                     <p> Proportion of patients with T1D with HbA1C < 8 on last measure</p>
                                 </div>
                                 <div class="icon">
@@ -203,7 +203,7 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>50%</h3>
+                                    <h3><?= $propotion_T1D_HBA1C_6_Months ?>%</h3>
                                     <p> Proportion of patients with T1D who have had DKA in the past 12 months</p>
                                 </div>
                                 <div class="icon">

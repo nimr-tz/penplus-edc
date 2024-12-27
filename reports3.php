@@ -19,7 +19,7 @@ if (Input::exists('post')) {
         ));
         if ($validate->passed()) {
 
-            $url = 'index1.php?&site_id=' . Input::get('site_id');
+            $url = 'reports3.php?&site_id=' . Input::get('site_id');
             Redirect::to($url);
             $pageError = $validate->errors();
         }
@@ -150,7 +150,17 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                    </form>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <!-- card tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-info btn-sm daterange" title="Date range">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-info btn-sm" data-card-widget="collapse"
+                                            title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button> -->
+                                    </div>
                                 </div>
                             </ol>
                         </div>
@@ -173,7 +183,7 @@ if ($user->isLoggedIn()) {
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <h3><?= $propotion_T1D_HBA1C_6_Months ?>%</h3>
-                                    <p> people with T1D with an A1C checked within the last 6 months</p>
+                                    <p>% People with T1D with an A1C checked within the last 6 months</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
@@ -392,17 +402,6 @@ if ($user->isLoggedIn()) {
                                 <div class="card-header">
                                     <h3 class="card-title">PENPLUS ENROLLMENT PROGRESS AS OF <?= date('Y-m-d') ?>(
                                         DIABETES )</h3>
-                                    <!-- card tools -->
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-primary btn-sm daterange"
-                                            title="Date range">
-                                            <i class="far fa-calendar-alt"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse"
-                                            title="Collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
                                     <!-- /.card-tools -->
                                     <div class="card-tools">
                                         <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i

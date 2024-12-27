@@ -43,7 +43,7 @@ class OverideData
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
         FROM symptoms s
         JOIN diabetic d ON s.patient_id = d.patient_id
-        WHERE s.hba1c IS NOT NULL
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '')
         AND s.status = 1
         AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
         AND d.diagnosis = 1

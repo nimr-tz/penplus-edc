@@ -51,7 +51,7 @@ if ($user->isLoggedIn()) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Diabetes  | Reports</title>
+    <title>Diabetes | Reports</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -316,27 +316,26 @@ if ($user->isLoggedIn()) {
                                                         <ul class="pagination pagination-sm m-0 float-right">
                                                             <li class="page-item">
                                                                 <a class="page-link" href="reports3.php?page=<?php if (($_GET['page'] - 1) > 0) {
-                                                                        echo $_GET['page'] - 1;
-                                                                    } else {
-                                                                        echo 1;
-                                                                    } ?>">&laquo;
+                                                                    echo $_GET['page'] - 1;
+                                                                } else {
+                                                                    echo 1;
+                                                                } ?>">&laquo;
                                                                 </a>
                                                             </li>
                                                             <?php for ($i = 1; $i <= $pages; $i++) { ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link <?php if ($i == $_GET['page']) {
                                                                         echo 'active';
-                                                                    } ?>"
-                                                                        href="reports3.php?page=<?= $i ?>"><?= $i ?>
+                                                                    } ?>" href="reports3.php?page=<?= $i ?>"><?= $i ?>
                                                                     </a>
                                                                 </li>
                                                             <?php } ?>
                                                             <li class="page-item">
                                                                 <a class="page-link" href="reports3.php?page=<?php if (($_GET['page'] + 1) <= $pages) {
-                                                                        echo $_GET['page'] + 1;
-                                                                    } else {
-                                                                        echo $i - 1;
-                                                                    } ?>">&raquo;
+                                                                    echo $_GET['page'] + 1;
+                                                                } else {
+                                                                    echo $i - 1;
+                                                                } ?>">&raquo;
                                                                 </a>
                                                             </li>
                                                         </ul>

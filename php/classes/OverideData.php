@@ -26,6 +26,42 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
+
+    public function getNo1()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT patient_id
+        FROM symptoms
+        WHERE hba1c IS NOT NULL
+        AND status = 1
+        AND visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE();");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo1_1()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE s.hba1c IS NOT NULL
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function getNo2($table, $field, $value, $field1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+
     public function getCount0($table, $field, $value, $field1, $value1)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 >= '$value1'");
@@ -380,7 +416,7 @@ class OverideData
         return $result;
     }
 
-        public function getWithLimit0($table, $page, $numRec)
+    public function getWithLimit0($table, $page, $numRec)
     {
         $query = $this->_pdo->query("SELECT * FROM $table limit $page,$numRec");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

@@ -28,6 +28,14 @@ if (Input::exists('post')) {
 
 if ($user->isLoggedIn()) {
     try {
+        // $data = $override->getWithLimit1('symptoms', 'hba1c', 1, 'status', 1, $page, $numRec);
+
+        // $Numerator = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1, 'visit_date', 6));
+        $Numerator = intval($override->getNo1_1());
+        $Denominator = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
+
+        $propotion1 = intval(intval($Numerator) / intval($Denominator) * 100);
+
         $site_data = $override->getData('site');
         $Total = $override->getCount('clients', 'status', 1);
         $data_enrolled = $override->getCount1('clients', 'status', 1, 'enrolled', 1);
@@ -145,7 +153,7 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>30%</h3>
+                                    <h3><?= $propotion1 ?>%</h3>
                                     <p> people with T1D with an A1C checked within the last 6 months</p>
                                 </div>
                                 <div class="icon">

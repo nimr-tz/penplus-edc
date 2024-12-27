@@ -31,10 +31,15 @@ if ($user->isLoggedIn()) {
         // $data = $override->getWithLimit1('symptoms', 'hba1c', 1, 'status', 1, $page, $numRec);
 
         // $Numerator = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1, 'visit_date', 6));
-        $Numerator = intval($override->getNo1_1());
-        $Denominator = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
+        $NumeratorT1D_Hba1c_6Months = intval($override->getNo1_1());
+        $Denominator_TID = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
+        $propotion_T1D_HBA1C_6_Months = intval(intval($NumeratorT1D_Hba1c_6Months) / intval($Denominator_TID) * 100);
 
-        $propotion1 = intval(intval($Numerator) / intval($Denominator) * 100);
+
+        $Numerator_T1D_HBA1C_LESS_8_LAST = intval($override->getNo1_1());
+        $Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
+        $propotion_T1D_HBA1C_LESS_8_LAST_MEASURE = intval(intval($NumeratorT1D_Hba1c_6Months) / intval($Denominator_TID) * 100);
+
 
         $site_data = $override->getData('site');
         $Total = $override->getCount('clients', 'status', 1);
@@ -153,7 +158,7 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3><?= $propotion1 ?>%</h3>
+                                    <h3><?= $propotion_T1D_HBA1C_6_Months ?>%</h3>
                                     <p> people with T1D with an A1C checked within the last 6 months</p>
                                 </div>
                                 <div class="icon">

@@ -110,7 +110,6 @@ class OverideData
             AND l1.status = 1
         )
         AND d.diagnosis = 1;
-        ;
         ");
         $num = $query->rowCount();
         return $num;

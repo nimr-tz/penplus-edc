@@ -34,6 +34,7 @@ if ($user->isLoggedIn()) {
         $NumeratorT1D_Hba1c_6Months = intval($override->getNo1_1());
         $Denominator_TID = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
         $propotion_T1D_HBA1C_6_Months = intval(intval($NumeratorT1D_Hba1c_6Months) / intval($Denominator_TID) * 100);
+        $json_propotion_T1D_HBA1C_6_Months = json_encode($propotion_T1D_HBA1C_6_Months);
 
 
         $Numerator_T1D_HBA1C_LESS_8_LAST = intval($override->getNo3_1());
@@ -553,11 +554,7 @@ if ($user->isLoggedIn()) {
              * Here we will create a few charts using ChartJS
              */
 
-            //-------------
-            //- DONUT CHART -
-            //-------------
-            // Get context with jQuery - using jQuery's .get() method.
-            // var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+            var hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>;
 
             //-------------
             //- PIE CHART -
@@ -571,7 +568,7 @@ if ($user->isLoggedIn()) {
                 ],
                 datasets: [
                     {
-                        data: [700, 500],
+                        data: [<?php echo $json_propotion_T1D_HBA1C_6_Months; ?>,25],
                         backgroundColor: ['#00a65a', '#f39c12'],
                     }
                 ]

@@ -36,9 +36,9 @@ if ($user->isLoggedIn()) {
         $propotion_T1D_HBA1C_6_Months = intval(intval($NumeratorT1D_Hba1c_6Months) / intval($Denominator_TID) * 100);
 
 
-        $Numerator_T1D_HBA1C_LESS_8_LAST = intval($override->getNo1_1());
-        $Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
-        $propotion_T1D_HBA1C_LESS_8_LAST_MEASURE = intval(intval($NumeratorT1D_Hba1c_6Months) / intval($Denominator_TID) * 100);
+        $Numerator_T1D_HBA1C_LESS_8_LAST = intval($override->getNo3_1());
+        $Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE = intval($override->getNo3_2());
+        $propotion_T1D_HBA1C_LESS_8_LAST_MEASURE = intval(intval($Numerator_T1D_HBA1C_LESS_8_LAST) / intval($Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE) * 100);
 
 
         $site_data = $override->getData('site');

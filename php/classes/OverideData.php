@@ -60,6 +60,40 @@ class OverideData
         return $num;
     }
 
+    public function getNo3_1()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE s.hba1c IS NOT NULL AND s.hba1c != ''
+            AND s.status = 1
+            AND s.hba1c < 8
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo3_2()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE s.hba1c IS NOT NULL AND s.hba1c != ''
+            AND s.status = 1
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1");
+        $num = $query->rowCount();
+        return $num;
+    }
 
 
     public function getCount0($table, $field, $value, $field1, $value1)

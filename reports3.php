@@ -34,8 +34,20 @@ if ($user->isLoggedIn()) {
         $NumeratorT1D_Hba1c_6Months = intval($override->getNo1_1());
         $Denominator_TID = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
         $propotion_T1D_HBA1C_6_Months = intval(intval($NumeratorT1D_Hba1c_6Months) / intval($Denominator_TID) * 100);
-        $json_propotion_T1D_HBA1C_6_Months = json_encode($propotion_T1D_HBA1C_6_Months);
+        // Prepare the data in PHP
+        $data_propotion_T1D_HBA1C_6_Months = [
+            'labels' => ['T1D Hba1c Checked within last 6 months', 'T1D Hba1c Not Checked within last 6 months'],
+            'datasets' => [
+                [
+                    'data' => [$propotion_T1D_HBA1C_6_Months, 100 - $propotion_T1D_HBA1C_6_Months], // Calculate the second value dynamically
+                    'backgroundColor' => ['#00a65a', '#f39c12'],
+                ]
+            ]
+        ];
 
+        // Convert the data to JSON format
+        $json_propotion_T1D_HBA1C_6_Months = json_encode($data_propotion_T1D_HBA1C_6_Months);
+        
 
         $Numerator_T1D_HBA1C_LESS_8_LAST = intval($override->getNo3_1());
         $Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE = intval($override->getNo3_2());
@@ -554,37 +566,106 @@ if ($user->isLoggedIn()) {
              * Here we will create a few charts using ChartJS
              */
 
-            var hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>;
 
-            //-------------
             //- PIE CHART -
             //-------------
-            // Get context with jQuery - using jQuery's .get() method.
-            var hba1c_test = $('#hba1c_test').get(0).getContext('2d')
-            var hba1c_test_Data = {
-                labels: [
-                    'HBA1C > 8',
-                    'HBA1C < 8',
-                ],
-                datasets: [
-                    {
-                        data: [<?php echo $json_propotion_T1D_HBA1C_6_Months; ?>,25],
-                        backgroundColor: ['#00a65a', '#f39c12'],
-                    }
-                ]
-            }
 
+            // Pass PHP data to JavaScript
+            var hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>;
+
+            // Get the canvas element
+            var hba1c_test = $('#hba1c_test').get(0).getContext('2d');
+
+            //-------------
+            // var hba1c_test_Data = {
+            //     labels: [
+            //         'HBA1C > 8',
+            //         'HBA1C < 8',
+            //     ],
+            //     datasets: [
+            //         {
+            //             data: $json_propotion_T1D_HBA1C_6_Months,
+            //             backgroundColor: ['#00a65a', '#f39c12'],
+            //         }
+            //     ]
+            // }
+
+
+
+
+            // Update options to include data labels inside the chart
             var hba1c_test_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
-            }
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const value = tooltipItem.raw;
+                                return `${tooltipItem.label}: ${value}`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        formatter: function (value, context) {
+                            return value; // Display value inside the chart
+                        }
+                    }
+                }
+            };
 
-            //Create pie or douhnut chart
+            // Create pie or doughnut chart
             new Chart(hba1c_test, {
                 type: 'pie',
                 data: hba1c_test_Data,
                 options: hba1c_test_Options
-            })
+            });
+
+
+
+
+
+            // // Pass PHP data to JavaScript
+            // var hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>;
+
+            // // Get the canvas element
+            // var hba1c_test = $('#hba1c_test').get(0).getContext('2d');
+
+            // Update options to include data labels inside the chart
+            // var hba1c_test_Options = {
+            //     maintainAspectRatio: false,
+            //     responsive: true,
+            //     plugins: {
+            //         legend: {
+            //             position: 'top',
+            //         },
+            //         tooltip: {
+            //             callbacks: {
+            //                 label: function (tooltipItem) {
+            //                     const value = tooltipItem.raw;
+            //                     return `${tooltipItem.label}: ${value}`;
+            //                 }
+            //             }
+            //         },
+            //         datalabels: {
+            //             color: '#fff',
+            //             formatter: function (value, context) {
+            //                 return value; // Display value inside the chart
+            //             }
+            //         }
+            //     }
+            // };
+
+            // // Create pie or doughnut chart
+            // new Chart(hba1c_test, {
+            //     type: 'pie',
+            //     data: hba1c_test_Data,
+            //     options: hba1c_test_Options
+            // });
         })
     </script>
 </body>

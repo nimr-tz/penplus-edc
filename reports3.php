@@ -559,113 +559,57 @@ if ($user->isLoggedIn()) {
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
     <!-- Page specific script -->
+
+         <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> -->
     <script>
         $(function () {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
+           /* ChartJS
+            * -------
+            * Here we will create a few charts using ChartJS
+            */
 
-
-            //- PIE CHART -
-            //-------------
-
-            // Pass PHP data to JavaScript
-            var hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>;
-
+            hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>
             // Get the canvas element
             var hba1c_test = $('#hba1c_test').get(0).getContext('2d');
 
-            //-------------
-            // var hba1c_test_Data = {
-            //     labels: [
-            //         'HBA1C > 8',
-            //         'HBA1C < 8',
-            //     ],
-            //     datasets: [
-            //         {
-            //             data: $json_propotion_T1D_HBA1C_6_Months,
-            //             backgroundColor: ['#00a65a', '#f39c12'],
-            //         }
-            //     ]
-            // }
-
-
-
-
-            // Update options to include data labels inside the chart
+            // Options to include data labels inside the chart
             var hba1c_test_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'top',
+                        position: 'top', // Position of legend
                     },
                     tooltip: {
                         callbacks: {
                             label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
                                 const value = tooltipItem.raw;
-                                return `${tooltipItem.label}: ${value}`;
+                                return `${label}: ${value}`;
                             }
                         }
                     },
                     datalabels: {
-                        color: '#fff',
+                        color: '#fff', // Text color for data labels
+                        font: {
+                            weight: 'bold',
+                            size: 14 // Font size for labels
+                        },
                         formatter: function (value, context) {
-                            return value; // Display value inside the chart
+                            return value; // Display value inside the pie chart
                         }
                     }
                 }
             };
 
-            // Create pie or doughnut chart
+            // Create pie chart
             new Chart(hba1c_test, {
-                type: 'pie',
+                type: 'pie', // Pie chart type
                 data: hba1c_test_Data,
                 options: hba1c_test_Options
             });
 
-
-
-
-
-            // // Pass PHP data to JavaScript
-            // var hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>;
-
-            // // Get the canvas element
-            // var hba1c_test = $('#hba1c_test').get(0).getContext('2d');
-
-            // Update options to include data labels inside the chart
-            // var hba1c_test_Options = {
-            //     maintainAspectRatio: false,
-            //     responsive: true,
-            //     plugins: {
-            //         legend: {
-            //             position: 'top',
-            //         },
-            //         tooltip: {
-            //             callbacks: {
-            //                 label: function (tooltipItem) {
-            //                     const value = tooltipItem.raw;
-            //                     return `${tooltipItem.label}: ${value}`;
-            //                 }
-            //             }
-            //         },
-            //         datalabels: {
-            //             color: '#fff',
-            //             formatter: function (value, context) {
-            //                 return value; // Display value inside the chart
-            //             }
-            //         }
-            //     }
-            // };
-
-            // // Create pie or doughnut chart
-            // new Chart(hba1c_test, {
-            //     type: 'pie',
-            //     data: hba1c_test_Data,
-            //     options: hba1c_test_Options
-            // });
         })
     </script>
 </body>

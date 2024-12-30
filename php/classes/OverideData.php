@@ -95,6 +95,27 @@ class OverideData
         return $num;
     }
 
+    public function getNo4_1()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT l.patient_id
+        FROM lab_details l
+        JOIN diabetic d ON l.patient_id = d.patient_id
+        WHERE l.dka_number IS NOT NULL AND l.dka_number != ''
+        AND l.status = 1
+        AND l.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 12 MONTH) AND CURDATE()  -- Filter visits within the last 12 months
+        AND l.visit_date != (
+            SELECT MIN(l1.visit_date)
+            FROM lab_details l1
+            WHERE l1.patient_id = l.patient_id
+            AND l1.status = 1
+        )
+        AND d.diagnosis = 1;
+        ;
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
 
     public function getCount0($table, $field, $value, $field1, $value1)
     {

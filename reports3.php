@@ -41,6 +41,11 @@ if ($user->isLoggedIn()) {
         $propotion_T1D_HBA1C_LESS_8_LAST_MEASURE = intval(intval($Numerator_T1D_HBA1C_LESS_8_LAST) / intval($Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE) * 100);
 
 
+        $Numerator_T1D_DK_12_MONTHS = intval($override->getNo4_1());
+        $Denominator_TID = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
+        $propotion_T1D_DK_12_MONTHS = intval(intval($Numerator_T1D_DK_12_MONTHS) / intval($Denominator_TID) * 100);
+
+
         $site_data = $override->getData('site');
         $Total = $override->getCount('clients', 'status', 1);
         $data_enrolled = $override->getCount1('clients', 'status', 1, 'enrolled', 1);
@@ -227,7 +232,7 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3><?= $propotion_T1D_HBA1C_6_Months ?>%</h3>
+                                    <h3><?= $propotion_T1D_DK_12_MONTHS ?>%</h3>
                                     <p> Proportion of patients with T1D who have had DKA in the past 12 months</p>
                                 </div>
                                 <div class="icon">

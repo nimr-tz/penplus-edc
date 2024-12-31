@@ -95,6 +95,29 @@ class OverideData
         return $num;
     }
 
+
+    //Denominator-All active with RHD
+    public function Active_RHD($table, $field, $value, $field1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 IS NOT NULL AND $field1 != ''");
+        $num = $query->rowCount();
+        return $num;
+    }
+    //Numerator-All with RHD on Penadur(Benzathine PCN)
+    public function Active_RHD_PENADUR()
+    {
+        $query=$this->_pdo->query("SELECT * 
+        FROM cardiac c
+        -- JOIN medication_treatments mt ON c.patients_id=mt.patient_id
+        WHERE c.status=1
+        AND c.heuamtic IS NOT NULL
+        -- AND c.heumatic !=''
+        -- AND mt.medication_type=6;
+        ");
+       $num = $query->rowCount();
+        return $num;
+    }
+
     public function getNo4_1()
     {
         $query = $this->_pdo->query("SELECT DISTINCT l.patient_id

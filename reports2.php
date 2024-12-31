@@ -19,7 +19,7 @@ if (Input::exists('post')) {
         ));
         if ($validate->passed()) {
 
-            $url = 'reports3.php?&site_id=' . Input::get('site_id');
+            $url = 'reports2.php?&site_id=' . Input::get('site_id');
             Redirect::to($url);
             $pageError = $validate->errors();
         }
@@ -31,22 +31,22 @@ if ($user->isLoggedIn()) {
         // $data = $override->getWithLimit1('symptoms', 'hba1c', 1, 'status', 1, $page, $numRec);
 
         // $Numerator = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1, 'visit_date', 6));
-        $NumeratorT1D_Hba1c_6Months = intval($override->getNo1_1());
-        $Denominator_TID = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
-        $propotion_T1D_HBA1C_6_Months = intval(intval($NumeratorT1D_Hba1c_6Months) / intval($Denominator_TID) * 100);
+        $Numerator_RHD_ON_PENADUR = intval($override->Active_RHD_PENADUR());
+        $Denominator_Active_RHD = intval($override->Active_RHD('cardiac', 'status', 1, 'heumatic IS NOT NULL' ,'heumatic !=""'));
+        $propotion_RHD_secondary_prophylaxis= intval(intval($Numerator_RHD_ON_PENADUR) / intval($Denominator_Active_RHD) * 100);
         // Prepare the data in PHP
-        $data_propotion_T1D_HBA1C_6_Months = [
-            'labels' => ['T1D Hba1c Checked within last 6 months', 'T1D Hba1c Not Checked within last 6 months'],
+        $data_propotion_RHD_secondary_prophylaxis= [
+            'labels' => ['RHD on secondary prophylaxis', 'RHD not on secondary prophylaxis'],
             'datasets' => [
                 [
-                    'data' => [$propotion_T1D_HBA1C_6_Months, 100 - $propotion_T1D_HBA1C_6_Months], // Calculate the second value dynamically
+                    'data' => [$propotion_RHD_secondary_prophylaxis, 100 - $propotion_RHD_secondary_prophylaxis], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
         ];
 
         // Convert the data to JSON format
-        $json_propotion_T1D_HBA1C_6_Months = json_encode($data_propotion_T1D_HBA1C_6_Months);
+        $json_propotion_RHD_secondary_prophylaxis= json_encode($data_propotion_RHD_secondary_prophylaxis);
 
 
         $Numerator_T1D_HBA1C_LESS_8_LAST = intval($override->getNo3_1());
@@ -200,8 +200,8 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3><?= $propotion_T1D_HBA1C_6_Months ?>%</h3>
-                                    <p>% People with T1D with an A1C checked within the last 6 months</p>
+                                    <h3><?= $propotion_RHD_secondary_prophylaxis ?>%</h3>
+                                    <p>Proportion of patients with RHD who are on secondary prophylaxis</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
@@ -222,8 +222,8 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3><?= $propotion_T1D_HBA1C_LESS_8_LAST_MEASURE ?>%</h3>
-                                    <p> Proportion of patients with T1D with HbA1C < 8 on last measure</p>
+                                    <h3><?= $propotion_RHD_secondary_prophylaxis  ?>%</h3>
+                                    <p> % of patients on warfarin with an INR checked in the last 3 months</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
@@ -245,8 +245,8 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3><?= $propotion_T1D_DK_12_MONTHS ?>%</h3>
-                                    <p> Proportion of patients with T1D who have had DKA in the past 12 months</p>
+                                    <h3><?= $propotion_RHD_secondary_prophylaxis ?>%</h3>
+                                    <p> Proportion of patients with none or mild limitattion in activity(NYHA I and II) at last visit</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
@@ -261,6 +261,53 @@ if ($user->isLoggedIn()) {
                                 </button> -->
                             </div>
                         </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-md-4">
+                            <!-- small card -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3><?= $propotion_RHD_secondary_prophylaxis ?>%</h3>
+                                    <p>Proportion of patients with marked limitation in activity(NYHA III and IV) at last visit</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
+                                    data-target="#modal-xl">
+                                    More info <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                                <!-- <button type="button" class="btn btn-default" data-toggle="modal"
+                                    data-target="#modal-xl">
+                                    Launch Extra Large Modal
+                                </button> -->
+                            </div>
+                        </div>
+                        <!-- /.col (LEFT) -->
+
+                        <div class="col-md-4">
+                            <!-- small card -->
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h3><?=$propotion_RHD_secondary_prophylaxis ?>%</h3>
+                                    <p> % of patients with suspected congential or RHD referred for surgical evaluation</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
+                                    data-target="#modal-xl">
+                                    More info <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                                <!-- <button type="button" class="btn btn-default" data-toggle="modal"
+                                    data-target="#modal-xl">
+                                    Launch Extra Large Modal
+                                </button> -->
+                            </div>
+                        </div>
+                     </div>
+                        <!-- /.col (LEFT) -->
+
                         <!-- /.col (LEFT) -->
 
                         <div class="modal fade" id="modal-xl">
@@ -315,8 +362,7 @@ if ($user->isLoggedIn()) {
                                             <div class="col-md-7">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h3 class="card-title">people with T1D with an A1C checked
-                                                            within the last 6 months</h3>
+                                                        <h3 class="card-title">patients with RHD who are on secodary prophylaxis</h3>
                                                     </div>
                                                     <!-- /.card-header -->
                                                     <div class="card-body">

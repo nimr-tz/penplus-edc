@@ -1,3 +1,4 @@
+
 <?php
 require 'pdf.php';
 $user = new User();
@@ -32,7 +33,7 @@ if ($user->isLoggedIn()) {
 
         // $Numerator = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1, 'visit_date', 6));
         $Numerator_RHD_ON_PENADUR = intval($override->Active_RHD_PENADUR());
-        $Denominator_Active_RHD = intval($override->Active_RHD('cardiac', 'status', 1, 'heumatic IS NOT NULL' ,'heumatic !=""'));
+        $Denominator_Active_RHD = intval($override->Active_RHD('cardiac', 'status', 1, 'heumatic' ,1));
         $propotion_RHD_secondary_prophylaxis= intval(intval($Numerator_RHD_ON_PENADUR) / intval($Denominator_Active_RHD) * 100);
         // Prepare the data in PHP
         $data_propotion_RHD_secondary_prophylaxis= [
@@ -47,18 +48,66 @@ if ($user->isLoggedIn()) {
 
         // Convert the data to JSON format
         $json_propotion_RHD_secondary_prophylaxis= json_encode($data_propotion_RHD_secondary_prophylaxis);
+         
+        $Numerator_active_warfarin_INR=intval($override->active_cardiac_warfarin_INR());
+        $Denominator_active_cardiac_warfarin=intval($override->active_cardiac_warfarin());
+        $proportion_patients_warfarin_with_INR_last_3_months=intval(intval($$Numerator_active_warfarin_INR)/intval($Denominator_active_cardiac_warfarin) * 100);
+        $data_proportion_patients_warfarin_with_INR_last_3months= [
+            'labels' => ['Patients on Warfarin with INR checked', 'Patients on Warfarin with INR not checked'],
+            'datasets' => [
+                [
+                    'data' => [$proportion_patients_warfarin_with_INR_last_3_months, 100 - $proportion_patients_warfarin_with_INR_last_3_months], // Calculate the second value dynamically
+                    'backgroundColor' => ['#00a65a', '#f39c12'],
+                ]
+            ]
+        ];
 
+         //Indicator 3-% of patients with suspected congenital or RHD referred for surgical evaluation
+          $cardiac_congenital_RHD_surgery_num=intval($override->cardiac_congenital_RHD_surgery_num());
+          $cardiac_RHD_congenital_den=intval($override->cardiac_RHD_congenital_den());
+          $proprtion_congenital_RHD_surgical=intval(intval($cardiac_congenital_RHD_surgery_num)/intval($cardiac_RHD_congenital_den) *100);
+          $data_proportion_congenital_RHD_surgical_evaluation=[
+                               'labels' => ['% of congenital or RHD for surgical', '% of congenital or RHD not  surgical'],
+                               'datasets' => [
+                [
+                    'data' => [$proprtion_congenital_RHD_surgical, 100 - $proprtion_congenital_RHD_surgical], // Calculate the second value dynamically
+                    'backgroundColor' => ['#00a65a', '#f39c12'],
+                ]
+            ]
 
-        $Numerator_T1D_HBA1C_LESS_8_LAST = intval($override->getNo3_1());
-        $Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE = intval($override->getNo3_2());
-        $propotion_T1D_HBA1C_LESS_8_LAST_MEASURE = intval(intval($Numerator_T1D_HBA1C_LESS_8_LAST) / intval($Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE) * 100);
+                                        ];
 
+        //Indicator 4-NYHA I
+         $NYHA_1_num=intval($override->Active_NYHA_I_num());
+         $Active_cardiac_den=intval($override->Active_cardiac_Den());
+         $proportion_marked_limitation_1=intval(intval($NYHA_1_num)/intval($Active_cardiac_den)*100);
+         
+        //Indicator 4-NYHA II
+         $NYHA_2_num=intval($override->Active_NYHA_II_num());
+         $Active_cardiac_den=intval($override->Active_cardiac_Den());
+         $proportion_marked_limitation_2=intval(intval($NYHA_2_num)/intval($Active_cardiac_den)*100);
+         
+         //Indicator 4-NYHA III
+         $NYHA_3_num=intval($override->Active_NYHA_III_num());
+         $Active_cardiac_den=intval($override->Active_cardiac_Den());
+         $proportion_marked_limitation_3=intval(intval($NYHA_3_num)/intval($Active_cardiac_den)*100);
 
-        $Numerator_T1D_DK_12_MONTHS = intval($override->getNo4_1());
-        $Denominator_TID = intval($override->getNo2('diabetic', 'diagnosis', 1, 'status', 1));
-        $propotion_T1D_DK_12_MONTHS = intval(intval($Numerator_T1D_DK_12_MONTHS) / intval($Denominator_TID) * 100);
+        //Indicator 4-NYHA IV
+         $NYHA_4_num=intval($override->Active_NYHA_IV_num());
+         $Active_cardiac_den=intval($override->Active_cardiac_Den());
+         $proportion_marked_limitation_4=intval(intval($NYHA_4_num)/intval($Active_cardiac_den)*100);
 
+         $data_proportion_patients_marked_limitation_activity=[
+                               'labels' => ['% of NYHA I', '% of NYHA II','% of NYHA III','% of NYHA IV'],
+                               'datasets' => [
+                [
+                    'data' => [$proportion_marked_limitation_1,$proportion_marked_limitation_2,$proportion_marked_limitation_3,$proportion_marked_limitation_4 ], // Calculate the second value dynamically
+                    'backgroundColor' => ['#00a65a', '#f39c12'],
+                ]
+            ]
 
+             ];
+                                        
         $site_data = $override->getData('site');
         $Total = $override->getCount('clients', 'status', 1);
         $data_enrolled = $override->getCount1('clients', 'status', 1, 'enrolled', 1);
@@ -196,7 +245,7 @@ if ($user->isLoggedIn()) {
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <!-- small card -->
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -218,11 +267,11 @@ if ($user->isLoggedIn()) {
                         </div>
                         <!-- /.col (LEFT) -->
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3><?= $propotion_RHD_secondary_prophylaxis  ?>%</h3>
+                                    <h3><?= $proportion_patients_warfarin_with_INR_last_3_months ?>%</h3>
                                     <p> % of patients on warfarin with an INR checked in the last 3 months</p>
                                 </div>
                                 <div class="icon">
@@ -240,56 +289,13 @@ if ($user->isLoggedIn()) {
                         </div>
                         <!-- /.col (LEFT) -->
 
+                                 
 
-                        <div class="col-md-4">
-                            <!-- small card -->
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3><?= $propotion_RHD_secondary_prophylaxis ?>%</h3>
-                                    <p> Proportion of patients with none or mild limitattion in activity(NYHA I and II) at last visit</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </div>
-                                <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                                <!-- <button type="button" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    Launch Extra Large Modal
-                                </button> -->
-                            </div>
-                        </div>
-                    </div>
-                        <div class="row">
-                        <div class="col-md-4">
-                            <!-- small card -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3><?= $propotion_RHD_secondary_prophylaxis ?>%</h3>
-                                    <p>Proportion of patients with marked limitation in activity(NYHA III and IV) at last visit</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </div>
-                                <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                                <!-- <button type="button" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    Launch Extra Large Modal
-                                </button> -->
-                            </div>
-                        </div>
-                        <!-- /.col (LEFT) -->
-
-                        <div class="col-md-4">
+                          <div class="col-md-3">
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3><?=$propotion_RHD_secondary_prophylaxis ?>%</h3>
+                                    <h3><?= $proprtion_congenital_RHD_surgical ?>%</h3>
                                     <p> % of patients with suspected congential or RHD referred for surgical evaluation</p>
                                 </div>
                                 <div class="icon">
@@ -305,6 +311,48 @@ if ($user->isLoggedIn()) {
                                 </button> -->
                             </div>
                         </div>
+                                          <div class="col-md-3">
+                            <!-- small card -->
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                          <div style="display: inline-block; margin-right: 10px;">
+                                              <p>NYHA I</p>
+                                              <h3><?=  $proportion_marked_limitation_1 ?>%</h3>
+                                          </div>
+
+                                          <div style="display: inline-block; margin-right: 10px;">
+                                              <p>NYHA II</p>
+                                              <h3><?=  $proportion_marked_limitation_2 ?>%</h3>
+                                          </div>
+
+                                        <div style="display: inline-block; margin-right: 10px;">
+                                              <p>NYHA III</p>
+                                              <h3><?=  $proportion_marked_limitation_3 ?>%</h3>
+                                        </div>
+
+                                       <div style="display: inline-block;">
+                                       <p>NYHA IV</p>
+                                          <h3><?=  $proportion_marked_limitation_4 ?>%</h3>
+                                        </div>
+                                  </div>
+                                          <div class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
+                                    data-target="#modal-xl">
+                                    More info <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                                <!-- <button type="button" class="btn btn-default" data-toggle="modal"
+                                    data-target="#modal-xl">
+                                    Launch Extra Large Modal
+                                </button> -->
+                                 </div>
+                                </div>
+                             </div>
+                        
+                             <!-- /.col (LEFT) -->
+
+                       
                      </div>
                         <!-- /.col (LEFT) -->
 

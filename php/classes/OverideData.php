@@ -145,82 +145,58 @@ class OverideData
         return $num;
     }
     //NUmerator-All Active cardiac patient with NYHA I on the last visit
-    public function Active_NYHA_I_Num()
+    public function Active_NYHA_I_num()
     {
         $query=$this->_pdo->query("SELECT DISTINCT c.patient_id 
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
         WHERE c.status = 1 AND s.dyspnea = 1 AND 
         s.visit_date = (     SELECT MAX(s2.visit_date)
-                             FROM symptoms s2     W
-                             HERE s2.patient_id = s.patient_id );
+                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id );
                 ");
           $num = $query->rowCount();
           return $num;
     }
-    //Denominator-All active cardiac who have a corresponding record in the symptoms table.
-    public function Active_NYHA_I_Den()
-    {
-        $query=$this->_pdo->query(" SELECT DISTINCT c.patient_id FROM cardiac c JOIN symptoms s ON c.patient_id = s.patient_id WHERE c.status = 1 ");
-          $num = $query->rowCount();
-          return $num;
-    }
     //NUmerator-All Active cardiac patient with NYHA II on the last visit
-    public function Active_NYHA_II_Num()
+    public function Active_NYHA_II_num()
     {
         $query=$this->_pdo->query("SELECT DISTINCT c.patient_id 
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
         WHERE c.status = 1 AND s.dyspnea =2 AND 
         s.visit_date = (     SELECT MAX(s2.visit_date)
-                             FROM symptoms s2     W
-                             HERE s2.patient_id = s.patient_id );
+                             FROM symptoms s2     WHERE s2.patient_id = s.patient_id );
                 ");
           $num = $query->rowCount();
           return $num;
     }
-    //Denominator-All active cardiac who have a corresponding record in the symptoms table.
-    public function Active_NYHA_II_Den()
-    {
-        $query=$this->_pdo->query(" SELECT DISTINCT c.patient_id FROM cardiac c JOIN symptoms s ON c.patient_id = s.patient_id WHERE c.status = 1 ");
-          $num = $query->rowCount();
-          return $num;
-    }
-    public function Active_NYHA_III_Num()
+ 
+    public function Active_NYHA_III_num()
     {
         $query=$this->_pdo->query("SELECT DISTINCT c.patient_id 
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
         WHERE c.status = 1 AND s.dyspnea =3 AND 
         s.visit_date = (     SELECT MAX(s2.visit_date)
-                             FROM symptoms s2     W
-                             HERE s2.patient_id = s.patient_id );
+                             FROM symptoms s2     WHERE s2.patient_id = s.patient_id );
                 ");
           $num = $query->rowCount();
           return $num;
     }
-    //Denominator-All active cardiac who have a corresponding record in the symptoms table.
-    public function Active_NYHA_III_Den()
-    {
-        $query=$this->_pdo->query(" SELECT DISTINCT c.patient_id FROM cardiac c JOIN symptoms s ON c.patient_id = s.patient_id WHERE c.status = 1 ");
-          $num = $query->rowCount();
-          return $num;
-    }
-    public function Active_NYHA_IV_Num()
+    public function Active_NYHA_IV_num()
     {
         $query=$this->_pdo->query("SELECT DISTINCT c.patient_id 
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
         WHERE c.status = 1 AND s.dyspnea =4 AND 
         s.visit_date = (     SELECT MAX(s2.visit_date)
-                             FROM symptoms s2     W
-                             HERE s2.patient_id = s.patient_id );
+                             FROM symptoms s2     WHERE s2.patient_id = s.patient_id );
                 ");
           $num = $query->rowCount();
           return $num;
     }
     //Denominator-All active cardiac who have a corresponding record in the symptoms table.
-    public function NYHA_IV_Den()
+    public function Active_cardiac_Den()
     {
         $query=$this->_pdo->query(" SELECT DISTINCT c.patient_id FROM cardiac c JOIN symptoms s ON c.patient_id = s.patient_id WHERE c.status = 1 ");
           $num = $query->rowCount();
@@ -371,11 +347,17 @@ class OverideData
      return $num;
      }
 
+
      public function ncd_limited_den()
     {
         $query = $this->_pdo->query("SELECT * FROM clients c JOIN demographic d ON c.client_id = d.client_id WHERE c.age < 24 AND d.status = 1;");
         $num = $query->rowCount();
         return $num;
+    }
+    //Indicator 2-Average days of missed school in the last month
+    public function average_missed_school()
+    {
+        $query=$this->_pdo->query("SELECT AVG(h.missed_days) FROM hospitalization h JOIN clients c ON h.patient_id = c.id WHERE c.age < 24 AND h.missed_days NOT IN (98, 99)");
     }
      //Indicator3 -Average days of missed school in the last month
      public function food_insecurity()
@@ -391,7 +373,20 @@ class OverideData
         $num=$query->rowCount();
         return $num;
      }
-
+    //Indicator 7
+    //proportion of patients who are provided with social support in the last(last 3 months)
+    public function social_support_num()
+    {
+        $query=$this->_pdo->query("SELECT * FROM treatment_plan t WHERE t.status = 1 AND t.social_support = 1 AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH;");
+        $num=$query->rowCount();
+        return $num;
+    }
+    public function social_support_den()
+    {
+        $query=$this->_pdo->query("SELECT * FROM treatment_plan WHERE t.status = 1");
+        $num=$query->rowCount();
+        return $num;
+    }
     public function getCount0($table, $field, $value, $field1, $value1)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 >= '$value1'");

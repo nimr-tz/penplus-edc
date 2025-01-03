@@ -62,10 +62,10 @@ class OverideData
 
     public function getNo3_1()
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id, s.hba1c
             FROM symptoms s
             JOIN diabetic d ON s.patient_id = d.patient_id
-            WHERE s.hba1c IS NOT NULL AND s.hba1c != ''
+            WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c !=0 AND s.hba1c !=98 AND s.hba1c !=99)
             AND s.status = 1
             AND s.hba1c < 8
             AND s.visit_date = (
@@ -113,10 +113,10 @@ class OverideData
 
     public function getNo3_1_ROWS_DATA($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id, s.hba1c
             FROM symptoms s
             JOIN diabetic d ON s.patient_id = d.patient_id
-            WHERE s.hba1c IS NOT NULL AND s.hba1c != ''
+            WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c !=0 AND s.hba1c !=98 AND s.hba1c !=99)
             AND s.status = 1
             AND s.hba1c < 8
             AND s.visit_date = (
@@ -165,7 +165,7 @@ class OverideData
 
     public function getNo_Numerator_TID_Hba1c_6Months_Data_Rows($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id, s.hba1c
         FROM symptoms s
         JOIN diabetic d ON s.patient_id = d.patient_id
         WHERE (s.hba1c IS NOT NULL AND s.hba1c != '')

@@ -63,19 +63,33 @@ if ($user->isLoggedIn()) {
         ];
 
          //Indicator 3-% of patients with suspected congenital or RHD referred for surgical evaluation
-          $cardiac_congenital_RHD_surgery_num=intval($override->cardiac_congenital_RHD_surgery_num());
-          $cardiac_RHD_congenital_den=intval($override->cardiac_RHD_congenital_den());
-          $proprtion_congenital_RHD_surgical=intval(intval($cardiac_congenital_RHD_surgery_num)/intval($cardiac_RHD_congenital_den) *100);
-          $data_proportion_congenital_RHD_surgical_evaluation=[
-                               'labels' => ['% of congenital or RHD for surgical', '% of congenital or RHD not  surgical'],
-                               'datasets' => [
-                [
-                    'data' => [$proprtion_congenital_RHD_surgical, 100 - $proprtion_congenital_RHD_surgical], // Calculate the second value dynamically
-                    'backgroundColor' => ['#00a65a', '#f39c12'],
-                ]
-            ]
+        if (Input::get('site_id')) {
+            $cardiac_congenital_RHD_surgery_num=intval($override->cardiac_congenital_RHD_surgery_num_by_site(Input::get('site_id')));
+            $cardiac_RHD_congenital_den=intval($override->cardiac_RHD_congenital_den(Input::get('site_id')));
+        } else {
+            $cardiac_congenital_RHD_surgery_num=intval($override->cardiac_congenital_RHD_surgery_num());
+            $cardiac_RHD_congenital_den=intval($override->cardiac_RHD_congenital_den());
 
-                                        ];
+        }
+
+        $proprtion_congenital_RHD_surgical=intval(intval($cardiac_congenital_RHD_surgery_num)/intval($cardiac_RHD_congenital_den) *100);
+        $data_proportion_congenital_RHD_surgical_evaluation=[
+                             'labels' => ['% of congenital or RHD for surgical', '% of congenital or RHD not  surgical'],
+                             'datasets' => [
+              [
+                  'data' => [$proprtion_congenital_RHD_surgical, 100 - $proprtion_congenital_RHD_surgical], // Calculate the second value dynamically
+                  'backgroundColor' => ['#00a65a', '#f39c12'],
+              ]
+          ]
+
+                                      ];
+
+
+
+        // Convert the data to JSON format
+        $json_proportion_congenital_RHD_surgical_evaluation = json_encode($data_proportion_congenital_RHD_surgical_evaluation);
+
+
 
         //Indicator 4-NYHA I
          $NYHA_1_num=intval($override->Active_NYHA_I_num());
@@ -256,7 +270,7 @@ if ($user->isLoggedIn()) {
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
+                                    data-target="#modal-xl1">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
@@ -278,7 +292,7 @@ if ($user->isLoggedIn()) {
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
+                                    data-target="#modal-xl2">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
@@ -302,7 +316,7 @@ if ($user->isLoggedIn()) {
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
+                                    data-target="#modal-xl3">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
@@ -311,7 +325,7 @@ if ($user->isLoggedIn()) {
                                 </button> -->
                             </div>
                         </div>
-                                          <div class="col-md-3">
+                            <div class="col-md-3">
                             <!-- small card -->
                             <div class="small-box bg-success">
                                 <div class="inner">
@@ -358,7 +372,7 @@ if ($user->isLoggedIn()) {
 
                         <!-- /.col (LEFT) -->
 
-                        <div class="modal fade" id="modal-xl">
+                        <div class="modal fade" id="modal-xl1">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -387,7 +401,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="hba1c_test"
+                                                        <canvas id="congenital_RHD_surgical_evaluation"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -397,6 +411,11 @@ if ($user->isLoggedIn()) {
                                             <?php
 
                                             $pagNum = 0;
+                                            if (Input::get('site_id')) {
+                                                $pagNum=intval($override->cardiac_congenital_RHD_surgery_num_by_site(Input::get('site_id')));
+                                            } else {
+                                                $pagNum=intval($override->cardiac_congenital_RHD_surgery_num());                                    
+                                            }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
                                                 $page = 0;
@@ -404,8 +423,11 @@ if ($user->isLoggedIn()) {
                                                 $page = ($_GET['page'] * $numRec) - $numRec;
                                             }
 
-                                            $data = $override->getWithLimit1('diabetic', 'diagnosis', 1, 'status', 1, $page, $numRec);
-
+                                            if (Input::get('site_id')) {
+                                                $data = $override->cardiac_congenital_RHD_surgery_num_by_site_data_rows(Input::get('site_id'), $page, $numRec);
+                                            }else{
+                                                $data = $override->cardiac_congenital_RHD_surgery_num_rows_data($page, $numRec);
+                                            }
                                             ?>
                                             <div class="col-md-7">
                                                 <div class="card">
@@ -695,13 +717,13 @@ if ($user->isLoggedIn()) {
              * -------
              * Here we will create a few charts using ChartJS
              */
+             congenital_RHD_surgical_evaluation_Data = <?php echo $json_proportion_congenital_RHD_surgical_evaluation; ?>
 
-            hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>
             // Get the canvas element
-            var hba1c_test = $('#hba1c_test').get(0).getContext('2d');
+            var congenital_RHD_surgical_evaluation = $('#congenital_RHD_surgical_evaluation').get(0).getContext('2d');
 
             // Options to include data labels inside the chart
-            var hba1c_test_Options = {
+            var congenital_RHD_surgical_evaluation_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -724,17 +746,23 @@ if ($user->isLoggedIn()) {
                             size: 14 // Font size for labels
                         },
                         formatter: function (value, context) {
-                            return value; // Display value inside the pie chart
-                        }
+                            return value + '%'; // Display value inside the pie chart
+                        },
+                        anchor: 'center', // Position the labels in the center
+                        align: 'center', // Align the labels to the center
                     }
                 }
             };
 
+            // Register the datalabels plugin globally (if not already registered)
+            Chart.register(ChartDataLabels);
+
             // Create pie chart
-            new Chart(hba1c_test, {
+            new Chart(congenital_RHD_surgical_evaluation, {
                 type: 'pie', // Pie chart type
-                data: hba1c_test_Data,
-                options: hba1c_test_Options
+                data: congenital_RHD_surgical_evaluation_Data,
+                options: congenital_RHD_surgical_evaluation_Options,
+                plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });
 
         })

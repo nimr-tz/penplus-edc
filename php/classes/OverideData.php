@@ -96,6 +96,226 @@ class OverideData
     }
 
 
+    public function getNo1_1_Rows_Data()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '')
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function getNo3_1_ROWS_DATA($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE s.hba1c IS NOT NULL AND s.hba1c != ''
+            AND s.status = 1
+            AND s.hba1c < 8
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1
+            limit $page,$numRec
+            ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+
+    public function getNo_Numerator_TID_Hba1c_6Months()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '')
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Numerator_TID_Hba1c_6Months_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '')
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        AND d.site_id = '$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function getNo_Numerator_TID_Hba1c_6Months_Data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '')
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function getNo_Denominator_TID_Hba1c_6Months($table, $field, $value, $field1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Denominator_TID_Hba1c_6Months_By_Site($table, $field, $value, $field1, $value1, $field2, $value2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1' AND $field2 = '$value2'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Numerator_T1D_HBA1C_LESS_8_LAST_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE s.hba1c IS NOT NULL AND s.hba1c != ''
+            AND s.status = 1
+            AND s.hba1c < 8
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1
+            AND d.site_id = '$value'
+            ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+
+    public function getNo_Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE s.hba1c IS NOT NULL AND s.hba1c != ''
+            AND s.status = 1
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1
+            AND d.site_id = '$value'
+            ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+
+    public function getNo_Numerator_T1D_DK_12_MONTHS()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT l.patient_id
+        FROM lab_details l
+        JOIN diabetic d ON l.patient_id = d.patient_id
+        WHERE l.dka_number IS NOT NULL AND l.dka_number != ''
+        AND l.status = 1
+        AND l.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 12 MONTH) AND CURDATE()  -- Filter visits within the last 12 months
+        AND l.visit_date != (
+            SELECT MIN(l1.visit_date)
+            FROM lab_details l1
+            WHERE l1.patient_id = l.patient_id
+            AND l1.status = 1
+        )
+        AND d.diagnosis = 1;
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Numerator_T1D_DK_12_MONTHS_ROWS_DATA($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT l.patient_id
+        FROM lab_details l
+        JOIN diabetic d ON l.patient_id = d.patient_id
+        WHERE l.dka_number IS NOT NULL AND l.dka_number != ''
+        AND l.status = 1
+        AND l.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 12 MONTH) AND CURDATE()  -- Filter visits within the last 12 months
+        AND l.visit_date != (
+            SELECT MIN(l1.visit_date)
+            FROM lab_details l1
+            WHERE l1.patient_id = l.patient_id
+            AND l1.status = 1
+        )
+        AND d.diagnosis = 1
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getNo_Numerator_T1D_DK_12_MONTHS_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT l.patient_id
+        FROM lab_details l
+        JOIN diabetic d ON l.patient_id = d.patient_id
+        WHERE l.dka_number IS NOT NULL AND l.dka_number != ''
+        AND l.status = 1
+        AND l.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 12 MONTH) AND CURDATE()  -- Filter visits within the last 12 months
+        AND l.visit_date != (
+            SELECT MIN(l1.visit_date)
+            FROM lab_details l1
+            WHERE l1.patient_id = l.patient_id
+            AND l1.status = 1
+        )
+        AND d.diagnosis = 1
+        AND d.site_id = '$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+
+    public function getNo_Denominator_T1D_DK_12_MONTH($table, $field, $value, $field1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Denominator_T1D_DK_12_MONTHS_By_Site($table, $field, $value, $field1, $value1, $field2, $value2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1' AND $field2 = '$value2'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+
     //Denominator-All active with RHD
     public function Active_RHD($table, $field, $value, $field1, $value1)
     {

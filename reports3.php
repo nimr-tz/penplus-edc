@@ -221,8 +221,8 @@ if ($user->isLoggedIn()) {
                                                             <option value="">ALL SITES</option>
                                                             <!-- <option value="3">All</option> -->
                                                             <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
-                                                                    <option value="<?= $site['id'] ?>"><?= $site['name'] ?>
-                                                                    </option>
+                                                                <option value="<?= $site['id'] ?>"><?= $site['name'] ?>
+                                                                </option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
@@ -425,17 +425,16 @@ if ($user->isLoggedIn()) {
                                                                     $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
                                                                     $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
                                                                     ?>
-                                                                        <tr>
-                                                                            <td><?= $i ?>.</td>
-                                                                            <td><?= $clients['study_id'] ?></td>
-                                                                            <td><?= $clients['age'] ?></td>
-                                                                            <td><?= $sex['name'] ?></td>
-                                                                            <td><?= $clients['age'] ?></td>
-                                                                            <td><?= $row['hba1c'] ?></td>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <?php
-                                                                        $i++;
+                                                                    <tr>
+                                                                        <td><?= $i ?>.</td>
+                                                                        <td><?= $clients['study_id'] ?></td>
+                                                                        <td><?= $clients['age'] ?></td>
+                                                                        <td><?= $sex['name'] ?></td>
+                                                                        <td><?= $row['hba1c'] ?></td>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $i++;
                                                                 } ?>
                                                             </tbody>
                                                         </table>
@@ -462,37 +461,37 @@ if ($user->isLoggedIn()) {
 
                                                             <!-- First Page (if outside the range) -->
                                                             <?php if ($start > 1): ?>
-                                                                    <li class="page-item">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                </li>
+                                                                <?php if ($start > 2): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
                                                                     </li>
-                                                                    <?php if ($start > 2): ?>
-                                                                            <li class="page-item disabled">
-                                                                                <span class="page-link">...</span>
-                                                                            </li>
-                                                                    <?php endif; ?>
+                                                                <?php endif; ?>
                                                             <?php endif; ?>
 
                                                             <!-- Visible Page Links -->
                                                             <?php for ($i = $start; $i <= $end; $i++): ?>
-                                                                    <li
-                                                                        class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                                                    </li>
+                                                                <li
+                                                                    class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                </li>
                                                             <?php endfor; ?>
 
                                                             <!-- Last Page (if outside the range) -->
                                                             <?php if ($end < $pages): ?>
-                                                                    <?php if ($end < $pages - 1): ?>
-                                                                            <li class="page-item disabled">
-                                                                                <span class="page-link">...</span>
-                                                                            </li>
-                                                                    <?php endif; ?>
-                                                                    <li class="page-item">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                <?php if ($end < $pages - 1): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
                                                                     </li>
+                                                                <?php endif; ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                </li>
                                                             <?php endif; ?>
 
                                                             <!-- Next Page -->
@@ -624,17 +623,16 @@ if ($user->isLoggedIn()) {
                                                                     $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
                                                                     $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
                                                                     ?>
-                                                                        <tr>
-                                                                            <td><?= $i ?>.</td>
-                                                                            <td><?= $clients['study_id'] ?></td>
-                                                                            <td><?= $clients['age'] ?></td>
-                                                                            <td><?= $sex['name'] ?></td>
-                                                                            <td><?= $clients['age'] ?></td>
-                                                                            <td><?= $row['hba1c'] ?></td>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <?php
-                                                                        $i++;
+                                                                    <tr>
+                                                                        <td><?= $i ?>.</td>
+                                                                        <td><?= $clients['study_id'] ?></td>
+                                                                        <td><?= $clients['age'] ?></td>
+                                                                        <td><?= $sex['name'] ?></td>
+                                                                        <td><?= $row['hba1c'] ?></td>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $i++;
                                                                 } ?>
                                                             </tbody>
                                                         </table>
@@ -661,37 +659,37 @@ if ($user->isLoggedIn()) {
 
                                                             <!-- First Page (if outside the range) -->
                                                             <?php if ($start > 1): ?>
-                                                                    <li class="page-item">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                </li>
+                                                                <?php if ($start > 2): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
                                                                     </li>
-                                                                    <?php if ($start > 2): ?>
-                                                                            <li class="page-item disabled">
-                                                                                <span class="page-link">...</span>
-                                                                            </li>
-                                                                    <?php endif; ?>
+                                                                <?php endif; ?>
                                                             <?php endif; ?>
 
                                                             <!-- Visible Page Links -->
                                                             <?php for ($i = $start; $i <= $end; $i++): ?>
-                                                                    <li
-                                                                        class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                                                    </li>
+                                                                <li
+                                                                    class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                </li>
                                                             <?php endfor; ?>
 
                                                             <!-- Last Page (if outside the range) -->
                                                             <?php if ($end < $pages): ?>
-                                                                    <?php if ($end < $pages - 1): ?>
-                                                                            <li class="page-item disabled">
-                                                                                <span class="page-link">...</span>
-                                                                            </li>
-                                                                    <?php endif; ?>
-                                                                    <li class="page-item">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                <?php if ($end < $pages - 1): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
                                                                     </li>
+                                                                <?php endif; ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                </li>
                                                             <?php endif; ?>
 
                                                             <!-- Next Page -->
@@ -810,7 +808,7 @@ if ($user->isLoggedIn()) {
                                                                     <th>Study ID</th>
                                                                     <th>Age</th>
                                                                     <th>Sex</th>
-                                                                    <th>HbA1C</th>
+                                                                    <th>DKA</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -820,17 +818,16 @@ if ($user->isLoggedIn()) {
                                                                     $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
                                                                     $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
                                                                     ?>
-                                                                        <tr>
-                                                                            <td><?= $i ?>.</td>
-                                                                            <td><?= $clients['study_id'] ?></td>
-                                                                            <td><?= $clients['age'] ?></td>
-                                                                            <td><?= $sex['name'] ?></td>
-                                                                            <td><?= $clients['age'] ?></td>
-                                                                            <td><?= $row['hba1c'] ?></td>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <?php
-                                                                        $i++;
+                                                                    <tr>
+                                                                        <td><?= $i ?>.</td>
+                                                                        <td><?= $clients['study_id'] ?></td>
+                                                                        <td><?= $clients['age'] ?></td>
+                                                                        <td><?= $sex['name'] ?></td>
+                                                                        <td><?= $row['dka_number'] ?></td>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $i++;
                                                                 } ?>
                                                             </tbody>
                                                         </table>
@@ -857,37 +854,37 @@ if ($user->isLoggedIn()) {
 
                                                             <!-- First Page (if outside the range) -->
                                                             <?php if ($start > 1): ?>
-                                                                    <li class="page-item">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                </li>
+                                                                <?php if ($start > 2): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
                                                                     </li>
-                                                                    <?php if ($start > 2): ?>
-                                                                            <li class="page-item disabled">
-                                                                                <span class="page-link">...</span>
-                                                                            </li>
-                                                                    <?php endif; ?>
+                                                                <?php endif; ?>
                                                             <?php endif; ?>
 
                                                             <!-- Visible Page Links -->
                                                             <?php for ($i = $start; $i <= $end; $i++): ?>
-                                                                    <li
-                                                                        class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                                                    </li>
+                                                                <li
+                                                                    class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                </li>
                                                             <?php endfor; ?>
 
                                                             <!-- Last Page (if outside the range) -->
                                                             <?php if ($end < $pages): ?>
-                                                                    <?php if ($end < $pages - 1): ?>
-                                                                            <li class="page-item disabled">
-                                                                                <span class="page-link">...</span>
-                                                                            </li>
-                                                                    <?php endif; ?>
-                                                                    <li class="page-item">
-                                                                        <a class="page-link"
-                                                                            href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                <?php if ($end < $pages - 1): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
                                                                     </li>
+                                                                <?php endif; ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports3.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                </li>
                                                             <?php endif; ?>
 
                                                             <!-- Next Page -->
@@ -981,18 +978,18 @@ if ($user->isLoggedIn()) {
                                                 $end_study = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
                                                 $end_study_Total = $override->countData('clients', 'status', 1, 'end_study', 1);
                                                 ?>
-                                                    <tr>
-                                                        <td><?= $i ?>.</td>
-                                                        <td><?= $row['name'] ?></td>
-                                                        <td><?= $enrolled ?></td>
-                                                        <td><?= $diabetes1 ?></td>
-                                                        <td><?= $diabetes2 ?></td>
-                                                        <td><?= $diabetes3 ?></td>
-                                                        <td><?= $diabetes4 ?></td>
-                                                        <td><?= $diabetes5 ?></td>
-                                                    </tr>
-                                                    <?php
-                                                    $i++;
+                                                <tr>
+                                                    <td><?= $i ?>.</td>
+                                                    <td><?= $row['name'] ?></td>
+                                                    <td><?= $enrolled ?></td>
+                                                    <td><?= $diabetes1 ?></td>
+                                                    <td><?= $diabetes2 ?></td>
+                                                    <td><?= $diabetes3 ?></td>
+                                                    <td><?= $diabetes4 ?></td>
+                                                    <td><?= $diabetes5 ?></td>
+                                                </tr>
+                                                <?php
+                                                $i++;
                                             } ?>
                                             <tr>
                                                 <td align="right" colspan="2"><b>Total</b></td>

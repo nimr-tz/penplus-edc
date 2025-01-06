@@ -46,20 +46,21 @@ if ($user->isLoggedIn()) {
 
 
         // INDICATOR 1
-        // if (Input::get('site_id')) {
-        //     $Numerator_ncd_Limited = intval($override->Numerator_ncd_Limited_By_Site(Input::get('site_id')));
-        //     $Denominator_ncd_Limited = intval($override->Denominator_ncd_Limited_By_Site(Input::get('site_id')));
-        // } else {
-        //     $Numerator_ncd_Limited = intval($override->Numerator_ncd_Limited());
-        //     $Denominator_ncd_Limited = intval($override->Denominator_ncd_Limited());
-        // }
+        if (Input::get('site_id')) {
+            $Numerator_ncd_Limited = intval($override->Numerator_ncd_Limited_By_Site(Input::get('site_id')));
+            $Denominator_ncd_Limited = intval($override->Denominator_ncd_Limited_By_Site(Input::get('site_id')));
+        } else {
+            $Numerator_ncd_Limited = intval($override->Numerator_ncd_Limited());
+            $Denominator_ncd_Limited = intval($override->Denominator_ncd_Limited());
+        }
+
         $propotion_ncd_Limited = intval(intval($Numerator_ncd_Limited) / intval($Denominator_ncd_Limited) * 100);
         // Prepare the data in PHP
         $data_propotion_ncd_Limited = [
             'labels' => ['Proportion of patients for whom NCD has limited school attendance ever', 'Proportion of patients for whom NCD has Not limited school attendance ever'],
             'datasets' => [
                 [
-                    'data' => [$propotion_ncd_Limited, 100 - $$propotion_ncd_Limited], // Calculate the second value dynamically
+                    'data' => [$propotion_ncd_Limited, 100 - $propotion_ncd_Limited], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
@@ -71,26 +72,45 @@ if ($user->isLoggedIn()) {
 
 
         // INDICATOR 2
-        // if (Input::get('site_id')) {
-        //     $Average_missed_school = intval($override->Average_missed_school_By_Site(Input::get('site_id')));
-        // } else {
-        //     $Average_missed_school = intval($override->Average_missed_school());
-        // }
+        if (Input::get('site_id')) {
+            $Average_missed_school = intval($override->Average_missed_school_By_Site(Input::get('site_id')));
+        } else {
+            $Average_missed_school = intval($override->Average_missed_school());
+        }
 
 
         // INDICATOR 3
-        // if (Input::get('site_id')) {
-        //     $food_insecurity = intval($override->food_insecurity_by_site(Input::get('site_id')));
-        // } else {
-        //     $food_insecurity = intval($override->food_insecurity());
-        // }
+        if (Input::get('site_id')) {
+            $Numerator_food_insecurity = intval($override->Numerator_food_insecurity_by_site(Input::get('site_id')));
+            $Denominator_food_insecurity = intval($override->Denominator_food_insecurity_by_site(Input::get('site_id')));
+        } else {
+            $Numerator_food_insecurity = intval($override->Numerator_food_insecurity());
+            $Denominator_food_insecurity = intval($override->Denominator_food_insecurity());
+        }
 
-        // INDICATOR 4
-        // if (Input::get('site_id')) {
-        //     $Average_Distance_Cost = intval($override->Average_Distance_Cost_By_SIte(Input::get('site_id')));
-        // } else {
-        //     $Average_Distance_Cost = intval($override->Average_Distance_Cost());
-        // }
+        $proportion_food_insecurity = intval(intval($Numerator_food_insecurity) / intval($Denominator_food_insecurity) * 100);
+
+        // Prepare the data in PHP
+        $data_proportion_food_insecurity = [
+            'labels' => ["Patients facing food inscecurity", "Patients not facing food inscecurity"],
+            'datasets' => [
+                [
+                    'data' => [$proportion_food_insecurity, 100 - $proportion_food_insecurity], // Calculate the second value dynamically
+                    'backgroundColor' => ['#00a65a', '#f39c12'],
+                ]
+            ]
+        ];
+        // Convert the data to JSON format
+        $json_proportion_food_insecurity = json_encode($data_proportion_food_insecurity);
+
+
+
+        // INDICATOR 2,4,5 and 6
+        if (Input::get('site_id')) {
+            $Average_Distance_Cost = intval($override->Average_Distance_Cost_By_Site(Input::get('site_id')));
+        } else {
+            $Average_Distance_Cost = intval($override->Average_Distance_Cost());
+        }
 
         // INDICATOR 7
         if (Input::get('site_id')) {
@@ -254,7 +274,13 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3><?= $propotion_ncd_Limited ?>%</h3>
+                                    <h3>
+                                        <?php if ($propotion_ncd_Limited) {
+                                            print_r($propotion_ncd_Limited);
+                                        } else {
+                                            echo 0;
+                                        } ?>%
+                                    </h3>
                                     <p>Proportion of patients for whom NCD has limited school attendance ever</p>
                                 </div>
                                 <div class="icon">
@@ -276,7 +302,11 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3><?= $proportion_SCD_on_folic_acid ?>%</h3>
+                                    <?php if ($food_insecurity) {
+                                        print_r($food_insecurity);
+                                    } else {
+                                        echo 0;
+                                    } ?>
                                     <p>Patients facing food inscecurity</p>
                                 </div>
                                 <div class="icon">
@@ -297,8 +327,13 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-indigo">
                                 <div class="inner">
-                                    <h3><?= $proportion_Social_Support ?>%</h3>
-                                    <p>Proportion of patients who are provided with social support in a quarter</p>
+                                    <h3>
+                                        <?php if ($proportion_Social_Support) {
+                                            print_r($proportion_Social_Support);
+                                        } else {
+                                            echo 0;
+                                        } ?>%
+                                        <p>Proportion of patients who are provided with social support in a quarter</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
@@ -330,7 +365,9 @@ if ($user->isLoggedIn()) {
                                     <div class="row">
                                         <div class="col-sm-4 border-right">
                                             <div class="description-block">
-                                                <h5 class="description-header">3,200</h5>
+                                                <h5 class="description-header">
+                                                    <?= $Average_Distance_Cost['distance_km'] ?>
+                                                </h5>
                                                 <span class="description-text">Average distance to clinic in kms</span>
                                             </div>
                                             <!-- /.description-block -->
@@ -338,7 +375,9 @@ if ($user->isLoggedIn()) {
                                         <!-- /.col -->
                                         <div class="col-sm-4 border-right">
                                             <div class="description-block">
-                                                <h5 class="description-header">13,000</h5>
+                                                <h5 class="description-header">
+                                                    <?= $Average_Distance_Cost['distance_minutes'] ?>
+                                                </h5>
                                                 <span class="description-text">Average distance to clinic in
                                                     minutes</span>
                                             </div>
@@ -347,7 +386,9 @@ if ($user->isLoggedIn()) {
                                         <!-- /.col -->
                                         <div class="col-sm-4">
                                             <div class="description-block">
-                                                <h5 class="description-header">35</h5>
+                                                <h5 class="description-header">
+                                                    <?= $Average_Distance_Cost['transportation_cost'] ?>
+                                                </h5>
                                                 <span class="description-text">Average cost of transportation</span>
                                             </div>
                                             <!-- /.description-block -->
@@ -561,12 +602,11 @@ if ($user->isLoggedIn()) {
                             <!-- /.modal-dialog -->
                         </div>
                         <!-- /.modal -->
-                        <div class="modal fade" id="modal-xl2">
+                        <div class="modal fade" id="modal-xl3">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Proportion of patients with SCD less than 5 years old
-                                            who are on antibiotic prophylaxis</h4>
+                                        <h4 class="modal-title">Patients facing food inscecurity</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -591,7 +631,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="antibiotic_prophylaxis"
+                                                        <canvas id="food_inscecurity"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -601,9 +641,9 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Numerator_scd_5_penv_by_site(Input::get('site_id')));
+                                                $pagNum = intval($override->Numerator_food_insecurity_by_site(Input::get('site_id')));
                                             } else {
-                                                $pagNum = intval($override->Numerator_scd_5_penv());
+                                                $pagNum = intval($override->Numerator_food_insecurity());
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -613,9 +653,9 @@ if ($user->isLoggedIn()) {
                                             }
 
                                             if (Input::get('site_id')) {
-                                                $data = $override->Numerator_scd_5_penv_data_Rows_by_Site(Input::get('site_id'), $page, $numRec);
+                                                $data = $override->Numerator_food_insecurity_Data_Rows_By_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Numerator_scd_5_penv_data_Rows($page, $numRec);
+                                                $data = $override->Numerator_food_insecurity_Data_Rows($page, $numRec);
                                             }
                                             ?>
                                             <div class="col-md-7">
@@ -627,11 +667,9 @@ if ($user->isLoggedIn()) {
                                                                     id="indicator" style="width: 100%;"
                                                                     autocomplete="off">
                                                                     <option value="1">
-                                                                        Proportion of patients with SCD less than 5
-                                                                        years old who are on antibiotic prophylaxis
+                                                                        Patients facing food inscecurity
                                                                     <option value="2">
-                                                                        Proportion of patients with SCD less than 5
-                                                                        years old who are not on antibiotic prophylaxis
+                                                                        Patients Not facing food inscecurity
                                                                     </option>
                                                                     </option>
                                                                 </select>
@@ -639,8 +677,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-header">
-                                                        <h3 class="card-title">Patients with SCD less than 5 years old
-                                                            who are on antibiotic prophylaxis
+                                                        <h3 class="card-title">Patients facing food inscecurity
                                                         </h3>
                                                     </div>
                                                     <!-- /.card-header -->
@@ -691,14 +728,14 @@ if ($user->isLoggedIn()) {
                                                             <li
                                                                 class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                                    href="reports_social_economic.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
                                                             </li>
 
                                                             <!-- First Page (if outside the range) -->
                                                             <?php if ($start > 1): ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                        href="reports_social_economic.php?site_id=<?= $currentSite; ?>&page=1">1</a>
                                                                 </li>
                                                                 <?php if ($start > 2): ?>
                                                                     <li class="page-item disabled">
@@ -712,7 +749,7 @@ if ($user->isLoggedIn()) {
                                                                 <li
                                                                     class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
                                                                     <a class="page-link"
-                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                        href="reports_social_economic.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                                                                 </li>
                                                             <?php endfor; ?>
 
@@ -725,14 +762,14 @@ if ($user->isLoggedIn()) {
                                                                 <?php endif; ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                        href="reports_social_economic.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
                                                                 </li>
                                                             <?php endif; ?>
                                                             <!-- Next Page -->
                                                             <li
                                                                 class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                                    href="reports_social_economic.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -752,7 +789,7 @@ if ($user->isLoggedIn()) {
                             <!-- /.modal-dialog -->
                         </div>
                         <!-- /.modal -->
-                        <div class="modal fade" id="modal-xl3">
+                        <div class="modal fade" id="modal-xl2_4_5_6">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -791,28 +828,28 @@ if ($user->isLoggedIn()) {
                                             <!-- /.card -->
                                             <?php
 
-                                            $pagNum = 0;
-                                            if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Numerator_scd_folic_by_Site(Input::get('site_id')));
-                                            } else {
-                                                $pagNum = intval($override->Numerator_scd_folic());
-                                            }
-                                            $pages = ceil($pagNum / $numRec);
-                                            if (!$_GET['page'] || $_GET['page'] == 1) {
-                                                $page = 0;
-                                            } else {
-                                                $page = ($_GET['page'] * $numRec) - $numRec;
-                                            }
-
-                                            if (Input::get('site_id')) {
-                                                $data = $override->Numerator_scd_folic_data_Rows_by_Site(Input::get('site_id'), $page, $numRec);
-                                            } else {
-                                                $data = $override->Numerator_scd_folic_data_Rows($page, $numRec);
-                                            }
+                                            // $pagNum = 0;
+                                            // if (Input::get('site_id')) {
+                                            //     $pagNum = intval($override->Numerator_scd_folic_by_Site(Input::get('site_id')));
+                                            // } else {
+                                            //     $pagNum = intval($override->Numerator_scd_folic());
+                                            // }
+                                            // $pages = ceil($pagNum / $numRec);
+                                            // if (!$_GET['page'] || $_GET['page'] == 1) {
+                                            //     $page = 0;
+                                            // } else {
+                                            //     $page = ($_GET['page'] * $numRec) - $numRec;
+                                            // }
+                                            
+                                            // if (Input::get('site_id')) {
+                                            //     $data = $override->Average_Distance_Cost_By_Site(Input::get('site_id'), $page, $numRec);
+                                            // } else {
+                                            //     $data = $override->Average_Distance_Cost_By_Site($page, $numRec);
+                                            // }
                                             ?>
                                             <div class="col-md-7">
                                                 <div class="card">
-                                                    <div class="col-sm-12">
+                                                    <!-- <div class="col-sm-12">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <select class="form-control" name="indicator"
@@ -827,39 +864,31 @@ if ($user->isLoggedIn()) {
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="card-header">
+                                                    </div> -->
+                                                    <!-- <div class="card-header">
                                                         <h3 class="card-title">Patients with SCD who are on folic acid
                                                         </h3>
-                                                    </div>
+                                                    </div> -->
                                                     <!-- /.card-header -->
                                                     <div class="card-body">
                                                         <table class="table table-bordered">
                                                             <thead>
                                                                 <tr>
                                                                     <th style="width: 10px">#</th>
-                                                                    <th>Study ID</th>
-                                                                    <th>Age</th>
-                                                                    <th>Sex</th>
+                                                                    <th>Average days of missed school in the last month</th>
+                                                                    <th>Average distance to clinic in kms</th>
+                                                                    <th>Average distance to clinic in minutes</th>
+                                                                    <th>Average cost of transportation</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <?php
-                                                                $i = 1;
-                                                                foreach ($data as $row) {
-                                                                    $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
-                                                                    $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
-                                                                    ?>
-                                                                    <tr>
-                                                                        <td><?= $i ?>.</td>
-                                                                        <td><?= $row['study_id'] ?></td>
-                                                                        <td><?= $clients['age'] ?></td>
-                                                                        <td><?= $sex['name'] ?></td>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <?php
-                                                                    $i++;
-                                                                } ?>
+                                                                <tr>
+                                                                    <td><?= $i ?>.</td>
+                                                                    <td><?= $Average_Distance_Cost['distance_km'] ?></td>
+                                                                    <td><?= $Average_Distance_Cost['distance_km'] ?></td>
+                                                                    <td><?= $Average_Distance_Cost['distance_minutes'] ?></td>
+                                                                    <td><?= $Average_Distance_Cost['transportation_cost'] ?></td>
+                                                                </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -986,7 +1015,7 @@ if ($user->isLoggedIn()) {
                                             if (Input::get('site_id')) {
                                                 $pagNum = intval($override->Numerator_Social_Support_By_Site(Input::get('site_id')));
                                             } else {
-                                                $pagNum = intval($override->Numerator_Social_Support());
+                                                // $pagNum = intval($override->Numerator_Social_Support());
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -998,7 +1027,7 @@ if ($user->isLoggedIn()) {
                                             if (Input::get('site_id')) {
                                                 $data = $override->Numerator_Social_Support_Data_Rows_By_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Numerator_Social_Support_Data_Rows($page, $numRec);
+                                                // $data = $override->Numerator_Social_Support_Data_Rows($page, $numRec);
                                             }
 
                                             // print_r($proportion_Social_Support);
@@ -1340,13 +1369,13 @@ if ($user->isLoggedIn()) {
              * -------
              * Here we will create a few charts using ChartJS
              */
-            antibiotic_prophylaxis_Data = <?php echo $json_propotion_SCD_under_5_penv; ?>
+            food_insecurity_Data = <?php echo $json_proportion_food_insecurity; ?>
 
             // Get the canvas element
-            var antibiotic_prophylaxis = $('#antibiotic_prophylaxis').get(0).getContext('2d');
+            var food_inscecurity = $('#food_inscecurity').get(0).getContext('2d');
 
             // Options to include data labels inside the chart
-            var antibiotic_prophylaxis_Options = {
+            var food_inscecurity_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -1381,125 +1410,10 @@ if ($user->isLoggedIn()) {
             Chart.register(ChartDataLabels);
 
             // Create pie chart
-            new Chart(antibiotic_prophylaxis, {
+            new Chart(food_inscecurity, {
                 type: 'pie', // Pie chart type
-                data: antibiotic_prophylaxis_Data,
-                options: antibiotic_prophylaxis_Options,
-                plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
-            });
-
-        })
-    </script>
-
-    <script>
-        $(function () {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
-            folic_acid_Data = <?php echo $json_propotion_SCD_on_folic_acid; ?>
-
-            // Get the canvas element
-            var folic_acid = $('#folic_acid').get(0).getContext('2d');
-
-            // Options to include data labels inside the chart
-            var folic_acid_Options = {
-                maintainAspectRatio: false,
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top', // Position of legend
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const label = tooltipItem.label || '';
-                                const value = tooltipItem.raw;
-                                return `${label}: ${value}`;
-                            }
-                        }
-                    },
-                    datalabels: {
-                        color: '#fff', // Text color for data labels
-                        font: {
-                            weight: 'bold',
-                            size: 14 // Font size for labels
-                        },
-                        formatter: function (value, context) {
-                            return value + '%'; // Display value inside the pie chart
-                        },
-                        anchor: 'center', // Position the labels in the center
-                        align: 'center', // Align the labels to the center
-                    }
-                }
-            };
-
-            // Register the datalabels plugin globally (if not already registered)
-            Chart.register(ChartDataLabels);
-
-            // Create pie chart
-            new Chart(folic_acid, {
-                type: 'pie', // Pie chart type
-                data: folic_acid_Data,
-                options: folic_acid_Options,
-                plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
-            });
-
-        })
-    </script>
-
-
-    <script>
-        $(function () {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
-            transfusion_Data = <?php echo $json_proportion_SCD_transfusion_12_months; ?>
-
-            // Get the canvas element
-            var transfusion = $('#transfusion').get(0).getContext('2d');
-
-            // Options to include data labels inside the chart
-            var transfusion_Options = {
-                maintainAspectRatio: false,
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top', // Position of legend
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const label = tooltipItem.label || '';
-                                const value = tooltipItem.raw;
-                                return `${label}: ${value}`;
-                            }
-                        }
-                    },
-                    datalabels: {
-                        color: '#fff', // Text color for data labels
-                        font: {
-                            weight: 'bold',
-                            size: 14 // Font size for labels
-                        },
-                        formatter: function (value, context) {
-                            return value + '%'; // Display value inside the pie chart
-                        },
-                        anchor: 'center', // Position the labels in the center
-                        align: 'center', // Align the labels to the center
-                    }
-                }
-            };
-
-            // Register the datalabels plugin globally (if not already registered)
-            Chart.register(ChartDataLabels);
-
-            // Create pie chart
-            new Chart(transfusion, {
-                type: 'pie', // Pie chart type
-                data: transfusion_Data,
-                options: transfusion_Options,
+                data: food_insecurity_Data,
+                options: food_inscecurity_Options,
                 plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });
 

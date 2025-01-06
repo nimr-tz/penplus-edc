@@ -1010,13 +1010,12 @@ class OverideData
 
     public function Numerator_ncd_Limited_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT *
-        FROM 
+        $query = $this->_pdo->query("SELECT * FROM
         clients c
-        JOIN 
+        JOIN
         demographic d ON c.id = d.patient_id
-        WHERE 
-        c.age < 24 
+        WHERE
+        c.age < 24
         AND d.school_attendance = 1
         AND d.status = 1 AND d.site_id='$value'
      ");
@@ -1027,13 +1026,12 @@ class OverideData
 
     public function Numerator_ncd_Limited_Data_Rows($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT *
-        FROM 
+        $query = $this->_pdo->query("SELECT * FROM
         clients c
-        JOIN 
+        JOIN
         demographic d ON c.id = d.patient_id
-        WHERE 
-        c.age < 24 
+        WHERE
+        c.age < 24
         AND d.school_attendance = 1
         AND d.status = 1
         limit $page,$numRec
@@ -1045,30 +1043,27 @@ class OverideData
 
     public function Numerator_ncd_Limited_Data_Rows_By_Site($value, $page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT *
-        FROM 
+        $query = $this->_pdo->query("SELECT * FROM
         clients c
-        JOIN 
+        JOIN
         demographic d ON c.id = d.patient_id
-        WHERE 
-        c.age < 24 
+        WHERE
+        c.age < 24
         AND d.school_attendance = 1
         AND d.status = 1
-        AND s.site_id = '$value'  
-        limit $page,$numRec
+        AND s.site_id = '$value'
+        -- limit $page,$numRec
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-
-
-
     public function Denominator_ncd_Limited()
     {
         $query = $this->_pdo->query("SELECT * FROM clients c
         JOIN demographic d ON c.id = d.patient_id
-        WHERE c.age < 24 AND d.status = 1");
+        WHERE c.age < 24 AND d.status = 1
+        ");
         $num = $query->rowCount();
         return $num;
     }
@@ -1085,47 +1080,137 @@ class OverideData
 
 
     }
+
     //Indicator 2-Average days of missed school in the last month
     public function Average_missed_school()
     {
-        $query = $this->_pdo->query("SELECT AVG(h.missed_days) FROM hospitalization h JOIN clients c ON h.patient_id = c.id WHERE c.age < 24 AND h.missed_days NOT IN (98, 99)");
+        $query = $this->_pdo->query("SELECT AVG(h.missed_days)
+        FROM hospitalization h JOIN clients c ON h.patient_id = c.id
+        WHERE c.age < 24 AND h.missed_days NOT IN (98, 99)
+        ");
         $num = $query->rowCount();
         return $num;
     }
     public function Average_missed_school_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT AVG(h.missed_days) FROM hospitalization h JOIN clients c ON h.patient_id = c.id WHERE c.age < 24 AND h.missed_days NOT IN (98, 99) AND h.site_id='$value'");
+        $query = $this->_pdo->query("SELECT AVG(h.missed_days)
+        FROM hospitalization h JOIN clients c ON h.patient_id = c.id
+        WHERE c.age < 24 AND h.missed_days NOT IN (98, 99)
+        AND h.site_id='$value'
+        ");
         $num = $query->rowCount();
         return $num;
     }
 
     //Indicator3 -Average days of missed school in the last month
-    public function food_insecurity()
+    public function Numerator_food_insecurity()
     {
-        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)");
-        $num = $query->rowCount();
-        return $num;
-    }
-    public function food_insecurity_by_site($value)
-    {
-        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3) AND s.site_id='$value'");
+        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s
+        WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
+        ");
         $num = $query->rowCount();
         return $num;
     }
 
+    public function Numerator_food_insecurity_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s
+        WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
+        AND s.site_id='$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Numerator_food_insecurity_Data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s
+        WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_food_insecurity_Data_Rows_By_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s
+        WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
+        AND s.site_id = '$value'
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function Denominator_food_insecurity()
+    {
+        $query = $this->_pdo->query("SELECT * FROM social_economic s
+        WHERE s.status = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Denominator_food_insecurity_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT * FROM social_economic s
+        WHERE s.status = 1
+        AND s.site_id='$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    // public function Denominator_food_insecurity_Data_Rows_by_site($value, $page, $numRec)
+    // {
+    //     $query = $this->_pdo->query("SELECT * FROM social_economic s
+    //     WHERE s.status = 1
+    //     AND s.site_id = '$value'
+    //     limit $page,$numRec
+    //     ");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+
+    // public function Numerator_food_insecurity_Data_Rows_by_site($value, $page, $numRec)
+    // {
+    //     $query = $this->_pdo->query("SELECT * FROM social_economic s
+    //     WHERE s.status = 1
+    //     AND s.site_id = '$value'
+    //     limit $page,$numRec
+    //     ");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+
     //Indicator 4,5,6
     public function Average_Distance_Cost()
     {
-        $query = $this->_pdo->query("SELECT AVG(distance_km),AVG(distance_minutes),AVG(transportation_cost) FROM social_economic");
-        $num = $query->rowCount();
-        return $num;
+        $query = $this->_pdo->query("SELECT
+            AVG(distance_km) AS avg_distance_km,
+            AVG(distance_minutes) AS avg_distance_minutes,
+            AVG(transportation_cost) AS avg_transportation_cost
+            FROM social_economic
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
-    public function Average_Distance_Cost_By_SIte($value)
+    public function Average_Distance_Cost_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT AVG(distance_km),AVG(distance_minutes),AVG(transportation_cost) FROM social_economic where site_id='$value'");
-        $num = $query->rowCount();
-        return $num;
+        $query = $this->_pdo->query("SELECT
+            AVG(distance_km) AS avg_distance_km,
+            AVG(distance_minutes) AS avg_distance_minutes,
+            AVG(transportation_cost) AS avg_transportation_cost
+            -- AND site_id = '$value'
+            FROM social_economic
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
+
+
     //Indicator 7
     //proportion of patients who are provided with social support in the last(last 3 months)
     public function Numerator_Social_Support()
@@ -1141,7 +1226,7 @@ class OverideData
     }
     public function Numerator_Social_Support_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT * FROM 
+        $query = $this->_pdo->query("SELECT * FROM
         treatment_plan t
         WHERE t.status = 1
         AND t.social_support = 1
@@ -1164,7 +1249,7 @@ class OverideData
         return $result;
     }
 
-    public function Numerator_Social_Support_Data_Rows_By_Site($value,$page, $numRec)
+    public function Numerator_Social_Support_Data_Rows_By_Site($value, $page, $numRec)
     {
         $query = $this->_pdo->query("SELECT * FROM
         treatment_plan t
@@ -1181,7 +1266,7 @@ class OverideData
 
     public function Denominator_Social_Support()
     {
-        $query = $this->_pdo->query("SELECT * FROM 
+        $query = $this->_pdo->query("SELECT * FROM
         treatment_plan t
         WHERE t.status = 1
         ");
@@ -1190,7 +1275,7 @@ class OverideData
     }
     public function Denominator_Social_Support_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT * FROM 
+        $query = $this->_pdo->query("SELECT * FROM
         treatment_plan t
         WHERE t.status = 1
         AND t.site_id='$value'

@@ -122,7 +122,7 @@ if ($user->isLoggedIn()) {
         //NYHA
         if (Input::get('site_id')) {
 
-            $Active_cardiac_den = intval($override->Active_cardiac_Den_by_Site('c.site_id', Input::get('site_id')));
+            $Active_cardiac_den = intval($override->Denominator_Active_cardiac_NYHA_By_Site('c.site_id', Input::get('site_id')));
 
             //Indicator 4-NYHA I
             $NYHA_1_num = intval($override->Active_NYHA_num_by_Site(Input::get('site_id'), 1));
@@ -144,7 +144,7 @@ if ($user->isLoggedIn()) {
             $NYHA_5_num = intval($override->Active_NYHA_num_by_Site(Input::get('site_id'), 5));
             $proportion_marked_limitation_5 = intval(intval($NYHA_5_num) / intval($Active_cardiac_den) * 100);
         } else {
-            $Active_cardiac_den = intval($override->Active_cardiac_Den());
+            $Active_cardiac_den = intval($override->Denominator_Active_cardiac_NYHA());
 
             $NYHA_1_num = intval($override->Active_NYHA_num(1));
             $proportion_marked_limitation_1 = intval(intval($NYHA_1_num) / intval($Active_cardiac_den) * 100);

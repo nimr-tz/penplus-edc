@@ -397,7 +397,7 @@ class OverideData
     //Numerator-All active cardiac on warfarin who checked INR in the last 3 months
     public function Numerator_active_cardiac_warfarin_INR()
     {
-        $query = $this->_pdo->query("SELECT COUNT(DISTINCT c.patient_id) AS patients_with_inr_checked
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id, c.study_id
         FROM cardiac c
         JOIN medication_treatments mt ON c.patient_id = mt.patient_id
         JOIN lab_details ld ON c.patient_id = ld.patient_id
@@ -406,7 +406,8 @@ class OverideData
         AND ld.inr IS NOT NULL
         AND ld.inr != ''
         AND ld.inr NOT IN (98, 99)
-        AND ld.visit_date >= CURDATE() - INTERVAL 3 MONTH");
+        AND ld.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        ");
         $num = $query->rowCount();
         return $num;
     }
@@ -414,7 +415,7 @@ class OverideData
 
     public function Numerator_active_cardiac_warfarin_INR_data_Rows($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT COUNT(DISTINCT c.patient_id) AS patients_with_inr_checked
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id, c.study_id
         FROM cardiac c
         JOIN medication_treatments mt ON c.patient_id = mt.patient_id
         JOIN lab_details ld ON c.patient_id = ld.patient_id
@@ -432,7 +433,7 @@ class OverideData
 
     public function Numerator_active_cardiac_warfarin_INR_by_Site($value)
     {
-        $query = $this->_pdo->query("SELECT COUNT(DISTINCT c.patient_id) AS patients_with_inr_checked
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id, c.study_id
         FROM cardiac c
         JOIN medication_treatments mt ON c.patient_id = mt.patient_id
         JOIN lab_details ld ON c.patient_id = ld.patient_id
@@ -450,7 +451,7 @@ class OverideData
 
     public function Numerator_active_cardiac_warfarin_INR_by_Site_data_Rows($value, $page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT COUNT(DISTINCT c.patient_id) AS patients_with_inr_checked
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id, c.study_id
         FROM cardiac c
         JOIN medication_treatments mt ON c.patient_id = mt.patient_id
         JOIN lab_details ld ON c.patient_id = ld.patient_id
@@ -471,22 +472,23 @@ class OverideData
     //Denominator-All active cardiac on warfarin
     public function Denominator_active_cardiac_warfarin()
     {
-        $query = $this->_pdo->query("SELECT COUNT(DISTINCT c.patient_id) AS total_patients
-         FROM cardiac c
-         JOIN medication_treatments mt ON c.patient_id = mt.patient_id
-         WHERE c.status = 1
-         AND mt.medication_type = 7");
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id = mt.patient_id
+        WHERE c.status = 1
+        AND mt.medication_type = 7
+        ");
         $num = $query->rowCount();
         return $num;
     }
 
     public function Denominator_active_cardiac_warfarin_by_Site($value)
     {
-        $query = $this->_pdo->query("SELECT COUNT(DISTINCT c.patient_id) AS total_patients
-         FROM cardiac c
-         JOIN medication_treatments mt ON c.patient_id = mt.patient_id
-         WHERE c.status = 1
-         AND mt.medication_type = 7
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id = mt.patient_id
+        WHERE c.status = 1
+        AND mt.medication_type = 7
         AND c.site_id = '$value'
          ");
         $num = $query->rowCount();
@@ -500,8 +502,9 @@ class OverideData
         $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
-        WHERE c.status = 1 AND s.dyspnea = '$value1' AND 
-        s.visit_date = (
+        WHERE c.status = 1
+        AND (s.dyspnea = '$value1' AND s.dyspnea !='' AND s.dyspnea IS NOT NULL)
+        AND s.visit_date = (
         SELECT MAX(s2.visit_date)
                     FROM symptoms s2 
                     WHERE s2.patient_id = s.patient_id)
@@ -515,7 +518,8 @@ class OverideData
         $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
-        WHERE c.status = 1 AND s.dyspnea = '$value1'
+        WHERE c.status = 1
+        AND (s.dyspnea = '$value1' AND s.dyspnea !='' AND s.dyspnea IS NOT NULL)
         AND s.visit_date = (SELECT MAX(s2.visit_date)
                              FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
         limit $page,$numRec
@@ -530,8 +534,9 @@ class OverideData
         $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
-        WHERE c.status = 1 AND s.dyspnea = '$value1' AND 
-        s.visit_date = (SELECT MAX(s2.visit_date)
+        WHERE c.status = 1
+        AND (s.dyspnea = '$value1' AND s.dyspnea !='' AND s.dyspnea IS NOT NULL)
+        AND s.visit_date = (SELECT MAX(s2.visit_date)
                              FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
         AND c.site_id = '$value'
                 ");
@@ -544,7 +549,8 @@ class OverideData
         $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
-        WHERE c.status = 1 AND s.dyspnea = '$value1'
+        WHERE c.status = 1
+        AND (s.dyspnea = '$value1' AND s.dyspnea !='' AND s.dyspnea IS NOT NULL)
         AND s.visit_date = (SELECT MAX(s2.visit_date)
                              FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
         AND c.site_id = '$value'
@@ -554,26 +560,29 @@ class OverideData
         return $result;
     }
 
-
-    //Denominator-All active cardiac who have a corresponding record in the symptoms table.
-    public function Active_cardiac_Den()
+    //Denominator-All active cardiac who have a corresponding record in the symptoms table.// DENOMINOTOR
+    public function Denominator_Active_cardiac_NYHA()
     {
-        $query = $this->_pdo->query(" SELECT DISTINCT c.patient_id FROM cardiac c JOIN symptoms s ON c.patient_id = s.patient_id WHERE c.status = 1");
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id
+        FROM cardiac c
+        -- JOIN symptoms s ON c.patient_id = s.patient_id 
+        WHERE c.status = 1
+        ");
         $num = $query->rowCount();
         return $num;
     }
 
-    public function Active_cardiac_Den_by_Site($field, $value)
+    public function Denominator_Active_cardiac_NYHA_By_Site($field, $value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT c.patient_id 
         FROM cardiac c 
-        JOIN symptoms s ON c.patient_id = s.patient_id 
         WHERE c.status = 1 
         AND $field = '$value'
         ");
         $num = $query->rowCount();
         return $num;
     }
+
 
     //Numerator-All active cardiac with congenital or RHD patient with referred to surgery
     public function Numerator_cardiac_congenital_RHD_surgery_num()
@@ -922,24 +931,24 @@ class OverideData
     //Numerator-All active with SCD hospitalised in the last 12 months & Exclude Baseline
     public function Numerator_scd_hospitalised_12()
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
-         FROM sickle_cell s 
-         JOIN hospitalization_table h ON s.patient_id = h.patient_id 
-         WHERE s.status = 1 
-         AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH    
-         AND h.admission_reason = 'scd';
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+         FROM sickle_cell s
+         JOIN hospitalization_details h ON s.patient_id = h.patient_id
+         WHERE s.status = 1
+         AND h.visit_date >= CURDATE() - INTERVAL 12 MONTH
+         AND h.hospitalization_ncd = 1
     ");
         $num = $query->rowCount();
         return $num;
     }
     public function Numerator_scd_hospitalised_12_by_site($value)
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
-         FROM sickle_cell s 
-         JOIN hospitalization_table h ON s.patient_id = h.patient_id 
-         WHERE s.status = 1 
-         AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH    
-         AND h.admission_reason = 'scd'
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+         FROM sickle_cell s
+         JOIN hospitalization_details h ON s.patient_id = h.patient_id
+         WHERE s.status = 1
+         AND h.visit_date >= CURDATE() - INTERVAL 12 MONTH
+         AND h.hospitalization_ncd = 1
          AND s.site_id='$value';
     ");
         $num = $query->rowCount();
@@ -947,12 +956,12 @@ class OverideData
     }
     public function Numerator_scd_hospitalised_12_Data_Rows($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
-         FROM sickle_cell s 
-         JOIN hospitalization_table h ON s.patient_id = h.patient_id 
-         WHERE s.status = 1 
-         AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH    
-         AND h.admission_reason = 'scd'
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s
+         JOIN hospitalization_details h ON s.patient_id = h.patient_id
+         WHERE s.status = 1
+         AND h.visit_date >= CURDATE() - INTERVAL 12 MONTH
+         AND h.hospitalization_ncd = 1
          limit $page,$numRec
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -961,13 +970,13 @@ class OverideData
 
     public function Numerator_scd_hospitalised_12_Data_Rows_by_Site($value, $page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
-         FROM sickle_cell s 
-         JOIN hospitalization_table h ON s.patient_id = h.patient_id 
-         WHERE s.status = 1 
-         AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH    
-         AND h.admission_reason = 'scd'
-         AND s.site_id = '$value'  
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s
+         JOIN hospitalization_details h ON s.patient_id = h.patient_id
+         WHERE s.status = 1
+         AND h.visit_date >= CURDATE() - INTERVAL 12 MONTH
+         AND h.hospitalization_ncd = 1
+         AND s.site_id = '$value'
          limit $page,$numRec
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -978,13 +987,17 @@ class OverideData
     //Denominator-All active SCD patient
     public function Denominator_scd_active()
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 ");
+        $query = $this->_pdo->query("SELECT s.patient_id FROM sickle_cell s WHERE s.status = 1");
         $num = $query->rowCount();
         return $num;
     }
     public function Denominator_scd_active_by_Site($value)
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 AND s.site_id='$value'");
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM sickle_cell s
+        WHERE s.status = 1
+        AND s.site_id='$value'
+        ");
         $num = $query->rowCount();
         return $num;
     }
@@ -1107,28 +1120,50 @@ class OverideData
     }
 
     //Indicator3 -Average days of missed school in the last month
-    public function Numerator_food_insecurity()
+    public function Food_insecurity()
     {
-        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s
-        WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
+        $query = $this->_pdo->query("SELECT 
+                COUNT(*) AS total_rows,
+                SUM(
+                    CASE 
+                        WHEN s.no_food IN (2, 3) 
+                        AND s.sleep_hungry IN (2, 3) 
+                        AND s.day_hungry IN (2, 3) 
+                        THEN 1 
+                        ELSE 0 
+                    END
+                ) AS rows_with_2_or_3
+            FROM 
+                social_economic s
         ");
-        $num = $query->rowCount();
-        return $num;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
-    public function Numerator_food_insecurity_by_site($value)
+    public function Food_insecurity_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s
-        WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
-        AND s.site_id='$value'
+        $query = $this->_pdo->query("SELECT 
+                COUNT(*) AS total_rows,
+                SUM(
+                    CASE 
+                        WHEN s.no_food IN (2, 3) 
+                        AND s.sleep_hungry IN (2, 3) 
+                        AND s.day_hungry IN (2, 3) 
+                        THEN 1 
+                        ELSE 0 
+                    END
+                ) AS rows_with_2_or_3
+            FROM 
+                social_economic s
+            AND s.site_id='$value'
         ");
-        $num = $query->rowCount();
-        return $num;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
-    public function Numerator_food_insecurity_Data_Rows($page, $numRec)
+    public function Food_insecurity_Data_Rows($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s
+        $query = $this->_pdo->query("SELECT * FROM social_economic s
         WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
         limit $page,$numRec
         ");
@@ -1136,35 +1171,36 @@ class OverideData
         return $result;
     }
 
-    public function Numerator_food_insecurity_Data_Rows_By_Site($value, $page, $numRec)
+    public function Food_insecurity_Data_Rows_By_Site($value,$page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s 
+        $query = $this->_pdo->query("SELECT * FROM social_economic s
         WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
-        AND s.site_id = '$value'
+        AND s.site_id='$value'
         limit $page,$numRec
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-
-    public function Denominator_food_insecurity()
+    public function Food_insecurity_ALL_Data_Rows($page, $numRec)
     {
         $query = $this->_pdo->query("SELECT * FROM social_economic s
-        WHERE s.status = 1
+        WHERE s.no_food IN (1,2, 3) OR s.sleep_hungry IN (1,2, 3) OR s.day_hungry IN (1,2, 3)
+        limit $page,$numRec
         ");
-        $num = $query->rowCount();
-        return $num;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
-    public function Denominator_food_insecurity_by_site($value)
+    public function Food_insecurity_ALL_Data_Rows_By_Site($value,$page, $numRec)
     {
         $query = $this->_pdo->query("SELECT * FROM social_economic s
-        WHERE s.status = 1
+        WHERE s.no_food IN (1,2, 3) OR s.sleep_hungry IN (1,2, 3) OR s.day_hungry IN (1,2, 3)
         AND s.site_id='$value'
+        limit $page,$numRec
         ");
-        $num = $query->rowCount();
-        return $num;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     // public function Denominator_food_insecurity_Data_Rows_by_site($value, $page, $numRec)

@@ -58,7 +58,7 @@ if ($user->isLoggedIn()) {
             'labels' => ['SCD on hydroxyurea', 'SCD not on hydroxyurea'],
             'datasets' => [
                 [
-                    'data' => [$propotion_SCD_hydroxyurea, 100 - $$propotion_SCD_hydroxyurea], // Calculate the second value dynamically
+                    'data' => [$propotion_SCD_hydroxyurea, 100 - $propotion_SCD_hydroxyurea], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]

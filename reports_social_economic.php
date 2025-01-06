@@ -82,21 +82,19 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 3
         if (Input::get('site_id')) {
-            $Numerator_food_insecurity = intval($override->Numerator_food_insecurity_by_site(Input::get('site_id')));
-            $Denominator_food_insecurity = intval($override->Denominator_food_insecurity_by_site(Input::get('site_id')));
+            $Food_insecurity = $override->Food_insecurity_By_Site(Input::get('site_id'))[0];
         } else {
-            $Numerator_food_insecurity = intval($override->Numerator_food_insecurity());
-            $Denominator_food_insecurity = intval($override->Denominator_food_insecurity());
+            $Food_insecurity = $override->Food_insecurity()[0];
         }
 
-        $proportion_food_insecurity = intval(intval($Numerator_food_insecurity) / intval($Denominator_food_insecurity) * 100);
+        // $proportion_food_insecurity = intval(intval($Numerator_food_insecurity) / intval($Denominator_food_insecurity) * 100);
 
         // Prepare the data in PHP
         $data_proportion_food_insecurity = [
-            'labels' => ["Patients facing food inscecurity", "Patients not facing food inscecurity"],
+            'labels' => ["Patients facing food inscecurity", "Total Patients Available in Socia Economic Table"],
             'datasets' => [
                 [
-                    'data' => [$proportion_food_insecurity, 100 - $proportion_food_insecurity], // Calculate the second value dynamically
+                    'data' => [$Food_insecurity['rows_with_2_or_3'], $Food_insecurity['total_rows']], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
@@ -303,8 +301,8 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <?php if ($food_insecurity) {
-                                        print_r($food_insecurity);
+                                    <?php if ($Food_insecurity['rows_with_2_or_3']) {
+                                        print_r($Food_insecurity['rows_with_2_or_3']);
                                     } else {
                                         echo 0;
                                     } ?>
@@ -655,9 +653,9 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Numerator_food_insecurity_by_site(Input::get('site_id')));
+                                                $pagNum = $Food_insecurity['rows_with_2_or_3'];
                                             } else {
-                                                $pagNum = intval($override->Numerator_food_insecurity());
+                                                $pagNum = $Food_insecurity['total_rows'];
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -667,14 +665,14 @@ if ($user->isLoggedIn()) {
                                             }
 
                                             if (Input::get('site_id')) {
-                                                $data = $override->Numerator_food_insecurity_Data_Rows_By_Site(Input::get('site_id'), $page, $numRec);
+                                                $data = $override->Food_insecurity_ALL_Data_Rows_By_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Numerator_food_insecurity_Data_Rows($page, $numRec);
+                                                $data = $override->Food_insecurity_ALL_Data_Rows($page, $numRec);
                                             }
                                             ?>
                                             <div class="col-md-7">
                                                 <div class="card">
-                                                    <div class="col-sm-12">
+                                                    <!-- <div class="col-sm-12">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
                                                                 <select class="form-control" name="indicator"
@@ -689,7 +687,7 @@ if ($user->isLoggedIn()) {
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="card-header">
                                                         <h3 class="card-title">Patients facing food inscecurity
                                                         </h3>
@@ -699,29 +697,16 @@ if ($user->isLoggedIn()) {
                                                         <table class="table table-bordered">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width: 10px">#</th>
-                                                                    <th>Study ID</th>
-                                                                    <th>Age</th>
-                                                                    <th>Sex</th>
+                                                                    <th>Tatal Patient Facing Food Insecurity</th>
+                                                                    <th>Tatal Patient Available in Social Economic Table
+                                                                    </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <?php
-                                                                $i = 1;
-                                                                foreach ($data as $row) {
-                                                                    $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
-                                                                    $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
-                                                                    ?>
-                                                                    <tr>
-                                                                        <td><?= $i ?>.</td>
-                                                                        <td><?= $row['study_id'] ?></td>
-                                                                        <td><?= $clients['age'] ?></td>
-                                                                        <td><?= $sex['name'] ?></td>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <?php
-                                                                    $i++;
-                                                                } ?>
+                                                                <tr>
+                                                                    <td><?= $Food_insecurity['rows_with_2_or_3'] ?></td>
+                                                                    <td><?= $Food_insecurity['total_rows'] ?></td>
+                                                                </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>

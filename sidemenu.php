@@ -840,7 +840,7 @@ if ($user->isLoggedIn()) {
                             <li class="nav-item">
                                 <a href="indicators.php" class="nav-link">
                                     <i class="fas fa-circle nav-icon"></i>
-                                    <span class="badge badge-info right"><?= $vital ?></span>
+                                    <span class="badge badge-info right"></span>
                                     <p>All Indicators</p>
                                 </a>
                             </li>
@@ -893,7 +893,7 @@ if ($user->isLoggedIn()) {
                                     <li class="nav-item">
                                         <a href="reports_social_economic.php" class="nav-link">
                                             <i class="fas fa-circle nav-icon"></i>
-                                            <span class="badge badge-info right"><?= $vital ?></span>
+                                            <span class="badge badge-info right"></span>
                                             <p>Sociodemographic</p>
                                         </a>
                                     </li>

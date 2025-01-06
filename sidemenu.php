@@ -627,7 +627,7 @@ if ($user->isLoggedIn()) {
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="info.php?id=8" class="nav-link">
+                        <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Vitals && Hb1AC<i class="fas fa-angle-left right"></i>
@@ -652,7 +652,7 @@ if ($user->isLoggedIn()) {
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="info.php?id=8" class="nav-link">
+                        <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Recruitments <i class="fas fa-angle-left right"></i>
@@ -697,7 +697,7 @@ if ($user->isLoggedIn()) {
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="info.php?id=8" class="nav-link">
+                        <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Diseases <i class="fas fa-angle-left right"></i>
@@ -830,7 +830,7 @@ if ($user->isLoggedIn()) {
                     </li>
 
                     <li class="nav-item">
-                        <a href="info.php?id=8" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Indicators <i class="fas fa-angle-left right"></i>

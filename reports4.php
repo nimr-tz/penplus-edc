@@ -277,7 +277,7 @@ if ($user->isLoggedIn()) {
                     <div class="row">
                         <div class="col-md-4">
                             <!-- small card -->
-                            <div class="small-box bg-info">
+                            <div class="small-box bg-primary">
                                 <div class="inner">
                                     <h3><?= $propotion_SCD_hydroxyurea ?>%</h3>
                                     <p>Proportion of patients with SCD on hydroxyurea at last visit</p>
@@ -299,7 +299,7 @@ if ($user->isLoggedIn()) {
 
                         <div class="col-md-4">
                             <!-- small card -->
-                            <div class="small-box bg-warning">
+                            <div class="small-box bg-secondary">
                                 <div class="inner">
                                     <h3><?= $propotion_SCD_under_5_penv ?>%</h3>
                                     <p> Proportion of patients with SCD less than 5 years old who are on antibiotic
@@ -342,7 +342,7 @@ if ($user->isLoggedIn()) {
                                                                             </button> -->
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <!-- small card -->
                             <div class="small-box bg-success">
                                 <div class="inner">

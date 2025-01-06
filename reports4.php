@@ -67,13 +67,15 @@ if ($user->isLoggedIn()) {
         // Convert the data to JSON format
         $json_propotion_SCD_hydroxyurea = json_encode($data_propotion_SCD_hydroxyurea);
 
+
+
         // INDICATOR 2
         if (Input::get('site_id')) {
-            $Numerator_SCD_5_penv = intval($override->scd_5_penv_num_by_site(Input::get('site_id')));
-            $Denominator__SCD_Under_5 = intval($override->SCD_5_den_by_site(Input::get('site_id')));
+            $Numerator_SCD_5_penv = intval($override->Numerator_scd_5_penv_by_site(Input::get('site_id')));
+            $Denominator__SCD_Under_5 = intval($override->Denominator_SCD_5_by_site(Input::get('site_id')));
         } else {
-            $Numerator_SCD_5_penv = intval($override->scd_5_penv_num_all());
-            $Denominator__SCD_Under_5 = intval($override->SCD_5_den());
+            $Numerator_SCD_5_penv = intval($override->Numerator_scd_5_penv());
+            $Denominator__SCD_Under_5 = intval($override->Denominator_SCD_5());
         }
         $propotion_SCD_under_5_penv = intval(intval($Numerator_SCD_5_penv) / intval($Denominator__SCD_Under_5) * 100);
         // Prepare the data in PHP
@@ -92,11 +94,11 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 3
         if (Input::get('site_id')) {
-            $Numerator_scd_folic = intval($override->scd_folic_num_by_site(Input::get('site_id')));
-            $Denominator_scd = intval($override->scd_den_by_site(Input::get('site_id')));
+            $Numerator_scd_folic = intval($override->Numerator_scd_folic_by_site(Input::get('site_id')));
+            $Denominator_scd = intval($override->Denominator_scd_by_site(Input::get('site_id')));
         } else {
-            $Numerator_scd_folic = intval($override->scd_folic_num_all());
-            $Denominator_scd = intval($override->scd_den());
+            $Numerator_scd_folic = intval($override->Numerator_scd_folic());
+            $Denominator_scd = intval($override->Denominator_scd());
         }
         $proportion_SCD_on_folic_acid = intval(intval($Numerator_scd_folic) / intval($Denominator_scd) * 100);
         // Prepare the data in PHP
@@ -110,7 +112,9 @@ if ($user->isLoggedIn()) {
             ]
         ];
         // Convert the data to JSON format
-        $json_propotion_SCD_on_folic_acid = json_encode($data_propotion_SCD_under_5_penv);
+        $json_propotion_SCD_on_folic_acid = json_encode($data_proportion_SCD_on_folic_acid);
+
+
         // INDICATOR 4
         if (Input::get('site_id')) {
             $Numerator_scd_transfusion = intval($override->scd_transfusion_num_by_site(Input::get('site_id')));
@@ -324,7 +328,7 @@ if ($user->isLoggedIn()) {
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
+                                    data-target="#modal-xl2" data-value="2">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
@@ -346,7 +350,7 @@ if ($user->isLoggedIn()) {
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
+                                    data-target="#modal-xl3" data-value="3">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
@@ -366,7 +370,7 @@ if ($user->isLoggedIn()) {
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
+                                    data-target="#modal-xl4" data-value="4">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
@@ -603,8 +607,8 @@ if ($user->isLoggedIn()) {
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">% of patients on warfarin with an INR checked in the
-                                            last 3 months</h4>
+                                        <h4 class="modal-title">Proportion of patients with SCD less than 5 years old
+                                            who are on antibiotic prophylaxis</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -629,7 +633,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="warfarin_inr"
+                                                        <canvas id="antibiotic_prophylaxis"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -639,9 +643,9 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Numerator_active_cardiac_warfarin_INR_by_Site(Input::get('site_id')));
+                                                $pagNum = intval($override->Numerator_scd_5_penv_by_site(Input::get('site_id')));
                                             } else {
-                                                $pagNum = intval($override->Numerator_active_cardiac_warfarin_INR());
+                                                $pagNum = intval($override->Numerator_scd_5_penv());
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -651,9 +655,9 @@ if ($user->isLoggedIn()) {
                                             }
 
                                             if (Input::get('site_id')) {
-                                                $data = $override->Numerator_active_cardiac_warfarin_INR_by_Site_data_Rows(Input::get('site_id'), $page, $numRec);
+                                                $data = $override->Numerator_scd_5_penv_data_Rows_by_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Numerator_active_cardiac_warfarin_INR_data_Rows($page, $numRec);
+                                                $data = $override->Numerator_scd_5_penv_data_Rows($page, $numRec);
                                             }
                                             ?>
                                             <div class="col-md-7">
@@ -664,11 +668,11 @@ if ($user->isLoggedIn()) {
                                                                 <select class="form-control" name="dk_12" id="dk_12_id"
                                                                     style="width: 100%;" autocomplete="off">
                                                                     <option value="1">
-                                                                        patients on warfarin with an INR checked in the
-                                                                        last 3 months
+                                                                        Proportion of patients with SCD less than 5
+                                                                        years old who are on antibiotic prophylaxis
                                                                     <option value="2">
-                                                                        patients on warfarin with an INR Not checked in
-                                                                        the last 3 months
+                                                                        Proportion of patients with SCD less than 5
+                                                                        years old who are not on antibiotic prophylaxis
                                                                     </option>
                                                                     </option>
                                                                 </select>
@@ -676,8 +680,8 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-header">
-                                                        <h3 class="card-title">Patients on warfarin with an INR checked
-                                                            in the last 3 months
+                                                        <h3 class="card-title">Patients with SCD less than 5 years old
+                                                            who are on antibiotic prophylaxis
                                                         </h3>
                                                     </div>
                                                     <!-- /.card-header -->
@@ -793,8 +797,8 @@ if ($user->isLoggedIn()) {
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">% of patients with suspected congential or RHD referred
-                                            for surgical evaluation</h4>
+                                        <h4 class="modal-title">Proportion of patients with SCD who are on folic acid
+                                        </h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -819,7 +823,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="congenital_RHD_surgical_evaluation"
+                                                        <canvas id="folic_acid"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -830,9 +834,9 @@ if ($user->isLoggedIn()) {
 
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Numerator_cardiac_congenital_RHD_surgery_num_by_site(Input::get('site_id')));
+                                                $pagNum = intval($override->Numerator_scd_folic_by_Site(Input::get('site_id')));
                                             } else {
-                                                $pagNum = intval($override->Numerator_cardiac_congenital_RHD_surgery_num());
+                                                $pagNum = intval($override->Numerator_scd_folic());
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -842,9 +846,9 @@ if ($user->isLoggedIn()) {
                                             }
 
                                             if (Input::get('site_id')) {
-                                                $data = $override->Numerator_cardiac_congenital_RHD_surgery_num_by_site_data_rows(Input::get('site_id'), $page, $numRec);
+                                                $data = $override->Numerator_scd_folic_data_Rows_by_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Numerator_cardiac_congenital_RHD_surgery_num_data_rows($page, $numRec);
+                                                $data = $override->Numerator_scd_folic_data_Rows($page, $numRec);
                                             }
                                             ?>
                                             <div class="col-md-7">
@@ -855,11 +859,9 @@ if ($user->isLoggedIn()) {
                                                                 <select class="form-control" name="dk_12" id="dk_12_id"
                                                                     style="width: 100%;" autocomplete="off">
                                                                     <option value="1">
-                                                                        Patients with suspected congential or RHD
-                                                                        referred for surgical evaluation
+                                                                        Patients with SCD who are on folic acid
                                                                     <option value="2">
-                                                                        Patients with suspected congential or RHD
-                                                                        not referred for surgical evaluation
+                                                                        Patients with SCD who are not on folic acid
                                                                     </option>
                                                                     </option>
                                                                 </select>
@@ -867,8 +869,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-header">
-                                                        <h3 class="card-title">Patients with suspected congential or RHD
-                                                            referred for surgical evaluation
+                                                        <h3 class="card-title">Patients with SCD who are on folic acid
                                                         </h3>
                                                     </div>
                                                     <!-- /.card-header -->
@@ -985,8 +986,8 @@ if ($user->isLoggedIn()) {
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Proportion of patients with none or mild limitation in
-                                            activity (NYHA I and II and III and IV) at last visit</h4>
+                                        <h4 class="modal-title">% of patients with SCD needing transfusion within the
+                                            last 12 months</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -1011,7 +1012,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="nyha"
+                                                        <canvas id="folic_acid"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -1019,13 +1020,13 @@ if ($user->isLoggedIn()) {
                                             </div>
                                             <!-- /.card -->
                                             <?php
+
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Active_NYHA_num_by_Site(Input::get('site_id'), $indicator));
+                                                $pagNum = intval($override->Numerator_scd_folic_by_Site(Input::get('site_id')));
                                             } else {
-                                                $pagNum = intval($override->Active_NYHA_num($indicator));
+                                                $pagNum = intval($override->Numerator_scd_folic());
                                             }
-
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
                                                 $page = 0;
@@ -1034,63 +1035,31 @@ if ($user->isLoggedIn()) {
                                             }
 
                                             if (Input::get('site_id')) {
-                                                $data = $override->Active_NYHA_num_Data_Rows_By_Site(Input::get('site_id'), $page, $numRec, $indicator);
+                                                $data = $override->Numerator_scd_folic_data_Rows_by_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Active_NYHA_num_Data_Rows($page, $numRec, $indicator);
+                                                $data = $override->Numerator_scd_folic_data_Rows($page, $numRec);
                                             }
-                                            // print_r($indicator);
                                             ?>
                                             <div class="col-md-7">
                                                 <div class="card">
-                                                    <form method="post">
-                                                        <div class="col-sm-12">
-                                                            <div class="row-form clearfix">
-                                                                <div class="form-group">
-                                                                    <select class="form-control" name="indicator"
-                                                                        id="indicator" style="width: 100%;"
-                                                                        autocomplete="off">
-                                                                        <option value="1">
-                                                                            Proportion of patients with none or mild
-                                                                            limitation in activity (NYHA I) at last
-                                                                            visit
-                                                                        </option>
-                                                                        <option value="2">
-                                                                            Proportion of patients witho none or mild
-                                                                            limitation in activity (NYHA II) at last
-                                                                            visit
-                                                                        </option>
-                                                                        <option value="3">
-                                                                            Proportion of patients with none or mild
-                                                                            limitation in activity (NYHA III) at last
-                                                                            visit
-                                                                        </option>
-                                                                        <option value="4">
-                                                                            Proportion of patients with none or mild
-                                                                            limitation in activity (NYHA IV) at last
-                                                                            visit
-                                                                        </option>
-                                                                        <option value="5">
-                                                                            Not Determined
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <select class="form-control" name="dk_12" id="dk_12_id"
+                                                                    style="width: 100%;" autocomplete="off">
+                                                                    <option value="1">
+                                                                        Patients with SCD needing transfusion
+                                                                        within the last 12 months
+                                                                    <option value="2">
+                                                                        Patients with SCD Not needing transfusion
+                                                                        within the last 12 months </option>
+                                                                    </option>
+                                                                </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-12">
-                                                            <div class="row-form clearfix">
-                                                                <div class="form-group">
-                                                                    <input type="submit" name="search_by_indicator"
-                                                                        value="Filter" class="btn btn-primary">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-
+                                                    </div>
                                                     <div class="card-header">
-                                                        <h3 class="card-title"> Proportion of patients with none or mild
-                                                            limitation in activity NYHA I at
-                                                            last visit </option>
-
+                                                        <h3 class="card-title">Patients with SCD needing transfusion within the last 12 months
                                                         </h3>
                                                     </div>
                                                     <!-- /.card-header -->
@@ -1125,6 +1094,7 @@ if ($user->isLoggedIn()) {
                                                         </table>
                                                     </div>
                                                     <!-- /.card-body -->
+
                                                     <?php
                                                     $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
                                                     $currentSite = $_GET['site_id'];
@@ -1403,13 +1373,13 @@ if ($user->isLoggedIn()) {
              * -------
              * Here we will create a few charts using ChartJS
              */
-            patients_warfarin_with_INR_last_3_months_Data = <?php echo $json_proportion_patients_warfarin_with_INR_last_3_months; ?>
+            antibiotic_prophylaxis_Data = <?php echo $json_propotion_SCD_under_5_penv; ?>
 
             // Get the canvas element
-            var warfarin_with_INR_last_3_months = $('#warfarin_inr').get(0).getContext('2d');
+            var antibiotic_prophylaxis = $('#antibiotic_prophylaxis').get(0).getContext('2d');
 
             // Options to include data labels inside the chart
-            var patients_warfarin_with_INR_last_3_months_Options = {
+            var antibiotic_prophylaxis_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -1444,10 +1414,10 @@ if ($user->isLoggedIn()) {
             Chart.register(ChartDataLabels);
 
             // Create pie chart
-            new Chart(warfarin_with_INR_last_3_months, {
+            new Chart(antibiotic_prophylaxis, {
                 type: 'pie', // Pie chart type
-                data: patients_warfarin_with_INR_last_3_months_Data,
-                options: patients_warfarin_with_INR_last_3_months_Options,
+                data: antibiotic_prophylaxis_Data,
+                options: antibiotic_prophylaxis_Options,
                 plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });
 
@@ -1460,13 +1430,13 @@ if ($user->isLoggedIn()) {
              * -------
              * Here we will create a few charts using ChartJS
              */
-            congenital_RHD_surgical_evaluation_Data = <?php echo $json_proportion_congenital_RHD_surgical_evaluation; ?>
+            folic_acid_Data = <?php echo $json_propotion_SCD_on_folic_acid; ?>
 
             // Get the canvas element
-            var congenital_RHD_surgical_evaluation = $('#congenital_RHD_surgical_evaluation').get(0).getContext('2d');
+            var folic_acid = $('#folic_acid').get(0).getContext('2d');
 
             // Options to include data labels inside the chart
-            var congenital_RHD_surgical_evaluation_Options = {
+            var folic_acid_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -1501,10 +1471,10 @@ if ($user->isLoggedIn()) {
             Chart.register(ChartDataLabels);
 
             // Create pie chart
-            new Chart(congenital_RHD_surgical_evaluation, {
+            new Chart(folic_acid, {
                 type: 'pie', // Pie chart type
-                data: congenital_RHD_surgical_evaluation_Data,
-                options: congenital_RHD_surgical_evaluation_Options,
+                data: folic_acid_Data,
+                options: folic_acid_Options,
                 plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });
 

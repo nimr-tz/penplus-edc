@@ -740,7 +740,7 @@ class OverideData
     }
     // Indicator 2
     //Numerator-All active SCD patient under 5 years who are on pen v
-    public function scd_5_penv_num_all()
+    public function Numerator_scd_5_penv()
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
          FROM sickle_cell s 
@@ -751,7 +751,7 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_5_penv_num_by_site($value)
+    public function Numerator_scd_5_penv_by_site($value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
          FROM sickle_cell s 
@@ -762,25 +762,44 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_5_penv_num_data_rows($page, $numRec)
+
+
+    public function Numerator_scd_5_penv_data_Rows($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
          FROM sickle_cell s 
          JOIN clients c ON s.patient_id = c.id 
          JOIN medication_treatments m ON s.patient_id = m.patient_id
-         WHERE s.status = 1   AND c.age < 5 AND m.medication_type = 27 limit $page,$numRec");
-
-        $num = $query->rowCount();
-        return $num;
+         WHERE s.status = 1   AND c.age < 5 AND m.medication_type = 27
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
+
+    public function Numerator_scd_5_penv_data_Rows_by_Site($value,$page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s 
+         JOIN clients c ON s.patient_id = c.id 
+         JOIN medication_treatments m ON s.patient_id = m.patient_id
+         WHERE s.status = 1   AND c.age < 5 AND m.medication_type = 27
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
     //Denominator-All active SCD patients under 5 years
-    public function SCD_5_den()
+    public function Denominator_SCD_5()
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s JOIN clients c ON s.patient_id=c.id WHERE s.status = 1 AND c.age < 5");
         $num = $query->rowCount();
         return $num;
     }
-    public function SCD_5_den_by_site($value)
+    public function Denominator_SCD_5_by_site($value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s JOIN clients c ON s.patient_id=c.id WHERE s.status = 1 AND c.age < 5 AND s.site_id='$value'");
         $num = $query->rowCount();
@@ -788,7 +807,7 @@ class OverideData
     }
     //Indicator 3
     //Numerator-All active with scd on folic
-    public function scd_folic_num_all()
+    public function Numerator_scd_folic()
     {
         $query = $this->_pdo->query("select distinct s.patient_id 
          from sickle_cell s 
@@ -797,7 +816,7 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_folic_num_by_site($value)
+    public function Numerator_scd_folic_by_site($value)
     {
         $query = $this->_pdo->query("select distinct s.patient_id 
          from sickle_cell s 
@@ -806,25 +825,40 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_folic_num_by_data_rows($page, $numRec)
+    public function Numerator_scd_folic_data_Rows($page, $numRec)
     {
-        $query = $this->_pdo->query("select distinct s.patient_id 
+        $query = $this->_pdo->query("select distinct s.patient_id  ,s.study_id
          from sickle_cell s 
          JOIN medication_treatments m ON s.patient_id=m.patient_id 
-         where s.status=1 and m.medication_type=14 limit $page,$numRec");
-        $num = $query->rowCount();
-        return $num;
+         where s.status=1 and m.medication_type=14 
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_scd_folic_data_Rows_by_Site($value,$page, $numRec)
+    {
+        $query = $this->_pdo->query("select distinct s.patient_id  ,s.study_id
+         from sickle_cell s 
+         JOIN medication_treatments m ON s.patient_id=m.patient_id 
+         where s.status=1 and m.medication_type=14 
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     //Denominator-All active SCD patient
-    public function scd_den()
+    public function Denominator_scd()
     {
         $query = $this->_pdo->query("select distinct patient_id from sickle_cell where status=1");
 
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_den_by_site($value)
+    public function Denominator_scd_by_site($value)
     {
         $query = $this->_pdo->query("select distinct patient_id from sickle_cell where status=1 and site_id='$value' ");
 

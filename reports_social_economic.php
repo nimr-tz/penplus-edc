@@ -26,30 +26,32 @@ if ($user->isLoggedIn()) {
                     $pageError = $validate->errors();
                 }
             }
-        }
 
-        if (Input::get('search_by_indicator')) {
-            $validate = new validate();
-            $validate = $validate->check($_POST, array(
-                'indicator' => array(
-                    'required' => true,
-                ),
-            ));
-            if ($validate->passed()) {
-                $indicator = Input::get('indicator');
-                $url = 'reports4.php?&site_id=' . Input::get('site_id');
-                Redirect::to($url);
-                $pageError = $validate->errors();
+            if (Input::get('search_by_indicator')) {
+                $validate = new validate();
+                $validate = $validate->check($_POST, array(
+                    'indicator' => array(
+                        'required' => true,
+                    ),
+                ));
+                if ($validate->passed()) {
+                    $indicator = Input::get('indicator');
+                    $url = 'reports4.php?&site_id=' . Input::get('site_id');
+                    Redirect::to($url);
+                    $pageError = $validate->errors();
+                }
             }
         }
 
+
+
         // INDICATOR 1
         if (Input::get('site_id')) {
-            $Numerator_scd_hydroxyurea = intval($override->Numerator_scd_hyroxyurea_by_site(Input::get('site_id')));
-            $Denominator_Active_scd = intval($override->Denominator_Active_SCD_by_site(Input::get('site_id')));
+            $Numerator_scd_hydroxyurea = intval($override->Numerator_ncd_Limited_By_Site(Input::get('site_id')));
+            $Denominator_Active_scd = intval($override->Denominator_ncd_Limited_By_Site(Input::get('site_id')));
         } else {
-            $Numerator_scd_hydroxyurea = intval($override->Numerator_scd_hyroxyurea());
-            $Denominator_Active_scd = intval($override->Denominator_Active_SCD());
+            $Numerator_scd_hydroxyurea = intval($override->Numerator_ncd_Limited());
+            $Denominator_Active_scd = intval($override->Denominator_ncd_Limited());
 
         }
         $propotion_SCD_hydroxyurea = intval(intval($Numerator_scd_hydroxyurea) / intval($Denominator_Active_scd) * 100);

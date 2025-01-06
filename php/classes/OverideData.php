@@ -992,7 +992,7 @@ class OverideData
 
     //Social demographic
     //Indicator1 -Proportion of patients for whom NCD has limited school attendance ever
-    public function ncd_limited_num_all()
+    public function Numerator_ncd_Limited()
     {
         $query = $this->_pdo->query("SELECT *
         FROM 
@@ -1008,7 +1008,7 @@ class OverideData
         return $num;
     }
 
-    public function ncd_limited_num_by_site($value)
+    public function Numerator_ncd_Limited_By_Site($value)
     {
         $query = $this->_pdo->query("SELECT *
         FROM 
@@ -1025,7 +1025,7 @@ class OverideData
     }
 
 
-    public function ncd_limited_num_data_rows($page, $numRec)
+    public function Numerator_ncd_Limited_Data_Rows($page, $numRec)
     {
         $query = $this->_pdo->query("SELECT *
         FROM 
@@ -1035,20 +1035,42 @@ class OverideData
         WHERE 
         c.age < 24 
         AND d.school_attendance = 1
-        AND d.status = 1 limit $page,$numRec;
-     ");
-        $num = $query->rowCount();
-        return $num;
+        AND d.status = 1
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
 
-    public function ncd_limited_den()
+    public function Numerator_ncd_Limited_Data_Rows_By_Site($value,$page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT *
+        FROM 
+        clients c
+        JOIN 
+        demographic d ON c.client_id = d.client_id
+        WHERE 
+        c.age < 24 
+        AND d.school_attendance = 1
+        AND d.status = 1
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+
+
+    public function Denominator_ncd_Limited()
     {
         $query = $this->_pdo->query("SELECT * FROM clients c JOIN demographic d ON c.client_id = d.client_id WHERE c.age < 24 AND d.status = 1;");
         $num = $query->rowCount();
         return $num;
     }
-    public function ncd_limited_den_by_site($value)
+    public function Denominator_ncd_Limited_By_Site($value)
     {
         $query = $this->_pdo->query("SELECT * FROM clients c JOIN demographic d ON c.client_id = d.client_id WHERE c.age < 24 AND d.status = 1 AND d.site_id='$value';");
         $num = $query->rowCount();

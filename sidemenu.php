@@ -876,7 +876,7 @@ if ($user->isLoggedIn()) {
                                         <a href="#" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>
-                                                Social Economic<i class="fas fa-angle-left right"></i>
+                                                Sociodemographic<i class="fas fa-angle-left right"></i>
                                             </p>
                                         </a>
                                         <ul class="nav nav-treeview">
@@ -884,7 +884,7 @@ if ($user->isLoggedIn()) {
                                                 <a href="reports_social_economic.php" class="nav-link">
                                                     <i class="fas fa-circle nav-icon"></i>
                                                     <span class="badge badge-info right"><?= $vital ?></span>
-                                            <p>Social Economic</p>
+                                            <p>Sociodemographic</p>
                                         </a>
                                     </li>
                                 </ul>

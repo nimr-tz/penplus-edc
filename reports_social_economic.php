@@ -205,7 +205,8 @@ if ($user->isLoggedIn()) {
                                                             <option value="">ALL SITES</option>
                                                             <!-- <option value="3">All</option> -->
                                                             <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
-                                                                <option value="<?= $site['id'] ?>"><?= $site['name'] ?>
+                                                                <option value="<?= $site['id'] ?>">
+                                                                    <?= $site['name'] ?>
                                                                 </option>
                                                             <?php } ?>
                                                         </select>

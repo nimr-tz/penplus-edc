@@ -1153,10 +1153,11 @@ class OverideData
     }
     public function Numerator_Social_Support_Data_Rows($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT * FROM treatment_plan t
+        $query = $this->_pdo->query("SELECT * FROM
+        treatment_plan t
         WHERE t.status = 1
         AND t.social_support = 1
-        AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH 
+        AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH
         limit $page,$numRec
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -1165,10 +1166,11 @@ class OverideData
 
     public function Numerator_Social_Support_Data_Rows_By_Site($value,$page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT * FROM treatment_plan t
+        $query = $this->_pdo->query("SELECT * FROM
+        treatment_plan t
         WHERE t.status = 1
         AND t.social_support = 1
-        AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH 
+        AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH
         AND t.site_id = '$value'
         limit $page,$numRec
         ");
@@ -1179,14 +1181,19 @@ class OverideData
 
     public function Denominator_Social_Support()
     {
-        $query = $this->_pdo->query("SELECT * FROM treatment_plan t WHERE t.status = 1");
+        $query = $this->_pdo->query("SELECT * FROM 
+        treatment_plan t
+        WHERE t.status = 1
+        ");
         $num = $query->rowCount();
         return $num;
     }
     public function Denominator_Social_Support_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT * FROM treatment_plan t 
-        WHERE t.status = 1 AND t.site_id='$value'
+        $query = $this->_pdo->query("SELECT * FROM 
+        treatment_plan t
+        WHERE t.status = 1
+        AND t.site_id='$value'
         ");
         $num = $query->rowCount();
         return $num;

@@ -619,7 +619,7 @@ if ($user->isLoggedIn()) {
 
                 <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) { ?>
                     <li class="nav-item">
-                        <a href="info.php?id=8" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Reports <i class="fas fa-angle-left right"></i>

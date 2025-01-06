@@ -501,8 +501,10 @@ class OverideData
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
         WHERE c.status = 1 AND s.dyspnea = '$value1' AND 
-        s.visit_date = (     SELECT MAX(s2.visit_date)
-                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id);
+        s.visit_date = (
+        SELECT MAX(s2.visit_date)
+                    FROM symptoms s2 
+                    WHERE s2.patient_id = s.patient_id)
                 ");
         $num = $query->rowCount();
         return $num;
@@ -513,9 +515,9 @@ class OverideData
         $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
         FROM cardiac c 
         JOIN symptoms s ON c.patient_id = s.patient_id 
-        WHERE c.status = 1 AND s.dyspnea=1
+        WHERE c.status = 1 AND s.dyspnea = '$value1'
         AND s.visit_date = (SELECT MAX(s2.visit_date)
-                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id);
+                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
         limit $page,$numRec
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -530,7 +532,7 @@ class OverideData
         JOIN symptoms s ON c.patient_id = s.patient_id 
         WHERE c.status = 1 AND s.dyspnea = '$value1' AND 
         s.visit_date = (SELECT MAX(s2.visit_date)
-                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id);
+                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
         AND c.site_id = '$value'
                 ");
         $num = $query->rowCount();
@@ -544,7 +546,7 @@ class OverideData
         JOIN symptoms s ON c.patient_id = s.patient_id 
         WHERE c.status = 1 AND s.dyspnea = '$value1'
         AND s.visit_date = (SELECT MAX(s2.visit_date)
-                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id);
+                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
         AND c.site_id = '$value'
         limit $page,$numRec
         ");
@@ -556,14 +558,17 @@ class OverideData
     //Denominator-All active cardiac who have a corresponding record in the symptoms table.
     public function Active_cardiac_Den()
     {
-        $query = $this->_pdo->query(" SELECT DISTINCT c.patient_id FROM cardiac c JOIN symptoms s ON c.patient_id = s.patient_id WHERE c.status = 1 ");
+        $query = $this->_pdo->query(" SELECT DISTINCT c.patient_id FROM cardiac c JOIN symptoms s ON c.patient_id = s.patient_id WHERE c.status = 1");
         $num = $query->rowCount();
         return $num;
     }
 
     public function Active_cardiac_Den_by_Site($field, $value)
     {
-        $query = $this->_pdo->query(" SELECT DISTINCT c.patient_id FROM cardiac c JOIN symptoms s ON c.patient_id = s.patient_id WHERE c.status = 1 
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id 
+        FROM cardiac c 
+        JOIN symptoms s ON c.patient_id = s.patient_id 
+        WHERE c.status = 1 
         AND $field = '$value'
         ");
         $num = $query->rowCount();

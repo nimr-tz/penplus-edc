@@ -389,38 +389,41 @@ if ($user->isLoggedIn()) {
                         </ul>
                     </li>
                 <?php } ?>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <span class="badge badge-info right"><?= $registered; ?></span>
-                        <p>
-                            Registration <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <span class="badge badge-info right"><?= $registered; ?></span>
+                            <p>
+                                Registration <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+
+                                <li class="nav-item">
+                                    <a href="add.php?id=4" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            Register
+                                            <span class="right badge badge-danger">New Client</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            <?php } ?>
 
                             <li class="nav-item">
-                                <a href="add.php?id=4" class="nav-link">
-                                    <i class="nav-icon fas fa-th"></i>
-                                    <p>
-                                        Register
-                                        <span class="right badge badge-danger">New Client</span>
-                                    </p>
+                                <!-- <a href="info.php?id=3&site_id=<?= $user->data()->site_id; ?>&status=5" class="nav-link"> -->
+                                <a href="info.php?id=3&status=5" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $registered; ?></span>
+                                    <p>Registered</p>
                                 </a>
                             </li>
-                        <?php } ?>
-
-                        <li class="nav-item">
-                            <!-- <a href="info.php?id=3&site_id=<?= $user->data()->site_id; ?>&status=5" class="nav-link"> -->
-                            <a href="info.php?id=3&status=5" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <span class="badge badge-info right"><?= $registered; ?></span>
-                                <p>Registered</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                <?php } ?>
 
                 <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
 
@@ -869,21 +872,21 @@ if ($user->isLoggedIn()) {
                                             <span class="badge badge-info right"><?= $sickle_cell ?></span>
                                             <p>Sickle Cell</p>
                                         </a>
-                                    </li>                                   
+                                    </li>
                                 </ul>
                             </li>
-                             <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>
-                                                Sociodemographic<i class="fas fa-angle-left right"></i>
-                                            </p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a href="reports_social_economic.php" class="nav-link">
-                                                    <i class="fas fa-circle nav-icon"></i>
-                                                    <span class="badge badge-info right"><?= $vital ?></span>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>
+                                        Sociodemographic<i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="reports_social_economic.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $vital ?></span>
                                             <p>Sociodemographic</p>
                                         </a>
                                     </li>

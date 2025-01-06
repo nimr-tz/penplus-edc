@@ -44,7 +44,11 @@ if (!$user->isLoggedIn()) {
                             } catch (Exception $e) {
                             }
 
-                            Redirect::to('index1.php');
+                            if ($user->data()->accessLevel == 3) {
+                                Redirect::to('reports_social_economic.php');
+                            } else {
+                                Redirect::to('index1.php');
+                            }
                         } else {
                             $usr = $override->get('user', 'username', Input::get('username'));
                             if ($usr && $usr[0]['count'] < 3) {
@@ -76,7 +80,11 @@ if (!$user->isLoggedIn()) {
         }
     }
 } else {
-    Redirect::to('index1.php');
+    if ($user->data()->accessLevel == 3) {
+        Redirect::to('reports_social_economic.php');
+    } else {
+        Redirect::to('index1.php');
+    }
 }
 ?>
 
@@ -109,7 +117,8 @@ if (!$user->isLoggedIn()) {
     <title>Penplus Database | Log in</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- icheck bootstrap -->
@@ -150,7 +159,8 @@ if (!$user->isLoggedIn()) {
 
                 <form method="post">
                     <div class="input-group mb-3">
-                        <input type="text" name="username" id="username" placeholder="Username" class="form-control validate[required]" />
+                        <input type="text" name="username" id="username" placeholder="Username"
+                            class="form-control validate[required]" />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -158,7 +168,8 @@ if (!$user->isLoggedIn()) {
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="password" id="password" placeholder="Password" class="form-control validate[required]" />
+                        <input type="password" name="password" id="password" placeholder="Password"
+                            class="form-control validate[required]" />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>

@@ -28,13 +28,28 @@ if ($user->isLoggedIn()) {
             }
         }
 
+        if (Input::get('search_by_indicator')) {
+            $validate = new validate();
+            $validate = $validate->check($_POST, array(
+                'indicator' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                $indicator = Input::get('indicator');
+                $url = 'reports4.php?&site_id=' . Input::get('site_id');
+                Redirect::to($url);
+                $pageError = $validate->errors();
+            }
+        }
+
         // INDICATOR 1
         if (Input::get('site_id')) {
-            $Numerator_scd_hydroxyurea = intval($override->scd_hyroxyurea_num_by_site(Input::get('site_id')));
-            $Denominator_Active_scd = intval($override->Active_SCD_den_by_site(Input::get('site_id')));
+            $Numerator_scd_hydroxyurea = intval($override->Numerator_scd_hyroxyurea_by_site(Input::get('site_id')));
+            $Denominator_Active_scd = intval($override->Denominator_Active_SCD_by_site(Input::get('site_id')));
         } else {
-            $Numerator_scd_hydroxyurea = intval($override->scd_hyroxyurea_num_all());
-            $Denominator_Active_scd = intval($override->Active_SCD_den());
+            $Numerator_scd_hydroxyurea = intval($override->Numerator_scd_hyroxyurea());
+            $Denominator_Active_scd = intval($override->Denominator_Active_SCD());
 
         }
         $propotion_SCD_hydroxyurea = intval(intval($Numerator_scd_hydroxyurea) / intval($Denominator_Active_scd) * 100);
@@ -286,7 +301,7 @@ if ($user->isLoggedIn()) {
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
+                                    data-target="#modal-xl1" data-value="1">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
@@ -319,8 +334,6 @@ if ($user->isLoggedIn()) {
                             </div>
                         </div>
                         <!-- /.col (LEFT) -->
-
-
 
                         <div class="col-md-4">
                             <!-- small card -->
@@ -389,8 +402,8 @@ if ($user->isLoggedIn()) {
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Proportion of patients with RHD who are on secondary
-                                            prophylaxis</h4>
+                                        <h4 class="modal-title">Proportion of patients with SCD on hydroxyurea at last
+                                            visit</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -415,7 +428,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="prophylaxis"
+                                                        <canvas id="hydroxyurea"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -425,9 +438,9 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Numerator_Active_RHD_PENADUR_by_site(Input::get('site_id')));
+                                                $pagNum = intval($override->Numerator_scd_hyroxyurea_by_site(Input::get('site_id')));
                                             } else {
-                                                $pagNum = intval($override->Numerator_Active_RHD_PENADUR());
+                                                $pagNum = intval($override->Numerator_scd_hyroxyurea());
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -437,32 +450,44 @@ if ($user->isLoggedIn()) {
                                             }
 
                                             if (Input::get('site_id')) {
-                                                $data = $override->Numerator_Active_RHD_PENADUR_by_site_Data_Rows(Input::get('site_id'), $page, $numRec);
+                                                $data = $override->Numerator_scd_hyroxyurea_data_rows_by_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Numerator_Active_RHD_PENADUR_data_Rows($page, $numRec);
+                                                $data = $override->Numerator_scd_hyroxyurea_data_rows($page, $numRec);
                                             }
                                             ?>
                                             <div class="col-md-7">
                                                 <div class="card">
-                                                    <div class="col-sm-12">
-                                                        <div class="row-form clearfix">
-                                                            <div class="form-group">
-                                                                <select class="form-control" name="dk_12" id="dk_12_id"
-                                                                    style="width: 100%;" autocomplete="off">
-                                                                    <option value="1">
-                                                                        Proportion of patients with RHD who are on
-                                                                        secondary prophylaxis</option>
-                                                                    <option value="2">
-                                                                        Proportion of patients with RHD who are not on
-                                                                        secondary prophylaxis
-                                                                    </option>
-                                                                </select>
+                                                    <form method="post">
+                                                        <div class="col-sm-12">
+                                                            <div class="row-form clearfix">
+                                                                <div class="form-group">
+                                                                    <select class="form-control" name="indicator"
+                                                                        id="indicator" style="width: 100%;"
+                                                                        autocomplete="off">
+                                                                        <option value="1">
+                                                                            Proportion of patients with SCD on
+                                                                            hydroxyurea at last visit
+                                                                        </option>
+                                                                        <option value="2">
+                                                                            Proportion of patients with SCD not on
+                                                                            hydroxyurea at last visit
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="row-form clearfix">
+                                                                <div class="form-group">
+                                                                    <input type="submit" name="search_by_indicator"
+                                                                        value="Filter" class="btn btn-primary">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                     <div class="card-header">
-                                                        <h3 class="card-title">patients with RHD who are on secodary
-                                                            prophylaxis
+                                                        <h3 class="card-title"> Patients with SCD on
+                                                            hydroxyurea at last visit
                                                         </h3>
                                                     </div>
                                                     <!-- /.card-header -->
@@ -1319,13 +1344,13 @@ if ($user->isLoggedIn()) {
              * -------
              * Here we will create a few charts using ChartJS
              */
-            propotion_RHD_secondary_prophylaxis_Data = <?php echo $json_propotion_RHD_secondary_prophylaxis; ?>
+            SCD_hydroxyurea_Data = <?php echo $json_propotion_SCD_hydroxyurea; ?>
 
             // Get the canvas element
-            var RHD_secondary_prophylaxis = $('#prophylaxis').get(0).getContext('2d');
+            var hydroxyurea = $('#hydroxyurea').get(0).getContext('2d');
 
             // Options to include data labels inside the chart
-            var RHD_secondary_prophylaxis_Options = {
+            var SCD_hydroxyurea_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -1360,10 +1385,10 @@ if ($user->isLoggedIn()) {
             Chart.register(ChartDataLabels);
 
             // Create pie chart
-            new Chart(RHD_secondary_prophylaxis, {
+            new Chart(hydroxyurea, {
                 type: 'pie', // Pie chart type
-                data: propotion_RHD_secondary_prophylaxis_Data,
-                options: RHD_secondary_prophylaxis_Options,
+                data: SCD_hydroxyurea_Data,
+                options: SCD_hydroxyurea_Options,
                 plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });
 
@@ -1542,6 +1567,18 @@ if ($user->isLoggedIn()) {
             });
 
         })
+    </script>
+
+    <script>
+        document.addEventListener('click', function (event) {
+            if (event.target.closest('.small-box-footer')) {
+                const value = event.target.closest('.small-box-footer').getAttribute('data-value');
+                // console.log("Value passed to modal: ", value);
+
+                // You can now send this value via AJAX or use it in the modal
+                // document.getElementById('modal-content').innerHTML = `Value: ${value}`;
+            }
+        });
     </script>
 
 </body>

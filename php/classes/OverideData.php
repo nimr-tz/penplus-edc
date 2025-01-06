@@ -656,7 +656,7 @@ class OverideData
     //functions for Sickle_cell Disease below
     // Indicator 1
     //Numerator-All active with scd on hyroxyurea at last visit
-    public function scd_hyroxyurea_num_All()
+    public function Numerator_scd_hyroxyurea()
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
          FROM sickle_cell s
@@ -672,7 +672,7 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_hyroxyurea_num_by_site($value)
+    public function Numerator_scd_hyroxyurea_by_site($value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
          FROM sickle_cell s
@@ -689,9 +689,9 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_hyroxyurea_num_by_data_rows($page, $numRec)
+    public function Numerator_scd_hyroxyurea_data_rows($page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
          FROM sickle_cell s
          JOIN medication_treatments m ON s.patient_id = m.patient_id 
          WHERE s.status = 1   
@@ -700,21 +700,38 @@ class OverideData
          SELECT MAX(visit_date)     
          FROM sickle_cell s2     
          WHERE s2.patient_id = s.patient_id)
-         limit $page,$numRec;
-         ");
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
-        $num = $query->rowCount();
-        return $num;
+    public function Numerator_scd_hyroxyurea_data_rows_by_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s
+         JOIN medication_treatments m ON s.patient_id = m.patient_id 
+         WHERE s.status = 1   
+         AND m.medication_type = 17  
+         AND s.visit_date = (
+         SELECT MAX(visit_date)     
+         FROM sickle_cell s2     
+         WHERE s2.patient_id = s.patient_id)
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     //Denominator-All active SCD patients
-    public function Active_SCD_den()
+    public function Denominator_Active_SCD()
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1;");
 
         $num = $query->rowCount();
         return $num;
     }
-    public function Active_SCD_den_by_site($value)
+    public function Denominator_Active_SCD_by_site($value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 AND s.site_id='$value'");
 

@@ -7,43 +7,22 @@ $email = new Email();
 $random = new Random();
 $validate = new validate();
 
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 if ($user->isLoggedIn()) {
-} else {
-    Redirect::to('index.php');
-}
 
-// $servername = "localhost";
-// $username = "root";
-// $password = "Data@2020";
-// $dbname = "penplus";
-
-    // // Create a new PDO instance
-    // $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // // Set PDO error mode to exception
-    // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $table = $_GET['table'];
     $ext = $_GET['ext'];
 
     $file = $table;
-    $ext = $ext;
+    // $ext = $ext;
 
-// // Prepare and execute the SQL query
-// $sql = "SELECT * FROM $table";
-// $stmt = $conn->prepare($sql);
-// $stmt->execute();
-
-// // Fetch all rows as an associative array
-// $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$result = $override->getData($table);
-
-
-    require 'vendor/autoload.php';
-
-    use PhpOffice\PhpSpreadsheet\Spreadsheet;
-    use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+    // $result = $override->get($table, 'status', 1);
+    $result = $override->getNo1_1_Rows_Data();
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -99,3 +78,9 @@ $result = $override->getData($table);
 
     $writer->save('php://output');
     exit();
+
+
+} else {
+    Redirect::to('index.php');
+}
+

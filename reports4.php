@@ -140,10 +140,10 @@ if ($user->isLoggedIn()) {
         // INDICATOR 5
         if (Input::get('site_id')) {
             $Numerator_scd_hospitalised_12 = intval($override->Numerator_scd_hospitalised_12_by_site(Input::get('site_id')));
-            $Denominator_scd_active = intval($override->scd_active_den_by_site(Input::get('site_id')));
+            $Denominator_scd_active = intval($override->Denominator_scd_active_by_Site(Input::get('site_id')));
         } else {
             $Numerator_scd_hospitalised_12 = intval($override->Numerator_scd_hospitalised_12());
-            $Denominator_scd_active = intval($override->scd_active_den());
+            $Denominator_scd_active = intval($override->Denominator_scd_active());
         }
         $proportion_patients_SCD_hospitalization_12_months = intval(intval($Numerator_scd_hospitalised_12) / intval($Denominator_scd_active) * 100);
         // Prepare the data in PHP

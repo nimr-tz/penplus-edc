@@ -976,13 +976,13 @@ class OverideData
 
 
     //Denominator-All active SCD patient
-    public function scd_active_den()
+    public function Denominator_scd_active()
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 ");
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_active_den_by_site($value)
+    public function Denominator_scd_active_by_Site($value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 AND s.site_id='$value'");
         $num = $query->rowCount();

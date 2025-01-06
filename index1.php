@@ -7,7 +7,6 @@ $random = new Random();
 
 $users = $override->getData('user');
 
-
 if ($user->isLoggedIn()) {
 
   if (Input::exists('post')) {
@@ -20,112 +19,36 @@ if ($user->isLoggedIn()) {
         ),
       ));
       if ($validate->passed()) {
-
         $url = 'index1.php?&site_id=' . Input::get('site_id');
         Redirect::to($url);
         $pageError = $validate->errors();
       }
     }
-
-    if (Input::get('search_by_indicator')) {
-      $validate = new validate();
-      $validate = $validate->check($_POST, array(
-        'indicator' => array(
-          'required' => true,
-        ),
-      ));
-      if ($validate->passed()) {
-        $indicator = Input::get('indicator');
-        $url = 'reports4.php?&site_id=' . Input::get('site_id');
-        Redirect::to($url);
-        $pageError = $validate->errors();
-      }
-    }
   }
-  
-  if ($user->data()->accessLevel == 3) {
-    if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
-      if ($_GET['site_id'] != null) {
-        $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
-        $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
-        $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
-        $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
-      } else {
-        $screened = $override->countData('clients', 'status', 1, 'screened', 1);
-        $eligible = $override->countData('clients', 'status', 1, 'eligible', 1);
-        $enrolled = $override->countData('clients', 'status', 1, 'enrolled', 1);
-        $end = $override->countData('clients', 'status', 1, 'end_study', 1);
-      }
+
+  if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
+    if ($_GET['site_id'] != null) {
+      $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
+      $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
+      $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
+      $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
     } else {
-      $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
-      $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id);
-      $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
-      $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
+      $screened = $override->countData('clients', 'status', 1, 'screened', 1);
+      $eligible = $override->countData('clients', 'status', 1, 'eligible', 1);
+      $enrolled = $override->countData('clients', 'status', 1, 'enrolled', 1);
+      $end = $override->countData('clients', 'status', 1, 'end_study', 1);
     }
-    Redirect::to('indicators.php');
   } else {
-    if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
-      if ($_GET['site_id'] != null) {
-        $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
-        $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
-        $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
-        $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
-      } else {
-        $screened = $override->countData('clients', 'status', 1, 'screened', 1);
-        $eligible = $override->countData('clients', 'status', 1, 'eligible', 1);
-        $enrolled = $override->countData('clients', 'status', 1, 'enrolled', 1);
-        $end = $override->countData('clients', 'status', 1, 'end_study', 1);
-      }
-    } else {
-      $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
-      $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id);
-      $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
-      $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
-    }
-    Redirect::to('index1.php');
+    $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
+    $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id);
+    $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
+    $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
+  }
+  if ($user->data()->accessLevel == 3) {
+    Redirect::to('indicators.php');
   }
 } else {
-  if ($user->data()->accessLevel == 3) {
-    if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
-      if ($_GET['site_id'] != null) {
-        $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
-        $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
-        $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
-        $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
-      } else {
-        $screened = $override->countData('clients', 'status', 1, 'screened', 1);
-        $eligible = $override->countData('clients', 'status', 1, 'eligible', 1);
-        $enrolled = $override->countData('clients', 'status', 1, 'enrolled', 1);
-        $end = $override->countData('clients', 'status', 1, 'end_study', 1);
-      }
-    } else {
-      $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
-      $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id);
-      $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
-      $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
-    }
-    Redirect::to('indicators.php');
-  } else {
-    if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
-      if ($_GET['site_id'] != null) {
-        $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
-        $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $_GET['site_id']);
-        $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $_GET['site_id']);
-        $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $_GET['site_id']);
-      } else {
-        $screened = $override->countData('clients', 'status', 1, 'screened', 1);
-        $eligible = $override->countData('clients', 'status', 1, 'eligible', 1);
-        $enrolled = $override->countData('clients', 'status', 1, 'enrolled', 1);
-        $end = $override->countData('clients', 'status', 1, 'end_study', 1);
-      }
-    } else {
-      $screened = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
-      $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id);
-      $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
-      $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
-    }
-    Redirect::to('index1.php');
-  }
+  Redirect::to('index.php');
 }
 
 ?>
@@ -140,8 +63,7 @@ if ($user->isLoggedIn()) {
   <title>Penplus Database | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -186,10 +108,10 @@ if ($user->isLoggedIn()) {
         if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
           $Site = ' ALL SITES';
           if ($_GET['site_id']) {
-            $Site = ' ' . ' ' . $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
+            $Site = ' ' . ' '. $override->getNews('site', 'status', 1, 'id', $_GET['site_id'])[0]['name'];
           }
         } else {
-          $Site = ' ' . ' ' . $override->getNews('site', 'status', 1, 'id', $user->data()->site_id)[0]['name'];
+          $Site =' ' . ' ' . $override->getNews('site', 'status', 1, 'id', $user->data()->site_id)[0]['name'];
         }
         ?>
         <div class="container-fluid">
@@ -201,7 +123,7 @@ if ($user->isLoggedIn()) {
 
               <?php
               if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
-                ?>
+              ?>
                 <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                   <div class="row">
                     <div class="col-sm-6">
@@ -257,8 +179,7 @@ if ($user->isLoggedIn()) {
                   <i class="ion ion-bag"></i>
                 </div>
                 <!-- <a href="info.php?id=3&site_id=<?= $user->data()->site_id; ?>&status=1" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-                <a href="info.php?id=3&status=1" class="small-box-footer">More info <i
-                    class="fas fa-arrow-circle-right"></i></a>
+                <a href="info.php?id=3&status=1" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -274,8 +195,7 @@ if ($user->isLoggedIn()) {
                   <i class="ion ion-stats-bars"></i>
                 </div>
                 <!-- <a href="info.php?id=3&site_id=<?= $user->data()->site_id; ?>&status=2" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-                <a href="info.php?id=3&status=2" class="small-box-footer">More info <i
-                    class="fas fa-arrow-circle-right"></i></a>
+                <a href="info.php?id=3&status=2" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -291,8 +211,7 @@ if ($user->isLoggedIn()) {
                   <i class="ion ion-person-add"></i>
                 </div>
                 <!-- <a href="info.php?id=3&site_id=<?= $user->data()->site_id; ?>&status=3" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-                <a href="info.php?id=3&status=3" class="small-box-footer">More info <i
-                    class="fas fa-arrow-circle-right"></i></a>
+                <a href="info.php?id=3&status=3" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -308,8 +227,7 @@ if ($user->isLoggedIn()) {
                   <i class="ion ion-pie-graph"></i>
                 </div>
                 <!-- <a href="info.php?id=3&site_id=<?= $user->data()->site_id; ?>&status=4" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-                <a href="info.php?id=3&status=4" class="small-box-footer">More info <i
-                    class="fas fa-arrow-circle-right"></i></a>
+                <a href="info.php?id=3&status=4" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -507,8 +425,7 @@ if ($user->isLoggedIn()) {
             <!-- right col -->
           </div>
           <!-- /.row (main row) -->
-        </div>
-        <!-- /.container-fluid -->
+        </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
     </div>

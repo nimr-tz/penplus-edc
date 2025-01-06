@@ -627,7 +627,7 @@ if ($user->isLoggedIn()) {
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                        <a href="#" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Vitals && Hb1AC<i class="fas fa-angle-left right"></i>
@@ -652,7 +652,7 @@ if ($user->isLoggedIn()) {
                                 </ul>
                             </li>
                             <li class="nav-item">
-                        <a href="#" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Recruitments <i class="fas fa-angle-left right"></i>
@@ -697,7 +697,7 @@ if ($user->isLoggedIn()) {
                                 </ul>
                             </li>
                             <li class="nav-item">
-                        <a href="#" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>
                                         Diseases <i class="fas fa-angle-left right"></i>
@@ -837,10 +837,10 @@ if ($user->isLoggedIn()) {
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                             <li class="nav-item">
-                                        <a href="indicators.php" class="nav-link">
-                                            <i class="fas fa-circle nav-icon"></i>
-                                            <span class="badge badge-info right"><?= $vital ?></span>
+                            <li class="nav-item">
+                                <a href="indicators.php" class="nav-link">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <span class="badge badge-info right"><?= $vital ?></span>
                                     <p>All Indicators</p>
                                 </a>
                             </li>

@@ -45,7 +45,7 @@ if (!$user->isLoggedIn()) {
                             }
 
                             if ($user->data()->accessLevel == 3) {
-                                Redirect::to('reports_social_economic.php');
+                                Redirect::to('indicators.php');
                             } else {
                                 Redirect::to('index1.php');
                             }
@@ -81,7 +81,7 @@ if (!$user->isLoggedIn()) {
     }
 } else {
     if ($user->data()->accessLevel == 3) {
-        Redirect::to('reports_social_economic.php');
+        Redirect::to('indicators.php');
     } else {
         Redirect::to('index1.php');
     }

@@ -837,6 +837,13 @@ if ($user->isLoggedIn()) {
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                             <li class="nav-item">
+                                        <a href="indicators.php" class="nav-link">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <span class="badge badge-info right"><?= $vital ?></span>
+                                    <p>All Indicators</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="info.php?id=8" class="nav-link">
                                     <i class="far fa-dot-circle nav-icon"></i>

@@ -1081,9 +1081,9 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Active_NYHA_num_by_Site(Input::get('site_id'), 1));
+                                                $pagNum = intval($override->Active_NYHA_num_by_Site(Input::get('site_id'), $indicator));
                                             } else {
-                                                $pagNum = intval($override->Active_NYHA_num(1));
+                                                $pagNum = intval($override->Active_NYHA_num($indicator));
                                             }
 
                                             $pages = ceil($pagNum / $numRec);

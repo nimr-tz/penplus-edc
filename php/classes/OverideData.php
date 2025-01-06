@@ -867,42 +867,60 @@ class OverideData
     }
     //Indicator 4
     //Numerator-all active with scd need transfusion AND months <=12 & Exclude Baseline
-    public function scd_transfusion_num_all()
+    public function Numerator_scd_transfusion()
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s JOIN treatment_plan t ON s.patient_id = t.patient_id WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1");
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_transfusion_num_by_site($value)
+    public function Numerator_scd_transfusion_by_site($value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s JOIN treatment_plan t ON s.patient_id = t.patient_id WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1 AND s.site_id='$value'");
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_transfusion_num_data_rows($page, $numRec)
+    public function Numerator_scd_transfusion_data_Rows($page, $numRec)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s 
          JOIN treatment_plan t ON s.patient_id = t.patient_id 
-         WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1 limit $page,$numRec");
-        $num = $query->rowCount();
-        return $num;
+         WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1 
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
+
+    public function Numerator_scd_transfusion_data_Rows_by_Site($value,$page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s 
+         JOIN treatment_plan t ON s.patient_id = t.patient_id 
+         WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1 
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     //Denominator-aLL Active SCD patient
-    public function scd_patient_den()
+    public function Denominator_scd_patient()
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH");
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_patient_den_by_site($value)
+
+    public function Denominator_scd_patient_by_Site($value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND s.site_id='$value'");
         $num = $query->rowCount();
         return $num;
     }
+
+
     //Indicator 5
     //Numerator-All active with SCD hospitalised in the last 12 months & Exclude Baseline
-    public function scd_hospitalised_12_num_all()
+    public function Numerator_scd_hospitalised_12()
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
          FROM sickle_cell s 
@@ -914,7 +932,7 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_hospitalised_12_num_by_site($value)
+    public function Numerator_scd_hospitalised_12_by_site($value)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
          FROM sickle_cell s 
@@ -927,18 +945,36 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
-    public function scd_hospitalised_12_num_data_rows($page, $numRec)
+    public function Numerator_scd_hospitalised_12_Data_Rows($page, $numRec)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
          FROM sickle_cell s 
          JOIN hospitalization_table h ON s.patient_id = h.patient_id 
          WHERE s.status = 1 
          AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH    
-         AND h.admission_reason = 'scd' limit $page,$numRec;
-    ");
-        $num = $query->rowCount();
-        return $num;
+         AND h.admission_reason = 'scd'
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
+
+    public function Numerator_scd_hospitalised_12_Data_Rows_by_Site($value,$page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
+         FROM sickle_cell s 
+         JOIN hospitalization_table h ON s.patient_id = h.patient_id 
+         WHERE s.status = 1 
+         AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH    
+         AND h.admission_reason = 'scd'
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
     //Denominator-All active SCD patient
     public function scd_active_den()
     {

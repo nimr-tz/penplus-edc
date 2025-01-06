@@ -117,11 +117,11 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 4
         if (Input::get('site_id')) {
-            $Numerator_scd_transfusion = intval($override->scd_transfusion_num_by_site(Input::get('site_id')));
-            $Denominator_scd_patient = intval($override->scd_patient_den_by_site(Input::get('site_id')));
+            $Numerator_scd_transfusion = intval($override->Numerator_scd_transfusion_by_site(Input::get('site_id')));
+            $Denominator_scd_patient = intval($override->Denominator_scd_patient_by_Site(Input::get('site_id')));
         } else {
-            $Numerator_scd_transfusion = intval($override->scd_transfusion_num_all());
-            $Denominator_scd_patient = intval($override->scd_patient_den());
+            $Numerator_scd_transfusion = intval($override->Numerator_scd_transfusion());
+            $Denominator_scd_patient = intval($override->Denominator_scd_patient());
         }
         $proportion_SCD_transfusion_12_months = intval(intval($Numerator_scd_transfusion) / intval($Denominator_scd_patient) * 100);
         // Prepare the data in PHP
@@ -139,10 +139,10 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 5
         if (Input::get('site_id')) {
-            $Numerator_scd_hospitalised_12 = intval($override->scd_hospitalised_12_num_by_site(Input::get('site_id')));
+            $Numerator_scd_hospitalised_12 = intval($override->Numerator_scd_hospitalised_12_by_site(Input::get('site_id')));
             $Denominator_scd_active = intval($override->scd_active_den_by_site(Input::get('site_id')));
         } else {
-            $Numerator_scd_hospitalised_12 = intval($override->scd_hospitalised_12_num_all());
+            $Numerator_scd_hospitalised_12 = intval($override->Numerator_scd_hospitalised_12());
             $Denominator_scd_active = intval($override->scd_active_den());
         }
         $proportion_patients_SCD_hospitalization_12_months = intval(intval($Numerator_scd_hospitalised_12) / intval($Denominator_scd_active) * 100);
@@ -392,7 +392,7 @@ if ($user->isLoggedIn()) {
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
+                                    data-target="#modal-xl5" data-value="5">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
@@ -665,7 +665,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="col-sm-12">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <select class="form-control" name="dk_12" id="dk_12_id"
+                                                                <select class="form-control" name="indicator" id="indicator"
                                                                     style="width: 100%;" autocomplete="off">
                                                                     <option value="1">
                                                                         Proportion of patients with SCD less than 5
@@ -856,7 +856,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="col-sm-12">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <select class="form-control" name="dk_12" id="dk_12_id"
+                                                                <select class="form-control" name="indicator" id="indicator"
                                                                     style="width: 100%;" autocomplete="off">
                                                                     <option value="1">
                                                                         Patients with SCD who are on folic acid
@@ -982,6 +982,7 @@ if ($user->isLoggedIn()) {
                             <!-- /.modal-dialog -->
                         </div>
                         <!-- /.modal -->
+
                         <div class="modal fade" id="modal-xl4">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
@@ -1012,7 +1013,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="folic_acid"
+                                                        <canvas id="transfusion"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -1023,9 +1024,9 @@ if ($user->isLoggedIn()) {
 
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Numerator_scd_folic_by_Site(Input::get('site_id')));
+                                                $pagNum = intval($override->Numerator_scd_transfusion_by_site(Input::get('site_id')));
                                             } else {
-                                                $pagNum = intval($override->Numerator_scd_folic());
+                                                $pagNum = intval($override->Numerator_scd_transfusion());
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -1035,9 +1036,9 @@ if ($user->isLoggedIn()) {
                                             }
 
                                             if (Input::get('site_id')) {
-                                                $data = $override->Numerator_scd_folic_data_Rows_by_Site(Input::get('site_id'), $page, $numRec);
+                                                $data = $override->Numerator_scd_transfusion_data_Rows_by_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Numerator_scd_folic_data_Rows($page, $numRec);
+                                                $data = $override->Numerator_scd_transfusion_data_Rows($page, $numRec);
                                             }
                                             ?>
                                             <div class="col-md-7">
@@ -1045,7 +1046,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="col-sm-12">
                                                         <div class="row-form clearfix">
                                                             <div class="form-group">
-                                                                <select class="form-control" name="dk_12" id="dk_12_id"
+                                                                <select class="form-control" name="indicator" id="indicator"
                                                                     style="width: 100%;" autocomplete="off">
                                                                     <option value="1">
                                                                         Patients with SCD needing transfusion
@@ -1059,7 +1060,201 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-header">
-                                                        <h3 class="card-title">Patients with SCD needing transfusion within the last 12 months
+                                                        <h3 class="card-title">Patients with SCD needing transfusion
+                                                            within the last 12 months
+                                                        </h3>
+                                                    </div>
+                                                    <!-- /.card-header -->
+                                                    <div class="card-body">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width: 10px">#</th>
+                                                                    <th>Study ID</th>
+                                                                    <th>Age</th>
+                                                                    <th>Sex</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                $i = 1;
+                                                                foreach ($data as $row) {
+                                                                    $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
+                                                                    $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><?= $i ?>.</td>
+                                                                        <td><?= $row['study_id'] ?></td>
+                                                                        <td><?= $clients['age'] ?></td>
+                                                                        <td><?= $sex['name'] ?></td>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $i++;
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.card-body -->
+
+                                                    <?php
+                                                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                                    $currentSite = $_GET['site_id'];
+                                                    // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                                    $range = 2; // Number of pages to show before and after the current page
+                                                    
+                                                    // Calculate start and end for the visible range
+                                                    $start = max(1, $currentPage - $range);
+                                                    $end = min($pages, $currentPage + $range);
+                                                    ?>
+                                                    <div class="card-footer clearfix">
+                                                        <ul class="pagination pagination-sm m-0 float-right">
+                                                            <!-- Previous Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                            </li>
+
+                                                            <!-- First Page (if outside the range) -->
+                                                            <?php if ($start > 1): ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                </li>
+                                                                <?php if ($start > 2): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+
+                                                            <!-- Visible Page Links -->
+                                                            <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                                <li
+                                                                    class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                                    <a class="page-link"
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                </li>
+                                                            <?php endfor; ?>
+
+                                                            <!-- Last Page (if outside the range) -->
+                                                            <?php if ($end < $pages): ?>
+                                                                <?php if ($end < $pages - 1): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <!-- Next Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+
+                        <div class="modal fade" id="modal-xl5">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Proportion of patients with SCD who had a
+                                            hospitalization within the last 12 months</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <p>One fine body&hellip;</p> -->
+                                        <!-- PIE CHART -->
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="card card-info">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Pie Chart</h3>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="remove">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <canvas id="hospitalization"
+                                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                    </div>
+                                                    <!-- /.card-body -->
+                                                </div>
+                                            </div>
+                                            <!-- /.card -->
+                                            <?php
+
+                                            $pagNum = 0;
+                                            if (Input::get('site_id')) {
+                                                $pagNum = intval($override->Numerator_scd_hospitalised_12_by_site(Input::get('site_id')));
+                                            } else {
+                                                $pagNum = intval($override->Numerator_scd_hospitalised_12());
+                                            }
+                                            $pages = ceil($pagNum / $numRec);
+                                            if (!$_GET['page'] || $_GET['page'] == 1) {
+                                                $page = 0;
+                                            } else {
+                                                $page = ($_GET['page'] * $numRec) - $numRec;
+                                            }
+
+                                            if (Input::get('site_id')) {
+                                                $data = $override->Numerator_scd_hospitalised_12_Data_Rows_by_Site(Input::get('site_id'), $page, $numRec);
+                                            } else {
+                                                $data = $override->Numerator_scd_hospitalised_12_Data_Rows($page, $numRec);
+                                            }
+                                            ?>
+                                            <div class="col-md-7">
+                                                <div class="card">
+                                                    <div class="col-sm-12">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <select class="form-control" name="indicator" id="indicator"
+                                                                    style="width: 100%;" autocomplete="off">
+                                                                    <option value="1">
+                                                                        Patients with SCD who had a hospitalization
+                                                                        within the last 12 months
+                                                                    <option value="2">
+                                                                        Patients with SCD who hadn't a hospitalization
+                                                                        within the last 12 month</option>
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Patients with SCD who had a
+                                                            hospitalization
+                                                            within the last 12 months
                                                         </h3>
                                                     </div>
                                                     <!-- /.card-header -->
@@ -1488,13 +1683,13 @@ if ($user->isLoggedIn()) {
              * -------
              * Here we will create a few charts using ChartJS
              */
-            NYHA_Data = <?php echo $json_proportion_NYHA; ?>
+            transfusion_Data = <?php echo $json_proportion_SCD_transfusion_12_months; ?>
 
             // Get the canvas element
-            var nyha = $('#nyha').get(0).getContext('2d');
+            var transfusion = $('#transfusion').get(0).getContext('2d');
 
             // Options to include data labels inside the chart
-            var NYHA_Options = {
+            var transfusion_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -1529,10 +1724,67 @@ if ($user->isLoggedIn()) {
             Chart.register(ChartDataLabels);
 
             // Create pie chart
-            new Chart(nyha, {
+            new Chart(transfusion, {
                 type: 'pie', // Pie chart type
-                data: NYHA_Data,
-                options: NYHA_Options,
+                data: transfusion_Data,
+                options: transfusion_Options,
+                plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
+            });
+
+        })
+    </script>
+
+    <script>
+        $(function () {
+            /* ChartJS
+             * -------
+             * Here we will create a few charts using ChartJS
+             */
+            hospitalization_Data = <?php echo $json_proportion_patients_SCD_hospitalization_12_months; ?>
+
+            // Get the canvas element
+            var hospitalization = $('#hospitalization').get(0).getContext('2d');
+
+            // Options to include data labels inside the chart
+            var hospitalization_Options = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top', // Position of legend
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff', // Text color for data labels
+                        font: {
+                            weight: 'bold',
+                            size: 14 // Font size for labels
+                        },
+                        formatter: function (value, context) {
+                            return value + '%'; // Display value inside the pie chart
+                        },
+                        anchor: 'center', // Position the labels in the center
+                        align: 'center', // Align the labels to the center
+                    }
+                }
+            };
+
+            // Register the datalabels plugin globally (if not already registered)
+            Chart.register(ChartDataLabels);
+
+            // Create pie chart
+            new Chart(hospitalization, {
+                type: 'pie', // Pie chart type
+                data: hospitalization_Data,
+                options: hospitalization_Options,
                 plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });
 

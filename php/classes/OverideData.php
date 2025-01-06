@@ -777,7 +777,7 @@ class OverideData
         return $result;
     }
 
-    public function Numerator_scd_5_penv_data_Rows_by_Site($value,$page, $numRec)
+    public function Numerator_scd_5_penv_data_Rows_by_Site($value, $page, $numRec)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
          FROM sickle_cell s 
@@ -837,7 +837,7 @@ class OverideData
         return $result;
     }
 
-    public function Numerator_scd_folic_data_Rows_by_Site($value,$page, $numRec)
+    public function Numerator_scd_folic_data_Rows_by_Site($value, $page, $numRec)
     {
         $query = $this->_pdo->query("select distinct s.patient_id  ,s.study_id
          from sickle_cell s 
@@ -890,7 +890,7 @@ class OverideData
         return $result;
     }
 
-    public function Numerator_scd_transfusion_data_Rows_by_Site($value,$page, $numRec)
+    public function Numerator_scd_transfusion_data_Rows_by_Site($value, $page, $numRec)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s 
          JOIN treatment_plan t ON s.patient_id = t.patient_id 
@@ -959,7 +959,7 @@ class OverideData
         return $result;
     }
 
-    public function Numerator_scd_hospitalised_12_Data_Rows_by_Site($value,$page, $numRec)
+    public function Numerator_scd_hospitalised_12_Data_Rows_by_Site($value, $page, $numRec)
     {
         $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
          FROM sickle_cell s 
@@ -998,11 +998,11 @@ class OverideData
         FROM 
         clients c
         JOIN 
-        demographic d ON c.client_id = d.client_id
+        demographic d ON c.id = d.patient_id
         WHERE 
         c.age < 24 
         AND d.school_attendance = 1
-        AND d.status = 1;
+        AND d.status = 1
      ");
         $num = $query->rowCount();
         return $num;
@@ -1014,11 +1014,11 @@ class OverideData
         FROM 
         clients c
         JOIN 
-        demographic d ON c.client_id = d.client_id
+        demographic d ON c.id = d.patient_id
         WHERE 
         c.age < 24 
         AND d.school_attendance = 1
-        AND d.status = 1 AND d.site_id='$value';
+        AND d.status = 1 AND d.site_id='$value'
      ");
         $num = $query->rowCount();
         return $num;
@@ -1031,7 +1031,7 @@ class OverideData
         FROM 
         clients c
         JOIN 
-        demographic d ON c.client_id = d.client_id
+        demographic d ON c.id = d.patient_id
         WHERE 
         c.age < 24 
         AND d.school_attendance = 1
@@ -1043,19 +1043,19 @@ class OverideData
     }
 
 
-    public function Numerator_ncd_Limited_Data_Rows_By_Site($value,$page, $numRec)
+    public function Numerator_ncd_Limited_Data_Rows_By_Site($value, $page, $numRec)
     {
         $query = $this->_pdo->query("SELECT *
         FROM 
         clients c
         JOIN 
-        demographic d ON c.client_id = d.client_id
+        demographic d ON c.id = d.patient_id
         WHERE 
         c.age < 24 
         AND d.school_attendance = 1
         AND d.status = 1
-         AND s.site_id = '$value'  
-         limit $page,$numRec
+        AND s.site_id = '$value'  
+        limit $page,$numRec
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -1066,15 +1066,24 @@ class OverideData
 
     public function Denominator_ncd_Limited()
     {
-        $query = $this->_pdo->query("SELECT * FROM clients c JOIN demographic d ON c.client_id = d.client_id WHERE c.age < 24 AND d.status = 1;");
+        $query = $this->_pdo->query("SELECT * FROM clients c
+        JOIN demographic d ON c.id = d.patient_id
+        WHERE c.age < 24 AND d.status = 1");
         $num = $query->rowCount();
         return $num;
     }
     public function Denominator_ncd_Limited_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT * FROM clients c JOIN demographic d ON c.client_id = d.client_id WHERE c.age < 24 AND d.status = 1 AND d.site_id='$value';");
+        $query = $this->_pdo->query("SELECT * FROM clients c
+        JOIN demographic d ON c.id = d.patient_id
+        WHERE c.age < 24
+        AND d.status = 1
+        AND d.site_id='$value'
+        ");
         $num = $query->rowCount();
         return $num;
+
+
     }
     //Indicator 2-Average days of missed school in the last month
     public function average_missed_school_all()

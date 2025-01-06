@@ -47,27 +47,26 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 1
         if (Input::get('site_id')) {
-            $Numerator_scd_hydroxyurea = intval($override->Numerator_ncd_Limited_By_Site(Input::get('site_id')));
-            $Denominator_Active_scd = intval($override->Denominator_ncd_Limited_By_Site(Input::get('site_id')));
+            $Numerator_ncd_Limited = intval($override->Numerator_ncd_Limited_By_Site(Input::get('site_id')));
+            $Denominator_ncd_Limited = intval($override->Denominator_ncd_Limited_By_Site(Input::get('site_id')));
         } else {
-            $Numerator_scd_hydroxyurea = intval($override->Numerator_ncd_Limited());
-            $Denominator_Active_scd = intval($override->Denominator_ncd_Limited());
-
+            $Numerator_ncd_Limited = intval($override->Numerator_ncd_Limited());
+            $Denominator_ncd_Limited = intval($override->Denominator_ncd_Limited());
         }
-        $propotion_SCD_hydroxyurea = intval(intval($Numerator_scd_hydroxyurea) / intval($Denominator_Active_scd) * 100);
+        $propotion_ncd_Limited = intval(intval($Numerator_ncd_Limited) / intval($Denominator_ncd_Limited) * 100);
         // Prepare the data in PHP
-        $data_propotion_SCD_hydroxyurea = [
+        $data_propotion_ncd_Limited = [
             'labels' => ['SCD on hydroxyurea', 'SCD not on hydroxyurea'],
             'datasets' => [
                 [
-                    'data' => [$propotion_SCD_hydroxyurea, 100 - $$propotion_SCD_hydroxyurea], // Calculate the second value dynamically
+                    'data' => [$propotion_ncd_Limited, 100 - $$propotion_ncd_Limited], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
         ];
 
         // Convert the data to JSON format
-        $json_propotion_SCD_hydroxyurea = json_encode($data_propotion_SCD_hydroxyurea);
+        $json_data_propotion_ncd_Limited = json_encode($data_propotion_ncd_Limited);
 
 
 
@@ -300,7 +299,7 @@ if ($user->isLoggedIn()) {
                             <!-- small card -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3><?= $propotion_SCD_hydroxyurea ?>%</h3>
+                                    <h3><?= $propotion_ncd_Limited ?>%</h3>
                                     <p>Proportion of patients for whom NCD has limited school attendance ever</p>
                                 </div>
                                 <div class="icon">
@@ -448,8 +447,8 @@ if ($user->isLoggedIn()) {
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Proportion of patients with SCD on hydroxyurea at last
-                                            visit</h4>
+                                        <h4 class="modal-title">Proportion of patients for whom NCD has limited school
+                                            attendance ever</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -474,7 +473,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="hydroxyurea"
+                                                        <canvas id="ncd_Limited"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -484,9 +483,9 @@ if ($user->isLoggedIn()) {
                                             <?php
                                             $pagNum = 0;
                                             if (Input::get('site_id')) {
-                                                $pagNum = intval($override->Numerator_scd_hyroxyurea_by_site(Input::get('site_id')));
+                                                $pagNum = intval($override->Numerator_ncd_Limited_By_Site(Input::get('site_id')));
                                             } else {
-                                                $pagNum = intval($override->Numerator_scd_hyroxyurea());
+                                                $pagNum = intval($override->Numerator_ncd_Limited());
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -496,9 +495,9 @@ if ($user->isLoggedIn()) {
                                             }
 
                                             if (Input::get('site_id')) {
-                                                $data = $override->Numerator_scd_hyroxyurea_data_rows_by_Site(Input::get('site_id'), $page, $numRec);
+                                                $data = $override->Numerator_ncd_Limited_Data_Rows_By_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                $data = $override->Numerator_scd_hyroxyurea_data_rows($page, $numRec);
+                                                $data = $override->Numerator_ncd_Limited_Data_Rows($page, $numRec);
                                             }
                                             ?>
                                             <div class="col-md-7">
@@ -511,12 +510,12 @@ if ($user->isLoggedIn()) {
                                                                         id="indicator" style="width: 100%;"
                                                                         autocomplete="off">
                                                                         <option value="1">
-                                                                            Proportion of patients with SCD on
-                                                                            hydroxyurea at last visit
+                                                                            Patients for whom NCD has
+                                                                            limited school attendance ever
                                                                         </option>
                                                                         <option value="2">
-                                                                            Proportion of patients with SCD not on
-                                                                            hydroxyurea at last visit
+                                                                            Patients for whom NCD has not
+                                                                            limited school attendance ever
                                                                         </option>
                                                                     </select>
                                                                 </div>
@@ -532,8 +531,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </form>
                                                     <div class="card-header">
-                                                        <h3 class="card-title"> Patients with SCD on
-                                                            hydroxyurea at last visit
+                                                        <h3 class="card-title"> Patients for whom NCD has limited school attendance ever
                                                         </h3>
                                                     </div>
                                                     <!-- /.card-header -->
@@ -1944,13 +1942,13 @@ if ($user->isLoggedIn()) {
              * -------
              * Here we will create a few charts using ChartJS
              */
-            SCD_hydroxyurea_Data = <?php echo $json_propotion_SCD_hydroxyurea; ?>
+            ncd_Limited_Data = <?php echo $json_data_propotion_ncd_Limited; ?>
 
             // Get the canvas element
-            var hydroxyurea = $('#hydroxyurea').get(0).getContext('2d');
+            var ncd_Limited = $('#ncd_Limited').get(0).getContext('2d');
 
             // Options to include data labels inside the chart
-            var SCD_hydroxyurea_Options = {
+            var ncd_Limited_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -1985,10 +1983,10 @@ if ($user->isLoggedIn()) {
             Chart.register(ChartDataLabels);
 
             // Create pie chart
-            new Chart(hydroxyurea, {
+            new Chart(ncd_Limited, {
                 type: 'pie', // Pie chart type
-                data: SCD_hydroxyurea_Data,
-                options: SCD_hydroxyurea_Options,
+                data: ncd_Limited_Data,
+                options: ncd_Limited_Options,
                 plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });
 

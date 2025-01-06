@@ -1093,10 +1093,14 @@ class OverideData
     }
     public function Average_missed_school_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT ROUND(AVG(h.missed_days0,2) as avg_missed_days
-        FROM hospitalization h JOIN clients c ON h.patient_id = c.id
-        WHERE c.age < 24 AND h.missed_days NOT IN (98, 99)
+        $query = $this->_pdo->query("SELECT h.site_id,
+        ROUND(AVG(h.missed_days0),2) as avg_missed_days
+        FROM hospitalization h
+        JOIN clients c ON h.patient_id = c.id
+        WHERE c.age < 24
+        AND h.missed_days NOT IN (98, 99)
         AND h.site_id='$value'
+        GROUP BY h.site_id
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -1134,7 +1138,7 @@ class OverideData
 
     public function Numerator_food_insecurity_Data_Rows_By_Site($value, $page, $numRec)
     {
-        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s
+        $query = $this->_pdo->query("SELECT COUNT(*) FROM social_economic s 
         WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
         AND s.site_id = '$value'
         limit $page,$numRec
@@ -1199,7 +1203,7 @@ class OverideData
     }
     public function Average_Distance_Cost_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT
+        $query = $this->_pdo->query("SELECT site_id
             ROUND(AVG(distance_km),2) AS avg_distance_km,
             ROUND(AVG(distance_minutes),2) AS avg_distance_minutes,
             ROUND(AVG(transportation_cost),2) AS avg_transportation_cost

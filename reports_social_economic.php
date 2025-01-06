@@ -73,7 +73,8 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 2
         if (Input::get('site_id')) {
-            $Average_missed_school = $override->Average_missed_school_By_Site(Input::get('site_id'))[0];
+            // $Average_missed_school = $override->Average_missed_school_By_Site(Input::get('site_id'))[0];
+            $Average_missed_school = $override->Average_missed_school()[0];
         } else {
             $Average_missed_school = $override->Average_missed_school()[0];
         }
@@ -106,7 +107,8 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 2,4,5 and 6
         if (Input::get('site_id')) {
-            $Average_Distance_Cost = $override->Average_Distance_Cost_By_Site(Input::get('site_id'))[0];
+            // $Average_Distance_Cost = $override->Average_Distance_Cost_By_Site(Input::get('site_id'))[0];
+            $Average_Distance_Cost = $override->Average_Distance_Cost()[0];
         } else {
             $Average_Distance_Cost = $override->Average_Distance_Cost()[0];
         }
@@ -347,6 +349,10 @@ if ($user->isLoggedIn()) {
                                                                                                                             </button> -->
                             </div>
                         </div>
+
+                        <?php
+                        // print_r($Average_missed_school);
+                        ?>
                         <div class="col-md-12">
                             <!-- Widget: user widget style 1 -->
                             <div class="card card-widget widget-user">
@@ -848,7 +854,8 @@ if ($user->isLoggedIn()) {
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td><?= $Average_missed_school['avg_missed_days'] ?></td>
+                                                                    <td><?= $Average_missed_school['avg_missed_days'] ?>
+                                                                    </td>
                                                                     <td><?= $Average_Distance_Cost['avg_distance_km'] ?>
                                                                     </td>
                                                                     <td><?= $Average_Distance_Cost['avg_distance_km'] ?>
@@ -1436,7 +1443,7 @@ if ($user->isLoggedIn()) {
             // Create pie chart
             new Chart(Social_Support, {
                 type: 'pie', // Pie chart type
-                data: hospitalization_Data,
+                data: Social_Support_Data,
                 options: Social_Support_Options,
                 plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });

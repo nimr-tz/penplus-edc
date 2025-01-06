@@ -1084,22 +1084,22 @@ class OverideData
     //Indicator 2-Average days of missed school in the last month
     public function Average_missed_school()
     {
-        $query = $this->_pdo->query("SELECT AVG(h.missed_days)
+        $query = $this->_pdo->query("SELECT ROUND(AVG(h.missed_days),2) as avg_missed_days
         FROM hospitalization h JOIN clients c ON h.patient_id = c.id
         WHERE c.age < 24 AND h.missed_days NOT IN (98, 99)
         ");
-        $num = $query->rowCount();
-        return $num;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     public function Average_missed_school_By_Site($value)
     {
-        $query = $this->_pdo->query("SELECT AVG(h.missed_days)
+        $query = $this->_pdo->query("SELECT ROUND(AVG(h.missed_days0,2) as avg_missed_days
         FROM hospitalization h JOIN clients c ON h.patient_id = c.id
         WHERE c.age < 24 AND h.missed_days NOT IN (98, 99)
         AND h.site_id='$value'
         ");
-        $num = $query->rowCount();
-        return $num;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     //Indicator3 -Average days of missed school in the last month
@@ -1189,9 +1189,9 @@ class OverideData
     public function Average_Distance_Cost()
     {
         $query = $this->_pdo->query("SELECT
-            AVG(distance_km) AS avg_distance_km,
-            AVG(distance_minutes) AS avg_distance_minutes,
-            AVG(transportation_cost) AS avg_transportation_cost
+            ROUND(AVG(distance_km),2) AS avg_distance_km,
+            ROUND(AVG(distance_minutes),2) AS avg_distance_minutes,
+            ROUND(AVG(transportation_cost),2) AS avg_transportation_cost
             FROM social_economic
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -1200,10 +1200,10 @@ class OverideData
     public function Average_Distance_Cost_By_Site($value)
     {
         $query = $this->_pdo->query("SELECT
-            AVG(distance_km) AS avg_distance_km,
-            AVG(distance_minutes) AS avg_distance_minutes,
-            AVG(transportation_cost) AS avg_transportation_cost
-            -- AND site_id = '$value'
+            ROUND(AVG(distance_km),2) AS avg_distance_km,
+            ROUND(AVG(distance_minutes),2) AS avg_distance_minutes,
+            ROUND(AVG(transportation_cost),2) AS avg_transportation_cost
+            AND site_id = '$value'
             FROM social_economic
         ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

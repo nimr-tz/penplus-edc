@@ -73,9 +73,9 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 2
         if (Input::get('site_id')) {
-            $Average_missed_school = intval($override->Average_missed_school_By_Site(Input::get('site_id')));
+            $Average_missed_school = $override->Average_missed_school_By_Site(Input::get('site_id'))[0];
         } else {
-            $Average_missed_school = intval($override->Average_missed_school());
+            $Average_missed_school = $override->Average_missed_school()[0];
         }
 
 
@@ -104,12 +104,11 @@ if ($user->isLoggedIn()) {
         $json_proportion_food_insecurity = json_encode($data_proportion_food_insecurity);
 
 
-
         // INDICATOR 2,4,5 and 6
         if (Input::get('site_id')) {
-            $Average_Distance_Cost = intval($override->Average_Distance_Cost_By_Site(Input::get('site_id')));
+            $Average_Distance_Cost = $override->Average_Distance_Cost_By_Site(Input::get('site_id'))[0];
         } else {
-            $Average_Distance_Cost = intval($override->Average_Distance_Cost());
+            $Average_Distance_Cost = $override->Average_Distance_Cost()[0];
         }
 
         // INDICATOR 7
@@ -348,35 +347,44 @@ if ($user->isLoggedIn()) {
                                                                                                                             </button> -->
                             </div>
                         </div>
-
                         <div class="col-md-12">
                             <!-- Widget: user widget style 1 -->
                             <div class="card card-widget widget-user">
                                 <!-- Add the bg color to the header using any of the bg-* classes -->
                                 <div class="widget-user-header bg-info">
-                                    <h3 class="widget-user-username">Average</h3>
+                                    <h3 class="widget-user-username">Average Indicators</h3>
                                     <!-- <h5 class="widget-user-desc">Founder & CEO</h5> -->
                                     <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                        data-target="#modal-xl4" data-value="4">
+                                        data-target="#modal-xl2_4_5_6" data-value="4">
                                         More info <i class="fas fa-arrow-circle-right"></i>
                                     </a>
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
-                                        <div class="col-sm-4 border-right">
+                                        <div class="col-sm-3 border-right">
                                             <div class="description-block">
                                                 <h5 class="description-header">
-                                                    <?= $Average_Distance_Cost['distance_km'] ?>
+                                                    <?= $Average_missed_school['avg_missed_days'] ?>
+                                                </h5>
+                                                <span class="description-text">Average days of missed school in the last
+                                                    month</span>
+                                            </div>
+                                            <!-- /.description-block -->
+                                        </div>
+                                        <div class="col-sm-3 border-right">
+                                            <div class="description-block">
+                                                <h5 class="description-header">
+                                                    <?= $Average_Distance_Cost['avg_distance_km'] ?>
                                                 </h5>
                                                 <span class="description-text">Average distance to clinic in kms</span>
                                             </div>
                                             <!-- /.description-block -->
                                         </div>
                                         <!-- /.col -->
-                                        <div class="col-sm-4 border-right">
+                                        <div class="col-sm-3 border-right">
                                             <div class="description-block">
                                                 <h5 class="description-header">
-                                                    <?= $Average_Distance_Cost['distance_minutes'] ?>
+                                                    <?= $Average_Distance_Cost['avg_distance_minutes'] ?>
                                                 </h5>
                                                 <span class="description-text">Average distance to clinic in
                                                     minutes</span>
@@ -384,10 +392,10 @@ if ($user->isLoggedIn()) {
                                             <!-- /.description-block -->
                                         </div>
                                         <!-- /.col -->
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="description-block">
                                                 <h5 class="description-header">
-                                                    <?= $Average_Distance_Cost['transportation_cost'] ?>
+                                                    <?= $Average_Distance_Cost['avg_transportation_cost'] ?>
                                                 </h5>
                                                 <span class="description-text">Average cost of transportation</span>
                                             </div>
@@ -793,7 +801,7 @@ if ($user->isLoggedIn()) {
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Proportion of patients with SCD who are on folic acid
+                                        <h4 class="modal-title">Average Indicators
                                         </h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -803,51 +811,8 @@ if ($user->isLoggedIn()) {
                                         <!-- <p>One fine body&hellip;</p> -->
                                         <!-- PIE CHART -->
                                         <div class="row">
-                                            <div class="col-md-5">
-                                                <div class="card card-info">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">Pie Chart</h3>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool"
-                                                                data-card-widget="collapse">
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-tool"
-                                                                data-card-widget="remove">
-                                                                <i class="fas fa-times"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <canvas id="folic_acid"
-                                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                                                    </div>
-                                                    <!-- /.card-body -->
-                                                </div>
-                                            </div>
                                             <!-- /.card -->
-                                            <?php
-
-                                            // $pagNum = 0;
-                                            // if (Input::get('site_id')) {
-                                            //     $pagNum = intval($override->Numerator_scd_folic_by_Site(Input::get('site_id')));
-                                            // } else {
-                                            //     $pagNum = intval($override->Numerator_scd_folic());
-                                            // }
-                                            // $pages = ceil($pagNum / $numRec);
-                                            // if (!$_GET['page'] || $_GET['page'] == 1) {
-                                            //     $page = 0;
-                                            // } else {
-                                            //     $page = ($_GET['page'] * $numRec) - $numRec;
-                                            // }
-                                            
-                                            // if (Input::get('site_id')) {
-                                            //     $data = $override->Average_Distance_Cost_By_Site(Input::get('site_id'), $page, $numRec);
-                                            // } else {
-                                            //     $data = $override->Average_Distance_Cost_By_Site($page, $numRec);
-                                            // }
-                                            ?>
-                                            <div class="col-md-7">
+                                            <div class="col-md-12">
                                                 <div class="card">
                                                     <!-- <div class="col-sm-12">
                                                         <div class="row-form clearfix">
@@ -874,8 +839,8 @@ if ($user->isLoggedIn()) {
                                                         <table class="table table-bordered">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width: 10px">#</th>
-                                                                    <th>Average days of missed school in the last month</th>
+                                                                    <th>Average days of missed school in the last month
+                                                                    </th>
                                                                     <th>Average distance to clinic in kms</th>
                                                                     <th>Average distance to clinic in minutes</th>
                                                                     <th>Average cost of transportation</th>
@@ -883,11 +848,13 @@ if ($user->isLoggedIn()) {
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td><?= $i ?>.</td>
-                                                                    <td><?= $Average_Distance_Cost['distance_km'] ?></td>
-                                                                    <td><?= $Average_Distance_Cost['distance_km'] ?></td>
-                                                                    <td><?= $Average_Distance_Cost['distance_minutes'] ?></td>
-                                                                    <td><?= $Average_Distance_Cost['transportation_cost'] ?></td>
+                                                                    <td><?= $Average_missed_school['avg_missed_days'] ?></td>
+                                                                    <td><?= $Average_Distance_Cost['avg_distance_km'] ?>
+                                                                    </td>
+                                                                    <td><?= $Average_Distance_Cost['avg_distance_km'] ?>
+                                                                    </td>
+                                                                    <td><?= $Average_Distance_Cost['avg_distance_minutes'] ?>
+                                                                    </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -1015,7 +982,7 @@ if ($user->isLoggedIn()) {
                                             if (Input::get('site_id')) {
                                                 $pagNum = intval($override->Numerator_Social_Support_By_Site(Input::get('site_id')));
                                             } else {
-                                                // $pagNum = intval($override->Numerator_Social_Support());
+                                                $pagNum = intval($override->Numerator_Social_Support());
                                             }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
@@ -1027,7 +994,7 @@ if ($user->isLoggedIn()) {
                                             if (Input::get('site_id')) {
                                                 $data = $override->Numerator_Social_Support_Data_Rows_By_Site(Input::get('site_id'), $page, $numRec);
                                             } else {
-                                                // $data = $override->Numerator_Social_Support_Data_Rows($page, $numRec);
+                                                $data = $override->Numerator_Social_Support_Data_Rows($page, $numRec);
                                             }
 
                                             // print_r($proportion_Social_Support);

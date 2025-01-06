@@ -275,7 +275,7 @@ if ($user->isLoggedIn()) {
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <!-- small card -->
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -297,7 +297,7 @@ if ($user->isLoggedIn()) {
                         </div>
                         <!-- /.col (LEFT) -->
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
@@ -322,7 +322,7 @@ if ($user->isLoggedIn()) {
 
 
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
@@ -363,7 +363,7 @@ if ($user->isLoggedIn()) {
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <!-- small card -->
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -513,14 +513,14 @@ if ($user->isLoggedIn()) {
                                                             <li
                                                                 class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
                                                             </li>
 
                                                             <!-- First Page (if outside the range) -->
                                                             <?php if ($start > 1): ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=1">1</a>
                                                                 </li>
                                                                 <?php if ($start > 2): ?>
                                                                     <li class="page-item disabled">
@@ -534,7 +534,7 @@ if ($user->isLoggedIn()) {
                                                                 <li
                                                                     class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                                                                 </li>
                                                             <?php endfor; ?>
 
@@ -547,14 +547,14 @@ if ($user->isLoggedIn()) {
                                                                 <?php endif; ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
                                                                 </li>
                                                             <?php endif; ?>
                                                             <!-- Next Page -->
                                                             <li
                                                                 class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -703,14 +703,14 @@ if ($user->isLoggedIn()) {
                                                             <li
                                                                 class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
                                                             </li>
 
                                                             <!-- First Page (if outside the range) -->
                                                             <?php if ($start > 1): ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=1">1</a>
                                                                 </li>
                                                                 <?php if ($start > 2): ?>
                                                                     <li class="page-item disabled">
@@ -724,7 +724,7 @@ if ($user->isLoggedIn()) {
                                                                 <li
                                                                     class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                                                                 </li>
                                                             <?php endfor; ?>
 
@@ -737,14 +737,14 @@ if ($user->isLoggedIn()) {
                                                                 <?php endif; ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
                                                                 </li>
                                                             <?php endif; ?>
                                                             <!-- Next Page -->
                                                             <li
                                                                 class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -895,14 +895,14 @@ if ($user->isLoggedIn()) {
                                                             <li
                                                                 class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
                                                             </li>
 
                                                             <!-- First Page (if outside the range) -->
                                                             <?php if ($start > 1): ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=1">1</a>
                                                                 </li>
                                                                 <?php if ($start > 2): ?>
                                                                     <li class="page-item disabled">
@@ -916,7 +916,7 @@ if ($user->isLoggedIn()) {
                                                                 <li
                                                                     class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                                                                 </li>
                                                             <?php endfor; ?>
 
@@ -929,14 +929,14 @@ if ($user->isLoggedIn()) {
                                                                 <?php endif; ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
                                                                 </li>
                                                             <?php endif; ?>
                                                             <!-- Next Page -->
                                                             <li
                                                                 class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -1116,14 +1116,14 @@ if ($user->isLoggedIn()) {
                                                             <li
                                                                 class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
                                                             </li>
 
                                                             <!-- First Page (if outside the range) -->
                                                             <?php if ($start > 1): ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=1">1</a>
                                                                 </li>
                                                                 <?php if ($start > 2): ?>
                                                                     <li class="page-item disabled">
@@ -1137,7 +1137,7 @@ if ($user->isLoggedIn()) {
                                                                 <li
                                                                     class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                                                                 </li>
                                                             <?php endfor; ?>
 
@@ -1150,14 +1150,14 @@ if ($user->isLoggedIn()) {
                                                                 <?php endif; ?>
                                                                 <li class="page-item">
                                                                     <a class="page-link"
-                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                        href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
                                                                 </li>
                                                             <?php endif; ?>
                                                             <!-- Next Page -->
                                                             <li
                                                                 class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
                                                                 <a class="page-link"
-                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                                    href="reports4.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
                                                             </li>
                                                         </ul>
                                                     </div>

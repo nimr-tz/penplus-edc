@@ -1,4 +1,3 @@
-
 <?php
 require 'pdf.php';
 $user = new User();
@@ -32,43 +31,42 @@ if ($user->isLoggedIn()) {
         // INDICATOR 1
         if (Input::get('site_id')) {
             $Numerator_scd_hydroxyurea = intval($override->scd_hyroxyurea_num_by_site(Input::get('site_id')));
-            $Denominator_Active_scd= intval($override->Active_SCD_den_by_site(Input::get('site_id')));
-        } 
-        else {
-            $Numerator_scd_hydroxyurea= intval($override->scd_hyroxyurea_num_all());
+            $Denominator_Active_scd = intval($override->Active_SCD_den_by_site(Input::get('site_id')));
+        } else {
+            $Numerator_scd_hydroxyurea = intval($override->scd_hyroxyurea_num_all());
             $Denominator_Active_scd = intval($override->Active_SCD_den());
 
         }
-        $propotion_SCD_hydroxyurea = intval(intval($Numerator_scd_hydroxyurea) / intval($Denominator_Active_scd ) * 100);
+        $propotion_SCD_hydroxyurea = intval(intval($Numerator_scd_hydroxyurea) / intval($Denominator_Active_scd) * 100);
         // Prepare the data in PHP
-        $data_propotion_SCD_hydroxyurea= [
+        $data_propotion_SCD_hydroxyurea = [
             'labels' => ['SCD on hydroxyurea', 'SCD not on hydroxyurea'],
             'datasets' => [
                 [
-                    'data' => [ $propotion_SCD_hydroxyurea, 100 - $ $propotion_SCD_hydroxyurea], // Calculate the second value dynamically
+                    'data' => [$propotion_SCD_hydroxyurea, 100 - $$propotion_SCD_hydroxyurea], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
         ];
-     
+
         // Convert the data to JSON format
         $json_propotion_SCD_hydroxyurea = json_encode($data_propotion_SCD_hydroxyurea);
 
         // INDICATOR 2
         if (Input::get('site_id')) {
-            $Numerator_SCD_5_penv= intval($override->scd_5_penv_num_by_site(Input::get('site_id')));
+            $Numerator_SCD_5_penv = intval($override->scd_5_penv_num_by_site(Input::get('site_id')));
             $Denominator__SCD_Under_5 = intval($override->SCD_5_den_by_site(Input::get('site_id')));
         } else {
-            $Numerator_SCD_5_penv= intval($override->scd_5_penv_num_all());
-            $Denominator__SCD_Under_5= intval($override->SCD_5_den());
+            $Numerator_SCD_5_penv = intval($override->scd_5_penv_num_all());
+            $Denominator__SCD_Under_5 = intval($override->SCD_5_den());
         }
-        $propotion_SCD_under_5_penv= intval(intval( $Numerator_SCD_5_penv) / intval($Denominator__SCD_Under_5) * 100);
+        $propotion_SCD_under_5_penv = intval(intval($Numerator_SCD_5_penv) / intval($Denominator__SCD_Under_5) * 100);
         // Prepare the data in PHP
-        $data_propotion_SCD_under_5_penv= [
+        $data_propotion_SCD_under_5_penv = [
             'labels' => ['Proportion of patients with SCD<5 years on antibiotic prophylaxis', 'Proportion of patients with SCD<5 years not on antibiotic prophylaxis'],
             'datasets' => [
                 [
-                    'data' => [$propotion_SCD_under_5_penv, 100 -$propotion_SCD_under_5_penv], // Calculate the second value dynamically
+                    'data' => [$propotion_SCD_under_5_penv, 100 - $propotion_SCD_under_5_penv], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
@@ -79,19 +77,19 @@ if ($user->isLoggedIn()) {
 
         // INDICATOR 3
         if (Input::get('site_id')) {
-            $Numerator_scd_folic= intval($override->scd_folic_num_by_site(Input::get('site_id')));
-            $Denominator_scd= intval($override->scd_den_by_site(Input::get('site_id')));
+            $Numerator_scd_folic = intval($override->scd_folic_num_by_site(Input::get('site_id')));
+            $Denominator_scd = intval($override->scd_den_by_site(Input::get('site_id')));
         } else {
             $Numerator_scd_folic = intval($override->scd_folic_num_all());
-            $Denominator_scd= intval($override->scd_den());
+            $Denominator_scd = intval($override->scd_den());
         }
-        $proportion_SCD_on_folic_acid= intval(intval( $Numerator_scd_folic) / intval($Denominator_scd) * 100);
+        $proportion_SCD_on_folic_acid = intval(intval($Numerator_scd_folic) / intval($Denominator_scd) * 100);
         // Prepare the data in PHP
-        $data_proportion_SCD_on_folic_acid= [
+        $data_proportion_SCD_on_folic_acid = [
             'labels' => ["Proportion of patients with SCD who are on folic acid", "Proportion of patients with SCD who are not on folic acid"],
             'datasets' => [
                 [
-                    'data' => [ $proportion_SCD_on_folic_acid, 100 -  $proportion_SCD_on_folic_acid], // Calculate the second value dynamically
+                    'data' => [$proportion_SCD_on_folic_acid, 100 - $proportion_SCD_on_folic_acid], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
@@ -100,47 +98,47 @@ if ($user->isLoggedIn()) {
         $json_propotion_SCD_on_folic_acid = json_encode($data_propotion_SCD_under_5_penv);
         // INDICATOR 4
         if (Input::get('site_id')) {
-            $Numerator_scd_transfusion= intval($override->scd_transfusion_num_by_site(Input::get('site_id')));
-            $Denominator_scd_patient= intval($override->scd_patient_den_by_site(Input::get('site_id')));
+            $Numerator_scd_transfusion = intval($override->scd_transfusion_num_by_site(Input::get('site_id')));
+            $Denominator_scd_patient = intval($override->scd_patient_den_by_site(Input::get('site_id')));
         } else {
             $Numerator_scd_transfusion = intval($override->scd_transfusion_num_all());
-            $Denominator_scd_patient= intval($override->scd_patient_den());
+            $Denominator_scd_patient = intval($override->scd_patient_den());
         }
-        $proportion_SCD_transfusion_12_months= intval(intval($Numerator_scd_transfusion) / intval($Denominator_scd_patient) * 100);
+        $proportion_SCD_transfusion_12_months = intval(intval($Numerator_scd_transfusion) / intval($Denominator_scd_patient) * 100);
         // Prepare the data in PHP
-        $data_proportion_SCD_transfusion_12_months= [
+        $data_proportion_SCD_transfusion_12_months = [
             'labels' => ["% of patients with SCD needing transfusion within the last 12 months", "% of patients with SCD not needing transfusion within the last 12 months"],
             'datasets' => [
                 [
-                    'data' => [ $proportion_SCD_transfusion_12_months, 100 - $proportion_SCD_transfusion_12_months], // Calculate the second value dynamically
+                    'data' => [$proportion_SCD_transfusion_12_months, 100 - $proportion_SCD_transfusion_12_months], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
         ];
         // Convert the data to JSON format       
-        $json_proportion_SCD_transfusion_12_months= json_encode($data_proportion_SCD_transfusion_12_months);
+        $json_proportion_SCD_transfusion_12_months = json_encode($data_proportion_SCD_transfusion_12_months);
 
         // INDICATOR 5
         if (Input::get('site_id')) {
-            $Numerator_scd_hospitalised_12= intval($override->scd_hospitalised_12_num_by_site(Input::get('site_id')));
-            $Denominator_scd_active= intval($override->scd_active_den_by_site(Input::get('site_id')));
+            $Numerator_scd_hospitalised_12 = intval($override->scd_hospitalised_12_num_by_site(Input::get('site_id')));
+            $Denominator_scd_active = intval($override->scd_active_den_by_site(Input::get('site_id')));
         } else {
-            $Numerator_scd_hospitalised_12= intval($override->scd_hospitalised_12_num_all());
-            $Denominator_scd_active= intval($override->scd_active_den());
+            $Numerator_scd_hospitalised_12 = intval($override->scd_hospitalised_12_num_all());
+            $Denominator_scd_active = intval($override->scd_active_den());
         }
-        $proportion_patients_SCD_hospitalization_12_months= intval(intval($Numerator_scd_hospitalised_12) / intval($Denominator_scd_active) * 100);
+        $proportion_patients_SCD_hospitalization_12_months = intval(intval($Numerator_scd_hospitalised_12) / intval($Denominator_scd_active) * 100);
         // Prepare the data in PHP
-        $data_proportion_patients_SCD_hospitalization_12_months= [
+        $data_proportion_patients_SCD_hospitalization_12_months = [
             'labels' => ["Proportion of patients with SCD who had a hospitalization within the last 12 months", "Proportion of patients with SCD who had no hospitalization within the last 12 months"],
             'datasets' => [
                 [
-                    'data' => [  $proportion_patients_SCD_hospitalization_12_months, 100 -   $proportion_patients_SCD_hospitalization_12_months], // Calculate the second value dynamically
+                    'data' => [$proportion_patients_SCD_hospitalization_12_months, 100 - $proportion_patients_SCD_hospitalization_12_months], // Calculate the second value dynamically
                     'backgroundColor' => ['#00a65a', '#f39c12'],
                 ]
             ]
         ];
         // Convert the data to JSON format
-        $json_proportion_patients_SCD_hospitalization_12_months= json_encode($data_proportion_patients_SCD_hospitalization_12_months);
+        $json_proportion_patients_SCD_hospitalization_12_months = json_encode($data_proportion_patients_SCD_hospitalization_12_months);
 
 
         $site_data = $override->getData('site');
@@ -155,10 +153,6 @@ if ($user->isLoggedIn()) {
     Redirect::to('index.php');
 }
 ?>
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -234,7 +228,7 @@ if ($user->isLoggedIn()) {
                                                     <div class="form-group">
                                                         <select class="form-control" name="site_id" style="width: 100%;"
                                                             autocomplete="off">
-                                                            <option value="">Select Site</option>
+                                                            <option value="">ALL SITES</option>
                                                             <!-- <option value="3">All</option> -->
                                                             <?php foreach ($override->get('site', 'status', 1) as $site) { ?>
                                                                 <option value="<?= $site['id'] ?>"><?= $site['name'] ?>
@@ -296,9 +290,9 @@ if ($user->isLoggedIn()) {
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    Launch Extra Large Modal
-                                </button> -->
+                                                                                data-target="#modal-xl">
+                                                                                Launch Extra Large Modal
+                                                                            </button> -->
                             </div>
                         </div>
                         <!-- /.col (LEFT) -->
@@ -308,7 +302,8 @@ if ($user->isLoggedIn()) {
                             <div class="small-box bg-warning">
                                 <div class="inner">
                                     <h3><?= $propotion_SCD_under_5_penv ?>%</h3>
-                                    <p> Proportion of patients with SCD less than 5 years old who are on antibiotic prophylaxis</p>
+                                    <p> Proportion of patients with SCD less than 5 years old who are on antibiotic
+                                        prophylaxis</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
@@ -318,16 +313,16 @@ if ($user->isLoggedIn()) {
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    Launch Extra Large Modal
-                                </button> -->
+                                                                                data-target="#modal-xl">
+                                                                                Launch Extra Large Modal
+                                                                            </button> -->
                             </div>
                         </div>
                         <!-- /.col (LEFT) -->
 
-                                 
 
-                          <div class="col-md-3">
+
+                        <div class="col-md-3">
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
@@ -342,40 +337,17 @@ if ($user->isLoggedIn()) {
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    Launch Extra Large Modal
-                                </button> -->
+                                                                                data-target="#modal-xl">
+                                                                                Launch Extra Large Modal
+                                                                            </button> -->
                             </div>
                         </div>
-                                          <div class="col-md-3">
+                        <div class="col-md-3">
                             <!-- small card -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                <h3><?=  $proportion_SCD_transfusion_12_months ?>%</h3>
-                                <p> % of patients with SCD needing transfusion within the last 12 months</p>
-                              </div>
-                                          <div class="icon">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </div>
-                                <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                                <!-- <button type="button" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    Launch Extra Large Modal
-                                </button> -->
-                                 </div>
-                                </div>
-                             </div>
-
-                     <div class="row">
-                        <div class="col-md-3">
-                            <!-- small card -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3><?=  $proportion_patients_SCD_hospitalization_12_months ?>%</h3>
-                                    <p>Proportion of patients with SCD who had a hospitalization within the last 12 months</p>
+                                    <h3><?= $proportion_SCD_transfusion_12_months ?>%</h3>
+                                    <p> % of patients with SCD needing transfusion within the last 12 months</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
@@ -385,26 +357,40 @@ if ($user->isLoggedIn()) {
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                                 <!-- <button type="button" class="btn btn-default" data-toggle="modal"
-                                    data-target="#modal-xl">
-                                    Launch Extra Large Modal
-                                </button> -->
+                                                                                data-target="#modal-xl">
+                                                                                Launch Extra Large Modal
+                                                                            </button> -->
                             </div>
                         </div>
-                    </div>
-                        
-                             <!-- /.col (LEFT) -->
 
-                       
-                     </div>
-                        <!-- /.col (LEFT) -->
+                        <div class="col-md-3">
+                            <!-- small card -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3><?= $proportion_patients_SCD_hospitalization_12_months ?>%</h3>
+                                    <p>Proportion of patients with SCD who had a hospitalization within the last 12
+                                        months</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <a href="#" class="small-box-footer" class="btn btn-default" data-toggle="modal"
+                                    data-target="#modal-xl">
+                                    More info <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                                <!-- <button type="button" class="btn btn-default" data-toggle="modal"
+                                                                                                        data-target="#modal-xl">
+                                                                                                        Launch Extra Large Modal
+                                                                                                    </button> -->
+                            </div>
+                        </div>
 
-                        <!-- /.col (LEFT) -->
-
-                        <div class="modal fade" id="modal-xl">
+                        <div class="modal fade" id="modal-xl1">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Extra Large Modal</h4>
+                                        <h4 class="modal-title">Proportion of patients with RHD who are on secondary
+                                            prophylaxis</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -429,7 +415,7 @@ if ($user->isLoggedIn()) {
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="hba1c_test"
+                                                        <canvas id="prophylaxis"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                     </div>
                                                     <!-- /.card-body -->
@@ -437,8 +423,12 @@ if ($user->isLoggedIn()) {
                                             </div>
                                             <!-- /.card -->
                                             <?php
-
                                             $pagNum = 0;
+                                            if (Input::get('site_id')) {
+                                                $pagNum = intval($override->Numerator_Active_RHD_PENADUR_by_site(Input::get('site_id')));
+                                            } else {
+                                                $pagNum = intval($override->Numerator_Active_RHD_PENADUR());
+                                            }
                                             $pages = ceil($pagNum / $numRec);
                                             if (!$_GET['page'] || $_GET['page'] == 1) {
                                                 $page = 0;
@@ -446,13 +436,34 @@ if ($user->isLoggedIn()) {
                                                 $page = ($_GET['page'] * $numRec) - $numRec;
                                             }
 
-                                            $data = $override->getWithLimit1('diabetic', 'diagnosis', 1, 'status', 1, $page, $numRec);
-
+                                            if (Input::get('site_id')) {
+                                                $data = $override->Numerator_Active_RHD_PENADUR_by_site_Data_Rows(Input::get('site_id'), $page, $numRec);
+                                            } else {
+                                                $data = $override->Numerator_Active_RHD_PENADUR_data_Rows($page, $numRec);
+                                            }
                                             ?>
                                             <div class="col-md-7">
                                                 <div class="card">
+                                                    <div class="col-sm-12">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <select class="form-control" name="dk_12" id="dk_12_id"
+                                                                    style="width: 100%;" autocomplete="off">
+                                                                    <option value="1">
+                                                                        Proportion of patients with RHD who are on
+                                                                        secondary prophylaxis</option>
+                                                                    <option value="2">
+                                                                        Proportion of patients with RHD who are not on
+                                                                        secondary prophylaxis
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="card-header">
-                                                        <h3 class="card-title">patients with RHD who are on secodary prophylaxis</h3>
+                                                        <h3 class="card-title">patients with RHD who are on secodary
+                                                            prophylaxis
+                                                        </h3>
                                                     </div>
                                                     <!-- /.card-header -->
                                                     <div class="card-body">
@@ -486,48 +497,667 @@ if ($user->isLoggedIn()) {
                                                         </table>
                                                     </div>
                                                     <!-- /.card-body -->
-                                                    <!-- <div class="card-footer clearfix">
-                                                        <ul class="pagination pagination-sm m-0 float-right">
-                                                            <li class="page-item"><a class="page-link"
-                                                                    href="#">&laquo;</a>
-                                                            </li>
-                                                            <li class="page-item"><a class="page-link" href="#">1</a>
-                                                            </li>
-                                                            <li class="page-item"><a class="page-link" href="#">2</a>
-                                                            </li>
-                                                            <li class="page-item"><a class="page-link" href="#">3</a>
-                                                            </li>
-                                                            <li class="page-item"><a class="page-link"
-                                                                    href="#">&raquo;</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div> -->
-
+                                                    <?php
+                                                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                                    $currentSite = $_GET['site_id'];
+                                                    // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                                    $range = 2; // Number of pages to show before and after the current page
+                                                    
+                                                    // Calculate start and end for the visible range
+                                                    $start = max(1, $currentPage - $range);
+                                                    $end = min($pages, $currentPage + $range);
+                                                    ?>
                                                     <div class="card-footer clearfix">
                                                         <ul class="pagination pagination-sm m-0 float-right">
-                                                            <li class="page-item">
-                                                                <a class="page-link" href="reports4.php?page=<?php if (($_GET['page'] - 1) > 0) {
-                                                                    echo $_GET['page'] - 1;
-                                                                } else {
-                                                                    echo 1;
-                                                                } ?>">&laquo;
-                                                                </a>
+                                                            <!-- Previous Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
                                                             </li>
-                                                            <?php for ($i = 1; $i <= $pages; $i++) { ?>
+
+                                                            <!-- First Page (if outside the range) -->
+                                                            <?php if ($start > 1): ?>
                                                                 <li class="page-item">
-                                                                    <a class="page-link <?php if ($i == $_GET['page']) {
-                                                                        echo 'active';
-                                                                    } ?>" href="reports4.php?page=<?= $i ?>"><?= $i ?>
-                                                                    </a>
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=1">1</a>
                                                                 </li>
-                                                            <?php } ?>
-                                                            <li class="page-item">
-                                                                <a class="page-link" href="reports4.php?page=<?php if (($_GET['page'] + 1) <= $pages) {
-                                                                    echo $_GET['page'] + 1;
-                                                                } else {
-                                                                    echo $i - 1;
-                                                                } ?>">&raquo;
-                                                                </a>
+                                                                <?php if ($start > 2): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+
+                                                            <!-- Visible Page Links -->
+                                                            <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                                <li
+                                                                    class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                </li>
+                                                            <?php endfor; ?>
+
+                                                            <!-- Last Page (if outside the range) -->
+                                                            <?php if ($end < $pages): ?>
+                                                                <?php if ($end < $pages - 1): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <!-- Next Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                        <div class="modal fade" id="modal-xl2">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">% of patients on warfarin with an INR checked in the
+                                            last 3 months</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <p>One fine body&hellip;</p> -->
+                                        <!-- PIE CHART -->
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="card card-info">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Pie Chart</h3>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="remove">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <canvas id="warfarin_inr"
+                                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                    </div>
+                                                    <!-- /.card-body -->
+                                                </div>
+                                            </div>
+                                            <!-- /.card -->
+                                            <?php
+                                            $pagNum = 0;
+                                            if (Input::get('site_id')) {
+                                                $pagNum = intval($override->Numerator_active_cardiac_warfarin_INR_by_Site(Input::get('site_id')));
+                                            } else {
+                                                $pagNum = intval($override->Numerator_active_cardiac_warfarin_INR());
+                                            }
+                                            $pages = ceil($pagNum / $numRec);
+                                            if (!$_GET['page'] || $_GET['page'] == 1) {
+                                                $page = 0;
+                                            } else {
+                                                $page = ($_GET['page'] * $numRec) - $numRec;
+                                            }
+
+                                            if (Input::get('site_id')) {
+                                                $data = $override->Numerator_active_cardiac_warfarin_INR_by_Site_data_Rows(Input::get('site_id'), $page, $numRec);
+                                            } else {
+                                                $data = $override->Numerator_active_cardiac_warfarin_INR_data_Rows($page, $numRec);
+                                            }
+                                            ?>
+                                            <div class="col-md-7">
+                                                <div class="card">
+                                                    <div class="col-sm-12">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <select class="form-control" name="dk_12" id="dk_12_id"
+                                                                    style="width: 100%;" autocomplete="off">
+                                                                    <option value="1">
+                                                                        patients on warfarin with an INR checked in the
+                                                                        last 3 months
+                                                                    <option value="2">
+                                                                        patients on warfarin with an INR Not checked in
+                                                                        the last 3 months
+                                                                    </option>
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Patients on warfarin with an INR checked
+                                                            in the last 3 months
+                                                        </h3>
+                                                    </div>
+                                                    <!-- /.card-header -->
+                                                    <div class="card-body">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width: 10px">#</th>
+                                                                    <th>Study ID</th>
+                                                                    <th>Age</th>
+                                                                    <th>Sex</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                $i = 1;
+                                                                foreach ($data as $row) {
+                                                                    $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
+                                                                    $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><?= $i ?>.</td>
+                                                                        <td><?= $row['study_id'] ?></td>
+                                                                        <td><?= $clients['age'] ?></td>
+                                                                        <td><?= $sex['name'] ?></td>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $i++;
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.card-body -->
+                                                    <?php
+                                                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                                    $currentSite = $_GET['site_id'];
+                                                    // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                                    $range = 2; // Number of pages to show before and after the current page
+                                                    
+                                                    // Calculate start and end for the visible range
+                                                    $start = max(1, $currentPage - $range);
+                                                    $end = min($pages, $currentPage + $range);
+                                                    ?>
+                                                    <div class="card-footer clearfix">
+                                                        <ul class="pagination pagination-sm m-0 float-right">
+                                                            <!-- Previous Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                            </li>
+
+                                                            <!-- First Page (if outside the range) -->
+                                                            <?php if ($start > 1): ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                </li>
+                                                                <?php if ($start > 2): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+
+                                                            <!-- Visible Page Links -->
+                                                            <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                                <li
+                                                                    class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                </li>
+                                                            <?php endfor; ?>
+
+                                                            <!-- Last Page (if outside the range) -->
+                                                            <?php if ($end < $pages): ?>
+                                                                <?php if ($end < $pages - 1): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <!-- Next Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                        <div class="modal fade" id="modal-xl3">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">% of patients with suspected congential or RHD referred
+                                            for surgical evaluation</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <p>One fine body&hellip;</p> -->
+                                        <!-- PIE CHART -->
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="card card-info">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Pie Chart</h3>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="remove">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <canvas id="congenital_RHD_surgical_evaluation"
+                                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                    </div>
+                                                    <!-- /.card-body -->
+                                                </div>
+                                            </div>
+                                            <!-- /.card -->
+                                            <?php
+
+                                            $pagNum = 0;
+                                            if (Input::get('site_id')) {
+                                                $pagNum = intval($override->Numerator_cardiac_congenital_RHD_surgery_num_by_site(Input::get('site_id')));
+                                            } else {
+                                                $pagNum = intval($override->Numerator_cardiac_congenital_RHD_surgery_num());
+                                            }
+                                            $pages = ceil($pagNum / $numRec);
+                                            if (!$_GET['page'] || $_GET['page'] == 1) {
+                                                $page = 0;
+                                            } else {
+                                                $page = ($_GET['page'] * $numRec) - $numRec;
+                                            }
+
+                                            if (Input::get('site_id')) {
+                                                $data = $override->Numerator_cardiac_congenital_RHD_surgery_num_by_site_data_rows(Input::get('site_id'), $page, $numRec);
+                                            } else {
+                                                $data = $override->Numerator_cardiac_congenital_RHD_surgery_num_data_rows($page, $numRec);
+                                            }
+                                            ?>
+                                            <div class="col-md-7">
+                                                <div class="card">
+                                                    <div class="col-sm-12">
+                                                        <div class="row-form clearfix">
+                                                            <div class="form-group">
+                                                                <select class="form-control" name="dk_12" id="dk_12_id"
+                                                                    style="width: 100%;" autocomplete="off">
+                                                                    <option value="1">
+                                                                        Patients with suspected congential or RHD
+                                                                        referred for surgical evaluation
+                                                                    <option value="2">
+                                                                        Patients with suspected congential or RHD
+                                                                        not referred for surgical evaluation
+                                                                    </option>
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Patients with suspected congential or RHD
+                                                            referred for surgical evaluation
+                                                        </h3>
+                                                    </div>
+                                                    <!-- /.card-header -->
+                                                    <div class="card-body">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width: 10px">#</th>
+                                                                    <th>Study ID</th>
+                                                                    <th>Age</th>
+                                                                    <th>Sex</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                $i = 1;
+                                                                foreach ($data as $row) {
+                                                                    $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
+                                                                    $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><?= $i ?>.</td>
+                                                                        <td><?= $row['study_id'] ?></td>
+                                                                        <td><?= $clients['age'] ?></td>
+                                                                        <td><?= $sex['name'] ?></td>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $i++;
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.card-body -->
+
+                                                    <?php
+                                                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                                    $currentSite = $_GET['site_id'];
+                                                    // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                                    $range = 2; // Number of pages to show before and after the current page
+                                                    
+                                                    // Calculate start and end for the visible range
+                                                    $start = max(1, $currentPage - $range);
+                                                    $end = min($pages, $currentPage + $range);
+                                                    ?>
+                                                    <div class="card-footer clearfix">
+                                                        <ul class="pagination pagination-sm m-0 float-right">
+                                                            <!-- Previous Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                            </li>
+
+                                                            <!-- First Page (if outside the range) -->
+                                                            <?php if ($start > 1): ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                </li>
+                                                                <?php if ($start > 2): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+
+                                                            <!-- Visible Page Links -->
+                                                            <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                                <li
+                                                                    class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                </li>
+                                                            <?php endfor; ?>
+
+                                                            <!-- Last Page (if outside the range) -->
+                                                            <?php if ($end < $pages): ?>
+                                                                <?php if ($end < $pages - 1): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <!-- Next Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                        <div class="modal fade" id="modal-xl4">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Proportion of patients with none or mild limitation in
+                                            activity (NYHA I and II and III and IV) at last visit</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <p>One fine body&hellip;</p> -->
+                                        <!-- PIE CHART -->
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="card card-info">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Pie Chart</h3>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="remove">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <canvas id="nyha"
+                                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                    </div>
+                                                    <!-- /.card-body -->
+                                                </div>
+                                            </div>
+                                            <!-- /.card -->
+                                            <?php
+                                            $pagNum = 0;
+                                            if (Input::get('site_id')) {
+                                                $pagNum = intval($override->Active_NYHA_num_by_Site(Input::get('site_id'), $indicator));
+                                            } else {
+                                                $pagNum = intval($override->Active_NYHA_num($indicator));
+                                            }
+
+                                            $pages = ceil($pagNum / $numRec);
+                                            if (!$_GET['page'] || $_GET['page'] == 1) {
+                                                $page = 0;
+                                            } else {
+                                                $page = ($_GET['page'] * $numRec) - $numRec;
+                                            }
+
+                                            if (Input::get('site_id')) {
+                                                $data = $override->Active_NYHA_num_Data_Rows_By_Site(Input::get('site_id'), $page, $numRec, $indicator);
+                                            } else {
+                                                $data = $override->Active_NYHA_num_Data_Rows($page, $numRec, $indicator);
+                                            }
+                                            // print_r($indicator);
+                                            ?>
+                                            <div class="col-md-7">
+                                                <div class="card">
+                                                    <form method="post">
+                                                        <div class="col-sm-12">
+                                                            <div class="row-form clearfix">
+                                                                <div class="form-group">
+                                                                    <select class="form-control" name="indicator"
+                                                                        id="indicator" style="width: 100%;"
+                                                                        autocomplete="off">
+                                                                        <option value="1">
+                                                                            Proportion of patients with none or mild
+                                                                            limitation in activity (NYHA I) at last
+                                                                            visit
+                                                                        </option>
+                                                                        <option value="2">
+                                                                            Proportion of patients witho none or mild
+                                                                            limitation in activity (NYHA II) at last
+                                                                            visit
+                                                                        </option>
+                                                                        <option value="3">
+                                                                            Proportion of patients with none or mild
+                                                                            limitation in activity (NYHA III) at last
+                                                                            visit
+                                                                        </option>
+                                                                        <option value="4">
+                                                                            Proportion of patients with none or mild
+                                                                            limitation in activity (NYHA IV) at last
+                                                                            visit
+                                                                        </option>
+                                                                        <option value="5">
+                                                                            Not Determined
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="row-form clearfix">
+                                                                <div class="form-group">
+                                                                    <input type="submit" name="search_by_indicator"
+                                                                        value="Filter" class="btn btn-primary">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                    <div class="card-header">
+                                                        <h3 class="card-title"> Proportion of patients with none or mild
+                                                            limitation in activity NYHA I at
+                                                            last visit </option>
+
+                                                        </h3>
+                                                    </div>
+                                                    <!-- /.card-header -->
+                                                    <div class="card-body">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width: 10px">#</th>
+                                                                    <th>Study ID</th>
+                                                                    <th>Age</th>
+                                                                    <th>Sex</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                $i = 1;
+                                                                foreach ($data as $row) {
+                                                                    $clients = $override->getNews('clients', 'status', 1, 'id', $row['patient_id'])[0];
+                                                                    $sex = $override->getNews('sex', 'id', $clients['gender'], 'status', 1)[0];
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><?= $i ?>.</td>
+                                                                        <td><?= $row['study_id'] ?></td>
+                                                                        <td><?= $clients['age'] ?></td>
+                                                                        <td><?= $sex['name'] ?></td>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $i++;
+                                                                } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.card-body -->
+                                                    <?php
+                                                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                                    $currentSite = $_GET['site_id'];
+                                                    // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                                    $range = 2; // Number of pages to show before and after the current page
+                                                    
+                                                    // Calculate start and end for the visible range
+                                                    $start = max(1, $currentPage - $range);
+                                                    $end = min($pages, $currentPage + $range);
+                                                    ?>
+                                                    <div class="card-footer clearfix">
+                                                        <ul class="pagination pagination-sm m-0 float-right">
+                                                            <!-- Previous Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                            </li>
+
+                                                            <!-- First Page (if outside the range) -->
+                                                            <?php if ($start > 1): ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                                </li>
+                                                                <?php if ($start > 2): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+
+                                                            <!-- Visible Page Links -->
+                                                            <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                                <li
+                                                                    class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                                </li>
+                                                            <?php endfor; ?>
+
+                                                            <!-- Last Page (if outside the range) -->
+                                                            <?php if ($end < $pages): ?>
+                                                                <?php if ($end < $pages - 1): ?>
+                                                                    <li class="page-item disabled">
+                                                                        <span class="page-link">...</span>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <!-- Next Page -->
+                                                            <li
+                                                                class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
+                                                                <a class="page-link"
+                                                                    href="reports2.php?site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -551,70 +1181,85 @@ if ($user->isLoggedIn()) {
                     <!-- /.row -->
 
                     <div class="row">
-                    <div class="card card-outline card-primary rounded-0 shadow">
-                <div class="card-header">
-                    <h3 class="card-title">PENPLUS RECRUITMENTS STATUS AS OF <?= date('Y-m-d') ?></h3>
-                    <div class="card-tools">
-                        <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i class="fa fa-angle-left"></i> Back</a>
-                        <a class="btn btn-flat btn-sm btn-primary" href="reports4_1.php"><span class="fas fa-download text-default">&nbsp;&nbsp;</span>Download Report</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="container-fluid">
-                        <div class="container-fluid">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th rowspan="2">No.</th>
-                                        <th rowspan="2">SITE</th>
-                                        <th rowspan="2">ENROLLED</th>
-                                        <th colspan="2"> Diabtes </th>
-                                    </tr>
-                                    <tr>
-                                        <th>Sickle Cell Disease</th>
-                                        <th>Other Hemoglobinopathy</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">PENPLUS ENROLLMENT PROGRESS AS OF <?= date('Y-m-d') ?>(
+                                        DIABETES )</h3>
+                                    <!-- /.card-tools -->
+                                    <div class="card-tools">
+                                        <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i
+                                                class="fa fa-angle-left"></i> Back</a>
+                                        <a class="btn btn-flat btn-sm btn-primary" href="reports3_1.php"><span
+                                                class="fas fa-download text-default">&nbsp;&nbsp;</span>Download
+                                            Report</a>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">No.</th>
+                                                <th rowspan="2">SITE</th>
+                                                <th rowspan="2">ENROLLED</th>
+                                                <th colspan="2"> Diabtes </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Sickle Cell Disease</th>
+                                                <th>Other Hemoglobinopathy</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                    <?php
-                                    $i = 1;
-                                    foreach ($site_data as $row) {
-                                        $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
-                                        $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
-                                        $sickle_cell1 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
-                                        $sickle_cell_Total1 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 1);
-                                        $sickle_cell2 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 96, 'site_id', $row['id']);
-                                        $sickle_cell_Total2 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 96);
-                                        $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
-                                        $end_study = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
-                                        $end_study_Total = $override->countData('clients', 'status', 1, 'end_study', 1);
-                                    ?>
-                                        <tr>
-                                            <td><?= $i ?></td>
-                                            <td><?= $row['name'] ?></td>
-                                            <td align="right"><?= $enrolled ?></td>
-                                            <td align="right"><?= $sickle_cell1 ?></td>
-                                            <td align="right"><?= $sickle_cell2 ?></td>                                           
-                                        </tr>
+                                            <?php
+                                            $i = 1;
+                                            foreach ($site_data as $row) {
+                                                $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $row['id']);
+                                                $enrolled_Total = $override->countData('clients', 'status', 1, 'enrolled', 1);
+                                                $sickle_cell1 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 1, 'site_id', $row['id']);
+                                                $sickle_cell_Total1 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 1);
+                                                $sickle_cell2 = $override->countData2('sickle_cell', 'status', 1, 'diagnosis', 96, 'site_id', $row['id']);
+                                                $sickle_cell_Total2 = $override->countData('sickle_cell', 'status', 1, 'diagnosis', 96);
+                                                $diabetes_Total = $override->countData('clients', 'status', 1, 'diabetes', 1);
+                                                $end_study = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $row['id']);
+                                                $end_study_Total = $override->countData('clients', 'status', 1, 'end_study', 1);
+                                                ?>
+                                                <tr>
+                                                    <td><?= $i ?></td>
+                                                    <td><?= $row['name'] ?></td>
+                                                    <td align="right"><?= $enrolled ?></td>
+                                                    <td align="right"><?= $sickle_cell1 ?></td>
+                                                    <td align="right"><?= $sickle_cell2 ?></td>
+                                                </tr>
 
 
-                                    <?php
-                                        $i++;
-                                    } ?>
+                                                <?php
+                                                $i++;
+                                            } ?>
 
-                                    <tr>
-                                        <td align="right" colspan="2"><b>Total</b></td>
-                                        <td align="right"><b><?= $enrolled_Total ?></b></td>
-                                        <td align="right"><b><?= $sickle_cell_Total1 ?></b></td>
-                                        <td align="right"><b><?= $sickle_cell_Total2 ?></b></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            <tr>
+                                                <td align="right" colspan="2"><b>Total</b></td>
+                                                <td align="right"><b><?= $enrolled_Total ?></b></td>
+                                                <td align="right"><b><?= $sickle_cell_Total1 ?></b></td>
+                                                <td align="right"><b><?= $sickle_cell_Total2 ?></b></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix">
+                                    <ul class="pagination pagination-sm m-0 float-right">
+                                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
                     <!-- /.card -->
                 </div>
                 <!-- /.container-fluid -->
@@ -661,30 +1306,26 @@ if ($user->isLoggedIn()) {
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
+    <!-- <script src="dist/js/demo.js"></script> -->
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="dist/js/pages/dashboard.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <!-- <script src="dist/js/demo.js"></script> -->
-    <!-- Page specific script -->
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
     <script>
         $(function () {
             /* ChartJS
              * -------
              * Here we will create a few charts using ChartJS
              */
+            propotion_RHD_secondary_prophylaxis_Data = <?php echo $json_propotion_RHD_secondary_prophylaxis; ?>
 
-            hba1c_test_Data = <?php echo $json_propotion_T1D_HBA1C_6_Months; ?>
             // Get the canvas element
-            var hba1c_test = $('#hba1c_test').get(0).getContext('2d');
+            var RHD_secondary_prophylaxis = $('#prophylaxis').get(0).getContext('2d');
 
             // Options to include data labels inside the chart
-            var hba1c_test_Options = {
+            var RHD_secondary_prophylaxis_Options = {
                 maintainAspectRatio: false,
                 responsive: true,
                 plugins: {
@@ -707,21 +1348,202 @@ if ($user->isLoggedIn()) {
                             size: 14 // Font size for labels
                         },
                         formatter: function (value, context) {
-                            return value; // Display value inside the pie chart
-                        }
+                            return value + '%'; // Display value inside the pie chart
+                        },
+                        anchor: 'center', // Position the labels in the center
+                        align: 'center', // Align the labels to the center
                     }
                 }
             };
 
+            // Register the datalabels plugin globally (if not already registered)
+            Chart.register(ChartDataLabels);
+
             // Create pie chart
-            new Chart(hba1c_test, {
+            new Chart(RHD_secondary_prophylaxis, {
                 type: 'pie', // Pie chart type
-                data: hba1c_test_Data,
-                options: hba1c_test_Options
+                data: propotion_RHD_secondary_prophylaxis_Data,
+                options: RHD_secondary_prophylaxis_Options,
+                plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
             });
 
         })
     </script>
+
+
+    <!-- json_proportion_patients_warfarin_with_INR_last_3_months -->
+    <script>
+        $(function () {
+            /* ChartJS
+             * -------
+             * Here we will create a few charts using ChartJS
+             */
+            patients_warfarin_with_INR_last_3_months_Data = <?php echo $json_proportion_patients_warfarin_with_INR_last_3_months; ?>
+
+            // Get the canvas element
+            var warfarin_with_INR_last_3_months = $('#warfarin_inr').get(0).getContext('2d');
+
+            // Options to include data labels inside the chart
+            var patients_warfarin_with_INR_last_3_months_Options = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top', // Position of legend
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff', // Text color for data labels
+                        font: {
+                            weight: 'bold',
+                            size: 14 // Font size for labels
+                        },
+                        formatter: function (value, context) {
+                            return value + '%'; // Display value inside the pie chart
+                        },
+                        anchor: 'center', // Position the labels in the center
+                        align: 'center', // Align the labels to the center
+                    }
+                }
+            };
+
+            // Register the datalabels plugin globally (if not already registered)
+            Chart.register(ChartDataLabels);
+
+            // Create pie chart
+            new Chart(warfarin_with_INR_last_3_months, {
+                type: 'pie', // Pie chart type
+                data: patients_warfarin_with_INR_last_3_months_Data,
+                options: patients_warfarin_with_INR_last_3_months_Options,
+                plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
+            });
+
+        })
+    </script>
+
+    <script>
+        $(function () {
+            /* ChartJS
+             * -------
+             * Here we will create a few charts using ChartJS
+             */
+            congenital_RHD_surgical_evaluation_Data = <?php echo $json_proportion_congenital_RHD_surgical_evaluation; ?>
+
+            // Get the canvas element
+            var congenital_RHD_surgical_evaluation = $('#congenital_RHD_surgical_evaluation').get(0).getContext('2d');
+
+            // Options to include data labels inside the chart
+            var congenital_RHD_surgical_evaluation_Options = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top', // Position of legend
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff', // Text color for data labels
+                        font: {
+                            weight: 'bold',
+                            size: 14 // Font size for labels
+                        },
+                        formatter: function (value, context) {
+                            return value + '%'; // Display value inside the pie chart
+                        },
+                        anchor: 'center', // Position the labels in the center
+                        align: 'center', // Align the labels to the center
+                    }
+                }
+            };
+
+            // Register the datalabels plugin globally (if not already registered)
+            Chart.register(ChartDataLabels);
+
+            // Create pie chart
+            new Chart(congenital_RHD_surgical_evaluation, {
+                type: 'pie', // Pie chart type
+                data: congenital_RHD_surgical_evaluation_Data,
+                options: congenital_RHD_surgical_evaluation_Options,
+                plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
+            });
+
+        })
+    </script>
+
+
+    <script>
+        $(function () {
+            /* ChartJS
+             * -------
+             * Here we will create a few charts using ChartJS
+             */
+            NYHA_Data = <?php echo $json_proportion_NYHA; ?>
+
+            // Get the canvas element
+            var nyha = $('#nyha').get(0).getContext('2d');
+
+            // Options to include data labels inside the chart
+            var NYHA_Options = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top', // Position of legend
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff', // Text color for data labels
+                        font: {
+                            weight: 'bold',
+                            size: 14 // Font size for labels
+                        },
+                        formatter: function (value, context) {
+                            return value + '%'; // Display value inside the pie chart
+                        },
+                        anchor: 'center', // Position the labels in the center
+                        align: 'center', // Align the labels to the center
+                    }
+                }
+            };
+
+            // Register the datalabels plugin globally (if not already registered)
+            Chart.register(ChartDataLabels);
+
+            // Create pie chart
+            new Chart(nyha, {
+                type: 'pie', // Pie chart type
+                data: NYHA_Data,
+                options: NYHA_Options,
+                plugins: [ChartDataLabels] // Include the datalabels plugin in the chart
+            });
+
+        })
+    </script>
+
 </body>
 
 </html>

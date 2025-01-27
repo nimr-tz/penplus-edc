@@ -6,26 +6,25 @@ $email = new Email();
 $random = new Random();
 
 $users = $override->getData('user');
-if (Input::exists('post')) {
-
-  if (Input::get('search_by_site1')) {
-    $validate = new validate();
-    $validate = $validate->check($_POST, array(
-      'site_id' => array(
-        'required' => true,
-      ),
-    ));
-    if ($validate->passed()) {
-
-      $url = 'index1.php?&site_id=' . Input::get('site_id');
-      Redirect::to($url);
-      $pageError = $validate->errors();
-    }
-  }
-}
-
 
 if ($user->isLoggedIn()) {
+
+  if (Input::exists('post')) {
+
+    if (Input::get('search_by_site1')) {
+      $validate = new validate();
+      $validate = $validate->check($_POST, array(
+        'site_id' => array(
+          'required' => true,
+        ),
+      ));
+      if ($validate->passed()) {
+        $url = 'index1.php?&site_id=' . Input::get('site_id');
+        Redirect::to($url);
+        $pageError = $validate->errors();
+      }
+    }
+  }
 
   if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
     if ($_GET['site_id'] != null) {
@@ -44,6 +43,9 @@ if ($user->isLoggedIn()) {
     $eligible = $override->countData2('clients', 'status', 1, 'eligible', 1, 'site_id', $user->data()->site_id);
     $enrolled = $override->countData2('clients', 'status', 1, 'enrolled', 1, 'site_id', $user->data()->site_id);
     $end = $override->countData2('clients', 'status', 1, 'end_study', 1, 'site_id', $user->data()->site_id);
+  }
+  if ($user->data()->accessLevel == 3) {
+    Redirect::to('indicators.php');
   }
 } else {
   Redirect::to('index.php');

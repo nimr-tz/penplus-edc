@@ -39,6 +39,14 @@ if ($user->isLoggedIn()) {
                 'salt' => $salt,
             ), Input::get('id'));
             $successMessage = 'Password Reset Successful';
+        } elseif (Input::get('change_pass')) {
+            $salt = $random->get_rand_alphanumeric(32);
+            $password = Input::get('password');
+            $user->updateRecord('user', array(
+                'password' => Hash::make($password, $salt),
+                'salt' => $salt,
+            ), Input::get('id'));
+            $successMessage = 'Password Reset Successful';
         } elseif (Input::get('lock_account')) {
             $user->updateRecord('user', array(
                 'count' => 4,
@@ -1063,9 +1071,9 @@ if ($user->isLoggedIn()) {
             if ($validate->passed()) {
                 try {
                     $client_id = $override->get('clients', 'id', Input::get('pid'));
-                    
+
                     if (Input::get('pid')) {
-                        $array1 = ["screening", "demographic", "vital", "main_diagnosis", "history", "symptoms", "cardiac", "diabetic", "sickle_cell", "results", "hospitalization", "hospitalization_details","treatment_plan", "dgns_complctns_comorbdts", "risks", "lab_details", "social_economic", "summary", "medication_treatments", "hospitalization_detail_id", "sickle_cell_status_table", "visit"];
+                        $array1 = ["screening", "demographic", "vital", "main_diagnosis", "history", "symptoms", "cardiac", "diabetic", "sickle_cell", "results", "hospitalization", "hospitalization_details", "treatment_plan", "dgns_complctns_comorbdts", "risks", "lab_details", "social_economic", "summary", "medication_treatments", "hospitalization_detail_id", "sickle_cell_status_table", "visit"];
                         $array2 = $override->AllTables();
                         $array2_values = array_column($array2, 'Tables_in_penplus');
 
@@ -1355,6 +1363,8 @@ if ($user->isLoggedIn()) {
                                                                 class="btn btn-info">Update</a>
                                                             <a href="#reset<?= $staff['id'] ?>" role="button"
                                                                 class="btn btn-default" data-toggle="modal">Reset</a>
+                                                            <a href="#change<?= $staff['id'] ?>" role="button"
+                                                                class="btn btn-success" data-toggle="modal">Change</a>
                                                             <a href="#lock<?= $staff['id'] ?>" role="button"
                                                                 class="btn btn-warning" data-toggle="modal">Lock</a>
                                                             <a href="#unlock<?= $staff['id'] ?>" role="button"
@@ -1385,6 +1395,34 @@ if ($user->isLoggedIn()) {
                                                                         <input type="hidden" name="id"
                                                                             value="<?= $staff['id'] ?>">
                                                                         <input type="submit" name="reset_pass" value="Reset"
+                                                                            class="btn btn-warning">
+                                                                        <button class="btn btn-default" data-dismiss="modal"
+                                                                            aria-hidden="true">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="change<?= $staff['id'] ?>" tabindex="-1"
+                                                        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal"><span
+                                                                                aria-hidden="true">&times;</span><span
+                                                                                class="sr-only">Close</span></button>
+                                                                        <h4>Change Password</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <input type="text" name="password"
+                                                                            value="">
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="id"
+                                                                            value="<?= $staff['id'] ?>">
+                                                                        <input type="submit" name="change_pass" value="Change"
                                                                             class="btn btn-warning">
                                                                         <button class="btn btn-default" data-dismiss="modal"
                                                                             aria-hidden="true">Close</button>
@@ -2928,11 +2966,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                 <?php
-                                                                                                                                 if ($enrollment['reasons']) {
-                                                                                                                                     print_r($enrollment['reasons']);
-                                                                                                                                 } ?>
-                                                                                                                                </textarea>
+                                                                                                                                                 <?php
+                                                                                                                                                 if ($enrollment['reasons']) {
+                                                                                                                                                     print_r($enrollment['reasons']);
+                                                                                                                                                 } ?>
+                                                                                                                                                </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3589,10 +3627,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                            <?php if ($visit['reasons']) {
-                                                                                                                                                print_r($visit['reasons']);
-                                                                                                                                            } ?>
-                                                                                                                                        </textarea>
+                                                                                                                                                            <?php if ($visit['reasons']) {
+                                                                                                                                                                print_r($visit['reasons']);
+                                                                                                                                                            } ?>
+                                                                                                                                                        </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

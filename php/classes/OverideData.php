@@ -26,6 +26,1303 @@ class OverideData
         $num = $query->rowCount();
         return $num;
     }
+
+    public function getNo1()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT patient_id
+        FROM symptoms
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+        AND status = 1
+        AND visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE();");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo1_1()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function getNo2($table, $field, $value, $field1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo3_1()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id, s.hba1c
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c !=0 AND s.hba1c !=98 AND s.hba1c !=99)
+            AND s.status = 1
+            AND s.hba1c < 8
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo3_2()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+            AND s.status = 1
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function getNo1_1_Rows_Data()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function getNo3_1_ROWS_DATA($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id, s.hba1c
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c !=0 AND s.hba1c !=98 AND s.hba1c !=99)
+            AND s.status = 1
+            AND s.hba1c < 8
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1
+            limit $page,$numRec
+            ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+
+    public function getNo_Numerator_TID_Hba1c_6Months()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Numerator_TID_Hba1c_6Months_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        AND d.site_id = '$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function getNo_Numerator_TID_Hba1c_6Months_Data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id, s.hba1c
+        FROM symptoms s
+        JOIN diabetic d ON s.patient_id = d.patient_id
+        WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+        AND s.status = 1
+        AND s.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH) AND CURDATE()
+        AND d.diagnosis = 1
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function getNo_Denominator_TID_Hba1c_6Months($table, $field, $value, $field1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Denominator_TID_Hba1c_6Months_By_Site($table, $field, $value, $field1, $value1, $field2, $value2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1' AND $field2 = '$value2'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function getNo_Numerator_T1D_HBA1C_LESS_8_LAST_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+            AND s.status = 1
+            AND s.hba1c < 8
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1
+            AND d.site_id = '$value'
+            ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+
+    public function getNo_Denominator__T1D_HBA1C_LESS_8_LAST_MEASURE_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+            FROM symptoms s
+            JOIN diabetic d ON s.patient_id = d.patient_id
+            WHERE (s.hba1c IS NOT NULL AND s.hba1c != '' AND s.hba1c != 0 AND s.hba1c != 98 AND s.hba1c != 99)
+            AND s.status = 1
+            AND s.visit_date = (
+                SELECT MAX(s1.visit_date)
+                FROM symptoms s1
+                WHERE s1.patient_id = s.patient_id
+            )
+            AND d.diagnosis = 1
+            AND d.site_id = '$value'
+            ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+
+    public function getNo_Numerator_T1D_DK_12_MONTHS()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT l.patient_id
+        FROM lab_details l
+        JOIN diabetic d ON l.patient_id = d.patient_id
+        WHERE (l.dka_number IS NOT NULL AND l.dka_number != '' AND l.dka_number != 0 AND l.dka_number != 98 AND l.dka_number != 99)
+        AND l.status = 1
+        AND l.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 12 MONTH) AND CURDATE()  -- Filter visits within the last 12 months
+        AND l.visit_date != (
+            SELECT MIN(l1.visit_date)
+            FROM lab_details l1
+            WHERE l1.patient_id = l.patient_id
+            AND l1.status = 1
+        )
+        AND d.diagnosis = 1;
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Numerator_T1D_DK_12_MONTHS_ROWS_DATA($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT l.patient_id ,l.dka_number
+        FROM lab_details l
+        JOIN diabetic d ON l.patient_id = d.patient_id
+        WHERE (l.dka_number IS NOT NULL AND l.dka_number != '' AND l.dka_number != 0 AND l.dka_number != 98 AND l.dka_number != 99)
+        AND l.status = 1
+        AND l.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 12 MONTH) AND CURDATE()  -- Filter visits within the last 12 months
+        AND l.visit_date != (
+            SELECT MIN(l1.visit_date)
+            FROM lab_details l1
+            WHERE l1.patient_id = l.patient_id
+            AND l1.status = 1
+        )
+        AND d.diagnosis = 1
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getNo_Numerator_T1D_DK_12_MONTHS_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT l.patient_id
+        FROM lab_details l
+        JOIN diabetic d ON l.patient_id = d.patient_id
+        WHERE (l.dka_number IS NOT NULL AND l.dka_number != '' AND l.dka_number != 0 AND l.dka_number != 98 AND l.dka_number != 99)
+        AND l.status = 1
+        AND l.visit_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 12 MONTH) AND CURDATE()  -- Filter visits within the last 12 months
+        AND l.visit_date != (
+            SELECT MIN(l1.visit_date)
+            FROM lab_details l1
+            WHERE l1.patient_id = l.patient_id
+            AND l1.status = 1
+        )
+        AND d.diagnosis = 1
+        AND d.site_id = '$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+
+    public function getNo_Denominator_T1D_DK_12_MONTH($table, $field, $value, $field1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function getNo_Denominator_T1D_DK_12_MONTHS_By_Site($table, $field, $value, $field1, $value1, $field2, $value2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 = '$value1' AND $field2 = '$value2'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    //Numerator-All with RHD on Penadur(Benzathine PCN)
+    public function Numerator_Active_RHD_PENADUR()
+    {
+        $query = $this->_pdo->query("SELECT * 
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id=mt.patient_id
+        WHERE c.status=1
+        AND c.heumatic=1
+        AND c.heumatic !=''
+        AND mt.medication_type=6
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Numerator_Active_RHD_PENADUR_data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * 
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id=mt.patient_id
+        WHERE c.status=1
+        AND c.heumatic=1
+        AND c.heumatic !=''
+        AND mt.medication_type=6
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_Active_RHD_PENADUR_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT * 
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id=mt.patient_id
+        WHERE c.status=1
+        AND c.heumatic=1
+        AND c.heumatic !=''
+        AND mt.medication_type=6
+        AND c.site_id='$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Numerator_Active_RHD_PENADUR_by_site_Data_Rows($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * 
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id=mt.patient_id
+        WHERE c.status=1
+        AND c.heumatic=1
+        AND c.heumatic !=''
+        AND mt.medication_type=6
+        AND c.site_id='$value'
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    //Denominator-All active with RHD
+    public function Denominator_Active_RHD_PENADUR($table, $field, $value, $field1, $value1)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1='$value1'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Denominator_Active_RHD_PENADUR_by_Site($table, $field, $value, $field1, $value1, $field2, $value2)
+    {
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1='$value1' AND $field2='$value2'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    //Numerator-All active cardiac on warfarin who checked INR in the last 3 months
+    public function Numerator_active_cardiac_warfarin_INR()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id, c.study_id
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id = mt.patient_id
+        JOIN lab_details ld ON c.patient_id = ld.patient_id
+        WHERE c.status = 1
+        AND mt.medication_type = 7
+        AND ld.inr IS NOT NULL
+        AND ld.inr != ''
+        AND ld.inr NOT IN (98, 99)
+        AND ld.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function Numerator_active_cardiac_warfarin_INR_data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id, c.study_id
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id = mt.patient_id
+        JOIN lab_details ld ON c.patient_id = ld.patient_id
+        WHERE c.status = 1
+        AND mt.medication_type = 7
+        AND ld.inr IS NOT NULL
+        AND ld.inr != ''
+        AND ld.inr NOT IN (98, 99)
+        AND ld.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_active_cardiac_warfarin_INR_by_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id, c.study_id
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id = mt.patient_id
+        JOIN lab_details ld ON c.patient_id = ld.patient_id
+        WHERE c.status = 1
+        AND mt.medication_type = 7
+        AND ld.inr IS NOT NULL
+        AND ld.inr != ''
+        AND ld.inr NOT IN (98, 99)
+        AND ld.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        AND c.site_id = '$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Numerator_active_cardiac_warfarin_INR_by_Site_data_Rows($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id, c.study_id
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id = mt.patient_id
+        JOIN lab_details ld ON c.patient_id = ld.patient_id
+        WHERE c.status = 1
+        AND mt.medication_type = 7
+        AND ld.inr IS NOT NULL
+        AND ld.inr != ''
+        AND ld.inr NOT IN (98, 99)
+        AND ld.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        AND c.site_id = '$value'
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    //Denominator-All active cardiac on warfarin
+    public function Denominator_active_cardiac_warfarin()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id = mt.patient_id
+        WHERE c.status = 1
+        AND mt.medication_type = 7
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Denominator_active_cardiac_warfarin_by_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id
+        FROM cardiac c
+        JOIN medication_treatments mt ON c.patient_id = mt.patient_id
+        WHERE c.status = 1
+        AND mt.medication_type = 7
+        AND c.site_id = '$value'
+         ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    //NUmerator-All Active cardiac patient with NYHA I on the last visit
+    public function Active_NYHA_num($value1)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
+        FROM cardiac c 
+        JOIN symptoms s ON c.patient_id = s.patient_id 
+        WHERE c.status = 1
+        AND (s.dyspnea = '$value1' AND s.dyspnea !='' AND s.dyspnea IS NOT NULL)
+        AND s.visit_date = (
+        SELECT MAX(s2.visit_date)
+                    FROM symptoms s2 
+                    WHERE s2.patient_id = s.patient_id)
+                ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Active_NYHA_num_Data_Rows($page, $numRec, $value1)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
+        FROM cardiac c 
+        JOIN symptoms s ON c.patient_id = s.patient_id 
+        WHERE c.status = 1
+        AND (s.dyspnea = '$value1' AND s.dyspnea !='' AND s.dyspnea IS NOT NULL)
+        AND s.visit_date = (SELECT MAX(s2.visit_date)
+                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function Active_NYHA_num_by_Site($value, $value1)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
+        FROM cardiac c 
+        JOIN symptoms s ON c.patient_id = s.patient_id 
+        WHERE c.status = 1
+        AND (s.dyspnea = '$value1' AND s.dyspnea !='' AND s.dyspnea IS NOT NULL)
+        AND s.visit_date = (SELECT MAX(s2.visit_date)
+                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
+        AND c.site_id = '$value'
+                ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Active_NYHA_num_Data_Rows_By_Site($value, $page, $numRec, $value1)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
+        FROM cardiac c 
+        JOIN symptoms s ON c.patient_id = s.patient_id 
+        WHERE c.status = 1
+        AND (s.dyspnea = '$value1' AND s.dyspnea !='' AND s.dyspnea IS NOT NULL)
+        AND s.visit_date = (SELECT MAX(s2.visit_date)
+                             FROM symptoms s2 WHERE s2.patient_id = s.patient_id)
+        AND c.site_id = '$value'
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    //Denominator-All active cardiac who have a corresponding record in the symptoms table.// DENOMINOTOR
+    public function Denominator_Active_cardiac_NYHA()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id
+        FROM cardiac c
+        -- JOIN symptoms s ON c.patient_id = s.patient_id 
+        WHERE c.status = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Denominator_Active_cardiac_NYHA_By_Site($field, $value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id 
+        FROM cardiac c 
+        WHERE c.status = 1 
+        AND $field = '$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    //Numerator-All active cardiac with congenital or RHD patient with referred to surgery
+    public function Numerator_cardiac_congenital_RHD_surgery_num()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id 
+        FROM cardiac c 
+        JOIN lab_details l ON c.patient_id = l.patient_id 
+        WHERE (c.heumatic = 1 OR c.congenital = 1)   
+        AND c.status = 1   AND l.cardiac_surgery = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function Numerator_cardiac_congenital_RHD_surgery_num_data_rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
+        FROM cardiac c 
+        JOIN lab_details l ON c.patient_id = l.patient_id 
+        WHERE (c.heumatic = 1 OR c.congenital = 1)   
+        AND c.status = 1  
+        AND l.cardiac_surgery = 1
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function Numerator_cardiac_congenital_RHD_surgery_num_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
+        FROM cardiac c 
+        JOIN lab_details l ON c.patient_id = l.patient_id 
+        WHERE (c.heumatic = 1 OR c.congenital = 1)   
+        AND c.status = 1
+        AND l.cardiac_surgery = 1
+        AND c.site_id = '$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Numerator_cardiac_congenital_RHD_surgery_num_by_site_data_rows($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id ,c.study_id
+        FROM cardiac c 
+        JOIN lab_details l ON c.patient_id = l.patient_id 
+        WHERE (c.heumatic = 1 OR c.congenital = 1)   
+        AND c.status = 1
+        AND l.cardiac_surgery = 1
+        AND c.site_id = '$value'
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+
+    //Denominator-All active cardiac patients with RHD or Congenital
+    public function Denominator_cardiac_RHD_congenital()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id FROM cardiac c WHERE (c.heumatic = 1 OR c.congenital = 1)   AND c.status = 1 ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Denominator_cardiac_RHD_congenital_by_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT c.patient_id FROM cardiac c WHERE (c.heumatic = 1 OR c.congenital = 1)
+        AND c.status = 1
+        AND c.site_id = '$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    //functions for Sickle_cell Disease below
+    // Indicator 1
+    //Numerator-All active with scd on hyroxyurea at last visit
+    public function Numerator_scd_hyroxyurea()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
+         FROM sickle_cell s
+         JOIN medication_treatments m ON s.patient_id = m.patient_id 
+         WHERE s.status = 1   
+         AND m.medication_type = 17  
+         AND s.visit_date = (
+         SELECT MAX(visit_date)     
+         FROM sickle_cell s2     
+         WHERE s2.patient_id = s.patient_id);
+         ");
+
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_hyroxyurea_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
+         FROM sickle_cell s
+         JOIN medication_treatments m ON s.patient_id = m.patient_id 
+         WHERE s.status = 1   
+         AND m.medication_type = 17  
+         AND s.visit_date = (
+         SELECT MAX(visit_date)     
+         FROM sickle_cell s2     
+         WHERE s2.patient_id = s.patient_id)
+         AND s.site_id='$value'
+         ");
+
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_hyroxyurea_data_rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s
+         JOIN medication_treatments m ON s.patient_id = m.patient_id 
+         WHERE s.status = 1   
+         AND m.medication_type = 17  
+         AND s.visit_date = (
+         SELECT MAX(visit_date)     
+         FROM sickle_cell s2     
+         WHERE s2.patient_id = s.patient_id)
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_scd_hyroxyurea_data_rows_by_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s
+         JOIN medication_treatments m ON s.patient_id = m.patient_id 
+         WHERE s.status = 1   
+         AND m.medication_type = 17  
+         AND s.visit_date = (
+         SELECT MAX(visit_date)     
+         FROM sickle_cell s2     
+         WHERE s2.patient_id = s.patient_id)
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    //Denominator-All active SCD patients
+    public function Denominator_Active_SCD()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1;");
+
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Denominator_Active_SCD_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 AND s.site_id='$value'");
+
+        $num = $query->rowCount();
+        return $num;
+    }
+    // Indicator 2
+    //Numerator-All active SCD patient under 5 years who are on pen v
+    public function Numerator_scd_5_penv()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
+         FROM sickle_cell s 
+         JOIN clients c ON s.patient_id = c.id 
+         JOIN medication_treatments m ON s.patient_id = m.patient_id
+         WHERE s.status = 1   AND c.age < 5 AND m.medication_type = 27");
+
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_5_penv_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id 
+         FROM sickle_cell s 
+         JOIN clients c ON s.patient_id = c.id 
+         JOIN medication_treatments m ON s.patient_id = m.patient_id
+         WHERE s.status = 1   AND c.age < 5 AND m.medication_type = 27 AND s.site_id='$value'");
+
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function Numerator_scd_5_penv_data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s 
+         JOIN clients c ON s.patient_id = c.id 
+         JOIN medication_treatments m ON s.patient_id = m.patient_id
+         WHERE s.status = 1   AND c.age < 5 AND m.medication_type = 27
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_scd_5_penv_data_Rows_by_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s 
+         JOIN clients c ON s.patient_id = c.id 
+         JOIN medication_treatments m ON s.patient_id = m.patient_id
+         WHERE s.status = 1   AND c.age < 5 AND m.medication_type = 27
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    //Denominator-All active SCD patients under 5 years
+    public function Denominator_SCD_5()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s JOIN clients c ON s.patient_id=c.id WHERE s.status = 1 AND c.age < 5");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Denominator_SCD_5_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s JOIN clients c ON s.patient_id=c.id WHERE s.status = 1 AND c.age < 5 AND s.site_id='$value'");
+        $num = $query->rowCount();
+        return $num;
+    }
+    //Indicator 3
+    //Numerator-All active with scd on folic
+    public function Numerator_scd_folic()
+    {
+        $query = $this->_pdo->query("select distinct s.patient_id 
+         from sickle_cell s 
+         JOIN medication_treatments m ON s.patient_id=m.patient_id 
+         where s.status=1 and m.medication_type=14");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_folic_by_site($value)
+    {
+        $query = $this->_pdo->query("select distinct s.patient_id 
+         from sickle_cell s 
+         JOIN medication_treatments m ON s.patient_id=m.patient_id 
+         where s.status=1 and m.medication_type=14 and s.site_id='$value'");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_folic_data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("select distinct s.patient_id  ,s.study_id
+         from sickle_cell s 
+         JOIN medication_treatments m ON s.patient_id=m.patient_id 
+         where s.status=1 and m.medication_type=14 
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_scd_folic_data_Rows_by_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("select distinct s.patient_id  ,s.study_id
+         from sickle_cell s 
+         JOIN medication_treatments m ON s.patient_id=m.patient_id 
+         where s.status=1 and m.medication_type=14 
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    //Denominator-All active SCD patient
+    public function Denominator_scd()
+    {
+        $query = $this->_pdo->query("select distinct patient_id from sickle_cell where status=1");
+
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Denominator_scd_by_site($value)
+    {
+        $query = $this->_pdo->query("select distinct patient_id from sickle_cell where status=1 and site_id='$value' ");
+
+        $num = $query->rowCount();
+        return $num;
+    }
+    //Indicator 4
+    //Numerator-all active with scd need transfusion AND months <=12 & Exclude Baseline
+    public function Numerator_scd_transfusion()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s JOIN treatment_plan t ON s.patient_id = t.patient_id WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_transfusion_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s JOIN treatment_plan t ON s.patient_id = t.patient_id WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1 AND s.site_id='$value'");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_transfusion_data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s 
+         JOIN treatment_plan t ON s.patient_id = t.patient_id 
+         WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1 
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_scd_transfusion_data_Rows_by_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s 
+         JOIN treatment_plan t ON s.patient_id = t.patient_id 
+         WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND t.transfusion_needed = 1 
+         AND s.site_id = '$value'  
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    //Denominator-aLL Active SCD patient
+    public function Denominator_scd_patient()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Denominator_scd_patient_by_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id FROM sickle_cell s WHERE s.status = 1 AND s.visit_date >= CURDATE() - INTERVAL 12 MONTH AND s.site_id='$value'");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    //Indicator 5
+    //Numerator-All active with SCD hospitalised in the last 12 months & Exclude Baseline
+    public function Numerator_scd_hospitalised_12()
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+         FROM sickle_cell s
+         JOIN hospitalization_details h ON s.patient_id = h.patient_id
+         WHERE s.status = 1
+         AND h.visit_date >= CURDATE() - INTERVAL 12 MONTH
+         AND h.hospitalization_ncd = 1
+    ");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_hospitalised_12_by_site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+         FROM sickle_cell s
+         JOIN hospitalization_details h ON s.patient_id = h.patient_id
+         WHERE s.status = 1
+         AND h.visit_date >= CURDATE() - INTERVAL 12 MONTH
+         AND h.hospitalization_ncd = 1
+         AND s.site_id='$value';
+    ");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_scd_hospitalised_12_Data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s
+         JOIN hospitalization_details h ON s.patient_id = h.patient_id
+         WHERE s.status = 1
+         AND h.visit_date >= CURDATE() - INTERVAL 12 MONTH
+         AND h.hospitalization_ncd = 1
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_scd_hospitalised_12_Data_Rows_by_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id ,s.study_id
+         FROM sickle_cell s
+         JOIN hospitalization_details h ON s.patient_id = h.patient_id
+         WHERE s.status = 1
+         AND h.visit_date >= CURDATE() - INTERVAL 12 MONTH
+         AND h.hospitalization_ncd = 1
+         AND s.site_id = '$value'
+         limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    //Denominator-All active SCD patient
+    public function Denominator_scd_active()
+    {
+        $query = $this->_pdo->query("SELECT s.patient_id FROM sickle_cell s WHERE s.status = 1");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Denominator_scd_active_by_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT DISTINCT s.patient_id
+        FROM sickle_cell s
+        WHERE s.status = 1
+        AND s.site_id='$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+    //end of sickle cell
+
+    //Social demographic
+    //Indicator1 -Proportion of patients for whom NCD has limited school attendance ever
+    public function Numerator_ncd_Limited()
+    {
+        $query = $this->_pdo->query("SELECT *
+        FROM 
+        clients c
+        JOIN 
+        demographic d ON c.id = d.patient_id
+        WHERE 
+        c.age < 24 
+        AND d.school_attendance = 1
+        AND d.status = 1
+     ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+    public function Numerator_ncd_Limited_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        clients c
+        JOIN
+        demographic d ON c.id = d.patient_id
+        WHERE
+        c.age < 24
+        AND d.school_attendance = 1
+        AND d.status = 1 AND d.site_id='$value'
+     ");
+        $num = $query->rowCount();
+        return $num;
+    }
+
+
+    public function Numerator_ncd_Limited_Data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        clients c
+        JOIN
+        demographic d ON c.id = d.patient_id
+        WHERE
+        c.age < 24
+        AND d.school_attendance = 1
+        AND d.status = 1
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function Numerator_ncd_Limited_Data_Rows_By_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        clients c
+        JOIN
+        demographic d ON c.id = d.patient_id
+        WHERE
+        c.age < 24
+        AND d.school_attendance = 1
+        AND d.status = 1
+        AND s.site_id = '$value'
+        -- limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Denominator_ncd_Limited()
+    {
+        $query = $this->_pdo->query("SELECT * FROM clients c
+        JOIN demographic d ON c.id = d.patient_id
+        WHERE c.age < 24 AND d.status = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Denominator_ncd_Limited_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT * FROM clients c
+        JOIN demographic d ON c.id = d.patient_id
+        WHERE c.age < 24
+        AND d.status = 1
+        AND d.site_id='$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+
+
+    }
+
+    //Indicator 2-Average days of missed school in the last month
+    public function Average_missed_school()
+    {
+        $query = $this->_pdo->query("SELECT ROUND(AVG(h.missed_days),2) as avg_missed_days
+        FROM hospitalization h JOIN clients c ON h.patient_id = c.id
+        WHERE c.age < 24 AND h.missed_days NOT IN (98, 99)
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function Average_missed_school_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT h.site_id,
+        ROUND(AVG(h.missed_days0),2) as avg_missed_days
+        FROM hospitalization h
+        JOIN clients c ON h.patient_id = c.id
+        WHERE c.age < 24
+        AND h.missed_days NOT IN (98, 99)
+        AND h.site_id='$value'
+        GROUP BY h.site_id
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    //Indicator3 -Average days of missed school in the last month
+    public function Food_insecurity()
+    {
+        $query = $this->_pdo->query("SELECT 
+                COUNT(*) AS total_rows,
+                SUM(
+                    CASE 
+                        WHEN s.no_food IN (2, 3) 
+                        AND s.sleep_hungry IN (2, 3) 
+                        AND s.day_hungry IN (2, 3) 
+                        THEN 1 
+                        ELSE 0 
+                    END
+                ) AS rows_with_2_or_3
+            FROM 
+                social_economic s
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Food_insecurity_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT 
+                COUNT(*) AS total_rows,
+                SUM(
+                    CASE 
+                        WHEN s.no_food IN (2, 3) 
+                        AND s.sleep_hungry IN (2, 3) 
+                        AND s.day_hungry IN (2, 3) 
+                        THEN 1 
+                        ELSE 0 
+                    END
+                ) AS rows_with_2_or_3
+            FROM 
+                social_economic s
+            AND s.site_id='$value'
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Food_insecurity_Data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM social_economic s
+        WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Food_insecurity_Data_Rows_By_Site($value,$page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM social_economic s
+        WHERE s.no_food IN (2, 3) OR s.sleep_hungry IN (2, 3) OR s.day_hungry IN (2, 3)
+        AND s.site_id='$value'
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Food_insecurity_ALL_Data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM social_economic s
+        WHERE s.no_food IN (1,2, 3) OR s.sleep_hungry IN (1,2, 3) OR s.day_hungry IN (1,2, 3)
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Food_insecurity_ALL_Data_Rows_By_Site($value,$page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM social_economic s
+        WHERE s.no_food IN (1,2, 3) OR s.sleep_hungry IN (1,2, 3) OR s.day_hungry IN (1,2, 3)
+        AND s.site_id='$value'
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    // public function Denominator_food_insecurity_Data_Rows_by_site($value, $page, $numRec)
+    // {
+    //     $query = $this->_pdo->query("SELECT * FROM social_economic s
+    //     WHERE s.status = 1
+    //     AND s.site_id = '$value'
+    //     limit $page,$numRec
+    //     ");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+
+    // public function Numerator_food_insecurity_Data_Rows_by_site($value, $page, $numRec)
+    // {
+    //     $query = $this->_pdo->query("SELECT * FROM social_economic s
+    //     WHERE s.status = 1
+    //     AND s.site_id = '$value'
+    //     limit $page,$numRec
+    //     ");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+
+    //Indicator 4,5,6
+    public function Average_Distance_Cost()
+    {
+        $query = $this->_pdo->query("SELECT
+            ROUND(AVG(distance_km),2) AS avg_distance_km,
+            ROUND(AVG(distance_minutes),2) AS avg_distance_minutes,
+            ROUND(AVG(transportation_cost),2) AS avg_transportation_cost
+            FROM social_economic
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function Average_Distance_Cost_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT site_id
+            ROUND(AVG(distance_km),2) AS avg_distance_km,
+            ROUND(AVG(distance_minutes),2) AS avg_distance_minutes,
+            ROUND(AVG(transportation_cost),2) AS avg_transportation_cost
+            AND site_id = '$value'
+            FROM social_economic
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    //Indicator 7
+    //proportion of patients who are provided with social support in the last(last 3 months)
+    public function Numerator_Social_Support()
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        treatment_plan t
+        WHERE t.status = 1
+        AND t.social_support = 1
+        AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_Social_Support_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        treatment_plan t
+        WHERE t.status = 1
+        AND t.social_support = 1
+        AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        AND t.site_id='$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Numerator_Social_Support_Data_Rows($page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        treatment_plan t
+        WHERE t.status = 1
+        AND t.social_support = 1
+        AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function Numerator_Social_Support_Data_Rows_By_Site($value, $page, $numRec)
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        treatment_plan t
+        WHERE t.status = 1
+        AND t.social_support = 1
+        AND t.visit_date >= CURDATE() - INTERVAL 3 MONTH
+        AND t.site_id = '$value'
+        limit $page,$numRec
+        ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
+    public function Denominator_Social_Support()
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        treatment_plan t
+        WHERE t.status = 1
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
+    public function Denominator_Social_Support_By_Site($value)
+    {
+        $query = $this->_pdo->query("SELECT * FROM
+        treatment_plan t
+        WHERE t.status = 1
+        AND t.site_id='$value'
+        ");
+        $num = $query->rowCount();
+        return $num;
+    }
     public function getCount0($table, $field, $value, $field1, $value1)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $field = '$value' AND $field1 >= '$value1'");
@@ -380,7 +1677,7 @@ class OverideData
         return $result;
     }
 
-        public function getWithLimit0($table, $page, $numRec)
+    public function getWithLimit0($table, $page, $numRec)
     {
         $query = $this->_pdo->query("SELECT * FROM $table limit $page,$numRec");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

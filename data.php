@@ -227,7 +227,7 @@ if ($user->isLoggedIn()) {
                                                         $tables['Tables_in_penplus'] == 'social_economic' || $tables['Tables_in_penplus'] == 'summary' ||
                                                         $tables['Tables_in_penplus'] == 'medication_treatments' || $tables['Tables_in_penplus'] == 'hospitalization_detail_id' ||
                                                         $tables['Tables_in_penplus'] == 'sickle_cell_status_table' || $tables['Tables_in_penplus'] == 'visit' ||
-                                                        $tables['Tables_in_penplus'] == 'lab_requests'
+                                                        $tables['Tables_in_penplus'] == 'lab_requests' || $tables['Tables_in_penplus'] == 'user'
                                                     ) {
                                                 ?>
                                                         <tr>

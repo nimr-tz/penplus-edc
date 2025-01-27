@@ -1413,7 +1413,7 @@ if ($user->isLoggedIn()) {
                                                                             data-dismiss="modal"><span
                                                                                 aria-hidden="true">&times;</span><span
                                                                                 class="sr-only">Close</span></button>
-                                                                        <h4>Reset Password</h4>
+                                                                        <h4>Change Password</h4>
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <input type="text" name="password"

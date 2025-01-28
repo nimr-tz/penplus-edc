@@ -46,7 +46,7 @@ if ($user->isLoggedIn()) {
                 'password' => Hash::make($password, $salt),
                 'salt' => $salt,
             ), Input::get('id'));
-            $successMessage = 'Password Reset Successful';
+            $successMessage = 'Password Changed Successful';
         } elseif (Input::get('lock_account')) {
             $user->updateRecord('user', array(
                 'count' => 4,

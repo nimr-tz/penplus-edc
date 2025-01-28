@@ -1416,8 +1416,7 @@ if ($user->isLoggedIn()) {
                                                                         <h4>Change Password</h4>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <input type="text" name="password"
-                                                                            value="">
+                                                                        <input type="text" name="password" value="">
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <input type="hidden" name="id"
@@ -2966,11 +2965,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                                 <?php
-                                                                                                                                                 if ($enrollment['reasons']) {
-                                                                                                                                                     print_r($enrollment['reasons']);
-                                                                                                                                                 } ?>
-                                                                                                                                                </textarea>
+                                                                                                                                                         <?php
+                                                                                                                                                         if ($enrollment['reasons']) {
+                                                                                                                                                             print_r($enrollment['reasons']);
+                                                                                                                                                         } ?>
+                                                                                                                                                        </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3627,10 +3626,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                                            <?php if ($visit['reasons']) {
-                                                                                                                                                                print_r($visit['reasons']);
-                                                                                                                                                            } ?>
-                                                                                                                                                        </textarea>
+                                                                                                                                                                    <?php if ($visit['reasons']) {
+                                                                                                                                                                        print_r($visit['reasons']);
+                                                                                                                                                                    } ?>
+                                                                                                                                                                </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

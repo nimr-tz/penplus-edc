@@ -233,7 +233,7 @@ if ($user->isLoggedIn()) {
                             <div class="small-box bg-primary">
                                 <div class="inner">
                                     <h3>3</h3>
-                                    <p>Diabetics</p>
+                                    <p>Diabetes</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>

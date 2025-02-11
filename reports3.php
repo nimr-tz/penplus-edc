@@ -930,7 +930,7 @@ if ($user->isLoggedIn()) {
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">PENPLUS ENROLLMENT PROGRESS AS OF <?= date('Y-m-d') ?>(
-                                        DIABETES )</h3>
+                                        Diabetes )</h3>
                                     <!-- /.card-tools -->
                                     <div class="card-tools">
                                         <a class="btn btn-default border btn-flat btn-sm" href="index1.php"><i
@@ -948,7 +948,7 @@ if ($user->isLoggedIn()) {
                                                 <th rowspan="2">#</th>
                                                 <th rowspan="2">SITE</th>
                                                 <th rowspan="2">ENROLLED</th>
-                                                <th colspan="5" class="content-header text-center">Diabtes Type</th>
+                                                <th colspan="5" class="content-header text-center">Diabetes Type</th>
                                             </tr>
                                             <tr>
                                                 <th>Type 1 DM</th>

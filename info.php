@@ -2965,11 +2965,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                                         <?php
-                                                                                                                                                         if ($enrollment['reasons']) {
-                                                                                                                                                             print_r($enrollment['reasons']);
-                                                                                                                                                         } ?>
-                                                                                                                                                        </textarea>
+                                                                                                                                                                 <?php
+                                                                                                                                                                 if ($enrollment['reasons']) {
+                                                                                                                                                                     print_r($enrollment['reasons']);
+                                                                                                                                                                 } ?>
+                                                                                                                                                                </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3264,7 +3264,14 @@ if ($user->isLoggedIn()) {
                                                             $total_required = 0;
                                                         }
 
-                                                        $progress = intval((intval($total_available) / $total_required) * 100);
+                                                        if ($total_required != 0) {
+                                                            $progress = intval((intval($total_available) / $total_required) * 100);
+                                                        } else {
+                                                            // Handle the case when divisor is zero, maybe return a default value or error message
+                                                            $progress = 0; // or handle it in another appropriate way
+                                                        }
+
+
                                                     } elseif ($visit['seq_no'] > 1) {
                                                         $total_required = 10;
                                                         if ($visit['visit_status'] == 1 && $visit['expected_date'] <= date('Y-m-d')) {
@@ -3286,7 +3293,13 @@ if ($user->isLoggedIn()) {
                                                             $total_available = 0;
                                                             $total_required = 0;
                                                         }
-                                                        $progress = intval((intval($total_available) / $total_required) * 100);
+
+                                                        if ($total_required != 0) {
+                                                            $progress = intval((intval($total_available) / $total_required) * 100);
+                                                        } else {
+                                                            // Handle the case when divisor is zero, maybe return a default value or error message
+                                                            $progress = 0; // or handle it in another appropriate way
+                                                        }
                                                     }
 
 
@@ -3626,10 +3639,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                                                    <?php if ($visit['reasons']) {
-                                                                                                                                                                        print_r($visit['reasons']);
-                                                                                                                                                                    } ?>
-                                                                                                                                                                </textarea>
+                                                                                                                                                                            <?php if ($visit['reasons']) {
+                                                                                                                                                                                print_r($visit['reasons']);
+                                                                                                                                                                            } ?>
+                                                                                                                                                                        </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

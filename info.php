@@ -2965,11 +2965,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                                                 <?php
-                                                                                                                                                                 if ($enrollment['reasons']) {
-                                                                                                                                                                     print_r($enrollment['reasons']);
-                                                                                                                                                                 } ?>
-                                                                                                                                                                </textarea>
+                                                                                                                                                                                 <?php
+                                                                                                                                                                                 if ($enrollment['reasons']) {
+                                                                                                                                                                                     print_r($enrollment['reasons']);
+                                                                                                                                                                                 } ?>
+                                                                                                                                                                                </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3036,64 +3036,68 @@ if ($user->isLoggedIn()) {
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
+                                                                     <?php if ($_GET['id'] == 3) { ?>
+
                                 <?php
-                                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-                                    $currentSite = $_GET['site_id'];
-                                    // $pages = 10; // Total number of pages (replace with your actual calculation)
-                                    $range = 2; // Number of pages to show before and after the current page
-                                
-                                    // Calculate start and end for the visible range
-                                    $start = max(1, $currentPage - $range);
-                                    $end = min($pages, $currentPage + $range);
-                                    ?>
-                                    <div class="card-footer clearfix">
-                                        <ul class="pagination pagination-sm m-0 float-right">
-                                            <!-- Previous Page -->
-                                            <li class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
+                                $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                $currentSite = $_GET['site_id'];
+                                // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                $range = 2; // Number of pages to show before and after the current page
+                            
+                                // Calculate start and end for the visible range
+                                $start = max(1, $currentPage - $range);
+                                $end = min($pages, $currentPage + $range);
+                                ?>
+                                <div class="card-footer clearfix">
+                                    <ul class="pagination pagination-sm m-0 float-right">
+                                        <!-- Previous Page -->
+                                        <li class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
+                                            <a class="page-link"
+                                                href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                        </li>
+
+                                        <!-- First Page (if outside the range) -->
+                                        <?php if ($start > 1): ?>
+                                            <li class="page-item">
                                                 <a class="page-link"
-                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
+                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=1">1</a>
                                             </li>
-
-                                            <!-- First Page (if outside the range) -->
-                                            <?php if ($start > 1): ?>
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=1">1</a>
-                                                </li>
-                                                <?php if ($start > 2): ?>
-                                                    <li class="page-item disabled">
-                                                        <span class="page-link">...</span>
-                                                    </li>
-                                                <?php endif; ?>
-                                            <?php endif; ?>
-
-                                            <!-- Visible Page Links -->
-                                            <?php for ($i = $start; $i <= $end; $i++): ?>
-                                                <li class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
-                                                    <a class="page-link"
-                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                                </li>
-                                            <?php endfor; ?>
-
-                                            <!-- Last Page (if outside the range) -->
-                                            <?php if ($end < $pages): ?>
-                                                <?php if ($end < $pages - 1): ?>
-                                                    <li class="page-item disabled">
-                                                        <span class="page-link">...</span>
-                                                    </li>
-                                                <?php endif; ?>
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                            <?php if ($start > 2): ?>
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">...</span>
                                                 </li>
                                             <?php endif; ?>
-                                            <!-- Next Page -->
-                                            <li class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
+                                        <?php endif; ?>
+
+                                        <!-- Visible Page Links -->
+                                        <?php for ($i = $start; $i <= $end; $i++): ?>
+                                            <li class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
                                                 <a class="page-link"
-                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                                             </li>
-                                        </ul>
-                                    </div>
+                                        <?php endfor; ?>
+
+                                        <!-- Last Page (if outside the range) -->
+                                        <?php if ($end < $pages): ?>
+                                            <?php if ($end < $pages - 1): ?>
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">...</span>
+                                                </li>
+                                            <?php endif; ?>
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
+                                            </li>
+                                        <?php endif; ?>
+                                        <!-- Next Page -->
+                                        <li class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
+                                            <a class="page-link"
+                                                href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                  <?php 
+                                            } ?>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -3203,7 +3207,7 @@ if ($user->isLoggedIn()) {
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>Visit Day</th>
@@ -3668,10 +3672,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                                                            <?php if ($visit['reasons']) {
-                                                                                                                                                                                print_r($visit['reasons']);
-                                                                                                                                                                            } ?>
-                                                                                                                                                                        </textarea>
+                                                                                                                                                                                            <?php if ($visit['reasons']) {
+                                                                                                                                                                                                print_r($visit['reasons']);
+                                                                                                                                                                                            } ?>
+                                                                                                                                                                                        </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -3794,64 +3798,76 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
-                                    <?php
+                                    <?php if ($_GET['id'] == 4) { ?>
+                                        <?php
                                         $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
                                         $currentSite = $_GET['site_id'];
+
+                                        $pagNum = 0;
+                                        $pagNum = $override->getCount1('visit', 'status', 1, 'client_id', $_GET['cid']);
+
+                                        $pages = ceil($pagNum / $numRec);
+                                        // if (!$_GET['page'] || $_GET['page'] == 1) {
+                                        //     $page = 0;
+                                        // } else {
+                                        //     $page = ($_GET['page'] * $numRec) - $numRec;
+                                        // }
                                         // $pages = 10; // Total number of pages (replace with your actual calculation)
                                         $range = 2; // Number of pages to show before and after the current page
-                                    
+                                
                                         // Calculate start and end for the visible range
                                         $start = max(1, $currentPage - $range);
                                         $end = min($pages, $currentPage + $range);
                                         ?>
-                                    <div class="card-footer clearfix">
-                                        <ul class="pagination pagination-sm m-0 float-right">
-                                            <!-- Previous Page -->
-                                            <li class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
-                                                <a class="page-link"
-                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
-                                            </li>
-                                    
-                                            <!-- First Page (if outside the range) -->
-                                            <?php if ($start > 1): ?>
-                                                <li class="page-item">
+                                        <div class="card-footer clearfix">
+                                            <ul class="pagination pagination-sm m-0 float-right">
+                                                <!-- Previous Page -->
+                                                <li class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
                                                     <a class="page-link"
-                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
                                                 </li>
-                                                <?php if ($start > 2): ?>
-                                                    <li class="page-item disabled">
-                                                        <span class="page-link">...</span>
+
+                                                <!-- First Page (if outside the range) -->
+                                                <?php if ($start > 1): ?>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                            href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                    </li>
+                                                    <?php if ($start > 2): ?>
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+
+                                                <!-- Visible Page Links -->
+                                                <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                    <li class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                        <a class="page-link"
+                                                            href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                    </li>
+                                                <?php endfor; ?>
+
+                                                <!-- Last Page (if outside the range) -->
+                                                <?php if ($end < $pages): ?>
+                                                    <?php if ($end < $pages - 1): ?>
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                            href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
                                                     </li>
                                                 <?php endif; ?>
-                                            <?php endif; ?>
-                                    
-                                            <!-- Visible Page Links -->
-                                            <?php for ($i = $start; $i <= $end; $i++): ?>
-                                                <li class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                <!-- Next Page -->
+                                                <li class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
                                                     <a class="page-link"
-                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
                                                 </li>
-                                            <?php endfor; ?>
-                                    
-                                            <!-- Last Page (if outside the range) -->
-                                            <?php if ($end < $pages): ?>
-                                                <?php if ($end < $pages - 1): ?>
-                                                    <li class="page-item disabled">
-                                                        <span class="page-link">...</span>
-                                                    </li>
-                                                <?php endif; ?>
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <!-- Next Page -->
-                                            <li class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
-                                                <a class="page-link"
-                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                            </ul>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                                 <!-- /.card -->
                             </div>

@@ -3055,16 +3055,12 @@ if ($user->isLoggedIn()) {
                                                 </div>
                                                 <?php $x++;
                                             }
-
-
-                                            // }
                                             ?>
 
                                         </tbody>
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
-                                <?php if ($_GET['id'] == 3) { ?>
                                     <div class="card-footer clearfix">
                                         <ul class="pagination pagination-sm m-0 float-right">
                                             <!-- Previous Page -->
@@ -3113,8 +3109,6 @@ if ($user->isLoggedIn()) {
                                             </li>
                                         </ul>
                                     </div>
-                                    <?php
-                                } ?>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -3836,7 +3830,6 @@ if ($user->isLoggedIn()) {
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
-                                    <?php if ($_GET['id'] == 4) { ?>
                                         <div class="card-footer clearfix">
                                             <ul class="pagination pagination-sm m-0 float-right">
                                                 <!-- Previous Page -->
@@ -3885,7 +3878,6 @@ if ($user->isLoggedIn()) {
                                                 </li>
                                             </ul>
                                         </div>
-                                    <?php } ?>
                                 </div>
                                 <!-- /.card -->
                             </div>

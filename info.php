@@ -2177,6 +2177,7 @@ if ($user->isLoggedIn()) {
                                     <table id="search-results" class="table table-bordered">
                                         <thead>
                                             <tr>
+                                                                                                <th>No.</th>
                                                 <th>Registered Date</th>
                                                 <th>Patient ID</th>
                                                 <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
@@ -2214,7 +2215,7 @@ if ($user->isLoggedIn()) {
                                                 $summary = $override->get3('summary', 'status', 1, 'patient_id', $client['id'], 'visit_type', 5)[0];
                                                 $schedule = $override->get('schedule', 'id', $summary['visit_type'])[0];
 
-                                                $category = 0;
+                                                $category = 1;
 
                                                 if ($type['cardiac'] == 1) {
                                                     $category = $override->countData('cardiac', 'patient_id', $client['id'], 'status', 1);
@@ -2223,7 +2224,7 @@ if ($user->isLoggedIn()) {
                                                 } elseif ($type['sickle_cell'] == 1) {
                                                     $category = $override->countData('sickle_cell', 'patient_id', $client['id'], 'status', 1);
                                                 } else {
-                                                    $category = 0;
+                                                    $category = 1;
                                                 }
 
 
@@ -2242,10 +2243,10 @@ if ($user->isLoggedIn()) {
                                                 $summary = $override->countData('summary', 'patient_id', $client['id'], 'status', 1);
                                                 $social_economic = $override->countData('social_economic', 'patient_id', $client['id'], 'status', 1);
 
-                                                $Total_visit_available = 0;
-                                                $Total_CRF_available = 0;
-                                                $Total_CRF_required = 0;
-                                                $progress = 0;
+                                                $Total_visit_available = 1;
+                                                $Total_CRF_available = 1;
+                                                $Total_CRF_required = 1;
+                                                $progress = 1;
 
                                                 $Total_visit_available1 = intval($override->getCount0('visit', 'client_id', $client['id'], 'seq_no', 1));
                                                 $Total_visit_available2 = intval($override->getCountStatus('visit', 'client_id', $client['id'], 'seq_no', 1, 'visit_status', 1));
@@ -2259,11 +2260,11 @@ if ($user->isLoggedIn()) {
 
 
                                                 if ($Total_visit_available1 < 1) {
-                                                    $Total_visit_available = 0;
-                                                    $Total_CRF_available = 0;
-                                                    $Total_CRF_available1 = 0;
-                                                    $Total_CRF_available2 = 0;
-                                                    $Total_CRF_required = 0;
+                                                    $Total_visit_available = 1;
+                                                    $Total_CRF_available = 1;
+                                                    $Total_CRF_available1 = 1;
+                                                    $Total_CRF_available2 = 1;
+                                                    $Total_CRF_required = 1;
                                                 } elseif ($Total_visit_available1 == 1) {
                                                     foreach ($All_visits as $visit_day) {
 
@@ -2409,6 +2410,7 @@ if ($user->isLoggedIn()) {
                                                 }
                                                 ?>
                                                 <tr>
+                                                                                                        <td><?= $x ?></td>
                                                     <td><?= $client['clinic_date'] ?></td>
                                                     <td><?= $client['study_id'] ?></td>
                                                     <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
@@ -2965,11 +2967,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                                                                 <?php
-                                                                                                                                                                                 if ($enrollment['reasons']) {
-                                                                                                                                                                                     print_r($enrollment['reasons']);
-                                                                                                                                                                                 } ?>
-                                                                                                                                                                                </textarea>
+                                                                                                                                                                                         <?php
+                                                                                                                                                                                         if ($enrollment['reasons']) {
+                                                                                                                                                                                             print_r($enrollment['reasons']);
+                                                                                                                                                                                         } ?>
+                                                                                                                                                                                        </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3036,68 +3038,68 @@ if ($user->isLoggedIn()) {
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
-                                                                     <?php if ($_GET['id'] == 3) { ?>
+                                <?php if ($_GET['id'] == 3) { ?>
 
-                                <?php
-                                $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-                                $currentSite = $_GET['site_id'];
-                                // $pages = 10; // Total number of pages (replace with your actual calculation)
-                                $range = 2; // Number of pages to show before and after the current page
+                                    <?php
+                                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                    $currentSite = $_GET['site_id'];
+                                    // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                    $range = 2; // Number of pages to show before and after the current page
                             
-                                // Calculate start and end for the visible range
-                                $start = max(1, $currentPage - $range);
-                                $end = min($pages, $currentPage + $range);
-                                ?>
-                                <div class="card-footer clearfix">
-                                    <ul class="pagination pagination-sm m-0 float-right">
-                                        <!-- Previous Page -->
-                                        <li class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
-                                            <a class="page-link"
-                                                href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
-                                        </li>
-
-                                        <!-- First Page (if outside the range) -->
-                                        <?php if ($start > 1): ?>
-                                            <li class="page-item">
+                                    // Calculate start and end for the visible range
+                                    $start = max(1, $currentPage - $range);
+                                    $end = min($pages, $currentPage + $range);
+                                    ?>
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-right">
+                                            <!-- Previous Page -->
+                                            <li class="page-item <?php echo ($currentPage <= 1) ? 'disabled' : ''; ?>">
                                                 <a class="page-link"
-                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo max($currentPage - 1, 1); ?>">&laquo;</a>
                                             </li>
-                                            <?php if ($start > 2): ?>
-                                                <li class="page-item disabled">
-                                                    <span class="page-link">...</span>
+
+                                            <!-- First Page (if outside the range) -->
+                                            <?php if ($start > 1): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link"
+                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=1">1</a>
+                                                </li>
+                                                <?php if ($start > 2): ?>
+                                                    <li class="page-item disabled">
+                                                        <span class="page-link">...</span>
+                                                    </li>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+
+                                            <!-- Visible Page Links -->
+                                            <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                <li class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                                    <a class="page-link"
+                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+
+                                            <!-- Last Page (if outside the range) -->
+                                            <?php if ($end < $pages): ?>
+                                                <?php if ($end < $pages - 1): ?>
+                                                    <li class="page-item disabled">
+                                                        <span class="page-link">...</span>
+                                                    </li>
+                                                <?php endif; ?>
+                                                <li class="page-item">
+                                                    <a class="page-link"
+                                                        href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
                                                 </li>
                                             <?php endif; ?>
-                                        <?php endif; ?>
-
-                                        <!-- Visible Page Links -->
-                                        <?php for ($i = $start; $i <= $end; $i++): ?>
-                                            <li class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
+                                            <!-- Next Page -->
+                                            <li class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
                                                 <a class="page-link"
-                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
                                             </li>
-                                        <?php endfor; ?>
-
-                                        <!-- Last Page (if outside the range) -->
-                                        <?php if ($end < $pages): ?>
-                                            <?php if ($end < $pages - 1): ?>
-                                                <li class="page-item disabled">
-                                                    <span class="page-link">...</span>
-                                                </li>
-                                            <?php endif; ?>
-                                            <li class="page-item">
-                                                <a class="page-link"
-                                                    href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo $pages; ?>"><?php echo $pages; ?></a>
-                                            </li>
-                                        <?php endif; ?>
-                                        <!-- Next Page -->
-                                        <li class="page-item <?php echo ($currentPage >= $pages) ? 'disabled' : ''; ?>">
-                                            <a class="page-link"
-                                                href="info.php?id=<?= $_GET['id']; ?>&status=<?= $_GET['status']; ?>&site_id=<?= $currentSite; ?>&page=<?php echo min($currentPage + 1, $pages); ?>">&raquo;</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                  <?php 
-                                            } ?>
+                                        </ul>
+                                    </div>
+                                <?php
+                                } ?>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -3210,6 +3212,7 @@ if ($user->isLoggedIn()) {
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
+                                                                                                                                                            <th>No.</th>
                                                     <th>Visit Day</th>
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>
@@ -3346,6 +3349,7 @@ if ($user->isLoggedIn()) {
 
                                                     ?>
                                                     <tr>
+                                                        <td> <?= $x ?></td>
                                                         <td>
                                                             <?= $visit['visit_day'] ?><br>
                                                             <?php if ($visit['seq_no'] == -1) {
@@ -3387,46 +3391,46 @@ if ($user->isLoggedIn()) {
                                                                             <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>"
                                                                                 role=" button" class="btn btn-info"> View Study Forms </a>
                                                                         <?php } ?>
-                                                                        <?php 
+                                                                        <?php
                                                                         // if ($user->data()->power == 1 || $user->data()->accessLevel == 1) {
-                                                                             ?>
-                                                                            <hr>
-                                                                            <?php if ($progress == 100) { ?>
-                                                                                <span class="badge badge-primary right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-primary right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } elseif ($progress > 100) { ?>
-                                                                                <span class="badge badge-warning right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-warning right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
-                                                                                <span class="badge badge-info right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-info right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
-                                                                                <span class="badge badge-secondary right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-secondary right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } elseif ($progress < 50) { ?>
-                                                                                <span class="badge badge-danger right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-danger right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } ?>
+                                                                        ?>
+                                                                        <hr>
+                                                                        <?php if ($progress == 100) { ?>
+                                                                            <span class="badge badge-primary right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-primary right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } elseif ($progress > 100) { ?>
+                                                                            <span class="badge badge-warning right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-warning right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                            <span class="badge badge-info right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-info right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                            <span class="badge badge-secondary right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-secondary right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } elseif ($progress < 50) { ?>
+                                                                            <span class="badge badge-danger right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-danger right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } ?>
                                                                         <?php
                                                                         //  }
                                                                         ?>
@@ -3441,44 +3445,44 @@ if ($user->isLoggedIn()) {
                                                                         <?php } ?>
                                                                         <?php
                                                                         //  if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { 
-                                                                            ?>
-                                                                            <hr>
-                                                                            <?php if ($progress == 100) { ?>
-                                                                                <span class="badge badge-primary right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-primary right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } elseif ($progress > 100) { ?>
-                                                                                <span class="badge badge-warning right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-warning right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } elseif ($progress >= 80 && $progress < 100) { ?>
-                                                                                <span class="badge badge-info right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-info right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } elseif ($progress >= 50 && $progress < 80) { ?>
-                                                                                <span class="badge badge-secondary right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-secondary right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } elseif ($progress < 50) { ?>
-                                                                                <span class="badge badge-danger right">
-                                                                                    <?= $total_available ?> out of <?= $total_required ?>
-                                                                                </span>
-                                                                                <span class="badge badge-danger right">
-                                                                                    <?= $progress ?>%
-                                                                                </span>
-                                                                            <?php } ?>
+                                                                        ?>
+                                                                        <hr>
+                                                                        <?php if ($progress == 100) { ?>
+                                                                            <span class="badge badge-primary right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-primary right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } elseif ($progress > 100) { ?>
+                                                                            <span class="badge badge-warning right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-warning right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } elseif ($progress >= 80 && $progress < 100) { ?>
+                                                                            <span class="badge badge-info right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-info right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } elseif ($progress >= 50 && $progress < 80) { ?>
+                                                                            <span class="badge badge-secondary right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-secondary right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } elseif ($progress < 50) { ?>
+                                                                            <span class="badge badge-danger right">
+                                                                                <?= $total_available ?> out of <?= $total_required ?>
+                                                                            </span>
+                                                                            <span class="badge badge-danger right">
+                                                                                <?= $progress ?>%
+                                                                            </span>
+                                                                        <?php } ?>
                                                                         <?php
                                                                         //  }
                                                                         ?>
@@ -3678,10 +3682,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                                                                            <?php if ($visit['reasons']) {
-                                                                                                                                                                                                print_r($visit['reasons']);
-                                                                                                                                                                                            } ?>
-                                                                                                                                                                                        </textarea>
+                                                                                                                                                                                                    <?php if ($visit['reasons']) {
+                                                                                                                                                                                                        print_r($visit['reasons']);
+                                                                                                                                                                                                    } ?>
+                                                                                                                                                                                                </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -3794,6 +3798,7 @@ if ($user->isLoggedIn()) {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                                                                        <th>No.</th>
                                                     <th>Visit Day</th>
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>

@@ -9,7 +9,7 @@ $successMessage = null;
 $pageError = null;
 $errorMessage = null;
 
-$numRec = 5;
+$numRec = 7;
 if ($user->isLoggedIn()) {
     if (Input::exists('post')) {
         $validate = new validate();
@@ -1824,7 +1824,7 @@ if ($user->isLoggedIn()) {
                                 <?php
                                 if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) {
                                     if ($_GET['site_id'] != null) {
-                                        $pagNum = 0;
+                                        $pagNum = 1;
                                         if ($_GET['status'] == 1) {
                                             $pagNum = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $_GET['site_id']);
                                         } elseif ($_GET['status'] == 2) {
@@ -1908,7 +1908,7 @@ if ($user->isLoggedIn()) {
                                         }
                                     } else {
 
-                                        $pagNum = 0;
+                                        $pagNum = 1;
                                         if ($_GET['status'] == 1) {
                                             $pagNum = $override->getCount1('clients', 'status', 1, 'screened', 1);
                                         } elseif ($_GET['status'] == 2) {
@@ -1992,7 +1992,7 @@ if ($user->isLoggedIn()) {
                                         }
                                     }
                                 } else {
-                                    $pagNum = 0;
+                                    $pagNum = 1;
                                     if ($_GET['status'] == 1) {
                                         $pagNum = $override->countData2('clients', 'status', 1, 'screened', 1, 'site_id', $user->data()->site_id);
                                     } elseif ($_GET['status'] == 2) {
@@ -3244,7 +3244,7 @@ if ($user->isLoggedIn()) {
 
 
 
-                                                    $category = 0;
+                                                    $category = 1;
 
                                                     if ($diagnosis[0]['cardiac'] == 1) {
                                                         $category = $override->countData1('cardiac', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
@@ -3253,7 +3253,7 @@ if ($user->isLoggedIn()) {
                                                     } elseif ($diagnosis[0]['sickle_cell'] == 1) {
                                                         $category = $override->countData('sickle_cell', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
                                                     } else {
-                                                        $category = 0;
+                                                        $category = 1;
                                                     }
 
 
@@ -3273,7 +3273,7 @@ if ($user->isLoggedIn()) {
                                                     $social_economic1 = $override->countData1('social_economic', 'patient_id', $visit['client_id'], 'status', 1, 'seq_no', $visit['seq_no']);
 
 
-                                                    $total_required = 0;
+                                                    $total_required = 1;
 
                                                     if ($visit['seq_no'] == 1) {
                                                         $total_required = 15;
@@ -3293,15 +3293,15 @@ if ($user->isLoggedIn()) {
                                                             $total_available = intval($summary1);
                                                             $total_required = 1;
                                                         } elseif ($visit['visit_status'] == 0 && $visit['expected_date'] > date('Y-m-d')) {
-                                                            $total_available = 0;
-                                                            $total_required = 0;
+                                                            $total_available = 1;
+                                                            $total_required = 1;
                                                         }
 
                                                         if ($total_required != 0) {
                                                             $progress = intval((intval($total_available) / $total_required) * 100);
                                                         } else {
                                                             // Handle the case when divisor is zero, maybe return a default value or error message
-                                                            $progress = 0; // or handle it in another appropriate way
+                                                            $progress = 1; // or handle it in another appropriate way
                                                         }
 
 
@@ -3323,15 +3323,15 @@ if ($user->isLoggedIn()) {
                                                             $total_available = intval($summary1);
                                                             $total_required = 1;
                                                         } elseif ($visit['visit_status'] == 0 && $visit['expected_date'] > date('Y-m-d')) {
-                                                            $total_available = 0;
-                                                            $total_required = 0;
+                                                            $total_available = 1;
+                                                            $total_required = 1;
                                                         }
 
                                                         if ($total_required != 0) {
                                                             $progress = intval((intval($total_available) / $total_required) * 100);
                                                         } else {
                                                             // Handle the case when divisor is zero, maybe return a default value or error message
-                                                            $progress = 0; // or handle it in another appropriate way
+                                                            $progress = 1; // or handle it in another appropriate way
                                                         }
                                                     }
 
@@ -3387,7 +3387,9 @@ if ($user->isLoggedIn()) {
                                                                             <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>"
                                                                                 role=" button" class="btn btn-info"> View Study Forms </a>
                                                                         <?php } ?>
-                                                                        <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                        <?php 
+                                                                        // if ($user->data()->power == 1 || $user->data()->accessLevel == 1) {
+                                                                             ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
                                                                                 <span class="badge badge-primary right">
@@ -3425,7 +3427,8 @@ if ($user->isLoggedIn()) {
                                                                                     <?= $progress ?>%
                                                                                 </span>
                                                                             <?php } ?>
-                                                                        <?php }
+                                                                        <?php
+                                                                         }/
                                                                         ?>
 
                                                                     <?php } else { ?>

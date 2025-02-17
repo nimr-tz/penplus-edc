@@ -2177,7 +2177,7 @@ if ($user->isLoggedIn()) {
                                     <table id="search-results" class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                                                                <th>No.</th>
+                                                <th>No.</th>
                                                 <th>Registered Date</th>
                                                 <th>Patient ID</th>
                                                 <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
@@ -2204,6 +2204,30 @@ if ($user->isLoggedIn()) {
                                         </thead>
                                         <tbody>
                                             <?php
+
+                                            $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                            $currentSite = $_GET['site_id'];
+                                            // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                            $range = 2; // Number of pages to show before and after the current page
+                                        
+                                            // Calculate start and end for the visible range
+                                            $start = max(1, $currentPage - $range);
+                                            $end = min($pages, $currentPage + $range);
+
+
+                                            // Example: Generating the table rows with the correct "No."
+// for ($i = 0; $i < $itemsPerPage; $i++) {
+//     $no = $startNumber + $i;
+//     // Your table row code here, use $no as the row number
+//     echo "<tr><td>$no</td><td>Other data</td></tr>";
+// }
+                                        
+                                            // for ($i = 0; $i < $numRec; $i++) {
+//     $no = $startNumber + $i;
+                                            // Your table row code here, use $no as the row number
+                                            // echo "<tr><td>$no</td><td>Other data</td></tr>";
+                                        
+
                                             $x = 1;
                                             foreach ($clients as $client) {
                                                 $screening = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
@@ -2410,7 +2434,14 @@ if ($user->isLoggedIn()) {
                                                 }
                                                 ?>
                                                 <tr>
-                                                                                                        <td><?= $x ?></td>
+                                                    <?php
+                                                    // for ($i = 0; $i < $numRec; $i++) {
+                                                    // $no = $startNumber + $i;
+                                                    ?>
+                                                    <td><?= $x ?></td>
+                                                    <?php
+                                                    //  } 
+                                                    ?>
                                                     <td><?= $client['clinic_date'] ?></td>
                                                     <td><?= $client['study_id'] ?></td>
                                                     <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
@@ -2967,11 +2998,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                                                                         <?php
-                                                                                                                                                                                         if ($enrollment['reasons']) {
-                                                                                                                                                                                             print_r($enrollment['reasons']);
-                                                                                                                                                                                         } ?>
-                                                                                                                                                                                        </textarea>
+                                                                                                                                                                                                 <?php
+                                                                                                                                                                                                 if ($enrollment['reasons']) {
+                                                                                                                                                                                                     print_r($enrollment['reasons']);
+                                                                                                                                                                                                 } ?>
+                                                                                                                                                                                                </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3033,7 +3064,12 @@ if ($user->isLoggedIn()) {
                                                     </div>
                                                 </div>
                                                 <?php $x++;
-                                            } ?>
+                                            }
+
+
+                                            // }
+                                            ?>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -3041,14 +3077,14 @@ if ($user->isLoggedIn()) {
                                 <?php if ($_GET['id'] == 3) { ?>
 
                                     <?php
-                                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-                                    $currentSite = $_GET['site_id'];
-                                    // $pages = 10; // Total number of pages (replace with your actual calculation)
-                                    $range = 2; // Number of pages to show before and after the current page
+                                    // $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                    // $currentSite = $_GET['site_id'];
+                                    // // $pages = 10; // Total number of pages (replace with your actual calculation)
+                                    // $range = 2; // Number of pages to show before and after the current page
                             
-                                    // Calculate start and end for the visible range
-                                    $start = max(1, $currentPage - $range);
-                                    $end = min($pages, $currentPage + $range);
+                                    // // Calculate start and end for the visible range
+                                    // $start = max(1, $currentPage - $range);
+                                    // $end = min($pages, $currentPage + $range);
                                     ?>
                                     <div class="card-footer clearfix">
                                         <ul class="pagination pagination-sm m-0 float-right">
@@ -3098,7 +3134,7 @@ if ($user->isLoggedIn()) {
                                             </li>
                                         </ul>
                                     </div>
-                                <?php
+                                    <?php
                                 } ?>
                             </div>
                             <!-- /.col -->
@@ -3212,7 +3248,7 @@ if ($user->isLoggedIn()) {
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                                                                                                                            <th>No.</th>
+                                                    <th>No.</th>
                                                     <th>Visit Day</th>
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>
@@ -3682,10 +3718,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                                                                                    <?php if ($visit['reasons']) {
-                                                                                                                                                                                                        print_r($visit['reasons']);
-                                                                                                                                                                                                    } ?>
-                                                                                                                                                                                                </textarea>
+                                                                                                                                                                                                            <?php if ($visit['reasons']) {
+                                                                                                                                                                                                                print_r($visit['reasons']);
+                                                                                                                                                                                                            } ?>
+                                                                                                                                                                                                        </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -3798,7 +3834,7 @@ if ($user->isLoggedIn()) {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                                                                        <th>No.</th>
+                                                    <th>No.</th>
                                                     <th>Visit Day</th>
                                                     <th>Expected Date</th>
                                                     <th>Visit Date</th>

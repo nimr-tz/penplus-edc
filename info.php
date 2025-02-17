@@ -2204,31 +2204,21 @@ if ($user->isLoggedIn()) {
                                         </thead>
                                         <tbody>
                                             <?php
-
                                             $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
                                             $currentSite = $_GET['site_id'];
-                                            // $pages = 10; // Total number of pages (replace with your actual calculation)
-                                            $range = 2; // Number of pages to show before and after the current page
+                                            $itemsPerPage = $numRec; // Set this to the number of records you display per page
                                         
-                                            // Calculate start and end for the visible range
+                                            // Calculate the starting number for the current page
+                                            $startNumber = ($currentPage - 1) * $itemsPerPage + 1;
+
+                                            // Pagination range
+                                            $range = 2;
                                             $start = max(1, $currentPage - $range);
                                             $end = min($pages, $currentPage + $range);
 
+                                            // Initialize $x using $startNumber
+                                            $x = $startNumber;
 
-                                            // Example: Generating the table rows with the correct "No."
-// for ($i = 0; $i < $itemsPerPage; $i++) {
-//     $no = $startNumber + $i;
-//     // Your table row code here, use $no as the row number
-//     echo "<tr><td>$no</td><td>Other data</td></tr>";
-// }
-                                        
-                                            // for ($i = 0; $i < $numRec; $i++) {
-//     $no = $startNumber + $i;
-                                            // Your table row code here, use $no as the row number
-                                            // echo "<tr><td>$no</td><td>Other data</td></tr>";
-                                        
-
-                                            $x = 1;
                                             foreach ($clients as $client) {
                                                 $screening = $override->getNews('screening', 'status', 1, 'patient_id', $client['id'])[0];
                                                 $visit = $override->getCount('visit', 'client_id', $client['id']);
@@ -2998,11 +2988,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                                                                                 <?php
-                                                                                                                                                                                                 if ($enrollment['reasons']) {
-                                                                                                                                                                                                     print_r($enrollment['reasons']);
-                                                                                                                                                                                                 } ?>
-                                                                                                                                                                                                </textarea>
+                                                                                                                                                                                                         <?php
+                                                                                                                                                                                                         if ($enrollment['reasons']) {
+                                                                                                                                                                                                             print_r($enrollment['reasons']);
+                                                                                                                                                                                                         } ?>
+                                                                                                                                                                                                        </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3075,17 +3065,6 @@ if ($user->isLoggedIn()) {
                                 </div>
                                 <!-- /.card-body -->
                                 <?php if ($_GET['id'] == 3) { ?>
-
-                                    <?php
-                                    // $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-                                    // $currentSite = $_GET['site_id'];
-                                    // // $pages = 10; // Total number of pages (replace with your actual calculation)
-                                    // $range = 2; // Number of pages to show before and after the current page
-                            
-                                    // // Calculate start and end for the visible range
-                                    // $start = max(1, $currentPage - $range);
-                                    // $end = min($pages, $currentPage + $range);
-                                    ?>
                                     <div class="card-footer clearfix">
                                         <ul class="pagination pagination-sm m-0 float-right">
                                             <!-- Previous Page -->
@@ -3257,11 +3236,23 @@ if ($user->isLoggedIn()) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $x = 1;
-                                                $datas = $override->getNewsAsc022('visit', 'status', 1, 'client_id', $_GET['cid'], 'seq_no');
-                                                //   $datas = sort($datas[0]);
+                                                <?php
+                                                $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                                $currentSite = $_GET['site_id'];
+                                                $itemsPerPage = $numRec; // Set this to the number of records you display per page
                                             
-                                                //                                         print_r($datas);
+                                                // Calculate the starting number for the current page
+                                                $startNumber = ($currentPage - 1) * $itemsPerPage + 1;
+
+                                                // Pagination range
+                                                $range = 2;
+                                                $start = max(1, $currentPage - $range);
+                                                $end = min($pages, $currentPage + $range);
+
+                                                // Initialize $x using $startNumber
+                                                $x = $startNumber;
+
+                                                $datas = $override->getNewsAsc022('visit', 'status', 1, 'client_id', $_GET['cid'], 'seq_no');
                                                 foreach ($datas as $visit) {
                                                     $clnt = $override->get('clients', 'id', $_GET['cid'])[0];
                                                     $cntV = $override->getCount('visit', 'client_id', $visit['client_id']);
@@ -3718,10 +3709,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                                                                                            <?php if ($visit['reasons']) {
-                                                                                                                                                                                                                print_r($visit['reasons']);
-                                                                                                                                                                                                            } ?>
-                                                                                                                                                                                                        </textarea>
+                                                                                                                                                                                                                    <?php if ($visit['reasons']) {
+                                                                                                                                                                                                                        print_r($visit['reasons']);
+                                                                                                                                                                                                                    } ?>
+                                                                                                                                                                                                                </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -3846,26 +3837,6 @@ if ($user->isLoggedIn()) {
                                     </div>
                                     <!-- /.card-body -->
                                     <?php if ($_GET['id'] == 4) { ?>
-                                        <?php
-                                        $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-                                        $currentSite = $_GET['site_id'];
-
-                                        $pagNum = 0;
-                                        $pagNum = $override->getCount1('visit', 'status', 1, 'client_id', $_GET['cid']);
-
-                                        $pages = ceil($pagNum / $numRec);
-                                        // if (!$_GET['page'] || $_GET['page'] == 1) {
-                                        //     $page = 0;
-                                        // } else {
-                                        //     $page = ($_GET['page'] * $numRec) - $numRec;
-                                        // }
-                                        // $pages = 10; // Total number of pages (replace with your actual calculation)
-                                        $range = 2; // Number of pages to show before and after the current page
-                                
-                                        // Calculate start and end for the visible range
-                                        $start = max(1, $currentPage - $range);
-                                        $end = min($pages, $currentPage + $range);
-                                        ?>
                                         <div class="card-footer clearfix">
                                             <ul class="pagination pagination-sm m-0 float-right">
                                                 <!-- Previous Page -->

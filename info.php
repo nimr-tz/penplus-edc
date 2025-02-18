@@ -2208,8 +2208,9 @@ if ($user->isLoggedIn()) {
                                                 </th>
 
                                                 <?php if ($_GET['status'] == 4) { ?>
-                                                    <th class="text-center"> Reason </th>
-                                                    <th>Comments </th>
+                                                    <th class="text-center"> Reason /
+                                                        <hr> Comments
+                                                    </th>
                                                 <?php } else { ?>
                                                     <th class="text-center">Action ( Progress )</th>
                                                 <?php } ?>
@@ -2483,39 +2484,11 @@ if ($user->isLoggedIn()) {
                                                         } ?>
 
                                                         <?php if ($_GET['status'] == 4) { ?>
-                                                            <?php if ($client['end_study'] == 1) { ?>
-                                                                <a href="#" class="btn btn-danger">Terminated</a>
 
-                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3"
-                                                                    class="btn btn-info"><?= $summary['name'] ?></a>
 
-                                                                <!-- <?php if ($termination == 1) { ?>
-                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">On Treatment</a>
-                                                            <?php } elseif ($termination == '2') { ?>
-
-                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Default</a>
-                                                            <?php
-                                                                } elseif ($termination == 3) { ?>
-                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Stop treatment</a>
-                                                            <?php
-                                                                } elseif ($termination == 4) { ?>
-                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Trnasfer Out</a>
-                                                            <?php
-                                                                } elseif ($termination == 5) { ?>
-                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Death</a>
-                                                            <?php
-                                                                } else { ?>
-                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Other</a>
-                                                            <?php
-                                                                } ?> -->
-
-                                                            <?php } else { ?>
-                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3"
-                                                                    class="btn btn-success">ACTIVE</a>
-                                                            <?php } ?>
-                                                            <?= $summary['comments'] . ' , ' . $summary['remarks'] ?>
-
-                                                        <?php } ?>
+                                                            <a href="#" class="btn btn-danger">Terminated</a>
+                                                        <?php
+                                                        } ?>
 
 
                                                         <?php if ($_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
@@ -2548,6 +2521,41 @@ if ($user->isLoggedIn()) {
                                                         <?php } ?>
                                                     </td>
 
+
+                                                    <?php if ($_GET['status'] == 4) { ?>
+                                                        <td class="text-center">
+                                                            <?php if ($client['end_study'] == 1) { ?>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3"
+                                                                    class="btn btn-info"><?= $summary['name'] ?></a>
+
+                                                                <!-- <?php if ($termination == 1) { ?>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">On Treatment</a>
+                                                            <?php } elseif ($termination == '2') { ?>
+
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Default</a>
+                                                            <?php
+                                                                } elseif ($termination == 3) { ?>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Stop treatment</a>
+                                                            <?php
+                                                                } elseif ($termination == 4) { ?>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Trnasfer Out</a>
+                                                            <?php
+                                                                } elseif ($termination == 5) { ?>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Death</a>
+                                                            <?php
+                                                                } else { ?>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3" class="btn btn-info">Other</a>
+                                                            <?php
+                                                                } ?> -->
+
+                                                            <?php } else { ?>
+                                                                <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3"
+                                                                    class="btn btn-success">ACTIVE</a>
+                                                            <?php } ?>
+                                                            <?= $summary['comments'] . ' , ' . $summary['remarks'] ?>
+                                                        </td>
+
+                                                    <?php } ?>
 
 
                                                     <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
@@ -2982,11 +2990,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                                                                                                                                                 <?php
-                                                                                                                                                                                                                                                                 if ($enrollment['reasons']) {
-                                                                                                                                                                                                                                                                     print_r($enrollment['reasons']);
-                                                                                                                                                                                                                                                                 } ?>
-                                                                                                                                                                                                                                                                </textarea>
+                                                                                                                                                                                                                                                                         <?php
+                                                                                                                                                                                                                                                                         if ($enrollment['reasons']) {
+                                                                                                                                                                                                                                                                             print_r($enrollment['reasons']);
+                                                                                                                                                                                                                                                                         } ?>
+                                                                                                                                                                                                                                                                        </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3697,10 +3705,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                                                                                                                                                            <?php if ($visit['reasons']) {
-                                                                                                                                                                                                                                                                                print_r($visit['reasons']);
-                                                                                                                                                                                                                                                                            } ?>
-                                                                                                                                                                                                                                                                        </textarea>
+                                                                                                                                                                                                                                                                                    <?php if ($visit['reasons']) {
+                                                                                                                                                                                                                                                                                        print_r($visit['reasons']);
+                                                                                                                                                                                                                                                                                    } ?>
+                                                                                                                                                                                                                                                                                </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

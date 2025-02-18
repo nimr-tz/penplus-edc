@@ -2178,27 +2178,35 @@ if ($user->isLoggedIn()) {
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
-                                                <?php if ($_GTE['status'] == 5) { ?>
-                                                    <th>Registered Date</th>
-                                                <?php } elseif ($_GTE['status'] == 5) { ?>
-                                                    <th>Registered Date</th>
-                                                <?php } elseif ($_GTE['status'] == 5) { ?>
-                                                    <th>Registered Date</th>
-                                                <?php } elseif ($_GTE['status'] == 5) { ?>
-                                                    <th>Registered Date</th>
-                                                <?php } elseif ($_GTE['status'] == 5) { ?>
-                                                    <th>Registered Date</th>
+                                                <?php if ($_GET['status'] == 1 || $_GET['status'] == 2) { ?>
+                                                    <th>Screening Date</th>
+                                                <?php } elseif ($_GET['status'] == 3) { ?>
+                                                    <th>Enrollment Date</th>
+                                                <?php } elseif ($_GET['status'] == 4) { ?>
+                                                    <th>Termination Date</th>
+                                                <?php } elseif ($_GET['status'] == 5) { ?>
+                                                    <th>Recruitment Date</th>
                                                 <?php } ?>
-                                                <th>Patient ID</th>
-                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
-                                                    <th>Patient Name</th>
-                                                <?php } ?>
+                                                <th>
+                                                    Patient ID
+                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                        /
+                                                        <hr>
+                                                        Patient Name
+                                                    <?php } ?>
+                                                    </t>
 
-                                                <th>Type</th>
-                                                <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) { ?>
-                                                    <th>Site</th>
-                                                <?php } ?>
-                                                <th>Status</th>
+                                                <th>
+                                                    Status /
+                                                    <hr>
+                                                    Type
+                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) { ?>
+                                                        /
+                                                        <hr>
+                                                        Site
+                                                    <?php } ?>
+                                                </th>
+
                                                 <?php if ($_GET['status'] == 4) { ?>
                                                     <th class="text-center"> Reason </th>
                                                     <th>Comments </th>
@@ -2434,92 +2442,50 @@ if ($user->isLoggedIn()) {
                                                 }
                                                 ?>
                                                 <tr>
-                                                    <?php
-                                                    // for ($i = 0; $i < $numRec; $i++) {
-                                                    // $no = $startNumber + $i;
-                                                    ?>
                                                     <td><?= $x ?></td>
-                                                    <?php
-                                                    //  } 
-                                                    ?>
                                                     <td><?= $client['clinic_date'] ?></td>
-                                                    <td><?= $client['study_id'] ?></td>
-                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
-                                                        <td><?= $client['firstname'] . ' - ' . $client['middlename'] . ' - ' . $client['lastname'] ?>
-                                                        </td>
-                                                        <?php
-                                                    } ?>
+                                                    <td>
+                                                        <?= $client['study_id'] ?>
+                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>
+                                                            /
+                                                            <hr>
+                                                            <?= $client['firstname'] . ' - ' . $client['middlename'] . ' - ' . $client['lastname'] ?>
+                                                        <?php } ?>
+                                                    </td>
 
-                                                    <?php if ($type['cardiac'] == 1) { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-default">Cardiac</a>
-                                                        </td>
-                                                    <?php } elseif ($type['diabetes'] == 1) { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-info">Diabtes</a>
-                                                        </td>
-                                                    <?php } elseif ($type['sickle_cell'] == 1) { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-success">Sickle Cell</a>
-                                                        </td>
-                                                    <?php } else { ?>
-                                                        <td>
-                                                            <a href="#" class="btn btn-warning">Not Diagnosised</a>
-                                                        </td>
-                                                        <?php
-                                                    } ?>
+                                                    <td class="text-center">
 
-                                                    <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) { ?>
-                                                        <td><?= $site['name'] ?></td>
-                                                    <?php } ?>
-                                                    <?php if ($_GET['status'] == 1) { ?>
+                                                        <?php if ($_GET['status'] == 1) { ?>
 
-                                                        <?php if ($client['eligible'] == 1) { ?>
-                                                            <td class="text-center">
+                                                            <?php if ($client['eligible'] == 1) { ?>
                                                                 <a href="#" class="btn btn-success">Eligible</a>
-                                                            </td>
-                                                        <?php } else { ?>
-                                                            <td class="text-center">
+                                                            <?php } else { ?>
                                                                 <a href="#" class="btn btn-danger">Not Eligible</a>
-                                                            </td>
-                                                        <?php }
-                                                    } ?>
+                                                            <?php }
+                                                        } ?>
 
-                                                    <?php if ($_GET['status'] == 2) { ?>
+                                                        <?php if ($_GET['status'] == 2) { ?>
 
-                                                        <?php if ($client['enrolled'] == 1) { ?>
-                                                            <td class="text-center">
+                                                            <?php if ($client['enrolled'] == 1) { ?>
                                                                 <a href="#" class="btn btn-success">Enrolled</a>
-                                                            </td>
-                                                        <?php } else { ?>
-                                                            <td class="text-center">
+                                                            <?php } else { ?>
                                                                 <a href="#" class="btn btn-danger">Not Enrolled</a>
-                                                            </td>
-                                                        <?php }
-                                                    } ?>
+                                                            <?php }
+                                                        } ?>
 
-                                                    <?php if ($_GET['status'] == 3) { ?>
+                                                        <?php if ($_GET['status'] == 3) { ?>
 
-                                                        <?php if ($client['enrolled'] == 1) { ?>
-                                                            <td class="text-center">
+                                                            <?php if ($client['enrolled'] == 1) { ?>
                                                                 <a href="#" class="btn btn-success">Enrolled</a>
-                                                            </td>
-                                                        <?php } else { ?>
-                                                            <td class="text-center">
+                                                            <?php } else { ?>
                                                                 <a href="#" class="btn btn-danger">Not Enrolled</a>
-                                                            </td>
-                                                        <?php }
-                                                    } ?>
+                                                            <?php }
+                                                        } ?>
 
-
-
-                                                    <?php if ($_GET['status'] == 4) { ?>
-                                                        <td class="text-center">
+                                                        <?php if ($_GET['status'] == 4) { ?>
                                                             <?php if ($client['end_study'] == 1) { ?>
                                                                 <a href="#" class="btn btn-danger">Terminated</a>
-                                                            </td>
 
-                                                            <td class="text-center">
                                                                 <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3"
                                                                     class="btn btn-info"><?= $summary['name'] ?></a>
 
@@ -2546,25 +2512,43 @@ if ($user->isLoggedIn()) {
                                                             <?php } else { ?>
                                                                 <a href="add.php?id=22&cid=<?= $client['id'] ?>&vid=<?= $summary['vid'] ?>&vcode=<?= $summary['visit_code'] ?>&seq=<?= $summary['seq_no'] ?>&sid=<?= $summary['study_id'] ?>&vday=<?= $summary['visit_day'] ?>&status=3"
                                                                     class="btn btn-success">ACTIVE</a>
-                                                            </td>
+                                                            <?php } ?>
+                                                            <?= $summary['comments'] . ' , ' . $summary['remarks'] ?>
+
                                                         <?php } ?>
-                                                        <td><?= $summary['comments'] . ' , ' . $summary['remarks'] ?></td>
-
-                                                    <?php } ?>
 
 
-                                                    <?php if ($_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
+                                                        <?php if ($_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
 
-                                                        <?php if ($client['screened'] == 1) { ?>
-                                                            <td class="text-center">
+                                                            <?php if ($client['screened'] == 1) { ?>
                                                                 <a href="#" class="btn btn-success">SCREENED</a>
-                                                            </td>
-                                                        <?php } else { ?>
-                                                            <td>
+                                                            <?php } else { ?>
                                                                 <a href="#" class="btn btn-danger">NOT SCREENED</a>
-                                                            </td>
-                                                        <?php }
-                                                    } ?>
+                                                            <?php }
+                                                        } ?>
+
+                                                        /
+                                                        <hr>
+
+                                                        <?php if ($type['cardiac'] == 1) { ?>
+                                                            <a href="#" class="btn btn-default">Cardiac</a>
+                                                        <?php } elseif ($type['diabetes'] == 1) { ?>
+                                                            <a href="#" class="btn btn-info">Diabtes</a>
+                                                        <?php } elseif ($type['sickle_cell'] == 1) { ?>
+                                                            <a href="#" class="btn btn-success">Sickle Cell</a>
+                                                        <?php } else { ?>
+                                                            <a href="#" class="btn btn-warning">Not Diagnosised</a>
+                                                            <?php
+                                                        } ?>
+
+                                                        <?php if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 3) { ?>
+                                                            /
+                                                            <hr>
+                                                            <?= $site['name'] ?>
+                                                        <?php } ?>
+                                                    </td>
+
+
 
                                                     <?php if ($_GET['status'] == 1 || $_GET['status'] == 5 || $_GET['status'] == 6 || $_GET['status'] == 7 || $_GET['status'] == 8) { ?>
                                                         <td class="text-center">
@@ -2998,11 +2982,11 @@ if ($user->isLoggedIn()) {
                                                                                     <label>Notes / Remarks / Comments</label>
                                                                                     <textarea class="form-control"
                                                                                         name="reasons" rows="3">
-                                                                                                                                                                                                                                 <?php
-                                                                                                                                                                                                                                 if ($enrollment['reasons']) {
-                                                                                                                                                                                                                                     print_r($enrollment['reasons']);
-                                                                                                                                                                                                                                 } ?>
-                                                                                                                                                                                                                                </textarea>
+                                                                                                                                                                                                                                                                 <?php
+                                                                                                                                                                                                                                                                 if ($enrollment['reasons']) {
+                                                                                                                                                                                                                                                                     print_r($enrollment['reasons']);
+                                                                                                                                                                                                                                                                 } ?>
+                                                                                                                                                                                                                                                                </textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3713,10 +3697,10 @@ if ($user->isLoggedIn()) {
                                                                                             name="reasons" rows="3"
                                                                                             placeholder="Type reason / comments here..."
                                                                                             required>
-                                                                                                                                                                                                                                            <?php if ($visit['reasons']) {
-                                                                                                                                                                                                                                                print_r($visit['reasons']);
-                                                                                                                                                                                                                                            } ?>
-                                                                                                                                                                                                                                        </textarea>
+                                                                                                                                                                                                                                                                            <?php if ($visit['reasons']) {
+                                                                                                                                                                                                                                                                                print_r($visit['reasons']);
+                                                                                                                                                                                                                                                                            } ?>
+                                                                                                                                                                                                                                                                        </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

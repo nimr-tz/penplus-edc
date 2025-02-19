@@ -13323,14 +13323,7 @@ if ($user->isLoggedIn()) {
                                                                         <div class="form-group">
                                                                             <label>Visit Day</label>
                                                                             <input type="number" class="form-control"
-                                                                                name="visit_day" required>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-4">
-                                                                        <div class="form-group">
-                                                                            <label>Entry Date</label>
-                                                                            <input type="date" class="form-control"
-                                                                                name="date" required>
+                                                                                name="visit_day" placeholder="" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-4">
@@ -13344,6 +13337,16 @@ if ($user->isLoggedIn()) {
                                                                                 required>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="form-group">
+                                                                            <label>End Date (If Stop)</label>
+                                                                            <input type="date" class="form-control"
+                                                                                name="end_date"
+                                                                                value="<?php if ($treatment['end_date']) {
+                                                                                    print_r($treatment['end_date']);
+                                                                                } ?>">
+                                                                        </div>
+                                                                    </div>                                                                    
                                                                 </div>
 
                                                                 <!-- Second Row: 2 Inputs -->
@@ -13392,7 +13395,7 @@ if ($user->isLoggedIn()) {
 
                                                                 <!-- Third Row: 3 Inputs (Including Textarea) -->
                                                                 <div class="row">
-                                                                    <div class="col-sm-6">
+                                                                    <div class="col-sm-9">
                                                                         <div class="form-group">
                                                                             <label>Dose Description</label>
                                                                             <textarea class="form-control" name="medication_units" rows="3">
@@ -13412,24 +13415,14 @@ if ($user->isLoggedIn()) {
                                                                                 } ?>"
                                                                                 required>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <div class="form-group">
-                                                                            <label>End Date (If Stop)</label>
-                                                                            <input type="date" class="form-control"
-                                                                                name="end_date"
-                                                                                value="<?php if ($treatment['end_date']) {
-                                                                                    print_r($treatment['end_date']);
-                                                                                } ?>">
-                                                                        </div>
-                                                                    </div>
+                                                                    </div>                                                                    
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer justify-content-between">
                                                                 <button type="button" class="btn btn-default"
                                                                     data-dismiss="modal">Close</button>
                                                                 <input type="submit" name="add_medication"
-                                                                    class="btn btn-primary" value="Add Medication">
+                                                                    class="btn btn-primary" value="Save Medication">
                                                             </div>
                                                         </div>
                                                     </form>

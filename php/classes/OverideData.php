@@ -1458,7 +1458,7 @@ class OverideData
     public function getNewsAs2($table, $where, $id, $where2, $id2)
     {
         // Updated Query
-        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' ORDER BY id ASC");
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' ORDER BY visit_day,start_date ASC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
 

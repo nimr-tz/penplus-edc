@@ -2795,8 +2795,63 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('add_medication')) {
 
-            $medication_treatments = $override->get('medication_treatments', 'id', Input::get('medication_id'))[0];
-            $treatment_id = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'id', Input::get('id'))[0];
+            $medication_treatments = $override->get('medication_treatments', 'id', Input::get('id'))[0];
+
+            // $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
+            // $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
+            // $treatments = $override->getNews('medication_treatments', 'status', 1, 'id', Input::get('id'))[0];
+
+            // $extra = 0;
+            // $amount = 0;
+            // $removed = 0;
+            // $received = 0;
+
+            // if (Input::get('medication_dose') <= $batch['amount']) {
+
+            // if (Input::get('medication_dose') == $treatments['medication_dose']) {
+            //     $amount = $treatments['medication_dose'];
+            // } elseif (Input::get('medication_dose') <= $treatments['medication_dose']) {
+            //     $extra = floatval($treatments['medication_dose']) - floatval(Input::get('medication_dose'));
+            //     $amount = floatval($batch['amount']) + floatval($extra);
+            //     $received = $extra;
+            // } elseif (nput::get('medication_dose') >= $treatments['medication_dose']) {
+            //     $extra = floatval(Input::get('medication_dose')) - floatval($treatments['medication_dose']);
+            //     $amount = floatval($batch['amount']) - floatval($extra);
+            //     $removed = $extra;
+            // }
+
+            // $user->updateRecord('batch', array(
+            //     'amount' => $amount,
+            // ), Input::get('batch_id'));
+
+            $user->createRecord('medication_treatments', array(
+                'study_id' => $_GET['sid'],
+                'visit_code' => $_GET['vcode'],
+                'visit_day' => $_GET['vday'],
+                'seq_no' => $_GET['seq'],
+                'vid' => $_GET['vid'],
+                'treatment_id' => Input::get('treatment_id'),
+                'date' => date('Y-m-d'),
+                'start_date' => Input::get('start_date'),
+                'medication_name' => Input::get('medication_name'),
+                'medication_action' => Input::get('medication_action'),
+                'dose_duration' => Input::get('dose_duration'),
+                'dose_description' => Input::get('dose_description'),
+                'end_date' => Input::get('end_date'),
+                'patient_id' => $_GET['cid'],
+                'staff_id' => $user->data()->id,
+                'status' => 1,
+                'created_on' => date('Y-m-d'),
+                'site_id' => $user->data()->site_id,
+            ));
+            $successMessage = 'Medication Plan Added Successful';
+            // }
+            //  else {
+            //     $errorMessage = 'Dose asigned : ' . Input::get('medication_dose') . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
+            // }
+        } elseif (Input::get('update_medication')) {
+
+            $medication_treatments = $override->get('medication_treatments', 'id', Input::get('id'))[0];
 
             // $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
             // $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
@@ -2827,42 +2882,16 @@ if ($user->isLoggedIn()) {
 
 
 
-            if ($medication_treatments) {
-                if (Input::get('visit_day') != $_GET['vday']) {
-                    $errorMessage = 'Please go to Specific visit to add or delete Medication for that visit';
-                } else {
-                    $user->updateRecord('medication_treatments', array(
-                        'study_id' => $_GET['sid'],
-                        'visit_code' => $_GET['vcode'],
-                        'visit_day' => $_GET['vday'],
-                        'seq_no' => $_GET['seq'],
-                        'vid' => $_GET['vid'],
-                        'treatment_id' => Input::get('treatment_id'),
-                        'date' => date('Y-m-d'),
-                        'start_date' => Input::get('start_date'),
-                        'medication_name' => Input::get('medication_name'),
-                        'medication_action' => Input::get('medication_action'),
-                        'dose_duration' => Input::get('dose_duration'),
-                        'dose_description' => Input::get('dose_description'),
-                        'end_date' => Input::get('end_date'),
-                        'patient_id' => $_GET['cid'],
-                        'staff_id' => $user->data()->id,
-                        'status' => 1,
-                        'created_on' => date('Y-m-d'),
-                        'site_id' => $user->data()->site_id,
-                    ), $medication_treatments['id']);
-
-                    $successMessage = 'Medication Plan Updated Successful';
-                }
+            if (Input::get('visit_day') != $_GET['vday']) {
+                $errorMessage = 'Please go to Specific visit to update Medication for that visit';
+                print_r(Input::get('visit_day'));
             } else {
-                $user->createRecord('medication_treatments', array(
+                $user->updateRecord('medication_treatments', array(
                     'study_id' => $_GET['sid'],
                     'visit_code' => $_GET['vcode'],
                     'visit_day' => $_GET['vday'],
                     'seq_no' => $_GET['seq'],
                     'vid' => $_GET['vid'],
-                    'treatment_id' => Input::get('treatment_id'),
-                    'date' => date('Y-m-d'),
                     'start_date' => Input::get('start_date'),
                     'medication_name' => Input::get('medication_name'),
                     'medication_action' => Input::get('medication_action'),
@@ -2870,16 +2899,11 @@ if ($user->isLoggedIn()) {
                     'dose_description' => Input::get('dose_description'),
                     'end_date' => Input::get('end_date'),
                     'patient_id' => $_GET['cid'],
-                    'staff_id' => $user->data()->id,
                     'status' => 1,
-                    'created_on' => date('Y-m-d'),
-                    'site_id' => $user->data()->site_id,
-                ));
-                $successMessage = 'Medication Plan Added Successful';
+                ), Input::get('id'));
 
-
+                $successMessage = 'Medication Plan Updated Successful';
             }
-
             // }
             //  else {
             //     $errorMessage = 'Dose asigned : ' . Input::get('medication_dose') . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
@@ -3175,7 +3199,7 @@ if ($user->isLoggedIn()) {
             }
         } elseif (Input::get('delete_medication')) {
             if (Input::get('visit_day') != $_GET['vday']) {
-                $errorMessage = 'Please go to Specific visit to add or delete Medication for that visit';
+                $errorMessage = 'Please go to Specific visit to delete Medication for that visit';
             } else {
                 $user->updateRecord('medication_treatments', array(
                     'status' => 0,
@@ -4235,10 +4259,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" id="exposure"
                                                                 placeholder="List exposure" name="exposure" rows="3"
                                                                 style="width: 100%;">
-                                                                        <?php if ($client['exposure']) {
-                                                                            print_r($client['exposure']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($client['exposure']) {
+                                                                                print_r($client['exposure']);
+                                                                            } ?>
+                                                                        </textarea>
 
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio"
@@ -4450,10 +4474,10 @@ if ($user->isLoggedIn()) {
                                                                         placeholder="Type physical address here"
                                                                         name="physical_address" rows="3" style="width: 100%;"
                                                                         required>
-                                                                                    <?php if ($client['physical_address']) {
-                                                                                        print_r($client['physical_address']);
-                                                                                    } ?>
-                                                                                </textarea>
+                                                                                            <?php if ($client['physical_address']) {
+                                                                                                print_r($client['physical_address']);
+                                                                                            } ?>
+                                                                                        </textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -4536,10 +4560,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="relation_patient"
                                                                 id="relation_patient" rows="3"
                                                                 placeholder="Type other relation here...">
-                                                                        <?php if ($client['relation_patient']) {
-                                                                            print_r($client['relation_patient']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($client['relation_patient']) {
+                                                                                print_r($client['relation_patient']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4717,10 +4741,10 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Comments / Remarks:</label>
                                                             <textarea class="form-control" name="comments" rows="3">
-                                                                    <?php if ($client['comments']) {
-                                                                        print_r($client['comments']);
-                                                                    } ?>
-                                                                    </textarea>
+                                                                        <?php if ($client['comments']) {
+                                                                            print_r($client['comments']);
+                                                                        } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5428,10 +5452,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="referred_other"
                                                                 id="referred_other" rows="3"
                                                                 placeholder="Type other here...">
-                                                                        <?php if ($demographic['referred_other']) {
-                                                                            print_r($demographic['referred_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($demographic['referred_other']) {
+                                                                                print_r($demographic['referred_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5474,10 +5498,10 @@ if ($user->isLoggedIn()) {
                                                                 <label class=" form-check-label">Yes</label>
                                                                 <textarea class="form-control" name="chw" id="chw" rows="3"
                                                                     placeholder="Type chw name here...">
-                                                                        <?php if ($demographic['chw']) {
-                                                                            print_r($demographic['chw']);
-                                                                        } ?>
-                                                                        </textarea>
+                                                                            <?php if ($demographic['chw']) {
+                                                                                print_r($demographic['chw']);
+                                                                            } ?>
+                                                                            </textarea>
                                                             </div>
 
                                                             <div class="form-check">
@@ -5499,10 +5523,10 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>General Comments:</label>
                                                             <textarea class="form-control" name="comments" rows="3">
-                                                                            <?php if ($demographic['comments']) {
-                                                                                print_r($demographic['comments']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($demographic['comments']) {
+                                                                                    print_r($demographic['comments']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5973,10 +5997,10 @@ if ($user->isLoggedIn()) {
                                                                 <textarea class="form-control" name="other_diseases"
                                                                     id="other_diseases" placeholder="Type here new diseases"
                                                                     style="width: 100%;" rows="3">
-                                                                            <?php if ($main_diagnosis['other_diseases']) {
-                                                                                print_r($main_diagnosis['other_diseases']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($main_diagnosis['other_diseases']) {
+                                                                                    print_r($main_diagnosis['other_diseases']);
+                                                                                } ?>
+                                                                            </textarea>
                                                             </div>
 
                                                             <div class="form-check">
@@ -5996,10 +6020,10 @@ if ($user->isLoggedIn()) {
                                                             <label> General Remarks / Comments / Notes:</label>
                                                             <textarea class="form-control" name="comments" id="comments"
                                                                 style="width: 100%;" rows="3">
-                                                                            <?php if ($main_diagnosis['comments']) {
-                                                                                print_r($main_diagnosis['comments']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($main_diagnosis['comments']) {
+                                                                                    print_r($main_diagnosis['comments']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -6509,10 +6533,10 @@ if ($user->isLoggedIn()) {
                                                                 <textarea class="form-control" name="alcohol_other"
                                                                     id="alcohol_other" placeholder="Type other here"
                                                                     style="width: 100%;" rows="3">
-                                                                            <?php if ($history['alcohol_other']) {
-                                                                                print_r($history['alcohol_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($history['alcohol_other']) {
+                                                                                    print_r($history['alcohol_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                             </div>
                                                         </div>
                                                         <button onclick="unsetRadio('alcohol_other')">Unset</button>
@@ -7024,10 +7048,10 @@ if ($user->isLoggedIn()) {
                                                                     <textarea class="form-control" name="specify_complication"
                                                                         id="specify_complication" rows="3"
                                                                         placeholder="Type other relation here...">
-                                                                                        <?php if ($clients['specify_complication']) {
-                                                                                            print_r($clients['specify_complication']);
-                                                                                        } ?>
-                                                                                    </textarea>
+                                                                                                <?php if ($clients['specify_complication']) {
+                                                                                                    print_r($clients['specify_complication']);
+                                                                                                } ?>
+                                                                                            </textarea>
                                                                 </div>
 
                                                                 <div class="form-check">
@@ -7202,10 +7226,10 @@ if ($user->isLoggedIn()) {
                                                                     <textarea class="form-control" name="surgery_other"
                                                                         id="surgery_other" placeholder="Type other here"
                                                                         style="width: 100%;" rows="3">
-                                                                                        <?php if ($history['surgery_other']) {
-                                                                                            print_r($history['surgery_other']);
-                                                                                        } ?>
-                                                                                    </textarea>
+                                                                                                <?php if ($history['surgery_other']) {
+                                                                                                    print_r($history['surgery_other']);
+                                                                                                } ?>
+                                                                                            </textarea>
                                                                 </div>
                                                             </div>
                                                             <button onclick="unsetCardiac_surgery_type()">Unset</button>
@@ -7646,10 +7670,10 @@ if ($user->isLoggedIn()) {
                                                                                                                         id="other"
                                                                                                                         rows="3"
                                                                                                                         placeholder="Type other here...">
-                                                                                                                                            <?php if ($sickle_cell_status_table['other']) {
-                                                                                                                                                print_r($sickle_cell_status_table['other']);
-                                                                                                                                            } ?>
-                                                                                                                                        </textarea>
+                                                                                                                                                        <?php if ($sickle_cell_status_table['other']) {
+                                                                                                                                                            print_r($sickle_cell_status_table['other']);
+                                                                                                                                                        } ?>
+                                                                                                                                                    </textarea>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
@@ -7767,10 +7791,10 @@ if ($user->isLoggedIn()) {
                                                                 <textarea class="form-control" name="history_specify"
                                                                     id="history_specify" placeholder="Type other here"
                                                                     style="width: 100%;" rows="3">
-                                                                            <?php if ($history['history_specify']) {
-                                                                                print_r($history['history_specify']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($history['history_specify']) {
+                                                                                    print_r($history['history_specify']);
+                                                                                } ?>
+                                                                            </textarea>
                                                             </div>
 
                                                             <div class="form-check">
@@ -8845,10 +8869,10 @@ if ($user->isLoggedIn()) {
                                                                 </div>
                                                                 <textarea class="form-control" name="lungs_other"
                                                                     id="lungs_other" rows="3" placeholder="Enter findings">
-                                                                                    <?php if ($symptoms['lungs_other']) {
-                                                                                        print_r($symptoms['lungs_other']);
-                                                                                    } ?>
-                                                                                </textarea>
+                                                                                            <?php if ($symptoms['lungs_other']) {
+                                                                                                print_r($symptoms['lungs_other']);
+                                                                                            } ?>
+                                                                                        </textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -8996,10 +9020,10 @@ if ($user->isLoggedIn()) {
                                                                     Other:</label>
                                                                 <textarea class="form-control" name="foot_exam_other"
                                                                     id="foot_exam_other" rows="3" placeholder="Enter other">
-                                                                                    <?php if ($symptoms['foot_exam_other']) {
-                                                                                        print_r($symptoms['foot_exam_other']);
-                                                                                    } ?>
-                                                                                </textarea>
+                                                                                            <?php if ($symptoms['foot_exam_other']) {
+                                                                                                print_r($symptoms['foot_exam_other']);
+                                                                                            } ?>
+                                                                                        </textarea>
                                                             </div>
                                                             <button onclick="unsetFootExam()">Unset</button>
                                                         </div>
@@ -9557,10 +9581,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="cardiomyopathy_other" id="cardiomyopathy_other"
                                                                 class="form-control" rows="3">
-                                                                        <?php if ($diagnosis['cardiomyopathy_other']) {
-                                                                            print_r($diagnosis['cardiomyopathy_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($diagnosis['cardiomyopathy_other']) {
+                                                                                print_r($diagnosis['cardiomyopathy_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_cardiomyopathy()">Unset</button>
                                                     </div>
@@ -9650,10 +9674,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="heumatic_other" id="heumatic_other"
                                                                 class="form-control" rows="3">
-                                                                        <?php if ($diagnosis['heumatic_other']) {
-                                                                            print_r($diagnosis['heumatic_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($diagnosis['heumatic_other']) {
+                                                                                print_r($diagnosis['heumatic_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_heumatic()">Unset</button>
                                                     </div>
@@ -9745,10 +9769,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="congenital_other" id="congenital_other"
                                                                 class="form-control" rows="3">
-                                                                        <?php if ($diagnosis['congenital_other']) {
-                                                                            print_r($diagnosis['congenital_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($diagnosis['congenital_other']) {
+                                                                                print_r($diagnosis['congenital_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_congenital()">Unset</button>
                                                     </div>
@@ -9871,10 +9895,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="pericardial_other" id="pericardial_other"
                                                                 class="form-control" rows="3">
-                                                                        <?php if ($diagnosis['pericardial_other']) {
-                                                                            print_r($diagnosis['pericardial_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($diagnosis['pericardial_other']) {
+                                                                                print_r($diagnosis['pericardial_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_pericardial()">Unset</button>
                                                     </div>
@@ -9994,10 +10018,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="arrhythmia_other" id="arrhythmia_other"
                                                                 class="form-control" rows="3">
-                                                                        <?php if ($diagnosis['arrhythmia_other']) {
-                                                                            print_r($diagnosis['arrhythmia_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($diagnosis['arrhythmia_other']) {
+                                                                                print_r($diagnosis['arrhythmia_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_arrhythmia()">Unset</button>
                                                     </div>
@@ -10064,10 +10088,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="thromboembolic_other" id="thromboembolic_other"
                                                                 class="form-control" rows="3">
-                                                                        <?php if ($diagnosis['thromboembolic_other']) {
-                                                                            print_r($diagnosis['thromboembolic_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($diagnosis['thromboembolic_other']) {
+                                                                                print_r($diagnosis['thromboembolic_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_thromboembolic()">Unset</button>
                                                     </div>
@@ -10341,10 +10365,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="diagnosis_other"
                                                                 id="diagnosis_other_diabetic" rows="3"
                                                                 placeholder="Enter other">
-                                                                        <?php if ($sickle_cell['diagnosis_other']) {
-                                                                            print_r($sickle_cell['diagnosis_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($sickle_cell['diagnosis_other']) {
+                                                                                print_r($sickle_cell['diagnosis_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                             <button onclick="unsetRadio('diagnosis')">Unset</button>
                                                         </div>
                                                     </div>
@@ -10608,10 +10632,10 @@ if ($user->isLoggedIn()) {
                                                                 <textarea class="form-control" name="diagnosis_other"
                                                                     id="diagnosis_other_sickcle_cell" rows="3"
                                                                     placeholder="Enter other">
-                                                                            <?php if ($sickle_cell['diagnosis_other']) {
-                                                                                print_r($sickle_cell['diagnosis_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($sickle_cell['diagnosis_other']) {
+                                                                                    print_r($sickle_cell['diagnosis_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -10627,10 +10651,10 @@ if ($user->isLoggedIn()) {
                                                             <label>Comments</label>
                                                             <textarea class="form-control" textarea name="comments"
                                                                 rows="3">
-                                                                        <?php if ($sickle_cell['comments']) {
-                                                                            print_r($sickle_cell['comments']);
-                                                                        } ?>
-                                                                        </textarea>
+                                                                            <?php if ($sickle_cell['comments']) {
+                                                                                print_r($sickle_cell['comments']);
+                                                                            } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -10886,10 +10910,10 @@ if ($user->isLoggedIn()) {
                                                                     <label>Other specify::</label>
                                                                     <textarea id="ecg_other" name="ecg_other" rows="3"
                                                                         class="form-control">
-                                                                                    <?php if ($results['ecg_other']) {
-                                                                                        print_r($results['ecg_other']);
-                                                                                    } ?>
-                                                                                </textarea>
+                                                                                            <?php if ($results['ecg_other']) {
+                                                                                                print_r($results['ecg_other']);
+                                                                                            } ?>
+                                                                                        </textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -11207,10 +11231,10 @@ if ($user->isLoggedIn()) {
                                                                     <label>Other Echo specify</label>
                                                                     <textarea name="echo_specify" id="echo_specify" rows="3"
                                                                         class="form-control">
-                                                                                    <?php if ($results['echo_specify']) {
-                                                                                        print_r($results['echo_specify']);
-                                                                                    } ?>
-                                                                                </textarea>
+                                                                                            <?php if ($results['echo_specify']) {
+                                                                                                print_r($results['echo_specify']);
+                                                                                            } ?>
+                                                                                        </textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -11354,10 +11378,10 @@ if ($user->isLoggedIn()) {
                                                                 <label>SCD Other Specify</label>
                                                                 <textarea name="scd_test_other" id="scd_test_other" rows="3"
                                                                     class="form-control">
-                                                                                    <?php if ($results['scd_test_other']) {
-                                                                                        print_r($results['scd_test_other']);
-                                                                                    } ?>
-                                                                                </textarea>
+                                                                                            <?php if ($results['scd_test_other']) {
+                                                                                                print_r($results['scd_test_other']);
+                                                                                            } ?>
+                                                                                        </textarea>
 
                                                             </div>
                                                         </div>
@@ -12740,10 +12764,10 @@ if ($user->isLoggedIn()) {
                                                                                                                 id="admission_reason"
                                                                                                                 rows="3"
                                                                                                                 placeholder="Type Admissions Reasons here...">
-                                                                                                                            <?php if ($hospitalization_table['admission_reason']) {
-                                                                                                                                print_r($hospitalization_table['admission_reason']);
-                                                                                                                            } ?>
-                                                                                                                        </textarea>
+                                                                                                                                    <?php if ($hospitalization_table['admission_reason']) {
+                                                                                                                                        print_r($hospitalization_table['admission_reason']);
+                                                                                                                                    } ?>
+                                                                                                                                </textarea>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -12762,10 +12786,10 @@ if ($user->isLoggedIn()) {
                                                                                                                 id="discharge_diagnosis"
                                                                                                                 rows="3"
                                                                                                                 placeholder="Type discharge diagnosis here...">
-                                                                                                                            <?php if ($hospitalization_table['discharge_diagnosis']) {
-                                                                                                                                print_r($hospitalization_table['discharge_diagnosis']);
-                                                                                                                            } ?>
-                                                                                                                        </textarea>
+                                                                                                                                    <?php if ($hospitalization_table['discharge_diagnosis']) {
+                                                                                                                                        print_r($hospitalization_table['discharge_diagnosis']);
+                                                                                                                                    } ?>
+                                                                                                                                </textarea>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -12927,6 +12951,8 @@ if ($user->isLoggedIn()) {
                         <div class="row">
                             <?php
                             $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+                            $treatment_site = $override->getNews('site', 'status', 1, 'id', $user->data()->site_id)[0];
+
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                             $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
                             $cat = '';
@@ -13006,6 +13032,107 @@ if ($user->isLoggedIn()) {
                                             </div>
                                         </div><!-- /.container-fluid -->
                                     </section>
+                                    <div class="modal fade" id="addMedModal">
+                                        <div class="modal-dialog modal-lg">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Add New Medication - <strong
+                                                                class="visit-day-highlight"><?= $_GET['vday']; ?></strong> -
+                                                            For <strong class="visit-day-highlight"><?= $_GET['sid']; ?> - (
+                                                                <?= $treatment_site['name'] ?>) </strong></h4> <button
+                                                            type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- First Row: 3 Inputs -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label>Start Date</label>
+                                                                    <input type="date" class="form-control"
+                                                                        name="start_date" value="" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label>End Date (If Stop)</label>
+                                                                    <input type="date" class="form-control" name="end_date"
+                                                                        value="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Second Row: 2 Inputs -->
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label>Medication Name</label>
+                                                                    <select name="medication_name" id="medication_name"
+                                                                        class="form-control select2" style="width: 100%;"
+                                                                        required>
+                                                                        <option value="">
+                                                                            Select
+                                                                        </option>
+                                                                        <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
+                                                                            <option value="<?= $medication['id'] ?>">
+                                                                                <?= $medication['name']; ?>
+                                                                            </option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label>Action</label>
+                                                                    <select name="medication_action" id="medication_action"
+                                                                        class="form-control select2" style="width: 100%;"
+                                                                        required>
+                                                                        <option value="">
+                                                                            Select
+                                                                        </option>
+                                                                        <?php foreach ($override->get('medication_action', 'status', 1) as $medication_action) { ?>
+                                                                            <option value="<?= $medication_action['id'] ?>">
+                                                                                <?= $medication_action['name']; ?>
+                                                                            </option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Third Row: 3 Inputs (Including Textarea) -->
+                                                        <div class="row">
+                                                            <div class="col-sm-9">
+                                                                <div class="form-group">
+                                                                    <label>Dose Description</label>
+                                                                    <textarea class="form-control" name="dose_description"
+                                                                        rows="3">
+
+                                                                                </textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label>Dose Duration</label>
+                                                                    <input type="number" class="form-control"
+                                                                        name="dose_duration" min="0" max="1000" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Close</button>
+                                                        <input type="submit" name="add_medication" class="btn btn-primary"
+                                                            value="Save Medication">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                     <!-- /.card-header -->
                                     <form id="validation" enctype="multipart/form-data" method="post" autocomplete="off">
                                         <div class="card-body">
@@ -13040,111 +13167,7 @@ if ($user->isLoggedIn()) {
                                                                     <ion-icon name='add-circle-outline'></ion-icon> Add New
                                                                     Medication
                                                                 </button>
-
-                                                                 <div class="modal fade" id="addMedModal">
-                                        <div class="modal-dialog modal-lg">
-                                            <form method="post">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Add New Medication - <strong
-                                                                class="visit-day-highlight"><?= $_GET['vday']; ?></strong> -
-                                                            For <strong class="visit-day-highlight"><?= $_GET['sid']; ?> - (
-                                                                <?= $sites['name'] ?>) </strong></h4> <button type="button"
-                                                            class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <!-- First Row: 3 Inputs -->
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label>Start Date</label>
-                                                                    <input type="date" class="form-control"
-                                                                        name="start_date" value="" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label>End Date (If Stop)</label>
-                                                                    <input type="date" class="form-control" name="end_date"
-                                                                        value="">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Second Row: 2 Inputs -->
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label>Medication Name</label>
-                                                                    <select name="medication_name" id="medication_name"
-                                                                        class="form-control select2" style="width: 100%;"
-                                                                        required>
-                                                                     <option value="">
-                                                                                Select
-                                                                            </option>
-                                                                        <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
-                                                                            <option value="<?= $medication['id'] ?>">
-                                                                                <?= $medication['name']; ?>
-                                                                            </option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label>Action</label>
-                                                                    <select name="medication_action" id="medication_action"
-                                                                        class="form-control select2" style="width: 100%;"
-                                                                        required>
-                                                                            <option value="">
-                                                                                Select
-                                                                            </option>
-                                                                        <?php foreach ($override->get('medication_action', 'status', 1) as $medication_action) { ?>
-                                                                            <option value="<?= $medication_action['id'] ?>">
-                                                                                <?= $medication_action['name']; ?>
-                                                                            </option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Third Row: 3 Inputs (Including Textarea) -->
-                                                        <div class="row">
-                                                            <div class="col-sm-9">
-                                                                <div class="form-group">
-                                                                    <label>Dose Description</label>
-                                                                    <textarea class="form-control" name="dose_description"
-                                                                        rows="3">
-                                                                               
-                                                                            </textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <div class="form-group">
-                                                                    <label>Dose Duration</label>
-                                                                    <input type="number" class="form-control"
-                                                                        name="dose_duration" min="0" max="1000" required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer justify-content-between">
-                                                        <input type="hidden" name="treatment_id" id="treatment_id" value="<?php if ($treatment_plan['id']) {
-                                                            print_r($treatment_plan['id']);
-                                                        } ?>">
-                                                        <button type="button" class="btn btn-default"
-                                                            data-dismiss="modal">Close</button>
-                                                        <input type="submit" name="add_medication" class="btn btn-primary"
-                                                            value="Save Medication">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-<!-- 
+                                                                <!-- 
                                                                 <button type="button" id="addMedButton"
                                                                     class="btn btn-info mb-3">
                                                                     <ion-icon name='add-circle-outline'></ion-icon> Add New
@@ -13190,7 +13213,7 @@ if ($user->isLoggedIn()) {
                                                                                 <td><?= $treatment['dose_duration'] ?></td>
                                                                                 <td>
 
-                                                                                    <span class="badge bg-danger">
+                                                                                    <span class="badge bg-info">
                                                                                         <a href="#update_med<?= $treatment['id'] ?>"
                                                                                             role="button"
                                                                                             data-toggle="modal">Update</a>
@@ -13205,153 +13228,207 @@ if ($user->isLoggedIn()) {
                                                                                 </td>
                                                                             </tr>
                                                                             <!-- Existing table rows and modals -->
-                                                                             <!-- Add Medication Modal -->
-                                    <div class="modal fade" id="update_med<?= $treatment['id'] ?>">
-                                        <div class="modal-dialog modal-lg">
-                                            <form method="post">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Add New Medication - <strong
-                                                                class="visit-day-highlight"><?= $_GET['vday']; ?></strong> -
-                                                            For <strong class="visit-day-highlight"><?= $_GET['sid']; ?> - (
-                                                                <?= $sites['name'] ?>) </strong></h4> <button type="button"
-                                                            class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <!-- First Row: 3 Inputs -->
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label>Start Date</label>
-                                                                    <input type="date" class="form-control"
-                                                                        name="start_date" value="<?php if ($treatment['start_date']) {
-                                                                            print_r($treatment['start_date']);
-                                                                        } ?>" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label>End Date (If Stop)</label>
-                                                                    <input type="date" class="form-control" name="end_date"
-                                                                        value="<?php if ($treatment['end_date']) {
-                                                                            print_r($treatment['end_date']);
-                                                                        } ?>">
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                                            <!-- Add Medication Modal -->
+                                                                            <div class="modal fade"
+                                                                                id="update_med<?= $treatment['id'] ?>">
+                                                                                <div class="modal-dialog modal-lg">
+                                                                                    <form method="post">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h4 class="modal-title">Update
+                                                                                                    Medication - <strong
+                                                                                                        class="visit-day-highlight"><?= $_GET['vday']; ?></strong>
+                                                                                                    -
+                                                                                                    For <strong
+                                                                                                        class="visit-day-highlight"><?= $_GET['sid']; ?>
+                                                                                                        - (
+                                                                                                        <?= $sites['name'] ?>)
+                                                                                                    </strong></h4> <button
+                                                                                                    type="button" class="close"
+                                                                                                    data-dismiss="modal"
+                                                                                                    aria-label="Close">
+                                                                                                    <span
+                                                                                                        aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <!-- First Row: 3 Inputs -->
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Start
+                                                                                                                Date</label>
+                                                                                                            <input type="date"
+                                                                                                                class="form-control"
+                                                                                                                name="start_date"
+                                                                                                                value="<?php if ($treatment['start_date']) {
+                                                                                                                    print_r($treatment['start_date']);
+                                                                                                                } ?>" required>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>End Date (If
+                                                                                                                Stop)</label>
+                                                                                                            <input type="date"
+                                                                                                                class="form-control"
+                                                                                                                name="end_date"
+                                                                                                                value="<?php if ($treatment['end_date']) {
+                                                                                                                    print_r($treatment['end_date']);
+                                                                                                                } ?>">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
 
-                                                        <!-- Second Row: 2 Inputs -->
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label>Medication Name</label>
-                                                                    <select name="medication_name" id="medication_name"
-                                                                        class="form-control select2" style="width: 100%;"
-                                                                        required>
-                                                                        <?php if ($medications[0]['name']) { ?>
-                                                                            <option value="<?= $medications[0]['id'] ?>">
-                                                                                <?= $medications[0]['name']; ?>
-                                                                            </option>
-                                                                        <?php } ?>
-                                                                        <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
-                                                                            <option value="<?= $medication['id'] ?>">
-                                                                                <?= $medication['name']; ?>
-                                                                            </option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label>Action</label>
-                                                                    <select name="medication_action" id="medication_action"
-                                                                        class="form-control select2" style="width: 100%;"
-                                                                        required>
-                                                                        <?php if ($medication_actions[0]['name']) { ?>
-                                                                            <option value="<?= $medication_actions[0]['id'] ?>">
-                                                                                <?= $medication_actions[0]['name']; ?>
-                                                                            </option>
-                                                                        <?php } ?>
-                                                                        <?php foreach ($override->get('medication_action', 'status', 1) as $medication_action) { ?>
-                                                                            <option value="<?= $medication_action['id'] ?>">
-                                                                                <?= $medication_action['name']; ?>
-                                                                            </option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                                                                <!-- Second Row: 2 Inputs -->
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Medication
+                                                                                                                Name</label>
+                                                                                                            <select
+                                                                                                                name="medication_name"
+                                                                                                                id="medication_name"
+                                                                                                                class="form-control select2"
+                                                                                                                style="width: 100%;"
+                                                                                                                required>
+                                                                                                                <?php if ($medications[0]['name']) { ?>
+                                                                                                                    <option
+                                                                                                                        value="<?= $medications[0]['id'] ?>">
+                                                                                                                        <?= $medications[0]['name']; ?>
+                                                                                                                    </option>
+                                                                                                                <?php } ?>
+                                                                                                                <?php foreach ($override->get('medications', 'status', 1) as $medication) { ?>
+                                                                                                                    <option
+                                                                                                                        value="<?= $medication['id'] ?>">
+                                                                                                                        <?= $medication['name']; ?>
+                                                                                                                    </option>
+                                                                                                                <?php } ?>
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Action</label>
+                                                                                                            <select
+                                                                                                                name="medication_action"
+                                                                                                                id="medication_action"
+                                                                                                                class="form-control select2"
+                                                                                                                style="width: 100%;"
+                                                                                                                required>
+                                                                                                                <?php if ($medication_actions[0]['name']) { ?>
+                                                                                                                    <option
+                                                                                                                        value="<?= $medication_actions[0]['id'] ?>">
+                                                                                                                        <?= $medication_actions[0]['name']; ?>
+                                                                                                                    </option>
+                                                                                                                <?php } ?>
+                                                                                                                <?php foreach ($override->get('medication_action', 'status', 1) as $medication_action) { ?>
+                                                                                                                    <option
+                                                                                                                        value="<?= $medication_action['id'] ?>">
+                                                                                                                        <?= $medication_action['name']; ?>
+                                                                                                                    </option>
+                                                                                                                <?php } ?>
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
 
-                                                        <!-- Third Row: 3 Inputs (Including Textarea) -->
-                                                        <div class="row">
-                                                            <div class="col-sm-9">
-                                                                <div class="form-group">
-                                                                    <label>Dose Description</label>
-                                                                    <textarea class="form-control" name="dose_description"
-                                                                        rows="3">
-                                                                                <?php if ($treatment['dose_description']) {
-                                                                                    print_r($treatment['dose_description']);
-                                                                                } ?>
-                                                                            </textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <div class="form-group">
-                                                                    <label>Dose Duration</label>
-                                                                    <input type="number" class="form-control"
-                                                                        name="dose_duration" min="0" max="1000" value="<?php if ($treatment['dose_duration']) {
-                                                                            print_r($treatment['dose_duration']);
-                                                                        } ?>" required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer justify-content-between">
-                                                            <input type="hidden" name="treatment_id" id="treatment_id" value="<?= $treatment_plan['id'] ?>">
-                                                        <input type="hidden" name="visit_day" id="visit_day" value="<?= $treatment_plan['visit_day'] ?>">
-                                                        <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
-                                                        <button type="button" class="btn btn-default"
-                                                            data-dismiss="modal">Close</button>
-                                                        <input type="submit" name="add_medication" class="btn btn-primary"
-                                                            value="Save Medication">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                                                                                                <!-- Third Row: 3 Inputs (Including Textarea) -->
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-9">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Dose
+                                                                                                                Description</label>
+                                                                                                            <textarea
+                                                                                                                class="form-control"
+                                                                                                                name="dose_description"
+                                                                                                                                        rows="3">
+                                                                                                                <?php if ($treatment['dose_description']) {
+                                                                                                                    print_r($treatment['dose_description']);
+                                                                                                                } ?>
+                                                                                                            </textarea>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-3">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Dose
+                                                                                                                Duration</label>
+                                                                                                            <input type="number"
+                                                                                                                class="form-control"
+                                                                                                                name="dose_duration"
+                                                                                                                min="0"
+                                                                                                                max="1000"
+                                                                                                                value="<?php if ($treatment['dose_duration']) {
+                                                                                                                    print_r($treatment['dose_duration']);
+                                                                                                                } ?>" required>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="modal-footer justify-content-between">                                                                                               
+                                                                                                <input type="hidden"
+                                                                                                    name="visit_day"
+                                                                                                    id="visit_day"
+                                                                                                    value="<?= $treatment['visit_day'] ?>">
+                                                                                                <input type="hidden" name="id"
+                                                                                                    value="<?= $treatment['id'] ?>">
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-default"
+                                                                                                    data-dismiss="modal">Close</button>
+                                                                                                <input type="submit"
+                                                                                                    name="update_medication"
+                                                                                                    class="btn btn-primary"
+                                                                                                    value="Save Medication">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
 
-                                    <div class="modal fade" id="delete_med<?= $treatment['id'] ?>" tabindex="-1"
-                                        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <form method="post">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"><span
-                                                                aria-hidden="true">&times;</span><span
-                                                                class="sr-only">Close</span></button>
-                                                        <h4>Delete this Medication</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <strong style="font-weight: bold;color: red">
-                                                            <p>Are you sure you want to delete this Medication ?</p>
-                                                        </strong>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="hidden" name="visit_day" id="visit_day" value="<?php if ($treatment_plan['visit_day']) {
-                                                            print_r($treatment_plan['visit_day']);
-                                                        } ?>">
-                                                        <input type="hidden" name="id" value="<?= $treatment['id'] ?>">
-                                                        <input type="submit" name="delete_medication" value="Delete"
-                                                            class="btn btn-danger">
-                                                        <button class="btn btn-default" data-dismiss="modal"
-                                                            aria-hidden="true">Close</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                                                                            <div class="modal fade"
+                                                                                id="delete_med<?= $treatment['id'] ?>"
+                                                                                tabindex="-1" role="dialog"
+                                                                                aria-labelledby="myModalLabel"
+                                                                                aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <form method="post">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <button type="button"
+                                                                                                    class="close"
+                                                                                                    data-dismiss="modal"><span
+                                                                                                        aria-hidden="true">&times;</span><span
+                                                                                                        class="sr-only">Close</span></button>
+                                                                                                <h4>Delete this Medication</h4>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <strong
+                                                                                                    style="font-weight: bold;color: red">
+                                                                                                    <p>Are you sure you want to
+                                                                                                        delete this Medication ?
+                                                                                                    </p>
+                                                                                                </strong>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <input type="hidden"
+                                                                                                    name="visit_day"
+                                                                                                    id="visit_day"
+                                                                                                    value="<?= $treatment['visit_day']; ?>">
+                                                                                                <input type="hidden" name="id"
+                                                                                                    value="<?= $treatment['id'] ?>">
+                                                                                                <input type="submit"
+                                                                                                    name="delete_medication"
+                                                                                                    value="Delete"
+                                                                                                    class="btn btn-danger">
+                                                                                                <button class="btn btn-default"
+                                                                                                    data-dismiss="modal"
+                                                                                                    aria-hidden="true">Close</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
                                                                             <?php $x++;
                                                                         } ?>
                                                                     </tbody>
@@ -14138,10 +14215,10 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Notes:</label>
                                                             <textarea name="medication_notes" class="form-control" rows="4">
-                                                                <?php if ($treatment_plan['medication_notes']) {
-                                                                    print_r($treatment_plan['medication_notes']);
-                                                                } ?>
-                                                            </textarea>
+                                                                    <?php if ($treatment_plan['medication_notes']) {
+                                                                        print_r($treatment_plan['medication_notes']);
+                                                                    } ?>
+                                                                </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -14156,7 +14233,7 @@ if ($user->isLoggedIn()) {
                                                     class="btn btn-primary">
                                             <?php } ?>
                                         </div>
-                                    </form>                                    
+                                    </form>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -14533,10 +14610,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" id="diagns_specify"
                                                                 placeholder="Type physical address here"
                                                                 name="diagns_specify" rows="3" style="width: 100%;">
-                                                                        <?php if ($dgns_complctns_comorbdts['diagns_specify']) {
-                                                                            print_r($dgns_complctns_comorbdts['diagns_specify']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($dgns_complctns_comorbdts['diagns_specify']) {
+                                                                                print_r($dgns_complctns_comorbdts['diagns_specify']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -15208,10 +15285,10 @@ if ($user->isLoggedIn()) {
                                                                     placeholder="Type complication here"
                                                                     name="complication_specify" rows="3"
                                                                     style="width: 100%;">
-                                                                            <?php if ($dgns_complctns_comorbdts['complication_specify']) {
-                                                                                print_r($dgns_complctns_comorbdts['complication_specify']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($dgns_complctns_comorbdts['complication_specify']) {
+                                                                                    print_r($dgns_complctns_comorbdts['complication_specify']);
+                                                                                } ?>
+                                                                            </textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -16751,10 +16828,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea class="form-control" id="diagnosis_summary_other"
                                                                 name="diagnosis_other" rows="2">
-                                                                        <?php if ($summary['diagnosis_other']) {
-                                                                            print_r($summary['diagnosis_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($summary['diagnosis_other']) {
+                                                                                print_r($summary['diagnosis_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -16766,10 +16843,10 @@ if ($user->isLoggedIn()) {
                                                             <label>Comments</label>
                                                             <textarea class="form-control" name="comments" rows="3"
                                                                 placeholder="Write details comments here..." required>
-                                                                        <?php if ($summary['comments']) {
-                                                                            print_r($summary['comments']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($summary['comments']) {
+                                                                                print_r($summary['comments']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -16871,10 +16948,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea class="form-control" id="transfer_other"
                                                                 name="transfer_other" rows="3">
-                                                                        <?php if ($summary['transfer_other']) {
-                                                                            print_r($summary['transfer_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($summary['transfer_other']) {
+                                                                                print_r($summary['transfer_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -16909,10 +16986,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea class="form-control" id="death_other"
                                                                 name="death_other" rows="3">
-                                                                        <?php if ($summary['death_other']) {
-                                                                            print_r($summary['death_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($summary['death_other']) {
+                                                                                print_r($summary['death_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -16923,10 +17000,10 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Remarks / Comments / Reason </label>
                                                             <textarea class="form-control" name="remarks" rows="3">
-                                                                        <?php if ($summary['remarks']) {
-                                                                            print_r($summary['remarks']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($summary['remarks']) {
+                                                                                print_r($summary['remarks']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -16966,10 +17043,10 @@ if ($user->isLoggedIn()) {
                                                             <label>Notes for Next Appointment</label>
                                                             <textarea class="form-control" name="next_appointment_notes"
                                                                 id="next_appointment_notes" rows="3">
-                                                                        <?php if ($summary['next_appointment_notes']) {
-                                                                            print_r($summary['next_appointment_notes']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($summary['next_appointment_notes']) {
+                                                                                print_r($summary['next_appointment_notes']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17236,10 +17313,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="transport_mode_other"
                                                                 id="transport_mode_other" rows="3"
                                                                 placeholder="Type other transport here.... ">
-                                                                        <?php if ($social_economic['transport_mode_other']) {
-                                                                            print_r($social_economic['transport_mode_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['transport_mode_other']) {
+                                                                                print_r($social_economic['transport_mode_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17304,10 +17381,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="household_head_other"
                                                                 id="household_head_other" rows="3"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['household_head_other']) {
-                                                                            print_r($social_economic['household_head_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['household_head_other']) {
+                                                                                print_r($social_economic['household_head_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17439,10 +17516,10 @@ if ($user->isLoggedIn()) {
                                                                 name="primary_income_earner_other"
                                                                 id="primary_income_earner_other" rows="5"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['primary_income_earner_other']) {
-                                                                            print_r($social_economic['primary_income_earner_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['primary_income_earner_other']) {
+                                                                                print_r($social_economic['primary_income_earner_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17529,10 +17606,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="formally_employed_other"
                                                                 id="formally_employed_other" rows="3"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['formally_employed_other']) {
-                                                                            print_r($social_economic['formally_employed_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['formally_employed_other']) {
+                                                                                print_r($social_economic['formally_employed_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17604,10 +17681,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="main_income_based_other"
                                                                 id="main_income_based_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['main_income_based_other']) {
-                                                                            print_r($social_economic['main_income_based_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['main_income_based_other']) {
+                                                                                print_r($social_economic['main_income_based_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17926,10 +18003,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="affect_social_other"
                                                                 id="affect_social_other" rows="6"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['affect_social_other']) {
-                                                                            print_r($social_economic['affect_social_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['affect_social_other']) {
+                                                                                print_r($social_economic['affect_social_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18010,10 +18087,10 @@ if ($user->isLoggedIn()) {
                                                                 name="contributer_occupation_other"
                                                                 id="contributer_occupation_other" rows="3"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['contributer_occupation_other']) {
-                                                                            print_r($social_economic['contributer_occupation_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['contributer_occupation_other']) {
+                                                                                print_r($social_economic['contributer_occupation_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18091,10 +18168,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="main_occupation_other"
                                                                 id="main_occupation_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['main_occupation_other']) {
-                                                                            print_r($social_economic['main_occupation_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['main_occupation_other']) {
+                                                                                print_r($social_economic['main_occupation_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18169,10 +18246,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="main_icome_other"
                                                                 id="main_icome_based" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['main_icome_other']) {
-                                                                            print_r($social_economic['main_icome_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['main_icome_other']) {
+                                                                                print_r($social_economic['main_icome_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18288,10 +18365,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="main_transport_other"
                                                                 id="main_transport_other" rows="3"
                                                                 placeholder="Type other transport here.... ">
-                                                                        <?php if ($social_economic['main_transport_other']) {
-                                                                            print_r($social_economic['main_transport_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['main_transport_other']) {
+                                                                                print_r($social_economic['main_transport_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18412,10 +18489,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="looking_children_other"
                                                                 id="looking_children_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['looking_children_other']) {
-                                                                            print_r($social_economic['looking_children_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['looking_children_other']) {
+                                                                                print_r($social_economic['looking_children_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18508,10 +18585,10 @@ if ($user->isLoggedIn()) {
                                                                 name="occupation_looking_child_other"
                                                                 id="occupation_looking_child_other" rows="3"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['occupation_looking_child_other']) {
-                                                                            print_r($social_economic['occupation_looking_child_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['occupation_looking_child_other']) {
+                                                                                print_r($social_economic['occupation_looking_child_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18624,10 +18701,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="accompany_occupation_other"
                                                                 id="accompany_occupation_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['accompany_occupation_other']) {
-                                                                            print_r($social_economic['accompany_occupation_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['accompany_occupation_other']) {
+                                                                                print_r($social_economic['accompany_occupation_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18726,10 +18803,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="patient_education_other"
                                                                 id="patient_education_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['patient_education_other']) {
-                                                                            print_r($social_economic['patient_education_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['patient_education_other']) {
+                                                                                print_r($social_economic['patient_education_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18784,10 +18861,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="earner_edctn_other"
                                                                 id="earner_edctn_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['earner_edctn_other']) {
-                                                                            print_r($social_economic['earner_edctn_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['earner_edctn_other']) {
+                                                                                print_r($social_economic['earner_edctn_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18842,10 +18919,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="household_education_other"
                                                                 id="household_education_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['household_education_other']) {
-                                                                            print_r($social_economic['household_education_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['household_education_other']) {
+                                                                                print_r($social_economic['household_education_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18895,10 +18972,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="spouse_edctn_other"
                                                                 id="spouse_edctn_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['spouse_edctn_other']) {
-                                                                            print_r($social_economic['spouse_edctn_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['spouse_edctn_other']) {
+                                                                                print_r($social_economic['spouse_edctn_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18945,10 +19022,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="material_floor_other"
                                                                 id="material_floor_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['material_floor_other']) {
-                                                                            print_r($social_economic['material_floor_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['material_floor_other']) {
+                                                                                print_r($social_economic['material_floor_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18976,10 +19053,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="material_roof_other"
                                                                 id="material_roof_other" rows="5"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['material_roof_other']) {
-                                                                            print_r($social_economic['material_roof_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['material_roof_other']) {
+                                                                                print_r($social_economic['material_roof_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19046,10 +19123,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="cooking_fuel_other"
                                                                 id="cooking_fuel_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['cooking_fuel_other']) {
-                                                                            print_r($social_economic['cooking_fuel_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['cooking_fuel_other']) {
+                                                                                print_r($social_economic['cooking_fuel_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19180,10 +19257,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="water_source_other"
                                                                 id="water_source_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['water_source_other']) {
-                                                                            print_r($social_economic['water_source_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['water_source_other']) {
+                                                                                print_r($social_economic['water_source_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19316,10 +19393,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="toilet_access_other"
                                                                 id="toilet_access_other" rows="5"
                                                                 placeholder="Type other here.... ">
-                                                                        <?php if ($social_economic['toilet_access_other']) {
-                                                                            print_r($social_economic['toilet_access_other']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['toilet_access_other']) {
+                                                                                print_r($social_economic['toilet_access_other']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19619,10 +19696,10 @@ if ($user->isLoggedIn()) {
                                                             <label>Notes on socioeconomic situation & needs: </label>
                                                             <textarea class="form-control" name="socioeconomic_notes"
                                                                 rows="3">
-                                                                        <?php if ($social_economic['socioeconomic_notes']) {
-                                                                            print_r($social_economic['socioeconomic_notes']);
-                                                                        } ?>
-                                                                    </textarea>
+                                                                            <?php if ($social_economic['socioeconomic_notes']) {
+                                                                                print_r($social_economic['socioeconomic_notes']);
+                                                                            } ?>
+                                                                        </textarea>
                                                         </div>
                                                     </div>
                                                 </div>

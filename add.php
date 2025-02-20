@@ -2792,7 +2792,7 @@ if ($user->isLoggedIn()) {
         } elseif (Input::get('add_medication')) {
 
             $medication_treatments = $override->get3('medication_treatments', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'medication_name', Input::get('medication_name'))[0];
-            $treatment_id = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
+            $treatment_id = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'id', Input::get('id'))[0];
 
             // $batch = $override->getNews('batch', 'status', 1, 'id', Input::get('batch_id'))[0];
             // $medication = $override->getNews('medications', 'status', 1, 'id', Input::get('medication_id'))[0];
@@ -2847,7 +2847,7 @@ if ($user->isLoggedIn()) {
                     'visit_day' => $_GET['vday'],
                     'seq_no' => $_GET['seq'],
                     'vid' => $_GET['vid'],
-                    'treatment_id' => $treatment_id,
+                    'treatment_id' => $treatment_id['id'],
                     'date' => date('Y-m-d'),
                     'start_date' => Input::get('start_date'),
                     'medication_type' => Input::get('medication_id'),
@@ -2861,7 +2861,7 @@ if ($user->isLoggedIn()) {
                     'created_on' => date('Y-m-d'),
                     'site_id' => $user->data()->site_id,
                 ));
-                $successMessage = 'Medication Plan Updated Successful';
+                $successMessage = 'Medication Plan Added Successful';
             }
 
             // }
@@ -13156,12 +13156,11 @@ if ($user->isLoggedIn()) {
                                                                     <tbody id="tbody">
                                                                         <!-- Existing table body content remains the same -->
                                                                         <?php $x = 1;
-                                                                        foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
                                                                             foreach ($override->getNews('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1) as $treatment) {
                                                                                 $batches = $override->getNews('batch', 'status', 1, 'id', $treatment['batch_id']);
-                                                                                $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_type']);
+                                                                                $medications = $override->getNews('medications', 'status', 1, 'id', $treatment['medication_name']);
                                                                                 $medication_actions = $override->getNews('medication_action', 'status', 1, 'id', $treatment['medication_action']);
-                                                                                                                                                                $sites = $override->getNews('site', 'status', 1, 'id', $treatment['site_id'])[0];
+                                                                                $sites = $override->getNews('site', 'status', 1, 'id', $treatment['site_id'])[0];
                                                                                 ?>
                                                                                 <tr>
                                                                                     <td><?= $x; ?> /
@@ -13172,12 +13171,12 @@ if ($user->isLoggedIn()) {
                                                                                     </td>
                                                                                     <td><?= $medications[0]['name']; ?></td>
                                                                                     <td><?= $medication_actions[0]['name']; ?></td>
-                                                                                    <td><?= $treatment['units'] ?></td>
-                                                                                    <td><?= $treatment['medication_dose'] ?></td>
+                                                                                    <td><?= $treatment['dose_description'] ?></td>
+                                                                                    <td><?= $treatment['dose_duration'] ?></td>
                                                                                     <td>
                                                                                         <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
                                                                                             <span class="badge bg-info">
-                                                                                                <a href="#update_med<?= $treatment['id'] ?>"
+                                                                                                <a href="#addMedModal<?= $treatment['id'] ?>"
                                                                                                     role="button"
                                                                                                     data-toggle="modal">Update</a>
                                                                                             </span>
@@ -13191,8 +13190,7 @@ if ($user->isLoggedIn()) {
                                                                                     </td>
                                                                                 </tr>
                                                                                 <!-- Existing table rows and modals -->
-                                                                                <?php $x++;
-                                                                            }
+                                                                                <?php $x++;                                                                            
                                                                         } ?>
                                                                     </tbody>
                                                                 </table>
@@ -14123,7 +14121,9 @@ if ($user->isLoggedIn()) {
                                                                     </div>                                                                    
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer justify-content-between">
+                                                            <div class="modal-footer justify-content-between">                                                                
+                                                                    <input type="hidden" name="treatment_id" id="treatment_id" value="<?= $treatment['id']?>"
+                                                                    class="btn btn-primary" value="Save Medication">
                                                                 <button type="button" class="btn btn-default"
                                                                     data-dismiss="modal">Close</button>
                                                                 <input type="submit" name="add_medication"

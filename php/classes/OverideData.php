@@ -1455,6 +1455,15 @@ class OverideData
         return $result;
     }
 
+    public function getNewsAs2($table, $where, $id, $where2, $id2)
+    {
+        // Updated Query
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' ORDER BY id ASC");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+
     public function getNewsAsc022($table, $where, $id, $where2, $id2, $id3)
     {
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where2 = '$id2' ORDER BY $id3 ASC");

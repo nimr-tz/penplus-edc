@@ -8,7 +8,8 @@ function openAddMedModal(treatment = {}) {
     document.querySelector('[name="medication_action"]').value = treatment.medication_action || '';
     document.querySelector('[name="dose_description"]').value = treatment.dose_description || '';
     document.querySelector('[name="dose_duration"]').value = treatment.dose_duration || '';
-    document.querySelector('#treatment_id').value = treatment.id || '';
+    document.querySelector('#treatment_id').value = treatment.treatment_id || '';
+    document.querySelector('#medication_id').value = treatment.medication_id || '';
 
     // Open the modal
     $('#addMedModal').modal('show');

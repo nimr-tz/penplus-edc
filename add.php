@@ -3709,21 +3709,24 @@ if ($user->isLoggedIn()) {
         <!--/. Main Sidebar Container -->
 
         <?php if ($errorMessage) { ?>
-            <div class="alert alert-danger text-center">
+            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
                 <h4>Error!</h4>
                 <?= $errorMessage ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php } elseif ($pageError) { ?>
-            <div class="alert alert-danger text-center">
+            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
                 <h4>Error!</h4>
                 <?php foreach ($pageError as $error) {
                     echo $error . ' , ';
                 } ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php } elseif ($successMessage) { ?>
-            <div class="alert alert-success text-center">
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
                 <h4>Success!</h4>
                 <?= $successMessage ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php } ?>
 
@@ -4259,10 +4262,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" id="exposure"
                                                                 placeholder="List exposure" name="exposure" rows="3"
                                                                 style="width: 100%;">
-                                                                            <?php if ($client['exposure']) {
-                                                                                print_r($client['exposure']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($client['exposure']) {
+                                                                                    print_r($client['exposure']);
+                                                                                } ?>
+                                                                            </textarea>
 
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio"
@@ -4474,10 +4477,10 @@ if ($user->isLoggedIn()) {
                                                                         placeholder="Type physical address here"
                                                                         name="physical_address" rows="3" style="width: 100%;"
                                                                         required>
-                                                                                            <?php if ($client['physical_address']) {
-                                                                                                print_r($client['physical_address']);
-                                                                                            } ?>
-                                                                                        </textarea>
+                                                                                                    <?php if ($client['physical_address']) {
+                                                                                                        print_r($client['physical_address']);
+                                                                                                    } ?>
+                                                                                                </textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -4560,10 +4563,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="relation_patient"
                                                                 id="relation_patient" rows="3"
                                                                 placeholder="Type other relation here...">
-                                                                            <?php if ($client['relation_patient']) {
-                                                                                print_r($client['relation_patient']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($client['relation_patient']) {
+                                                                                    print_r($client['relation_patient']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4741,10 +4744,10 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Comments / Remarks:</label>
                                                             <textarea class="form-control" name="comments" rows="3">
-                                                                        <?php if ($client['comments']) {
-                                                                            print_r($client['comments']);
-                                                                        } ?>
-                                                                        </textarea>
+                                                                            <?php if ($client['comments']) {
+                                                                                print_r($client['comments']);
+                                                                            } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5452,10 +5455,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="referred_other"
                                                                 id="referred_other" rows="3"
                                                                 placeholder="Type other here...">
-                                                                            <?php if ($demographic['referred_other']) {
-                                                                                print_r($demographic['referred_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($demographic['referred_other']) {
+                                                                                    print_r($demographic['referred_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5498,10 +5501,10 @@ if ($user->isLoggedIn()) {
                                                                 <label class=" form-check-label">Yes</label>
                                                                 <textarea class="form-control" name="chw" id="chw" rows="3"
                                                                     placeholder="Type chw name here...">
-                                                                            <?php if ($demographic['chw']) {
-                                                                                print_r($demographic['chw']);
-                                                                            } ?>
-                                                                            </textarea>
+                                                                                <?php if ($demographic['chw']) {
+                                                                                    print_r($demographic['chw']);
+                                                                                } ?>
+                                                                                </textarea>
                                                             </div>
 
                                                             <div class="form-check">
@@ -5523,10 +5526,10 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>General Comments:</label>
                                                             <textarea class="form-control" name="comments" rows="3">
-                                                                                <?php if ($demographic['comments']) {
-                                                                                    print_r($demographic['comments']);
-                                                                                } ?>
-                                                                            </textarea>
+                                                                                    <?php if ($demographic['comments']) {
+                                                                                        print_r($demographic['comments']);
+                                                                                    } ?>
+                                                                                </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5997,10 +6000,10 @@ if ($user->isLoggedIn()) {
                                                                 <textarea class="form-control" name="other_diseases"
                                                                     id="other_diseases" placeholder="Type here new diseases"
                                                                     style="width: 100%;" rows="3">
-                                                                                <?php if ($main_diagnosis['other_diseases']) {
-                                                                                    print_r($main_diagnosis['other_diseases']);
-                                                                                } ?>
-                                                                            </textarea>
+                                                                                    <?php if ($main_diagnosis['other_diseases']) {
+                                                                                        print_r($main_diagnosis['other_diseases']);
+                                                                                    } ?>
+                                                                                </textarea>
                                                             </div>
 
                                                             <div class="form-check">
@@ -6020,10 +6023,10 @@ if ($user->isLoggedIn()) {
                                                             <label> General Remarks / Comments / Notes:</label>
                                                             <textarea class="form-control" name="comments" id="comments"
                                                                 style="width: 100%;" rows="3">
-                                                                                <?php if ($main_diagnosis['comments']) {
-                                                                                    print_r($main_diagnosis['comments']);
-                                                                                } ?>
-                                                                            </textarea>
+                                                                                    <?php if ($main_diagnosis['comments']) {
+                                                                                        print_r($main_diagnosis['comments']);
+                                                                                    } ?>
+                                                                                </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -6533,10 +6536,10 @@ if ($user->isLoggedIn()) {
                                                                 <textarea class="form-control" name="alcohol_other"
                                                                     id="alcohol_other" placeholder="Type other here"
                                                                     style="width: 100%;" rows="3">
-                                                                                <?php if ($history['alcohol_other']) {
-                                                                                    print_r($history['alcohol_other']);
-                                                                                } ?>
-                                                                            </textarea>
+                                                                                    <?php if ($history['alcohol_other']) {
+                                                                                        print_r($history['alcohol_other']);
+                                                                                    } ?>
+                                                                                </textarea>
                                                             </div>
                                                         </div>
                                                         <button onclick="unsetRadio('alcohol_other')">Unset</button>
@@ -7048,10 +7051,10 @@ if ($user->isLoggedIn()) {
                                                                     <textarea class="form-control" name="specify_complication"
                                                                         id="specify_complication" rows="3"
                                                                         placeholder="Type other relation here...">
-                                                                                                <?php if ($clients['specify_complication']) {
-                                                                                                    print_r($clients['specify_complication']);
-                                                                                                } ?>
-                                                                                            </textarea>
+                                                                                                        <?php if ($clients['specify_complication']) {
+                                                                                                            print_r($clients['specify_complication']);
+                                                                                                        } ?>
+                                                                                                    </textarea>
                                                                 </div>
 
                                                                 <div class="form-check">
@@ -7226,10 +7229,10 @@ if ($user->isLoggedIn()) {
                                                                     <textarea class="form-control" name="surgery_other"
                                                                         id="surgery_other" placeholder="Type other here"
                                                                         style="width: 100%;" rows="3">
-                                                                                                <?php if ($history['surgery_other']) {
-                                                                                                    print_r($history['surgery_other']);
-                                                                                                } ?>
-                                                                                            </textarea>
+                                                                                                        <?php if ($history['surgery_other']) {
+                                                                                                            print_r($history['surgery_other']);
+                                                                                                        } ?>
+                                                                                                    </textarea>
                                                                 </div>
                                                             </div>
                                                             <button onclick="unsetCardiac_surgery_type()">Unset</button>
@@ -7670,10 +7673,10 @@ if ($user->isLoggedIn()) {
                                                                                                                         id="other"
                                                                                                                         rows="3"
                                                                                                                         placeholder="Type other here...">
-                                                                                                                                                        <?php if ($sickle_cell_status_table['other']) {
-                                                                                                                                                            print_r($sickle_cell_status_table['other']);
-                                                                                                                                                        } ?>
-                                                                                                                                                    </textarea>
+                                                                                                                                                                    <?php if ($sickle_cell_status_table['other']) {
+                                                                                                                                                                        print_r($sickle_cell_status_table['other']);
+                                                                                                                                                                    } ?>
+                                                                                                                                                                </textarea>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
@@ -7791,10 +7794,10 @@ if ($user->isLoggedIn()) {
                                                                 <textarea class="form-control" name="history_specify"
                                                                     id="history_specify" placeholder="Type other here"
                                                                     style="width: 100%;" rows="3">
-                                                                                <?php if ($history['history_specify']) {
-                                                                                    print_r($history['history_specify']);
-                                                                                } ?>
-                                                                            </textarea>
+                                                                                    <?php if ($history['history_specify']) {
+                                                                                        print_r($history['history_specify']);
+                                                                                    } ?>
+                                                                                </textarea>
                                                             </div>
 
                                                             <div class="form-check">
@@ -8869,10 +8872,10 @@ if ($user->isLoggedIn()) {
                                                                 </div>
                                                                 <textarea class="form-control" name="lungs_other"
                                                                     id="lungs_other" rows="3" placeholder="Enter findings">
-                                                                                            <?php if ($symptoms['lungs_other']) {
-                                                                                                print_r($symptoms['lungs_other']);
-                                                                                            } ?>
-                                                                                        </textarea>
+                                                                                                    <?php if ($symptoms['lungs_other']) {
+                                                                                                        print_r($symptoms['lungs_other']);
+                                                                                                    } ?>
+                                                                                                </textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -9020,10 +9023,10 @@ if ($user->isLoggedIn()) {
                                                                     Other:</label>
                                                                 <textarea class="form-control" name="foot_exam_other"
                                                                     id="foot_exam_other" rows="3" placeholder="Enter other">
-                                                                                            <?php if ($symptoms['foot_exam_other']) {
-                                                                                                print_r($symptoms['foot_exam_other']);
-                                                                                            } ?>
-                                                                                        </textarea>
+                                                                                                    <?php if ($symptoms['foot_exam_other']) {
+                                                                                                        print_r($symptoms['foot_exam_other']);
+                                                                                                    } ?>
+                                                                                                </textarea>
                                                             </div>
                                                             <button onclick="unsetFootExam()">Unset</button>
                                                         </div>
@@ -9581,10 +9584,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="cardiomyopathy_other" id="cardiomyopathy_other"
                                                                 class="form-control" rows="3">
-                                                                            <?php if ($diagnosis['cardiomyopathy_other']) {
-                                                                                print_r($diagnosis['cardiomyopathy_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($diagnosis['cardiomyopathy_other']) {
+                                                                                    print_r($diagnosis['cardiomyopathy_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_cardiomyopathy()">Unset</button>
                                                     </div>
@@ -9674,10 +9677,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="heumatic_other" id="heumatic_other"
                                                                 class="form-control" rows="3">
-                                                                            <?php if ($diagnosis['heumatic_other']) {
-                                                                                print_r($diagnosis['heumatic_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($diagnosis['heumatic_other']) {
+                                                                                    print_r($diagnosis['heumatic_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_heumatic()">Unset</button>
                                                     </div>
@@ -9769,10 +9772,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="congenital_other" id="congenital_other"
                                                                 class="form-control" rows="3">
-                                                                            <?php if ($diagnosis['congenital_other']) {
-                                                                                print_r($diagnosis['congenital_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($diagnosis['congenital_other']) {
+                                                                                    print_r($diagnosis['congenital_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_congenital()">Unset</button>
                                                     </div>
@@ -9895,10 +9898,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="pericardial_other" id="pericardial_other"
                                                                 class="form-control" rows="3">
-                                                                            <?php if ($diagnosis['pericardial_other']) {
-                                                                                print_r($diagnosis['pericardial_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($diagnosis['pericardial_other']) {
+                                                                                    print_r($diagnosis['pericardial_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_pericardial()">Unset</button>
                                                     </div>
@@ -10018,10 +10021,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="arrhythmia_other" id="arrhythmia_other"
                                                                 class="form-control" rows="3">
-                                                                            <?php if ($diagnosis['arrhythmia_other']) {
-                                                                                print_r($diagnosis['arrhythmia_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($diagnosis['arrhythmia_other']) {
+                                                                                    print_r($diagnosis['arrhythmia_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_arrhythmia()">Unset</button>
                                                     </div>
@@ -10088,10 +10091,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea name="thromboembolic_other" id="thromboembolic_other"
                                                                 class="form-control" rows="3">
-                                                                            <?php if ($diagnosis['thromboembolic_other']) {
-                                                                                print_r($diagnosis['thromboembolic_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($diagnosis['thromboembolic_other']) {
+                                                                                    print_r($diagnosis['thromboembolic_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                         <button onclick="unsetSub_thromboembolic()">Unset</button>
                                                     </div>
@@ -10365,10 +10368,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="diagnosis_other"
                                                                 id="diagnosis_other_diabetic" rows="3"
                                                                 placeholder="Enter other">
-                                                                            <?php if ($sickle_cell['diagnosis_other']) {
-                                                                                print_r($sickle_cell['diagnosis_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($sickle_cell['diagnosis_other']) {
+                                                                                    print_r($sickle_cell['diagnosis_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                             <button onclick="unsetRadio('diagnosis')">Unset</button>
                                                         </div>
                                                     </div>
@@ -10632,10 +10635,10 @@ if ($user->isLoggedIn()) {
                                                                 <textarea class="form-control" name="diagnosis_other"
                                                                     id="diagnosis_other_sickcle_cell" rows="3"
                                                                     placeholder="Enter other">
-                                                                                <?php if ($sickle_cell['diagnosis_other']) {
-                                                                                    print_r($sickle_cell['diagnosis_other']);
-                                                                                } ?>
-                                                                            </textarea>
+                                                                                    <?php if ($sickle_cell['diagnosis_other']) {
+                                                                                        print_r($sickle_cell['diagnosis_other']);
+                                                                                    } ?>
+                                                                                </textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -10651,10 +10654,10 @@ if ($user->isLoggedIn()) {
                                                             <label>Comments</label>
                                                             <textarea class="form-control" textarea name="comments"
                                                                 rows="3">
-                                                                            <?php if ($sickle_cell['comments']) {
-                                                                                print_r($sickle_cell['comments']);
-                                                                            } ?>
-                                                                            </textarea>
+                                                                                <?php if ($sickle_cell['comments']) {
+                                                                                    print_r($sickle_cell['comments']);
+                                                                                } ?>
+                                                                                </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -10910,10 +10913,10 @@ if ($user->isLoggedIn()) {
                                                                     <label>Other specify::</label>
                                                                     <textarea id="ecg_other" name="ecg_other" rows="3"
                                                                         class="form-control">
-                                                                                            <?php if ($results['ecg_other']) {
-                                                                                                print_r($results['ecg_other']);
-                                                                                            } ?>
-                                                                                        </textarea>
+                                                                                                    <?php if ($results['ecg_other']) {
+                                                                                                        print_r($results['ecg_other']);
+                                                                                                    } ?>
+                                                                                                </textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -11231,10 +11234,10 @@ if ($user->isLoggedIn()) {
                                                                     <label>Other Echo specify</label>
                                                                     <textarea name="echo_specify" id="echo_specify" rows="3"
                                                                         class="form-control">
-                                                                                            <?php if ($results['echo_specify']) {
-                                                                                                print_r($results['echo_specify']);
-                                                                                            } ?>
-                                                                                        </textarea>
+                                                                                                    <?php if ($results['echo_specify']) {
+                                                                                                        print_r($results['echo_specify']);
+                                                                                                    } ?>
+                                                                                                </textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -11378,10 +11381,10 @@ if ($user->isLoggedIn()) {
                                                                 <label>SCD Other Specify</label>
                                                                 <textarea name="scd_test_other" id="scd_test_other" rows="3"
                                                                     class="form-control">
-                                                                                            <?php if ($results['scd_test_other']) {
-                                                                                                print_r($results['scd_test_other']);
-                                                                                            } ?>
-                                                                                        </textarea>
+                                                                                                    <?php if ($results['scd_test_other']) {
+                                                                                                        print_r($results['scd_test_other']);
+                                                                                                    } ?>
+                                                                                                </textarea>
 
                                                             </div>
                                                         </div>
@@ -12764,10 +12767,10 @@ if ($user->isLoggedIn()) {
                                                                                                                 id="admission_reason"
                                                                                                                 rows="3"
                                                                                                                 placeholder="Type Admissions Reasons here...">
-                                                                                                                                    <?php if ($hospitalization_table['admission_reason']) {
-                                                                                                                                        print_r($hospitalization_table['admission_reason']);
-                                                                                                                                    } ?>
-                                                                                                                                </textarea>
+                                                                                                                                            <?php if ($hospitalization_table['admission_reason']) {
+                                                                                                                                                print_r($hospitalization_table['admission_reason']);
+                                                                                                                                            } ?>
+                                                                                                                                        </textarea>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -12786,10 +12789,10 @@ if ($user->isLoggedIn()) {
                                                                                                                 id="discharge_diagnosis"
                                                                                                                 rows="3"
                                                                                                                 placeholder="Type discharge diagnosis here...">
-                                                                                                                                    <?php if ($hospitalization_table['discharge_diagnosis']) {
-                                                                                                                                        print_r($hospitalization_table['discharge_diagnosis']);
-                                                                                                                                    } ?>
-                                                                                                                                </textarea>
+                                                                                                                                            <?php if ($hospitalization_table['discharge_diagnosis']) {
+                                                                                                                                                print_r($hospitalization_table['discharge_diagnosis']);
+                                                                                                                                            } ?>
+                                                                                                                                        </textarea>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -12952,6 +12955,8 @@ if ($user->isLoggedIn()) {
                             <?php
                             $treatment_plan = $override->get3('treatment_plan', 'patient_id', $_GET['cid'], 'seq_no', $_GET['seq'], 'visit_code', $_GET['vcode'])[0];
                             $treatment_site = $override->getNews('site', 'status', 1, 'id', $user->data()->site_id)[0];
+                            $medication_count = $override->countData('medication_treatments', 'patient_id', $_GET['cid'], 'status', 1);
+
 
                             $patient = $override->get('clients', 'id', $_GET['cid'])[0];
                             $category = $override->get('main_diagnosis', 'patient_id', $_GET['cid'])[0];
@@ -13111,7 +13116,7 @@ if ($user->isLoggedIn()) {
                                                                     <textarea class="form-control" name="dose_description"
                                                                         rows="3">
 
-                                                                                </textarea>
+                                                                                    </textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-3">
@@ -13156,8 +13161,11 @@ if ($user->isLoggedIn()) {
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="card">
-                                                            <div class="card-header">
+                                                            <div
+                                                                class="card-header d-flex justify-content-between align-items-center">
                                                                 <h3 class="card-title">Medication Lists</h3>
+                                                                <span class="badge bg-primary">Total Medications:
+                                                                    <?= $medication_count ?? 0 ?></span>
                                                             </div>
                                                             <!-- /.card-header -->
                                                             <div class="card-body">
@@ -13263,7 +13271,8 @@ if ($user->isLoggedIn()) {
                                                                                                                 name="start_date"
                                                                                                                 value="<?php if ($treatment['start_date']) {
                                                                                                                     print_r($treatment['start_date']);
-                                                                                                                } ?>" required>
+                                                                                                                } ?>"
+                                                                                                                required>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="col-sm-6">
@@ -13342,11 +13351,11 @@ if ($user->isLoggedIn()) {
                                                                                                             <textarea
                                                                                                                 class="form-control"
                                                                                                                 name="dose_description"
-                                                                                                                                        rows="3">
-                                                                                                                <?php if ($treatment['dose_description']) {
-                                                                                                                    print_r($treatment['dose_description']);
-                                                                                                                } ?>
-                                                                                                            </textarea>
+                                                                                                                rows="3">
+                                                                                                                        <?php if ($treatment['dose_description']) {
+                                                                                                                            print_r($treatment['dose_description']);
+                                                                                                                        } ?>
+                                                                                                                    </textarea>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="col-sm-3">
@@ -13360,13 +13369,14 @@ if ($user->isLoggedIn()) {
                                                                                                                 max="1000"
                                                                                                                 value="<?php if ($treatment['dose_duration']) {
                                                                                                                     print_r($treatment['dose_duration']);
-                                                                                                                } ?>" required>
+                                                                                                                } ?>"
+                                                                                                                required>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div
-                                                                                                class="modal-footer justify-content-between">                                                                                               
+                                                                                                class="modal-footer justify-content-between">
                                                                                                 <input type="hidden"
                                                                                                     name="visit_day"
                                                                                                     id="visit_day"
@@ -14215,10 +14225,10 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Notes:</label>
                                                             <textarea name="medication_notes" class="form-control" rows="4">
-                                                                    <?php if ($treatment_plan['medication_notes']) {
-                                                                        print_r($treatment_plan['medication_notes']);
-                                                                    } ?>
-                                                                </textarea>
+                                                                        <?php if ($treatment_plan['medication_notes']) {
+                                                                            print_r($treatment_plan['medication_notes']);
+                                                                        } ?>
+                                                                    </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -14610,10 +14620,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" id="diagns_specify"
                                                                 placeholder="Type physical address here"
                                                                 name="diagns_specify" rows="3" style="width: 100%;">
-                                                                            <?php if ($dgns_complctns_comorbdts['diagns_specify']) {
-                                                                                print_r($dgns_complctns_comorbdts['diagns_specify']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($dgns_complctns_comorbdts['diagns_specify']) {
+                                                                                    print_r($dgns_complctns_comorbdts['diagns_specify']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -15285,10 +15295,10 @@ if ($user->isLoggedIn()) {
                                                                     placeholder="Type complication here"
                                                                     name="complication_specify" rows="3"
                                                                     style="width: 100%;">
-                                                                                <?php if ($dgns_complctns_comorbdts['complication_specify']) {
-                                                                                    print_r($dgns_complctns_comorbdts['complication_specify']);
-                                                                                } ?>
-                                                                            </textarea>
+                                                                                    <?php if ($dgns_complctns_comorbdts['complication_specify']) {
+                                                                                        print_r($dgns_complctns_comorbdts['complication_specify']);
+                                                                                    } ?>
+                                                                                </textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -16828,10 +16838,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea class="form-control" id="diagnosis_summary_other"
                                                                 name="diagnosis_other" rows="2">
-                                                                            <?php if ($summary['diagnosis_other']) {
-                                                                                print_r($summary['diagnosis_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($summary['diagnosis_other']) {
+                                                                                    print_r($summary['diagnosis_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -16843,10 +16853,10 @@ if ($user->isLoggedIn()) {
                                                             <label>Comments</label>
                                                             <textarea class="form-control" name="comments" rows="3"
                                                                 placeholder="Write details comments here..." required>
-                                                                            <?php if ($summary['comments']) {
-                                                                                print_r($summary['comments']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($summary['comments']) {
+                                                                                    print_r($summary['comments']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -16948,10 +16958,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea class="form-control" id="transfer_other"
                                                                 name="transfer_other" rows="3">
-                                                                            <?php if ($summary['transfer_other']) {
-                                                                                print_r($summary['transfer_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($summary['transfer_other']) {
+                                                                                    print_r($summary['transfer_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -16986,10 +16996,10 @@ if ($user->isLoggedIn()) {
                                                             </div>
                                                             <textarea class="form-control" id="death_other"
                                                                 name="death_other" rows="3">
-                                                                            <?php if ($summary['death_other']) {
-                                                                                print_r($summary['death_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($summary['death_other']) {
+                                                                                    print_r($summary['death_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17000,10 +17010,10 @@ if ($user->isLoggedIn()) {
                                                         <div class="form-group">
                                                             <label>Remarks / Comments / Reason </label>
                                                             <textarea class="form-control" name="remarks" rows="3">
-                                                                            <?php if ($summary['remarks']) {
-                                                                                print_r($summary['remarks']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($summary['remarks']) {
+                                                                                    print_r($summary['remarks']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17043,10 +17053,10 @@ if ($user->isLoggedIn()) {
                                                             <label>Notes for Next Appointment</label>
                                                             <textarea class="form-control" name="next_appointment_notes"
                                                                 id="next_appointment_notes" rows="3">
-                                                                            <?php if ($summary['next_appointment_notes']) {
-                                                                                print_r($summary['next_appointment_notes']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($summary['next_appointment_notes']) {
+                                                                                    print_r($summary['next_appointment_notes']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17313,10 +17323,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="transport_mode_other"
                                                                 id="transport_mode_other" rows="3"
                                                                 placeholder="Type other transport here.... ">
-                                                                            <?php if ($social_economic['transport_mode_other']) {
-                                                                                print_r($social_economic['transport_mode_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['transport_mode_other']) {
+                                                                                    print_r($social_economic['transport_mode_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17381,10 +17391,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="household_head_other"
                                                                 id="household_head_other" rows="3"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['household_head_other']) {
-                                                                                print_r($social_economic['household_head_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['household_head_other']) {
+                                                                                    print_r($social_economic['household_head_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17516,10 +17526,10 @@ if ($user->isLoggedIn()) {
                                                                 name="primary_income_earner_other"
                                                                 id="primary_income_earner_other" rows="5"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['primary_income_earner_other']) {
-                                                                                print_r($social_economic['primary_income_earner_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['primary_income_earner_other']) {
+                                                                                    print_r($social_economic['primary_income_earner_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17606,10 +17616,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="formally_employed_other"
                                                                 id="formally_employed_other" rows="3"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['formally_employed_other']) {
-                                                                                print_r($social_economic['formally_employed_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['formally_employed_other']) {
+                                                                                    print_r($social_economic['formally_employed_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -17681,10 +17691,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="main_income_based_other"
                                                                 id="main_income_based_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['main_income_based_other']) {
-                                                                                print_r($social_economic['main_income_based_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['main_income_based_other']) {
+                                                                                    print_r($social_economic['main_income_based_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18003,10 +18013,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="affect_social_other"
                                                                 id="affect_social_other" rows="6"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['affect_social_other']) {
-                                                                                print_r($social_economic['affect_social_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['affect_social_other']) {
+                                                                                    print_r($social_economic['affect_social_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18087,10 +18097,10 @@ if ($user->isLoggedIn()) {
                                                                 name="contributer_occupation_other"
                                                                 id="contributer_occupation_other" rows="3"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['contributer_occupation_other']) {
-                                                                                print_r($social_economic['contributer_occupation_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['contributer_occupation_other']) {
+                                                                                    print_r($social_economic['contributer_occupation_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18168,10 +18178,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="main_occupation_other"
                                                                 id="main_occupation_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['main_occupation_other']) {
-                                                                                print_r($social_economic['main_occupation_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['main_occupation_other']) {
+                                                                                    print_r($social_economic['main_occupation_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18246,10 +18256,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="main_icome_other"
                                                                 id="main_icome_based" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['main_icome_other']) {
-                                                                                print_r($social_economic['main_icome_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['main_icome_other']) {
+                                                                                    print_r($social_economic['main_icome_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18365,10 +18375,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="main_transport_other"
                                                                 id="main_transport_other" rows="3"
                                                                 placeholder="Type other transport here.... ">
-                                                                            <?php if ($social_economic['main_transport_other']) {
-                                                                                print_r($social_economic['main_transport_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['main_transport_other']) {
+                                                                                    print_r($social_economic['main_transport_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18489,10 +18499,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="looking_children_other"
                                                                 id="looking_children_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['looking_children_other']) {
-                                                                                print_r($social_economic['looking_children_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['looking_children_other']) {
+                                                                                    print_r($social_economic['looking_children_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18585,10 +18595,10 @@ if ($user->isLoggedIn()) {
                                                                 name="occupation_looking_child_other"
                                                                 id="occupation_looking_child_other" rows="3"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['occupation_looking_child_other']) {
-                                                                                print_r($social_economic['occupation_looking_child_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['occupation_looking_child_other']) {
+                                                                                    print_r($social_economic['occupation_looking_child_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18701,10 +18711,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="accompany_occupation_other"
                                                                 id="accompany_occupation_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['accompany_occupation_other']) {
-                                                                                print_r($social_economic['accompany_occupation_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['accompany_occupation_other']) {
+                                                                                    print_r($social_economic['accompany_occupation_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18803,10 +18813,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="patient_education_other"
                                                                 id="patient_education_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['patient_education_other']) {
-                                                                                print_r($social_economic['patient_education_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['patient_education_other']) {
+                                                                                    print_r($social_economic['patient_education_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18861,10 +18871,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="earner_edctn_other"
                                                                 id="earner_edctn_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['earner_edctn_other']) {
-                                                                                print_r($social_economic['earner_edctn_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['earner_edctn_other']) {
+                                                                                    print_r($social_economic['earner_edctn_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18919,10 +18929,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="household_education_other"
                                                                 id="household_education_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['household_education_other']) {
-                                                                                print_r($social_economic['household_education_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['household_education_other']) {
+                                                                                    print_r($social_economic['household_education_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -18972,10 +18982,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="spouse_edctn_other"
                                                                 id="spouse_edctn_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['spouse_edctn_other']) {
-                                                                                print_r($social_economic['spouse_edctn_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['spouse_edctn_other']) {
+                                                                                    print_r($social_economic['spouse_edctn_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19022,10 +19032,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="material_floor_other"
                                                                 id="material_floor_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['material_floor_other']) {
-                                                                                print_r($social_economic['material_floor_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['material_floor_other']) {
+                                                                                    print_r($social_economic['material_floor_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19053,10 +19063,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="material_roof_other"
                                                                 id="material_roof_other" rows="5"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['material_roof_other']) {
-                                                                                print_r($social_economic['material_roof_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['material_roof_other']) {
+                                                                                    print_r($social_economic['material_roof_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19123,10 +19133,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="cooking_fuel_other"
                                                                 id="cooking_fuel_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['cooking_fuel_other']) {
-                                                                                print_r($social_economic['cooking_fuel_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['cooking_fuel_other']) {
+                                                                                    print_r($social_economic['cooking_fuel_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19257,10 +19267,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="water_source_other"
                                                                 id="water_source_other" rows="4"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['water_source_other']) {
-                                                                                print_r($social_economic['water_source_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['water_source_other']) {
+                                                                                    print_r($social_economic['water_source_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19393,10 +19403,10 @@ if ($user->isLoggedIn()) {
                                                             <textarea class="form-control" name="toilet_access_other"
                                                                 id="toilet_access_other" rows="5"
                                                                 placeholder="Type other here.... ">
-                                                                            <?php if ($social_economic['toilet_access_other']) {
-                                                                                print_r($social_economic['toilet_access_other']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['toilet_access_other']) {
+                                                                                    print_r($social_economic['toilet_access_other']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -19696,10 +19706,10 @@ if ($user->isLoggedIn()) {
                                                             <label>Notes on socioeconomic situation & needs: </label>
                                                             <textarea class="form-control" name="socioeconomic_notes"
                                                                 rows="3">
-                                                                            <?php if ($social_economic['socioeconomic_notes']) {
-                                                                                print_r($social_economic['socioeconomic_notes']);
-                                                                            } ?>
-                                                                        </textarea>
+                                                                                <?php if ($social_economic['socioeconomic_notes']) {
+                                                                                    print_r($social_economic['socioeconomic_notes']);
+                                                                                } ?>
+                                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 </div>

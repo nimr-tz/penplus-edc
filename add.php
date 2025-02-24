@@ -2727,10 +2727,6 @@ if ($user->isLoggedIn()) {
 
                             $treatment_id = $treatment_plan['id'];
 
-                            //                             $user->updateRecord('medication_treatments', array(
-                            //     'treatment_id' => $treatment_plan['id'],
-                            // ), Input::get('batch_id'));
-
                             $successMessage = 'Treatment Plan Updated Successful';
                         }
                     } else {
@@ -2785,6 +2781,12 @@ if ($user->isLoggedIn()) {
 
                         $successMessage = 'Treatment Plan Added Successful';
                     }
+
+
+                            //                             $user->updateRecord('medication_treatments', array(
+                            //     'treatment_id' => $treatment_plan['id'],
+                            // ), Input::get('batch_id'));
+
                     Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $successMessage);
                     die;
                 } catch (Exception $e) {
@@ -2844,7 +2846,11 @@ if ($user->isLoggedIn()) {
                 'created_on' => date('Y-m-d'),
                 'site_id' => $user->data()->site_id,
             ));
+
             $successMessage = 'Medication Plan Added Successful';
+
+            Redirect::to('info.php?id=7&cid=' . $_GET['cid'] . '&vid=' . $_GET['vid'] . '&vcode=' . $_GET['vcode'] . '&seq=' . $_GET['seq'] . '&sid=' . $_GET['sid'] . '&vday=' . $_GET['vday'] . '&status=' . $_GET['status'] . '&msg=' . $successMessage);
+
             // }
             //  else {
             //     $errorMessage = 'Dose asigned : ' . Input::get('medication_dose') . ' exceed the The available  Medication : ' . $medication['name'] . ' : Batch : ' . $batch['serial_name'] . ' Available ' . $batch['amount'];
@@ -13058,7 +13064,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>Start Date</label>
                                                                     <input type="date" class="form-control"
-                                                                        name="start_date" value="" required>
+                                                                        name="start_date" value="">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
@@ -13077,7 +13083,7 @@ if ($user->isLoggedIn()) {
                                                                     <label>Medication Name</label>
                                                                     <select name="medication_name" id="medication_name"
                                                                         class="form-control select2" style="width: 100%;"
-                                                                        required>
+                                                                        >
                                                                         <option value="">
                                                                             Select
                                                                         </option>
@@ -13094,7 +13100,7 @@ if ($user->isLoggedIn()) {
                                                                     <label>Action</label>
                                                                     <select name="medication_action" id="medication_action"
                                                                         class="form-control select2" style="width: 100%;"
-                                                                        required>
+                                                                        >
                                                                         <option value="">
                                                                             Select
                                                                         </option>
@@ -13123,7 +13129,7 @@ if ($user->isLoggedIn()) {
                                                                 <div class="form-group">
                                                                     <label>Dose Duration</label>
                                                                     <input type="number" class="form-control"
-                                                                        name="dose_duration" min="0" max="1000" required>
+                                                                        name="dose_duration" min="0" max="1000">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -13272,7 +13278,7 @@ if ($user->isLoggedIn()) {
                                                                                                                 value="<?php if ($treatment['start_date']) {
                                                                                                                     print_r($treatment['start_date']);
                                                                                                                 } ?>"
-                                                                                                                required>
+                                                                                                                >
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="col-sm-6">
@@ -13300,7 +13306,7 @@ if ($user->isLoggedIn()) {
                                                                                                                 id="medication_name"
                                                                                                                 class="form-control select2"
                                                                                                                 style="width: 100%;"
-                                                                                                                required>
+                                                                                                                >
                                                                                                                 <?php if ($medications[0]['name']) { ?>
                                                                                                                     <option
                                                                                                                         value="<?= $medications[0]['id'] ?>">
@@ -13324,7 +13330,7 @@ if ($user->isLoggedIn()) {
                                                                                                                 id="medication_action"
                                                                                                                 class="form-control select2"
                                                                                                                 style="width: 100%;"
-                                                                                                                required>
+                                                                                                                >
                                                                                                                 <?php if ($medication_actions[0]['name']) { ?>
                                                                                                                     <option
                                                                                                                         value="<?= $medication_actions[0]['id'] ?>">
@@ -13370,7 +13376,7 @@ if ($user->isLoggedIn()) {
                                                                                                                 value="<?php if ($treatment['dose_duration']) {
                                                                                                                     print_r($treatment['dose_duration']);
                                                                                                                 } ?>"
-                                                                                                                required>
+                                                                                                                >
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>

@@ -2624,7 +2624,9 @@ if ($user->isLoggedIn()) {
                                                                     if ($user->data()->accessLevel == 1 || $user->data()->accessLevel == 2) { ?>Add
                                                                     <?php } else { ?> View<?php } ?>
                                                                     Study CRF's </a>
-                                                                <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                <?php
+                                                                //  if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { 
+                                                                    ?>
                                                                     <hr>
                                                                     <?php if ($client_progress == 100) { ?>
                                                                         <span class="badge badge-primary right">
@@ -2662,9 +2664,9 @@ if ($user->isLoggedIn()) {
                                                                             <?= $client_progress ?>%
                                                                         </span>
                                                                     <?php } ?>
-                                                                <?php }
+                                                                <?php
+                                                                //  }
                                                                 ?>
-
                                                             </td>
                                                             <?php
                                                         }
@@ -3504,7 +3506,9 @@ if ($user->isLoggedIn()) {
                                                                             <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>"
                                                                                 role="button" class="btn btn-info"> View Study Forms </a>
                                                                         <?php } ?>
-                                                                        <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                        <?php
+                                                                        //  if ($user->data()->power == 1 || $user->data()->accessLevel == 1) {
+                                                                             ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
                                                                                 <span class="badge badge-primary right">
@@ -3542,7 +3546,8 @@ if ($user->isLoggedIn()) {
                                                                                     <?= $progress ?>%
                                                                                 </span>
                                                                             <?php } ?>
-                                                                        <?php }
+                                                                        <?php 
+                                                                        // }
                                                                         ?>
 
                                                                     <?php } else { ?>
@@ -3553,7 +3558,9 @@ if ($user->isLoggedIn()) {
                                                                             <a href="info.php?id=7&cid=<?= $_GET['cid'] ?>&vid=<?= $visit['id'] ?>&vcode=<?= $visit['visit_code'] ?>&seq=<?= $visit['seq_no'] ?>&sid=<?= $visit['study_id'] ?>&vday=<?= $visit['visit_day'] ?>&status=<?= $_GET['status'] ?>"
                                                                                 role="button" class="btn btn-warning"> View Study Forms </a>
                                                                         <?php } ?>
-                                                                        <?php if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { ?>
+                                                                        <?php 
+                                                                        // if ($user->data()->power == 1 || $user->data()->accessLevel == 1) { 
+                                                                            ?>
                                                                             <hr>
                                                                             <?php if ($progress == 100) { ?>
                                                                                 <span class="badge badge-primary right">
@@ -3591,7 +3598,8 @@ if ($user->isLoggedIn()) {
                                                                                     <?= $progress ?>%
                                                                                 </span>
                                                                             <?php } ?>
-                                                                        <?php }
+                                                                        <?php 
+                                                                        // }
                                                                         ?>
                                                                     <?php }
                                                                 }
